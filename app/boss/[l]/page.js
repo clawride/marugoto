@@ -9,6 +9,7 @@ import { ELEM, shuffle, pickRand } from "@/lib/data";
 import { CHARS, charIcon, charSplash, elemIcon } from "@/lib/genshin";
 import { BOSSES, bossOf, bossIcon, lessonOf, todayKey, rewardFor } from "@/lib/bosses";
 import { sfx } from "@/lib/sfx";
+import OrderQ from "@/components/OrderQ";
 
 const STAGES = { vocab: "Từ vựng", grammar: "Ngữ pháp", order: "Yae Miko · Xếp câu", dialog: "Hội thoại" };
 const YAE = CHARS.find((c) => c.en === "Yae Miko");
@@ -16,7 +17,9 @@ const YAE_LINES = {
   intro: ["Hừm~ Để xem Nhà Lữ Hành xếp câu có giỏi như lời đồn không nào.", "Thần Điện Narukami không nhận kẻ lười học đâu nhé. Xếp câu cho ta xem.", "Một câu tiếng Nhật đẹp cũng như một bài thơ — xếp cho đúng nào~"],
   ok: ["Ara~ cũng khá đấy.", "Fufu, không tệ. Ta bắt đầu thấy thú vị rồi.", "Được lắm. Câu tiếp theo sẽ không dễ vậy đâu~"],
   bad: ["Fufu, sai rồi. Nhìn kỹ câu đúng đi nào.", "Ôi chao~ thứ tự đó làm ta bật cười đấy.", "Chưa đúng. Nhớ vị trí trợ từ và động từ cuối câu nhé~"],
+  next: ["Câu tiếp theo đây~", "Nào, thử câu này xem.", "Đừng để ta thất vọng nhé~"],
 };
+const YAE_HOST = YAE && { name: YAE.vi, icon: charIcon(YAE), lines: YAE_LINES };
 
 function buildQueue(L) {
   const q = [];
@@ -100,7 +103,7 @@ export default function BossBattle() {
           </div>
           {cur.type === "mc" && <MCQ key={idx} q={cur} onScore={score} onNext={next} />}
           {cur.type === "fill" && <FillQ key={idx} q={cur} onScore={score} onNext={next} />}
-          {cur.type === "order" && <OrderQ key={idx} q={cur} onScore={score} onNext={next} first={queue.findIndex((x) => x.type === "order") === idx} />}
+          {cur.type === "order" && <OrderQ key={idx} q={cur} onScore={score} onNext={next} first={queue.findIndex((x) => x.type === "order") === idx} host={YAE_HOST} />}
           {cur.type === "dialog" && <DialogQ key={idx} q={cur} onScore={score} onNext={next} />}
         </>
       )}
@@ -123,50 +126,6 @@ export default function BossBattle() {
         </div>
       )}
     </>
-  );
-}
-
-function OrderQ({ q, onScore, onNext, first }) {
-  const pool0 = useMemo(() => {
-    const idxs = q.chunks.map((_, i) => i);
-    let s = shuffle(idxs), tries = 0;
-    while (s.every((v, i) => v === i) && tries++ < 10) s = shuffle(idxs);
-    return s;
-  }, [q]);
-  const [picked, setPicked] = useState([]);
-  const [result, setResult] = useState(null);
-  const line = useMemo(() => pickRand(first ? YAE_LINES.intro : ["Câu tiếp theo đây~", "Nào, thử câu này xem.", "Đừng để ta thất vọng nhé~"]), [first]);
-  const [say, setSay] = useState(line);
-  const add = (i) => { if (result) return; setPicked((p) => [...p, i]); sfx.click(); };
-  const remove = (k) => { if (result) return; setPicked((p) => p.filter((_, j) => j !== k)); };
-  const check = () => {
-    const ok = picked.every((v, i) => q.chunks[v] === q.chunks[i]);
-    setResult(ok ? "ok" : "bad"); onScore(ok); setSay(pickRand(ok ? YAE_LINES.ok : YAE_LINES.bad));
-  };
-  return (
-    <div className="parch bq yae">
-      <div className="yaehead">
-        <img src={charIcon(YAE)} alt={YAE.vi} />
-        <div className="bubble"><b>{YAE.vi}</b>{say}</div>
-      </div>
-      <div className="lab">Xếp các cụm từ thành câu đúng</div>
-      <div className="bvi">“{q.vi}”</div>
-      <div className={`tray ${result || ""}`}>
-        {picked.length === 0 && <span className="trayph">Chạm vào các cụm từ bên dưới theo đúng thứ tự…</span>}
-        {picked.map((v, k) => <button key={k} className="chunk in" onClick={() => remove(k)}>{q.chunks[v]}</button>)}
-      </div>
-      {result === "bad" && <div className="bexp">Câu đúng: <b className="jpt">{q.chunks.join(" ")}</b></div>}
-      <div className="pool">
-        {pool0.map((v) => (picked.includes(v) ? <span key={v} className="chunk ghost">{q.chunks[v]}</span> : <button key={v} className="chunk" onClick={() => add(v)}>{q.chunks[v]}</button>))}
-      </div>
-      {!result && (
-        <div className="btnrow">
-          <button className="gbtn x dark" onClick={() => setPicked([])} disabled={!picked.length}><span className="c" />Xếp lại</button>
-          <button className="gbtn tri" onClick={check} disabled={picked.length !== q.chunks.length}><span className="c" />Kiểm tra</button>
-        </div>
-      )}
-      {result && <NextBtn onNext={onNext} />}
-    </div>
   );
 }
 

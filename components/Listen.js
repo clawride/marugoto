@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { audioCount, audioUrl, canPickDir, hasFile, hasSavedFolder, onAudioChange, pickFolder, restoreFolder, setFileList } from "@/lib/audioLib";
+import { A21_AUDIO, canPickDir } from "@/lib/audioLib";
 import { speakLines, stopSpeak, ttsAvailable } from "@/lib/tts";
 import { TSARITSA } from "@/lib/listenBosses";
 import { MCQ, FillQ } from "@/components/Battle";
@@ -48,7 +48,8 @@ export function RonovaEmblem() {
 }
 
 // Bảng kết nối thư mục audio trên máy
-export function AudioSetup() {
+export function AudioSetup({ lib = A21_AUDIO, folder = "New A2-1 Katsudou audio" }) {
+  const { audioCount, hasSavedFolder, onAudioChange, pickFolder, restoreFolder, setFileList } = lib;
   const [n, setN] = useState(0);
   const [saved, setSaved] = useState(false);
   const inp = useRef(null);
@@ -70,7 +71,7 @@ export function AudioSetup() {
       <div className="as-ico">{n ? "🎧" : "📁"}</div>
       <div className="as-txt">
         {n ? <><b>Đã kết nối {n} file audio</b><span>Bài nghe sẽ phát bằng audio gốc của sách, đọc thẳng từ máy bạn (không tải lên đâu cả).</span></>
-          : <><b>Chưa kết nối audio sách</b><span>Chọn thư mục <i>New A2-1 Katsudou audio</i> trên máy để nghe audio gốc. Không có audio thì trang dùng giọng đọc tiếng Nhật của trình duyệt với lời thoại viết lại.</span></>}
+          : <><b>Chưa kết nối audio sách</b><span>Chọn thư mục <i>{folder}</i> trên máy để nghe audio gốc. Không có audio thì trang dùng giọng đọc tiếng Nhật của trình duyệt với lời thoại viết lại.</span></>}
       </div>
       <div className="as-btns">
         {!n && saved && canPickDir() && <button className="gbtn sm" onClick={async () => setN(await restoreFolder(true))}><span className="c" />Kết nối lại</button>}
@@ -82,18 +83,19 @@ export function AudioSetup() {
 }
 
 // Nút phát: audio gốc nếu có, không thì TTS
-export function Player({ file, tts, autoPlay = true, onPlayed }) {
-  const [mode] = useState(() => (file && hasFile(file) ? "file" : "tts"));
+export function Player({ file, tts, autoPlay = true, onPlayed, lib = A21_AUDIO, maxPlays = 99 }) {
+  const [mode] = useState(() => (file && lib.hasFile(file) ? "file" : "tts"));
   const [playing, setPlaying] = useState(false);
   const [plays, setPlays] = useState(0);
   const audio = useRef(null);
   const play = async () => {
+    if (plays >= maxPlays) return;
     stopSpeak();
     if (audio.current) { audio.current.pause(); }
     setPlaying(true); setPlays((p) => p + 1); onPlayed?.();
     try {
       if (mode === "file") {
-        const u = await audioUrl(file);
+        const u = await lib.audioUrl(file);
         const a = audio.current || (audio.current = new Audio());
         a.src = u; a.currentTime = 0;
         a.onended = () => setPlaying(false);
@@ -109,13 +111,13 @@ export function Player({ file, tts, autoPlay = true, onPlayed }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => () => { stopSpeak(); audio.current?.pause(); }, []);
-  const disabled = mode === "tts" && !ttsAvailable();
+  const disabled = (mode === "tts" && !ttsAvailable()) || (!playing && plays >= maxPlays);
   return (
     <div className={`player ${playing ? "on" : ""}`}>
       <button className="playbtn" onClick={play} disabled={disabled} aria-label="Phát">{playing ? "❚❚" : "▶"}</button>
       <div className="pl-info">
         <b>{playing ? "Đang phát…" : plays ? "Nghe lại" : "Bấm để nghe"}</b>
-        <span>{mode === "file" ? `Audio sách · ${file}` : disabled ? "Trình duyệt không hỗ trợ giọng đọc" : "Giọng đọc máy · lời thoại viết lại"}</span>
+        <span>{mode === "file" ? `Audio sách · ${file}` : !ttsAvailable() ? "Trình duyệt không hỗ trợ giọng đọc" : "Giọng đọc máy · lời thoại viết lại"}{maxPlays < 99 ? ` · còn ${Math.max(0, maxPlays - plays)} lượt nghe` : ""}</span>
       </div>
       <div className="wave">{Array.from({ length: 14 }, (_, i) => <i key={i} style={{ animationDelay: `${i * 0.07}s` }} />)}</div>
     </div>
