@@ -29,6 +29,13 @@ export default function Home() {
           <span>18 boss theo 18 bài: từ vựng, ngữ pháp, Yae Miko thách xếp câu, hội thoại với nhân vật Genshin — đã hạ {BOSSES.filter((b) => S?.boss?.[b.lesson]?.cleared).length}/{BOSSES.length}</span>
         </div>
       </Link>
+      <Link href="/nghe" className="panel homeboss" onClick={() => sfx.page()} style={{ borderColor: "rgba(160,215,255,.6)" }}>
+        <img src="https://gi.yatta.moe/assets/UI/monster/UI_MonsterIcon_HerraFrost.png" alt="" />
+        <div>
+          <b style={{ color: "#bfe6ff" }}>🎧 Thử Thách Nghe · Băng Thần</b>
+          <span>18 boss nghe theo audio sách A2-1 và boss cuối Chấp Chính Cái Chết Ronova</span>
+        </div>
+      </Link>
       <div className="grid">
         {TOPICS.map((T) => {
           const keys = ["all", ...T.sections.map((s) => s.key)];

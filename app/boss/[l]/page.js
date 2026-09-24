@@ -1,5 +1,6 @@
 "use client";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useBattle, Arena, NextBtn, Blank, BLANK_RE, MCQ, FillQ, starsOf } from "@/components/Battle";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useGame } from "@/components/Game";
@@ -44,44 +45,19 @@ export default function BossBattle() {
   const { S, update } = useGame();
   const [queue, setQueue] = useState(null);
   const [idx, setIdx] = useState(0);
-  const [correct, setCorrect] = useState(0);
-  const [answered, setAnswered] = useState(0);
-  const [hp, setHp] = useState(boss?.hp || 1);
-  const [fx, setFx] = useState(null); // hiệu ứng sát thương
   const [done, setDone] = useState(null);
-  const party = useMemo(() => shuffle(CHARS.filter((c) => c.en !== "Yae Miko")).slice(0, 4), []);
-  const [attacker, setAttacker] = useState(-1);
-  const fxId = useRef(0);
-
-  const start = useCallback(() => { if (!L) return; setQueue(buildQueue(L)); setIdx(0); setCorrect(0); setAnswered(0); setHp(boss.hp); setDone(null); }, [L, boss]);
-  useEffect(() => { start(); }, [start]);
-
   const total = queue ? scoringCount(queue) : 1;
-  const dmgBase = boss ? boss.hp / Math.ceil(total * 0.6) : 0;
-
-  // Gọi mỗi khi người chơi trả lời 1 lượt tính điểm
-  const score = useCallback((ok) => {
-    setAnswered((a) => a + 1);
-    if (ok) {
-      setCorrect((c) => c + 1);
-      const crit = Math.random() < 0.25;
-      const dmg = Math.round(dmgBase * (0.85 + Math.random() * 0.3) * (crit ? 1.5 : 1));
-      const who = (Math.random() * 4) | 0;
-      setAttacker(who); setTimeout(() => setAttacker(-1), 500);
-      setHp((h) => Math.max(0, h - dmg));
-      setFx({ id: ++fxId.current, dmg, crit, el: party[who].el });
-      sfx.hit(crit); sfx.correct();
-    } else {
-      setFx({ id: ++fxId.current, miss: true });
-      sfx.miss(); sfx.wrong();
-    }
-  }, [dmgBase, party]);
+  const arenaBoss = useMemo(() => boss && { ...boss, img: bossIcon(boss), lv: Math.min(90, 10 + lesson * 5) }, [boss, lesson]);
+  const B = useBattle(arenaBoss || { hp: 1 }, total, { exclude: ["Yae Miko"] });
+  const { party, hp, setHp, fx, attacker, correct, answered, score, reset } = B;
+  const start = useCallback(() => { if (!L) return; setQueue(buildQueue(L)); setIdx(0); reset(); setDone(null); }, [L, reset]);
+  useEffect(() => { start(); }, [start]);
 
   const next = useCallback(() => {
     sfx.click();
     if (idx < queue.length - 1) { setIdx(idx + 1); return; }
     const pct = Math.round((correct / total) * 100);
-    const stars = pct >= 95 ? 3 : pct >= 80 ? 2 : pct >= 60 ? 1 : 0;
+    const stars = starsOf(pct);
     const win = stars > 0;
     const today = todayKey();
     let reward = 0;
@@ -106,34 +82,12 @@ export default function BossBattle() {
   if (locked) return <p style={{ marginTop: 40 }}>Boss này chưa mở. Hãy hạ boss bài {lesson - 1} trước. <Link href="/boss" style={{ color: "var(--gold2)" }}>Danh sách boss</Link></p>;
 
   const cur = queue[idx];
-  const el = ELEM[boss.el];
-  const hpPct = (hp / boss.hp) * 100;
   const stageKeys = Object.keys(STAGES);
 
   return (
     <>
       <Link href="/boss" className="back">‹ Danh sách boss</Link>
-      <div className="arena" style={{ "--ec": el.c }}>
-        <div className="bossbar">
-          <div className="bname"><img src={elemIcon(boss.el)} alt="" /> {boss.name} <small>Lv.{Math.min(90, 10 + lesson * 5)}</small></div>
-          <div className="hpbar"><i style={{ width: `${hpPct}%` }} /><em style={{ width: `${hpPct}%` }} /></div>
-          <div className="hpnum">{hp.toLocaleString("vi-VN")} / {boss.hp.toLocaleString("vi-VN")}</div>
-        </div>
-        <div className={`bossfig ${fx && !fx.miss ? "hit" : ""} ${hp === 0 ? "dead" : ""}`} key={fx?.id}>
-          <div className="aura" />
-          <img src={bossIcon(boss)} alt={boss.name} />
-          {fx && (fx.miss
-            ? <span className="dmg miss">Né!</span>
-            : <span className={`dmg ${fx.crit ? "crit" : ""}`} style={{ color: ELEM[fx.el].c }}>{fx.crit && <small>BẠO KÍCH</small>}{fx.dmg.toLocaleString("vi-VN")}</span>)}
-        </div>
-        <div className="party">
-          {party.map((c, i) => (
-            <div key={c.id} className={`pm ${attacker === i ? "atk" : ""}`} style={{ "--pc": ELEM[c.el].c }} title={c.vi}>
-              <img src={charIcon(c)} alt={c.vi} /><span>{c.vi.split(" ").slice(-1)[0]}</span>
-            </div>
-          ))}
-        </div>
-      </div>
+      <Arena boss={arenaBoss} hp={hp} fx={fx} attacker={attacker} party={party} />
 
       {!done && (
         <>
@@ -166,55 +120,6 @@ export default function BossBattle() {
         </div>
       )}
     </>
-  );
-}
-
-function NextBtn({ onNext }) {
-  useEffect(() => {
-    const h = (e) => { if (e.key === "Enter") { e.preventDefault(); onNext(); } };
-    addEventListener("keydown", h); return () => removeEventListener("keydown", h);
-  }, [onNext]);
-  return <div className="qnext"><button className="gbtn tri" onClick={onNext}><span className="c" />Tiếp tục</button></div>;
-}
-
-function MCQ({ q, onScore, onNext }) {
-  const [pick, setPick] = useState(null);
-  const choose = (o) => { if (pick !== null) return; setPick(o); onScore(o === q.answer); };
-  return (
-    <div className="parch bq">
-      <div className="lab">{q.sub}</div>
-      <div className={`bprompt ${q.jpPrompt ? "jp" : ""}`}>{q.prompt}</div>
-      <div className="opts">
-        {q.opts.map((o, i) => (
-          <button key={o} className={`opt ${pick === null ? "" : o === q.answer ? "ok" : o === pick ? "bad" : "dim"} ${q.jpOpts ? "jpopt" : ""}`} disabled={pick !== null} onClick={() => choose(o)}>
-            <span className="k"><span>{i + 1}</span></span><span>{o}</span>
-          </button>
-        ))}
-      </div>
-      {pick !== null && <><div className="bexp">{q.explain}</div><NextBtn onNext={onNext} /></>}
-    </div>
-  );
-}
-
-function Blank({ text, fill, state }) {
-  const parts = text.split(/（\s*）|\(\s*\)|（　）/);
-  return <span className="bsent">{parts.map((p, i) => <span key={i}>{p}{i < parts.length - 1 && <span className={`blank ${state || ""}`}>{fill || "　　"}</span>}</span>)}</span>;
-}
-
-function FillQ({ q, onScore, onNext }) {
-  const [pick, setPick] = useState(null);
-  const choose = (o) => { if (pick !== null) return; setPick(o); onScore(o === q.answer); };
-  const ok = pick === q.answer;
-  return (
-    <div className="parch bq">
-      <div className="lab">Điền vào chỗ trống</div>
-      <div className="bprompt jp"><Blank text={q.q} fill={pick !== null ? q.answer : null} state={pick === null ? "" : ok ? "ok" : "bad"} /></div>
-      <div className="bvi">{q.vi}</div>
-      <div className="chipsopt">
-        {q.opts.map((o) => <button key={o} className={`chipo ${pick === null ? "" : o === q.answer ? "ok" : o === pick ? "bad" : "dim"}`} disabled={pick !== null} onClick={() => choose(o)}>{o}</button>)}
-      </div>
-      {pick !== null && <><div className="bexp">{ok ? "✦ Chính xác! " : `✕ Đáp án: ${q.answer}. `}{q.explain}</div><NextBtn onNext={onNext} /></>}
-    </div>
   );
 }
 
@@ -286,7 +191,7 @@ function DialogQ({ q, onScore, onNext }) {
     const right = t.opts[t.a];
     const ok = o === right;
     setPick(o); onScore(ok);
-    const text = t.me === "fill" ? t.q.replace(/（\s*）|\(\s*\)|（　）/, right) : right;
+    const text = t.me === "fill" ? t.q.replace(BLANK_RE, right) : right;
     setTimeout(() => { setLog((l) => [...l, { who: "me", text, vi: t.vi, ok, wrong: ok ? null : o }]); setPick(null); setStep((s) => s + 1); }, 900);
   };
 

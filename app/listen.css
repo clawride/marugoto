@@ -1,0 +1,71 @@
+/* ===== BOSS NGHE · BĂNG THẦN ===== */
+.tsa-hero{position:relative;display:flex;align-items:center;gap:22px;margin-top:22px;padding:20px 22px;border-radius:12px;overflow:hidden;border:1px solid rgba(180,225,255,.55);
+  background:radial-gradient(ellipse at 20% 40%,rgba(160,215,255,.35),transparent 60%),linear-gradient(135deg,#0f1f4a,#1d3a78 55%,#0c1636);box-shadow:0 14px 40px rgba(0,0,0,.45)}
+.tsa-hero:after{content:"";position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(2px 2px at 20% 30%,#fff,transparent),radial-gradient(2px 2px at 70% 20%,#e6f6ff,transparent),radial-gradient(1.5px 1.5px at 45% 70%,#fff,transparent),radial-gradient(2px 2px at 85% 60%,#dff3ff,transparent),radial-gradient(1.5px 1.5px at 10% 80%,#fff,transparent);animation:snow 9s linear infinite;opacity:.8}
+@keyframes snow{from{background-position:0 -200px}to{background-position:0 400px}}
+.tsa-portrait{display:block;object-fit:cover}
+.tsa-portrait.hero{width:260px;height:190px;border-radius:10px;object-position:62% 18%;border:2px solid rgba(200,235,255,.7);box-shadow:0 0 30px rgba(150,210,255,.5);flex:none}
+.tsa-portrait.emblem{display:grid;place-items:center;background:radial-gradient(circle,#1f4a8a,#0c1636)}
+.tsa-portrait.hero.emblem{width:260px;height:190px;border-radius:10px}
+.tsa-portrait.sm{width:58px;height:58px;border-radius:50%;object-position:62% 14%;border:2px solid #9fd9ff;flex:none}
+.tsa-portrait.sm.emblem svg{width:54px;height:54px}
+.tsa-portrait.wide{width:100%;height:100%;object-position:62% 20%}
+.tsa-copy{position:relative;z-index:1}
+.tsa-copy .tag{display:inline-block;font-size:11px;letter-spacing:2px;color:#cfeeff;border:1px solid #9fd9ff;padding:2px 10px;border-radius:99px}
+.tsa-copy h1{margin:8px 0 0;font-size:34px;color:#eef9ff;text-shadow:0 0 18px rgba(160,220,255,.7)}
+.tsa-copy .t2{margin:2px 0 8px;color:#9fd9ff;font-size:14px;letter-spacing:1px}
+.tsa-copy p{color:#dbeefc;font-size:14px;line-height:1.55;margin:0}
+.tsa-stats{margin-top:10px;font-size:13px;color:#cfe6f7}
+.tsa-stats b{color:#fff}
+@media(max-width:640px){.tsa-hero{flex-direction:column;align-items:flex-start}.tsa-portrait.hero{width:100%;height:200px}}
+.audiosetup{display:flex;align-items:center;gap:14px;padding:12px 16px;margin-top:14px;flex-wrap:wrap}
+.audiosetup.ok{border-color:#8fd18a}
+.as-ico{font-size:28px}
+.as-txt{flex:1;min-width:220px}
+.as-txt b{display:block;color:var(--cream2)}
+.as-txt span{font-size:13px;color:#c9cbd6;line-height:1.5}
+.as-btns{display:flex;gap:8px;flex-wrap:wrap}
+.bcard.ice{background:linear-gradient(180deg,rgba(30,60,110,.85),rgba(16,28,60,.9))}
+.hosthead{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px}
+.hosthead .bubble{flex:1;background:#fff;border:1px solid #cfe3f3;border-radius:12px;padding:8px 12px;font-size:14px;color:#2d4660;line-height:1.45}
+.hosthead .bubble b{display:block;font-size:12px;color:#3f8fcf}
+.hosthead.ronova .bubble{background:#1c1030;border-color:#6a3fb0;color:#e8dcff}
+.hosthead.ronova .bubble b{color:#c9a7ff}
+.rv-mini{width:58px;height:58px;flex:none}
+.rv-mini svg{width:58px;height:58px}
+/* trình phát */
+.player{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:12px;background:linear-gradient(90deg,#1b2d55,#27427a);color:#fff;margin-bottom:14px;box-shadow:inset 0 0 0 1px rgba(160,210,255,.35)}
+.playbtn{width:48px;height:48px;border-radius:50%;border:2px solid #cfeeff;background:radial-gradient(circle,#6fb8ee,#2a5a9c);color:#fff;font-size:18px;flex:none;transition:transform .15s}
+.playbtn:hover{transform:scale(1.07)}
+.playbtn[disabled]{opacity:.4}
+.pl-info{flex:1;min-width:0}
+.pl-info b{display:block;font-size:14px}
+.pl-info span{font-size:11.5px;color:#bcd6ee;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.wave{display:flex;align-items:center;gap:3px;height:28px}
+.wave i{width:3px;height:6px;border-radius:3px;background:#9fd9ff;opacity:.5}
+.player.on .wave i{animation:wv .8s ease-in-out infinite;opacity:1}
+@keyframes wv{50%{height:26px}}
+.scriptbox{margin-top:10px}
+.scriptlines{margin-top:8px;background:#f4efe3;border-radius:8px;padding:8px 12px}
+.scriptlines p{margin:4px 0;font-size:15px;color:var(--ink2)}
+.scriptlines b{color:var(--gold3);font-size:12px}
+.bsub{text-align:center;font-size:12px;color:#c9cbd6;margin-top:2px;font-family:var(--jp)}
+/* boss cuối Ronova */
+.ronova-card{display:flex;gap:18px;align-items:center;margin-top:20px;padding:18px 20px;background:radial-gradient(ellipse at 20% 50%,rgba(120,60,200,.35),transparent 60%),linear-gradient(135deg,#140a24,#261342 60%,#0c0616);border-color:#7a4fd0;transition:transform .2s}
+a:hover .ronova-card{transform:translateY(-3px);box-shadow:0 0 30px rgba(140,90,240,.45)}
+.ronova-card.locked{opacity:.6;filter:grayscale(.5)}
+.ronova-card svg{width:130px;height:130px;flex:none}
+.ronova-card .tag{font-size:11px;letter-spacing:2px;color:#c9a7ff}
+.ronova-card h2{margin:4px 0;color:#f0e6ff;font-size:24px}
+.ronova-card p{margin:0;color:#d6c9ee;font-size:13px;line-height:1.5}
+@media(max-width:640px){.ronova-card{flex-direction:column;align-items:flex-start}}
+.arena.ronova{background:radial-gradient(ellipse at 50% 60%,rgba(140,80,230,.4),transparent 60%),linear-gradient(180deg,#0b0514,#1d0f33 60%,#0b0514);border-color:#7a4fd0}
+.arena.ronova .hpbar i{background:linear-gradient(180deg,#c9a7ff,#6a2bd6)}
+.emblemwrap{position:relative;animation:bossBob 4s ease-in-out infinite}
+.emblemwrap svg{width:190px;height:190px;filter:drop-shadow(0 0 24px rgba(160,100,255,.7))}
+.bossfig.hit .emblemwrap{animation:bossHit .45s}
+.ronova-emblem .rv-ring{transform-origin:100px 100px;animation:spin 20s linear infinite}
+.ronova-emblem .rv-flame{transform-origin:100px 140px;animation:flame 1.4s ease-in-out infinite}
+@keyframes flame{50%{transform:scaleY(1.15) scaleX(.92)}}
+.rv-hero{height:100%;display:grid;place-items:center;background:radial-gradient(circle,#2a0f3f,#07030d)}
+.rv-hero svg{width:190px;height:190px}
