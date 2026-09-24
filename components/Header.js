@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useGame } from "@/components/Game";
 import { Ico } from "@/components/Icons";
 import { sfx } from "@/lib/sfx";
+import { avatarUrl } from "@/components/Profile";
 
 export default function Header() {
   const { S, toggleSound } = useGame();
@@ -20,6 +21,7 @@ export default function Header() {
         <Link href="/nghe" className="navbtn" onClick={() => sfx.page()}><span aria-hidden="true">🎧</span><span className="lbl">Nghe</span></Link>
         <Link href="/wish" className="navbtn" onClick={() => sfx.page()}><Ico id="fateI" /><span className="lbl">Cầu Nguyện</span></Link>
         <Link href="/inventory" className="navbtn" onClick={() => sfx.page()}><span aria-hidden="true">🎒</span><span className="lbl">Túi Đồ</span></Link>
+        <Link href="/rank" className="navbtn profchip" onClick={() => sfx.page()} title="Bảng xếp hạng & hồ sơ">{S?.profile ? <img src={avatarUrl(S.profile.avatar)} alt="" /> : <span aria-hidden="true">🏆</span>}<span className="lbl">{S?.profile?.name || "Xếp hạng"}</span></Link>
         <button className="navbtn" onClick={toggleSound} title={S?.sound ? "Tắt âm thanh" : "Bật âm thanh"}>{S?.sound === false ? "🔇" : "🔊"}</button>
       </div>
     </header>

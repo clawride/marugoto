@@ -20,6 +20,15 @@ Sao chép `.env.example` thành `.env.local` và điền:
 
 Thiếu key thì trang tự dùng nguồn dự phòng (Wikimedia, Openverse, nekos.best).
 
+## Bảng xếp hạng (hồ sơ nickname)
+
+Dùng Upstash Redis (miễn phí) qua Vercel Marketplace:
+
+1. Vercel → Project → **Storage** → **Create Database** → **Upstash for Redis** → Free → Connect vào project
+2. Vercel tự thêm `KV_REST_API_URL` và `KV_REST_API_TOKEN` → **Redeploy**
+
+Chạy thử trên máy không cần Redis: `npm run dev` (dùng bộ nhớ tạm), hoặc `LB_MEMORY=1 npm start` với bản build.
+
 ## Deploy lên Vercel
 
 `vercel.json` đã khai báo framework là Next.js.

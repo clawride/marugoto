@@ -23,6 +23,8 @@ const defaults = () => ({
   inv: {},
   history: [],
   wishes: 0,
+  profile: null, profileSkip: false, syncSig: "",
+  bossPct: {}, listenPct: {},
   boss: {}, // { [lesson]: { best: 0..3, cleared: bool, reward: "YYYY-MM-DD" } }
 });
 

@@ -70,6 +70,9 @@ export default function BossBattle() {
         if (b.reward !== today) { reward = rewardFor(stars); s.primo += reward; b.reward = today; }
       }
       s.boss[lesson] = b;
+      s.bossPct = s.bossPct || {};
+      const bp = s.bossPct[lesson];
+      if (!bp || pct > bp.pct || (pct === bp.pct && total > bp.total)) s.bossPct[lesson] = { pct, total };
     });
     if (win) { setHp(0); sfx.win(); }
     setDone({ pct, stars, win, reward });

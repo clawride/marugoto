@@ -1,10 +1,12 @@
 import "./globals.css";
 import "./boss.css";
 import "./listen.css";
+import "./rank.css";
 import { GameProvider } from "@/components/Game";
 import Header from "@/components/Header";
 import Sky from "@/components/Sky";
 import { SvgDefs } from "@/components/Icons";
+import { ProfileGate } from "@/components/Profile";
 
 export const metadata = {
   title: "Sổ Tay Từ Vựng Teyvat · Marugoto B1-1",
@@ -29,6 +31,7 @@ export default function RootLayout({ children }) {
         <GameProvider>
           <Header />
           <main className="wrap">{children}</main>
+          <ProfileGate />
         </GameProvider>
       </body>
     </html>

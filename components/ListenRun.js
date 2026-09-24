@@ -51,6 +51,9 @@ export default function ListenRun({ boss, makeQueue, saveKey, reward, host, phas
         if (b.reward !== today) { got = reward(stars); s.primo += got; b.reward = today; }
       }
       s.listen[saveKey] = b;
+      s.listenPct = s.listenPct || {};
+      const lp = s.listenPct[saveKey];
+      if (!lp || pct > lp.pct || (pct === lp.pct && total > lp.total)) s.listenPct[saveKey] = { pct, total };
     });
     if (win) { setHp(0); sfx.win(); }
     setDone({ pct, stars, win, reward: got });
