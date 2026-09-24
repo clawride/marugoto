@@ -6,20 +6,18 @@ import { constLabel } from "@/lib/gacha";
 import { sfx } from "@/lib/sfx";
 import { Ico } from "@/components/Icons";
 import Portal from "@/components/Portal";
+import MeteorCanvas from "@/components/MeteorCanvas";
 
 const RC = { 3: "#5a8fd0", 4: "#a06bd6", 5: "#e0a93c" };
-const MC = { 3: "#6fb0ff", 4: "#c08bff", 5: "#ffcf5a" };
 
 // Hoạt cảnh: sao băng → lật từng vật phẩm → tổng kết (×10)
 export default function WishFx({ results, onClose }) {
   const [phase, setPhase] = useState("meteor");
   const [i, setI] = useState(0);
   const top = Math.max(...results.map((r) => r.rank));
-  const second = results.filter((r) => r.rank < top).reduce((a, r) => Math.max(a, r.rank), 3);
   const multi = results.length > 1;
   const revealOrder = useMemo(() => results.slice().sort((a, b) => a.rank - b.rank || (a.kind === "c") - (b.kind === "c")), [results]);
   const summaryOrder = useMemo(() => results.slice().sort((a, b) => b.rank - a.rank || (b.kind === "c") - (a.kind === "c")), [results]);
-  const stars = useMemo(() => Array.from({ length: 90 }, () => ({ l: Math.random() * 100, t: Math.random() * 75, d: Math.random() * 2.5, s: Math.random() < 0.2 ? 3 : 2 })), []);
 
   useEffect(() => {
     sfx.meteor(top);
@@ -59,17 +57,7 @@ export default function WishFx({ results, onClose }) {
     <Portal><div className="wfx" onClick={phase === "summary" ? undefined : advance}>
       {phase !== "summary" && <button className="skip" onClick={skip}>Bỏ qua ›</button>}
 
-      {phase === "meteor" && (
-        <div className="msky" style={{ "--mc": MC[top], "--mc2": MC[second] }}>
-          {stars.map((s, k) => <i key={k} className="mstar" style={{ left: `${s.l}%`, top: `${s.t}%`, width: s.s, height: s.s, animationDelay: `${s.d}s` }} />)}
-          <div className="hz" />
-          {multi && <div className="meteor2 small" style={{ right: "-14%", top: "-4%", animationDelay: ".25s" }} />}
-          {multi && <div className="meteor2 small" style={{ right: "4%", top: "-14%", animationDelay: ".5s" }} />}
-          <div className="meteor2" />
-          <div className="mburst" />
-          <div className="mflash" />
-        </div>
-      )}
+      {phase === "meteor" && <MeteorCanvas rank={top} multi={multi} />}
 
       {phase === "reveal" && cur && <Reveal key={i} r={cur} />}
 

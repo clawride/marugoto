@@ -30,6 +30,14 @@ export default function WishPage() {
   const ends = useCountdown(phaseEnds());
   const B = BANNER_INFO[bid];
 
+  // Xem thử hoạt cảnh: /wish?fx=5 (hoặc 4, 3) — không cộng vật phẩm
+  useEffect(() => {
+    const fxr = +new URLSearchParams(location.search).get("fx");
+    if (![3, 4, 5].includes(fxr)) return;
+    const x = fxr === 5 ? banners.char.featured5 : fxr === 4 ? banners.char.featured4[0] : POOL.std3w[0];
+    setFx([{ rank: fxr, kind: fxr === 3 ? "w" : "c", x, flags: {}, isNew: true, count: 1, reward: { glitter: 0, dust: 0 }, pity: 1 }]);
+  }, [banners]);
+
   // Định Quỹ Đạo reset khi sang giai đoạn banner mới (giống game)
   useEffect(() => {
     if (!S) return;
