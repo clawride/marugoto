@@ -9,7 +9,7 @@ import Gamble from "@/components/Gamble";
 import { Ico, itemIconUrl } from "@/components/Icons";
 import { ELEM } from "@/lib/data";
 import { charIcon, charSplash, weaponArt, weaponIcon } from "@/lib/genshin";
-import { BANNER_INFO, POOL, currentBanners, phaseEnds, phaseIndex, rollOnce, extraReward, keyOf } from "@/lib/gacha";
+import { BANNER_INFO, POOL, currentBanners, phaseEnds, phaseIndex, rollOnce, rollForcedChar5, BONUS_EVERY, extraReward, keyOf } from "@/lib/gacha";
 import { sfx } from "@/lib/sfx";
 
 const FATE_COST = 160;
@@ -63,8 +63,9 @@ export default function WishPage() {
     const results = update((s) => {
       s.fates[fk] -= n;
       const out = [];
+      const bonus = n === 10 && bid !== "weapon" && s.wishes - (s.bw || 0) >= BONUS_EVERY;
       for (let k = 0; k < n; k++) {
-        const r = rollOnce(bid, s.banners[bid], banners);
+        const r = bonus && k < 5 ? rollForcedChar5(bid, s.banners[bid], banners) : rollOnce(bid, s.banners[bid], banners);
         const key = keyOf(r.kind, r.x);
         const before = s.inv[key] || 0;
         s.inv[key] = before + 1;
@@ -73,6 +74,7 @@ export default function WishPage() {
         s.history.unshift({ b: bid, k: key, r: r.rank, t: Date.now(), p: r.pity, f: Object.keys(r.flags).join(",") });
         out.push({ ...r, key, isNew: before === 0, count: before + 1, reward });
       }
+      if (bonus) s.bw = s.wishes;
       return out;
     });
     setFx(results);

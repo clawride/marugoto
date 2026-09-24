@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
 import { ELEM } from "@/lib/data";
-import { WTYPE_VI, artOf, iconOf } from "@/lib/genshin";
+import { WTYPE_VI, artOf, iconOf, elemIcon, ASSET } from "@/lib/genshin";
 import { constLabel } from "@/lib/gacha";
 import { sfx } from "@/lib/sfx";
 import { Ico } from "@/components/Icons";
@@ -21,7 +21,7 @@ export default function WishFx({ results, onClose }) {
 
   useEffect(() => {
     sfx.meteor(top);
-    const t = setTimeout(() => setPhase("reveal"), 2900);
+    const t = setTimeout(() => setPhase((p) => (p === "meteor" ? "reveal" : p)), 2900);
     return () => clearTimeout(t);
   }, [top]);
 
@@ -63,19 +63,8 @@ export default function WishFx({ results, onClose }) {
 
       {phase === "summary" && (
         <div className="sum">
-          <div className="cards">
-            {summaryOrder.map((r, k) => {
-              const el = r.kind === "c" ? ELEM[r.x.el] : null;
-              return (
-                <div key={k} className={`scard r${r.rank} ${r.kind}`} style={{ animationDelay: `${k * 0.08}s` }} title={r.x.vi}>
-                  <img src={artOf({ ...r.x, kind: r.kind })} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = iconOf({ ...r.x, kind: r.kind }); e.currentTarget.style.objectFit = "contain"; }} alt="" />
-                  <div className="sh" />
-                  {r.isNew && <span className="nw">MỚI</span>}
-                  {el && <span className="eb" style={{ background: el.c }}>{el.vi}</span>}
-                  <div className="info2">{r.x.vi}<div className="s">{"★".repeat(r.rank)}</div></div>
-                </div>
-              );
-            })}
+          <div className="cards2">
+            {summaryOrder.map((r, k) => <SumCard key={k} r={r} k={k} />)}
           </div>
           <div className="tot">
             {tot.g > 0 && <span><Ico id="glit" /> +{tot.g} Tinh Huy</span>}
@@ -122,6 +111,40 @@ function Reveal({ r }) {
           {r.flags?.path && <span>Định Quỹ Đạo hoàn tất</span>}
         </div>
       </div>
+    </div>
+  );
+}
+
+const WT_ICON = ["Sword", "Claymore", "Pole", "Bow", "Catalyst"];
+
+// Thẻ tổng kết ×10 — giống màn hình kết quả ước nguyện trong game
+function SumCard({ r, k }) {
+  const it = { ...r.x, kind: r.kind };
+  const [err, setErr] = useState(false);
+  const dupChar = r.kind === "c" && !r.isNew;
+  const stella = dupChar && r.count - 1 <= 6;
+  return (
+    <div className={`sc2 r${r.rank} ${r.kind}`} style={{ animationDelay: `${k * 0.07}s` }} title={it.vi}>
+      {r.rank === 5 && <div className="flames">{Array.from({ length: 9 }, (_, i) => <i key={i} style={{ left: `${6 + i * 11}%`, animationDelay: `${(i % 4) * 0.25}s` }} />)}</div>}
+      <div className="sc2-frame">
+        <div className="sc2-inner">
+          <img className="sc2-art" src={err ? iconOf(it) : artOf(it)} onError={() => setErr(true)} alt="" />
+          <div className="sc2-shade" />
+          <div className="sc2-foot">
+            {r.kind === "c" && r.isNew && <img className="sc2-el" src={elemIcon(it.el)} alt="" />}
+            {r.kind === "w" && <img className="sc2-wt" src={`${ASSET}UI_GachaTypeIcon_${WT_ICON[it.wt]}.png`} alt="" />}
+            {(r.reward.glitter > 0 || stella) && (
+              <div className="sc2-gifts">
+                {r.reward.glitter > 0 && <div className={`gift r${r.rank}`}><img src={`${ASSET}UI_ItemIcon_221.png`} alt="Tinh Huy" /><b>{r.reward.glitter}</b></div>}
+                {stella && <div className={`gift r${r.rank} st`}><img src={`${ASSET}UI_ItemIcon_1102.png`} alt="Chòm Sao Mệnh Định" /><b>1</b></div>}
+              </div>
+            )}
+            <div className="sc2-stars">{"★".repeat(r.rank)}</div>
+          </div>
+        </div>
+      </div>
+      <span className="sc2-top">✦</span>
+      {r.isNew && <span className="sc2-new">MỚI</span>}
     </div>
   );
 }

@@ -1,0 +1,44 @@
+/* ===== TỔNG KẾT ×10 — thẻ kiểu màn kết quả ước nguyện trong game ===== */
+.sum{background:radial-gradient(ellipse at 50% 45%,#3a4a6e 0%,#1c2440 45%,#0b0f1f 85%)}
+.sum:before{content:"";position:absolute;inset:0;background:repeating-conic-gradient(from 0deg at 50% 45%,rgba(255,255,255,.035) 0deg 4deg,transparent 4deg 14deg);pointer-events:none}
+.cards2{position:relative;display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:nowrap;max-width:1440px;width:100%;padding:30px 8px}
+.sc2{position:relative;flex:1 1 0;max-width:min(132px,9.2vw);min-width:52px;aspect-ratio:104/360;opacity:0;animation:sc2In .55s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes sc2In{from{opacity:0;transform:translateX(-60px)}70%{opacity:1}to{opacity:1;transform:none}}
+/* khung: vòm trên có khấc, viền theo độ hiếm */
+.sc2-frame{position:absolute;inset:0;padding:3px;clip-path:polygon(0 9%,10% 6.5%,18% 3.2%,36% 1.8%,50% 0,64% 1.8%,82% 3.2%,90% 6.5%,100% 9%,100% 100%,0 100%);background:linear-gradient(180deg,#e9eef8,#9aa7c4 60%,#dfe6f5)}
+.sc2.r4 .sc2-frame{background:linear-gradient(180deg,#f3e6ff,#b58ae6 55%,#e6d4ff)}
+.sc2.r5 .sc2-frame{background:linear-gradient(180deg,#fff4cf,#e8b24a 55%,#fff0c0)}
+.sc2-inner{position:relative;width:100%;height:100%;overflow:hidden;clip-path:polygon(0 9%,10% 6.5%,18% 3.2%,36% 1.8%,50% 0,64% 1.8%,82% 3.2%,90% 6.5%,100% 9%,100% 100%,0 100%);background:linear-gradient(180deg,#5f6f93,#8497bf 45%,#4d5b7c)}
+.sc2.r4 .sc2-inner{background:linear-gradient(180deg,#5a4b8e,#8e72c9 45%,#4a3d78)}
+.sc2.r5 .sc2-inner{background:linear-gradient(180deg,#8a6a3a,#caa25a 45%,#7a5a2e)}
+.sc2-art{position:absolute;left:50%;top:0;height:100%;width:auto;max-width:none;transform:translateX(-50%);object-fit:cover}
+.sc2.c .sc2-art{height:72%;top:6%;width:auto;transform:translateX(-50%) scale(1.9);transform-origin:50% 16%}
+.sc2.w .sc2-art{height:74%;top:4%;width:92%;left:4%;transform:none;object-fit:contain;filter:drop-shadow(0 4px 8px rgba(0,0,0,.45))}
+.sc2-shade{position:absolute;inset:0;background:linear-gradient(transparent 50%,rgba(20,24,40,.55) 72%,rgba(20,24,40,.85))}
+.sc2-foot{position:absolute;left:0;right:0;bottom:8px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.sc2-el,.sc2-wt{width:62%;max-width:44px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.6))}
+.sc2-gifts{display:flex;flex-direction:column;gap:5px;width:70%}
+.gift{position:relative;aspect-ratio:1;border-radius:6px 6px 14px 6px;display:grid;place-items:center;box-shadow:inset 0 0 0 1px rgba(255,255,255,.45),0 2px 4px rgba(0,0,0,.4)}
+.gift.r4{background:linear-gradient(160deg,#5d5695,#9a6bd1)}
+.gift.r5{background:linear-gradient(160deg,#8f6232,#e0a93c)}
+.gift.r3{background:linear-gradient(160deg,#4d6b97,#5d8bc2)}
+.gift img{width:78%;height:78%;object-fit:contain}
+.gift.st.r4 img{filter:hue-rotate(215deg) saturate(1.3)}
+.gift b{position:absolute;left:0;right:0;bottom:-1px;font-size:10px;color:#fff;text-shadow:0 1px 2px #000;background:rgba(0,0,0,.35);border-radius:0 0 12px 5px}
+.sc2-stars{font-size:10px;letter-spacing:0;color:#ffd35c;text-shadow:0 0 6px rgba(255,200,80,.8)}
+.sc2-top{position:absolute;top:-10px;left:50%;transform:translateX(-50%);font-size:14px;color:#fff;text-shadow:0 0 8px #fff}
+.sc2.r5 .sc2-top{color:#fff3c4;text-shadow:0 0 10px #ffc83d}
+.sc2.r4 .sc2-top{color:#f0e0ff;text-shadow:0 0 10px #b77cff}
+.sc2-new{position:absolute;top:10%;left:50%;transform:translateX(-50%);font-size:9px;font-weight:700;background:#ffd35c;color:#3a2a00;border-radius:99px;padding:1px 6px;z-index:2}
+/* hào quang */
+.sc2.r4:before{content:"";position:absolute;inset:-8px -6px;border-radius:40px;background:radial-gradient(ellipse at 50% 55%,rgba(183,124,255,.55),transparent 70%);filter:blur(6px);animation:auraP 2.4s ease-in-out infinite}
+.sc2.r5:before{content:"";position:absolute;inset:-14px -10px;border-radius:40px;background:radial-gradient(ellipse at 50% 60%,rgba(255,196,80,.75),rgba(255,140,40,.25) 55%,transparent 72%);filter:blur(7px);animation:auraP 1.8s ease-in-out infinite}
+.sc2.r3:before{content:"";position:absolute;inset:-4px;border-radius:30px;background:radial-gradient(ellipse,rgba(120,180,255,.25),transparent 70%);filter:blur(5px)}
+/* lửa vàng bốc lên quanh thẻ 5★ */
+.flames{position:absolute;inset:-28px -12px -10px;pointer-events:none;z-index:0}
+.flames i{position:absolute;bottom:4%;width:18%;height:34%;border-radius:50% 50% 20% 20%;background:radial-gradient(ellipse at 50% 85%,#fffbe0,#ffd24a 35%,rgba(255,150,30,.75) 55%,rgba(255,120,20,0) 75%);filter:blur(1.5px);mix-blend-mode:screen;opacity:0;animation:flameUp 1.4s ease-out infinite}
+@keyframes flameUp{0%{opacity:0;transform:translateY(20%) scaleY(.6)}25%{opacity:.95}100%{opacity:0;transform:translateY(-240%) scaleY(1.4) scaleX(.6)}}
+.flames i:nth-child(odd){animation-duration:1.9s;height:28%}
+.flames i:nth-child(3n){bottom:40%;animation-duration:1.6s}
+.sc2-frame,.sc2-top,.sc2-new{z-index:1}
+@media(max-width:700px){.cards2{gap:5px;padding:24px 4px}.gift b{font-size:8px}.sc2-stars{font-size:8px}}

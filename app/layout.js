@@ -4,6 +4,7 @@ import "./listen.css";
 import "./rank.css";
 import "./gamble.css";
 import "./characters.css";
+import "./wishfx.css";
 import { GameProvider } from "@/components/Game";
 import Header from "@/components/Header";
 import Sky from "@/components/Sky";
