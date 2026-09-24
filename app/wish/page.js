@@ -3,14 +3,15 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useGame } from "@/components/Game";
 import WishFx from "@/components/WishFx";
-import { Ico } from "@/components/Icons";
+import Portal from "@/components/Portal";
+import { Ico, itemIconUrl } from "@/components/Icons";
 import { ELEM } from "@/lib/data";
 import { charIcon, charSplash, weaponArt, weaponIcon } from "@/lib/genshin";
 import { BANNER_INFO, POOL, currentBanners, phaseEnds, phaseIndex, rollOnce, extraReward, keyOf } from "@/lib/gacha";
 import { sfx } from "@/lib/sfx";
 
 const FATE_COST = 160;
-const FATE_NAME = { i: "Mối Duyên Vướng Víu", a: "Mối Duyên Gặp Gỡ" };
+const FATE_NAME = { i: "Mối Duyên Vương Vấn", a: "Mối Duyên Tương Ngộ" };
 
 function useCountdown(to) {
   const [now, setNow] = useState(() => Date.now());
@@ -129,7 +130,7 @@ export default function WishPage() {
           <div className="ct">
             <div className="tag">{B.name.toUpperCase()}</div>
             <h2>Bôn Ba Bất Tận</h2>
-            <p>Banner thường trú dùng <b>Mối Duyên Gặp Gỡ</b>. 5★ gồm {POOL.std5c.map((c) => c.vi).join(", ")} và 10 vũ khí 5★ thường trú. 5★ cơ bản 0,6% · bảo hiểm 90 lần.</p>
+            <p>Banner thường trú dùng <b>Mối Duyên Tương Ngộ</b>. 5★ gồm {POOL.std5c.map((c) => c.vi).join(", ")} và 10 vũ khí 5★ thường trú. 5★ cơ bản 0,6% · bảo hiểm 90 lần.</p>
             <div className="feat">{POOL.std5c.map((c) => <img key={c.id} className="r5" src={charIcon(c)} alt={c.vi} title={c.vi} />)}</div>
           </div>
         </div>
@@ -147,7 +148,7 @@ export default function WishPage() {
         <div className="pity">
           Bảo hiểm 5★: <b>{st.p5}</b>/{B.hard5} · Bảo hiểm 4★: <b>{st.p4}</b>/{B.hard4}
           {st.g5 !== undefined && <><br />5★ tiếp theo: <b>{st.g5 ? "Chắc chắn ra vật phẩm sự kiện" : bid === "weapon" ? "75/25" : "50/50"}</b></>}
-          <br /><Ico id="fateI" /> {S.fates.i} · <Ico id="fateA" /> {S.fates.a} · <Ico id="glit" /> {S.glitter} Sao Chòm · <Ico id="dust" /> {S.dust} Tinh Trần
+          <br /><Ico id="fateI" /> {S.fates.i} · <Ico id="fateA" /> {S.fates.a} · <Ico id="glit" /> {S.glitter} Tinh Huy · <Ico id="dust" /> {S.dust} Tinh Trần
           <div className="links">
             <Link href="/wish/history" className="chip dk">📜 Lịch sử</Link>
             <button className="chip dk" onClick={() => { setShop(true); sfx.open(); }}>🛒 Cửa hàng</button>
@@ -160,7 +161,7 @@ export default function WishPage() {
         </div>
       </div>
 
-      {buy && (
+      {buy && (<Portal>
         <div className="modal" onClick={(e) => e.target === e.currentTarget && setBuy(null)}>
           <div className="parch dialog">
             <h2>Không đủ {FATE_NAME[fk]}</h2>
@@ -172,41 +173,95 @@ export default function WishPage() {
             </div>
           </div>
         </div>
-      )}
+      </Portal>)}
       {shop && <Shop onClose={() => setShop(false)} />}
       {fx && <WishFx results={fx} onClose={() => setFx(null)} />}
     </>
   );
 }
 
+// Cửa Hàng — bố cục giống "Đổi Bụi Ánh Sáng" trong game
+const SHOP_TABS = [
+  { k: "glit", label: "Đổi Tinh Huy", cur: "glit", price: 5 },
+  { k: "dust", label: "Đổi Tinh Trần", cur: "dust", price: 75, limit: 5 },
+  { k: "pgm", label: "Mua bằng Nguyên Thạch", cur: "pgm", price: FATE_COST },
+];
+const balance = (S, cur) => (cur === "glit" ? S.glitter : cur === "dust" ? S.dust : S.primo);
+
 function Shop({ onClose }) {
   const { S, update, toast } = useGame();
+  const [tab, setTab] = useState("pgm");
+  const [sel, setSel] = useState(null);
   const month = new Date().toISOString().slice(0, 7);
-  const dustLeft = 5 - (S.dustShop.m === month ? S.dustShop.n : 0);
-  const buyG = (f) => { if (S.glitter < 5) return toast("Không đủ Sao Chòm"); update((s) => { s.glitter -= 5; s.fates[f] += 1; }); sfx.primo(); };
-  const buyD = (f) => {
-    if (S.dust < 75) return toast("Không đủ Tinh Trần");
-    if (dustLeft <= 0) return toast("Đã hết lượt đổi Tinh Trần tháng này");
-    update((s) => { s.dust -= 75; s.fates[f] += 1; if (s.dustShop.m !== month) s.dustShop = { m: month, n: 0 }; s.dustShop.n += 1; }); sfx.primo();
+  const dustUsed = S.dustShop.m === month ? S.dustShop.n : 0;
+  const now = new Date();
+  const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 1).getTime();
+  const refresh = useCountdown(monthEnd);
+  const T = SHOP_TABS.find((t) => t.k === tab);
+  const left = T.limit ? T.limit - dustUsed : Infinity;
+
+  const buy = (f, qty) => {
+    const cost = T.price * qty;
+    if (balance(S, T.cur) < cost) return toast("Không đủ " + (T.cur === "glit" ? "Tinh Huy" : T.cur === "dust" ? "Tinh Trần" : "Nguyên Thạch"));
+    update((s) => {
+      if (T.cur === "glit") s.glitter -= cost; else if (T.cur === "dust") s.dust -= cost; else s.primo -= cost;
+      s.fates[f] += qty;
+      if (T.limit) { if (s.dustShop.m !== month) s.dustShop = { m: month, n: 0 }; s.dustShop.n += qty; }
+    });
+    sfx.primo(); setSel(null); toast(`Đã nhận ${qty} ${FATE_NAME[f]}`);
   };
+
   return (
-    <div className="modal" onClick={(e) => e.target === e.currentTarget && onClose()}>
-      <div className="parch dialog">
-        <h2>Cửa Hàng Paimon</h2>
-        <div className="jp">Sao Chòm {S.glitter} · Tinh Trần {S.dust}</div>
-        <hr />
-        <p><b>5 Sao Chòm</b> → 1 Mối Duyên</p>
-        <div className="btnrow" style={{ marginTop: 6 }}>
-          <button className="gbtn sm" onClick={() => buyG("i")}><span className="c" />Vướng Víu</button>
-          <button className="gbtn sm" onClick={() => buyG("a")}><span className="c" />Gặp Gỡ</button>
-        </div>
-        <p style={{ marginTop: 16 }}><b>75 Tinh Trần</b> → 1 Mối Duyên (còn {dustLeft}/5 lượt tháng này)</p>
-        <div className="btnrow" style={{ marginTop: 6 }}>
-          <button className="gbtn sm" onClick={() => buyD("i")}><span className="c" />Vướng Víu</button>
-          <button className="gbtn sm" onClick={() => buyD("a")}><span className="c" />Gặp Gỡ</button>
-        </div>
-        <div className="btnrow"><button className="gbtn x dark" onClick={onClose}><span className="c" />Đóng</button></div>
+    <Portal><div className="shop">
+      <div className="shop-top">
+        <h2>Cửa Hàng</h2>
+        <span className="refresh">{T.limit ? `Làm mới sau: ${refresh}` : ""}</span>
+        <span className="curr"><Ico id="glit" />{S.glitter}</span>
+        <span className="curr"><Ico id="dust" />{S.dust}</span>
+        <span className="curr"><Ico id="pgm" />{S.primo.toLocaleString("vi-VN")}</span>
+        <button className="shop-x" onClick={onClose} aria-label="Đóng">✕</button>
       </div>
-    </div>
+      <div className="shop-tabs">
+        {SHOP_TABS.map((t) => <button key={t.k} className={tab === t.k ? "on" : ""} onClick={() => { setTab(t.k); sfx.click(); }}>{t.label}</button>)}
+      </div>
+      <div className="goods">
+        {["i", "a"].map((f) => (
+          <button key={f} className="good" onClick={() => { if (left <= 0) return toast("Đã hết lượt đổi tháng này"); setSel(f); sfx.open(); }}>
+            <div className="art">
+              <img src={itemIconUrl(f === "i" ? "fateI" : "fateA")} alt="" />
+              {T.limit && <span className="left">{Math.max(left, 0)}/{T.limit}</span>}
+              <div className="nm">{FATE_NAME[f]}</div>
+            </div>
+            <div className="price"><Ico id={T.cur} />{T.price}</div>
+          </button>
+        ))}
+      </div>
+      {sel && <BuyDialog f={sel} T={T} max={Math.min(left, Math.floor(balance(S, T.cur) / T.price), 99)} onBuy={buy} onClose={() => setSel(null)} />}
+    </div></Portal>
+  );
+}
+
+function BuyDialog({ f, T, max, onBuy, onClose }) {
+  const [qty, setQty] = useState(1);
+  const q = Math.max(1, Math.min(qty, Math.max(max, 1)));
+  return (
+    <Portal><div className="modal" onClick={(e) => e.target === e.currentTarget && onClose()}>
+      <div className="parch dialog">
+        <h2>{FATE_NAME[f]}</h2>
+        <img src={itemIconUrl(f === "i" ? "fateI" : "fateA")} alt="" className="buy-art" />
+        <p>{f === "i" ? "Dùng cho Ước Nguyện Nhân Vật Sự Kiện và Vũ Khí Sự Kiện." : "Dùng cho Ước Nguyện Thường Trú."}</p>
+        <div className="qty">
+          <button className="chip" onClick={() => setQty(q - 1)} disabled={q <= 1}>−</button>
+          <input type="range" min={1} max={Math.max(max, 1)} value={q} onChange={(e) => setQty(+e.target.value)} disabled={max <= 1} />
+          <button className="chip" onClick={() => setQty(q + 1)} disabled={q >= max}>+</button>
+        </div>
+        <div className="qn">×{q}</div>
+        <p style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>Tổng: <Ico id={T.cur} /> <b>{(T.price * q).toLocaleString("vi-VN")}</b></p>
+        <div className="btnrow">
+          <button className="gbtn x dark" onClick={onClose}><span className="c" />Hủy</button>
+          <button className="gbtn" disabled={max < 1} onClick={() => onBuy(f, q)}><span className="c" />Đổi</button>
+        </div>
+      </div>
+    </div></Portal>
   );
 }

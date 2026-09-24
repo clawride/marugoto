@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useGame } from "@/components/Game";
 import { SEC, TOPIC_VI, topicOf, wordsOf, starsFor } from "@/lib/data";
 import { sfx } from "@/lib/sfx";
+import Portal from "@/components/Portal";
 
 const Stars = ({ n }) => <span className="starsrow">{[0, 1, 2].map((i) => (i < n ? <span key={i}>★</span> : <span key={i} className="off">★</span>))}</span>;
 
@@ -61,7 +62,7 @@ function CountModal({ n, ask, onClose }) {
     router.push(`/quiz?t=${n}&k=${ask.key}&n=${val}`);
   };
   return (
-    <div className="modal" onClick={(e) => e.target === e.currentTarget && onClose()}>
+    <Portal><div className="modal" onClick={(e) => e.target === e.currentTarget && onClose()}>
       <div className="parch dialog">
         <h2>{meta.vi}</h2>
         <div className="jp">トピック{n} · {topicOf(n).title} · {meta.jp}</div>
@@ -79,6 +80,6 @@ function CountModal({ n, ask, onClose }) {
           <button className="gbtn tri" onClick={start}><span className="c" />Bắt đầu</button>
         </div>
       </div>
-    </div>
+    </div></Portal>
   );
 }

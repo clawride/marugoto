@@ -15,7 +15,7 @@ export default function Header() {
           <div><b>Sổ Tay Từ Vựng Teyvat</b><small>MARUGOTO 中級1 · B1-1</small></div>
         </Link>
         <div className="curr" title="Nguyên Thạch"><Ico id="pgm" />{n(S?.primo)}</div>
-        <div className="curr hide-sm" title="Mối Duyên Vướng Víu / Mối Duyên Gặp Gỡ"><Ico id="fateI" />{n(S?.fates.i)} <Ico id="fateA" />{n(S?.fates.a)}</div>
+        <div className="curr hide-sm" title="Mối Duyên Vương Vấn / Mối Duyên Tương Ngộ"><Ico id="fateI" />{n(S?.fates.i)} <Ico id="fateA" />{n(S?.fates.a)}</div>
         <Link href="/wish" className="navbtn" onClick={() => sfx.page()}><Ico id="fateI" /><span className="lbl">Cầu Nguyện</span></Link>
         <Link href="/inventory" className="navbtn" onClick={() => sfx.page()}><span aria-hidden="true">🎒</span><span className="lbl">Túi Đồ</span></Link>
         <button className="navbtn" onClick={toggleSound} title={S?.sound ? "Tắt âm thanh" : "Bật âm thanh"}>{S?.sound === false ? "🔇" : "🔊"}</button>

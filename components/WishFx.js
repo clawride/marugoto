@@ -4,6 +4,8 @@ import { ELEM } from "@/lib/data";
 import { WTYPE_VI, artOf, iconOf } from "@/lib/genshin";
 import { constLabel } from "@/lib/gacha";
 import { sfx } from "@/lib/sfx";
+import { Ico } from "@/components/Icons";
+import Portal from "@/components/Portal";
 
 const RC = { 3: "#5a8fd0", 4: "#a06bd6", 5: "#e0a93c" };
 const MC = { 3: "#6fb0ff", 4: "#c08bff", 5: "#ffcf5a" };
@@ -54,7 +56,7 @@ export default function WishFx({ results, onClose }) {
   const tot = results.reduce((a, r) => ({ g: a.g + r.reward.glitter, d: a.d + r.reward.dust }), { g: 0, d: 0 });
 
   return (
-    <div className="wfx" onClick={phase === "summary" ? undefined : advance}>
+    <Portal><div className="wfx" onClick={phase === "summary" ? undefined : advance}>
       {phase !== "summary" && <button className="skip" onClick={skip}>Bỏ qua ›</button>}
 
       {phase === "meteor" && (
@@ -88,14 +90,14 @@ export default function WishFx({ results, onClose }) {
             })}
           </div>
           <div className="tot">
-            {tot.g > 0 && <span><svg className="ic"><use href="#glit" /></svg> +{tot.g} Sao Chòm</span>}
-            {tot.d > 0 && <span><svg className="ic"><use href="#dust" /></svg> +{tot.d} Tinh Trần</span>}
+            {tot.g > 0 && <span><Ico id="glit" /> +{tot.g} Tinh Huy</span>}
+            {tot.d > 0 && <span><Ico id="dust" /> +{tot.d} Tinh Trần</span>}
           </div>
           <div className="btnrow"><button className="gbtn x" onClick={onClose}><span className="c" />Đóng</button></div>
         </div>
       )}
       {phase === "reveal" && <div className="tapnote">Chạm để tiếp tục · {i + 1}/{revealOrder.length}</div>}
-    </div>
+    </div></Portal>
   );
 }
 
@@ -127,7 +129,7 @@ function Reveal({ r }) {
           {r.isNew && <span className="new">MỚI</span>}
           {!r.isNew && r.kind === "c" && <span>Cung Mệnh {constLabel("c", count)}</span>}
           {r.kind === "w" && <span>Tinh Luyện {constLabel("w", count)}</span>}
-          {r.reward.glitter > 0 && <span>✦ +{r.reward.glitter} Sao Chòm</span>}
+          {r.reward.glitter > 0 && <span>✦ +{r.reward.glitter} Tinh Huy</span>}
           {r.reward.dust > 0 && <span>✧ +{r.reward.dust} Tinh Trần</span>}
           {r.flags?.path && <span>Định Quỹ Đạo hoàn tất</span>}
         </div>

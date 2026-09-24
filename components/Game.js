@@ -15,7 +15,7 @@ const defaults = () => ({
   lastN: 20,
   imgTab: "photo",
   sound: true,
-  fates: { i: 0, a: 10 }, // i = Mối Duyên Vướng Víu (sự kiện), a = Mối Duyên Gặp Gỡ (thường trú)
+  fates: { i: 0, a: 10 }, // i = Mối Duyên Vương Vấn (sự kiện), a = Mối Duyên Tương Ngộ (thường trú)
   glitter: 0,
   dust: 0,
   dustShop: { m: "", n: 0 },

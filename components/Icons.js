@@ -33,6 +33,17 @@ export function SvgDefs() {
   );
 }
 
-export const Ico = ({ id, className = "ic" }) => (
-  <svg className={className}><use href={`#${id}`} /></svg>
-);
+// Biểu tượng vật phẩm gốc trong game (qua gi.yatta.moe)
+export const ITEM_ICON = {
+  pgm: { id: 201, name: "Nguyên Thạch" },
+  glit: { id: 221, name: "Tinh Huy" },
+  dust: { id: 222, name: "Tinh Trần" },
+  fateI: { id: 223, name: "Mối Duyên Vương Vấn" },
+  fateA: { id: 224, name: "Mối Duyên Tương Ngộ" },
+};
+export const itemIconUrl = (id) => `https://gi.yatta.moe/assets/UI/UI_ItemIcon_${ITEM_ICON[id].id}.png`;
+
+export const Ico = ({ id, className = "ic" }) =>
+  ITEM_ICON[id]
+    ? <img className={className} src={itemIconUrl(id)} alt={ITEM_ICON[id].name} title={ITEM_ICON[id].name} draggable={false} />
+    : <svg className={className}><use href={`#${id}`} /></svg>;
