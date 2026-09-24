@@ -1,4 +1,5 @@
 import "./globals.css";
+import "./boss.css";
 import { GameProvider } from "@/components/Game";
 import Header from "@/components/Header";
 import Sky from "@/components/Sky";

@@ -4,6 +4,7 @@ import { useGame } from "@/components/Game";
 import { TOPICS, TOPIC_VI, TOPIC_EL, ELEM, TOTAL_WORDS, wordsOf, starsFor } from "@/lib/data";
 import { CHARS, charIcon } from "@/lib/genshin";
 import { sfx } from "@/lib/sfx";
+import { BOSSES, bossIcon } from "@/lib/bosses";
 
 export default function Home() {
   const { S } = useGame();
@@ -21,6 +22,13 @@ export default function Home() {
         <div className="panel stat"><b>{(S?.total || 0).toLocaleString("vi-VN")}</b><span>Câu trả lời đúng</span></div>
         <div className="panel stat"><b>{(S?.wishes || 0).toLocaleString("vi-VN")}</b><span>Lần cầu nguyện</span></div>
       </div>
+      <Link href="/boss" className="panel homeboss" onClick={() => sfx.page()}>
+        <img src={bossIcon(BOSSES[13])} alt="" />
+        <div>
+          <b>⚔️ Thử Thách Boss · Marugoto A2-1</b>
+          <span>18 boss theo 18 bài: từ vựng, ngữ pháp, Yae Miko thách xếp câu, hội thoại với nhân vật Genshin — đã hạ {BOSSES.filter((b) => S?.boss?.[b.lesson]?.cleared).length}/{BOSSES.length}</span>
+        </div>
+      </Link>
       <div className="grid">
         {TOPICS.map((T) => {
           const keys = ["all", ...T.sections.map((s) => s.key)];

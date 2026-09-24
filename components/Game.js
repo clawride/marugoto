@@ -23,6 +23,7 @@ const defaults = () => ({
   inv: {},
   history: [],
   wishes: 0,
+  boss: {}, // { [lesson]: { best: 0..3, cleared: bool, reward: "YYYY-MM-DD" } }
 });
 
 const Ctx = createContext(null);
