@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useGame } from "@/components/Game";
 import WishFx from "@/components/WishFx";
 import Portal from "@/components/Portal";
+import ChronicleBanner from "@/components/ChronicleBanner";
 import { Ico, itemIconUrl } from "@/components/Icons";
 import { ELEM } from "@/lib/data";
 import { charIcon, charSplash, weaponArt, weaponIcon } from "@/lib/genshin";
@@ -98,6 +99,7 @@ export default function WishPage() {
       <div className="btabs">
         <button className={`btab ${bid === "char" ? "on" : ""}`} onClick={() => { setBid("char"); sfx.click(); }}><img src={charIcon(F)} alt="" /><span>Nhân Vật Sự Kiện</span></button>
         <button className={`btab ${bid === "weapon" ? "on" : ""}`} onClick={() => { setBid("weapon"); sfx.click(); }}><img src={weaponIcon(banners.weapon.featured5[0])} alt="" style={{ objectFit: "contain", background: "linear-gradient(160deg,#8f6232,#e0a93c)" }} /><span>Vũ Khí Sự Kiện</span></button>
+        <button className={`btab ${bid === "chronicled" ? "on" : ""}`} onClick={() => { setBid("chronicled"); sfx.click(); }}><img src={charIcon(banners.chronicled.chars5[0])} alt="" /><span>Sử Ký</span></button>
         <button className={`btab ${bid === "standard" ? "on" : ""}`} onClick={() => { setBid("standard"); sfx.click(); }}><img src={charIcon(stdHero)} alt="" /><span>Thường Trú</span></button>
       </div>
 
@@ -132,6 +134,10 @@ export default function WishPage() {
           <div className="ends">Kết thúc sau {ends}</div>
         </div>
       )}
+      {bid === "chronicled" && (
+        <ChronicleBanner pool={banners.chronicled} path={S.banners.chronicled?.path} fp={S.banners.chronicled?.fp || 0}
+          onPick={(k) => { update((s) => { const C = s.banners.chronicled; if (C.path !== k) { C.path = k; C.fp = 0; } }); sfx.click(); }} />
+      )}
       {bid === "standard" && (
         <div className="bnr" key="standard">
           <div className="bg" style={{ backgroundImage: `url('${charSplash(stdHero)}')` }} />
@@ -155,6 +161,7 @@ export default function WishPage() {
       <div className="wishbar">
         <div className="pity">
           Bảo hiểm 5★: <b>{st.p5}</b>/{B.hard5} · Bảo hiểm 4★: <b>{st.p4}</b>/{B.hard4}
+          {bid === "chronicled" && <><br />5★ tiếp theo: <b>{!st.path ? "Ngẫu nhiên trong danh sách Sử Ký" : st.fp >= 1 ? "Chắc chắn ra vật phẩm chỉ định" : "50% ra vật phẩm chỉ định"}</b></>}
           {st.g5 !== undefined && <><br />5★ tiếp theo: <b>{st.g5 ? "Chắc chắn ra vật phẩm sự kiện" : bid === "weapon" ? "75/25" : "50/50"}</b></>}
           <br /><Ico id="fateI" /> {S.fates.i} · <Ico id="fateA" /> {S.fates.a} · <Ico id="glit" /> {S.glitter} Tinh Huy · <Ico id="dust" /> {S.dust} Tinh Trần
           <div className="links">

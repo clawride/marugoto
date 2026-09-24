@@ -21,9 +21,10 @@ const { rollOnce, newBannerState, currentBanners } = await import("../lib/gacha.
 const banners = currentBanners();
 const N = 1_000_000;
 
-for (const bid of ["char", "weapon", "standard"]) {
+for (const bid of ["char", "weapon", "chronicled", "standard"]) {
   const st = newBannerState()[bid];
   if (bid === "weapon") st.path = banners.weapon.featured5[0].id;
+  if (bid === "chronicled") st.path = `c:${banners.chronicled.chars5[0].id}`;
   let c5 = 0, c4 = 0, feat = 0, radiance = 0, pitySum = 0, maxP = 0;
   for (let i = 0; i < N; i++) {
     const r = rollOnce(bid, st, banners);
@@ -31,10 +32,12 @@ for (const bid of ["char", "weapon", "standard"]) {
       c5++; pitySum += r.pity; maxP = Math.max(maxP, r.pity);
       if (bid === "char" && r.x.id === banners.char.featured5.id) feat++;
       if (bid === "weapon" && r.x.id === st.path) feat++;
+      if (bid === "chronicled" && `${r.kind}:${r.x.id}` === st.path) feat++;
       if (r.flags.radiance) radiance++;
     } else if (r.rank === 4) c4++;
   }
   console.log(`${bid.padEnd(8)} 5★ ${(c5 / N * 100).toFixed(3)}% · TB ${(pitySum / c5).toFixed(1)} lần/5★ · max ${maxP} · 4★ ${(c4 / N * 100).toFixed(2)}%` +
     (bid === "char" ? ` · ra nhân vật sự kiện ${(feat / c5 * 100).toFixed(1)}% · Ánh Sáng Bắt Giữ ${radiance}` : "") +
+    (bid === "chronicled" ? ` · ra vật phẩm chỉ định ${(feat / c5 * 100).toFixed(1)}%` : "") +
     (bid === "weapon" ? ` · ra vũ khí đã chọn ${(feat / c5 * 100).toFixed(1)}%` : ""));
 }
