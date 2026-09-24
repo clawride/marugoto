@@ -164,6 +164,7 @@ function SellDialog({ itemKey, have, onSell, onClose }) {
               {isChar && <p className="warnline">{qty >= have ? `Bán hết: ${it.vi} sẽ rời túi đồ.` : `Sau khi bán: còn ${have - qty} bản (${constLabel("c", have - qty)}).`}</p>}
             </>
           )}
+          {isChar && <p><Link href={`/characters/${it.id}`} className="chip">✦ Xem cung mệnh</Link></p>}
           <div className="btnrow">
             <button className="gbtn x dark" onClick={onClose}><span className="c" />{v ? "Hủy" : "Đóng"}</button>
             {v && <button className="gbtn" onClick={() => onSell(qty)}><span className="c" />Bán</button>}

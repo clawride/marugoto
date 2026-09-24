@@ -29,7 +29,8 @@ export default function WishPage() {
   const [buy, setBuy] = useState(null);
   const [shop, setShop] = useState(false);
   const [gamble, setGamble] = useState(false);
-  const banners = useMemo(() => currentBanners(), []);
+  const [pickOpen, setPickOpen] = useState(false);
+  const banners = useMemo(() => currentBanners(Date.now(), S?.bannerPick || null), [S?.bannerPick]);
   const ends = useCountdown(phaseEnds());
   const B = BANNER_INFO[bid];
 
@@ -112,6 +113,7 @@ export default function WishPage() {
             <div className="tag">{B.name.toUpperCase()}</div>
             <h2>{F.vi}</h2>
             <span className="el" style={{ background: el.c }}>Hệ {el.vi}</span>
+            <button className="chip dk pickbtn" onClick={() => { setPickOpen(true); sfx.open(); }}>🔄 Đổi nhân vật sự kiện</button>
             <p>Tăng tỉ lệ nhận nhân vật 5★ <b>{F.vi}</b> và 4★ {banners.char.featured4.map((c) => c.vi).join(", ")}. 5★ cơ bản 0,6% · tổng hợp ~1,6% · bảo hiểm 90 lần. Thua 50/50 → lần 5★ sau chắc chắn ra nhân vật sự kiện; thua liên tiếp có thể kích hoạt <b>Ánh Sáng Bắt Giữ</b>.</p>
             <div className="feat">
               <img className="r5" src={charIcon(F)} alt={F.vi} title={F.vi} />
@@ -171,6 +173,7 @@ export default function WishPage() {
             <button className="chip dk" onClick={() => { setShop(true); sfx.open(); }}>🛒 Cửa hàng</button>
             <button className="chip dk luckchip" onClick={() => { setGamble(true); sfx.open(); }}>🎲 Đại Vận · Đại Hạn</button>
             <Link href="/inventory" className="chip dk">🎒 Túi đồ</Link>
+            <Link href="/characters" className="chip dk">👥 Nhân vật</Link>
           </div>
         </div>
         <div className="wishbtns">
@@ -194,6 +197,7 @@ export default function WishPage() {
       </Portal>)}
       {shop && <Shop onClose={() => setShop(false)} />}
       {gamble && <Gamble onClose={() => setGamble(false)} />}
+      {pickOpen && <BannerPicker current={F.id} onPick={(id) => { update((st) => { st.bannerPick = id; }); setPickOpen(false); sfx.click(); }} onClose={() => setPickOpen(false)} />}
       {fx && <WishFx results={fx} onClose={() => setFx(null)} />}
     </>
   );
@@ -282,5 +286,35 @@ function BuyDialog({ f, T, max, onBuy, onClose }) {
         </div>
       </div>
     </div></Portal>
+  );
+}
+
+// Chọn nhân vật 5★ sự kiện trong toàn bộ nhân vật giới hạn (mới nhất đứng đầu)
+function BannerPicker({ current, onPick, onClose }) {
+  const [q, setQ] = useState("");
+  const list = POOL.lim5c;
+  const newest = list[0]?.release || 0;
+  const shown = list.filter((c) => !q || c.vi.toLowerCase().includes(q.toLowerCase()) || c.en.toLowerCase().includes(q.toLowerCase()));
+  return (
+    <Portal>
+      <div className="modal" onClick={(e) => e.target === e.currentTarget && onClose()}>
+        <div className="parch dialog pickdlg">
+          <h2>Chọn nhân vật sự kiện</h2>
+          <div className="jp">{list.length} nhân vật 5★ giới hạn · bảo hiểm và 50/50 được giữ nguyên khi đổi</div>
+          <input className="nameinp" placeholder="Tìm tên…" value={q} onChange={(e) => setQ(e.target.value)} style={{ marginTop: 12 }} />
+          <div className="pickgrid">
+            {shown.map((c) => (
+              <button key={c.id} className={c.id === current ? "on" : ""} onClick={() => onPick(c.id)} title={c.vi}>
+                <img src={charIcon(c)} alt="" loading="lazy" style={{ background: `linear-gradient(160deg,#8f6232,#e0a93c)` }} />
+                <span>{c.vi}</span>
+                {newest - c.release < 45 * 86400 && <em>MỚI</em>}
+                <i style={{ background: ELEM[c.el].c }} />
+              </button>
+            ))}
+          </div>
+          <div className="btnrow"><button className="gbtn x dark" onClick={onClose}><span className="c" />Đóng</button></div>
+        </div>
+      </div>
+    </Portal>
   );
 }

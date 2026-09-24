@@ -25,6 +25,8 @@ const defaults = () => ({
   wishes: 0,
   profile: null, profileSkip: false, syncSig: "",
   bossPct: {}, listenPct: {},
+  cons: {}, // cung mệnh đã kích hoạt: { "c:ID": 0..6 }
+  bannerPick: null, // nhân vật 5★ sự kiện đang chọn
   boss: {}, // { [lesson]: { best: 0..3, cleared: bool, reward: "YYYY-MM-DD" } }
 });
 

@@ -20,6 +20,7 @@ export default function Header() {
         <Link href="/boss" className="navbtn" onClick={() => sfx.page()}><span aria-hidden="true">⚔️</span><span className="lbl">Boss</span></Link>
         <Link href="/nghe" className="navbtn" onClick={() => sfx.page()}><span aria-hidden="true">🎧</span><span className="lbl">Nghe</span></Link>
         <Link href="/wish" className="navbtn" onClick={() => sfx.page()}><Ico id="fateI" /><span className="lbl">Cầu Nguyện</span></Link>
+        <Link href="/characters" className="navbtn" onClick={() => sfx.page()}><span aria-hidden="true">👥</span><span className="lbl">Nhân Vật</span></Link>
         <Link href="/inventory" className="navbtn" onClick={() => sfx.page()}><span aria-hidden="true">🎒</span><span className="lbl">Túi Đồ</span></Link>
         <Link href="/rank" className="navbtn profchip" onClick={() => sfx.page()} title="Bảng xếp hạng & hồ sơ">{S?.profile ? <img src={avatarUrl(S.profile.avatar)} alt="" /> : <span aria-hidden="true">🏆</span>}<span className="lbl">{S?.profile?.name || "Xếp hạng"}</span></Link>
         <button className="navbtn" onClick={toggleSound} title={S?.sound ? "Tắt âm thanh" : "Bật âm thanh"}>{S?.sound === false ? "🔇" : "🔊"}</button>

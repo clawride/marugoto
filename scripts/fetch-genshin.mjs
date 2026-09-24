@@ -15,7 +15,7 @@ const now = Date.now() / 1000;
 
 const characters = avVi
   .filter((a) => a.rank === 4 || a.rank === 5) // bỏ Aloy (105) — không có trong ước nguyện
-  .filter((a) => !/PlayerBoy|PlayerGirl|Manekin/i.test(a.icon))
+  .filter((a) => !/PlayerBoy|PlayerGirl|Manekin/i.test(a.icon) && !/^Manekin/i.test(avEnMap[a.id] || ""))
   .filter((a) => !a.release || a.release <= now)
   .map((a) => ({
     id: a.id,
