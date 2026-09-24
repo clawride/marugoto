@@ -13,11 +13,11 @@ export async function GET(req) {
   if (me && !ids.includes(me)) ids.push(me);
   const users = await Promise.all(ids.map((id) => redis.hgetall(`u:${id}`)));
   const info = Object.fromEntries(ids.map((id, i) => [id, users[i]]));
-  const rows = top.map(([id, score], i) => ({ rank: i + 1, id, score, name: info[id]?.name || "???", avatar: info[id]?.avatar || "Qin" }));
+  const rows = top.map(([id, score], i) => ({ rank: i + 1, id, score, name: info[id]?.name || "???", avatar: info[id]?.avatar || "Qin", certs: String(info[id]?.certs || "") }));
   let mine = null;
   if (me) {
     const r = await redis.zrevrank(`lb:${board}`, me);
-    if (r !== null && r !== undefined) mine = { rank: r + 1, id: me, score: Number(await redis.zscore(`lb:${board}`, me)), name: info[me]?.name, avatar: info[me]?.avatar };
+    if (r !== null && r !== undefined) mine = { rank: r + 1, id: me, score: Number(await redis.zscore(`lb:${board}`, me)), name: info[me]?.name, avatar: info[me]?.avatar, certs: String(info[me]?.certs || "") };
   }
   const count = await redis.zcard(`lb:${board}`);
   return Response.json({ configured: true, board, rows, me: mine, count }, { headers: { "Cache-Control": "no-store" } });

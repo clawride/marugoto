@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useGame } from "@/components/Game";
 import Portal from "@/components/Portal";
 import { CHARS, charIcon } from "@/lib/genshin";
-import { entriesOf, overallOf } from "@/lib/boards";
+import { entriesOf, overallOf, certsOf } from "@/lib/boards";
 import { sfx } from "@/lib/sfx";
 
 const AVATAR_PICKS = ["Qin", "Venti", "Zhongli", "Shougun", "Nahida", "Furina", "Ayaka", "Yae", "Hutao", "Ganyu", "Kazuha", "Klee", "Paimon", "Xiao", "Nilou", "Keqing", "Diluc", "Mona", "Raiden", "Neuvillette", "Arlecchino", "Mavuika", "Kokomi", "Yoimiya"];
@@ -93,8 +93,8 @@ export function ProfileGate() {
   useEffect(() => {
     if (!S?.profile || busy.current) return;
     const p = S.profile;
-    const entries = entriesOf(S), overall = overallOf(S);
-    const sig = JSON.stringify([entries, overall, p.id]);
+    const entries = entriesOf(S), overall = overallOf(S), certs = certsOf(S);
+    const sig = JSON.stringify([entries, overall, p.id, certs]);
     if (sig === S.syncSig) return;
     const t = setTimeout(async () => {
       busy.current = true;
@@ -106,8 +106,8 @@ export function ProfileGate() {
           prof = { id: r.id, token: r.token, name: r.name, avatar: r.avatar };
           update((s) => { s.profile = prof; });
         }
-        const r = await fetch("/api/score", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: prof.id, token: prof.token, entries, overall }) });
-        if (r.ok) update((s) => { s.syncSig = JSON.stringify([entries, overall, prof.id]); });
+        const r = await fetch("/api/score", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: prof.id, token: prof.token, entries, overall, certs }) });
+        if (r.ok) update((s) => { s.syncSig = JSON.stringify([entries, overall, prof.id, certs]); });
       } catch {} finally { busy.current = false; }
     }, 1500);
     return () => clearTimeout(t);

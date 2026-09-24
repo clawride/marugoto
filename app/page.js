@@ -22,6 +22,13 @@ export default function Home() {
         <div className="panel stat"><b>{(S?.total || 0).toLocaleString("vi-VN")}</b><span>Câu trả lời đúng</span></div>
         <div className="panel stat"><b>{(S?.wishes || 0).toLocaleString("vi-VN")}</b><span>Lần cầu nguyện</span></div>
       </div>
+      <Link href="/b1" className="panel homeboss" onClick={() => sfx.page()} style={{ borderColor: "rgba(240,185,60,.6)" }}>
+        <img src="https://gi.yatta.moe/assets/UI/UI_AvatarIcon_Zhongli.png" alt="" style={{ borderRadius: "50%" }} />
+        <div>
+          <b>🎓 Học Viện B1-1 · Zhongli</b>
+          <span>Ngữ pháp, bài đọc dài, bài nghe theo 9 Topic · thi chứng chỉ kiểu JLPT sau mỗi 3 Topic</span>
+        </div>
+      </Link>
       <Link href="/boss" className="panel homeboss" onClick={() => sfx.page()}>
         <img src={bossIcon(BOSSES[13])} alt="" />
         <div>

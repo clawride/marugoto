@@ -6,6 +6,12 @@ import { BOARD_GROUPS, decode, boardLabel } from "@/lib/boards";
 import { sfx } from "@/lib/sfx";
 
 const MEDAL = ["🥇", "🥈", "🥉"];
+const ROMAN = ["", "I", "II", "III"];
+// Huy hiệu chứng chỉ B1-1 bên cạnh tên
+function Certs({ c }) {
+  if (!c) return null;
+  return <span className="certbadges">{c.split(",").filter(Boolean).map((x) => <i key={x} className={x.endsWith("*") ? "ex" : ""} title={`Chứng chỉ B1-1 Cấp ${ROMAN[parseInt(x)]}${x.endsWith("*") ? " · Xuất sắc" : ""}`}>📜{ROMAN[parseInt(x)]}</i>)}</span>;
+}
 
 export default function RankPage() {
   const { S } = useGame();
@@ -26,6 +32,7 @@ export default function RankPage() {
 
   const fmt = (score) => {
     if (board === "overall") return <><b>{score.toLocaleString("vi-VN")}</b><small>điểm</small></>;
+    if (board.startsWith("ex:")) { const { pct, total } = decode(score); return <><b>{total}/180</b><small>{pct}%</small></>; }
     const { pct, total } = decode(score);
     return <><b>{pct}%</b><small>{total} câu</small></>;
   };
@@ -75,7 +82,7 @@ export default function RankPage() {
           <div key={r.id} className={`rrow ${r.id === me ? "me" : ""} ${r.rank <= 3 ? "top" + r.rank : ""}`}>
             <span className="rk">{MEDAL[r.rank - 1] || r.rank}</span>
             <img src={avatarUrl(r.avatar)} alt="" loading="lazy" />
-            <span className="nm">{r.name}{r.id === me && <em>Bạn</em>}</span>
+            <span className="nm">{r.name}{r.id === me && <em>Bạn</em>}<Certs c={r.certs} /></span>
             <span className="sc">{fmt(r.score)}</span>
           </div>
         ))}
@@ -83,12 +90,12 @@ export default function RankPage() {
           <div className="rrow me sep">
             <span className="rk">{data.me.rank}</span>
             <img src={avatarUrl(data.me.avatar)} alt="" />
-            <span className="nm">{data.me.name}<em>Bạn</em></span>
+            <span className="nm">{data.me.name}<em>Bạn</em><Certs c={data.me.certs} /></span>
             <span className="sc">{fmt(data.me.score)}</span>
           </div>
         )}
       </div>
-      <p className="hint" style={{ textAlign: "center" }}>Điểm Mạo Hiểm = 100 × tổng số sao (từ vựng, boss, bài nghe; Ronova ×3) + số câu trả lời đúng. Mỗi thử thách xếp theo tỉ lệ đúng, bằng nhau thì ai làm nhiều câu hơn xếp trên.</p>
+      <p className="hint" style={{ textAlign: "center" }}>Điểm Mạo Hiểm = 100 × tổng số sao (từ vựng, boss, bài nghe; Ronova ×3; mỗi chứng chỉ B1-1 = 5 sao, Xuất sắc = 10 sao) + số câu trả lời đúng. Mỗi thử thách xếp theo tỉ lệ đúng, bằng nhau thì ai làm nhiều câu hơn xếp trên.</p>
       {edit && <ProfileDialog mode={S.profile ? "edit" : "new"} onClose={() => setEdit(false)} />}
     </>
   );
