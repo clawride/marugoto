@@ -5,6 +5,7 @@ import { useGame } from "@/components/Game";
 import WishFx from "@/components/WishFx";
 import Portal from "@/components/Portal";
 import ChronicleBanner from "@/components/ChronicleBanner";
+import Gamble from "@/components/Gamble";
 import { Ico, itemIconUrl } from "@/components/Icons";
 import { ELEM } from "@/lib/data";
 import { charIcon, charSplash, weaponArt, weaponIcon } from "@/lib/genshin";
@@ -27,6 +28,7 @@ export default function WishPage() {
   const [fx, setFx] = useState(null);
   const [buy, setBuy] = useState(null);
   const [shop, setShop] = useState(false);
+  const [gamble, setGamble] = useState(false);
   const banners = useMemo(() => currentBanners(), []);
   const ends = useCountdown(phaseEnds());
   const B = BANNER_INFO[bid];
@@ -167,6 +169,7 @@ export default function WishPage() {
           <div className="links">
             <Link href="/wish/history" className="chip dk">📜 Lịch sử</Link>
             <button className="chip dk" onClick={() => { setShop(true); sfx.open(); }}>🛒 Cửa hàng</button>
+            <button className="chip dk luckchip" onClick={() => { setGamble(true); sfx.open(); }}>🎲 Đại Vận · Đại Hạn</button>
             <Link href="/inventory" className="chip dk">🎒 Túi đồ</Link>
           </div>
         </div>
@@ -190,6 +193,7 @@ export default function WishPage() {
         </div>
       </Portal>)}
       {shop && <Shop onClose={() => setShop(false)} />}
+      {gamble && <Gamble onClose={() => setGamble(false)} />}
       {fx && <WishFx results={fx} onClose={() => setFx(null)} />}
     </>
   );

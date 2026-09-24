@@ -44,6 +44,15 @@ export function GameProvider({ children }) {
         s = { ...s, ...p, fates: { ...s.fates, ...p.fates }, banners: { ...s.banners, ...p.banners } };
       }
     } catch {}
+    if (s.gamblePending) { // tải lại trang giữa lúc gieo xúc xắc → chốt kết quả
+      const p = s.gamblePending;
+      if (p.win) s.fates[p.f] = (s.fates[p.f] || 0) + p.b * 10;
+      const g = s.gamble || (s.gamble = { n: 0, win: 0, lose: 0, log: [] });
+      g.n++; p.win ? g.win++ : g.lose++;
+      g.log = [p, ...(g.log || [])].slice(0, 12);
+      delete s.gamblePending;
+      try { localStorage.setItem(KEY, JSON.stringify(s)); } catch {}
+    }
     ref.current = s;
     setS(s);
     setSoundEnabled(s.sound);
