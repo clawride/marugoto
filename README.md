@@ -22,10 +22,28 @@ Thiếu key thì trang tự dùng nguồn dự phòng (Wikimedia, Openverse, nek
 
 ## Deploy lên Vercel
 
-1. Vào https://vercel.com/new → Import repo `clawride/marugoto`
-2. Framework: Next.js (tự nhận)
+`vercel.json` đã khai báo framework là Next.js.
+
+### Cách A — Vercel tự deploy khi push (đơn giản)
+
+1. https://vercel.com/new → Import repo `clawride/marugoto`
+2. Project → Settings → Build and Deployment → **Framework Preset: Next.js**
 3. Settings → Environment Variables: thêm `GIPHY_API_KEY`, `PEXELS_API_KEY`
-4. Deploy
+4. Deployments → Redeploy
+
+### Cách B — GitHub Actions (`.github/workflows/vercel.yml`)
+
+Thêm 3 secret vào GitHub repo → Settings → Secrets and variables → Actions:
+
+| Secret | Lấy ở đâu |
+| --- | --- |
+| `VERCEL_TOKEN` | https://vercel.com/account/tokens |
+| `VERCEL_ORG_ID` | Vercel → Settings (tài khoản/team) → General → ID |
+| `VERCEL_PROJECT_ID` | Vercel → Project → Settings → General → Project ID |
+
+Push lên `main` → deploy Production; mở Pull Request → deploy Preview.
+Nếu dùng cách B, tắt Git auto-deploy của Vercel để không deploy 2 lần
+(Project → Settings → Git → Ignored Build Step: `exit 0`).
 
 ## Cập nhật danh sách nhân vật/vũ khí Genshin
 
