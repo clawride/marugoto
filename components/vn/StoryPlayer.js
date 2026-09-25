@@ -5,9 +5,9 @@ import Link from "next/link";
 import { CHARS, charSplash, charIcon } from "@/lib/genshin";
 import { ELEM } from "@/lib/data";
 import { sceneOf, speakerName, chapterOpen, vnOf, STORY_REWARD, TIERS } from "@/lib/vn";
-import { useVN, useGrammar, Line, GrammarCard, GrammarList, VNSettings, pick, say } from "@/components/vn/VNParts";
+import { useVN, useGrammar, Line, GrammarCard, GrammarList, VNSettings, VoiceNote, CastList, pick, say } from "@/components/vn/VNParts";
 import { useStory, LockedNote } from "@/components/vn/StoryHub";
-import { stopSpeak } from "@/lib/tts";
+import { stopVoice, prefetchVoice, storyCast } from "@/lib/voicevox";
 import { sfx } from "@/lib/sfx";
 import { Ico } from "@/components/Icons";
 
@@ -44,9 +44,20 @@ export default function StoryPlayer({ id, c: chN }) {
   const cur = hist.length ? by.get(hist[hist.length - 1].id) : null;
   const seen = new Set([...(vnOf(S, +id).seen?.[chN] || []), ...hist.map((h) => h.id)]);
 
-  // đọc tiếng Nhật tự động
-  useEffect(() => { if (cur && set.tts) { const x = pick(cur.t, tier); x && say(x.jp); } }, [cur?.id, tier]); // eslint-disable-line react-hooks/exhaustive-deps
-  useEffect(() => () => stopSpeak(), []);
+  // lồng tiếng: đọc câu hiện tại bằng giọng của người nói + tạo trước giọng cho câu kế tiếp
+  const sayNode = (n) => { const x = pick(n?.t, tier); x && say(x.jp, { sp: n.sp, mood: n.mood, D, set }); };
+  useEffect(() => {
+    if (!cur || !set.tts) return;
+    sayNode(cur);
+    // 3 câu kế tiếp trên đường thẳng, hoặc câu đầu của mỗi nhánh lựa chọn
+    const nx = [];
+    for (let n = cur; n && nx.length < 3;) {
+      if (n.choices) { nx.push(...n.choices.map((ch) => by.get(ch.next)).filter(Boolean)); break; }
+      n = by.get(n.next); if (n) nx.push(n);
+    }
+    prefetchVoice(nx.map((n) => ({ text: pick(n.t, tier)?.jp, sp: n.sp, mood: n.mood })), { D, set });
+  }, [cur?.id, tier, set.voice, set.trav]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => () => stopVoice(), []);
 
   const persistSeen = (ids) => update((s) => { s.vn = s.vn || {}; const v = (s.vn[id] ||= { done: {}, chat: {}, seen: {} }); v.seen = v.seen || {}; v.seen[chN] = [...new Set([...(v.seen[chN] || []), ...ids])]; });
   const finish = () => {
@@ -80,6 +91,7 @@ export default function StoryPlayer({ id, c: chN }) {
       else if (e.key === "Backspace") back();
       else if (e.key === "Escape") { setPanel(null); setGram(null); }
       else if (/^[12]$/.test(e.key) && cur?.choices) choose(+e.key - 1);
+      else if ((e.key === "r" || e.key === "R") && !panel && !gram) sayNode(cur);
     };
     window.addEventListener("keydown", k);
     return () => window.removeEventListener("keydown", k);
@@ -115,6 +127,7 @@ export default function StoryPlayer({ id, c: chN }) {
           <button className={`chip sm ${panel === "log" ? "on" : ""}`} onClick={() => setPanel(panel === "log" ? null : "log")}>🕘 Nhật ký</button>
           <button className={`chip sm ${panel === "tree" ? "on" : ""}`} onClick={() => setPanel(panel === "tree" ? null : "tree")}>🌳 Cây hội thoại</button>
           <button className={`chip sm ${panel === "script" ? "on" : ""}`} onClick={() => setPanel(panel === "script" ? null : "script")}>📜 Script</button>
+          <button className={`chip sm ${panel === "cast" ? "on" : ""}`} onClick={() => setPanel(panel === "cast" ? null : "cast")}>🎭 Lồng tiếng</button>
           <button className={`chip sm ${panel === "set" ? "on" : ""}`} onClick={() => setPanel(panel === "set" ? null : "set")}>⚙️</button>
         </div>
       </div>
@@ -126,7 +139,7 @@ export default function StoryPlayer({ id, c: chN }) {
         <div className={`vnbox ${cur.sp}`} onClick={(e) => { e.stopPropagation(); advance(); }}>
           {sp && <div className="vnname jpt">{sp}{cur.sp === "char" && cur.mood && cur.mood !== "calm" ? <small> · {({ happy: "vui", sad: "buồn", angry: "giận", surprised: "ngạc nhiên", shy: "ngượng", serious: "nghiêm túc" })[cur.mood]}</small> : null}</div>}
           <Line t={cur.t} g={cur.g} tier={tier} set={set} onGrammar={setGram} big />
-          <button className="vnspk" onClick={(e) => { e.stopPropagation(); const x = pick(cur.t, tier); x && say(x.jp); }} aria-label="Nghe câu này">🔊</button>
+          <button className="vnspk" onClick={(e) => { e.stopPropagation(); sayNode(cur); }} aria-label="Nghe câu này">🔊</button>
           {!cur.choices && !fin && <div className="vnnext">{cur.end ? "Kết thúc chương ▸" : "Bấm để tiếp ▸"}</div>}
           {cur.choices && !fin && (
             <div className="vnchoices">
@@ -149,12 +162,20 @@ export default function StoryPlayer({ id, c: chN }) {
           )}
         </div>
       </div>
-      <p className="hint vnkeys">Enter / Space: tiếp · Backspace: lùi · 1–2: chọn · Mức ngôn ngữ: {TIERS[tier].name} ({TIERS[tier].short})</p>
+      <p className="hint vnkeys">Enter / Space: tiếp · Backspace: lùi · 1–2: chọn · R: nghe lại · Mức ngôn ngữ: {TIERS[tier].name} ({TIERS[tier].short})</p>
+      <VoiceNote D={D} set={set} sps={[...new Set(["char", ...hist.map((h) => by.get(h.id)?.sp).filter(Boolean)])]} />
 
       {panel && (
         <div className="vnpanel panel" onClick={(e) => e.stopPropagation()}>
           <button className="vnx" onClick={() => setPanel(null)} aria-label="Đóng">✕</button>
           {panel === "set" && <VNSettings compact />}
+          {panel === "cast" && (
+            <>
+              <h3>🎭 Lồng tiếng <small>mỗi người nói một giọng VOICEVOX hợp tuổi · bấm ▶ để nghe thử</small></h3>
+              {set.voice === "web" && <p className="hint">Bạn đang dùng giọng trình duyệt. Chọn “VOICEVOX online” trong ⚙️ để nghe giọng lồng tiếng.</p>}
+              <CastList D={D} set={set} cast={storyCast(D, set.trav)} />
+            </>
+          )}
           {panel === "log" && (
             <>
               <h3>🕘 Nhật ký hội thoại <small>bấm vào một câu để quay lại đó</small></h3>

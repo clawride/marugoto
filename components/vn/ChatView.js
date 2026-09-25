@@ -5,10 +5,10 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { CHARS, charIcon } from "@/lib/genshin";
 import { ownedOf, vnOf, CHAT_REWARD, TIERS } from "@/lib/vn";
-import { useVN, useGrammar, Line, GrammarCard, VNSettings, pick, say } from "@/components/vn/VNParts";
+import { useVN, useGrammar, Line, GrammarCard, VNSettings, VoiceNote, pick, say } from "@/components/vn/VNParts";
 import { useStory, LockedNote } from "@/components/vn/StoryHub";
 import { Ico } from "@/components/Icons";
-import { stopSpeak } from "@/lib/tts";
+import { stopVoice } from "@/lib/voicevox";
 import { sfx } from "@/lib/sfx";
 
 export default function ChatView({ id }) {
@@ -24,8 +24,9 @@ export default function ChatView({ id }) {
   const [done, setDone] = useState(null);
   const endRef = useRef(null);
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" }); }, [log.length]);
-  useEffect(() => () => stopSpeak(), []);
-  const speak = (t) => { if (set.tts) { const x = pick(t, tier); x && say(x.jp); } };
+  useEffect(() => () => stopVoice(), []);
+  const sayMsg = (t, who = "char") => { const x = pick(t, tier); x && say(x.jp, { sp: who === "me" ? "trav" : "char", D, set }); };
+  const speak = (t) => { if (set.tts) sayMsg(t); };
 
   if (!c) return <p style={{ marginTop: 40 }}>Không tìm thấy nhân vật.</p>;
   if (!S || D === undefined) return <p className="hint" style={{ marginTop: 40 }}>Đang tải…</p>;
@@ -67,14 +68,14 @@ export default function ChatView({ id }) {
           )}
           {topic && (
             <div className="panel vnconv">
-              <div className="vnconvh"><b>{topic.title}</b><button className="chip sm" onClick={() => { setTopic(null); stopSpeak(); }}>‹ Chủ đề khác</button></div>
+              <div className="vnconvh"><b>{topic.title}</b><button className="chip sm" onClick={() => { setTopic(null); stopVoice(); }}>‹ Chủ đề khác</button></div>
               <div className="vnmsgs">
                 {log.map((m, i) => (
                   <div key={i} className={`vnmsg ${m.who}`}>
                     {m.who === "char" && <img src={charIcon(c)} alt="" />}
                     <div className="bub">
                       <Line t={m.t} g={m.g} tier={tier} set={set} onGrammar={setGram} />
-                      <button className="vnspk sm" onClick={() => { const x = pick(m.t, tier); x && say(x.jp); }} aria-label="Nghe">🔊</button>
+                      <button className="vnspk sm" onClick={() => sayMsg(m.t, m.who)} aria-label="Nghe">🔊</button>
                     </div>
                   </div>
                 ))}
@@ -90,6 +91,7 @@ export default function ChatView({ id }) {
                   ); })}
                 </div>
               )}
+              {D && <VoiceNote D={D} set={set} />}
               {done && <div className="vnfin"><b>✦ Hết chủ đề “{topic.title}”</b>{done.reward > 0 && <span> · <Ico id="pgm" /> +{done.reward}</span>}<div className="btnrow"><button className="gbtn" onClick={() => start(topic)}><span className="c" />Trò chuyện lại</button><button className="gbtn x dark" onClick={() => setTopic(null)}><span className="c" />Chủ đề khác</button></div></div>}
             </div>
           )}

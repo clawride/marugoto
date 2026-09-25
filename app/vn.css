@@ -18,6 +18,27 @@
 .vntier{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13px}
 .vntier .chip:disabled{opacity:.5;cursor:not-allowed}
 .vnhint{flex-basis:100%;color:#aeb3c4}
+/* lồng tiếng VOICEVOX */
+.vnvsetup{flex-basis:100%}
+.vnvbox{margin-top:8px;padding:10px 12px;border-radius:10px;background:rgba(0,0,0,.25);border:1px solid rgba(211,188,142,.3);font-size:13px;line-height:1.55}
+.vnvbox p{margin:0 0 8px;color:#d9dbe4}
+.vnvbox a{color:#9fe3d2}
+.vnfld{display:flex;flex-direction:column;gap:4px;font-size:12.5px;color:#aeb3c4;margin-bottom:8px}
+.vnfld input{font:inherit;font-size:14px;padding:8px 10px;border-radius:8px;border:1px solid rgba(211,188,142,.45);background:rgba(255,255,255,.06);color:#fff;min-height:36px}
+.vnvst{padding:8px 10px;border-radius:8px;background:rgba(255,255,255,.05);margin-bottom:8px;color:#e8e9ef}
+.vnvst:empty{display:none}
+.vnvst.ok{background:rgba(95,174,99,.18);color:#bff0c0}
+.vnvst.bad{background:rgba(208,96,90,.16);color:#ffd0c8}
+.vnvst ol{margin:6px 0 0;padding-left:20px}
+.vnvst code{background:rgba(0,0,0,.35);padding:1px 5px;border-radius:4px;user-select:all}
+.vnvoice{text-align:center;margin-top:2px;font-size:12px}
+.vnbusy{color:#f3d38a}
+.vnerr{color:#ffb4a8}
+.vncast{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.vncast li{display:grid;grid-template-columns:28px minmax(90px,1fr) auto;gap:4px 10px;align-items:center;padding:6px 8px;border-radius:8px;background:rgba(0,0,0,.2)}
+.vncast b{color:#fff;font-size:14.5px}
+.vncast span{color:#9fe3d2;font-size:12.5px}
+.vncast small{grid-column:2/4;color:#aeb3c4;font-size:12px}
 .vnchs{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin-top:10px}
 .vnch{padding:12px 14px;text-decoration:none;color:var(--cream2);display:flex;flex-direction:column;gap:3px;transition:transform .15s}
 .vnch h3{margin:2px 0 0;color:#fff;font-size:19px}
