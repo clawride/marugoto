@@ -1,0 +1,6039 @@
+{
+ "id": 10000111,
+ "name": "ヴァレサ",
+ "names": [
+  "ヴァレサ",
+  "旅人",
+  "パイモン",
+  "ナタ",
+  "豊穣の邦",
+  "イアンサ",
+  "アビス"
+ ],
+ "region": "natlan",
+ "chapters": [
+  {
+   "c": 0,
+   "title": {
+    "jp": "果樹園のねぼすけ",
+    "vi": "Cô nàng ngủ nướng trong vườn trái cây"
+   },
+   "summary": "Giữa những cánh đồng trĩu quả của bộ lạc Collective of Plenty ở Natlan, Lữ Khách và Paimon gặp một cô gái đang ngủ trưa gối đầu lên giỏ trái cây. Khi quái vật kéo đến phá ruộng, cô gái uể oải ấy đeo mặt nạ lên và hạ gục chúng chỉ bằng một cú nhảy: đó là Varesa.",
+   "bg": "tribe-village",
+   "nodes": [
+    {
+     "id": "n1",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "ナタの ひろい はたけです。くだものが たくさん あります。",
+       "ro": "Nata no hiroi hatake desu. Kudamono ga takusan arimasu.",
+       "vi": "Đây là cánh đồng rộng lớn ở Natlan. Có rất nhiều trái cây."
+      },
+      "2": {
+       "jp": "ナタの広いはたけには、あまそうなくだものがたくさんなっていた。",
+       "ro": "Nata no hiroi hatake ni wa, amasouna kudamono ga takusan natte ita.",
+       "vi": "Trên cánh đồng rộng lớn của Natlan, trĩu những trái cây trông thật ngọt."
+      },
+      "3": {
+       "jp": "豊穣の邦の広い畑には、熟れた果実がたわわに実っていた。",
+       "ro": "Houjou no kuni no hiroi hatake ni wa, ureta kajitsu ga tawawa ni minotte ita.",
+       "vi": "Trên những cánh đồng rộng của Collective of Plenty, trái chín trĩu cành."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-1",
+       "a1-7-1"
+      ],
+      "2": [
+       "a21-12-2",
+       "a22-9-1"
+      ],
+      "3": [
+       "b1-9-2"
+      ]
+     },
+     "next": "n2"
+    },
+    {
+     "id": "n2",
+     "sp": "paimon",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "わあ！くだものが たくさん！オイラ、食べたいです！",
+       "ro": "Waa! Kudamono ga takusan! Oira, tabetai desu!",
+       "vi": "Oa! Nhiều trái cây quá! Paimon muốn ăn!"
+      },
+      "2": {
+       "jp": "わあ、おいしそう！オイラ、一つ食べてもいいかな？",
+       "ro": "Waa, oishisou! Oira, hitotsu tabete mo ii ka na?",
+       "vi": "Oa, trông ngon quá! Paimon ăn một quả được không nhỉ?"
+      },
+      "3": {
+       "jp": "うわぁ、うまそう！なあ旅人、一個くらいもらってもバレないよな？",
+       "ro": "Uwaa, umasou! Naa tabibito, ikko kurai moratte mo barenai yo na?",
+       "vi": "Oaa, trông ngon quá! Này Lữ Khách, lấy một quả chắc không ai biết đâu nhỉ?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-18-4",
+       "a1-16-6"
+      ],
+      "2": [
+       "a21-12-1",
+       "a21-14-4"
+      ],
+      "3": [
+       "ab1-6-4",
+       "a21-14-4"
+      ]
+     },
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "sp": "trav",
+     "t": {
+      "1": {
+       "jp": "パイモン、だめです。あっ、木の 下に 人が います。",
+       "ro": "Paimon, dame desu. A, ki no shita ni hito ga imasu.",
+       "vi": "Paimon, không được đâu. A, dưới gốc cây có người kìa."
+      },
+      "2": {
+       "jp": "だめだよ、パイモン。…あれ？木の下でだれかねている。",
+       "ro": "Dame da yo, Paimon... Are? Ki no shita de dareka nete iru.",
+       "vi": "Không được đâu Paimon. ...Ơ? Có ai đang ngủ dưới gốc cây kìa."
+      },
+      "3": {
+       "jp": "勝手に取っちゃダメだって。…ん？木の下で誰か寝てるよ。",
+       "ro": "Katte ni totcha dame datte... N? Ki no shita de dareka neteru yo.",
+       "vi": "Không được tự tiện hái đâu. ...Hửm? Có ai đang ngủ dưới gốc cây kìa."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-7-2",
+       "a1-8-1"
+      ],
+      "2": [
+       "a21-4-4"
+      ],
+      "3": [
+       "a22-4-1",
+       "ab1-5-7"
+      ]
+     },
+     "next": "n4"
+    },
+    {
+     "id": "n4",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "木の 下に 女の子が います。大きい かごも あります。",
+       "ro": "Ki no shita ni onnanoko ga imasu. Ookii kago mo arimasu.",
+       "vi": "Dưới gốc cây có một cô gái. Còn có cả một cái giỏ to nữa."
+      },
+      "2": {
+       "jp": "大きなかごをまくらにして、女の子が気持ちよさそうにねていた。",
+       "ro": "Ookina kago o makura ni shite, onnanoko ga kimochi yosasou ni nete ita.",
+       "vi": "Một cô gái đang ngủ ngon lành, gối đầu lên một chiếc giỏ to."
+      },
+      "3": {
+       "jp": "果物でいっぱいのかごを枕に、一人の少女が気持ちよさそうに眠っていた。",
+       "ro": "Kudamono de ippai no kago o makura ni, hitori no shoujo ga kimochi yosasou ni nemutte ita.",
+       "vi": "Gối đầu lên chiếc giỏ đầy trái cây, một thiếu nữ đang say giấc ngon lành."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-7-2",
+       "a1-3-5"
+      ],
+      "2": [
+       "a22-2-6",
+       "a22-9-1"
+      ],
+      "3": [
+       "a22-2-6",
+       "b1-9-2"
+      ]
+     },
+     "next": "n5"
+    },
+    {
+     "id": "n5",
+     "sp": "char",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "ふわぁ…。だれですか。くだものを 食べますか。",
+       "ro": "Fuwaa... Dare desu ka. Kudamono o tabemasu ka.",
+       "vi": "Oáp... Ai vậy? Cậu ăn trái cây không?"
+      },
+      "2": {
+       "jp": "ふわぁ…あれ、だれ？おなかすいてるの？くだもの、食べる？",
+       "ro": "Fuwaa... Are, dare? Onaka suiteru no? Kudamono, taberu?",
+       "vi": "Oáp... Ơ, ai thế? Đói bụng à? Ăn trái cây không?"
+      },
+      "3": {
+       "jp": "ふわぁ〜…ん、お客さん？お腹空いてるなら、好きなだけ食べていいよ〜。",
+       "ro": "Fuwaa~... N, okyakusan? Onaka suiteru nara, sukina dake tabete ii yo~.",
+       "vi": "Oápp... Hửm, có khách à? Nếu đói bụng thì cứ ăn bao nhiêu tùy thích nhé~."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-3",
+       "a1-5-3"
+      ],
+      "2": [
+       "a22-1-5",
+       "a21-2-2"
+      ],
+      "3": [
+       "ab1-1-4",
+       "a22-9-4"
+      ]
+     },
+     "next": "n6"
+    },
+    {
+     "id": "n6",
+     "sp": "paimon",
+     "mood": "surprised",
+     "t": {
+      "1": {
+       "jp": "えっ、いいですか！旅人、どうしますか。",
+       "ro": "E, ii desu ka! Tabibito, dou shimasu ka.",
+       "vi": "Hả, được thật à! Lữ Khách, làm sao đây?"
+      },
+      "2": {
+       "jp": "えっ、いいのか！？旅人、どうする？",
+       "ro": "E, ii no ka!? Tabibito, dou suru?",
+       "vi": "Hả, được thật sao!? Lữ Khách, tính sao đây?"
+      },
+      "3": {
+       "jp": "えっ、マジでいいのか！？おい旅人、どうするんだよ？",
+       "ro": "E, maji de ii no ka!? Oi tabibito, dou suru n da yo?",
+       "vi": "Hả, thật sự được sao!? Này Lữ Khách, tính sao đây?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-10-5"
+      ],
+      "2": [
+       "a21-2-2"
+      ],
+      "3": [
+       "a22-11-6"
+      ]
+     },
+     "choices": [
+      {
+       "t": {
+        "1": {
+         "jp": "ありがとう ございます。あなたは だれですか。",
+         "ro": "Arigatou gozaimasu. Anata wa dare desu ka.",
+         "vi": "Cảm ơn nhé. Cậu là ai vậy?"
+        },
+        "2": {
+         "jp": "ありがとう。きみの名前は？",
+         "ro": "Arigatou. Kimi no namae wa?",
+         "vi": "Cảm ơn nhé. Tên cậu là gì?"
+        },
+        "3": {
+         "jp": "ありがとう。ところで、君は？",
+         "ro": "Arigatou. Tokorode, kimi wa?",
+         "vi": "Cảm ơn nhé. Mà cậu là...?"
+        }
+       },
+       "g": {
+        "1": [
+         "a1-1-3",
+         "a1-3-3"
+        ],
+        "2": [
+         "a1-3-6",
+         "a1-1-3"
+        ],
+        "3": [
+         "a1-3-6"
+        ]
+       },
+       "next": "n7"
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "すみません。あなたの くだものですか。",
+         "ro": "Sumimasen. Anata no kudamono desu ka.",
+         "vi": "Xin lỗi. Đây là trái cây của cậu à?"
+        },
+        "2": {
+         "jp": "ごめんね、起こしちゃった？ここ、きみのはたけ？",
+         "ro": "Gomen ne, okoshichatta? Koko, kimi no hatake?",
+         "vi": "Xin lỗi, bọn mình đánh thức cậu à? Đây là ruộng của cậu hả?"
+        },
+        "3": {
+         "jp": "起こしちゃってごめん。ここ、君の畑なの？",
+         "ro": "Okoshichatte gomen. Koko, kimi no hatake na no?",
+         "vi": "Xin lỗi vì đánh thức cậu. Đây là ruộng của cậu sao?"
+        }
+       },
+       "g": {
+        "1": [
+         "a1-1-4",
+         "a1-4-2"
+        ],
+        "2": [
+         "a22-11-2",
+         "a1-4-2"
+        ],
+        "3": [
+         "a22-11-2",
+         "b1-8-3"
+        ]
+       },
+       "next": "n8"
+      }
+     ]
+    },
+    {
+     "id": "n7",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "わたしは ヴァレサです。くだものと ひるねが 大好きです！",
+       "ro": "Watashi wa Varesa desu. Kudamono to hirune ga daisuki desu!",
+       "vi": "Tớ là Varesa. Tớ cực thích trái cây và ngủ trưa!"
+      },
+      "2": {
+       "jp": "わたしはヴァレサ。食べるのとひるねが、何より好きなんだ〜。",
+       "ro": "Watashi wa Varesa. Taberu no to hirune ga, nani yori sukina n da~.",
+       "vi": "Tớ là Varesa. Tớ thích ăn uống và ngủ trưa hơn bất cứ thứ gì~."
+      },
+      "3": {
+       "jp": "わたしはヴァレサ。おいしいものを食べて、お昼寝するのが一番の幸せなんだ〜。",
+       "ro": "Watashi wa Varesa. Oishii mono o tabete, ohirune suru no ga ichiban no shiawase na n da~.",
+       "vi": "Tớ là Varesa. Ăn đồ ngon rồi ngủ trưa chính là hạnh phúc lớn nhất của tớ~."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-1",
+       "a1-5-1",
+       "a1-4-1"
+      ],
+      "2": [
+       "a21-3-3",
+       "a21-17-1"
+      ],
+      "3": [
+       "a21-6-2",
+       "a21-9-2",
+       "a21-17-1"
+      ]
+     },
+     "next": "n9"
+    },
+    {
+     "id": "n8",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "はい、わたしの はたけです。どうぞ、食べて ください！",
+       "ro": "Hai, watashi no hatake desu. Douzo, tabete kudasai!",
+       "vi": "Ừ, ruộng của tớ đó. Mời cậu ăn đi!"
+      },
+      "2": {
+       "jp": "うん、わたしの家のはたけだよ。いっぱいあるから、えんりょしないで！",
+       "ro": "Un, watashi no ie no hatake da yo. Ippai aru kara, enryo shinaide!",
+       "vi": "Ừ, ruộng nhà tớ đó. Có nhiều lắm nên đừng ngại nhé!"
+      },
+      "3": {
+       "jp": "うん、うちの畑だよ〜。今年は豊作だから、遠慮しないで食べて食べて！",
+       "ro": "Un, uchi no hatake da yo~. Kotoshi wa housaku da kara, enryo shinaide tabete tabete!",
+       "vi": "Ừ, ruộng nhà tớ đó~. Năm nay được mùa nên đừng ngại, cứ ăn đi, ăn đi!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-4-2",
+       "a1-2-2"
+      ],
+      "2": [
+       "a21-3-5",
+       "a21-15-3"
+      ],
+      "3": [
+       "ab1-3-3",
+       "a21-6-1"
+      ]
+     },
+     "next": "n9"
+    },
+    {
+     "id": "n9",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "その時、大きい おとが しました。まものが はたけに 来ました！",
+       "ro": "Sono toki, ookii oto ga shimashita. Mamono ga hatake ni kimashita!",
+       "vi": "Đúng lúc đó, có tiếng động lớn. Quái vật đã xông vào ruộng!"
+      },
+      "2": {
+       "jp": "その時、ドシンと大きな音がした。まものがはたけをあらしに来たのだ！",
+       "ro": "Sono toki, doshin to ookina oto ga shita. Mamono ga hatake o arashi ni kita no da!",
+       "vi": "Đúng lúc ấy, vang lên một tiếng \"rầm\" thật lớn. Quái vật kéo đến phá ruộng!"
+      },
+      "3": {
+       "jp": "その時、地響きとともに魔物の群れが現れ、畑を荒らし始めた！",
+       "ro": "Sono toki, jihibiki to tomo ni mamono no mure ga araware, hatake o arashihajimeta!",
+       "vi": "Đúng lúc ấy, mặt đất rung chuyển, một bầy quái vật xuất hiện và bắt đầu tàn phá ruộng!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-9-5"
+      ],
+      "2": [
+       "a21-8-3",
+       "a21-17-1"
+      ],
+      "3": [
+       "b1-2-4",
+       "b1-1-3"
+      ]
+     },
+     "next": "n10"
+    },
+    {
+     "id": "n10",
+     "sp": "paimon",
+     "mood": "surprised",
+     "t": {
+      "1": {
+       "jp": "たいへんです！くだものが…！",
+       "ro": "Taihen desu! Kudamono ga...!",
+       "vi": "Nguy rồi! Trái cây...!"
+      },
+      "2": {
+       "jp": "たいへんだ！くだものが食べられちゃう！",
+       "ro": "Taihen da! Kudamono ga taberarechau!",
+       "vi": "Nguy rồi! Trái cây bị ăn mất bây giờ!"
+      },
+      "3": {
+       "jp": "やばいぞ！せっかくの果物が全部やられちまう！",
+       "ro": "Yabai zo! Sekkaku no kudamono ga zenbu yararechimau!",
+       "vi": "Nguy to rồi! Chỗ trái cây quý giá sắp bị phá sạch mất!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-1"
+      ],
+      "2": [
+       "a22-18-1"
+      ],
+      "3": [
+       "b12-7-1"
+      ]
+     },
+     "next": "n11"
+    },
+    {
+     "id": "n11",
+     "sp": "char",
+     "mood": "serious",
+     "t": {
+      "1": {
+       "jp": "マスクを つけます。ここは わたしの はたけです！まけません！",
+       "ro": "Masuku o tsukemasu. Koko wa watashi no hatake desu! Makemasen!",
+       "vi": "Tớ đeo mặt nạ vào. Đây là ruộng của tớ! Tớ không thua đâu!"
+      },
+      "2": {
+       "jp": "…ねむいけど、しかたない。マスクをつけて、いっちょうやりますか！",
+       "ro": "... Nemui kedo, shikatanai. Masuku o tsukete, itchou yarimasu ka!",
+       "vi": "...Buồn ngủ thật, nhưng đành vậy. Đeo mặt nạ vào, làm một trận nào!"
+      },
+      "3": {
+       "jp": "…眠いけど、畑を荒らすのは許さないよ。マスク、装着！燃えてきた〜っ！",
+       "ro": "... Nemui kedo, hatake o arasu no wa yurusanai yo. Masuku, souchaku! Moete kita~!",
+       "vi": "...Buồn ngủ thật, nhưng phá ruộng thì tớ không tha đâu. Mặt nạ, đeo vào! Máu lửa lên rồi đây~!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-8-6",
+       "a1-5-3"
+      ],
+      "2": [
+       "a21-5-3",
+       "a21-6-2"
+      ],
+      "3": [
+       "a22-3-2",
+       "b1-2-8"
+      ]
+     },
+     "next": "n12"
+    },
+    {
+     "id": "n12",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "ヴァレサは 高く とびました。そして、まものを たおしました！",
+       "ro": "Varesa wa takaku tobimashita. Soshite, mamono o taoshimashita!",
+       "vi": "Varesa nhảy thật cao. Rồi cô hạ gục lũ quái vật!"
+      },
+      "2": {
+       "jp": "ヴァレサは空高くとび上がって、そのまま上からまものをたおした！",
+       "ro": "Varesa wa sora takaku tobiagatte, sono mama ue kara mamono o taoshita!",
+       "vi": "Varesa bật lên cao vút, rồi cứ thế từ trên cao lao xuống hạ gục lũ quái vật!"
+      },
+      "3": {
+       "jp": "ヴァレサは空高く跳び上がると、雷光をまとって急降下し、魔物たちを一撃で吹き飛ばした！",
+       "ro": "Varesa wa sora takaku tobiagaru to, raikou o matotte kyuukouka shi, mamono tachi o ichigeki de fukitobashita!",
+       "vi": "Varesa bật lên cao vút, khoác lấy tia chớp rồi bổ nhào xuống, thổi bay lũ quái vật chỉ bằng một đòn!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-18-3",
+       "a1-15-4"
+      ],
+      "2": [
+       "a21-6-2",
+       "a22-2-6"
+      ],
+      "3": [
+       "a22-4-4",
+       "b1-2-4"
+      ]
+     },
+     "next": "n13"
+    },
+    {
+     "id": "n13",
+     "sp": "paimon",
+     "mood": "surprised",
+     "t": {
+      "1": {
+       "jp": "すごいです！ヴァレサは とても つよいです！",
+       "ro": "Sugoi desu! Varesa wa totemo tsuyoi desu!",
+       "vi": "Giỏi quá! Varesa mạnh ghê!"
+      },
+      "2": {
+       "jp": "す、すごい…！ヴァレサって、ものすごく強いんだな！",
+       "ro": "Su, sugoi...! Varesa tte, monosugoku tsuyoi n da na!",
+       "vi": "G-giỏi quá...! Varesa mạnh khủng khiếp luôn!"
+      },
+      "3": {
+       "jp": "す、すげぇ…！さっきまでグーグー寝てたのに、なんてパワーだよ！",
+       "ro": "Su, sugee...! Sakki made guuguu neteta noni, nante pawaa da yo!",
+       "vi": "T-tuyệt thật...! Vừa nãy còn ngáy khò khò, vậy mà sức mạnh khủng khiếp thế!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-7-4"
+      ],
+      "2": [
+       "a22-1-4",
+       "a21-17-1"
+      ],
+      "3": [
+       "ab1-7-3",
+       "ab1-5-7"
+      ]
+     },
+     "next": "n14"
+    },
+    {
+     "id": "n14",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "えへへ。はたけは だいじょうぶです。さあ、いっしょに くだものを 食べましょう！",
+       "ro": "Ehehe. Hatake wa daijoubu desu. Saa, issho ni kudamono o tabemashou!",
+       "vi": "Hì hì. Ruộng không sao rồi. Nào, cùng ăn trái cây thôi!"
+      },
+      "2": {
+       "jp": "えへへ、はたけは守れたよ。さあ、みんなでくだものを食べよう！体を動かすと、おなかがすくね〜。",
+       "ro": "Ehehe, hatake wa mamoreta yo. Saa, minna de kudamono o tabeyou! Karada o ugokasu to, onaka ga suku ne~.",
+       "vi": "Hì hì, bảo vệ được ruộng rồi. Nào, cả nhà cùng ăn trái cây đi! Vận động xong là đói bụng ghê~."
+      },
+      "3": {
+       "jp": "えへへ、畑は守ったよ〜。さ、みんなで果物パーティーしよ！ひと暴れしたら、お腹ペコペコだ〜。",
+       "ro": "Ehehe, hatake wa mamotta yo~. Sa, minna de kudamono paatii shiyo! Hito abare shitara, onaka pekopeko da~.",
+       "vi": "Hì hì, giữ được ruộng rồi~. Nào, cả nhà mở tiệc trái cây thôi! Quẩy một trận xong đói meo cả bụng~."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-10-5",
+       "a1-6-6"
+      ],
+      "2": [
+       "a22-6-1",
+       "a22-4-4"
+      ],
+      "3": [
+       "a22-7-3",
+       "ab1-6-4"
+      ]
+     },
+     "end": true
+    }
+   ]
+  },
+  {
+   "c": 1,
+   "title": {
+    "jp": "燃えつきない心",
+    "vi": "Nhiệt Huyết Cháy Mãi"
+   },
+   "summary": "Sáng sớm, huấn luyện viên Iansan lôi Varesa đang ngái ngủ ra sân tập. Buồn ngủ là thế, nhưng một khi đã bắt đầu thì Varesa không thể dừng lại – vì trong tim cô là ngọn lửa ngưỡng mộ những anh hùng đeo mặt nạ, và cơm ngon chính là củi cho ngọn lửa ấy.",
+   "bg": "tribe-village",
+   "nodes": [
+    {
+     "id": "n1",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "つぎの 日の あさです。ヴァレサは まだ ベッドの 中です。",
+       "ro": "Tsugi no hi no asa desu. Varesa wa mada beddo no naka desu.",
+       "vi": "Sáng hôm sau. Varesa vẫn còn nằm trên giường."
+      },
+      "2": {
+       "jp": "次の日の朝早く、ヴァレサはまだベッドの中でむにゃむにゃ言っていた。",
+       "ro": "Tsugi no hi no asa hayaku, Varesa wa mada beddo no naka de munyamunya itte ita.",
+       "vi": "Sáng sớm hôm sau, Varesa vẫn còn lầm bầm ngái ngủ trên giường."
+      },
+      "3": {
+       "jp": "翌朝早く、ヴァレサはまだ布団の中で、夢と現実の間をさまよっていた。",
+       "ro": "Yokuasa hayaku, Varesa wa mada futon no naka de, yume to genjitsu no aida o samayotte ita.",
+       "vi": "Sáng sớm hôm sau, Varesa vẫn còn trong chăn, lơ lửng giữa giấc mơ và thực tại."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-4-2",
+       "a1-3-1"
+      ],
+      "2": [
+       "a22-8-3",
+       "a22-9-1"
+      ],
+      "3": [
+       "a22-8-3",
+       "b1-9-2"
+      ]
+     },
+     "next": "n2"
+    },
+    {
+     "id": "n2",
+     "sp": "イアンサ",
+     "t": {
+      "1": {
+       "jp": "ヴァレサ、おきて ください！トレーニングの じかんです！",
+       "ro": "Varesa, okite kudasai! Toreeningu no jikan desu!",
+       "vi": "Varesa, dậy đi! Đến giờ tập luyện rồi!"
+      },
+      "2": {
+       "jp": "ヴァレサ、起きて！トレーニングの時間だよ。もう始まってるんだから！",
+       "ro": "Varesa, okite! Toreeningu no jikan da yo. Mou hajimatteru n da kara!",
+       "vi": "Varesa, dậy đi! Đến giờ tập rồi đó. Bắt đầu rồi cơ mà!"
+      },
+      "3": {
+       "jp": "ヴァレサ、起きなさい！朝のトレーニングはもう始まってるよ。一分でも遅れたら、メニュー倍だからね！",
+       "ro": "Varesa, okinasai! Asa no toreeningu wa mou hajimatteru yo. Ippun demo okuretara, menyuu bai da kara ne!",
+       "vi": "Varesa, dậy ngay! Buổi tập sáng bắt đầu rồi đấy. Trễ một phút thôi là nhân đôi bài tập nhé!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-2-2",
+       "a1-4-2"
+      ],
+      "2": [
+       "a21-6-1",
+       "a22-1-5",
+       "a21-17-1"
+      ],
+      "3": [
+       "ab1-5-7",
+       "a22-7-3"
+      ]
+     },
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "sp": "char",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "ううん…あと ごふん…。あさごはんを 食べたいです…。",
+       "ro": "Uun... Ato gofun... Asagohan o tabetai desu...",
+       "vi": "Ưm... năm phút nữa thôi... Tớ muốn ăn sáng..."
+      },
+      "2": {
+       "jp": "ううん…あと五分だけ…。あさごはんを食べてからじゃ、だめ…？",
+       "ro": "Uun... Ato gofun dake... Asagohan o tabete kara ja, dame...?",
+       "vi": "Ưm... năm phút nữa thôi... Ăn sáng xong rồi tập có được không...?"
+      },
+      "3": {
+       "jp": "むにゃ…あと五分…。朝ごはんを食べてからじゃダメ…？腹が減っては戦はできぬ、って言うし…。",
+       "ro": "Munya... Ato gofun... Asagohan o tabete kara ja dame...? Hara ga hette wa ikusa wa dekinu, tte iu shi...",
+       "vi": "Ưm... năm phút nữa... Ăn sáng xong đã được không...? Người ta bảo bụng đói thì không đánh trận được mà..."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-18-4"
+      ],
+      "2": [
+       "a22-9-4",
+       "a22-4-2"
+      ],
+      "3": [
+       "a22-4-2",
+       "b1-5-2",
+       "a22-6-3"
+      ]
+     },
+     "next": "n4"
+    },
+    {
+     "id": "n4",
+     "sp": "paimon",
+     "t": {
+      "1": {
+       "jp": "あの 人は だれですか。",
+       "ro": "Ano hito wa dare desu ka.",
+       "vi": "Người kia là ai vậy?"
+      },
+      "2": {
+       "jp": "なあ、あの元気な人はだれだ？",
+       "ro": "Naa, ano genkina hito wa dare da?",
+       "vi": "Này, người năng nổ kia là ai thế?"
+      },
+      "3": {
+       "jp": "おい、あのやたら元気なヤツは誰なんだ？",
+       "ro": "Oi, ano yatara genkina yatsu wa dare na n da?",
+       "vi": "Ê, cái người hăng hái quá mức kia là ai vậy?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-4-5",
+       "a1-6-4"
+      ],
+      "2": [
+       "a1-14-1",
+       "a1-4-5"
+      ],
+      "3": [
+       "b1-8-4",
+       "a22-11-6"
+      ]
+     },
+     "next": "n5"
+    },
+    {
+     "id": "n5",
+     "sp": "イアンサ",
+     "t": {
+      "1": {
+       "jp": "こんにちは。イアンサです。この むらの トレーナーです。",
+       "ro": "Konnichiwa. Iansa desu. Kono mura no toreenaa desu.",
+       "vi": "Xin chào. Tớ là Iansan. Tớ là huấn luyện viên của làng này."
+      },
+      "2": {
+       "jp": "はじめまして、イアンサだよ。豊穣の邦で、みんなの体と食事を見ているトレーナーなんだ。",
+       "ro": "Hajimemashite, Iansa da yo. Houjou no kuni de, minna no karada to shokuji o mite iru toreenaa na n da.",
+       "vi": "Rất vui được gặp, tớ là Iansan. Tớ là huấn luyện viên chăm lo sức khỏe và bữa ăn cho mọi người ở Collective of Plenty."
+      },
+      "3": {
+       "jp": "はじめまして、イアンサよ。豊穣の邦でトレーナーをしてるの。この子、腕っぷしは一流なのに、朝だけはからっきしでね。",
+       "ro": "Hajimemashite, Iansa yo. Houjou no kuni de toreenaa o shiteru no. Kono ko, udeppushi wa ichiryuu na noni, asa dake wa karakkishi de ne.",
+       "vi": "Rất vui được gặp, tớ là Iansan, huấn luyện viên ở Collective of Plenty. Con bé này sức mạnh thì hạng nhất, vậy mà riêng buổi sáng thì chịu thua hoàn toàn."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-1-1",
+       "a1-3-1"
+      ],
+      "2": [
+       "a21-16-2",
+       "a21-17-1"
+      ],
+      "3": [
+       "ab1-5-7",
+       "ab1-7-3"
+      ]
+     },
+     "next": "n6"
+    },
+    {
+     "id": "n6",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "ヴァレサは おきました。それから、大きい いしを もちました。たくさん はしりました。",
+       "ro": "Varesa wa okimashita. Sorekara, ookii ishi o mochimashita. Takusan hashirimashita.",
+       "vi": "Varesa đã dậy. Sau đó cô nhấc một tảng đá to lên. Rồi chạy thật nhiều."
+      },
+      "2": {
+       "jp": "やっと起きたヴァレサは、大きな石をかついで、村のまわりをなんしゅうも走った。",
+       "ro": "Yatto okita Varesa wa, ookina ishi o katsuide, mura no mawari o nanshuu mo hashitta.",
+       "vi": "Cuối cùng cũng dậy, Varesa vác tảng đá to chạy quanh làng hết vòng này đến vòng khác."
+      },
+      "3": {
+       "jp": "ようやく起き出したヴァレサは、巨大な岩を担いだまま、村の外周を何周も駆け抜けた。",
+       "ro": "Youyaku okidashita Varesa wa, kyodaina iwa o katsuida mama, mura no gaishuu o nanshuu mo kakenuketa.",
+       "vi": "Cuối cùng cũng chịu dậy, Varesa vác nguyên tảng đá khổng lồ, chạy vút quanh làng hết vòng này đến vòng khác."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-18-1",
+       "a1-15-4"
+      ],
+      "2": [
+       "a21-17-3",
+       "a21-6-2"
+      ],
+      "3": [
+       "a22-15-1",
+       "b1-6-2",
+       "ab1-5-3"
+      ]
+     },
+     "next": "n7"
+    },
+    {
+     "id": "n7",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "ふう！いい あさです！旅人も いっしょに しませんか。",
+       "ro": "Fuu! Ii asa desu! Tabibito mo issho ni shimasen ka.",
+       "vi": "Phù! Buổi sáng tuyệt ghê! Lữ Khách cũng tập cùng không?"
+      },
+      "2": {
+       "jp": "ふう〜、いいあせかいた！一度始めると、止まらなくなるんだよね〜。",
+       "ro": "Fuu~, ii ase kaita! Ichido hajimeru to, tomaranaku naru n da yo ne~.",
+       "vi": "Phùu~, đổ mồ hôi đã ghê! Hễ bắt đầu là không dừng lại được luôn~."
+      },
+      "3": {
+       "jp": "ぷは〜っ、いい汗かいた！いったん火がつくと、自分でも止められないんだよね〜。",
+       "ro": "Puha~, ii ase kaita! Ittan hi ga tsuku to, jibun demo tomerarenai n da yo ne~.",
+       "vi": "Phàaa, đổ mồ hôi đã quá! Một khi đã bùng cháy thì chính tớ cũng không dừng lại được~."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-12-4",
+       "a1-8-6"
+      ],
+      "2": [
+       "a22-4-4",
+       "a21-3-1"
+      ],
+      "3": [
+       "a22-4-4",
+       "a22-6-1"
+      ]
+     },
+     "choices": [
+      {
+       "t": {
+        "1": {
+         "jp": "ヴァレサ、どうして トレーニングを しますか。",
+         "ro": "Varesa, doushite toreeningu o shimasu ka.",
+         "vi": "Varesa, sao cậu lại tập luyện vậy?"
+        },
+        "2": {
+         "jp": "どうして、そんなにがんばるの？",
+         "ro": "Doushite, sonna ni ganbaru no?",
+         "vi": "Sao cậu lại cố gắng đến thế?"
+        },
+        "3": {
+         "jp": "朝は弱いのに、どうしてそこまで頑張れるの？",
+         "ro": "Asa wa yowai noni, doushite soko made ganbareru no?",
+         "vi": "Buổi sáng yếu vậy mà sao cậu lại cố gắng được đến thế?"
+        }
+       },
+       "g": {
+        "1": [
+         "a1-5-3"
+        ],
+        "2": [
+         "a21-2-2"
+        ],
+        "3": [
+         "ab1-7-3",
+         "a22-6-1"
+        ]
+       },
+       "next": "n8"
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "ヴァレサは ヒーローが 好きですか。",
+         "ro": "Varesa wa hiiroo ga suki desu ka.",
+         "vi": "Varesa thích anh hùng à?"
+        },
+        "2": {
+         "jp": "もしかして、ヒーローになりたいの？",
+         "ro": "Moshikashite, hiiroo ni naritai no?",
+         "vi": "Lẽ nào cậu muốn trở thành anh hùng?"
+        },
+        "3": {
+         "jp": "ひょっとして、ヒーローを目指してるとか？",
+         "ro": "Hyottoshite, hiiroo o mezashiteru toka?",
+         "vi": "Chẳng lẽ cậu đang nhắm đến việc trở thành anh hùng?"
+        }
+       },
+       "g": {
+        "1": [
+         "a1-5-1"
+        ],
+        "2": [
+         "a21-10-2"
+        ],
+        "3": [
+         "ab1-5-7"
+        ]
+       },
+       "next": "n9"
+      }
+     ]
+    },
+    {
+     "id": "n8",
+     "sp": "char",
+     "mood": "serious",
+     "t": {
+      "1": {
+       "jp": "みんなの はたけと ごはんを まもりたいです。だから、つよい ちからが ほしいです。",
+       "ro": "Minna no hatake to gohan o mamoritai desu. Dakara, tsuyoi chikara ga hoshii desu.",
+       "vi": "Tớ muốn bảo vệ ruộng đồng và bữa ăn của mọi người. Vì vậy tớ muốn có sức mạnh thật lớn."
+      },
+      "2": {
+       "jp": "みんなのはたけと、おいしいごはんを守りたいんだ。そのために、もっと強くなりたいの。",
+       "ro": "Minna no hatake to, oishii gohan o mamoritai n da. Sono tame ni, motto tsuyoku naritai no.",
+       "vi": "Tớ muốn bảo vệ ruộng đồng và những bữa cơm ngon của mọi người. Vì thế tớ muốn mạnh mẽ hơn nữa."
+      },
+      "3": {
+       "jp": "みんなの畑と、みんなの食卓を守りたいんだ。そのためには、強くなきゃいけないでしょ？",
+       "ro": "Minna no hatake to, minna no shokutaku o mamoritai n da. Sono tame ni wa, tsuyoku nakya ikenai desho?",
+       "vi": "Tớ muốn bảo vệ ruộng đồng và mâm cơm của mọi người. Muốn thế thì phải mạnh mẽ chứ, đúng không?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-18-4",
+       "a1-15-1"
+      ],
+      "2": [
+       "a21-10-1",
+       "a21-10-2",
+       "a22-10-4"
+      ],
+      "3": [
+       "ab1-1-1",
+       "ab1-6-1"
+      ]
+     },
+     "next": "n10"
+    },
+    {
+     "id": "n9",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "はい！ヒーローが 大好きです！マスクの ヒーローは とても かっこいいです！",
+       "ro": "Hai! Hiiroo ga daisuki desu! Masuku no hiiroo wa totemo kakkoii desu!",
+       "vi": "Ừ! Tớ cực thích anh hùng! Những anh hùng đeo mặt nạ ngầu lắm!"
+      },
+      "2": {
+       "jp": "うん！お話に出てくる、マスクのヒーローにあこがれてるんだ。マスクをつけると、心が熱くなるの！",
+       "ro": "Un! Ohanashi ni dete kuru, masuku no hiiroo ni akogareteru n da. Masuku o tsukeru to, kokoro ga atsuku naru no!",
+       "vi": "Ừ! Tớ ngưỡng mộ những anh hùng đeo mặt nạ trong truyện. Hễ đeo mặt nạ vào là trái tim tớ lại nóng rực!"
+      },
+      "3": {
+       "jp": "うん！昔話に出てくる仮面のヒーローに憧れてるんだ。仮面をつけると、胸の奥がカーッと燃えてくるの！",
+       "ro": "Un! Mukashibanashi ni dete kuru kamen no hiiroo ni akogareteru n da. Kamen o tsukeru to, mune no oku ga kaatto moete kuru no!",
+       "vi": "Ừ! Tớ ngưỡng mộ những anh hùng đeo mặt nạ trong truyện xưa. Hễ đeo mặt nạ vào là trong lồng ngực tớ lại bùng cháy rực lửa!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-5-1",
+       "a1-7-4"
+      ],
+      "2": [
+       "a21-17-3",
+       "a22-4-4",
+       "a21-3-1"
+      ],
+      "3": [
+       "b1-6-2",
+       "b1-2-8",
+       "a22-4-4"
+      ]
+     },
+     "next": "n10"
+    },
+    {
+     "id": "n10",
+     "sp": "イアンサ",
+     "t": {
+      "1": {
+       "jp": "ヴァレサは よく 食べます。よく ねます。でも、心の 火は きえません。",
+       "ro": "Varesa wa yoku tabemasu. Yoku nemasu. Demo, kokoro no hi wa kiemasen.",
+       "vi": "Varesa ăn nhiều. Ngủ nhiều. Nhưng ngọn lửa trong tim thì không bao giờ tắt."
+      },
+      "2": {
+       "jp": "この子はよく食べて、よくねる。でも、負けた次の日にはもう立ち上がってる。心の火が消えないんだ。",
+       "ro": "Kono ko wa yoku tabete, yoku neru. Demo, maketa tsugi no hi ni wa mou tachiagatteru. Kokoro no hi ga kienai n da.",
+       "vi": "Con bé này ăn khỏe, ngủ khỏe. Nhưng thua trận thì hôm sau đã đứng dậy rồi. Ngọn lửa trong tim chẳng bao giờ tắt."
+      },
+      "3": {
+       "jp": "この子はよく食べ、よく眠る。でも、どれだけ負けても、翌朝にはケロッとまた挑んでくる。その火は消えたことがないの。",
+       "ro": "Kono ko wa yoku tabe, yoku nemuru. Demo, dore dake makete mo, yokuasa ni wa kerotto mata idonde kuru. Sono hi wa kieta koto ga nai no.",
+       "vi": "Con bé này ăn khỏe, ngủ say. Nhưng dù thua bao nhiêu lần, sáng hôm sau lại tỉnh bơ lao vào thử thách. Ngọn lửa ấy chưa từng tắt."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-5-4",
+       "a1-18-2"
+      ],
+      "2": [
+       "a21-6-2",
+       "a21-17-3",
+       "a22-1-5"
+      ],
+      "3": [
+       "b1-2-4",
+       "a22-13-1",
+       "a21-13-1"
+      ]
+     },
+     "next": "n11"
+    },
+    {
+     "id": "n11",
+     "sp": "paimon",
+     "mood": "surprised",
+     "t": {
+      "1": {
+       "jp": "あっ！ヴァレサは また パンを 食べます！みっつめです！",
+       "ro": "A! Varesa wa mata pan o tabemasu! Mittsume desu!",
+       "vi": "A! Varesa lại ăn bánh mì nữa kìa! Cái thứ ba rồi!"
+      },
+      "2": {
+       "jp": "あっ、ヴァレサのやつ、もう朝ごはんを食べ始めてるぞ！しかも三つ目！",
+       "ro": "A, Varesa no yatsu, mou asagohan o tabehajimeteru zo! Shikamo mittsume!",
+       "vi": "A, Varesa đã bắt đầu ăn sáng rồi kìa! Mà còn là phần thứ ba!"
+      },
+      "3": {
+       "jp": "って、ヴァレサのやつ、もう三つ目の朝ごはんを平らげてるぞ！",
+       "ro": "Tte, Varesa no yatsu, mou mittsume no asagohan o tairageteru zo!",
+       "vi": "Ơ kìa, Varesa đã chén sạch phần ăn sáng thứ ba rồi!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-5-3"
+      ],
+      "2": [
+       "a22-1-5",
+       "a21-6-6"
+      ],
+      "3": [
+       "b1-8-4",
+       "ab1-5-7"
+      ]
+     },
+     "next": "n12"
+    },
+    {
+     "id": "n12",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "えへへ！ごはんは 心の 火の まきです！だから、たくさん 食べます！",
+       "ro": "Ehehe! Gohan wa kokoro no hi no maki desu! Dakara, takusan tabemasu!",
+       "vi": "Hì hì! Cơm là củi cho ngọn lửa trong tim! Vậy nên tớ ăn thật nhiều!"
+      },
+      "2": {
+       "jp": "えへへ、ごはんは心の火のまきなんだ〜。たくさん食べないと、火が小さくなっちゃう！",
+       "ro": "Ehehe, gohan wa kokoro no hi no maki na n da~. Takusan tabenai to, hi ga chiisaku natchau!",
+       "vi": "Hì hì, cơm là củi cho ngọn lửa trong tim đó~. Không ăn nhiều thì lửa nhỏ lại mất!"
+      },
+      "3": {
+       "jp": "えへへ、ごはんは情熱の燃料なんだよ〜。しっかり食べなきゃ、せっかくの炎がしぼんじゃう！",
+       "ro": "Ehehe, gohan wa jounetsu no nenryou na n da yo~. Shikkari tabenakya, sekkaku no honoo ga shibonjau!",
+       "vi": "Hì hì, cơm là nhiên liệu của nhiệt huyết đó~. Không ăn cho đàng hoàng thì ngọn lửa quý giá xẹp mất!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-1",
+       "a1-4-2"
+      ],
+      "2": [
+       "a21-17-1",
+       "a22-4-4",
+       "a21-3-1"
+      ],
+      "3": [
+       "ab1-1-1",
+       "b12-7-1"
+      ]
+     },
+     "next": "n13"
+    },
+    {
+     "id": "n13",
+     "sp": "trav",
+     "t": {
+      "1": {
+       "jp": "ヴァレサの 心の 火は ずっと きえませんね。",
+       "ro": "Varesa no kokoro no hi wa zutto kiemasen ne.",
+       "vi": "Ngọn lửa trong tim Varesa sẽ mãi không tắt nhỉ."
+      },
+      "2": {
+       "jp": "ヴァレサの火は、ずっと消えなさそうだね。",
+       "ro": "Varesa no hi wa, zutto kienasasou da ne.",
+       "vi": "Ngọn lửa của Varesa chắc sẽ chẳng bao giờ tắt nhỉ."
+      },
+      "3": {
+       "jp": "ヴァレサの炎なら、きっといつまでも燃え続けるね。",
+       "ro": "Varesa no honoo nara, kitto itsumademo moetsuzukeru ne.",
+       "vi": "Nếu là ngọn lửa của Varesa thì chắc chắn sẽ cháy mãi mãi nhỉ."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-4-2"
+      ],
+      "2": [
+       "a21-12-1"
+      ],
+      "3": [
+       "ab1-1-4"
+      ]
+     },
+     "next": "n14"
+    },
+    {
+     "id": "n14",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "はい！おいしい ごはんが あります。だから、わたしの 火は きえません！さあ、いっしょに 食べましょう！",
+       "ro": "Hai! Oishii gohan ga arimasu. Dakara, watashi no hi wa kiemasen! Saa, issho ni tabemashou!",
+       "vi": "Ừ! Có cơm ngon mà. Nên ngọn lửa của tớ không tắt đâu! Nào, cùng ăn thôi!"
+      },
+      "2": {
+       "jp": "うん！おいしいごはんがあるかぎり、わたしの火は消えないよ。さあ、旅人もいっしょに食べよう！",
+       "ro": "Un! Oishii gohan ga aru kagiri, watashi no hi wa kienai yo. Saa, tabibito mo issho ni tabeyou!",
+       "vi": "Ừ! Chừng nào còn cơm ngon, ngọn lửa của tớ sẽ không tắt. Nào, Lữ Khách cũng ăn cùng đi!"
+      },
+      "3": {
+       "jp": "うん！おいしいごはんがある限り、わたしの炎は燃え尽きないよ。さ、旅人も一緒に四つ目の朝ごはん、いっとこ！",
+       "ro": "Un! Oishii gohan ga aru kagiri, watashi no honoo wa moetsukinai yo. Sa, tabibito mo issho ni yottsume no asagohan, ittoko!",
+       "vi": "Ừ! Chừng nào còn cơm ngon, ngọn lửa của tớ sẽ không lụi tàn. Nào, Lữ Khách cũng làm phần ăn sáng thứ tư với tớ đi!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-7-1",
+       "a1-14-1",
+       "a1-6-6"
+      ],
+      "2": [
+       "a21-8-2",
+       "a1-14-1"
+      ],
+      "3": [
+       "b1-2-6",
+       "ab1-6-4"
+      ]
+     },
+     "end": true
+    }
+   ]
+  },
+  {
+   "c": 2,
+   "title": {
+    "jp": "雲をつかむジャンプ",
+    "vi": "Cực Hạn Ngút Trời"
+   },
+   "summary": "Varesa dẫn Lữ Khách lên một vách núi cao với mục tiêu \"chạm tới mây\". Hai lần nhảy đều hụt, nhưng đến cú nhảy thứ ba, cô khoác lấy tia chớp và xuyên qua tầng mây. Với Varesa, giới hạn sinh ra là để vượt qua – và ngày mai cô lại muốn nhảy cao hơn nữa.",
+   "bg": "volcano",
+   "nodes": [
+    {
+     "id": "n1",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "ヴァレサと 高い 山に 来ました。山の 上に 白い くもが あります。",
+       "ro": "Varesa to takai yama ni kimashita. Yama no ue ni shiroi kumo ga arimasu.",
+       "vi": "Cùng Varesa đến một ngọn núi cao. Phía trên núi có những đám mây trắng."
+      },
+      "2": {
+       "jp": "旅人たちは、ヴァレサについて高いがけの上まで来た。空には白い雲がうかんでいる。",
+       "ro": "Tabibito tachi wa, Varesa ni tsuite takai gake no ue made kita. Sora ni wa shiroi kumo ga ukande iru.",
+       "vi": "Lữ Khách và Paimon theo Varesa lên tận đỉnh vách đá cao. Trên trời lơ lửng những đám mây trắng."
+      },
+      "3": {
+       "jp": "旅人たちはヴァレサに連れられ、切り立った崖の上へ。見上げれば、白い雲がすぐそこに浮かんでいた。",
+       "ro": "Tabibito tachi wa Varesa ni tsurerare, kiritatta gake no ue e. Miagereba, shiroi kumo ga sugu soko ni ukande ita.",
+       "vi": "Lữ Khách và Paimon được Varesa dẫn lên đỉnh vách đá dựng đứng. Ngước lên, những đám mây trắng như ở ngay trước mắt."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-9-5",
+       "a1-7-1"
+      ],
+      "2": [
+       "a21-4-4",
+       "a1-10-1"
+      ],
+      "3": [
+       "b1-2-4",
+       "ab1-2-5",
+       "b1-9-2"
+      ]
+     },
+     "next": "n2"
+    },
+    {
+     "id": "n2",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "今日は あの くもまで とびます！",
+       "ro": "Kyou wa ano kumo made tobimasu!",
+       "vi": "Hôm nay tớ sẽ nhảy lên tới đám mây kia!"
+      },
+      "2": {
+       "jp": "今日のもくひょうは、あの雲まで高くとぶこと！",
+       "ro": "Kyou no mokuhyou wa, ano kumo made takaku tobu koto!",
+       "vi": "Mục tiêu hôm nay là nhảy cao tới tận đám mây kia!"
+      },
+      "3": {
+       "jp": "今日の目標は、あの雲にタッチすること！限界なんて、跳び越えるためにあるんだから！",
+       "ro": "Kyou no mokuhyou wa, ano kumo ni tatchi suru koto! Genkai nante, tobikoeru tame ni aru n da kara!",
+       "vi": "Mục tiêu hôm nay là chạm vào đám mây kia! Giới hạn sinh ra là để vượt qua mà!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-10-1",
+       "a1-6-4"
+      ],
+      "2": [
+       "a21-2-1",
+       "a22-2-6"
+      ],
+      "3": [
+       "a22-14-2",
+       "b12-5-4"
+      ]
+     },
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "sp": "paimon",
+     "mood": "surprised",
+     "t": {
+      "1": {
+       "jp": "えっ、くもですか！それは むりです！",
+       "ro": "E, kumo desu ka! Sore wa muri desu!",
+       "vi": "Hả, mây á? Không thể nào!"
+      },
+      "2": {
+       "jp": "えっ、雲まで！？そんなの、ぜったいむりだよ！",
+       "ro": "E, kumo made!? Sonna no, zettai muri da yo!",
+       "vi": "Hả, tới tận mây!? Chuyện đó tuyệt đối không thể đâu!"
+      },
+      "3": {
+       "jp": "く、雲まで！？いくらなんでも無茶だろ！",
+       "ro": "Ku, kumo made!? Ikura nandemo mucha daro!",
+       "vi": "T-tới tận mây!? Dù gì cũng quá liều lĩnh rồi!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-3",
+       "a1-8-4"
+      ],
+      "2": [
+       "a1-10-1"
+      ],
+      "3": [
+       "b1-8-5"
+      ]
+     },
+     "next": "n4"
+    },
+    {
+     "id": "n4",
+     "sp": "char",
+     "mood": "serious",
+     "t": {
+      "1": {
+       "jp": "きのうは あの 木まででした。今日は もっと 高く とびます！見て ください！",
+       "ro": "Kinou wa ano ki made deshita. Kyou wa motto takaku tobimasu! Mite kudasai!",
+       "vi": "Hôm qua tớ chỉ tới ngọn cây kia. Hôm nay tớ sẽ nhảy cao hơn nữa! Xem nhé!"
+      },
+      "2": {
+       "jp": "きのうは、あの木の上まで。今日は、もっと上をめざすよ。見てて！",
+       "ro": "Kinou wa, ano ki no ue made. Kyou wa, motto ue o mezasu yo. Mitete!",
+       "vi": "Hôm qua là tới ngọn cây kia. Hôm nay tớ nhắm cao hơn nữa. Xem nhé!"
+      },
+      "3": {
+       "jp": "昨日は、あの大樹のてっぺんまでだった。なら今日は、その一歩先を行くだけ。見ててね！",
+       "ro": "Kinou wa, ano taiju no teppen made datta. Nara kyou wa, sono ippo saki o iku dake. Mitete ne!",
+       "vi": "Hôm qua là tới ngọn đại thụ kia. Vậy thì hôm nay chỉ cần tiến thêm một bước nữa. Xem nhé!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-17-3",
+       "a1-2-2"
+      ],
+      "2": [
+       "a1-10-1",
+       "a22-1-5"
+      ],
+      "3": [
+       "ab1-1-4",
+       "a22-9-4"
+      ]
+     },
+     "next": "n5"
+    },
+    {
+     "id": "n5",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "ヴァレサは とびました。とても 高いです。でも、くもまで とどきませんでした。",
+       "ro": "Varesa wa tobimashita. Totemo takai desu. Demo, kumo made todokimasen deshita.",
+       "vi": "Varesa nhảy lên. Cao lắm. Nhưng không chạm tới mây."
+      },
+      "2": {
+       "jp": "ヴァレサは大きくジャンプした。木よりずっと高い。でも、雲にはとどかなかった。",
+       "ro": "Varesa wa ookiku janpu shita. Ki yori zutto takai. Demo, kumo ni wa todokanakatta.",
+       "vi": "Varesa bật nhảy thật mạnh. Cao hơn cây nhiều. Nhưng không với tới mây."
+      },
+      "3": {
+       "jp": "ヴァレサは地面を蹴って高々と舞い上がった。だが、雲まではあと一歩届かず、轟音とともに着地した。",
+       "ro": "Varesa wa jimen o kette takadaka to maiagatta. Daga, kumo made wa ato ippo todokazu, gouon to tomo ni chakuchi shita.",
+       "vi": "Varesa đạp đất vút lên thật cao. Nhưng còn thiếu một chút mới chạm mây, rồi cô đáp xuống kèm một tiếng ầm vang."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-18-2"
+      ],
+      "2": [
+       "a22-2-6",
+       "a22-12-3"
+      ],
+      "3": [
+       "b1-6-6",
+       "b1-2-4"
+      ]
+     },
+     "next": "n6"
+    },
+    {
+     "id": "n6",
+     "sp": "char",
+     "mood": "sad",
+     "t": {
+      "1": {
+       "jp": "うーん…まだ だめです。でも、もう いっかい！",
+       "ro": "Uun... Mada dame desu. Demo, mou ikkai!",
+       "vi": "Hừm... vẫn chưa được. Nhưng thử lại lần nữa!"
+      },
+      "2": {
+       "jp": "うーん、まだまだか〜。でも、今ので少しコツがわかったよ！",
+       "ro": "Uun, madamada ka~. Demo, ima no de sukoshi kotsu ga wakatta yo!",
+       "vi": "Hừm, vẫn chưa tới à~. Nhưng qua lần vừa rồi tớ nắm được chút bí quyết rồi!"
+      },
+      "3": {
+       "jp": "うーん、まだ届かないか〜。でも今ので、なんとなくコツをつかんだ気がする！",
+       "ro": "Uun, mada todokanai ka~. Demo ima no de, nantonaku kotsu o tsukanda ki ga suru!",
+       "vi": "Hừm, vẫn chưa với tới à~. Nhưng qua lần vừa rồi, hình như tớ nắm được bí quyết rồi!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-18-2"
+      ],
+      "2": [
+       "a1-18-2",
+       "a21-4-3"
+      ],
+      "3": [
+       "b12-13-2",
+       "a22-8-3"
+      ]
+     },
+     "next": "n7"
+    },
+    {
+     "id": "n7",
+     "sp": "paimon",
+     "t": {
+      "1": {
+       "jp": "ヴァレサ、つかれましたか。旅人、どうしますか。",
+       "ro": "Varesa, tsukaremashita ka. Tabibito, dou shimasu ka.",
+       "vi": "Varesa mệt rồi à? Lữ Khách, làm sao đây?"
+      },
+      "2": {
+       "jp": "ヴァレサ、ちょっとつかれてないか？旅人、どうする？",
+       "ro": "Varesa, chotto tsukarete nai ka? Tabibito, dou suru?",
+       "vi": "Varesa, cậu hơi mệt rồi phải không? Lữ Khách, tính sao đây?"
+      },
+      "3": {
+       "jp": "おいおい、息が上がってるぞ。旅人、なんか言ってやれよ。",
+       "ro": "Oioi, iki ga agatteru zo. Tabibito, nanka itte yare yo.",
+       "vi": "Này này, thở hổn hển rồi kìa. Lữ Khách, nói gì với cậu ấy đi."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4"
+      ],
+      "2": [
+       "a21-1-3"
+      ],
+      "3": [
+       "ab1-5-7",
+       "ab1-1-7"
+      ]
+     },
+     "choices": [
+      {
+       "t": {
+        "1": {
+         "jp": "ヴァレサ、がんばって ください！",
+         "ro": "Varesa, ganbatte kudasai!",
+         "vi": "Varesa, cố lên!"
+        },
+        "2": {
+         "jp": "ヴァレサならできるよ！もう一回やってみて！",
+         "ro": "Varesa nara dekiru yo! Mou ikkai yatte mite!",
+         "vi": "Varesa thì làm được mà! Thử lại lần nữa đi!"
+        },
+        "3": {
+         "jp": "ヴァレサならいける！もう一回、思いっきり跳んでみなよ！",
+         "ro": "Varesa nara ikeru! Mou ikkai, omoikkiri tonde mina yo!",
+         "vi": "Varesa thì làm được! Nhảy thêm lần nữa, hết sức mình xem nào!"
+        }
+       },
+       "g": {
+        "1": [
+         "a1-2-2"
+        ],
+        "2": [
+         "a22-3-3",
+         "a21-10-4"
+        ],
+        "3": [
+         "ab1-1-4",
+         "a21-10-4"
+        ]
+       },
+       "next": "n8"
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "少し 休みましょう。くだものを 食べませんか。",
+         "ro": "Sukoshi yasumimashou. Kudamono o tabemasen ka.",
+         "vi": "Nghỉ một chút đi. Ăn trái cây không?"
+        },
+        "2": {
+         "jp": "少し休もうよ。くだものでも食べない？",
+         "ro": "Sukoshi yasumou yo. Kudamono demo tabenai?",
+         "vi": "Nghỉ một chút đi. Ăn chút trái cây không?"
+        },
+        "3": {
+         "jp": "ちょっと休憩しよう。腹ごしらえしてからでも遅くないって。",
+         "ro": "Chotto kyuukei shiyou. Haragoshirae shite kara demo osokunai tte.",
+         "vi": "Nghỉ chút đi. Lót dạ xong rồi làm cũng chưa muộn đâu."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-6-6",
+         "a1-12-4"
+        ],
+        "2": [
+         "a21-8-2"
+        ],
+        "3": [
+         "a22-4-2",
+         "b1-5-2"
+        ]
+       },
+       "next": "n9"
+      }
+     ]
+    },
+    {
+     "id": "n8",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "ありがとう！旅人の こえで げんきが でました！",
+       "ro": "Arigatou! Tabibito no koe de genki ga demashita!",
+       "vi": "Cảm ơn nha! Nghe Lữ Khách cổ vũ, tớ có sức rồi!"
+      },
+      "2": {
+       "jp": "ありがとう！おうえんされると、力がわいてくるんだ！",
+       "ro": "Arigatou! Ouen sareru to, chikara ga waite kuru n da!",
+       "vi": "Cảm ơn nha! Được cổ vũ là tớ lại thấy sức mạnh trào dâng!"
+      },
+      "3": {
+       "jp": "ありがとう！声援をもらうと、体の奥から力が湧いてくるんだよね！",
+       "ro": "Arigatou! Seien o morau to, karada no oku kara chikara ga waite kuru n da yo ne!",
+       "vi": "Cảm ơn nha! Được cổ vũ là sức mạnh trào lên từ sâu trong người tớ luôn!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-1-3",
+       "a1-15-4"
+      ],
+      "2": [
+       "a22-4-4",
+       "a22-18-1"
+      ],
+      "3": [
+       "b1-2-8",
+       "a22-4-4"
+      ]
+     },
+     "next": "n10"
+    },
+    {
+     "id": "n9",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "いいですね！くだものを 食べます。…よし、げんきです！",
+       "ro": "Ii desu ne! Kudamono o tabemasu... Yoshi, genki desu!",
+       "vi": "Hay đó! Ăn trái cây nào. ...Được rồi, khỏe lại rồi!"
+      },
+      "2": {
+       "jp": "さんせい！くだものを食べると、すぐ元気になるんだ〜。…よし、フルじゅうでん！",
+       "ro": "Sansei! Kudamono o taberu to, sugu genki ni naru n da~... Yoshi, furu juuden!",
+       "vi": "Đồng ý! Ăn trái cây vào là tớ khỏe ngay~. ...Được rồi, sạc đầy!"
+      },
+      "3": {
+       "jp": "さんせ〜い！甘い果物は最高のエネルギー源だからね。…もぐもぐ、よし、フルチャージ完了！",
+       "ro": "Sanse~i! Amai kudamono wa saikou no enerugiigen da kara ne... Mogumogu, yoshi, furuchaaji kanryou!",
+       "vi": "Đồng ýýý! Trái cây ngọt là nguồn năng lượng tuyệt nhất mà. ...Nhồm nhoàm, được rồi, sạc đầy hoàn tất!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-5-3"
+      ],
+      "2": [
+       "a22-4-4",
+       "a21-3-1"
+      ],
+      "3": [
+       "ab1-3-3"
+      ]
+     },
+     "next": "n10"
+    },
+    {
+     "id": "n10",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "みっつめの ジャンプです。ヴァレサの まわりに ひかりが あります。くもの 上まで 行きました！",
+       "ro": "Mittsume no janpu desu. Varesa no mawari ni hikari ga arimasu. Kumo no ue made ikimashita!",
+       "vi": "Cú nhảy thứ ba. Quanh Varesa có ánh sáng. Cô đã lên tới tận trên mây!"
+      },
+      "2": {
+       "jp": "二回目、三回目…。三回目のジャンプで、ヴァレサの体がかみなりの光につつまれ、雲の上まで飛んだ！",
+       "ro": "Nikaime, sankaime... Sankaime no janpu de, Varesa no karada ga kaminari no hikari ni tsutsumare, kumo no ue made tonda!",
+       "vi": "Lần thứ hai, lần thứ ba... Ở cú nhảy thứ ba, cơ thể Varesa được bao bọc bởi ánh chớp, bay vút lên trên mây!"
+      },
+      "3": {
+       "jp": "二度、三度。三度目の跳躍で、ヴァレサの全身が紫電をまとい、ついに雲を突き抜けた！",
+       "ro": "Nido, sando. Sandome no chouyaku de, Varesa no zenshin ga shiden o matoi, tsuini kumo o tsukinuketa!",
+       "vi": "Lần hai, lần ba. Ở cú bật thứ ba, toàn thân Varesa khoác lấy tia chớp tím và cuối cùng xuyên thủng tầng mây!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-7-1",
+       "a1-10-1"
+      ],
+      "2": [
+       "a21-6-6",
+       "a22-18-1"
+      ],
+      "3": [
+       "b1-2-4"
+      ]
+     },
+     "next": "n11"
+    },
+    {
+     "id": "n11",
+     "sp": "char",
+     "mood": "surprised",
+     "t": {
+      "1": {
+       "jp": "わあ…！ナタが ぜんぶ 見えます！とても きれいです！",
+       "ro": "Waa...! Nata ga zenbu miemasu! Totemo kirei desu!",
+       "vi": "Oa...! Nhìn thấy toàn bộ Natlan luôn! Đẹp quá!"
+      },
+      "2": {
+       "jp": "わあ…！ナタがぜんぶ見える！山も、森も、みんなの村も！",
+       "ro": "Waa...! Nata ga zenbu mieru! Yama mo, mori mo, minna no mura mo!",
+       "vi": "Oa...! Nhìn thấy cả Natlan! Núi này, rừng này, cả làng của mọi người nữa!"
+      },
+      "3": {
+       "jp": "うわぁ…！ナタが一望できる！火山も、森も、わたしたちの村も、全部ちっちゃく見えるよ！",
+       "ro": "Uwaa...! Nata ga ichibou dekiru! Kazan mo, mori mo, watashi tachi no mura mo, zenbu chitchaku mieru yo!",
+       "vi": "Oaa...! Nhìn bao quát cả Natlan! Núi lửa, rừng, cả làng của bọn tớ nữa, trông bé xíu hết!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-16-6"
+      ],
+      "2": [
+       "a21-6-5",
+       "a1-3-5"
+      ],
+      "3": [
+       "a22-6-1",
+       "a21-6-5",
+       "a22-2-6"
+      ]
+     },
+     "next": "n12"
+    },
+    {
+     "id": "n12",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "ヴァレサは 下へ おりました。ドーン！大きい おとです。",
+       "ro": "Varesa wa shita e orimashita. Doon! Ookii oto desu.",
+       "vi": "Varesa đáp xuống. Rầm! Một tiếng động lớn."
+      },
+      "2": {
+       "jp": "ドーン！ヴァレサがもどってくると、じめんが大きくゆれた。",
+       "ro": "Doon! Varesa ga modotte kuru to, jimen ga ookiku yureta.",
+       "vi": "Rầm! Khi Varesa đáp xuống trở lại, mặt đất rung chuyển dữ dội."
+      },
+      "3": {
+       "jp": "ドォン！流星のように舞い戻ったヴァレサの着地で、崖全体がびりびりと震えた。",
+       "ro": "Doon! Ryuusei no you ni maimodotta Varesa no chakuchi de, gake zentai ga biribiri to furueta.",
+       "vi": "Ầm! Varesa lao về như một ngôi sao băng, cú tiếp đất làm cả vách đá rung lên bần bật."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-14-1"
+      ],
+      "2": [
+       "a22-4-4",
+       "a21-11-1",
+       "a22-2-6"
+      ],
+      "3": [
+       "b1-5-5",
+       "b1-6-2"
+      ]
+     },
+     "next": "n13"
+    },
+    {
+     "id": "n13",
+     "sp": "trav",
+     "t": {
+      "1": {
+       "jp": "すごい！くもまで とどきましたね！",
+       "ro": "Sugoi! Kumo made todokimashita ne!",
+       "vi": "Tuyệt quá! Cậu chạm tới mây rồi!"
+      },
+      "2": {
+       "jp": "すごい！ほんとうに雲までとどいたね！",
+       "ro": "Sugoi! Hontou ni kumo made todoita ne!",
+       "vi": "Tuyệt quá! Cậu thật sự chạm tới mây rồi!"
+      },
+      "3": {
+       "jp": "すごい、本当に雲を越えちゃうなんて！",
+       "ro": "Sugoi, hontou ni kumo o koechau nante!",
+       "vi": "Tuyệt thật, không ngờ cậu vượt qua cả mây luôn!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-10-1"
+      ],
+      "2": [
+       "a21-4-3"
+      ],
+      "3": [
+       "b12-5-1",
+       "a22-11-2"
+      ]
+     },
+     "next": "n14"
+    },
+    {
+     "id": "n14",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "えへへ、ありがとう！でも、あしたは もっと 高く とびます。旅人、また 見て くださいね！",
+       "ro": "Ehehe, arigatou! Demo, ashita wa motto takaku tobimasu. Tabibito, mata mite kudasai ne!",
+       "vi": "Hì hì, cảm ơn nha! Nhưng ngày mai tớ sẽ nhảy cao hơn nữa. Lữ Khách, lại xem tớ nhé!"
+      },
+      "2": {
+       "jp": "えへへ、ありがとう！でも、明日はもっと上をめざすよ。げんかいは、こえるためにあるんだから。また見に来てね！",
+       "ro": "Ehehe, arigatou! Demo, ashita wa motto ue o mezasu yo. Genkai wa, koeru tame ni aru n da kara. Mata mi ni kite ne!",
+       "vi": "Hì hì, cảm ơn nha! Nhưng ngày mai tớ sẽ nhắm cao hơn nữa. Giới hạn sinh ra là để vượt qua mà. Lại đến xem nhé!"
+      },
+      "3": {
+       "jp": "えへへ、ありがと！でも明日は、今日の自分をもう一段跳び越えるよ。限界って、そのためにあるんだもん。また見に来てね！",
+       "ro": "Ehehe, arigato! Demo ashita wa, kyou no jibun o mou ichidan tobikoeru yo. Genkai tte, sono tame ni aru n da mon. Mata mi ni kite ne!",
+       "vi": "Hì hì, cảm ơn nha! Nhưng ngày mai tớ sẽ vượt qua bản thân của hôm nay thêm một bậc nữa. Giới hạn là để làm vậy mà. Lại đến xem nhé!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-18-2",
+       "a1-2-2"
+      ],
+      "2": [
+       "a22-14-2",
+       "a21-8-3"
+      ],
+      "3": [
+       "a22-1-4",
+       "a22-14-2"
+      ]
+     },
+     "end": true
+    }
+   ]
+  },
+  {
+   "c": 3,
+   "title": {
+    "jp": "折れない決意",
+    "vi": "Quyết Tâm Bất Khuất"
+   },
+   "summary": "Tại giải thi đấu sức mạnh ở đấu trường, Varesa đối đầu với ứng viên vô địch to lớn như quả núi và bị quật ngã hết lần này đến lần khác. Khi khán giả nghĩ trận đấu đã kết thúc, tiếng cổ vũ của Lữ Khách giúp cô đứng dậy – và Varesa thú nhận rằng cô cũng sợ, nhưng quyết tâm của cô không bao giờ gãy.",
+   "bg": "natlan-arena",
+   "nodes": [
+    {
+     "id": "n1",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "今日は きょうぎじょうで ちからくらべが あります。人が 多いです。",
+       "ro": "Kyou wa kyougijou de chikarakurabe ga arimasu. Hito ga ooi desu.",
+       "vi": "Hôm nay ở đấu trường có cuộc thi sức mạnh. Rất đông người."
+      },
+      "2": {
+       "jp": "今日はきょうぎじょうで、力くらべの大会がある。まわりは見物の人でいっぱいだ。",
+       "ro": "Kyou wa kyougijou de, chikarakurabe no taikai ga aru. Mawari wa kenbutsu no hito de ippai da.",
+       "vi": "Hôm nay ở đấu trường có giải thi đấu sức mạnh. Xung quanh chật kín người xem."
+      },
+      "3": {
+       "jp": "今日は競技場で力比べの大会が開かれる。観客席は、各部族から集まった人々で埋め尽くされていた。",
+       "ro": "Kyou wa kyougijou de chikarakurabe no taikai ga hirakareru. Kankyakuseki wa, kaku buzoku kara atsumatta hitobito de umetsukusarete ita.",
+       "vi": "Hôm nay đấu trường tổ chức giải thi đấu sức mạnh. Khán đài chật kín người từ các bộ lạc đổ về."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-12-2",
+       "a1-7-4"
+      ],
+      "2": [
+       "a1-12-2",
+       "a21-2-2"
+      ],
+      "3": [
+       "a22-13-3",
+       "b1-9-2"
+      ]
+     },
+     "next": "n2"
+    },
+    {
+     "id": "n2",
+     "sp": "paimon",
+     "mood": "surprised",
+     "t": {
+      "1": {
+       "jp": "ヴァレサの あいては とても 大きいです！",
+       "ro": "Varesa no aite wa totemo ookii desu!",
+       "vi": "Đối thủ của Varesa to lớn quá!"
+      },
+      "2": {
+       "jp": "ヴァレサの相手、すごく大きいぞ！だいじょうぶか？",
+       "ro": "Varesa no aite, sugoku ookii zo! Daijoubu ka?",
+       "vi": "Đối thủ của Varesa to quá trời! Có sao không đây?"
+      },
+      "3": {
+       "jp": "うげっ、ヴァレサの対戦相手、山みたいにでっかいぞ！本当に大丈夫なのか？",
+       "ro": "Uge, Varesa no taisen aite, yama mitai ni dekkai zo! Hontou ni daijoubu na no ka?",
+       "vi": "Úi, đối thủ của Varesa to như quả núi! Có thật là ổn không vậy?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-7-4",
+       "a1-4-2"
+      ],
+      "2": [
+       "a1-10-5"
+      ],
+      "3": [
+       "ab1-3-4"
+      ]
+     },
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "sp": "char",
+     "mood": "serious",
+     "t": {
+      "1": {
+       "jp": "あの 人は とても つよいです。少し こわいです。でも、にげません。",
+       "ro": "Ano hito wa totemo tsuyoi desu. Sukoshi kowai desu. Demo, nigemasen.",
+       "vi": "Người đó mạnh lắm. Tớ hơi sợ. Nhưng tớ sẽ không bỏ chạy."
+      },
+      "2": {
+       "jp": "あの人は、この大会でいちばん強いせんしなんだ。ちょっとこわいけど…にげないよ。",
+       "ro": "Ano hito wa, kono taikai de ichiban tsuyoi senshi na n da. Chotto kowai kedo... Nigenai yo.",
+       "vi": "Người đó là chiến binh mạnh nhất giải này. Tớ hơi sợ, nhưng... tớ sẽ không trốn chạy đâu."
+      },
+      "3": {
+       "jp": "あの人は今大会の優勝候補なんだ。正直、ちょっと怖い。でも…ここで逃げたら、ヒーローじゃないもんね。",
+       "ro": "Ano hito wa kon taikai no yuushou kouho na n da. Shoujiki, chotto kowai. Demo... Koko de nigetara, hiiroo janai mon ne.",
+       "vi": "Người đó là ứng viên vô địch giải lần này. Nói thật, tớ hơi sợ. Nhưng... bỏ chạy lúc này thì đâu phải anh hùng."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-7-4",
+       "a1-18-2"
+      ],
+      "2": [
+       "a21-17-1",
+       "a21-5-3"
+      ],
+      "3": [
+       "a22-7-3",
+       "a21-17-1"
+      ]
+     },
+     "next": "n4"
+    },
+    {
+     "id": "n4",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "しあいが はじまりました。ヴァレサは たおれました！",
+       "ro": "Shiai ga hajimarimashita. Varesa wa taoremashita!",
+       "vi": "Trận đấu bắt đầu. Varesa bị quật ngã!"
+      },
+      "2": {
+       "jp": "試合が始まった。相手の強い一げきで、ヴァレサはじめんにたおされてしまった！",
+       "ro": "Shiai ga hajimatta. Aite no tsuyoi ichigeki de, Varesa wa jimen ni taosarete shimatta!",
+       "vi": "Trận đấu bắt đầu. Trúng một đòn mạnh của đối thủ, Varesa bị quật ngã xuống đất!"
+      },
+      "3": {
+       "jp": "試合開始の合図とともに、相手の豪腕がうなりを上げ、ヴァレサは地面に叩きつけられた！",
+       "ro": "Shiai kaishi no aizu to tomo ni, aite no gouwan ga unari o age, Varesa wa jimen ni tatakitsukerareta!",
+       "vi": "Hiệu lệnh bắt đầu vừa vang lên, cánh tay lực lưỡng của đối thủ vung tới, Varesa bị nện mạnh xuống đất!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4"
+      ],
+      "2": [
+       "a22-18-1",
+       "a22-11-2"
+      ],
+      "3": [
+       "b1-2-4",
+       "a22-18-1"
+      ]
+     },
+     "next": "n5"
+    },
+    {
+     "id": "n5",
+     "sp": "paimon",
+     "mood": "sad",
+     "t": {
+      "1": {
+       "jp": "ヴァレサ！だいじょうぶですか！",
+       "ro": "Varesa! Daijoubu desu ka!",
+       "vi": "Varesa! Cậu có sao không!"
+      },
+      "2": {
+       "jp": "ヴァレサ！しっかりして！",
+       "ro": "Varesa! Shikkari shite!",
+       "vi": "Varesa! Tỉnh táo lại đi!"
+      },
+      "3": {
+       "jp": "ヴァレサーっ！しっかりしろーっ！",
+       "ro": "Varesaa! Shikkari shiroo!",
+       "vi": "Varesaaa! Tỉnh lại điii!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-10-5"
+      ],
+      "2": [
+       "a21-6-1"
+      ],
+      "3": [
+       "ab1-1-7"
+      ]
+     },
+     "next": "n6"
+    },
+    {
+     "id": "n6",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "ヴァレサは なんども たおれました。みんなは 「もう だめです」と 言いました。",
+       "ro": "Varesa wa nando mo taoremashita. Minna wa \"mou dame desu\" to iimashita.",
+       "vi": "Varesa ngã xuống hết lần này đến lần khác. Mọi người nói: \"Hết cách rồi\"."
+      },
+      "2": {
+       "jp": "二回、三回…ヴァレサは何度もたおされた。観客は「もうむりだ」とささやいている。",
+       "ro": "Nikai, sankai... Varesa wa nando mo taosareta. Kankyaku wa \"mou muri da\" to sasayaite iru.",
+       "vi": "Hai lần, ba lần... Varesa bị quật ngã hết lần này đến lần khác. Khán giả thì thầm: \"Hết cách rồi\"."
+      },
+      "3": {
+       "jp": "二度、三度と地面に沈むヴァレサ。観客席からは「もう終わりだ」という声が漏れ始めていた。",
+       "ro": "Nido, sando to jimen ni shizumu Varesa. Kankyakuseki kara wa \"mou owari da\" to iu koe ga morehajimete ita.",
+       "vi": "Hai lần, ba lần, Varesa đổ gục xuống đất. Từ khán đài bắt đầu vọng ra tiếng: \"Kết thúc rồi\"."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4"
+      ],
+      "2": [
+       "a22-18-1",
+       "a21-4-4"
+      ],
+      "3": [
+       "b1-1-4",
+       "b1-1-3",
+       "a22-1-2"
+      ]
+     },
+     "next": "n7"
+    },
+    {
+     "id": "n7",
+     "sp": "char",
+     "mood": "sad",
+     "t": {
+      "1": {
+       "jp": "…まだ…まだです…。",
+       "ro": "... Mada... Mada desu...",
+       "vi": "...Chưa... vẫn chưa đâu..."
+      },
+      "2": {
+       "jp": "…まだ…まだ、終わってない…。",
+       "ro": "... Mada... Mada, owatte nai...",
+       "vi": "...Chưa... vẫn chưa kết thúc..."
+      },
+      "3": {
+       "jp": "…まだ…まだ、終わってなんか…ない…。",
+       "ro": "... Mada... Mada, owatte nanka... Nai...",
+       "vi": "...Chưa... vẫn chưa... kết thúc đâu..."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-1"
+      ],
+      "2": [
+       "a22-8-2"
+      ],
+      "3": [
+       "b12-5-4",
+       "a22-8-2"
+      ]
+     },
+     "choices": [
+      {
+       "t": {
+        "1": {
+         "jp": "ヴァレサ、たって ください！がんばって！",
+         "ro": "Varesa, tatte kudasai! Ganbatte!",
+         "vi": "Varesa, đứng dậy đi! Cố lên!"
+        },
+        "2": {
+         "jp": "ヴァレサ、立って！ここで負けないで！",
+         "ro": "Varesa, tatte! Koko de makenaide!",
+         "vi": "Varesa, đứng dậy! Đừng thua ở đây!"
+        },
+        "3": {
+         "jp": "立て、ヴァレサ！君はこんなところで終わる人じゃない！",
+         "ro": "Tate, Varesa! Kimi wa konna tokoro de owaru hito janai!",
+         "vi": "Đứng lên, Varesa! Cậu không phải người gục ngã ở chỗ này!"
+        }
+       },
+       "g": {
+        "1": [
+         "a1-2-2"
+        ],
+        "2": [
+         "a21-6-1",
+         "a21-15-3"
+        ],
+        "3": [
+         "ab1-1-7",
+         "a21-16-2"
+        ]
+       },
+       "next": "n8"
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "ヴァレサ！ヒーローは まけませんよ！",
+         "ro": "Varesa! Hiiroo wa makemasen yo!",
+         "vi": "Varesa! Anh hùng thì không thua đâu!"
+        },
+        "2": {
+         "jp": "思い出して！ヒーローは、何度でも立ち上がるんでしょ？",
+         "ro": "Omoidashite! Hiiroo wa, nando demo tachiagaru n desho?",
+         "vi": "Nhớ lại đi! Anh hùng thì dù bao nhiêu lần cũng đứng dậy, đúng không?"
+        },
+        "3": {
+         "jp": "思い出して！仮面のヒーローは、何度倒れても立ち上がるんでしょ？",
+         "ro": "Omoidashite! Kamen no hiiroo wa, nando taorete mo tachiagaru n desho?",
+         "vi": "Nhớ lại đi! Anh hùng đeo mặt nạ dù ngã bao nhiêu lần cũng đứng dậy, phải không?"
+        }
+       },
+       "g": {
+        "1": [
+         "a1-5-3"
+        ],
+        "2": [
+         "a21-11-2",
+         "a21-17-1"
+        ],
+        "3": [
+         "a22-13-1",
+         "ab1-6-1"
+        ]
+       },
+       "next": "n9"
+      }
+     ]
+    },
+    {
+     "id": "n8",
+     "sp": "char",
+     "mood": "serious",
+     "t": {
+      "1": {
+       "jp": "旅人の こえ…聞こえます。",
+       "ro": "Tabibito no koe... Kikoemasu.",
+       "vi": "Giọng của Lữ Khách... tớ nghe thấy rồi."
+      },
+      "2": {
+       "jp": "旅人の声…ちゃんと聞こえたよ。",
+       "ro": "Tabibito no koe... Chanto kikoeta yo.",
+       "vi": "Giọng của Lữ Khách... tớ nghe rõ rồi."
+      },
+      "3": {
+       "jp": "旅人の声…ちゃんと、届いたよ。",
+       "ro": "Tabibito no koe... Chanto, todoita yo.",
+       "vi": "Giọng của Lữ Khách... đã chạm tới tớ rồi."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-4-2"
+      ],
+      "2": [
+       "a21-4-3"
+      ],
+      "3": [
+       "ab1-8-2"
+      ]
+     },
+     "next": "n10"
+    },
+    {
+     "id": "n9",
+     "sp": "char",
+     "mood": "serious",
+     "t": {
+      "1": {
+       "jp": "そうです…ヒーローは まけません。",
+       "ro": "Sou desu... Hiiroo wa makemasen.",
+       "vi": "Đúng vậy... anh hùng thì không thua."
+      },
+      "2": {
+       "jp": "そうだね…ヒーローは、何度でも立ち上がる。",
+       "ro": "Sou da ne... Hiiroo wa, nando demo tachiagaru.",
+       "vi": "Đúng rồi... anh hùng thì bao nhiêu lần cũng đứng dậy."
+      },
+      "3": {
+       "jp": "そうだった…ヒーローは、倒れたままじゃいられないんだ。",
+       "ro": "Sou datta... Hiiroo wa, taoreta mama ja irarenai n da.",
+       "vi": "Phải rồi... anh hùng thì không thể cứ nằm gục mãi được."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-5-3"
+      ],
+      "2": [
+       "a21-11-2"
+      ],
+      "3": [
+       "a22-15-1",
+       "a22-6-1"
+      ]
+     },
+     "next": "n10"
+    },
+    {
+     "id": "n10",
+     "sp": "char",
+     "mood": "serious",
+     "t": {
+      "1": {
+       "jp": "わたしの 心は まけません！行きます！",
+       "ro": "Watashi no kokoro wa makemasen! Ikimasu!",
+       "vi": "Trái tim tớ không chịu thua đâu! Tới đây!"
+      },
+      "2": {
+       "jp": "わたしの決意は、こんなことじゃおれない！マスク、オン！いくよ！",
+       "ro": "Watashi no ketsui wa, konna koto ja orenai! Masuku, on! Iku yo!",
+       "vi": "Quyết tâm của tớ không gãy vì chuyện này đâu! Mặt nạ, bật! Tới đây!"
+      },
+      "3": {
+       "jp": "わたしの決意は、この程度じゃ折れないよ！仮面、全開！ここからが本番だーっ！",
+       "ro": "Watashi no ketsui wa, kono teido ja orenai yo! Kamen, zenkai! Koko kara ga honban daa!",
+       "vi": "Quyết tâm của tớ không gãy vì chút chuyện này đâu! Mặt nạ, hết công suất! Giờ mới là màn chính đâyyy!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-5-3"
+      ],
+      "2": [
+       "a21-2-2"
+      ],
+      "3": [
+       "ab1-3-5"
+      ]
+     },
+     "next": "n11"
+    },
+    {
+     "id": "n11",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "ヴァレサは たちました。高く とびました。そして、あいてを たおしました！",
+       "ro": "Varesa wa tachimashita. Takaku tobimashita. Soshite, aite o taoshimashita!",
+       "vi": "Varesa đứng dậy. Nhảy lên thật cao. Rồi quật ngã đối thủ!"
+      },
+      "2": {
+       "jp": "ヴァレサは立ち上がると、高くとび上がって、かみなりの一げきで相手をたおした！会場がわっとわいた。",
+       "ro": "Varesa wa tachiagaru to, takaku tobiagatte, kaminari no ichigeki de aite o taoshita! Kaijou ga watto waita.",
+       "vi": "Varesa đứng dậy, bật lên thật cao rồi hạ gục đối thủ bằng một đòn sấm sét! Cả hội trường vỡ òa."
+      },
+      "3": {
+       "jp": "立ち上がったヴァレサは天高く跳躍し、雷鳴とともに急降下！巨体の相手が宙を舞い、会場が割れんばかりの歓声に包まれた。",
+       "ro": "Tachiagatta Varesa wa ten takaku chouyaku shi, raimei to tomo ni kyuukouka! Kyotai no aite ga chuu o mai, kaijou ga warenbakari no kansei ni tsutsumareta.",
+       "vi": "Varesa đứng dậy, bật vút lên trời rồi bổ nhào xuống cùng tiếng sấm! Đối thủ to lớn bị hất tung lên không, cả hội trường ngập trong tiếng reo hò."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-18-3",
+       "a1-15-4"
+      ],
+      "2": [
+       "a22-4-4",
+       "a21-6-2"
+      ],
+      "3": [
+       "b1-2-4",
+       "a22-18-1"
+      ]
+     },
+     "next": "n12"
+    },
+    {
+     "id": "n12",
+     "sp": "trav",
+     "t": {
+      "1": {
+       "jp": "ヴァレサ、かちました！すごいです！",
+       "ro": "Varesa, kachimashita! Sugoi desu!",
+       "vi": "Varesa, cậu thắng rồi! Giỏi quá!"
+      },
+      "2": {
+       "jp": "ヴァレサ、勝ったね！本当にすごかった！",
+       "ro": "Varesa, katta ne! Hontou ni sugokatta!",
+       "vi": "Varesa, cậu thắng rồi! Thật sự quá tuyệt!"
+      },
+      "3": {
+       "jp": "やったね、ヴァレサ！最後まで諦めなかったね！",
+       "ro": "Yatta ne, Varesa! Saigo made akiramenakatta ne!",
+       "vi": "Làm được rồi, Varesa! Cậu đã không bỏ cuộc tới phút cuối!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4"
+      ],
+      "2": [
+       "a21-4-2",
+       "a21-4-3"
+      ],
+      "3": [
+       "ab1-8-2"
+      ]
+     },
+     "next": "n13"
+    },
+    {
+     "id": "n13",
+     "sp": "char",
+     "mood": "shy",
+     "t": {
+      "1": {
+       "jp": "えへへ…ほんとうは、こわかったです。でも、ヒーローも こわかったです。そして、たちました。",
+       "ro": "Ehehe... Hontou wa, kowakatta desu. Demo, hiiroo mo kowakatta desu. Soshite, tachimashita.",
+       "vi": "Hì hì... thật ra tớ sợ lắm. Nhưng anh hùng cũng từng sợ. Và rồi họ vẫn đứng dậy."
+      },
+      "2": {
+       "jp": "えへへ…本当は、こわかったんだ。でも、お話のヒーローも、こわいけど立ち上がってたから。",
+       "ro": "Ehehe... Hontou wa, kowakatta n da. Demo, ohanashi no hiiroo mo, kowai kedo tachiagatteta kara.",
+       "vi": "Hì hì... thật ra tớ sợ lắm. Nhưng anh hùng trong truyện cũng sợ mà vẫn đứng dậy đó thôi."
+      },
+      "3": {
+       "jp": "えへへ…じつはね、すっごく怖かったんだ。でも、昔話のヒーローだって、怖くても立ち上がってたから。",
+       "ro": "Ehehe... Jitsu wa ne, suggoku kowakatta n da. Demo, mukashibanashi no hiiroo datte, kowakute mo tachiagatteta kara.",
+       "vi": "Hì hì... thật ra tớ sợ lắm. Nhưng anh hùng trong truyện xưa dù sợ vẫn đứng dậy cơ mà."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-17-2",
+       "a1-18-2"
+      ],
+      "2": [
+       "a21-17-1",
+       "a21-5-3",
+       "a21-3-5"
+      ],
+      "3": [
+       "ab1-1-6",
+       "ab1-2-4"
+      ]
+     },
+     "next": "n14"
+    },
+    {
+     "id": "n14",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "旅人、ありがとう。旅人の こえは わたしの ちからです。さあ、ごはんを 食べましょう！",
+       "ro": "Tabibito, arigatou. Tabibito no koe wa watashi no chikara desu. Saa, gohan o tabemashou!",
+       "vi": "Lữ Khách, cảm ơn nhé. Giọng của Lữ Khách là sức mạnh của tớ. Nào, đi ăn thôi!"
+      },
+      "2": {
+       "jp": "旅人、ありがとう。あの声が、わたしの力になったよ。…さあ、勝ったお祝いに、ごはんいっぱい食べよう！",
+       "ro": "Tabibito, arigatou. Ano koe ga, watashi no chikara ni natta yo... Saa, katta oiwai ni, gohan ippai tabeyou!",
+       "vi": "Lữ Khách, cảm ơn nhé. Giọng cậu đã thành sức mạnh của tớ. ...Nào, ăn thật nhiều để mừng chiến thắng thôi!"
+      },
+      "3": {
+       "jp": "旅人、ありがとね。あの声がなかったら、立てなかったかも。…さ、祝勝会だ！今日は三杯おかわりするぞ〜！",
+       "ro": "Tabibito, arigato ne. Ano koe ga nakattara, tatenakatta kamo... Sa, shukushoukai da! Kyou wa sanbai okawari suru zo~!",
+       "vi": "Lữ Khách, cảm ơn nha. Không có giọng cậu, có khi tớ đã chẳng đứng dậy nổi. ...Nào, tiệc mừng chiến thắng! Hôm nay tớ phải xới thêm ba bát~!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-1-3",
+       "a1-3-1",
+       "a1-6-6"
+      ],
+      "2": [
+       "a21-3-1",
+       "a21-17-3"
+      ],
+      "3": [
+       "a22-7-3",
+       "ab1-7-2"
+      ]
+     },
+     "end": true
+    }
+   ]
+  },
+  {
+   "c": 4,
+   "title": {
+    "jp": "迷わず飛びこむ勇気",
+    "vi": "Dũng Cảm Xông Pha"
+   },
+   "summary": "Đêm ấy, khi mọi người đang quây quần bên đống lửa, quái vật Vực Sâu tràn tới rìa làng – và bọn trẻ vẫn còn ở kho trái cây. Varesa không chút do dự lao vào đầu tiên. Sau trận chiến, cô thừa nhận mình cũng sợ, nhưng nếu dừng chân thì sẽ có người bị thương.",
+   "bg": "camp-night",
+   "nodes": [
+    {
+     "id": "n1",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "よるです。ヴァレサの むらで、みんなで ごはんを 食べます。",
+       "ro": "Yoru desu. Varesa no mura de, minna de gohan o tabemasu.",
+       "vi": "Trời đã tối. Mọi người cùng nhau ăn tối ở làng của Varesa."
+      },
+      "2": {
+       "jp": "夜。ヴァレサの村で、旅人たちはたき火をかこんで夕ごはんを食べていた。",
+       "ro": "Yoru. Varesa no mura de, tabibito tachi wa takibi o kakonde yuugohan o tabete ita.",
+       "vi": "Đêm xuống. Ở làng của Varesa, Lữ Khách và mọi người ngồi quanh đống lửa ăn tối."
+      },
+      "3": {
+       "jp": "夜の村。旅人たちは焚き火を囲み、ヴァレサ自慢の料理に舌鼓を打っていた。",
+       "ro": "Yoru no mura. Tabibito tachi wa takibi o kakomi, Varesa jiman no ryouri ni shitatsuzumi o utte ita.",
+       "vi": "Ngôi làng về đêm. Lữ Khách và mọi người quây quanh đống lửa, thưởng thức những món ăn tủ của Varesa."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-6-2"
+      ],
+      "2": [
+       "a22-9-1",
+       "a21-6-2"
+      ],
+      "3": [
+       "b1-2-4",
+       "b1-9-2"
+      ]
+     },
+     "next": "n2"
+    },
+    {
+     "id": "n2",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "その時、むらの そとに むらさきの ひかりが 見えました。アビスの まものです！",
+       "ro": "Sono toki, mura no soto ni murasaki no hikari ga miemashita. Abisu no mamono desu!",
+       "vi": "Đúng lúc đó, phía ngoài làng hiện lên ánh sáng tím. Là quái vật Vực Sâu!"
+      },
+      "2": {
+       "jp": "その時、村の外にぶきみなむらさきの光が見えた。アビスのまものだ！",
+       "ro": "Sono toki, mura no soto ni bukimina murasaki no hikari ga mieta. Abisu no mamono da!",
+       "vi": "Đúng lúc ấy, phía ngoài làng lóe lên ánh sáng tím rợn người. Là quái vật Vực Sâu!"
+      },
+      "3": {
+       "jp": "その時、村のはずれに不気味な紫の光が揺らめいた。アビスの魔物の群れだ！",
+       "ro": "Sono toki, mura no hazure ni bukimina murasaki no hikari ga yurameita. Abisu no mamono no mure da!",
+       "vi": "Đúng lúc ấy, ở rìa làng chập chờn thứ ánh sáng tím quái dị. Là một bầy quái vật Vực Sâu!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-4-2",
+       "a1-3-1"
+      ],
+      "2": [
+       "a21-6-5",
+       "a1-14-1"
+      ],
+      "3": [
+       "ab1-8-4"
+      ]
+     },
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "sp": "イアンサ",
+     "t": {
+      "1": {
+       "jp": "たいへんです！くだものの くらに 子どもたちが います！",
+       "ro": "Taihen desu! Kudamono no kura ni kodomo tachi ga imasu!",
+       "vi": "Nguy rồi! Trong kho trái cây vẫn còn bọn trẻ!"
+      },
+      "2": {
+       "jp": "たいへん！くだもののそうこに、まだ子どもたちがいるの！",
+       "ro": "Taihen! Kudamono no souko ni, mada kodomo tachi ga iru no!",
+       "vi": "Nguy rồi! Trong kho trái cây vẫn còn bọn trẻ!"
+      },
+      "3": {
+       "jp": "大変！果物倉庫のほうに、まだ子どもたちが残ってるのよ！",
+       "ro": "Taihen! Kudamono souko no hou ni, mada kodomo tachi ga nokotteru no yo!",
+       "vi": "Nguy rồi! Ở phía kho trái cây vẫn còn bọn trẻ ở lại!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-7-2",
+       "a1-4-2"
+      ],
+      "2": [
+       "a22-8-3",
+       "a21-17-1"
+      ],
+      "3": [
+       "a22-8-3",
+       "ab1-5-7"
+      ]
+     },
+     "next": "n4"
+    },
+    {
+     "id": "n4",
+     "sp": "char",
+     "mood": "serious",
+     "t": {
+      "1": {
+       "jp": "わたしが 行きます！みんなは ここに いて ください！",
+       "ro": "Watashi ga ikimasu! Minna wa koko ni ite kudasai!",
+       "vi": "Để tớ đi! Mọi người ở lại đây nhé!"
+      },
+      "2": {
+       "jp": "わたしが行く！みんなはここにいて！",
+       "ro": "Watashi ga iku! Minna wa koko ni ite!",
+       "vi": "Tớ đi! Mọi người ở lại đây!"
+      },
+      "3": {
+       "jp": "わたしが行く！みんなは下がってて！",
+       "ro": "Watashi ga iku! Minna wa sagattete!",
+       "vi": "Tớ đi! Mọi người lùi lại đi!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-9-5",
+       "a1-2-2"
+      ],
+      "2": [
+       "a21-6-1",
+       "a1-14-5"
+      ],
+      "3": [
+       "ab1-5-7"
+      ]
+     },
+     "next": "n5"
+    },
+    {
+     "id": "n5",
+     "sp": "paimon",
+     "mood": "surprised",
+     "t": {
+      "1": {
+       "jp": "ヴァレサ、まって ください！まものが たくさん います！",
+       "ro": "Varesa, matte kudasai! Mamono ga takusan imasu!",
+       "vi": "Varesa, đợi đã! Có nhiều quái vật lắm!"
+      },
+      "2": {
+       "jp": "ま、待ってよヴァレサ！まものがあんなにたくさんいるんだぞ！",
+       "ro": "Ma, matte yo Varesa! Mamono ga anna ni takusan iru n da zo!",
+       "vi": "Đ-đợi đã Varesa! Quái vật nhiều thế kia cơ mà!"
+      },
+      "3": {
+       "jp": "ちょ、待てってヴァレサ！あの数、一人じゃ無理だって！",
+       "ro": "Cho, matette Varesa! Ano kazu, hitori ja muri datte!",
+       "vi": "Kh-khoan đã Varesa! Số lượng đó, một mình thì không nổi đâu!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-2-2",
+       "a1-7-2"
+      ],
+      "2": [
+       "a21-6-1",
+       "a21-17-1"
+      ],
+      "3": [
+       "ab1-1-7",
+       "b1-5-2"
+      ]
+     },
+     "next": "n6"
+    },
+    {
+     "id": "n6",
+     "sp": "narr",
+     "bg": "battlefield",
+     "t": {
+      "1": {
+       "jp": "ヴァレサは まものの 中へ 行きました。子どもたちの まえで たたかいます！",
+       "ro": "Varesa wa mamono no naka e ikimashita. Kodomo tachi no mae de tatakaimasu!",
+       "vi": "Varesa lao vào giữa bầy quái vật. Cô chiến đấu ngay trước mặt bọn trẻ!"
+      },
+      "2": {
+       "jp": "ヴァレサはまようことなく、まものの中へとびこんだ。子どもたちの前に立って、両手を広げる。",
+       "ro": "Varesa wa mayou koto naku, mamono no naka e tobikonda. Kodomo tachi no mae ni tatte, ryoute o hirogeru.",
+       "vi": "Varesa không chút do dự lao thẳng vào giữa bầy quái vật. Cô đứng chắn trước bọn trẻ, dang rộng hai tay."
+      },
+      "3": {
+       "jp": "ヴァレサは一瞬の迷いもなく魔物の群れへ突っ込み、子どもたちの前に立ちはだかった。",
+       "ro": "Varesa wa isshun no mayoi mo naku mamono no mure e tsukkomi, kodomo tachi no mae ni tachihadakatta.",
+       "vi": "Không chút do dự, Varesa lao thẳng vào bầy quái vật và đứng chắn trước bọn trẻ."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-9-5",
+       "a1-6-2"
+      ],
+      "2": [
+       "a21-6-2"
+      ],
+      "3": [
+       "b1-2-4"
+      ]
+     },
+     "next": "n7"
+    },
+    {
+     "id": "n7",
+     "sp": "char",
+     "mood": "serious",
+     "t": {
+      "1": {
+       "jp": "旅人！たすけて ください！",
+       "ro": "Tabibito! Tasukete kudasai!",
+       "vi": "Lữ Khách! Giúp tớ với!"
+      },
+      "2": {
+       "jp": "旅人、手をかして！",
+       "ro": "Tabibito, te o kashite!",
+       "vi": "Lữ Khách, giúp tớ một tay!"
+      },
+      "3": {
+       "jp": "旅人、力を貸して！ここが踏ん張りどころだよ！",
+       "ro": "Tabibito, chikara o kashite! Koko ga funbaridokoro da yo!",
+       "vi": "Lữ Khách, cho tớ mượn sức! Đây là lúc phải trụ vững đấy!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-2-2"
+      ],
+      "2": [
+       "a21-6-1"
+      ],
+      "3": [
+       "a21-6-1",
+       "ab1-6-4"
+      ]
+     },
+     "choices": [
+      {
+       "t": {
+        "1": {
+         "jp": "子どもたちを まもります！まかせて ください！",
+         "ro": "Kodomo tachi o mamorimasu! Makasete kudasai!",
+         "vi": "Mình sẽ bảo vệ bọn trẻ! Cứ giao cho mình!"
+        },
+        "2": {
+         "jp": "子どもたちはまかせて！安全なところへつれて行く！",
+         "ro": "Kodomo tachi wa makasete! Anzenna tokoro e tsurete iku!",
+         "vi": "Bọn trẻ cứ để mình! Mình sẽ đưa chúng tới chỗ an toàn!"
+        },
+        "3": {
+         "jp": "子どもたちは任せて！安全な場所まで連れていくから！",
+         "ro": "Kodomo tachi wa makasete! Anzenna basho made tsurete iku kara!",
+         "vi": "Bọn trẻ cứ để mình! Mình sẽ đưa chúng tới nơi an toàn!"
+        }
+       },
+       "g": {
+        "1": [
+         "a1-5-3",
+         "a1-2-2"
+        ],
+        "2": [
+         "a21-6-1",
+         "a21-11-1"
+        ],
+        "3": [
+         "a21-11-1",
+         "ab1-3-3"
+        ]
+       },
+       "next": "n8"
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "いっしょに たたかいましょう！",
+         "ro": "Issho ni tatakaimashou!",
+         "vi": "Cùng chiến đấu nào!"
+        },
+        "2": {
+         "jp": "となりでいっしょに戦うよ！",
+         "ro": "Tonari de issho ni tatakau yo!",
+         "vi": "Mình sẽ chiến đấu bên cạnh cậu!"
+        },
+        "3": {
+         "jp": "背中は任せて！一緒に蹴散らそう！",
+         "ro": "Senaka wa makasete! Issho ni kechirasou!",
+         "vi": "Lưng cậu để mình lo! Cùng đánh tan chúng nào!"
+        }
+       },
+       "g": {
+        "1": [
+         "a1-6-6"
+        ],
+        "2": [
+         "a1-14-3"
+        ],
+        "3": [
+         "a21-8-2"
+        ]
+       },
+       "next": "n9"
+      }
+     ]
+    },
+    {
+     "id": "n8",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "ありがとう！じゃあ、わたしは まものを たおします！",
+       "ro": "Arigatou! Jaa, watashi wa mamono o taoshimasu!",
+       "vi": "Cảm ơn! Vậy tớ sẽ hạ lũ quái vật!"
+      },
+      "2": {
+       "jp": "ありがとう！じゃあ、わたしが道を開くね！",
+       "ro": "Arigatou! Jaa, watashi ga michi o hiraku ne!",
+       "vi": "Cảm ơn! Vậy tớ sẽ mở đường nhé!"
+      },
+      "3": {
+       "jp": "助かる！じゃ、わたしが道をこじ開けるよ！",
+       "ro": "Tasukaru! Ja, watashi ga michi o kojiakeru yo!",
+       "vi": "May quá! Vậy tớ sẽ phá mở một con đường!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-5-3"
+      ],
+      "2": [
+       "a21-2-2"
+      ],
+      "3": [
+       "ab1-6-4"
+      ]
+     },
+     "next": "n10"
+    },
+    {
+     "id": "n9",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "はい！いっしょに がんばりましょう！",
+       "ro": "Hai! Issho ni ganbarimashou!",
+       "vi": "Ừ! Cùng cố gắng nào!"
+      },
+      "2": {
+       "jp": "うん！旅人といっしょなら、ぜったい負けないよ！",
+       "ro": "Un! Tabibito to issho nara, zettai makenai yo!",
+       "vi": "Ừ! Có Lữ Khách cùng chiến đấu thì tớ nhất định không thua!"
+      },
+      "3": {
+       "jp": "うん！旅人と背中合わせなら、負ける気がしないね！",
+       "ro": "Un! Tabibito to senakaawase nara, makeru ki ga shinai ne!",
+       "vi": "Ừ! Tựa lưng với Lữ Khách thì tớ chẳng thấy mình có thể thua!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-6-6"
+      ],
+      "2": [
+       "a22-3-3"
+      ],
+      "3": [
+       "ab1-1-4",
+       "b12-13-2"
+      ]
+     },
+     "next": "n10"
+    },
+    {
+     "id": "n10",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "ふたりで たたかいました。まものは もう いません。むらさきの ひかりも ありません。",
+       "ro": "Futari de tatakaimashita. Mamono wa mou imasen. Murasaki no hikari mo arimasen.",
+       "vi": "Hai người cùng chiến đấu. Quái vật không còn nữa. Ánh sáng tím cũng biến mất."
+      },
+      "2": {
+       "jp": "二人でたたかうと、まものはつぎつぎにたおれ、むらさきの光も消えていった。",
+       "ro": "Futari de tatakau to, mamono wa tsugitsugi ni taore, murasaki no hikari mo kiete itta.",
+       "vi": "Hai người cùng chiến đấu, quái vật lần lượt gục ngã, ánh sáng tím cũng dần tắt."
+      },
+      "3": {
+       "jp": "二人の連携の前に魔物は次々と倒れ、不気味な紫の光も、やがて夜の闇に溶けて消えた。",
+       "ro": "Futari no renkei no mae ni mamono wa tsugitsugi to taore, bukimina murasaki no hikari mo, yagate yoru no yami ni tokete kieta.",
+       "vi": "Trước sự phối hợp của hai người, quái vật lần lượt gục ngã, ánh sáng tím quái dị rồi cũng tan vào màn đêm."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-7-2"
+      ],
+      "2": [
+       "a22-4-4",
+       "a21-11-1"
+      ],
+      "3": [
+       "b1-2-4",
+       "b1-6-2"
+      ]
+     },
+     "next": "n11"
+    },
+    {
+     "id": "n11",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "小さい 女の子が ヴァレサに 言いました。「ありがとう、ヒーロー！」",
+       "ro": "Chiisai onnanoko ga Varesa ni iimashita. \"arigatou, hiiroo!\"",
+       "vi": "Một cô bé nhỏ nói với Varesa: \"Cảm ơn chị, anh hùng!\""
+      },
+      "2": {
+       "jp": "小さな女の子がヴァレサにだきついた。「ありがとう、ヒーローのお姉ちゃん！」",
+       "ro": "Chiisana onnanoko ga Varesa ni dakitsuita. \"arigatou, hiiroo no oneechan!\"",
+       "vi": "Một cô bé nhỏ ôm chầm lấy Varesa. \"Cảm ơn chị anh hùng!\""
+      },
+      "3": {
+       "jp": "小さな女の子が、涙目でヴァレサに抱きついた。「ありがとう、ヒーローのお姉ちゃん！」",
+       "ro": "Chiisana onnanoko ga, namidame de Varesa ni dakitsuita. \"arigatou, hiiroo no oneechan!\"",
+       "vi": "Một cô bé nhỏ rưng rưng nước mắt ôm chầm lấy Varesa. \"Cảm ơn chị anh hùng!\""
+      }
+     },
+     "g": {
+      "1": [
+       "a1-14-1",
+       "a1-15-4"
+      ],
+      "2": [
+       "a1-4-2",
+       "a1-1-3"
+      ],
+      "3": [
+       "a1-4-2",
+       "a1-1-3"
+      ]
+     },
+     "next": "n12"
+    },
+    {
+     "id": "n12",
+     "sp": "trav",
+     "t": {
+      "1": {
+       "jp": "ヴァレサ、こわく なかったですか。",
+       "ro": "Varesa, kowaku nakatta desu ka.",
+       "vi": "Varesa, cậu không sợ sao?"
+      },
+      "2": {
+       "jp": "ヴァレサ、いちばんに飛びこんで、こわくなかったの？",
+       "ro": "Varesa, ichiban ni tobikonde, kowaku nakatta no?",
+       "vi": "Varesa, lao vào đầu tiên như thế, cậu không sợ sao?"
+      },
+      "3": {
+       "jp": "真っ先に飛び込むなんて…怖くなかったの？",
+       "ro": "Massaki ni tobikomu nante... Kowaku nakatta no?",
+       "vi": "Lao vào đầu tiên như vậy... cậu không sợ sao?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-17-2"
+      ],
+      "2": [
+       "a21-7-6",
+       "a21-4-2"
+      ],
+      "3": [
+       "b12-5-1"
+      ]
+     },
+     "next": "n13"
+    },
+    {
+     "id": "n13",
+     "sp": "char",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "こわかったです。でも、子どもたちが いました。だから、わたしは とまりませんでした。",
+       "ro": "Kowakatta desu. Demo, kodomo tachi ga imashita. Dakara, watashi wa tomarimasen deshita.",
+       "vi": "Sợ chứ. Nhưng bọn trẻ đang ở đó. Nên tớ đã không dừng lại."
+      },
+      "2": {
+       "jp": "こわかったよ。でも、足を止めたら、だれかがけがをするかもしれない。だから、止まらないって決めてるんだ。",
+       "ro": "Kowakatta yo. Demo, ashi o tometara, dareka ga kega o suru kamo shirenai. Dakara, tomaranai tte kimeteru n da.",
+       "vi": "Sợ chứ. Nhưng nếu dừng chân lại, có thể sẽ có người bị thương. Vì vậy tớ đã quyết là không dừng lại."
+      },
+      "3": {
+       "jp": "怖かったよ。でも、わたしが足を止めたら、誰かが傷つくかもしれない。だから、止まらないって決めてるの。",
+       "ro": "Kowakatta yo. Demo, watashi ga ashi o tometara, dareka ga kizutsuku kamo shirenai. Dakara, tomaranai tte kimeteru no.",
+       "vi": "Sợ chứ. Nhưng nếu tớ dừng chân lại, có thể sẽ có người bị tổn thương. Vì vậy tớ đã quyết là không dừng lại."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-17-2",
+       "a1-18-2",
+       "a1-15-4"
+      ],
+      "2": [
+       "a22-7-3",
+       "a22-17-5",
+       "a21-17-1"
+      ],
+      "3": [
+       "ab1-7-2",
+       "a22-7-3"
+      ]
+     },
+     "next": "n14"
+    },
+    {
+     "id": "n14",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "それに、旅人が いました。だから、だいじょうぶでした！…ああ、おなかが すきました。ごはんを 食べましょう！",
+       "ro": "Soreni, tabibito ga imashita. Dakara, daijoubu deshita!... Aa, onaka ga sukimashita. Gohan o tabemashou!",
+       "vi": "Hơn nữa, có Lữ Khách ở đó. Nên tớ không sao cả! ...A, đói bụng rồi. Ăn cơm tiếp thôi!"
+      },
+      "2": {
+       "jp": "それに、旅人がいたから、安心だったよ！…あ、おなかすいた〜。夕ごはんのつづき、食べよう！",
+       "ro": "Soreni, tabibito ga ita kara, anshin datta yo!... A, onaka suita~. Yuugohan no tsuzuki, tabeyou!",
+       "vi": "Hơn nữa, có Lữ Khách ở đó nên tớ yên tâm lắm! ...A, đói bụng rồi~. Ăn nốt bữa tối thôi!"
+      },
+      "3": {
+       "jp": "それに、旅人が背中を守ってくれたからね。心強かったよ！…っと、安心したらお腹空いてきた〜。晩ごはんの続き、食べよっ！",
+       "ro": "Soreni, tabibito ga senaka o mamotte kureta kara ne. Kokorozuyokatta yo!... Tto, anshin shitara onaka suite kita~. Bangohan no tsuzuki, tabeyo!",
+       "vi": "Hơn nữa, có Lữ Khách giữ lưng cho tớ mà. Vững dạ lắm! ...Ấy, yên tâm cái là đói bụng rồi~. Ăn nốt bữa tối thôi!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-17-3",
+       "a1-6-6"
+      ],
+      "2": [
+       "a21-3-5",
+       "a21-4-1",
+       "a21-8-2"
+      ],
+      "3": [
+       "ab1-4-1",
+       "b1-2-8"
+      ]
+     },
+     "end": true
+    }
+   ]
+  },
+  {
+   "c": 5,
+   "title": {
+    "jp": "胸にともる温もり",
+    "vi": "Tâm Niệm Ấm Áp"
+   },
+   "summary": "Varesa mời Lữ Khách và Paimon đến nhà dùng bữa với rau trái từ ruộng nhà. Bên mâm cơm, cô kể về thời thơ ấu mít ướt, về ngày hội mùa năm nọ khi một người đeo mặt nạ bảo vệ cả làng – và hơi ấm của bữa cơm sau đó chính là điều cô muốn bảo vệ suốt đời.",
+   "bg": "indoor",
+   "nodes": [
+    {
+     "id": "n1",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "ヴァレサの 家に 来ました。テーブルに ごはんが たくさん あります。",
+       "ro": "Varesa no ie ni kimashita. Teeburu ni gohan ga takusan arimasu.",
+       "vi": "Hai người đến nhà Varesa. Trên bàn có rất nhiều món ăn."
+      },
+      "2": {
+       "jp": "旅人たちはヴァレサの家によばれた。テーブルの上には、料理がずらりとならんでいる。",
+       "ro": "Tabibito tachi wa Varesa no ie ni yobareta. Teeburu no ue ni wa, ryouri ga zurari to narande iru.",
+       "vi": "Lữ Khách và Paimon được mời đến nhà Varesa. Trên bàn bày la liệt các món ăn."
+      },
+      "3": {
+       "jp": "ヴァレサの家に招かれた旅人たち。食卓には、湯気の立つ料理が所狭しと並んでいた。",
+       "ro": "Varesa no ie ni manekareta tabibito tachi. Shokutaku ni wa, yuge no tatsu ryouri ga tokorosemashi to narande ita.",
+       "vi": "Lữ Khách và Paimon được mời đến nhà Varesa. Trên bàn ăn chật kín những món ăn nghi ngút khói."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-9-5",
+       "a1-7-1"
+      ],
+      "2": [
+       "a22-18-1",
+       "a21-4-4"
+      ],
+      "3": [
+       "b1-1-4",
+       "b1-6-2"
+      ]
+     },
+     "next": "n2"
+    },
+    {
+     "id": "n2",
+     "sp": "paimon",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "わあ！ごはんが いっぱいです！ヴァレサが つくりましたか。",
+       "ro": "Waa! Gohan ga ippai desu! Varesa ga tsukurimashita ka.",
+       "vi": "Oa! Nhiều món quá! Varesa nấu hết à?"
+      },
+      "2": {
+       "jp": "うわあ、ごちそうだ！これ、ぜんぶヴァレサが作ったのか？",
+       "ro": "Uwaa, gochisou da! Kore, zenbu Varesa ga tsukutta no ka?",
+       "vi": "Oaa, cả một bữa thịnh soạn! Tất cả là Varesa nấu à?"
+      },
+      "3": {
+       "jp": "うひゃ〜、ごちそうの山だ！これ全部、ヴァレサの手作りなのか！？",
+       "ro": "Uhya~, gochisou no yama da! Kore zenbu, Varesa no tezukuri na no ka!?",
+       "vi": "Úi chà, cả núi món ngon! Tất cả là Varesa tự tay làm sao!?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4"
+      ],
+      "2": [
+       "a21-17-1"
+      ],
+      "3": [
+       "b1-8-3"
+      ]
+     },
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "はい！うちの はたけの やさいと くだものです。たくさん 食べて ください！",
+       "ro": "Hai! Uchi no hatake no yasai to kudamono desu. Takusan tabete kudasai!",
+       "vi": "Ừ! Rau và trái cây từ ruộng nhà tớ đó. Ăn nhiều vào nhé!"
+      },
+      "2": {
+       "jp": "うん！うちのはたけでとれた野菜とくだものを使ったんだ。たくさん食べてね！",
+       "ro": "Un! Uchi no hatake de toreta yasai to kudamono o tsukatta n da. Takusan tabete ne!",
+       "vi": "Ừ! Tớ dùng rau và trái cây thu hoạch từ ruộng nhà đó. Ăn nhiều vào nhé!"
+      },
+      "3": {
+       "jp": "うん！うちの畑で採れた野菜と果物で作ったの。遠慮しないで、たーんと召し上がれ！",
+       "ro": "Un! Uchi no hatake de toreta yasai to kudamono de tsukutta no. Enryo shinaide, taanto meshiagare!",
+       "vi": "Ừ! Tớ làm từ rau và trái cây hái ở ruộng nhà đó. Đừng ngại, cứ ăn thật no nhé!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-4-2",
+       "a1-2-2"
+      ],
+      "2": [
+       "a21-17-3",
+       "a21-17-1"
+      ],
+      "3": [
+       "a21-17-3",
+       "b1-1-1"
+      ]
+     },
+     "next": "n4"
+    },
+    {
+     "id": "n4",
+     "sp": "trav",
+     "t": {
+      "1": {
+       "jp": "いただきます！…おいしいです。とても あたたかいです。",
+       "ro": "Itadakimasu!... Oishii desu. Totemo atatakai desu.",
+       "vi": "Mời cả nhà! ...Ngon quá. Ấm áp thật."
+      },
+      "2": {
+       "jp": "いただきます！…おいしい。なんだか、ほっとする味だね。",
+       "ro": "Itadakimasu!... Oishii. Nandaka, hotto suru aji da ne.",
+       "vi": "Mời cả nhà! ...Ngon quá. Một vị gì đó thật dễ chịu."
+      },
+      "3": {
+       "jp": "いただきます！…うん、おいしい。なんだか心まであったまる味だね。",
+       "ro": "Itadakimasu!... Un, oishii. Nandaka kokoro made attamaru aji da ne.",
+       "vi": "Mời cả nhà! ...Ừm, ngon quá. Vị gì mà ấm tận đáy lòng."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-7-4"
+      ],
+      "2": [
+       "a21-17-3"
+      ],
+      "3": [
+       "a21-17-3"
+      ]
+     },
+     "next": "n5"
+    },
+    {
+     "id": "n5",
+     "sp": "char",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "むかし、わたしは 小さい 子でした。よく なきました。",
+       "ro": "Mukashi, watashi wa chiisai ko deshita. Yoku nakimashita.",
+       "vi": "Ngày xưa, tớ là một đứa bé nhỏ xíu. Tớ hay khóc lắm."
+      },
+      "2": {
+       "jp": "小さいころのわたしは、体が小さくて、よくないていたんだ。",
+       "ro": "Chiisai koro no watashi wa, karada ga chiisakute, yoku naite ita n da.",
+       "vi": "Hồi nhỏ, người tớ bé tí, và tớ hay khóc lắm."
+      },
+      "3": {
+       "jp": "小さい頃のわたしはね、体も小さくて、すぐにベソをかく泣き虫だったんだ。",
+       "ro": "Chiisai koro no watashi wa ne, karada mo chiisakute, sugu ni beso o kaku nakimushi datta n da.",
+       "vi": "Hồi nhỏ, tớ vừa bé người lại là đứa mít ướt, động tí là mếu máo."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-17-3",
+       "a1-5-4"
+      ],
+      "2": [
+       "a21-5-1",
+       "a22-9-1",
+       "a21-17-1"
+      ],
+      "3": [
+       "a21-5-1",
+       "b1-6-2"
+      ]
+     },
+     "next": "n6"
+    },
+    {
+     "id": "n6",
+     "sp": "char",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "ある 年、まものが はたけに 来ました。マスクの 人が みんなを まもりました。",
+       "ro": "Aru toshi, mamono ga hatake ni kimashita. Masuku no hito ga minna o mamorimashita.",
+       "vi": "Có một năm, quái vật kéo đến ruộng. Một người đeo mặt nạ đã bảo vệ mọi người."
+      },
+      "2": {
+       "jp": "ある年のしゅうかくの日、まものが村に来た。その時、マスクをつけた人が、みんなを守ったの。",
+       "ro": "Aru toshi no shuukaku no hi, mamono ga mura ni kita. Sono toki, masuku o tsuketa hito ga, minna o mamotta no.",
+       "vi": "Vào ngày thu hoạch năm nọ, quái vật kéo đến làng. Lúc ấy, một người đeo mặt nạ đã bảo vệ mọi người."
+      },
+      "3": {
+       "jp": "ある年の収穫祭の日、魔物が村を襲ったの。その時、仮面をつけた誰かが、みんなを守ってくれたんだ。",
+       "ro": "Aru toshi no shuukakusai no hi, mamono ga mura o osotta no. Sono toki, kamen o tsuketa dareka ga, minna o mamotte kureta n da.",
+       "vi": "Vào ngày hội mùa năm nọ, quái vật tấn công làng. Lúc ấy, một ai đó đeo mặt nạ đã bảo vệ mọi người."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-4-2"
+      ],
+      "2": [
+       "a21-17-3",
+       "a21-16-2"
+      ],
+      "3": [
+       "b1-8-3",
+       "ab1-4-1",
+       "b1-6-2"
+      ]
+     },
+     "next": "n7"
+    },
+    {
+     "id": "n7",
+     "sp": "char",
+     "mood": "shy",
+     "t": {
+      "1": {
+       "jp": "そのあと、みんなで ごはんを 食べました。みんな えがおでした。わたしは あの じかんを まもりたいです。",
+       "ro": "Sono ato, minna de gohan o tabemashita. Minna egao deshita. Watashi wa ano jikan o mamoritai desu.",
+       "vi": "Sau đó, mọi người cùng ăn cơm. Ai cũng tươi cười. Tớ muốn bảo vệ khoảng thời gian ấy."
+      },
+      "2": {
+       "jp": "そのあと、村のみんなでごはんを食べたんだ。みんなえがおで、あたたかかった。わたし、あの時間を守りたいの。",
+       "ro": "Sono ato, mura no minna de gohan o tabeta n da. Minna egao de, atatakakatta. Watashi, ano jikan o mamoritai no.",
+       "vi": "Sau đó, cả làng cùng nhau ăn cơm. Ai cũng tươi cười, ấm áp lắm. Tớ muốn bảo vệ khoảng thời gian ấy."
+      },
+      "3": {
+       "jp": "その後、村中で食卓を囲んだの。みんな笑顔で、すごくあったかかった。あの温もりを守るのが、わたしの夢なんだ。",
+       "ro": "Sono ato, murajuu de shokutaku o kakonda no. Minna egao de, sugoku attakakatta. Ano nukumori o mamoru no ga, watashi no yume na n da.",
+       "vi": "Sau đó, cả làng quây quần bên mâm cơm. Ai cũng tươi cười, ấm áp vô cùng. Bảo vệ hơi ấm ấy chính là ước mơ của tớ."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-17-3",
+       "a1-18-4"
+      ],
+      "2": [
+       "a21-5-2",
+       "a21-10-1",
+       "a21-17-1"
+      ],
+      "3": [
+       "a22-6-6",
+       "a22-3-2"
+      ]
+     },
+     "next": "n8"
+    },
+    {
+     "id": "n8",
+     "sp": "paimon",
+     "t": {
+      "1": {
+       "jp": "だから ヴァレサは ヒーローが 好きですね。",
+       "ro": "Dakara Varesa wa hiiroo ga suki desu ne.",
+       "vi": "Vậy nên Varesa mới thích anh hùng nhỉ."
+      },
+      "2": {
+       "jp": "そうか…だからヴァレサは、ヒーローになりたいんだな。",
+       "ro": "Sou ka... Dakara Varesa wa, hiiroo ni naritai n da na.",
+       "vi": "Ra vậy... Thế nên Varesa mới muốn trở thành anh hùng nhỉ."
+      },
+      "3": {
+       "jp": "そっか…それがヴァレサの、ヒーローを目指す理由なんだな。",
+       "ro": "Sokka... Sore ga Varesa no, hiiroo o mezasu riyuu na n da na.",
+       "vi": "Ra thế... Đó là lý do Varesa hướng tới việc trở thành anh hùng nhỉ."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-5-1"
+      ],
+      "2": [
+       "a21-10-2",
+       "a21-17-1"
+      ],
+      "3": [
+       "b1-6-2",
+       "a22-11-6"
+      ]
+     },
+     "choices": [
+      {
+       "t": {
+        "1": {
+         "jp": "ヴァレサの ごはんも あたたかいです。",
+         "ro": "Varesa no gohan mo atatakai desu.",
+         "vi": "Cơm của Varesa cũng ấm áp lắm."
+        },
+        "2": {
+         "jp": "ヴァレサのごはんも、同じくらいあたたかいよ。",
+         "ro": "Varesa no gohan mo, onaji kurai atatakai yo.",
+         "vi": "Cơm của Varesa cũng ấm áp y như vậy đó."
+        },
+        "3": {
+         "jp": "ヴァレサの料理にも、ちゃんとその温もりがあるよ。",
+         "ro": "Varesa no ryouri ni mo, chanto sono nukumori ga aru yo.",
+         "vi": "Món ăn của Varesa cũng có hơi ấm ấy đó."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-3-5",
+         "a1-7-4"
+        ],
+        "2": [
+         "a1-3-5"
+        ],
+        "3": [
+         "ab1-6-4"
+        ]
+       },
+       "next": "n9"
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "ヴァレサの ゆめは すてきです。きっと かないますよ。",
+         "ro": "Varesa no yume wa suteki desu. Kitto kanaimasu yo.",
+         "vi": "Ước mơ của Varesa thật đẹp. Chắc chắn sẽ thành hiện thực đấy."
+        },
+        "2": {
+         "jp": "すてきなゆめだね。きっとかなうと思う。",
+         "ro": "Sutekina yume da ne. Kitto kanau to omou.",
+         "vi": "Một ước mơ thật đẹp. Mình nghĩ chắc chắn sẽ thành hiện thực."
+        },
+        "3": {
+         "jp": "素敵な夢だね。ヴァレサなら、きっと叶えられるよ。",
+         "ro": "Sutekina yume da ne. Varesa nara, kitto kanaerareru yo.",
+         "vi": "Một ước mơ thật đẹp. Là Varesa thì chắc chắn sẽ thực hiện được."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-3-1"
+        ],
+        "2": [
+         "a21-18-3"
+        ],
+        "3": [
+         "ab1-1-4",
+         "a22-6-1"
+        ]
+       },
+       "next": "n10"
+      }
+     ]
+    },
+    {
+     "id": "n9",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "ほんとうですか！うれしいです！",
+       "ro": "Hontou desu ka! Ureshii desu!",
+       "vi": "Thật sao! Vui quá!"
+      },
+      "2": {
+       "jp": "ほんと！？うれしいな〜。作ってよかった！",
+       "ro": "Honto!? Ureshii na~. Tsukutte yokatta!",
+       "vi": "Thật á!? Vui ghê~. May mà tớ đã nấu!"
+      },
+      "3": {
+       "jp": "ほんと！？えへへ、そう言ってもらえると、作った甲斐があるよ〜。",
+       "ro": "Honto!? Ehehe, sou itte moraeru to, tsukutta kai ga aru yo~.",
+       "vi": "Thật á!? Hì hì, được nghe vậy thì công nấu nướng thật đáng giá~."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-3"
+      ],
+      "2": [
+       "a21-1-2"
+      ],
+      "3": [
+       "ab1-4-2",
+       "a22-4-4"
+      ]
+     },
+     "next": "n11"
+    },
+    {
+     "id": "n10",
+     "sp": "char",
+     "mood": "shy",
+     "t": {
+      "1": {
+       "jp": "えへへ…ありがとう。少し はずかしいです。でも、うれしいです。",
+       "ro": "Ehehe... Arigatou. Sukoshi hazukashii desu. Demo, ureshii desu.",
+       "vi": "Hì hì... cảm ơn nhé. Hơi ngại một chút. Nhưng vui lắm."
+      },
+      "2": {
+       "jp": "えへへ…ありがとう。ちょっとはずかしいけど、うれしいな。",
+       "ro": "Ehehe... Arigatou. Chotto hazukashii kedo, ureshii na.",
+       "vi": "Hì hì... cảm ơn nhé. Hơi ngại, nhưng vui lắm."
+      },
+      "3": {
+       "jp": "えへへ…面と向かって言われると、ちょっと照れるな。でも、すっごく嬉しい。",
+       "ro": "Ehehe... Men to mukatte iwareru to, chotto tereru na. Demo, suggoku ureshii.",
+       "vi": "Hì hì... được nói thẳng như vậy tớ hơi ngượng. Nhưng vui lắm luôn."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-18-2"
+      ],
+      "2": [
+       "a21-5-3"
+      ],
+      "3": [
+       "a22-18-1",
+       "a22-4-4"
+      ]
+     },
+     "next": "n11"
+    },
+    {
+     "id": "n11",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "ヴァレサは おべんとうを つくりました。そして、旅人に あげました。",
+       "ro": "Varesa wa obentou o tsukurimashita. Soshite, tabibito ni agemashita.",
+       "vi": "Varesa làm một hộp cơm. Rồi đưa nó cho Lữ Khách."
+      },
+      "2": {
+       "jp": "食事のあと、ヴァレサは残った料理をおべんとうにつめて、旅人にわたした。",
+       "ro": "Shokuji no ato, Varesa wa nokotta ryouri o obentou ni tsumete, tabibito ni watashita.",
+       "vi": "Sau bữa ăn, Varesa cho chỗ đồ ăn còn lại vào hộp cơm rồi trao cho Lữ Khách."
+      },
+      "3": {
+       "jp": "食後、ヴァレサは残った料理を手際よく弁当箱に詰め、旅人に差し出した。",
+       "ro": "Shokugo, Varesa wa nokotta ryouri o tegiwa yoku bentoubako ni tsume, tabibito ni sashidashita.",
+       "vi": "Ăn xong, Varesa khéo léo xếp chỗ thức ăn còn lại vào hộp cơm rồi đưa cho Lữ Khách."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-2",
+       "a1-18-3"
+      ],
+      "2": [
+       "a21-8-5",
+       "a21-6-2"
+      ],
+      "3": [
+       "b1-2-4",
+       "b1-6-2"
+      ]
+     },
+     "next": "n12"
+    },
+    {
+     "id": "n12",
+     "sp": "char",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "たびの おべんとうです。遠い 国で、これを 食べて ください。",
+       "ro": "Tabi no obentou desu. Tooi kuni de, kore o tabete kudasai.",
+       "vi": "Đây là hộp cơm cho chuyến đi. Ở những đất nước xa xôi, hãy ăn cái này nhé."
+      },
+      "2": {
+       "jp": "旅のおべんとうだよ。遠い国でおなかがすいたら、これを食べて、わたしたちのことを思い出してね。",
+       "ro": "Tabi no obentou da yo. Tooi kuni de onaka ga suitara, kore o tabete, watashi tachi no koto o omoidashite ne.",
+       "vi": "Hộp cơm cho chuyến đi đó. Khi đói bụng ở đất nước xa xôi, hãy ăn nó và nhớ đến bọn tớ nhé."
+      },
+      "3": {
+       "jp": "旅のお弁当だよ。遠い国でお腹が空いたら、これを食べて、わたしたちの村を思い出してね。",
+       "ro": "Tabi no obentou da yo. Tooi kuni de onaka ga suitara, kore o tabete, watashi tachi no mura o omoidashite ne.",
+       "vi": "Hộp cơm cho chuyến đi đó. Khi đói bụng ở đất nước xa xôi, hãy ăn nó và nhớ về làng của bọn tớ nhé."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-6-2",
+       "a1-2-2"
+      ],
+      "2": [
+       "a22-7-3",
+       "a21-6-1"
+      ],
+      "3": [
+       "a22-16-3",
+       "b1-2-4"
+      ]
+     },
+     "next": "n13"
+    },
+    {
+     "id": "n13",
+     "sp": "trav",
+     "t": {
+      "1": {
+       "jp": "ありがとう、ヴァレサ。たいせつに 食べます。",
+       "ro": "Arigatou, Varesa. Taisetsu ni tabemasu.",
+       "vi": "Cảm ơn Varesa. Mình sẽ ăn thật trân trọng."
+      },
+      "2": {
+       "jp": "ありがとう、ヴァレサ。大切に食べるね。",
+       "ro": "Arigatou, Varesa. Taisetsu ni taberu ne.",
+       "vi": "Cảm ơn Varesa. Mình sẽ ăn thật trân trọng."
+      },
+      "3": {
+       "jp": "ありがとう、ヴァレサ。一口ずつ、大事に味わうよ。",
+       "ro": "Arigatou, Varesa. Hitokuchi zutsu, daiji ni ajiwau yo.",
+       "vi": "Cảm ơn Varesa. Mình sẽ nhâm nhi từng miếng một thật trân trọng."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-1-3"
+      ],
+      "2": [
+       "a22-2-6"
+      ],
+      "3": [
+       "a22-3-4"
+      ]
+     },
+     "next": "n14"
+    },
+    {
+     "id": "n14",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "旅人は 遠い 国へ 行きます。でも、わたしは いつも おうえんします！また 来て くださいね。",
+       "ro": "Tabibito wa tooi kuni e ikimasu. Demo, watashi wa itsumo ouen shimasu! Mata kite kudasai ne.",
+       "vi": "Lữ Khách sẽ đi tới những đất nước xa. Nhưng tớ sẽ luôn cổ vũ cậu! Lại đến chơi nhé."
+      },
+      "2": {
+       "jp": "旅人がどこにいても、わたしはここからおうえんしてるよ。また来たら、もっとおいしいごはんを作るね！",
+       "ro": "Tabibito ga doko ni ite mo, watashi wa koko kara ouen shiteru yo. Mata kitara, motto oishii gohan o tsukuru ne!",
+       "vi": "Dù Lữ Khách ở đâu, tớ vẫn cổ vũ cậu từ nơi này. Lần sau đến, tớ sẽ nấu món còn ngon hơn nữa!"
+      },
+      "3": {
+       "jp": "旅人がどこにいたって、わたしはここから応援してる。次に来た時は、もっとすごいごちそうを用意しとくね！",
+       "ro": "Tabibito ga doko ni itatte, watashi wa koko kara ouen shiteru. Tsugi ni kita toki wa, motto sugoi gochisou o youi shitoku ne!",
+       "vi": "Dù Lữ Khách ở đâu, tớ vẫn cổ vũ cậu từ nơi này. Lần sau cậu đến, tớ sẽ chuẩn bị sẵn một bữa còn thịnh soạn hơn!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-9-5",
+       "a1-18-2",
+       "a1-2-2"
+      ],
+      "2": [
+       "a22-13-1",
+       "a22-7-3",
+       "a22-1-5"
+      ],
+      "3": [
+       "ab1-2-4",
+       "b1-2-6",
+       "a22-5-4"
+      ]
+     },
+     "end": true
+    }
+   ]
+  },
+  {
+   "c": 6,
+   "title": {
+    "jp": "凱歌をあげる正義",
+    "vi": "Chính Nghĩa Khải Hoàn"
+   },
+   "summary": "Trong lễ hội mùa màng của Collective of Plenty, Varesa đóng vai chính trong màn biểu diễn \"Anh hùng mặt nạ\" và bất ngờ gọi Lữ Khách lên sân khấu làm cộng sự. Dưới bầu trời sao, cô cảm ơn người đã luôn ở bên mình, nói rằng chính nghĩa là bảo vệ nụ cười của mọi người – và trao cho Lữ Khách chiếc mặt nạ của \"anh hùng của tớ\".",
+   "bg": "tribe-village",
+   "nodes": [
+    {
+     "id": "n1",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "今日は むらの おまつりです。おんがくが 聞こえます。食べものの 店も たくさん あります。",
+       "ro": "Kyou wa mura no omatsuri desu. Ongaku ga kikoemasu. Tabemono no mise mo takusan arimasu.",
+       "vi": "Hôm nay là lễ hội của làng. Tiếng nhạc vang lên. Có rất nhiều quầy đồ ăn."
+      },
+      "2": {
+       "jp": "今日は豊穣の邦のしゅうかく祭。音楽がひびいて、食べ物の店がずらりとならんでいる。",
+       "ro": "Kyou wa houjou no kuni no shuukakusai. Ongaku ga hibiite, tabemono no mise ga zurari to narande iru.",
+       "vi": "Hôm nay là lễ hội mùa màng của Collective of Plenty. Âm nhạc vang vọng, các quầy đồ ăn bày dài."
+      },
+      "3": {
+       "jp": "今日は豊穣の邦の収穫祭。太鼓の音が鳴り響き、通りには屋台がずらりと軒を連ねていた。",
+       "ro": "Kyou wa houjou no kuni no shuukakusai. Taiko no oto ga narihibiki, toori ni wa yatai ga zurari to noki o tsuranete ita.",
+       "vi": "Hôm nay là lễ hội mùa màng của Collective of Plenty. Tiếng trống vang rền, dọc đường các quầy hàng san sát."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-1",
+       "a1-3-5"
+      ],
+      "2": [
+       "a21-6-2",
+       "a21-4-4"
+      ],
+      "3": [
+       "b1-1-4",
+       "b1-2-4"
+      ]
+     },
+     "next": "n2"
+    },
+    {
+     "id": "n2",
+     "sp": "paimon",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "おまつりです！おいしい ものが たくさん あります！",
+       "ro": "Omatsuri desu! Oishii mono ga takusan arimasu!",
+       "vi": "Lễ hội kìa! Có nhiều đồ ngon quá!"
+      },
+      "2": {
+       "jp": "お祭りだ〜！どの店から食べようかな！",
+       "ro": "Omatsuri da~! Dono mise kara tabeyou ka na!",
+       "vi": "Lễ hội đâyyy! Ăn từ quầy nào trước đây nhỉ!"
+      },
+      "3": {
+       "jp": "祭りだ祭りだ〜！よーし、端から端まで全部食べ尽くしてやるぞ！",
+       "ro": "Matsuri da matsuri da~! Yooshi, hashi kara hashi made zenbu tabetsukushite yaru zo!",
+       "vi": "Lễ hội, lễ hội đây! Được lắm, Paimon sẽ ăn sạch từ đầu này tới đầu kia!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-14-1",
+       "a1-7-1"
+      ],
+      "2": [
+       "a1-6-4",
+       "a21-8-2"
+      ],
+      "3": [
+       "a1-10-1"
+      ]
+     },
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "sp": "イアンサ",
+     "t": {
+      "1": {
+       "jp": "こんばんは。今日の さいごに、ヴァレサの ショーが あります。",
+       "ro": "Konbanwa. Kyou no saigo ni, Varesa no shoo ga arimasu.",
+       "vi": "Chào buổi tối. Cuối hôm nay sẽ có màn biểu diễn của Varesa."
+      },
+      "2": {
+       "jp": "来たね、二人とも。今日の最後は、ヴァレサの「マスクのヒーロー」ショーなんだよ。",
+       "ro": "Kita ne, futari tomo. Kyou no saigo wa, Varesa no \"masuku no hiiroo\" shoo na n da yo.",
+       "vi": "Đến rồi à, cả hai. Tiết mục cuối hôm nay là màn \"Anh hùng mặt nạ\" của Varesa đó."
+      },
+      "3": {
+       "jp": "来たわね、二人とも。今夜のトリは、ヴァレサ主演の『仮面のヒーロー』ショーよ。見逃したら損するわ。",
+       "ro": "Kita wa ne, futari tomo. Kon'ya no tori wa, Varesa shuen no \"kamen no hiiroo\" shoo yo. Minogashitara son suru wa.",
+       "vi": "Đến rồi đấy à, cả hai. Tiết mục chốt đêm nay là show \"Anh hùng mặt nạ\" do Varesa đóng chính. Bỏ lỡ là tiếc lắm đấy."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-1-1",
+       "a1-12-1"
+      ],
+      "2": [
+       "a21-17-1"
+      ],
+      "3": [
+       "a22-7-3"
+      ]
+     },
+     "next": "n4"
+    },
+    {
+     "id": "n4",
+     "sp": "narr",
+     "bg": "natlan-arena",
+     "t": {
+      "1": {
+       "jp": "ショーが はじまりました。わるものは あの 大きい せんしです！",
+       "ro": "Shoo ga hajimarimashita. Warumono wa ano ookii senshi desu!",
+       "vi": "Màn biểu diễn bắt đầu. Vai phản diện là chiến binh to lớn hôm trước!"
+      },
+      "2": {
+       "jp": "ショーが始まった。わるものやくは、あの力くらべ大会で戦った大きなせんしだ！",
+       "ro": "Shoo ga hajimatta. Warumonoyaku wa, ano chikarakurabe taikai de tatakatta ookina senshi da!",
+       "vi": "Màn biểu diễn bắt đầu. Vai phản diện chính là chiến binh to lớn từng đấu với Varesa ở giải thi sức mạnh!"
+      },
+      "3": {
+       "jp": "ショーの幕が上がる。悪役を務めるのは、あの力比べ大会でヴァレサと激闘を繰り広げた大男だった！",
+       "ro": "Shoo no maku ga agaru. Akuyaku o tsutomeru no wa, ano chikarakurabe taikai de Varesa to gekitou o kurihirogeta oootoko datta!",
+       "vi": "Màn biểu diễn bắt đầu. Người đóng vai phản diện chính là gã to lớn từng quyết đấu nảy lửa với Varesa ở giải thi sức mạnh!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-6-4"
+      ],
+      "2": [
+       "a21-17-3"
+      ],
+      "3": [
+       "a22-3-2",
+       "b1-6-2"
+      ]
+     },
+     "next": "n5"
+    },
+    {
+     "id": "n5",
+     "sp": "char",
+     "mood": "serious",
+     "t": {
+      "1": {
+       "jp": "せいぎの ヒーロー、来ました！むらの ごはんは わたしが まもります！",
+       "ro": "Seigi no hiiroo, kimashita! Mura no gohan wa watashi ga mamorimasu!",
+       "vi": "Anh hùng chính nghĩa đã tới! Lương thực của làng, tớ sẽ bảo vệ!"
+      },
+      "2": {
+       "jp": "せいぎのヒーロー、さんじょう！村のしゅうかくは、だれにもわたさないよ！",
+       "ro": "Seigi no hiiroo, sanjou! Mura no shuukaku wa, dare ni mo watasanai yo!",
+       "vi": "Anh hùng chính nghĩa, xuất hiện! Mùa màng của làng, tớ không giao cho ai đâu!"
+      },
+      "3": {
+       "jp": "正義の仮面ヒーロー、ここに参上！村の実りは、誰にも渡さないよ！",
+       "ro": "Seigi no kamen hiiroo, koko ni sanjou! Mura no minori wa, dare ni mo watasanai yo!",
+       "vi": "Anh hùng mặt nạ chính nghĩa, xuất hiện tại đây! Thành quả của làng, tớ không giao cho kẻ nào đâu!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-4-2"
+      ],
+      "2": [
+       "a1-4-2",
+       "a21-2-2"
+      ],
+      "3": [
+       "b1-1-4"
+      ]
+     },
+     "next": "n6"
+    },
+    {
+     "id": "n6",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "わるものは とても つよいです。ヴァレサは 旅人を 見ました。",
+       "ro": "Warumono wa totemo tsuyoi desu. Varesa wa tabibito o mimashita.",
+       "vi": "Kẻ phản diện rất mạnh. Varesa nhìn về phía Lữ Khách."
+      },
+      "2": {
+       "jp": "わるものやくはとても強い。ヴァレサはピンチになって、旅人の方を見た。",
+       "ro": "Warumonoyaku wa totemo tsuyoi. Varesa wa pinchi ni natte, tabibito no hou o mita.",
+       "vi": "Kẻ phản diện rất mạnh. Varesa rơi vào thế nguy, rồi nhìn về phía Lữ Khách."
+      },
+      "3": {
+       "jp": "悪役の猛攻に、台本どおりヒーローは大ピンチ。するとヴァレサは、観客席の旅人にちらりと目配せした。",
+       "ro": "Akuyaku no moukou ni, daihon doori hiiroo wa daipinchi. Suruto Varesa wa, kankyakuseki no tabibito ni chirari to mekubase shita.",
+       "vi": "Trước đòn tấn công dữ dội của phản diện, đúng kịch bản, anh hùng lâm nguy. Thế rồi Varesa liếc mắt ra hiệu cho Lữ Khách trên khán đài."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-7-4",
+       "a1-15-4"
+      ],
+      "2": [
+       "a21-3-1",
+       "a21-6-2"
+      ],
+      "3": [
+       "b12-14-1",
+       "b1-3-6"
+      ]
+     },
+     "next": "n7"
+    },
+    {
+     "id": "n7",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "旅人！ここに 来て ください！わたしの パートナーです！",
+       "ro": "Tabibito! Koko ni kite kudasai! Watashi no paatonaa desu!",
+       "vi": "Lữ Khách! Lên đây đi! Cậu là cộng sự của tớ!"
+      },
+      "2": {
+       "jp": "旅人！こっちに来て！ヒーローのパートナーになってよ！",
+       "ro": "Tabibito! Kotchi ni kite! Hiiroo no paatonaa ni natte yo!",
+       "vi": "Lữ Khách! Lại đây! Làm cộng sự của anh hùng đi!"
+      },
+      "3": {
+       "jp": "旅人、出番だよ！ヒーローの相棒として、ステージに上がって！",
+       "ro": "Tabibito, deban da yo! Hiiroo no aibou to shite, suteeji ni agatte!",
+       "vi": "Lữ Khách, tới lượt cậu rồi! Lên sân khấu với tư cách cộng sự của anh hùng đi!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-2-2",
+       "a1-3-1"
+      ],
+      "2": [
+       "a21-6-1",
+       "a21-3-1"
+      ],
+      "3": [
+       "a22-13-5",
+       "a21-6-1"
+      ]
+     },
+     "choices": [
+      {
+       "t": {
+        "1": {
+         "jp": "はい！まかせて ください！",
+         "ro": "Hai! Makasete kudasai!",
+         "vi": "Được! Cứ giao cho mình!"
+        },
+        "2": {
+         "jp": "まかせて！いっしょにたたかおう！",
+         "ro": "Makasete! Issho ni tatakaou!",
+         "vi": "Cứ để mình! Cùng chiến đấu nào!"
+        },
+        "3": {
+         "jp": "任せて！相棒の出番だね！",
+         "ro": "Makasete! Aibou no deban da ne!",
+         "vi": "Cứ để mình! Đến lượt cộng sự rồi nhỉ!"
+        }
+       },
+       "g": {
+        "1": [
+         "a1-2-2"
+        ],
+        "2": [
+         "a21-8-2"
+        ],
+        "3": [
+         "ab1-6-4"
+        ]
+       },
+       "next": "n8"
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "えっ！？…はい、行きます！",
+         "ro": "E!?... Hai, ikimasu!",
+         "vi": "Hả!? ...Được, mình tới đây!"
+        },
+        "2": {
+         "jp": "えっ、今！？…わかった、行くよ！",
+         "ro": "E, ima!?... Wakatta, iku yo!",
+         "vi": "Hả, ngay bây giờ á!? ...Được rồi, mình tới đây!"
+        },
+        "3": {
+         "jp": "えっ、聞いてないよ！？…もう、しょうがないなあ！",
+         "ro": "E, kiite nai yo!?... Mou, shouganai naa!",
+         "vi": "Hả, có ai nói trước đâu!? ...Thôi được, đành vậy!"
+        }
+       },
+       "g": {
+        "1": [
+         "a1-9-5"
+        ],
+        "2": [
+         "a21-4-3"
+        ],
+        "3": [
+         "a22-8-2"
+        ]
+       },
+       "next": "n9"
+      }
+     ]
+    },
+    {
+     "id": "n8",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "さすが わたしの パートナーです！",
+       "ro": "Sasuga watashi no paatonaa desu!",
+       "vi": "Đúng là cộng sự của tớ!"
+      },
+      "2": {
+       "jp": "さすが、わたしのパートナー！いっしょに決めよう！",
+       "ro": "Sasuga, watashi no paatonaa! Issho ni kimeyou!",
+       "vi": "Đúng là cộng sự của tớ! Cùng tung đòn kết liễu nào!"
+      },
+      "3": {
+       "jp": "さっすが、わたしの相棒！最後の決め技、一緒にいくよ！",
+       "ro": "Sassuga, watashi no aibou! Saigo no kimewaza, issho ni iku yo!",
+       "vi": "Đúng là cộng sự của tớ! Chiêu kết liễu cuối cùng, cùng tung ra nào!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-4-2"
+      ],
+      "2": [
+       "a21-8-2"
+      ],
+      "3": [
+       "ab1-6-4"
+      ]
+     },
+     "next": "n10"
+    },
+    {
+     "id": "n9",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "えへへ、来ましたね！いっしょに がんばりましょう！",
+       "ro": "Ehehe, kimashita ne! Issho ni ganbarimashou!",
+       "vi": "Hì hì, cậu tới rồi! Cùng cố gắng nào!"
+      },
+      "2": {
+       "jp": "えへへ、ぜったい来ると思ってた！いっしょに決めよう！",
+       "ro": "Ehehe, zettai kuru to omotteta! Issho ni kimeyou!",
+       "vi": "Hì hì, tớ biết chắc cậu sẽ tới mà! Cùng tung đòn kết liễu nào!"
+      },
+      "3": {
+       "jp": "えへへ、来てくれるって信じてたよ！最後の決め技、一緒にいくよ！",
+       "ro": "Ehehe, kite kureru tte shinjiteta yo! Saigo no kimewaza, issho ni iku yo!",
+       "vi": "Hì hì, tớ tin là cậu sẽ tới mà! Chiêu kết liễu cuối cùng, cùng tung ra nào!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-6-6"
+      ],
+      "2": [
+       "a21-18-1",
+       "a21-8-2"
+      ],
+      "3": [
+       "ab1-4-1",
+       "b1-5-2"
+      ]
+     },
+     "next": "n10"
+    },
+    {
+     "id": "n10",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "ふたりで とびました。わるものは たおれました。みんな 「せいぎの かちです！」と 言いました。",
+       "ro": "Futari de tobimashita. Warumono wa taoremashita. Minna \"seigi no kachi desu!\" To iimashita.",
+       "vi": "Hai người cùng bật nhảy. Kẻ phản diện ngã xuống. Mọi người hô: \"Chính nghĩa chiến thắng!\""
+      },
+      "2": {
+       "jp": "二人がいっしょにとぶと、わるものやくは大げさにたおれた。子どもたちが「せいぎのかちだ！」とさけんだ。",
+       "ro": "Futari ga issho ni tobu to, warumonoyaku wa oogesa ni taoreta. Kodomo tachi ga \"seigi no kachi da!\" To sakenda.",
+       "vi": "Hai người cùng bật nhảy, kẻ phản diện ngã lăn ra đầy cường điệu. Bọn trẻ reo lên: \"Chính nghĩa chiến thắng!\""
+      },
+      "3": {
+       "jp": "二人の合体技が炸裂し、悪役は大げさに吹っ飛んだ。子どもたちの「正義の勝利だ！」という歓声が夜空に響いた。",
+       "ro": "Futari no gattaiwaza ga sakuretsu shi, akuyaku wa oogesa ni futtonda. Kodomo tachi no \"seigi no shouri da!\" To iu kansei ga yozora ni hibiita.",
+       "vi": "Đòn kết hợp của hai người bùng nổ, kẻ phản diện bay vèo đi đầy kịch tính. Tiếng reo \"Chính nghĩa chiến thắng!\" của bọn trẻ vang vọng bầu trời đêm."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4"
+      ],
+      "2": [
+       "a22-4-4",
+       "a22-2-6"
+      ],
+      "3": [
+       "b1-2-4",
+       "a22-1-2"
+      ]
+     },
+     "next": "n11"
+    },
+    {
+     "id": "n11",
+     "sp": "narr",
+     "bg": "starry-sky",
+     "t": {
+      "1": {
+       "jp": "ショーの あと、ヴァレサは マスクを とりました。そらに ほしが たくさん あります。",
+       "ro": "Shoo no ato, Varesa wa masuku o torimashita. Sora ni hoshi ga takusan arimasu.",
+       "vi": "Sau màn biểu diễn, Varesa tháo mặt nạ ra. Trên trời có thật nhiều sao."
+      },
+      "2": {
+       "jp": "ショーのあと、ヴァレサはマスクを外して、星空を見上げた。",
+       "ro": "Shoo no ato, Varesa wa masuku o hazushite, hoshizora o miageta.",
+       "vi": "Sau màn biểu diễn, Varesa tháo mặt nạ, ngước nhìn bầu trời sao."
+      },
+      "3": {
+       "jp": "ショーが終わると、ヴァレサは仮面を外し、満天の星を見上げた。",
+       "ro": "Shoo ga owaru to, Varesa wa kamen o hazushi, manten no hoshi o miageta.",
+       "vi": "Màn biểu diễn kết thúc, Varesa tháo mặt nạ, ngước nhìn bầu trời đầy sao."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-7-1",
+       "a1-15-4"
+      ],
+      "2": [
+       "a21-8-5",
+       "a21-6-2"
+      ],
+      "3": [
+       "a22-4-4",
+       "b1-2-4"
+      ]
+     },
+     "next": "n12"
+    },
+    {
+     "id": "n12",
+     "sp": "char",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "旅人、ありがとう。はたけ、山、きょうぎじょう、よるの むら…いつも 旅人が いました。",
+       "ro": "Tabibito, arigatou. Hatake, yama, kyougijou, yoru no mura... Itsumo tabibito ga imashita.",
+       "vi": "Lữ Khách, cảm ơn cậu. Cánh đồng, ngọn núi, đấu trường, ngôi làng về đêm... lúc nào cũng có Lữ Khách."
+      },
+      "2": {
+       "jp": "旅人、ありがとう。はたけでも、がけの上でも、きょうぎじょうでも、夜の村でも、旅人はいつもそばにいたね。",
+       "ro": "Tabibito, arigatou. Hatake demo, gake no ue demo, kyougijou demo, yoru no mura demo, tabibito wa itsumo soba ni ita ne.",
+       "vi": "Lữ Khách, cảm ơn cậu. Ở cánh đồng, trên vách núi, ở đấu trường hay trong đêm ở làng, Lữ Khách lúc nào cũng ở bên tớ."
+      },
+      "3": {
+       "jp": "旅人、ありがとね。畑でも、崖の上でも、競技場でも、あの夜の村でも…君はいつも隣にいてくれた。",
+       "ro": "Tabibito, arigato ne. Hatake demo, gake no ue demo, kyougijou demo, ano yoru no mura demo... Kimi wa itsumo tonari ni ite kureta.",
+       "vi": "Lữ Khách, cảm ơn nha. Ở cánh đồng, trên vách núi, ở đấu trường, cả trong đêm ở làng... cậu lúc nào cũng ở bên tớ."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-1-3",
+       "a1-7-2"
+      ],
+      "2": [
+       "a1-14-5",
+       "a1-1-3"
+      ],
+      "3": [
+       "ab1-4-1"
+      ]
+     },
+     "next": "n13"
+    },
+    {
+     "id": "n13",
+     "sp": "char",
+     "mood": "shy",
+     "t": {
+      "1": {
+       "jp": "せいぎは、みんなの えがおです。わたしも ひとりじゃ ありません。旅人の おかげで、わかりました。",
+       "ro": "Seigi wa, minna no egao desu. Watashi mo hitori ja arimasen. Tabibito no okage de, wakarimashita.",
+       "vi": "Chính nghĩa là nụ cười của mọi người. Tớ cũng không hề đơn độc. Nhờ Lữ Khách mà tớ hiểu ra điều đó."
+      },
+      "2": {
+       "jp": "せいぎって、みんなのえがおを守ることなんだ。それに、ヒーローもひとりじゃない。旅人のおかげで、わかったよ。",
+       "ro": "Seigi tte, minna no egao o mamoru koto na n da. Soreni, hiiroo mo hitori janai. Tabibito no okage de, wakatta yo.",
+       "vi": "Chính nghĩa là bảo vệ nụ cười của mọi người. Hơn nữa, anh hùng cũng chẳng hề đơn độc. Nhờ Lữ Khách mà tớ hiểu ra đấy."
+      },
+      "3": {
+       "jp": "正義って、みんなの笑顔を守ることなんだね。それに、ヒーローだって一人じゃない。君のおかげで、やっとわかったよ。",
+       "ro": "Seigi tte, minna no egao o mamoru koto na n da ne. Soreni, hiiroo datte hitori janai. Kimi no okage de, yatto wakatta yo.",
+       "vi": "Chính nghĩa là bảo vệ nụ cười của mọi người nhỉ. Hơn nữa, anh hùng cũng chẳng hề đơn độc. Nhờ cậu mà cuối cùng tớ cũng hiểu ra."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-1",
+       "a1-3-2"
+      ],
+      "2": [
+       "a22-1-4",
+       "a21-17-1"
+      ],
+      "3": [
+       "a22-1-4",
+       "b1-5-2"
+      ]
+     },
+     "next": "n14"
+    },
+    {
+     "id": "n14",
+     "sp": "trav",
+     "t": {
+      "1": {
+       "jp": "ヴァレサは ずっと ヒーローでしたよ。",
+       "ro": "Varesa wa zutto hiiroo deshita yo.",
+       "vi": "Varesa lúc nào cũng là anh hùng mà."
+      },
+      "2": {
+       "jp": "ヴァレサは、ずっと前からヒーローだったよ。",
+       "ro": "Varesa wa, zutto mae kara hiiroo datta yo.",
+       "vi": "Varesa đã là anh hùng từ lâu rồi mà."
+      },
+      "3": {
+       "jp": "ヴァレサは最初に会った日から、ずっとヒーローだったよ。",
+       "ro": "Varesa wa saisho ni atta hi kara, zutto hiiroo datta yo.",
+       "vi": "Từ ngày đầu gặp nhau, Varesa đã luôn là anh hùng rồi."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-17-3"
+      ],
+      "2": [
+       "a21-4-1"
+      ],
+      "3": [
+       "a21-17-3",
+       "b1-6-2"
+      ]
+     },
+     "next": "n15"
+    },
+    {
+     "id": "n15",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "えへへ…ありがとう。これは 旅人の マスクです。旅人も わたしの ヒーローです！さあ、食べましょう！",
+       "ro": "Ehehe... Arigatou. Kore wa tabibito no masuku desu. Tabibito mo watashi no hiiroo desu! Saa, tabemashou!",
+       "vi": "Hì hì... cảm ơn nhé. Đây là mặt nạ của Lữ Khách. Lữ Khách cũng là anh hùng của tớ! Nào, đi ăn thôi!"
+      },
+      "2": {
+       "jp": "えへへ…じゃあ、これあげる。パートナーのマスク！旅人も、わたしのヒーローなんだから。さ、食べに行こう！",
+       "ro": "Ehehe... Jaa, kore ageru. Paatonaa no masuku! Tabibito mo, watashi no hiiroo na n da kara. Sa, tabe ni ikou!",
+       "vi": "Hì hì... vậy tặng cậu cái này. Mặt nạ của cộng sự! Vì Lữ Khách cũng là anh hùng của tớ mà. Nào, đi ăn thôi!"
+      },
+      "3": {
+       "jp": "えへへ…じゃ、これ受け取って。相棒専用の仮面だよ。君も、わたしのヒーローなんだから。さ、祭りのごちそうが待ってるよ！",
+       "ro": "Ehehe... Ja, kore uketotte. Aibou sen'you no kamen da yo. Kimi mo, watashi no hiiroo na n da kara. Sa, matsuri no gochisou ga matteru yo!",
+       "vi": "Hì hì... vậy nhận lấy cái này nhé. Mặt nạ dành riêng cho cộng sự đó. Vì cậu cũng là anh hùng của tớ mà. Nào, cỗ lễ hội đang chờ đấy!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-8-4",
+       "a1-3-5",
+       "a1-6-6"
+      ],
+      "2": [
+       "a1-15-2",
+       "a21-3-5",
+       "a21-8-3"
+      ],
+      "3": [
+       "ab1-3-3",
+       "ab1-5-7"
+      ]
+     },
+     "end": true
+    }
+   ]
+  }
+ ],
+ "chat": [
+  {
+   "id": "food",
+   "title": "Ẩm thực",
+   "turns": [
+    {
+     "t": {
+      "1": {
+       "jp": "旅人は くだものが 好きですか。どんな くだものが 好きですか。",
+       "ro": "Tabibito wa kudamono ga suki desu ka. Donna kudamono ga suki desu ka.",
+       "vi": "Lữ Khách có thích trái cây không? Cậu thích loại trái cây nào?"
+      },
+      "2": {
+       "jp": "旅人は、くだもの好き？どんなくだものがいちばん好き？",
+       "ro": "Tabibito wa, kudamono suki? Donna kudamono ga ichiban suki?",
+       "vi": "Lữ Khách có thích trái cây không? Cậu thích loại nào nhất?"
+      },
+      "3": {
+       "jp": "旅人って、果物は好き？一番好きなのはどれ？",
+       "ro": "Tabibito tte, kudamono wa suki? Ichiban sukina no wa dore?",
+       "vi": "Lữ Khách có thích trái cây không? Cậu thích loại nào nhất?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-5-1",
+       "a1-11-2"
+      ],
+      "2": [
+       "a21-3-6",
+       "a21-2-6"
+      ],
+      "3": [
+       "b12-1-1",
+       "a22-3-2"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "はい、りんごが 好きです。あまいですから。",
+         "ro": "Hai, ringo ga suki desu. Amai desu kara.",
+         "vi": "Có, mình thích táo. Vì nó ngọt."
+        },
+        "2": {
+         "jp": "りんごがいちばん好きです。あまくて、おいしいですから。",
+         "ro": "Ringo ga ichiban suki desu. Amakute, oishii desu kara.",
+         "vi": "Mình thích táo nhất. Vì nó vừa ngọt vừa ngon."
+        },
+        "3": {
+         "jp": "りんごが一番好きかな。甘くてシャキシャキしてるから。",
+         "ro": "Ringo ga ichiban suki ka na. Amakute shakishaki shiteru kara.",
+         "vi": "Chắc mình thích táo nhất. Vì nó ngọt và giòn."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-5-1",
+         "a1-13-4"
+        ],
+        "2": [
+         "a21-3-6",
+         "a21-5-1",
+         "a21-3-5"
+        ],
+        "3": [
+         "a21-3-6",
+         "ab1-5-7"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "わたしも りんごが 好きです！こんど いっしょに 食べましょう！",
+         "ro": "Watashi mo ringo ga suki desu! Kondo issho ni tabemashou!",
+         "vi": "Tớ cũng thích táo! Lần tới cùng ăn nhé!"
+        },
+        "2": {
+         "jp": "わたしも好き！こんど、うちのりんごをいっしょに食べようね！",
+         "ro": "Watashi mo suki! Kondo, uchi no ringo o issho ni tabeyou ne!",
+         "vi": "Tớ cũng thích! Lần tới cùng ăn táo nhà tớ nhé!"
+        },
+        "3": {
+         "jp": "わかる〜！今度、うちの畑のりんご、もぎたてを食べさせてあげるね！",
+         "ro": "Wakaru~! Kondo, uchi no hatake no ringo, mogitate o tabesasete ageru ne!",
+         "vi": "Hiểu mà~! Lần tới tớ sẽ cho cậu ăn táo mới hái ở ruộng nhà tớ!"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-3-5",
+         "a1-6-6"
+        ],
+        "2": [
+         "a1-11-6",
+         "a21-8-2"
+        ],
+        "3": [
+         "b1-3-3",
+         "ab1-6-5"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "くだものは あまり 食べません。にくが 好きです。",
+         "ro": "Kudamono wa amari tabemasen. Niku ga suki desu.",
+         "vi": "Mình không hay ăn trái cây lắm. Mình thích thịt."
+        },
+        "2": {
+         "jp": "くだものはあまり食べません。肉のほうが好きです。",
+         "ro": "Kudamono wa amari tabemasen. Niku no hou ga suki desu.",
+         "vi": "Mình không hay ăn trái cây. Mình thích thịt hơn."
+        },
+        "3": {
+         "jp": "果物はあんまり食べないんだ。どっちかというと肉派かな。",
+         "ro": "Kudamono wa anmari tabenai n da. Dotchi ka to iu to nikuha ka na.",
+         "vi": "Mình không hay ăn trái cây lắm. Nếu phải chọn thì mình thuộc phe thịt."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-5-4",
+         "a1-5-1"
+        ],
+        "2": [
+         "a21-2-5",
+         "a22-12-3"
+        ],
+        "3": [
+         "b12-3-7",
+         "a21-17-1"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "にくも いいですね！でも、くだものも 食べて くださいね。",
+         "ro": "Niku mo ii desu ne! Demo, kudamono mo tabete kudasai ne.",
+         "vi": "Thịt cũng ngon nhỉ! Nhưng ăn cả trái cây nữa nhé."
+        },
+        "2": {
+         "jp": "肉もいいね！でも、くだものも食べたほうがいいよ〜。",
+         "ro": "Niku mo ii ne! Demo, kudamono mo tabeta hou ga ii yo~.",
+         "vi": "Thịt cũng được nhỉ! Nhưng cũng nên ăn trái cây nữa đấy~."
+        },
+        "3": {
+         "jp": "お肉もいいよね！でも、果物も食べたほうがいいよ〜。イアンサに怒られちゃうから。",
+         "ro": "Oniku mo ii yo ne! Demo, kudamono mo tabeta hou ga ii yo~. Iansa ni okorarechau kara.",
+         "vi": "Thịt cũng ngon nhỉ! Nhưng nên ăn cả trái cây nữa~. Không là bị Iansan mắng đấy."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-18-2",
+         "a1-2-2"
+        ],
+        "2": [
+         "a22-5-1"
+        ],
+        "3": [
+         "a22-5-1",
+         "a22-18-1"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": {
+      "1": {
+       "jp": "旅人は いちにちに 何かい ごはんを 食べますか。わたしは ごかいです！",
+       "ro": "Tabibito wa ichinichi ni nankai gohan o tabemasu ka. Watashi wa gokai desu!",
+       "vi": "Lữ Khách ăn mấy bữa một ngày? Tớ ăn năm bữa!"
+      },
+      "2": {
+       "jp": "旅人は、一日に何回ごはんを食べる？わたしは五回！",
+       "ro": "Tabibito wa, ichinichi ni nankai gohan o taberu? Watashi wa gokai!",
+       "vi": "Lữ Khách ăn mấy bữa một ngày? Tớ ăn năm bữa!"
+      },
+      "3": {
+       "jp": "旅人って、一日何食派？わたしは五食に、おやつも入れたら…数えきれないかも。",
+       "ro": "Tabibito tte, ichinichi nanshokuha? Watashi wa goshoku ni, oyatsu mo iretara... Kazoekirenai kamo.",
+       "vi": "Lữ Khách ăn mấy bữa một ngày? Tớ ăn năm bữa, cộng thêm đồ ăn vặt thì... chắc đếm không xuể."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-5-3",
+       "a1-3-1"
+      ],
+      "2": [
+       "a21-10-3"
+      ],
+      "3": [
+       "a22-7-3",
+       "ab1-7-2"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "さんかい 食べます。あさと ひると よるです。",
+         "ro": "Sankai tabemasu. Asa to hiru to yoru desu.",
+         "vi": "Mình ăn ba bữa. Sáng, trưa và tối."
+        },
+        "2": {
+         "jp": "三回です。朝、昼、夜に食べます。",
+         "ro": "Sankai desu. Asa, hiru, yoru ni tabemasu.",
+         "vi": "Ba bữa. Mình ăn vào buổi sáng, trưa, tối."
+        },
+        "3": {
+         "jp": "三食きっちり食べるようにしてるよ。",
+         "ro": "Sanshoku kitchiri taberu you ni shiteru yo.",
+         "vi": "Mình cố gắng ăn đủ ba bữa đàng hoàng."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-4-1"
+        ],
+        "2": [
+         "a21-10-3"
+        ],
+        "3": [
+         "a22-15-2"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "さんかいですか。いいですね。でも、わたしは もっと 食べます！",
+         "ro": "Sankai desu ka. Ii desu ne. Demo, watashi wa motto tabemasu!",
+         "vi": "Ba bữa à. Tốt đấy. Nhưng tớ ăn nhiều hơn cơ!"
+        },
+        "2": {
+         "jp": "ちゃんと三回食べるの、えらいね！わたしはそれじゃ足りないな〜。",
+         "ro": "Chanto sankai taberu no, erai ne! Watashi wa sore ja tarinai na~.",
+         "vi": "Ăn đủ ba bữa, giỏi ghê! Với tớ thì thế chưa đủ đâu~."
+        },
+        "3": {
+         "jp": "規則正しいのはえらいね！わたしは三食じゃ、とてもお腹がもたないや〜。",
+         "ro": "Kisoku tadashii no wa erai ne! Watashi wa sanshoku ja, totemo onaka ga motanai ya~.",
+         "vi": "Ăn uống điều độ, giỏi ghê! Còn tớ ba bữa thì bụng chẳng trụ nổi~."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-18-2"
+        ],
+        "2": [
+         "a21-9-2"
+        ],
+        "3": [
+         "b12-16-3",
+         "a22-3-2"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "ときどき あさごはんを 食べません。",
+         "ro": "Tokidoki asagohan o tabemasen.",
+         "vi": "Thỉnh thoảng mình không ăn sáng."
+        },
+        "2": {
+         "jp": "朝ごはんは、ときどき食べません。忙しいですから。",
+         "ro": "Asagohan wa, tokidoki tabemasen. Isogashii desu kara.",
+         "vi": "Bữa sáng thì thỉnh thoảng mình không ăn. Vì bận."
+        },
+        "3": {
+         "jp": "朝は忙しくて、つい抜いちゃうことが多いんだ。",
+         "ro": "Asa wa isogashikute, tsui nuichau koto ga ooi n da.",
+         "vi": "Buổi sáng bận quá nên mình hay bỏ bữa."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-11-5"
+        ],
+        "2": [
+         "a21-2-5",
+         "a21-3-5"
+        ],
+        "3": [
+         "a21-12-3",
+         "a22-11-2"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "えっ、だめですよ！あさごはんは だいじです！",
+         "ro": "E, dame desu yo! Asagohan wa daiji desu!",
+         "vi": "Hả, không được đâu! Bữa sáng quan trọng lắm!"
+        },
+        "2": {
+         "jp": "えっ、だめだよ！朝ごはんを食べないと、力が出ないよ！",
+         "ro": "E, dame da yo! Asagohan o tabenai to, chikara ga denai yo!",
+         "vi": "Hả, không được đâu! Không ăn sáng thì không có sức đâu!"
+        },
+        "3": {
+         "jp": "ええっ、もったいない！朝ごはんを抜くなんて、一日のエネルギーを捨てるようなものだよ！",
+         "ro": "Ee, mottainai! Asagohan o nuku nante, ichinichi no enerugii o suteru you na mono da yo!",
+         "vi": "Hảả, phí quá! Bỏ bữa sáng chẳng khác gì vứt đi năng lượng của cả ngày!"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-10-5"
+        ],
+        "2": [
+         "a22-4-4"
+        ],
+        "3": [
+         "b12-5-1",
+         "a22-15-6"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": {
+      "1": {
+       "jp": "今、何が 食べたいですか。わたしが つくります！",
+       "ro": "Ima, nani ga tabetai desu ka. Watashi ga tsukurimasu!",
+       "vi": "Bây giờ cậu muốn ăn gì? Tớ sẽ nấu!"
+      },
+      "2": {
+       "jp": "今、何が食べたい？わたしが作るよ！",
+       "ro": "Ima, nani ga tabetai? Watashi ga tsukuru yo!",
+       "vi": "Bây giờ cậu muốn ăn gì? Tớ nấu cho!"
+      },
+      "3": {
+       "jp": "今、何が食べたい気分？リクエストしてくれたら、腕によりをかけて作っちゃうよ！",
+       "ro": "Ima, nani ga tabetai kibun? Rikuesuto shite kuretara, ude ni yori o kakete tsukutchau yo!",
+       "vi": "Bây giờ cậu đang thèm món gì? Cứ gọi món đi, tớ sẽ trổ hết tài nấu cho!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-18-4"
+      ],
+      "2": [
+       "a21-10-1"
+      ],
+      "3": [
+       "ab1-4-1",
+       "a22-7-3"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "あまい ケーキが 食べたいです。",
+         "ro": "Amai keeki ga tabetai desu.",
+         "vi": "Mình muốn ăn bánh ngọt."
+        },
+        "2": {
+         "jp": "あまいケーキが食べたいです。フルーツがのったのがいいな。",
+         "ro": "Amai keeki ga tabetai desu. Furuutsu ga notta no ga ii na.",
+         "vi": "Mình muốn ăn bánh ngọt. Loại có trái cây ở trên thì tuyệt."
+        },
+        "3": {
+         "jp": "甘いケーキが食べたいな。フルーツがたっぷり乗ったやつ！",
+         "ro": "Amai keeki ga tabetai na. Furuutsu ga tappuri notta yatsu!",
+         "vi": "Mình thèm bánh ngọt. Loại phủ đầy trái cây ấy!"
+        }
+       },
+       "g": {
+        "1": [
+         "a1-18-4",
+         "a1-14-1"
+        ],
+        "2": [
+         "a21-10-1",
+         "a22-11-5"
+        ],
+        "3": [
+         "b1-8-4"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "いいですね！くだものの ケーキを つくります！",
+         "ro": "Ii desu ne! Kudamono no keeki o tsukurimasu!",
+         "vi": "Hay đó! Tớ sẽ làm bánh trái cây!"
+        },
+        "2": {
+         "jp": "いいね！じゃあ、とれたてのくだものでケーキを作るよ！",
+         "ro": "Ii ne! Jaa, toretate no kudamono de keeki o tsukuru yo!",
+         "vi": "Hay đó! Vậy tớ sẽ làm bánh bằng trái cây mới hái!"
+        },
+        "3": {
+         "jp": "まかせて！採れたて果物のケーキ、特大サイズで焼いちゃうね！",
+         "ro": "Makasete! Toretate kudamono no keeki, tokudai saizu de yaichau ne!",
+         "vi": "Cứ để tớ! Bánh trái cây mới hái, tớ sẽ nướng cỡ siêu to luôn!"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-5-3"
+        ],
+        "2": [
+         "a21-2-2"
+        ],
+        "3": [
+         "a22-11-2"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "あたたかい スープが 飲みたいです。",
+         "ro": "Atatakai suupu ga nomitai desu.",
+         "vi": "Mình muốn ăn súp nóng."
+        },
+        "2": {
+         "jp": "あたたかいスープが飲みたいです。今日は少し寒いですから。",
+         "ro": "Atatakai suupu ga nomitai desu. Kyou wa sukoshi samui desu kara.",
+         "vi": "Mình muốn ăn súp nóng. Vì hôm nay hơi lạnh."
+        },
+        "3": {
+         "jp": "あったかいスープが飲みたいな。今日はちょっと冷えるし。",
+         "ro": "Attakai suupu ga nomitai na. Kyou wa chotto hieru shi.",
+         "vi": "Mình thèm súp nóng. Hôm nay hơi lạnh nữa."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-18-4"
+        ],
+        "2": [
+         "a21-10-1",
+         "a21-3-5"
+        ],
+        "3": [
+         "a22-6-3"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "いいですね！やさいの スープを つくります！",
+         "ro": "Ii desu ne! Yasai no suupu o tsukurimasu!",
+         "vi": "Hay đó! Tớ sẽ nấu súp rau!"
+        },
+        "2": {
+         "jp": "いいね！うちの野菜で、あったかいスープを作るね！",
+         "ro": "Ii ne! Uchi no yasai de, attakai suupu o tsukuru ne!",
+         "vi": "Hay đó! Tớ sẽ nấu súp nóng bằng rau nhà tớ!"
+        },
+        "3": {
+         "jp": "いいね！畑の野菜たっぷりのスープで、体の芯からポカポカにしてあげる！",
+         "ro": "Ii ne! Hatake no yasai tappuri no suupu de, karada no shin kara pokapoka ni shite ageru!",
+         "vi": "Hay đó! Tớ sẽ làm cho cậu ấm từ trong ra ngoài bằng món súp đầy rau ruộng nhà!"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-5-3"
+        ],
+        "2": [
+         "a1-6-2"
+        ],
+        "3": [
+         "ab1-6-5",
+         "a22-16-4"
+        ]
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "training",
+   "title": "Rèn luyện",
+   "turns": [
+    {
+     "t": {
+      "1": {
+       "jp": "旅人は よく うんどうを しますか。どんな スポーツが 好きですか。",
+       "ro": "Tabibito wa yoku undou o shimasu ka. Donna supootsu ga suki desu ka.",
+       "vi": "Lữ Khách có hay vận động không? Cậu thích môn thể thao nào?"
+      },
+      "2": {
+       "jp": "旅人は、よく運動する？どんなスポーツが好き？",
+       "ro": "Tabibito wa, yoku undou suru? Donna supootsu ga suki?",
+       "vi": "Lữ Khách có hay vận động không? Cậu thích môn thể thao nào?"
+      },
+      "3": {
+       "jp": "旅人って、普段から体を動かしてる？好きなスポーツとかある？",
+       "ro": "Tabibito tte, fudan kara karada o ugokashiteru? Sukina supootsu toka aru?",
+       "vi": "Lữ Khách bình thường có hay vận động không? Có môn thể thao nào cậu thích không?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-5-4",
+       "a1-11-2"
+      ],
+      "2": [
+       "a21-2-5",
+       "a21-2-6"
+      ],
+      "3": [
+       "ab1-5-7",
+       "a22-9-5"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "はい、まいあさ はしります。",
+         "ro": "Hai, maiasa hashirimasu.",
+         "vi": "Có, sáng nào mình cũng chạy bộ."
+        },
+        "2": {
+         "jp": "はい、毎朝ジョギングをしています。",
+         "ro": "Hai, maiasa jogingu o shite imasu.",
+         "vi": "Có, sáng nào mình cũng chạy bộ."
+        },
+        "3": {
+         "jp": "うん、毎朝走るようにしてるよ。",
+         "ro": "Un, maiasa hashiru you ni shiteru yo.",
+         "vi": "Ừ, mình cố gắng sáng nào cũng chạy bộ."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-5-3"
+        ],
+        "2": [
+         "a21-1-1"
+        ],
+        "3": [
+         "a22-15-2"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "すごいです！いっしょに はしりましょう！でも、あさは ちょっと…。",
+         "ro": "Sugoi desu! Issho ni hashirimashou! Demo, asa wa chotto...",
+         "vi": "Giỏi quá! Cùng chạy nhé! Nhưng buổi sáng thì hơi..."
+        },
+        "2": {
+         "jp": "すごい！こんどいっしょに走ろうよ。…でも、朝はちょっと苦手かな。",
+         "ro": "Sugoi! Kondo issho ni hashirou yo... Demo, asa wa chotto nigate ka na.",
+         "vi": "Giỏi ghê! Lần tới cùng chạy nhé. ...Nhưng buổi sáng thì tớ hơi kém."
+        },
+        "3": {
+         "jp": "えらい！今度一緒に走ろうよ。…あ、でも朝はちょっと待ってね。起きられないから。",
+         "ro": "Erai! Kondo issho ni hashirou yo... A, demo asa wa chotto matte ne. Okirarenai kara.",
+         "vi": "Giỏi ghê! Lần tới cùng chạy nhé. ...À, nhưng buổi sáng thì đợi tớ chút. Vì tớ không dậy nổi."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-6-6",
+         "a1-12-6"
+        ],
+        "2": [
+         "a21-8-2",
+         "a21-3-4"
+        ],
+        "3": [
+         "a21-8-2",
+         "a22-6-1"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "あまり しません。うんどうは 好きじゃないです。",
+         "ro": "Amari shimasen. Undou wa suki janai desu.",
+         "vi": "Mình không hay vận động. Mình không thích vận động."
+        },
+        "2": {
+         "jp": "あまりしません。運動が苦手なんです。",
+         "ro": "Amari shimasen. Undou ga nigate na n desu.",
+         "vi": "Mình không hay vận động. Mình kém khoản vận động lắm."
+        },
+        "3": {
+         "jp": "あんまりしないな。体を動かすのは、ちょっと苦手で…。",
+         "ro": "Anmari shinai na. Karada o ugokasu no wa, chotto nigate de...",
+         "vi": "Mình không hay vận động lắm. Khoản vận động thì mình hơi kém..."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-5-4",
+         "a1-5-1"
+        ],
+        "2": [
+         "a21-3-4",
+         "a22-11-6"
+        ],
+        "3": [
+         "b12-1-6",
+         "a21-3-4"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "だいじょうぶです。さんぽも いい うんどうですよ。",
+         "ro": "Daijoubu desu. Sanpo mo ii undou desu yo.",
+         "vi": "Không sao đâu. Đi dạo cũng là vận động tốt đấy."
+        },
+        "2": {
+         "jp": "だいじょうぶ！さんぽでもいいから、少しずつ始めるといいよ。",
+         "ro": "Daijoubu! Sanpo demo ii kara, sukoshi zutsu hajimeru to ii yo.",
+         "vi": "Không sao! Đi dạo thôi cũng được, cứ bắt đầu từng chút một là tốt rồi."
+        },
+        "3": {
+         "jp": "大丈夫！散歩からでも十分だよ。ちょっとずつ体を慣らしていけばいいの。",
+         "ro": "Daijoubu! Sanpo kara demo juubun da yo. Chotto zutsu karada o narashite ikeba ii no.",
+         "vi": "Không sao! Bắt đầu từ đi dạo cũng đủ rồi. Cứ tập cho cơ thể quen dần là được."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-10-5",
+         "a1-3-5"
+        ],
+        "2": [
+         "a21-15-2",
+         "a22-3-4"
+        ],
+        "3": [
+         "b1-7-4",
+         "ab1-2-5"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": {
+      "1": {
+       "jp": "旅人は あさが 好きですか。よるが 好きですか。わたしは あさは ちょっと…。",
+       "ro": "Tabibito wa asa ga suki desu ka. Yoru ga suki desu ka. Watashi wa asa wa chotto...",
+       "vi": "Lữ Khách thích buổi sáng hay buổi tối? Tớ thì buổi sáng hơi..."
+      },
+      "2": {
+       "jp": "旅人は、朝と夜、どっちが好き？わたしは…朝はちょっとね。",
+       "ro": "Tabibito wa, asa to yoru, dotchi ga suki? Watashi wa... Asa wa chotto ne.",
+       "vi": "Lữ Khách thích buổi sáng hay buổi tối hơn? Tớ thì... buổi sáng hơi khó nhỉ."
+      },
+      "3": {
+       "jp": "旅人は朝型？夜型？わたしはね…言わなくてもわかるよね、えへへ。",
+       "ro": "Tabibito wa asagata? Yorugata? Watashi wa ne... Iwanakute mo wakaru yo ne, ehehe.",
+       "vi": "Lữ Khách là cú sáng hay cú đêm? Còn tớ thì... không cần nói cũng biết ha, hì hì."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-5-1",
+       "a1-12-6"
+      ],
+      "2": [
+       "a22-12-3",
+       "a21-7-3"
+      ],
+      "3": [
+       "ab1-6-6",
+       "ab1-6-4"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "あさが 好きです。あさは 気もちが いいです。",
+         "ro": "Asa ga suki desu. Asa wa kimochi ga ii desu.",
+         "vi": "Mình thích buổi sáng. Buổi sáng dễ chịu lắm."
+        },
+        "2": {
+         "jp": "朝のほうが好きです。空気がきれいで、気持ちがいいですから。",
+         "ro": "Asa no hou ga suki desu. Kuuki ga kirei de, kimochi ga ii desu kara.",
+         "vi": "Mình thích buổi sáng hơn. Vì không khí trong lành, dễ chịu."
+        },
+        "3": {
+         "jp": "断然、朝派！早起きすると、一日が長く感じられるんだ。",
+         "ro": "Danzen, asaha! Hayaoki suru to, ichinichi ga nagaku kanjirareru n da.",
+         "vi": "Chắc chắn là phe buổi sáng! Dậy sớm thì thấy một ngày dài hơn."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-5-1",
+         "a1-7-4"
+        ],
+        "2": [
+         "a22-12-3",
+         "a21-5-1",
+         "a21-3-5"
+        ],
+        "3": [
+         "b12-3-7",
+         "a22-4-4"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "そうですか！じゃあ、あした わたしを おこして ください！",
+         "ro": "Sou desu ka! Jaa, ashita watashi o okoshite kudasai!",
+         "vi": "Vậy à! Thế thì mai gọi tớ dậy nhé!"
+        },
+        "2": {
+         "jp": "そうなんだ！じゃあ、明日の朝、わたしを起こしてね！",
+         "ro": "Sou na n da! Jaa, ashita no asa, watashi o okoshite ne!",
+         "vi": "Vậy à! Thế thì sáng mai gọi tớ dậy nhé!"
+        },
+        "3": {
+         "jp": "へえ〜、すごい！じゃあ明日の朝、わたしのことも叩き起こしてもらえる？",
+         "ro": "Hee~, sugoi! Jaa ashita no asa, watashi no koto mo tatakiokoshite moraeru?",
+         "vi": "Ồ~, giỏi ghê! Vậy sáng mai lôi tớ dậy luôn được không?"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-2-2"
+        ],
+        "2": [
+         "a21-6-1",
+         "a21-17-1"
+        ],
+        "3": [
+         "b12-11-1",
+         "b12-7-5"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "よるが 好きです。ほしが きれいですから。",
+         "ro": "Yoru ga suki desu. Hoshi ga kirei desu kara.",
+         "vi": "Mình thích buổi tối. Vì sao đẹp lắm."
+        },
+        "2": {
+         "jp": "夜のほうが好きです。星がきれいに見えますから。",
+         "ro": "Yoru no hou ga suki desu. Hoshi ga kirei ni miemasu kara.",
+         "vi": "Mình thích buổi tối hơn. Vì nhìn thấy sao rất đẹp."
+        },
+        "3": {
+         "jp": "夜派かな。星空を眺めながらぼーっとするのが好きなんだ。",
+         "ro": "Yoruha ka na. Hoshizora o nagamenagara bootto suru no ga sukina n da.",
+         "vi": "Chắc mình thuộc phe buổi tối. Mình thích vừa ngắm sao vừa thả hồn."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-5-1",
+         "a1-13-4"
+        ],
+        "2": [
+         "a22-12-3",
+         "a21-6-5",
+         "a21-3-5"
+        ],
+        "3": [
+         "ab1-8-5",
+         "a21-3-3"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "わたしも よるが 好きです！よるは よく ねますから。えへへ。",
+         "ro": "Watashi mo yoru ga suki desu! Yoru wa yoku nemasu kara. Ehehe.",
+         "vi": "Tớ cũng thích buổi tối! Vì buổi tối được ngủ ngon. Hì hì."
+        },
+        "2": {
+         "jp": "わたしも！夜はぐっすりねられるから、大好き。えへへ。",
+         "ro": "Watashi mo! Yoru wa gussuri nerareru kara, daisuki. Ehehe.",
+         "vi": "Tớ cũng vậy! Buổi tối ngủ say được nên tớ thích lắm. Hì hì."
+        },
+        "3": {
+         "jp": "わかる〜！夜って、星を見てるうちに、いつの間にか寝ちゃうんだよね。",
+         "ro": "Wakaru~! Yoru tte, hoshi o miteru uchi ni, itsunomanika nechau n da yo ne.",
+         "vi": "Hiểu mà~! Buổi tối ấy, cứ ngắm sao là chẳng biết từ lúc nào đã ngủ mất."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-3-5",
+         "a1-13-4"
+        ],
+        "2": [
+         "a1-11-6",
+         "a22-6-1"
+        ],
+        "3": [
+         "b1-9-3",
+         "a22-11-2"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": {
+      "1": {
+       "jp": "旅人は 休みの 日に 何を しますか。",
+       "ro": "Tabibito wa yasumi no hi ni nani o shimasu ka.",
+       "vi": "Lữ Khách làm gì vào ngày nghỉ?"
+      },
+      "2": {
+       "jp": "旅人は、休みの日に何をする？",
+       "ro": "Tabibito wa, yasumi no hi ni nani o suru?",
+       "vi": "Lữ Khách làm gì vào ngày nghỉ?"
+      },
+      "3": {
+       "jp": "旅人は、休みの日ってどう過ごしてる？",
+       "ro": "Tabibito wa, yasumi no hi tte dou sugoshiteru?",
+       "vi": "Lữ Khách thường trải qua ngày nghỉ thế nào?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-5-3"
+      ],
+      "2": [
+       "a21-2-2"
+      ],
+      "3": [
+       "b12-1-1",
+       "ab1-5-7"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "家で 本を 読みます。",
+         "ro": "Ie de hon o yomimasu.",
+         "vi": "Mình đọc sách ở nhà."
+        },
+        "2": {
+         "jp": "家で本を読んだり、映画を見たりします。",
+         "ro": "Ie de hon o yondari, eiga o mitari shimasu.",
+         "vi": "Mình đọc sách, xem phim ở nhà."
+        },
+        "3": {
+         "jp": "家で本を読んだり、ゴロゴロしたりしてるかな。",
+         "ro": "Ie de hon o yondari, gorogoro shitari shiteru ka na.",
+         "vi": "Chắc là ở nhà đọc sách, nằm lăn lộn này nọ."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-6-2"
+        ],
+        "2": [
+         "a21-16-1"
+        ],
+        "3": [
+         "a21-16-1",
+         "ab1-5-7"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "いいですね！わたしは 家で ひるねを します。",
+         "ro": "Ii desu ne! Watashi wa ie de hirune o shimasu.",
+         "vi": "Hay đó! Tớ thì ngủ trưa ở nhà."
+        },
+        "2": {
+         "jp": "いいね〜！わたしは、休みの日はずっとひるねしてるよ。",
+         "ro": "Ii ne~! Watashi wa, yasumi no hi wa zutto hirune shiteru yo.",
+         "vi": "Hay đó~! Tớ thì ngày nghỉ cứ ngủ trưa suốt."
+        },
+        "3": {
+         "jp": "いいね〜、ゴロゴロ最高！わたしなんて、休みの日は一日中お昼寝してるもん。",
+         "ro": "Ii ne~, gorogoro saikou! Watashi nante, yasumi no hi wa ichinichijuu ohirune shiteru mon.",
+         "vi": "Hay đó~, nằm dài là nhất! Tớ thì ngày nghỉ ngủ trưa suốt cả ngày luôn."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-6-2"
+        ],
+        "2": [
+         "a22-1-5"
+        ],
+        "3": [
+         "a22-6-6",
+         "b12-5-4"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "そとで あそびます。山へ 行きます。",
+         "ro": "Soto de asobimasu. Yama e ikimasu.",
+         "vi": "Mình đi chơi bên ngoài. Mình lên núi."
+        },
+        "2": {
+         "jp": "外に出かけます。よく山へ行きます。",
+         "ro": "Soto ni dekakemasu. Yoku yama e ikimasu.",
+         "vi": "Mình ra ngoài chơi. Mình hay đi núi."
+        },
+        "3": {
+         "jp": "外に出かけることが多いかな。山登りとか、けっこう好きなんだ。",
+         "ro": "Soto ni dekakeru koto ga ooi ka na. Yamanobori toka, kekkou sukina n da.",
+         "vi": "Mình hay ra ngoài lắm. Như leo núi chẳng hạn, mình khá thích."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-9-5",
+         "a1-11-4"
+        ],
+        "2": [
+         "a21-2-5"
+        ],
+        "3": [
+         "b12-7-4",
+         "a21-17-1"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "山ですか！わたしも 山で ジャンプします！",
+         "ro": "Yama desu ka! Watashi mo yama de janpu shimasu!",
+         "vi": "Núi à! Tớ cũng nhảy trên núi đó!"
+        },
+        "2": {
+         "jp": "山、いいね！こんど、いちばん高い山でいっしょにジャンプしよう！",
+         "ro": "Yama, ii ne! Kondo, ichiban takai yama de issho ni janpu shiyou!",
+         "vi": "Núi hả, hay đó! Lần tới cùng nhảy trên ngọn núi cao nhất nhé!"
+        },
+        "3": {
+         "jp": "山登り、いいね！今度は一緒に、てっぺんから雲までジャンプしてみない？",
+         "ro": "Yamanobori, ii ne! Kondo wa issho ni, teppen kara kumo made janpu shite minai?",
+         "vi": "Leo núi à, hay đó! Lần tới cùng nhảy từ đỉnh núi lên tận mây thử không?"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-3-5",
+         "a1-11-4"
+        ],
+        "2": [
+         "a21-8-2"
+        ],
+        "3": [
+         "a21-10-4",
+         "a21-8-2"
+        ]
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "natlan",
+   "title": "Natlan và quê hương",
+   "turns": [
+    {
+     "t": {
+      "1": {
+       "jp": "旅人、ナタは どうですか。",
+       "ro": "Tabibito, Nata wa dou desu ka.",
+       "vi": "Lữ Khách thấy Natlan thế nào?"
+      },
+      "2": {
+       "jp": "旅人、ナタはどう？気に入った？",
+       "ro": "Tabibito, Nata wa dou? Ki ni itta?",
+       "vi": "Lữ Khách thấy Natlan thế nào? Có thích không?"
+      },
+      "3": {
+       "jp": "旅人から見て、ナタってどんな国？",
+       "ro": "Tabibito kara mite, Nata tte donna kuni?",
+       "vi": "Theo Lữ Khách thì Natlan là đất nước thế nào?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-10-5"
+      ],
+      "2": [
+       "a1-10-5"
+      ],
+      "3": [
+       "b12-1-1",
+       "a21-2-6"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "にぎやかな 国です。人が げんきです。",
+         "ro": "Nigiyakana kuni desu. Hito ga genki desu.",
+         "vi": "Là một đất nước sôi động. Mọi người đều năng nổ."
+        },
+        "2": {
+         "jp": "にぎやかで、元気な国ですね。",
+         "ro": "Nigiyaka de, genkina kuni desu ne.",
+         "vi": "Là một đất nước sôi động và tràn đầy sức sống."
+        },
+        "3": {
+         "jp": "活気があって、みんな熱い国だね。",
+         "ro": "Kakki ga atte, minna atsui kuni da ne.",
+         "vi": "Một đất nước đầy sức sống, ai cũng nhiệt huyết."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-14-1",
+         "a1-3-1"
+        ],
+        "2": [
+         "a21-6-3"
+        ],
+        "3": [
+         "a21-6-2"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "はい！ナタの 人は みんな げんきです！",
+         "ro": "Hai! Nata no hito wa minna genki desu!",
+         "vi": "Đúng vậy! Người Natlan ai cũng năng nổ!"
+        },
+        "2": {
+         "jp": "うん！ナタの人は、みんな熱い心を持ってるんだ！",
+         "ro": "Un! Nata no hito wa, minna atsui kokoro o motteru n da!",
+         "vi": "Ừ! Người Natlan ai cũng mang trái tim nhiệt huyết!"
+        },
+        "3": {
+         "jp": "でしょ〜！ナタの人たちは、みんな胸に熱い炎を燃やしてるんだよ！",
+         "ro": "Desho~! Nata no hito tachi wa, minna mune ni atsui honoo o moyashiteru n da yo!",
+         "vi": "Đúng không~! Người Natlan ai cũng mang ngọn lửa nóng rực trong tim!"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-3-1"
+        ],
+        "2": [
+         "a22-1-5",
+         "a21-17-1"
+        ],
+        "3": [
+         "ab1-6-1",
+         "ab1-5-7"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "食べものが おいしいです。くだものが 好きです。",
+         "ro": "Tabemono ga oishii desu. Kudamono ga suki desu.",
+         "vi": "Đồ ăn ngon lắm. Mình thích trái cây."
+        },
+        "2": {
+         "jp": "食べ物がおいしいです。とくに、くだものが好きです。",
+         "ro": "Tabemono ga oishii desu. Tokuni, kudamono ga suki desu.",
+         "vi": "Đồ ăn ngon lắm. Đặc biệt mình thích trái cây."
+        },
+        "3": {
+         "jp": "ご飯がおいしい！特に、ここの果物は最高だね。",
+         "ro": "Gohan ga oishii! Tokuni, koko no kudamono wa saikou da ne.",
+         "vi": "Đồ ăn ngon! Đặc biệt, trái cây ở đây là tuyệt nhất."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-7-4",
+         "a1-5-1"
+        ],
+        "2": [
+         "a21-2-4"
+        ],
+        "3": [
+         "a21-2-4",
+         "ab1-6-4"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "ありがとう！うちの くだものは ナタで いちばんです！",
+         "ro": "Arigatou! Uchi no kudamono wa Nata de ichiban desu!",
+         "vi": "Cảm ơn nha! Trái cây nhà tớ là số một Natlan đó!"
+        },
+        "2": {
+         "jp": "ありがとう！うちのくだものは、ナタでいちばんおいしいんだよ！",
+         "ro": "Arigatou! Uchi no kudamono wa, Nata de ichiban oishii n da yo!",
+         "vi": "Cảm ơn nha! Trái cây nhà tớ ngon nhất Natlan đó!"
+        },
+        "3": {
+         "jp": "わ〜い、ありがと！うちの畑の果物は、ナタ一だって自信あるんだ！",
+         "ro": "Wa~i, arigato! Uchi no hatake no kudamono wa, Nataichi datte jishin aru n da!",
+         "vi": "Yayyy, cảm ơn nha! Tớ tự tin trái cây ruộng nhà là số một Natlan đấy!"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-3-1"
+        ],
+        "2": [
+         "a21-17-1"
+        ],
+        "3": [
+         "b1-5-2",
+         "a21-17-1"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": {
+      "1": {
+       "jp": "旅人の ふるさとは どんな ところですか。",
+       "ro": "Tabibito no furusato wa donna tokoro desu ka.",
+       "vi": "Quê hương của Lữ Khách là nơi thế nào?"
+      },
+      "2": {
+       "jp": "旅人のふるさとって、どんなところ？",
+       "ro": "Tabibito no furusato tte, donna tokoro?",
+       "vi": "Quê của Lữ Khách là nơi thế nào?"
+      },
+      "3": {
+       "jp": "旅人の故郷って、どんなところなの？",
+       "ro": "Tabibito no kokyou tte, donna tokoro na no?",
+       "vi": "Quê hương của Lữ Khách là nơi như thế nào vậy?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-6-4"
+      ],
+      "2": [
+       "a22-1-4",
+       "a21-2-6"
+      ],
+      "3": [
+       "b12-1-1",
+       "b1-8-3"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "しずかな ところです。うみが あります。",
+         "ro": "Shizukana tokoro desu. Umi ga arimasu.",
+         "vi": "Là nơi yên tĩnh. Có biển."
+        },
+        "2": {
+         "jp": "しずかな町です。近くに海があります。",
+         "ro": "Shizukana machi desu. Chikaku ni umi ga arimasu.",
+         "vi": "Là một thị trấn yên tĩnh. Gần đó có biển."
+        },
+        "3": {
+         "jp": "静かな港町だよ。窓から海が見えるんだ。",
+         "ro": "Shizukana minatomachi da yo. Mado kara umi ga mieru n da.",
+         "vi": "Một thị trấn cảng yên tĩnh. Từ cửa sổ nhìn thấy biển."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-14-1",
+         "a1-7-1"
+        ],
+        "2": [
+         "a1-14-3",
+         "a1-14-2"
+        ],
+        "3": [
+         "a21-6-5",
+         "a21-17-1"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "うみですか！いいですね。いつか 行きたいです！",
+         "ro": "Umi desu ka! Ii desu ne. Itsuka ikitai desu!",
+         "vi": "Biển à! Hay quá. Một ngày nào đó tớ muốn đến!"
+        },
+        "2": {
+         "jp": "海かあ、いいな！いつか行ってみたいな。",
+         "ro": "Umi ka a, ii na! Itsuka itte mitai na.",
+         "vi": "Biển à, thích ghê! Một ngày nào đó tớ muốn đến thử."
+        },
+        "3": {
+         "jp": "海辺の町かあ、いいなあ！いつか連れてってよ。お魚、食べてみたい！",
+         "ro": "Umibe no machi ka a, ii naa! Itsuka tsuretette yo. Osakana, tabete mitai!",
+         "vi": "Thị trấn bên biển à, thích ghê! Một ngày nào đó dẫn tớ đi nhé. Tớ muốn ăn cá thử!"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-18-4"
+        ],
+        "2": [
+         "a21-10-4",
+         "a21-10-1"
+        ],
+        "3": [
+         "a21-10-4",
+         "ab1-6-4"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "大きい まちです。人が 多いです。",
+         "ro": "Ookii machi desu. Hito ga ooi desu.",
+         "vi": "Là một thành phố lớn. Nhiều người lắm."
+        },
+        "2": {
+         "jp": "大きくて、にぎやかな町です。",
+         "ro": "Ookikute, nigiyakana machi desu.",
+         "vi": "Là một thành phố lớn và nhộn nhịp."
+        },
+        "3": {
+         "jp": "大きくて賑やかな街だよ。夜でも明るいんだ。",
+         "ro": "Ookikute nigiyakana machi da yo. Yoru demo akarui n da.",
+         "vi": "Một thành phố lớn và nhộn nhịp. Ban đêm cũng sáng đèn."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-14-1",
+         "a1-7-4"
+        ],
+        "2": [
+         "a21-6-3"
+        ],
+        "3": [
+         "a21-6-3",
+         "a21-17-1"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "そうですか。わたしの むらは 小さいです。でも、はたけは 大きいです！",
+         "ro": "Sou desu ka. Watashi no mura wa chiisai desu. Demo, hatake wa ookii desu!",
+         "vi": "Vậy à. Làng tớ nhỏ thôi. Nhưng ruộng thì rộng lắm!"
+        },
+        "2": {
+         "jp": "そうなんだ。わたしの村は小さいけど、はたけはすごく広いよ！",
+         "ro": "Sou na n da. Watashi no mura wa chiisai kedo, hatake wa sugoku hiroi yo!",
+         "vi": "Vậy à. Làng tớ tuy nhỏ, nhưng ruộng thì rộng lắm!"
+        },
+        "3": {
+         "jp": "へえ〜、都会っ子なんだ！わたしの村はちっちゃいけど、畑の広さなら負けないよ！",
+         "ro": "Hee~, tokaikko na n da! Watashi no mura wa chitchai kedo, hatake no hirosa nara makenai yo!",
+         "vi": "Ồ~, dân thành phố à! Làng tớ nhỏ xíu, nhưng về độ rộng của ruộng thì không thua đâu!"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-18-2",
+         "a1-7-4"
+        ],
+        "2": [
+         "a21-5-3",
+         "a22-5-6"
+        ],
+        "3": [
+         "ab1-1-2",
+         "ab1-1-4"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": {
+      "1": {
+       "jp": "あした、いっしょに くだものを とりませんか。たくさん 食べましょう！",
+       "ro": "Ashita, issho ni kudamono o torimasen ka. Takusan tabemashou!",
+       "vi": "Mai cùng hái trái cây không? Rồi ăn thật nhiều nhé!"
+      },
+      "2": {
+       "jp": "明日、いっしょにくだものをとりに行かない？たくさん食べられるよ！",
+       "ro": "Ashita, issho ni kudamono o tori ni ikanai? Takusan taberareru yo!",
+       "vi": "Mai cùng đi hái trái cây không? Được ăn thật nhiều đó!"
+      },
+      "3": {
+       "jp": "明日の収穫、手伝ってくれない？お礼は、もちろん果物食べ放題！",
+       "ro": "Ashita no shuukaku, tetsudatte kurenai? Orei wa, mochiron kudamono tabehoudai!",
+       "vi": "Mai giúp tớ thu hoạch được không? Đáp lễ dĩ nhiên là trái cây ăn thả ga!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-12-4",
+       "a1-6-6"
+      ],
+      "2": [
+       "a21-8-3",
+       "a22-6-1"
+      ],
+      "3": [
+       "ab1-4-1"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "はい、行きます！何時に 行きますか。",
+         "ro": "Hai, ikimasu! Nanji ni ikimasu ka.",
+         "vi": "Được, mình sẽ đi! Mấy giờ đi vậy?"
+        },
+        "2": {
+         "jp": "うん、行きたい！何時に行く？",
+         "ro": "Un, ikitai! Nanji ni iku?",
+         "vi": "Ừ, mình muốn đi! Mấy giờ đi?"
+        },
+        "3": {
+         "jp": "もちろん行く！何時に集合すればいい？",
+         "ro": "Mochiron iku! Nanji ni shuugou sureba ii?",
+         "vi": "Dĩ nhiên là đi! Mấy giờ tập trung thì được?"
+        }
+       },
+       "g": {
+        "1": [
+         "a1-9-4"
+        ],
+        "2": [
+         "a21-10-1",
+         "a1-9-4"
+        ],
+        "3": [
+         "b1-2-3"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "あさ くじに 来て ください。…わたしを おこして くださいね。",
+         "ro": "Asa kuji ni kite kudasai... Watashi o okoshite kudasai ne.",
+         "vi": "Chín giờ sáng tới nhé. ...Nhớ gọi tớ dậy đó."
+        },
+        "2": {
+         "jp": "朝九時に来てね。…あ、わたしがねてたら、起こしてね。",
+         "ro": "Asa kuji ni kite ne... A, watashi ga netetara, okoshite ne.",
+         "vi": "Chín giờ sáng tới nhé. ...À, nếu tớ còn ngủ thì gọi tớ dậy nha."
+        },
+        "3": {
+         "jp": "朝九時集合ね。…で、もしわたしが寝てたら、遠慮なく叩き起こして！",
+         "ro": "Asa kuji shuugou ne... De, moshi watashi ga netetara, enryo naku tatakiokoshite!",
+         "vi": "Tập trung lúc chín giờ sáng nhé. ...Mà nếu tớ còn ngủ thì cứ thẳng tay lôi dậy!"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-9-2",
+         "a1-2-2"
+        ],
+        "2": [
+         "a1-9-2",
+         "a22-7-3"
+        ],
+        "3": [
+         "a22-7-3"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "すみません。あしたは ちょっと…。",
+         "ro": "Sumimasen. Ashita wa chotto...",
+         "vi": "Xin lỗi. Ngày mai thì hơi..."
+        },
+        "2": {
+         "jp": "ごめん、明日はちょっと用事があるんだ。",
+         "ro": "Gomen, ashita wa chotto youji ga aru n da.",
+         "vi": "Xin lỗi, mai mình có chút việc bận."
+        },
+        "3": {
+         "jp": "ごめん、明日はどうしても外せない用事があって…。",
+         "ro": "Gomen, ashita wa doushitemo hazusenai youji ga atte...",
+         "vi": "Xin lỗi, mai mình có việc không thể bỏ được..."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-12-6"
+        ],
+        "2": [
+         "a21-7-3",
+         "a21-17-1"
+        ],
+        "3": [
+         "ab1-7-1",
+         "b12-1-6"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "そうですか。じゃあ、また こんど！",
+         "ro": "Sou desu ka. Jaa, mata kondo!",
+         "vi": "Vậy à. Thế thì để lần sau nhé!"
+        },
+        "2": {
+         "jp": "そっか〜。じゃあ、またこんどね！旅人の分も、くだものを残すね。",
+         "ro": "Sokka~. Jaa, mata kondo ne! Tabibito no bun mo, kudamono o nokosu ne.",
+         "vi": "Thế à~. Vậy để lần sau nhé! Tớ sẽ để phần trái cây cho Lữ Khách."
+        },
+        "3": {
+         "jp": "そっか〜、残念。じゃ、また今度ね！一番おいしいの、ちゃんと取っとくから。",
+         "ro": "Sokka~, zannen. Ja, mata kondo ne! Ichiban oishii no, chanto tottoku kara.",
+         "vi": "Thế à~, tiếc ghê. Vậy để lần sau nhé! Quả ngon nhất tớ sẽ để dành cho cậu."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-1-2"
+        ],
+        "2": [
+         "a1-1-2"
+        ],
+        "3": [
+         "b1-2-6",
+         "a22-11-5"
+        ]
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "hero",
+   "title": "Anh hùng và ước mơ",
+   "turns": [
+    {
+     "t": {
+      "1": {
+       "jp": "旅人の ヒーローは だれですか。",
+       "ro": "Tabibito no hiiroo wa dare desu ka.",
+       "vi": "Anh hùng của Lữ Khách là ai?"
+      },
+      "2": {
+       "jp": "旅人には、あこがれの人がいる？",
+       "ro": "Tabibito ni wa, akogare no hito ga iru?",
+       "vi": "Lữ Khách có người nào mà cậu ngưỡng mộ không?"
+      },
+      "3": {
+       "jp": "旅人にも、憧れてるヒーローっている？",
+       "ro": "Tabibito ni mo, akogareteru hiiroo tte iru?",
+       "vi": "Lữ Khách cũng có anh hùng mà cậu ngưỡng mộ chứ?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-3"
+      ],
+      "2": [
+       "a1-7-2"
+      ],
+      "3": [
+       "ab1-5-7",
+       "b12-1-1"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "かぞくです。いつも やさしいですから。",
+         "ro": "Kazoku desu. Itsumo yasashii desu kara.",
+         "vi": "Là gia đình mình. Vì họ luôn tốt bụng."
+        },
+        "2": {
+         "jp": "家族です。いつもやさしくて、強いですから。",
+         "ro": "Kazoku desu. Itsumo yasashikute, tsuyoi desu kara.",
+         "vi": "Là gia đình mình. Vì họ luôn dịu dàng và mạnh mẽ."
+        },
+        "3": {
+         "jp": "家族かな。いつも優しくて、いざという時に強いから。",
+         "ro": "Kazoku ka na. Itsumo yasashikute, iza to iu toki ni tsuyoi kara.",
+         "vi": "Chắc là gia đình mình. Vì họ luôn dịu dàng, mà lúc cần thì rất mạnh mẽ."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-3-1",
+         "a1-13-4"
+        ],
+        "2": [
+         "a21-5-1",
+         "a21-3-5"
+        ],
+        "3": [
+         "ab1-3-3",
+         "a21-5-1"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "いいですね。かぞくは 近くの ヒーローですね。",
+         "ro": "Ii desu ne. Kazoku wa chikaku no hiiroo desu ne.",
+         "vi": "Hay đấy. Gia đình là những anh hùng ở gần mình nhỉ."
+        },
+        "2": {
+         "jp": "すてきだね。家族って、いちばん近くにいるヒーローだよね。",
+         "ro": "Sutekida ne. Kazoku tte, ichiban chikaku ni iru hiiroo da yo ne.",
+         "vi": "Tuyệt ghê. Gia đình chính là những anh hùng ở gần mình nhất nhỉ."
+        },
+        "3": {
+         "jp": "素敵だね。家族って、一番身近なヒーローなのかも。",
+         "ro": "Sutekida ne. Kazoku tte, ichiban mijika na hiiroo na no kamo.",
+         "vi": "Tuyệt ghê. Có lẽ gia đình chính là những anh hùng gần gũi nhất."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-3-1",
+         "a1-4-2"
+        ],
+        "2": [
+         "a22-1-4",
+         "a21-16-2"
+        ],
+        "3": [
+         "ab1-7-2",
+         "b12-1-1"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "パイモンです！…たぶん。",
+         "ro": "Paimon desu!... Tabun.",
+         "vi": "Là Paimon! ...Chắc vậy."
+        },
+        "2": {
+         "jp": "パイモンかな。いつもいっしょにいるから。",
+         "ro": "Paimon ka na. Itsumo issho ni iru kara.",
+         "vi": "Chắc là Paimon. Vì lúc nào cũng ở bên mình."
+        },
+        "3": {
+         "jp": "うーん、パイモンかな。なんだかんだ、いつもそばにいてくれるしね。",
+         "ro": "Uun, Paimon ka na. Nandakanda, itsumo soba ni ite kureru shi ne.",
+         "vi": "Ừm, chắc là Paimon. Dù gì thì lúc nào cũng ở bên mình mà."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-12-6"
+        ],
+        "2": [
+         "a21-3-5"
+        ],
+        "3": [
+         "ab1-4-1",
+         "a22-6-3"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "えへへ、いいですね！パイモンは うれしいですね。",
+         "ro": "Ehehe, ii desu ne! Paimon wa ureshii desu ne.",
+         "vi": "Hì hì, hay đó! Chắc Paimon vui lắm."
+        },
+        "2": {
+         "jp": "えへへ、いいね！パイモン、きっとよろこぶよ。",
+         "ro": "Ehehe, ii ne! Paimon, kitto yorokobu yo.",
+         "vi": "Hì hì, hay đó! Paimon chắc chắn sẽ vui lắm."
+        },
+        "3": {
+         "jp": "えへへ、いいじゃん！パイモンが聞いたら、得意げに胸を張りそう。",
+         "ro": "Ehehe, ii jan! Paimon ga kiitara, tokuige ni mune o harisou.",
+         "vi": "Hì hì, hay đó chứ! Paimon mà nghe được chắc sẽ ưỡn ngực đắc ý lắm."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-7-4"
+        ],
+        "2": [
+         "a21-18-3"
+        ],
+        "3": [
+         "a22-7-3",
+         "ab1-5-2"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": {
+      "1": {
+       "jp": "旅人の ゆめは 何ですか。わたしの ゆめは ヒーローです！",
+       "ro": "Tabibito no yume wa nan desu ka. Watashi no yume wa hiiroo desu!",
+       "vi": "Ước mơ của Lữ Khách là gì? Ước mơ của tớ là làm anh hùng!"
+      },
+      "2": {
+       "jp": "旅人のゆめは何？わたしは、みんなを守るヒーローになること！",
+       "ro": "Tabibito no yume wa nani? Watashi wa, minna o mamoru hiiroo ni naru koto!",
+       "vi": "Ước mơ của Lữ Khách là gì? Của tớ là trở thành anh hùng bảo vệ mọi người!"
+      },
+      "3": {
+       "jp": "旅人の夢って何？わたしはもちろん、みんなを守れる本物のヒーローになること！",
+       "ro": "Tabibito no yume tte nani? Watashi wa mochiron, minna o mamoreru honmono no hiiroo ni naru koto!",
+       "vi": "Ước mơ của Lữ Khách là gì? Còn tớ, dĩ nhiên là trở thành anh hùng thực thụ có thể bảo vệ mọi người!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-3",
+       "a1-3-1"
+      ],
+      "2": [
+       "a21-17-3",
+       "a21-2-1"
+      ],
+      "3": [
+       "a22-7-2",
+       "b12-1-1"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "かぞくに あいたいです。",
+         "ro": "Kazoku ni aitai desu.",
+         "vi": "Mình muốn gặp gia đình."
+        },
+        "2": {
+         "jp": "家族に会いたいです。ずっとさがしているんです。",
+         "ro": "Kazoku ni aitai desu. Zutto sagashite iru n desu.",
+         "vi": "Mình muốn gặp lại gia đình. Mình vẫn luôn tìm kiếm."
+        },
+        "3": {
+         "jp": "家族にもう一度会うことかな。ずっと探し続けてるんだ。",
+         "ro": "Kazoku ni mou ichido au koto ka na. Zutto sagashitsuzuketeru n da.",
+         "vi": "Chắc là được gặp lại gia đình. Mình vẫn luôn tìm kiếm."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-18-4"
+        ],
+        "2": [
+         "a21-10-1",
+         "a21-1-1",
+         "a22-11-6"
+        ],
+        "3": [
+         "ab1-5-7"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "そうですか…。きっと あえます！わたしも おうえんします！",
+         "ro": "Sou desu ka... Kitto aemasu! Watashi mo ouen shimasu!",
+         "vi": "Vậy à... Chắc chắn sẽ gặp được! Tớ cũng cổ vũ cậu!"
+        },
+        "2": {
+         "jp": "そうなんだ…。きっと会えるよ！わたしもおうえんしてるからね。",
+         "ro": "Sou na n da... Kitto aeru yo! Watashi mo ouen shiteru kara ne.",
+         "vi": "Vậy à... Chắc chắn sẽ gặp được! Tớ cũng luôn cổ vũ cậu mà."
+        },
+        "3": {
+         "jp": "そっか…。絶対会えるよ！わたしにできることがあったら、何でも言ってね。",
+         "ro": "Sokka... Zettai aeru yo! Watashi ni dekiru koto ga attara, nandemo itte ne.",
+         "vi": "Thế à... Nhất định sẽ gặp được! Có gì tớ làm được thì cứ nói nhé."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-3-5"
+        ],
+        "2": [
+         "a22-6-1",
+         "a21-3-5"
+        ],
+        "3": [
+         "a22-7-3",
+         "a21-11-2"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "いろいろな 国へ 行きたいです。",
+         "ro": "Iroirona kuni e ikitai desu.",
+         "vi": "Mình muốn đi đến nhiều đất nước."
+        },
+        "2": {
+         "jp": "世界中のいろいろな国へ行ってみたいです。",
+         "ro": "Sekaijuu no iroirona kuni e itte mitai desu.",
+         "vi": "Mình muốn thử đi khắp các nước trên thế giới."
+        },
+        "3": {
+         "jp": "世界中を旅して、まだ見たことのない景色を見ることかな。",
+         "ro": "Sekaijuu o tabi shite, mada mita koto no nai keshiki o miru koto ka na.",
+         "vi": "Chắc là đi khắp thế giới, ngắm những cảnh sắc mình chưa từng thấy."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-18-4"
+        ],
+        "2": [
+         "a21-10-4",
+         "a22-6-6"
+        ],
+        "3": [
+         "a21-13-1",
+         "a22-6-6"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "いいですね！ナタにも また 来て ください！",
+         "ro": "Ii desu ne! Nata ni mo mata kite kudasai!",
+         "vi": "Hay đó! Nhớ quay lại Natlan nữa nhé!"
+        },
+        "2": {
+         "jp": "いいね！また ナタに来て、旅の話を聞かせてね！",
+         "ro": "Ii ne! Mata Nata ni kite, tabi no hanashi o kikasete ne!",
+         "vi": "Hay đó! Quay lại Natlan kể tớ nghe chuyện đi đường nhé!"
+        },
+        "3": {
+         "jp": "いいね！素敵な景色を見つけたら、またナタに帰ってきて話を聞かせてよ！",
+         "ro": "Ii ne! Sutekina keshiki o mitsuketara, mata Nata ni kaette kite hanashi o kikasete yo!",
+         "vi": "Hay đó! Tìm được cảnh đẹp thì quay lại Natlan kể cho tớ nghe nhé!"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-2-2"
+        ],
+        "2": [
+         "a21-6-2",
+         "a21-6-1"
+        ],
+        "3": [
+         "a22-7-3",
+         "a21-11-1"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": {
+      "1": {
+       "jp": "旅人の げんきの もとは 何ですか。わたしは ごはんです！",
+       "ro": "Tabibito no genki no moto wa nan desu ka. Watashi wa gohan desu!",
+       "vi": "Nguồn năng lượng của Lữ Khách là gì? Của tớ là cơm!"
+      },
+      "2": {
+       "jp": "旅人の元気のもとって、何？わたしはもちろん、ごはん！",
+       "ro": "Tabibito no genki no moto tte, nani? Watashi wa mochiron, gohan!",
+       "vi": "Nguồn năng lượng của Lữ Khách là gì? Của tớ dĩ nhiên là cơm!"
+      },
+      "3": {
+       "jp": "旅人の元気の源って、何？わたしは言うまでもなく、ごはんとお昼寝！",
+       "ro": "Tabibito no genki no minamoto tte, nani? Watashi wa iu made mo naku, gohan to ohirune!",
+       "vi": "Nguồn năng lượng của Lữ Khách là gì? Của tớ thì khỏi phải nói, cơm và ngủ trưa!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-3",
+       "a1-4-2"
+      ],
+      "2": [
+       "a22-1-4"
+      ],
+      "3": [
+       "b12-1-1"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "友だちです。友だちと 話します。楽しいです。",
+         "ro": "Tomodachi desu. Tomodachi to hanashimasu. Tanoshii desu.",
+         "vi": "Là bạn bè. Mình nói chuyện với bạn. Vui lắm."
+        },
+        "2": {
+         "jp": "友だちです。友だちと話すと、元気が出ます。",
+         "ro": "Tomodachi desu. Tomodachi to hanasu to, genki ga demasu.",
+         "vi": "Là bạn bè. Nói chuyện với bạn là mình có năng lượng."
+        },
+        "3": {
+         "jp": "やっぱり仲間かな。一緒に笑ってると、自然と力が湧いてくるんだ。",
+         "ro": "Yappari nakama ka na. Issho ni waratteru to, shizen to chikara ga waite kuru n da.",
+         "vi": "Chắc là đồng đội. Cùng nhau cười đùa là tự nhiên thấy sức mạnh trào dâng."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-3-1",
+         "a1-4-1"
+        ],
+        "2": [
+         "a22-4-4"
+        ],
+        "3": [
+         "a22-4-4",
+         "b1-2-8"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "わたしも 友だちが 大好きです！旅人も 友だちですよ！",
+         "ro": "Watashi mo tomodachi ga daisuki desu! Tabibito mo tomodachi desu yo!",
+         "vi": "Tớ cũng rất yêu bạn bè! Lữ Khách cũng là bạn tớ đó!"
+        },
+        "2": {
+         "jp": "わたしも同じ！旅人も、わたしの大事な友だちだよ！",
+         "ro": "Watashi mo onaji! Tabibito mo, watashi no daijina tomodachi da yo!",
+         "vi": "Tớ cũng vậy! Lữ Khách cũng là người bạn quan trọng của tớ đó!"
+        },
+        "3": {
+         "jp": "わかる〜！わたしにとっても、旅人はかけがえのない仲間だよ！",
+         "ro": "Wakaru~! Watashi ni totte mo, tabibito wa kakegae no nai nakama da yo!",
+         "vi": "Hiểu mà~! Với tớ, Lữ Khách cũng là người đồng đội không gì thay thế được!"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-3-5"
+        ],
+        "2": [
+         "a1-11-6",
+         "a1-3-5"
+        ],
+        "3": [
+         "ab1-3-6"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "おいしい ごはんです！",
+         "ro": "Oishii gohan desu!",
+         "vi": "Là cơm ngon!"
+        },
+        "2": {
+         "jp": "同じです！おいしいごはんがいちばんです。",
+         "ro": "Onaji desu! Oishii gohan ga ichiban desu.",
+         "vi": "Giống cậu! Cơm ngon là nhất."
+        },
+        "3": {
+         "jp": "同じだよ！おいしいご飯を食べれば、たいていのことは乗り越えられる！",
+         "ro": "Onaji da yo! Oishii gohan o tabereba, taitei no koto wa norikoerareru!",
+         "vi": "Giống cậu! Ăn cơm ngon thì hầu hết mọi chuyện đều vượt qua được!"
+        }
+       },
+       "g": {
+        "1": [
+         "a1-14-1"
+        ],
+        "2": [
+         "a1-11-6",
+         "a21-3-6"
+        ],
+        "3": [
+         "ab1-2-5",
+         "a22-6-1"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "わあ、おなじですね！いっしょに 食べましょう！",
+         "ro": "Waa, onaji desu ne! Issho ni tabemashou!",
+         "vi": "Oa, giống nhau ghê! Cùng ăn nào!"
+        },
+        "2": {
+         "jp": "やった、同じだね！じゃあ今から、いっしょに食べに行こう！",
+         "ro": "Yatta, onaji da ne! Jaa ima kara, issho ni tabe ni ikou!",
+         "vi": "Yay, giống nhau nhỉ! Vậy giờ cùng đi ăn nào!"
+        },
+        "3": {
+         "jp": "やった、気が合うね！それじゃ今から、元気のチャージに行こっか！",
+         "ro": "Yatta, ki ga au ne! Soreja ima kara, genki no chaaji ni iko ka!",
+         "vi": "Yay, hợp nhau ghê! Vậy giờ đi sạc năng lượng thôi nào!"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-6-6"
+        ],
+        "2": [
+         "a21-8-3",
+         "a21-8-2"
+        ],
+        "3": [
+         "a21-8-3"
+        ]
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

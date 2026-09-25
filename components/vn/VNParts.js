@@ -7,6 +7,8 @@ import { TIERS, tierFromCerts, certsText, vnSettings, activeTier, loadGrammar, g
 import { speakLines, stopSpeak } from "@/lib/tts";
 import { sfx } from "@/lib/sfx";
 
+const BOOK_LABEL = { a1: "A1", a21: "A2-1", a22: "A2-2", ab1: "A2/B1", b1: "B1-1", b12: "B1-2" };
+
 export function useVN() {
   const { S, update } = useGame();
   const set = vnSettings(S);
@@ -35,7 +37,7 @@ export function Line({ t, g, tier, set, onGrammar, big = false }) {
       {set.ro && <div className="ro">{x.ro}</div>}
       {set.vi && <div className="vi">{x.vi}</div>}
       {gs.length > 0 && onGrammar && (
-        <div className="vngchips">{gs.map((id) => <button key={id} className="chip sm" onClick={(e) => { e.stopPropagation(); onGrammar(id); sfx.click(); }}>📘 {id.split("-")[0].toUpperCase()}</button>)}</div>
+        <div className="vngchips">{gs.map((id) => <button key={id} className="chip sm" onClick={(e) => { e.stopPropagation(); onGrammar(id); sfx.click(); }}>📘 {BOOK_LABEL[id.split("-")[0]] || id}</button>)}</div>
       )}
     </div>
   );

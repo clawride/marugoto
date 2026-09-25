@@ -1,0 +1,5943 @@
+{
+ "id": 10000038,
+ "name": "アルベド",
+ "names": [
+  "アルベド",
+  "旅人",
+  "パイモン",
+  "モンド",
+  "西風騎士団",
+  "クレー",
+  "スクロース",
+  "ドラゴンスパイン",
+  "ドゥリン",
+  "レインドット",
+  "テイワット",
+  "ジン",
+  "風立ちの地"
+ ],
+ "region": "mondstadt",
+ "chapters": [
+  {
+   "c": 0,
+   "title": {
+    "jp": "白亜の王子",
+    "vi": "Hoàng Tử Phấn Trắng"
+   },
+   "summary": "Giữa bão tuyết trên núi Dragonspine, Lữ Khách và Paimon tìm thấy một khu trại ấm áp, nơi một chàng trai tóc vàng đang lặng lẽ vẽ tranh: Albedo, Trưởng Giả Kim Thuật Sư của Đội Kỵ Sĩ Tây Phong.",
+   "bg": "dragonspine",
+   "nodes": [
+    {
+     "id": "n1",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "ドラゴンスパインは とても さむいです。ゆきが たくさん ふります。",
+       "ro": "Doragonsupain wa totemo samui desu. Yuki ga takusan furimasu.",
+       "vi": "Dragonspine lạnh lắm. Tuyết rơi rất nhiều."
+      },
+      "2": {
+       "jp": "ドラゴンスパインの雪山は、とても寒くて、風も強かった。",
+       "ro": "Doragonsupain no yukiyama wa, totemo samukute, kaze mo tsuyokatta.",
+       "vi": "Núi tuyết Dragonspine vừa lạnh buốt vừa lộng gió."
+      },
+      "3": {
+       "jp": "吹雪の吹き荒れるドラゴンスパイン。凍える寒さが、容赦なく体温を奪っていく。",
+       "ro": "Fubuki no fukiareru Doragonsupain. Kogoeru samusa ga, yousha naku taion o ubatte iku.",
+       "vi": "Bão tuyết cuồn cuộn trên Dragonspine. Cái lạnh cóng cứ thế cướp dần hơi ấm cơ thể."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-7-4"
+      ],
+      "2": [
+       "a21-5-1",
+       "a21-4-2"
+      ],
+      "3": [
+       "b1-1-4",
+       "ab1-1-2",
+       "b1-7-4"
+      ]
+     },
+     "next": "n2"
+    },
+    {
+     "id": "n2",
+     "sp": "paimon",
+     "mood": "sad",
+     "t": {
+      "1": {
+       "jp": "さむいです…。オイラは もう だめです…。",
+       "ro": "Samui desu... Oira wa mou dame desu...",
+       "vi": "Lạnh quá... Paimon hết chịu nổi rồi..."
+      },
+      "2": {
+       "jp": "さ、寒い…。オイラ、もう歩けないぞ…。",
+       "ro": "Sa, samui... Oira, mou arukenai zo...",
+       "vi": "L-lạnh quá... Paimon không đi nổi nữa đâu..."
+      },
+      "3": {
+       "jp": "さ、寒すぎる…。オイラ、このままじゃ氷の像になっちゃうぞ…。",
+       "ro": "Sa, samusugiru... Oira, kono mama ja koori no zou ni natchau zo...",
+       "vi": "L-lạnh quá thể... Cứ thế này Paimon thành tượng băng mất..."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-7-4",
+       "a1-10-5"
+      ],
+      "2": [
+       "a22-6-1"
+      ],
+      "3": [
+       "a22-12-2",
+       "a22-11-2"
+      ]
+     },
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "sp": "trav",
+     "t": {
+      "1": {
+       "jp": "あそこに 小さい 火が あります。行きましょう。",
+       "ro": "Asoko ni chiisai hi ga arimasu. Ikimashou.",
+       "vi": "Đằng kia có một đốm lửa nhỏ. Mình đi thôi."
+      },
+      "2": {
+       "jp": "あそこに火が見える。キャンプがあるのかもしれない。",
+       "ro": "Asoko ni hi ga mieru. Kyanpu ga aru no kamo shirenai.",
+       "vi": "Mình thấy có lửa đằng kia. Có khi là một khu trại."
+      },
+      "3": {
+       "jp": "あそこ、明かりが見える。誰かがキャンプを張ってるみたいだ。",
+       "ro": "Asoko, akari ga mieru. Dare ka ga kyanpu o hatteru mitai da.",
+       "vi": "Đằng kia có ánh sáng. Hình như có ai đó dựng trại."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-7-1",
+       "a1-6-6"
+      ],
+      "2": [
+       "a21-6-5",
+       "a22-17-5"
+      ],
+      "3": [
+       "b1-2-1",
+       "ab1-5-7"
+      ]
+     },
+     "next": "n4"
+    },
+    {
+     "id": "n4",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "キャンプに 男の 人が います。しずかに えを かきます。",
+       "ro": "Kyanpu ni otoko no hito ga imasu. Shizuka ni e o kakimasu.",
+       "vi": "Trong trại có một chàng trai. Cậu ấy đang lặng lẽ vẽ tranh."
+      },
+      "2": {
+       "jp": "キャンプの中では、金色のかみの青年が、静かに絵をかいていた。",
+       "ro": "Kyanpu no naka de wa, kin'iro no kami no seinen ga, shizuka ni e o kaite ita.",
+       "vi": "Trong trại, một chàng trai tóc vàng đang lặng lẽ vẽ tranh."
+      },
+      "3": {
+       "jp": "焚き火のそばでは、金髪の青年が一人、黙々とスケッチブックに筆を走らせていた。",
+       "ro": "Takibi no soba de wa, kinpatsu no seinen ga hitori, mokumoku to suketchibukku ni fude o hashirasete ita.",
+       "vi": "Bên đống lửa, một chàng trai tóc vàng đang lặng lẽ đưa bút trên cuốn sổ phác họa."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-7-2",
+       "a1-5-3"
+      ],
+      "2": [
+       "a22-9-1",
+       "a22-2-6"
+      ],
+      "3": [
+       "b1-9-2",
+       "b1-3-3"
+      ]
+     },
+     "next": "n5"
+    },
+    {
+     "id": "n5",
+     "sp": "char",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "こんにちは。さむいですね。どうぞ、火の 近くに 来て ください。",
+       "ro": "Konnichiwa. Samui desu ne. Douzo, hi no chikaku ni kite kudasai.",
+       "vi": "Chào hai người. Lạnh nhỉ. Mời lại gần đống lửa."
+      },
+      "2": {
+       "jp": "やあ。この雪の中を来たのかい？さあ、火の近くであたたまって。",
+       "ro": "Yaa. Kono yuki no naka o kita no kai? Saa, hi no chikaku de atatamatte.",
+       "vi": "Chào. Hai người đi qua trận tuyết này sao? Nào, lại gần lửa sưởi ấm đi."
+      },
+      "3": {
+       "jp": "おや、この吹雪の中を登ってきたのかい？さあ、火のそばで体を温めるといい。",
+       "ro": "Oya, kono fubuki no naka o nobotte kita no kai? Saa, hi no soba de karada o atatameru to ii.",
+       "vi": "Ồ, hai người leo lên giữa trận bão tuyết này sao? Nào, lại bên lửa sưởi ấm đi."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-1-1",
+       "a1-2-2",
+       "a1-14-3"
+      ],
+      "2": [
+       "a22-11-6",
+       "a21-6-1"
+      ],
+      "3": [
+       "b1-2-8",
+       "a21-15-2"
+      ]
+     },
+     "next": "n6"
+    },
+    {
+     "id": "n6",
+     "sp": "paimon",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "ありがとう！あたたかいです！あなたは だれですか。",
+       "ro": "Arigatou! Atatakai desu! Anata wa dare desu ka.",
+       "vi": "Cảm ơn! Ấm quá! Cậu là ai vậy?"
+      },
+      "2": {
+       "jp": "ふう、たすかった！ところで、おまえはだれなんだ？",
+       "ro": "Fuu, tasukatta! Tokorode, omae wa dare na n da?",
+       "vi": "Phù, được cứu rồi! Mà này, cậu là ai vậy?"
+      },
+      "3": {
+       "jp": "ふう、生き返ったぜ！ところで、お前は何者なんだ？こんな所で何してるんだよ？",
+       "ro": "Fuu, ikikaetta ze! Tokorode, omae wa nanimono na n da? Konna tokoro de nani shiteru n da yo?",
+       "vi": "Phù, sống lại rồi! Mà này, cậu là ai thế? Làm gì ở chỗ này vậy?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-1-3",
+       "a1-3-3"
+      ],
+      "2": [
+       "a22-11-6"
+      ],
+      "3": [
+       "ab1-5-7",
+       "a22-11-6"
+      ]
+     },
+     "next": "n7"
+    },
+    {
+     "id": "n7",
+     "sp": "char",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "ボクは アルベドです。西風騎士団の れんきんじゅつしです。",
+       "ro": "Boku wa Arubedo desu. Seifuukishidan no renkinjutsushi desu.",
+       "vi": "Tôi là Albedo, nhà giả kim của Đội Kỵ Sĩ Tây Phong."
+      },
+      "2": {
+       "jp": "ボクはアルベド。西風騎士団で、れんきんじゅつしをしているんだ。",
+       "ro": "Boku wa Arubedo. Seifuukishidan de, renkinjutsushi o shite iru n da.",
+       "vi": "Tôi là Albedo. Tôi làm giả kim thuật sư ở Đội Kỵ Sĩ Tây Phong."
+      },
+      "3": {
+       "jp": "ボクはアルベド。西風騎士団の首席錬金術師で、調査小隊の隊長も務めている。",
+       "ro": "Boku wa Arubedo. Seifuukishidan no shuseki renkinjutsushi de, chousa shoutai no taichou mo tsutomete iru.",
+       "vi": "Tôi là Albedo, Trưởng Giả Kim Thuật Sư của Đội Kỵ Sĩ Tây Phong, kiêm đội trưởng Tiểu Đội Điều Tra."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-1",
+       "a1-4-2"
+      ],
+      "2": [
+       "a21-1-1",
+       "a21-17-1"
+      ],
+      "3": [
+       "a21-5-2",
+       "a21-1-1"
+      ]
+     },
+     "next": "n8"
+    },
+    {
+     "id": "n8",
+     "sp": "trav",
+     "t": {
+      "1": {
+       "jp": "れんきんじゅつし？ここで 何を しますか。",
+       "ro": "Renkinjutsushi? Koko de nani o shimasu ka.",
+       "vi": "Nhà giả kim? Cậu làm gì ở đây vậy?"
+      },
+      "2": {
+       "jp": "れんきんじゅつし？こんな雪山で何をしているの？",
+       "ro": "Renkinjutsushi? Konna yukiyama de nani o shite iru no?",
+       "vi": "Nhà giả kim? Cậu đang làm gì trên núi tuyết thế này?"
+      },
+      "3": {
+       "jp": "錬金術師？こんな雪山で、いったい何の研究をしてるの？",
+       "ro": "Renkinjutsushi? Konna yukiyama de, ittai nan no kenkyuu o shiteru no?",
+       "vi": "Nhà giả kim? Rốt cuộc cậu nghiên cứu gì trên núi tuyết thế này?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-6-2",
+       "a1-3-3"
+      ],
+      "2": [
+       "a21-4-4"
+      ],
+      "3": [
+       "ab1-5-7"
+      ]
+     },
+     "next": "n9"
+    },
+    {
+     "id": "n9",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "この 山は ふしぎな 山です。ゆきの 下に 古い 国が あります。ボクは それを しらべます。",
+       "ro": "Kono yama wa fushigina yama desu. Yuki no shita ni furui kuni ga arimasu. Boku wa sore o shirabemasu.",
+       "vi": "Ngọn núi này kỳ lạ lắm. Dưới lớp tuyết có một vương quốc cổ. Tôi đang tìm hiểu về nó."
+      },
+      "2": {
+       "jp": "この山は不思議なんだ。雪の下に古い国があって、ボクはそれを調べているんだよ。",
+       "ro": "Kono yama wa fushigi na n da. Yuki no shita ni furui kuni ga atte, boku wa sore o shirabete iru n da yo.",
+       "vi": "Ngọn núi này kỳ lạ lắm. Dưới lớp tuyết có một vương quốc cổ, và tôi đang tìm hiểu nó."
+      },
+      "3": {
+       "jp": "この山は実に興味深い。雪の下には古代の国が眠っていてね。その謎を追っているのさ。",
+       "ro": "Kono yama wa jitsuni kyoumibukai. Yuki no shita ni wa kodai no kuni ga nemutte ite ne. Sono nazo o otte iru no sa.",
+       "vi": "Ngọn núi này thật sự rất thú vị. Dưới lớp tuyết có một vương quốc cổ đang ngủ yên. Tôi đang truy tìm bí ẩn ấy."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-14-1",
+       "a1-7-1",
+       "a1-8-4"
+      ],
+      "2": [
+       "a21-17-1",
+       "a21-6-2",
+       "a21-4-4"
+      ],
+      "3": [
+       "a21-4-4",
+       "b1-8-3"
+      ]
+     },
+     "next": "n10"
+    },
+    {
+     "id": "n10",
+     "sp": "paimon",
+     "t": {
+      "1": {
+       "jp": "えが 上手ですね！何の えですか。",
+       "ro": "E ga jouzu desu ne! Nan no e desu ka.",
+       "vi": "Tranh đẹp ghê! Tranh gì vậy?"
+      },
+      "2": {
+       "jp": "その絵、すごく上手だな！何をかいているんだ？",
+       "ro": "Sono e, sugoku jouzu da na! Nani o kaite iru n da?",
+       "vi": "Bức tranh đó đẹp ghê! Cậu đang vẽ gì vậy?"
+      },
+      "3": {
+       "jp": "へえ、その絵めちゃくちゃ上手いな！何を描いてるんだ？",
+       "ro": "Hee, sono e mechakucha umai na! Nani o kaiteru n da?",
+       "vi": "Ồ, bức tranh đó đẹp dữ thần! Cậu đang vẽ gì thế?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-3"
+      ],
+      "2": [
+       "a21-4-4",
+       "a22-11-6"
+      ],
+      "3": [
+       "ab1-5-7",
+       "a22-11-6"
+      ]
+     },
+     "choices": [
+      {
+       "t": {
+        "1": {
+         "jp": "ゆきの 中の 花ですか。きれいですね。",
+         "ro": "Yuki no naka no hana desu ka. Kirei desu ne.",
+         "vi": "Hoa giữa tuyết à? Đẹp quá."
+        },
+        "2": {
+         "jp": "雪の中にさく花？きれいだね。",
+         "ro": "Yuki no naka ni saku hana? Kirei da ne.",
+         "vi": "Hoa nở giữa tuyết à? Đẹp nhỉ."
+        },
+        "3": {
+         "jp": "雪の中に咲く花？すごく綺麗だね。",
+         "ro": "Yuki no naka ni saku hana? Sugoku kirei da ne.",
+         "vi": "Hoa nở giữa tuyết sao? Đẹp thật đấy."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-3-3",
+         "a1-4-2"
+        ],
+        "2": [
+         "a21-17-3"
+        ],
+        "3": [
+         "b1-6-2"
+        ]
+       },
+       "next": "n11"
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "アルベドは さむくないですか。",
+         "ro": "Arubedo wa samukunai desu ka.",
+         "vi": "Albedo không lạnh à?"
+        },
+        "2": {
+         "jp": "アルベドは寒くないの？ずっとここにいるんだよね？",
+         "ro": "Arubedo wa samukunai no? Zutto koko ni iru n da yo ne?",
+         "vi": "Albedo không lạnh sao? Cậu ở đây suốt mà, đúng không?"
+        },
+        "3": {
+         "jp": "アルベドは寒くないの？ずっとここで研究してるんだよね？",
+         "ro": "Arubedo wa samukunai no? Zutto koko de kenkyuu shiteru n da yo ne?",
+         "vi": "Albedo không lạnh sao? Cậu nghiên cứu ở đây suốt mà nhỉ?"
+        }
+       },
+       "g": {
+        "1": [
+         "a1-6-3"
+        ],
+        "2": [
+         "a21-17-1"
+        ],
+        "3": [
+         "ab1-6-4",
+         "ab1-5-7"
+        ]
+       },
+       "next": "n12"
+      }
+     ]
+    },
+    {
+     "id": "n11",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "はい。この 山の 花です。ゆきの 中で さきます。ボクは この 花が 好きです。",
+       "ro": "Hai. Kono yama no hana desu. Yuki no naka de sakimasu. Boku wa kono hana ga suki desu.",
+       "vi": "Ừ. Đây là loài hoa của ngọn núi này. Nó nở giữa tuyết. Tôi thích loài hoa này."
+      },
+      "2": {
+       "jp": "うん。この山だけにさく花なんだ。寒い場所で、元気に生きているんだよ。",
+       "ro": "Un. Kono yama dake ni saku hana na n da. Samui basho de, genki ni ikite iru n da yo.",
+       "vi": "Ừ. Đây là loài hoa chỉ nở trên ngọn núi này. Nó vẫn sống khỏe giữa nơi lạnh giá."
+      },
+      "3": {
+       "jp": "ああ、この山にしか咲かない花さ。これほどの寒さの中でも、命をつないでいる。実に興味深いよ。",
+       "ro": "Aa, kono yama ni shika sakanai hana sa. Korehodo no samusa no naka de mo, inochi o tsunaide iru. Jitsuni kyoumibukai yo.",
+       "vi": "Phải, đây là loài hoa chỉ nở trên ngọn núi này. Giữa cái lạnh thế này nó vẫn duy trì sự sống. Thật thú vị."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-5-1",
+       "a1-16-2"
+      ],
+      "2": [
+       "a22-9-4",
+       "a21-17-3",
+       "a21-1-1"
+      ],
+      "3": [
+       "a22-9-3",
+       "ab1-1-2"
+      ]
+     },
+     "next": "n13"
+    },
+    {
+     "id": "n12",
+     "sp": "char",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "さむいです。でも、ここは しずかです。ボクは しずかな ところが 好きです。",
+       "ro": "Samui desu. Demo, koko wa shizuka desu. Boku wa shizukana tokoro ga suki desu.",
+       "vi": "Lạnh chứ. Nhưng ở đây yên tĩnh. Tôi thích những nơi yên tĩnh."
+      },
+      "2": {
+       "jp": "寒いよ。でも、静かな場所のほうが、考えごとがしやすいんだ。",
+       "ro": "Samui yo. Demo, shizukana basho no hou ga, kangaegoto ga shiyasui n da.",
+       "vi": "Lạnh chứ. Nhưng ở nơi yên tĩnh thì dễ suy nghĩ hơn."
+      },
+      "3": {
+       "jp": "寒さは感じるよ。でも、この静けさの中にいると、思考が澄んでいく気がするんだ。",
+       "ro": "Samusa wa kanjiru yo. Demo, kono shizukesa no naka ni iru to, shikou ga sunde iku ki ga suru n da.",
+       "vi": "Tôi vẫn thấy lạnh chứ. Nhưng ở giữa sự tĩnh lặng này, tôi thấy suy nghĩ mình trong trẻo hơn."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-18-2",
+       "a1-14-1",
+       "a1-5-1"
+      ],
+      "2": [
+       "a22-12-1",
+       "a21-17-1"
+      ],
+      "3": [
+       "b12-13-2",
+       "b1-7-4",
+       "a22-4-4"
+      ]
+     },
+     "next": "n13"
+    },
+    {
+     "id": "n13",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "アルベドは ノートを とじました。そして 旅人を 見ました。",
+       "ro": "Arubedo wa nooto o tojimashita. Soshite tabibito o mimashita.",
+       "vi": "Albedo gấp cuốn sổ lại. Rồi cậu nhìn Lữ Khách."
+      },
+      "2": {
+       "jp": "アルベドはスケッチブックをとじて、旅人をじっと見た。",
+       "ro": "Arubedo wa suketchibukku o tojite, tabibito o jitto mita.",
+       "vi": "Albedo gấp cuốn sổ phác họa, chăm chú nhìn Lữ Khách."
+      },
+      "3": {
+       "jp": "アルベドはスケッチブックを閉じると、興味深そうに旅人を見つめた。",
+       "ro": "Arubedo wa suketchibukku o tojiru to, kyoumibuka sou ni tabibito o mitsumeta.",
+       "vi": "Albedo gấp cuốn sổ phác họa lại, nhìn Lữ Khách đầy hứng thú."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-18-3"
+      ],
+      "2": [
+       "a21-6-2"
+      ],
+      "3": [
+       "a22-4-4",
+       "a22-2-6"
+      ]
+     },
+     "next": "n14"
+    },
+    {
+     "id": "n14",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "旅人は 遠い ところから 来ましたね。旅人の 話を 聞きたいです。また 来て ください。",
+       "ro": "Tabibito wa tooi tokoro kara kimashita ne. Tabibito no hanashi o kikitai desu. Mata kite kudasai.",
+       "vi": "Lữ Khách đến từ nơi rất xa nhỉ. Tôi muốn nghe chuyện của cậu. Hãy lại đến nhé."
+      },
+      "2": {
+       "jp": "君は、遠い所から来たんだね。君にきょうみがあるんだ。また話を聞かせてくれるかい？",
+       "ro": "Kimi wa, tooi tokoro kara kita n da ne. Kimi ni kyoumi ga aru n da. Mata hanashi o kikasete kureru kai?",
+       "vi": "Cậu đến từ nơi rất xa nhỉ. Tôi rất hứng thú với cậu. Lần sau lại kể chuyện cho tôi nghe nhé?"
+      },
+      "3": {
+       "jp": "君は、ずいぶん遠い所から来たようだね。…ふふ、興味深い。よかったら、また話を聞かせてくれないか。",
+       "ro": "Kimi wa, zuibun tooi tokoro kara kita you da ne... Fufu, kyoumibukai. Yokattara, mata hanashi o kikasete kurenai ka.",
+       "vi": "Có vẻ cậu đến từ một nơi rất xa nhỉ. ...Hừm, thú vị thật. Nếu được, lần sau lại kể chuyện cho tôi nghe nhé."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-18-4",
+       "a1-2-2"
+      ],
+      "2": [
+       "a21-10-6",
+       "a21-17-1"
+      ],
+      "3": [
+       "b1-5-5",
+       "b12-2-7",
+       "ab1-4-1"
+      ]
+     },
+     "end": true
+    }
+   ]
+  },
+  {
+   "c": 1,
+   "title": {
+    "jp": "楽園の一輪",
+    "vi": "Hoa Địa Đàng"
+   },
+   "summary": "Tại xưởng giả kim ở Mondstadt, Klee khóc vì lỡ làm hỏng bồn hoa. Albedo dùng giả kim thuật tạo ra một bông hoa vàng óng, rồi hỏi Lữ Khách: bông hoa được tạo ra như thế có phải là hoa thật không?",
+   "bg": "indoor",
+   "nodes": [
+    {
+     "id": "n1",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "旅人は モンドに かえりました。西風騎士団の アルベドの へやに 行きました。",
+       "ro": "Tabibito wa Mondo ni kaerimashita. Seifuukishidan no Arubedo no heya ni ikimashita.",
+       "vi": "Lữ Khách trở về Mondstadt và đến phòng làm việc của Albedo ở Đội Kỵ Sĩ Tây Phong."
+      },
+      "2": {
+       "jp": "モンドに帰った旅人たちは、西風騎士団のアルベドのけんきゅうしつをたずねた。",
+       "ro": "Mondo ni kaetta tabibito tachi wa, seifuukishidan no Arubedo no kenkyuushitsu o tazuneta.",
+       "vi": "Trở về Mondstadt, Lữ Khách và Paimon đến thăm phòng nghiên cứu của Albedo ở Đội Kỵ Sĩ Tây Phong."
+      },
+      "3": {
+       "jp": "モンドに戻った旅人たちは、西風騎士団本部にあるアルベドの工房を訪ねた。",
+       "ro": "Mondo ni modotta tabibito tachi wa, seifuukishidan honbu ni aru Arubedo no koubou o tazuneta.",
+       "vi": "Trở về Mondstadt, Lữ Khách và Paimon ghé thăm xưởng giả kim của Albedo trong trụ sở Đội Kỵ Sĩ Tây Phong."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-9-5",
+       "a1-4-2"
+      ],
+      "2": [
+       "a21-17-3",
+       "a21-4-3"
+      ],
+      "3": [
+       "b1-6-2",
+       "a22-1-3"
+      ]
+     },
+     "next": "n2"
+    },
+    {
+     "id": "n2",
+     "sp": "クレー",
+     "t": {
+      "1": {
+       "jp": "アルベドおにいちゃん！たいへんです！クレーの 花が…！",
+       "ro": "Arubedo oniichan! Taihen desu! Kuree no hana ga...!",
+       "vi": "Anh Albedo! Nguy rồi! Hoa của Klee...!"
+      },
+      "2": {
+       "jp": "アルベドお兄ちゃん！大変なの！クレーの花が…！",
+       "ro": "Arubedo oniichan! Taihen na no! Kuree no hana ga...!",
+       "vi": "Anh Albedo! Nguy rồi! Hoa của Klee...!"
+      },
+      "3": {
+       "jp": "アルベドお兄ちゃーん！大変なの！クレーのお花が、お花が…！",
+       "ro": "Arubedo oniichaan! Taihen na no! Kuree no ohana ga, ohana ga...!",
+       "vi": "Anh Albedo ơiii! Nguy rồi! Hoa của Klee, hoa của Klee...!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-4-2"
+      ],
+      "2": [
+       "a1-4-2",
+       "a22-11-6"
+      ],
+      "3": [
+       "b1-8-3"
+      ]
+     },
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "クレーは ばくだんで あそびました。花に げんきが ありません。",
+       "ro": "Kuree wa bakudan de asobimashita. Hana ni genki ga arimasen.",
+       "vi": "Klee đã nghịch bom. Giờ hoa héo rũ cả rồi."
+      },
+      "2": {
+       "jp": "クレーの手の中の花は、しおれていた。ばくだんであそんでいたら、花だんがこわれてしまったのだ。",
+       "ro": "Kuree no te no naka no hana wa, shiorete ita. Bakudan de asonde itara, hanadan ga kowarete shimatta no da.",
+       "vi": "Những bông hoa trong tay Klee đã héo rũ. Cô bé đang nghịch bom thì làm hỏng mất bồn hoa."
+      },
+      "3": {
+       "jp": "クレーの手の中で、花はしおれていた。どうやら爆弾遊びの最中に、花壇を吹き飛ばしてしまったらしい。",
+       "ro": "Kuree no te no naka de, hana wa shiorete ita. Douyara bakudan asobi no saichuu ni, kadan o fukitobashite shimatta rashii.",
+       "vi": "Trong tay Klee, những bông hoa đã héo rũ. Hình như lúc chơi bom, cô bé đã lỡ thổi bay cả bồn hoa."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-7-1"
+      ],
+      "2": [
+       "a22-9-1",
+       "a22-7-3",
+       "a22-11-2"
+      ],
+      "3": [
+       "b1-5-1",
+       "a22-11-2"
+      ]
+     },
+     "next": "n4"
+    },
+    {
+     "id": "n4",
+     "sp": "char",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "だいじょうぶです、クレー。ちょっと 見て ください。",
+       "ro": "Daijoubu desu, Kuree. Chotto mite kudasai.",
+       "vi": "Không sao đâu, Klee. Nhìn này."
+      },
+      "2": {
+       "jp": "だいじょうぶだよ、クレー。ちょっと見ていて。",
+       "ro": "Daijoubu da yo, Kuree. Chotto mite ite.",
+       "vi": "Không sao đâu Klee. Nhìn anh này."
+      },
+      "3": {
+       "jp": "大丈夫だよ、クレー。泣かないで、少し見ていてごらん。",
+       "ro": "Daijoubu da yo, Kuree. Nakanaide, sukoshi mite ite goran.",
+       "vi": "Không sao đâu, Klee. Đừng khóc, nhìn anh một chút nhé."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-10-5",
+       "a1-2-2"
+      ],
+      "2": [
+       "a21-6-1"
+      ],
+      "3": [
+       "a21-15-3"
+      ]
+     },
+     "next": "n5"
+    },
+    {
+     "id": "n5",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "アルベドは つくえに まるを 書きました。すると、まるの 中に 金いろの 花が さきました。",
+       "ro": "Arubedo wa tsukue ni maru o kakimashita. Suruto, maru no naka ni kin'iro no hana ga sakimashita.",
+       "vi": "Albedo vẽ một vòng tròn lên bàn. Thế là giữa vòng tròn nở ra một bông hoa vàng óng."
+      },
+      "2": {
+       "jp": "アルベドがつくえに円をかくと、光の中から、金色の花がさいた。",
+       "ro": "Arubedo ga tsukue ni en o kaku to, hikari no naka kara, kin'iro no hana ga saita.",
+       "vi": "Albedo vẽ một vòng tròn lên bàn, và từ trong ánh sáng nở ra một bông hoa vàng óng."
+      },
+      "3": {
+       "jp": "アルベドが机に錬成陣を描くと、淡い光の中から、金色の花がふわりと咲き誇った。",
+       "ro": "Arubedo ga tsukue ni renseijin o egaku to, awai hikari no naka kara, kin'iro no hana ga fuwari to sakihokotta.",
+       "vi": "Albedo vẽ một trận luyện thành lên bàn, và từ luồng sáng nhạt, một bông hoa vàng óng khẽ nở rộ."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-4-2"
+      ],
+      "2": [
+       "a22-4-4"
+      ],
+      "3": [
+       "b1-3-6",
+       "a22-4-4"
+      ]
+     },
+     "next": "n6"
+    },
+    {
+     "id": "n6",
+     "sp": "クレー",
+     "t": {
+      "1": {
+       "jp": "わあ！きれいです！アルベドおにいちゃん、ありがとう！",
+       "ro": "Waa! Kirei desu! Arubedo oniichan, arigatou!",
+       "vi": "Oa! Đẹp quá! Cảm ơn anh Albedo!"
+      },
+      "2": {
+       "jp": "わあ、きれい！クレー、この花、大好き！ありがとう、お兄ちゃん！",
+       "ro": "Waa, kirei! Kuree, kono hana, daisuki! Arigatou, oniichan!",
+       "vi": "Oa, đẹp quá! Klee thích bông hoa này lắm! Cảm ơn anh!"
+      },
+      "3": {
+       "jp": "わあっ、キラキラしてる！クレー、このお花大好き！ありがとう、アルベドお兄ちゃん！",
+       "ro": "Waa, kirakira shiteru! Kuree, kono ohana daisuki! Arigatou, Arubedo oniichan!",
+       "vi": "Oa, lấp lánh quá! Klee thích bông hoa này lắm! Cảm ơn anh Albedo!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-1-3"
+      ],
+      "2": [
+       "a1-1-3",
+       "a1-5-1"
+      ],
+      "3": [
+       "ab1-5-7",
+       "a1-1-3"
+      ]
+     },
+     "next": "n7"
+    },
+    {
+     "id": "n7",
+     "sp": "paimon",
+     "mood": "surprised",
+     "t": {
+      "1": {
+       "jp": "すごいです！アルベドは 花を つくりました！",
+       "ro": "Sugoi desu! Arubedo wa hana o tsukurimashita!",
+       "vi": "Giỏi quá! Albedo tạo ra được cả hoa luôn!"
+      },
+      "2": {
+       "jp": "すごいぞ！れんきんじゅつで、花まで作れるのか！",
+       "ro": "Sugoi zo! Renkinjutsu de, hana made tsukureru no ka!",
+       "vi": "Đỉnh thật! Giả kim thuật tạo được cả hoa sao!"
+      },
+      "3": {
+       "jp": "すげえ！錬金術って、花まで生み出せちゃうのかよ！",
+       "ro": "Sugee! Renkinjutsu tte, hana made umidasechau no ka yo!",
+       "vi": "Đỉnh thật! Giả kim thuật tạo ra được cả hoa luôn á!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4"
+      ],
+      "2": [
+       "a22-6-1"
+      ],
+      "3": [
+       "b12-1-1",
+       "a22-6-1"
+      ]
+     },
+     "next": "n8"
+    },
+    {
+     "id": "n8",
+     "sp": "char",
+     "mood": "serious",
+     "t": {
+      "1": {
+       "jp": "旅人、この 花は ほんとうの 花ですか。旅人は どう 見ますか。",
+       "ro": "Tabibito, kono hana wa hontou no hana desu ka. Tabibito wa dou mimasu ka.",
+       "vi": "Lữ Khách, bông hoa này có phải hoa thật không? Cậu thấy sao?"
+      },
+      "2": {
+       "jp": "旅人、聞いてもいいかな。人が作ったこの花は、本当の花だと思う？",
+       "ro": "Tabibito, kiite mo ii ka na. Hito ga tsukutta kono hana wa, hontou no hana da to omou?",
+       "vi": "Lữ Khách, cho tôi hỏi nhé. Bông hoa do con người tạo ra này, cậu có nghĩ nó là hoa thật không?"
+      },
+      "3": {
+       "jp": "旅人、一つ聞かせてほしい。錬金術で生み出されたこの花を、君は「本物の花」と呼べるかい？",
+       "ro": "Tabibito, hitotsu kikasete hoshii. Renkinjutsu de umidasareta kono hana o, kimi wa \"honmono no hana\" to yoberu kai?",
+       "vi": "Lữ Khách, cho tôi hỏi một điều. Bông hoa sinh ra từ giả kim thuật này, cậu có thể gọi nó là \"hoa thật\" không?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-3"
+      ],
+      "2": [
+       "a21-14-4",
+       "a21-18-1",
+       "a21-17-3"
+      ],
+      "3": [
+       "ab1-7-4",
+       "a22-13-3",
+       "a22-6-1"
+      ]
+     },
+     "choices": [
+      {
+       "t": {
+        "1": {
+         "jp": "はい、ほんとうの 花です。とても きれいですから。",
+         "ro": "Hai, hontou no hana desu. Totemo kirei desu kara.",
+         "vi": "Có, là hoa thật. Vì nó rất đẹp."
+        },
+        "2": {
+         "jp": "うん、本当の花だよ。こんなにきれいだから。",
+         "ro": "Un, hontou no hana da yo. Konna ni kirei da kara.",
+         "vi": "Ừ, là hoa thật mà. Vì nó đẹp thế này cơ mà."
+        },
+        "3": {
+         "jp": "うん、本物だと思う。こんなに綺麗に咲いてるんだから。",
+         "ro": "Un, honmono da to omou. Konna ni kirei ni saiteru n da kara.",
+         "vi": "Ừ, mình nghĩ là thật. Nó nở đẹp thế này cơ mà."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-3-1",
+         "a1-13-4"
+        ],
+        "2": [
+         "a21-3-5"
+        ],
+        "3": [
+         "a21-18-1",
+         "ab1-3-3"
+        ]
+       },
+       "next": "n9"
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "わかりません。でも、クレーは とても うれしいです。",
+         "ro": "Wakarimasen. Demo, Kuree wa totemo ureshii desu.",
+         "vi": "Mình không biết. Nhưng Klee vui lắm."
+        },
+        "2": {
+         "jp": "よくわからない。でも、クレーがよろこんでいるよ。",
+         "ro": "Yoku wakaranai. Demo, Kuree ga yorokonde iru yo.",
+         "vi": "Mình không rõ lắm. Nhưng Klee đang rất vui kìa."
+        },
+        "3": {
+         "jp": "正直わからない。でも、クレーをこんなに笑顔にしてるじゃない。",
+         "ro": "Shoujiki wakaranai. Demo, Kuree o konna ni egao ni shiteru janai.",
+         "vi": "Thật lòng mình không biết. Nhưng nó làm Klee cười tươi thế kia còn gì."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-18-2",
+         "a1-7-4"
+        ],
+        "2": [
+         "a21-4-4",
+         "a1-18-2"
+        ],
+        "3": [
+         "b12-17-2",
+         "ab1-5-7"
+        ]
+       },
+       "next": "n10"
+      }
+     ]
+    },
+    {
+     "id": "n9",
+     "sp": "char",
+     "mood": "shy",
+     "t": {
+      "1": {
+       "jp": "…ありがとう。ボクも そう しんじたいです。",
+       "ro": "... Arigatou. Boku mo sou shinjitai desu.",
+       "vi": "...Cảm ơn cậu. Tôi cũng muốn tin như vậy."
+      },
+      "2": {
+       "jp": "…そうか。ありがとう。ボクも、そうしんじたいんだ。",
+       "ro": "... Sou ka. Arigatou. Boku mo, sou shinjitai n da.",
+       "vi": "...Vậy à. Cảm ơn cậu. Tôi cũng muốn tin như thế."
+      },
+      "3": {
+       "jp": "…そうか。ありがとう。ボクも、そう信じていたいと思っているんだ。",
+       "ro": "... Sou ka. Arigatou. Boku mo, sou shinjite itai to omotte iru n da.",
+       "vi": "...Vậy à. Cảm ơn cậu. Tôi cũng luôn muốn tin như thế."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-1-3",
+       "a1-18-4"
+      ],
+      "2": [
+       "a21-10-1",
+       "a21-17-1"
+      ],
+      "3": [
+       "a21-18-1",
+       "a21-17-1"
+      ]
+     },
+     "next": "n11"
+    },
+    {
+     "id": "n10",
+     "sp": "char",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "そうですね。クレーは わらいました。それが いちばん たいせつです。",
+       "ro": "Sou desu ne. Kuree wa waraimashita. Sore ga ichiban taisetsu desu.",
+       "vi": "Đúng vậy. Klee đã cười. Đó mới là điều quan trọng nhất."
+      },
+      "2": {
+       "jp": "そうだね。だれかがえがおになったら、それでいいのかもしれない。",
+       "ro": "Sou da ne. Dare ka ga egao ni nattara, sore de ii no kamo shirenai.",
+       "vi": "Đúng nhỉ. Nếu có ai đó mỉm cười được, có lẽ vậy là đủ."
+      },
+      "3": {
+       "jp": "そうだね。誰かを笑顔にできるのなら、本物かどうかは些細なことなのかもしれない。",
+       "ro": "Sou da ne. Dare ka o egao ni dekiru no nara, honmono ka dou ka wa sasaina koto na no kamo shirenai.",
+       "vi": "Đúng nhỉ. Nếu nó có thể làm ai đó mỉm cười, thì thật hay giả có lẽ chỉ là chuyện nhỏ."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-8-4"
+      ],
+      "2": [
+       "a22-7-3",
+       "a22-17-5"
+      ],
+      "3": [
+       "ab1-1-4",
+       "b12-8-3",
+       "ab1-7-2"
+      ]
+     },
+     "next": "n11"
+    },
+    {
+     "id": "n11",
+     "sp": "char",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "ボクの ししょうは 言いました。「らくえんは ひとつの 花から はじまります」。",
+       "ro": "Boku no shishou wa iimashita. \"rakuen wa hitotsu no hana kara hajimarimasu\".",
+       "vi": "Sư phụ của tôi từng nói: \"Địa đàng bắt đầu từ một bông hoa.\""
+      },
+      "2": {
+       "jp": "ボクのししょうが、よく言っていたんだ。「楽園は、一つの花から始まる」って。",
+       "ro": "Boku no shishou ga, yoku itte ita n da. \"rakuen wa, hitotsu no hana kara hajimaru\" tte.",
+       "vi": "Sư phụ tôi thường nói: \"Địa đàng bắt đầu từ một bông hoa.\""
+      },
+      "3": {
+       "jp": "ボクの師匠がよく言っていた。「楽園は、たった一輪の花から始まるのだ」とね。",
+       "ro": "Boku no shishou ga yoku itte ita. \"rakuen wa, tatta ichirin no hana kara hajimaru no da\" to ne.",
+       "vi": "Sư phụ tôi thường nói: \"Địa đàng khởi đầu chỉ từ một đóa hoa.\""
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-4-2"
+      ],
+      "2": [
+       "a22-9-1",
+       "a21-17-1"
+      ],
+      "3": [
+       "a22-9-1",
+       "b1-8-3"
+      ]
+     },
+     "next": "n12"
+    },
+    {
+     "id": "n12",
+     "sp": "trav",
+     "t": {
+      "1": {
+       "jp": "アルベドの ししょうは どんな 人ですか。",
+       "ro": "Arubedo no shishou wa donna hito desu ka.",
+       "vi": "Sư phụ của Albedo là người thế nào?"
+      },
+      "2": {
+       "jp": "アルベドのししょうって、どんな人なの？",
+       "ro": "Arubedo no shishou tte, donna hito na no?",
+       "vi": "Sư phụ của Albedo là người như thế nào?"
+      },
+      "3": {
+       "jp": "アルベドの師匠って、どんな人だったの？",
+       "ro": "Arubedo no shishou tte, donna hito datta no?",
+       "vi": "Sư phụ của Albedo là người như thế nào vậy?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-6-4",
+       "a1-3-3"
+      ],
+      "2": [
+       "a22-1-4",
+       "a21-2-6"
+      ],
+      "3": [
+       "b12-1-1",
+       "b1-8-3"
+      ]
+     },
+     "next": "n13"
+    },
+    {
+     "id": "n13",
+     "sp": "char",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "とても すごい 人です。でも、その 話は また こんど。クレー、その 花を たいせつに して ください。",
+       "ro": "Totemo sugoi hito desu. Demo, sono hanashi wa mata kondo. Kuree, sono hana o taisetsu ni shite kudasai.",
+       "vi": "Một người rất phi thường. Nhưng chuyện đó để lần sau nhé. Klee, giữ gìn bông hoa đó cẩn thận nhé."
+      },
+      "2": {
+       "jp": "…すごい人だよ。でも、その話はまた今度にしよう。クレー、その花、大切にしてね。",
+       "ro": "... Sugoi hito da yo. Demo, sono hanashi wa mata kondo ni shiyou. Kuree, sono hana, taisetsu ni shite ne.",
+       "vi": "...Một người rất phi thường. Nhưng chuyện đó để lần sau nhé. Klee, giữ gìn bông hoa đó nhé."
+      },
+      "3": {
+       "jp": "…偉大な人さ。でも、その話はまたいつかにしよう。クレー、その花を大切に育ててあげてね。",
+       "ro": "... Idaina hito sa. Demo, sono hanashi wa mata itsuka ni shiyou. Kuree, sono hana o taisetsu ni sodatete agete ne.",
+       "vi": "...Một người vĩ đại. Nhưng chuyện đó để khi khác nhé. Klee, hãy chăm sóc bông hoa đó thật cẩn thận nhé."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-18-2",
+       "a1-2-2"
+      ],
+      "2": [
+       "a21-11-4",
+       "a21-6-1"
+      ],
+      "3": [
+       "ab1-6-5",
+       "a21-11-4"
+      ]
+     },
+     "end": true
+    }
+   ]
+  },
+  {
+   "c": 2,
+   "title": {
+    "jp": "生命の地層",
+    "vi": "Liên Đại Hiển Sinh"
+   },
+   "summary": "Sâu trong núi Dragonspine, Albedo cho Lữ Khách xem những hóa thạch ngủ yên trong vách băng – \"cuốn sách\" ghi lại lịch sử sự sống. Cậu thú nhận rằng khởi đầu của chính mình không được khắc trong bất kỳ tầng đá nào.",
+   "bg": "dragonspine",
+   "nodes": [
+    {
+     "id": "n1",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "旅人は アルベドと 山の 中に 行きました。古い いせきに こおりの かべが あります。",
+       "ro": "Tabibito wa Arubedo to yama no naka ni ikimashita. Furui iseki ni koori no kabe ga arimasu.",
+       "vi": "Lữ Khách cùng Albedo đi sâu vào trong núi. Ở một tàn tích cổ có bức tường băng."
+      },
+      "2": {
+       "jp": "アルベドにつれられて、旅人たちは山のおくにある古いいせきに来た。そこには、大きなこおりのかべがあった。",
+       "ro": "Arubedo ni tsurerarete, tabibito tachi wa yama no oku ni aru furui iseki ni kita. Soko ni wa, ookina koori no kabe ga atta.",
+       "vi": "Được Albedo dẫn đường, Lữ Khách và Paimon đến một tàn tích cổ sâu trong núi. Ở đó có một bức tường băng lớn."
+      },
+      "3": {
+       "jp": "アルベドの案内で、旅人たちは雪山の奥深くに眠る遺跡へとたどり着いた。そこには巨大な氷壁がそびえていた。",
+       "ro": "Arubedo no annai de, tabibito tachi wa yukiyama no okubukaku ni nemuru iseki e to tadoritsuita. Soko ni wa kyodaina hyouheki ga sobiete ita.",
+       "vi": "Theo sự dẫn đường của Albedo, Lữ Khách và Paimon tìm đến một tàn tích ngủ yên sâu trong núi tuyết. Ở đó sừng sững một vách băng khổng lồ."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-9-5",
+       "a1-7-1"
+      ],
+      "2": [
+       "a22-18-1",
+       "a22-1-3"
+      ],
+      "3": [
+       "b1-6-2",
+       "b1-9-2"
+      ]
+     },
+     "next": "n2"
+    },
+    {
+     "id": "n2",
+     "sp": "paimon",
+     "mood": "surprised",
+     "t": {
+      "1": {
+       "jp": "見て ください！こおりの 中に 小さい かいが あります！ここは 山の 上ですよ？",
+       "ro": "Mite kudasai! Koori no naka ni chiisai kai ga arimasu! Koko wa yama no ue desu yo?",
+       "vi": "Nhìn kìa! Trong băng có vỏ sò nhỏ! Đây là trên núi mà?"
+      },
+      "2": {
+       "jp": "見て！こおりの中に、小さいかいがらがあるぞ！ここは山の上だぞ？",
+       "ro": "Mite! Koori no naka ni, chiisai kaigara ga aru zo! Koko wa yama no ue da zo?",
+       "vi": "Nhìn kìa! Trong băng có mấy vỏ sò nhỏ! Đây là trên núi mà?"
+      },
+      "3": {
+       "jp": "おい、見ろよ！氷の中に貝殻が埋まってるぞ！こんな山の上なのに、なんでだ？",
+       "ro": "Oi, miro yo! Koori no naka ni kaigara ga umatteru zo! Konna yama no ue na noni, nande da?",
+       "vi": "Ê, nhìn kìa! Có vỏ sò bị vùi trong băng! Trên núi cao thế này mà, sao lại thế?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-2-2",
+       "a1-7-1",
+       "a1-8-6"
+      ],
+      "2": [
+       "a1-7-1",
+       "a1-8-1"
+      ],
+      "3": [
+       "ab1-7-3",
+       "ab1-5-7",
+       "ab1-1-7"
+      ]
+     },
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "sp": "char",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "それは かせきです。ずっと むかし、ここは たぶん 水の 中でした。山も 長い じかんで かわります。",
+       "ro": "Sore wa kaseki desu. Zutto mukashi, koko wa tabun mizu no naka deshita. Yama mo nagai jikan de kawarimasu.",
+       "vi": "Đó là hóa thạch. Từ rất lâu rồi, có lẽ nơi này từng nằm dưới nước. Núi non cũng thay đổi theo thời gian dài."
+      },
+      "2": {
+       "jp": "それはかせきだよ。ずっとむかし、ここは水の中だったのかもしれない。土地は、長い時間でかわるからね。",
+       "ro": "Sore wa kaseki da yo. Zutto mukashi, koko wa mizu no naka datta no kamo shirenai. Tochi wa, nagai jikan de kawaru kara ne.",
+       "vi": "Đó là hóa thạch đấy. Có lẽ từ rất lâu rồi, nơi này từng nằm dưới nước. Vì đất đai thay đổi theo thời gian dài mà."
+      },
+      "3": {
+       "jp": "化石だよ。遥か昔、この場所は水の底だったのかもしれない。大地は長い時間をかけて姿を変えるからね。",
+       "ro": "Kaseki da yo. Haruka mukashi, kono basho wa mizu no soko datta no kamo shirenai. Daichi wa nagai jikan o kakete sugata o kaeru kara ne.",
+       "vi": "Là hóa thạch đấy. Có lẽ từ thuở xa xưa, nơi này từng là đáy nước. Vì mặt đất thay đổi hình dạng qua thời gian dài mà."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-8-4",
+       "a1-17-3",
+       "a1-12-6"
+      ],
+      "2": [
+       "a21-4-1",
+       "a22-17-5",
+       "a21-3-5"
+      ],
+      "3": [
+       "ab1-7-2",
+       "ab1-3-3"
+      ]
+     },
+     "next": "n4"
+    },
+    {
+     "id": "n4",
+     "sp": "trav",
+     "t": {
+      "1": {
+       "jp": "どうして わかりますか。",
+       "ro": "Doushite wakarimasu ka.",
+       "vi": "Sao cậu biết?"
+      },
+      "2": {
+       "jp": "どうしてそんなことがわかるの？",
+       "ro": "Doushite sonna koto ga wakaru no?",
+       "vi": "Sao cậu biết được chuyện đó?"
+      },
+      "3": {
+       "jp": "どうしてそこまでわかるの？",
+       "ro": "Doushite soko made wakaru no?",
+       "vi": "Làm sao cậu biết được đến mức đó?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-3"
+      ],
+      "2": [
+       "a22-11-6"
+      ],
+      "3": [
+       "b1-8-3"
+      ]
+     },
+     "next": "n5"
+    },
+    {
+     "id": "n5",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "いしの そうは 本です。下は 古い ページ、上は 新しい ページです。いのちの れきしが わかります。",
+       "ro": "Ishi no sou wa hon desu. Shita wa furui peeji, ue wa atarashii peeji desu. Inochi no rekishi ga wakarimasu.",
+       "vi": "Các lớp đá là một cuốn sách. Lớp dưới là trang cũ, lớp trên là trang mới. Ta sẽ biết được lịch sử sự sống."
+      },
+      "2": {
+       "jp": "石のそうは、本とにているんだ。下は古いページで、上は新しいページ。読むと、命の歴史がわかるよ。",
+       "ro": "Ishi no sou wa, hon to nite iru n da. Shita wa furui peeji de, ue wa atarashii peeji. Yomu to, inochi no rekishi ga wakaru yo.",
+       "vi": "Các lớp đá giống như một cuốn sách. Lớp dưới là trang cũ, lớp trên là trang mới. Đọc nó là biết được lịch sử sự sống."
+      },
+      "3": {
+       "jp": "地層は一冊の本のようなものさ。下へいくほど古く、上へいくほど新しい。読み解けば、命の歴史がわかる。",
+       "ro": "Chisou wa issatsu no hon no you na mono sa. Shita e iku hodo furuku, ue e iku hodo atarashii. Yomitokeba, inochi no rekishi ga wakaru.",
+       "vi": "Các tầng đất đá giống như một cuốn sách. Càng xuống dưới càng cũ, càng lên trên càng mới. Giải mã được là biết lịch sử sự sống."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-1",
+       "a1-8-1"
+      ],
+      "2": [
+       "a21-9-3",
+       "a21-5-2",
+       "a22-4-4"
+      ],
+      "3": [
+       "b1-5-5",
+       "ab1-2-5",
+       "b1-2-4"
+      ]
+     },
+     "next": "n6"
+    },
+    {
+     "id": "n6",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "アルベドは こおりに 手を おきました。中に 小さい かい、花、ほねが あります。",
+       "ro": "Arubedo wa koori ni te o okimashita. Naka ni chiisai kai, hana, hone ga arimasu.",
+       "vi": "Albedo đặt tay lên lớp băng. Bên trong có vỏ sò nhỏ, hoa, và xương."
+      },
+      "2": {
+       "jp": "アルベドがこおりに手をあてると、中の小さなかいや、葉や、ほねが見えた。",
+       "ro": "Arubedo ga koori ni te o ateru to, naka no chiisana kai ya, wa ya, hone ga mieta.",
+       "vi": "Albedo áp tay lên lớp băng, những vỏ sò nhỏ, lá cây và xương bên trong hiện rõ."
+      },
+      "3": {
+       "jp": "アルベドが氷壁にそっと触れる。層ごとに、小さな貝や葉、骨が静かに眠っていた。",
+       "ro": "Arubedo ga hyouheki ni sotto fureru. Sou goto ni, chiisana kai ya wa, hone ga shizuka ni nemutte ita.",
+       "vi": "Albedo khẽ chạm vào vách băng. Trong từng lớp, những vỏ sò nhỏ, lá cây và xương đang lặng lẽ ngủ yên."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-7-1"
+      ],
+      "2": [
+       "a22-4-4",
+       "a21-5-4",
+       "a21-6-5"
+      ],
+      "3": [
+       "b12-16-6",
+       "b1-9-2"
+      ]
+     },
+     "next": "n7"
+    },
+    {
+     "id": "n7",
+     "sp": "char",
+     "mood": "serious",
+     "t": {
+      "1": {
+       "jp": "いのちは 生まれます。そして、かわります。ときどき、きえます。この 山の 古い 国も おなじです。",
+       "ro": "Inochi wa umaremasu. Soshite, kawarimasu. Tokidoki, kiemasu. Kono yama no furui kuni mo onaji desu.",
+       "vi": "Sự sống ra đời, rồi thay đổi. Đôi khi biến mất. Vương quốc cổ trên ngọn núi này cũng vậy."
+      },
+      "2": {
+       "jp": "命は生まれて、かわって、ときどき消えていく。雪の下のあの古い国も、そうだったんだ。",
+       "ro": "Inochi wa umarete, kawatte, tokidoki kiete iku. Yuki no shita no ano furui kuni mo, sou datta n da.",
+       "vi": "Sự sống ra đời, thay đổi, và đôi khi biến mất. Vương quốc cổ dưới lớp tuyết kia cũng vậy."
+      },
+      "3": {
+       "jp": "命は生まれ、姿を変え、時に消えていく。雪に埋もれたあの古の国もまた、その一つなんだ。",
+       "ro": "Inochi wa umare, sugata o kae, toki ni kiete iku. Yuki ni umoreta ano inishie no kuni mo mata, sono hitotsu na n da.",
+       "vi": "Sự sống ra đời, đổi thay hình hài, và có lúc biến mất. Vương quốc cổ bị vùi dưới tuyết kia cũng là một trong số đó."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-18-3",
+       "a1-11-5",
+       "a1-3-5"
+      ],
+      "2": [
+       "a21-6-2",
+       "a21-11-1",
+       "a21-17-1"
+      ],
+      "3": [
+       "b1-2-4",
+       "b1-7-4",
+       "b1-6-2"
+      ]
+     },
+     "next": "n8"
+    },
+    {
+     "id": "n8",
+     "sp": "paimon",
+     "t": {
+      "1": {
+       "jp": "アルベドは こういう ものが 大好きですね。",
+       "ro": "Arubedo wa kouiu mono ga daisuki desu ne.",
+       "vi": "Albedo thích mấy thứ này lắm nhỉ."
+      },
+      "2": {
+       "jp": "アルベドって、こういうのが本当に好きなんだな。",
+       "ro": "Arubedo tte, kouiu no ga hontou ni suki na n da na.",
+       "vi": "Albedo đúng là thích mấy thứ này thật đấy."
+      },
+      "3": {
+       "jp": "アルベドって、こういう話になると止まらないよな。",
+       "ro": "Arubedo tte, kouiu hanashi ni naru to tomaranai yo na.",
+       "vi": "Albedo mà nói tới mấy chuyện này là không dừng được nhỉ."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-5-1"
+      ],
+      "2": [
+       "a22-1-4",
+       "a21-3-3",
+       "a21-17-1"
+      ],
+      "3": [
+       "b12-1-1",
+       "b1-3-6"
+      ]
+     },
+     "choices": [
+      {
+       "t": {
+        "1": {
+         "jp": "いのちは どこから 来ましたか。",
+         "ro": "Inochi wa doko kara kimashita ka.",
+         "vi": "Sự sống đến từ đâu vậy?"
+        },
+        "2": {
+         "jp": "命は、最初にどこで生まれたの？",
+         "ro": "Inochi wa, saisho ni doko de umareta no?",
+         "vi": "Sự sống đầu tiên ra đời ở đâu vậy?"
+        },
+        "3": {
+         "jp": "そもそも、命って最初はどこで生まれたんだろう？",
+         "ro": "Somosomo, inochi tte saisho wa doko de umareta n darou?",
+         "vi": "Mà ngay từ đầu, sự sống ra đời ở đâu nhỉ?"
+        }
+       },
+       "g": {
+        "1": [
+         "a1-15-4"
+        ],
+        "2": [
+         "a22-11-6"
+        ],
+        "3": [
+         "b12-1-1",
+         "b1-8-5"
+        ]
+       },
+       "next": "n9"
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "アルベドの 目が きらきらです。",
+         "ro": "Arubedo no me ga kirakira desu.",
+         "vi": "Mắt Albedo sáng lấp lánh kìa."
+        },
+        "2": {
+         "jp": "アルベド、目がきらきらしているよ。",
+         "ro": "Arubedo, me ga kirakira shite iru yo.",
+         "vi": "Albedo, mắt cậu đang sáng lấp lánh kìa."
+        },
+        "3": {
+         "jp": "アルベド、目がすごく輝いてるよ。",
+         "ro": "Arubedo, me ga sugoku kagayaiteru yo.",
+         "vi": "Albedo, mắt cậu sáng rực lên kìa."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-4-2"
+        ],
+        "2": [
+         "a21-4-4"
+        ],
+        "3": [
+         "ab1-5-7"
+        ]
+       },
+       "next": "n10"
+      }
+     ]
+    },
+    {
+     "id": "n9",
+     "sp": "char",
+     "mood": "serious",
+     "t": {
+      "1": {
+       "jp": "それは いちばん 大きい もんだいです。ボクの ししょうも それを しらべました。",
+       "ro": "Sore wa ichiban ookii mondai desu. Boku no shishou mo sore o shirabemashita.",
+       "vi": "Đó là câu hỏi lớn nhất. Sư phụ tôi cũng đã tìm hiểu điều đó."
+      },
+      "2": {
+       "jp": "それが、いちばん大きななぞなんだ。ボクのししょうも、その答えをさがしていた。",
+       "ro": "Sore ga, ichiban ookina nazo na n da. Boku no shishou mo, sono kotae o sagashite ita.",
+       "vi": "Đó là bí ẩn lớn nhất. Sư phụ tôi cũng từng đi tìm câu trả lời cho nó."
+      },
+      "3": {
+       "jp": "それこそが最大の謎さ。ボクの師匠も、生涯をかけてその答えを追い求めていた。",
+       "ro": "Sore koso ga saidai no nazo sa. Boku no shishou mo, shougai o kakete sono kotae o oimotomete ita.",
+       "vi": "Đó chính là bí ẩn lớn nhất. Sư phụ tôi cũng đã dành cả đời để theo đuổi câu trả lời."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-5",
+       "a1-15-4"
+      ],
+      "2": [
+       "a21-17-1",
+       "a22-9-1"
+      ],
+      "3": [
+       "b1-9-2"
+      ]
+     },
+     "next": "n11"
+    },
+    {
+     "id": "n10",
+     "sp": "char",
+     "mood": "shy",
+     "t": {
+      "1": {
+       "jp": "え、そうですか。ボクは いのちの あとが 大好きです。心が わくわくします。",
+       "ro": "E, sou desu ka. Boku wa inochi no ato ga daisuki desu. Kokoro ga wakuwaku shimasu.",
+       "vi": "Ơ, vậy sao? Tôi rất thích những dấu vết của sự sống. Tim tôi háo hức lắm."
+      },
+      "2": {
+       "jp": "え、そうかな。命のあとを見ると、どうしても心がおどるんだ。",
+       "ro": "E, sou ka na. Inochi no ato o miru to, doushitemo kokoro ga odoru n da.",
+       "vi": "Ơ, vậy à? Hễ nhìn thấy dấu vết của sự sống là tim tôi lại rộn ràng."
+      },
+      "3": {
+       "jp": "おや、顔に出ていたかい？命の痕跡を前にすると、どうしても胸が高鳴ってしまうんだ。",
+       "ro": "Oya, kao ni dete ita kai? Inochi no konseki o mae ni suru to, doushitemo mune ga takanatte shimau n da.",
+       "vi": "Ồ, lộ ra mặt rồi sao? Đứng trước dấu vết của sự sống, tim tôi cứ không kìm được mà đập rộn lên."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-5-1"
+      ],
+      "2": [
+       "a22-4-4",
+       "a21-17-1"
+      ],
+      "3": [
+       "b1-9-2",
+       "a22-4-4",
+       "a22-11-2"
+      ]
+     },
+     "next": "n11"
+    },
+    {
+     "id": "n11",
+     "sp": "char",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "旅人…ボクは ボクの はじまりを 知りました。でも、それは どの いしにも ありません。",
+       "ro": "Tabibito... Boku wa boku no hajimari o shirimashita. Demo, sore wa dono ishi ni mo arimasen.",
+       "vi": "Lữ Khách... Tôi biết khởi đầu của mình. Nhưng nó không có trong bất cứ lớp đá nào."
+      },
+      "2": {
+       "jp": "旅人…ボクは、自分のはじまりを知っている。でも、それはどの石のそうにも書いてないんだ。",
+       "ro": "Tabibito... Boku wa, jibun no hajimari o shitte iru. Demo, sore wa dono ishi no sou ni mo kaite nai n da.",
+       "vi": "Lữ Khách... Tôi biết khởi đầu của mình. Nhưng nó không được ghi ở bất cứ lớp đá nào."
+      },
+      "3": {
+       "jp": "旅人…ボクは自分の始まりを知っている。けれど、それはどの地層にも刻まれていないんだ。",
+       "ro": "Tabibito... Boku wa jibun no hajimari o shitte iru. Keredo, sore wa dono chisou ni mo kizamarete inai n da.",
+       "vi": "Lữ Khách... Tôi biết khởi đầu của mình. Nhưng nó không được khắc ghi trong bất kỳ tầng đất đá nào."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-18-2"
+      ],
+      "2": [
+       "a21-13-2",
+       "a22-14-4",
+       "a21-17-1"
+      ],
+      "3": [
+       "a22-13-3",
+       "a21-17-1"
+      ]
+     },
+     "next": "n12"
+    },
+    {
+     "id": "n12",
+     "sp": "trav",
+     "t": {
+      "1": {
+       "jp": "じゃあ、アルベドが 書いて ください。これからの 話を。",
+       "ro": "Jaa, Arubedo ga kaite kudasai. Korekara no hanashi o.",
+       "vi": "Vậy thì Albedo hãy tự viết đi. Câu chuyện từ giờ trở đi."
+      },
+      "2": {
+       "jp": "じゃあ、これからの歴史は、アルベドが自分で書いたらいいよ。",
+       "ro": "Jaa, korekara no rekishi wa, Arubedo ga jibun de kaitara ii yo.",
+       "vi": "Vậy thì lịch sử từ giờ trở đi, Albedo cứ tự mình viết là được."
+      },
+      "3": {
+       "jp": "だったら、これからの歴史は、アルベド自身が書いていけばいいんじゃない？",
+       "ro": "Dattara, korekara no rekishi wa, Arubedo jishin ga kaite ikeba ii n janai?",
+       "vi": "Vậy thì lịch sử từ nay về sau, chẳng phải Albedo cứ tự mình viết tiếp là được sao?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-2-2"
+      ],
+      "2": [
+       "a22-7-3"
+      ],
+      "3": [
+       "ab1-2-5",
+       "b1-7-4",
+       "b12-17-2"
+      ]
+     },
+     "next": "n13"
+    },
+    {
+     "id": "n13",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "…ふふ、いい かんがえです。じゃあ、今日の ことを 新しい ノートの さいしょに 書きます。",
+       "ro": "... Fufu, ii kangae desu. Jaa, kyou no koto o atarashii nooto no saisho ni kakimasu.",
+       "vi": "...Hừm, ý hay đấy. Vậy tôi sẽ viết chuyện hôm nay vào trang đầu của một cuốn sổ mới."
+      },
+      "2": {
+       "jp": "…ふふ、いい考えだね。じゃあ、今日のことを、新しいノートの最初のページに書こう。",
+       "ro": "... Fufu, ii kangae da ne. Jaa, kyou no koto o, atarashii nooto no saisho no peeji ni kakou.",
+       "vi": "...Hừm, ý hay đấy. Vậy tôi sẽ ghi chuyện hôm nay vào trang đầu tiên của một cuốn sổ mới."
+      },
+      "3": {
+       "jp": "…ふふ、それは名案だ。なら今日のことを、新しいノートの一ページ目に記しておくとしよう。",
+       "ro": "... Fufu, sore wa meian da. Nara kyou no koto o, atarashii nooto no ichipeejime ni shirushite oku to shiyou.",
+       "vi": "...Hừm, ý hay đấy. Vậy tôi sẽ ghi chuyện hôm nay vào trang đầu tiên của một cuốn sổ mới."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-14-1",
+       "a1-5-3"
+      ],
+      "2": [
+       "a21-8-2"
+      ],
+      "3": [
+       "b1-2-6",
+       "ab1-1-4"
+      ]
+     },
+     "end": true
+    }
+   ]
+  },
+  {
+   "c": 3,
+   "title": {
+    "jp": "陽だまりの絵",
+    "vi": "Ánh Sáng Mặt Trời"
+   },
+   "summary": "Một ngày nắng đẹp, Albedo vẽ tranh ở quảng trường Mondstadt. Cô trợ lý Sucrose vội vã chạy tới, và Albedo mời mọi người làm mẫu. Bức tranh dưới ánh mặt trời ấm áp không phải nhờ tay nghề – mà vì những người ở trong đó.",
+   "bg": "mond-city",
+   "nodes": [
+    {
+     "id": "n1",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "天気が いい 日です。アルベドは モンドの まちで えを かきます。",
+       "ro": "Tenki ga ii hi desu. Arubedo wa Mondo no machi de e o kakimasu.",
+       "vi": "Một ngày đẹp trời. Albedo đang vẽ tranh trong thành Mondstadt."
+      },
+      "2": {
+       "jp": "よく晴れた日、アルベドはモンドの広場で絵をかいていた。",
+       "ro": "Yoku hareta hi, Arubedo wa Mondo no hiroba de e o kaite ita.",
+       "vi": "Vào một ngày nắng đẹp, Albedo đang vẽ tranh ở quảng trường Mondstadt."
+      },
+      "3": {
+       "jp": "よく晴れた昼下がり。アルベドはモンドの広場で、陽光に照らされた街並みを描いていた。",
+       "ro": "Yoku hareta hirusagari. Arubedo wa Mondo no hiroba de, youkou ni terasareta machinami o egaite ita.",
+       "vi": "Một buổi chiều nắng đẹp. Albedo đang ở quảng trường Mondstadt, vẽ lại những dãy phố bừng sáng dưới nắng."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-14-1",
+       "a1-6-2"
+      ],
+      "2": [
+       "a22-9-1",
+       "a21-17-3"
+      ],
+      "3": [
+       "b1-1-4",
+       "a22-13-3",
+       "b1-9-2"
+      ]
+     },
+     "next": "n2"
+    },
+    {
+     "id": "n2",
+     "sp": "paimon",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "アルベド！今日は 何を かきますか。",
+       "ro": "Arubedo! Kyou wa nani o kakimasu ka.",
+       "vi": "Albedo! Hôm nay cậu vẽ gì thế?"
+      },
+      "2": {
+       "jp": "おーい、アルベド！今日は何をかいているんだ？",
+       "ro": "Ooi, Arubedo! Kyou wa nani o kaite iru n da?",
+       "vi": "Này, Albedo! Hôm nay cậu đang vẽ gì vậy?"
+      },
+      "3": {
+       "jp": "おーい、アルベド！今日は何を描いてるんだ？",
+       "ro": "Ooi, Arubedo! Kyou wa nani o kaiteru n da?",
+       "vi": "Này, Albedo! Hôm nay cậu vẽ gì thế?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-5-3",
+       "a1-3-3"
+      ],
+      "2": [
+       "a21-4-4",
+       "a22-11-6"
+      ],
+      "3": [
+       "ab1-5-7",
+       "a22-11-6"
+      ]
+     },
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "sp": "char",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "日の ひかりの 中の まちです。ひかりで いろが かわります。おもしろいです。",
+       "ro": "Hi no hikari no naka no machi desu. Hikari de iro ga kawarimasu. Omoshiroi desu.",
+       "vi": "Thành phố dưới ánh nắng. Màu sắc thay đổi theo ánh sáng. Thú vị lắm."
+      },
+      "2": {
+       "jp": "日の光の中の町だよ。光で、町の色がかわるんだ。おもしろいよね。",
+       "ro": "Hi no hikari no naka no machi da yo. Hikari de, machi no iro ga kawaru n da. Omoshiroi yo ne.",
+       "vi": "Thành phố dưới ánh nắng đấy. Màu sắc của thành phố thay đổi theo ánh sáng. Thú vị nhỉ."
+      },
+      "3": {
+       "jp": "陽の光に包まれた街さ。光の加減一つで、同じ景色がまるで別物に見える。実に面白いよ。",
+       "ro": "Hi no hikari ni tsutsumareta machi sa. Hikari no kagen hitotsu de, onaji keshiki ga marude betsumono ni mieru. Jitsuni omoshiroi yo.",
+       "vi": "Thành phố chìm trong nắng. Chỉ cần ánh sáng đổi khác một chút, cùng một cảnh vật trông cứ như thứ khác hẳn. Thú vị thật."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-4-2",
+       "a1-7-4"
+      ],
+      "2": [
+       "a21-7-5",
+       "a21-17-1"
+      ],
+      "3": [
+       "b1-3-7",
+       "a22-13-3"
+      ]
+     },
+     "next": "n4"
+    },
+    {
+     "id": "n4",
+     "sp": "スクロース",
+     "t": {
+      "1": {
+       "jp": "アルベド先生！ま、まって ください！レポートです！",
+       "ro": "Arubedo sensei! Ma, matte kudasai! Repooto desu!",
+       "vi": "Thầy Albedo! X-xin chờ đã! Báo cáo đây ạ!"
+      },
+      "2": {
+       "jp": "アルベド先生！ま、待ってください！レポートを持ってきました！",
+       "ro": "Arubedo sensei! Ma, matte kudasai! Repooto o motte kimashita!",
+       "vi": "Thầy Albedo! X-xin chờ đã! Em mang báo cáo đến rồi ạ!"
+      },
+      "3": {
+       "jp": "ア、アルベド先生！お待ちください！ご依頼のレポート、お持ちしました！",
+       "ro": "A, Arubedo sensei! Omachi kudasai! Goirai no repooto, omochi shimashita!",
+       "vi": "T-thầy Albedo! Xin chờ đã ạ! Em mang báo cáo thầy nhờ đến rồi ạ!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-2-2"
+      ],
+      "2": [
+       "a21-6-1",
+       "a21-11-1"
+      ],
+      "3": [
+       "b1-5-8",
+       "b1-4-2"
+      ]
+     },
+     "next": "n5"
+    },
+    {
+     "id": "n5",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "スクロースは はしりました。そして、ころびました。かみが とびました。",
+       "ro": "Sukuroosu wa hashirimashita. Soshite, korobimashita. Kami ga tobimashita.",
+       "vi": "Sucrose chạy tới. Rồi cô ấy vấp ngã. Giấy tờ bay tứ tung."
+      },
+      "2": {
+       "jp": "走ってきたスクロースは、ころんでしまった。紙がたくさん風にとんでいく。",
+       "ro": "Hashitte kita Sukuroosu wa, koronde shimatta. Kami ga takusan kaze ni tonde iku.",
+       "vi": "Sucrose chạy tới rồi vấp ngã. Giấy tờ bay theo gió khắp nơi."
+      },
+      "3": {
+       "jp": "駆け寄ってきたスクロースは、足をもつれさせて転んでしまった。書類が風に舞い上がる。",
+       "ro": "Kakeyotte kita Sukuroosu wa, ashi o motsuresasete koronde shimatta. Shorui ga kaze ni maiagaru.",
+       "vi": "Sucrose chạy vội tới thì vấp chân ngã nhào. Giấy tờ bay tung lên theo gió."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-18-3",
+       "a1-15-4"
+      ],
+      "2": [
+       "a21-17-3",
+       "a22-11-2",
+       "a21-11-1"
+      ],
+      "3": [
+       "b1-2-8",
+       "b1-3-3",
+       "a22-11-2"
+      ]
+     },
+     "next": "n6"
+    },
+    {
+     "id": "n6",
+     "sp": "trav",
+     "t": {
+      "1": {
+       "jp": "だいじょうぶですか。かみを どうぞ。",
+       "ro": "Daijoubu desu ka. Kami o douzo.",
+       "vi": "Bạn không sao chứ? Giấy của bạn đây."
+      },
+      "2": {
+       "jp": "だいじょうぶ？はい、紙をひろったよ。",
+       "ro": "Daijoubu? Hai, kami o hirotta yo.",
+       "vi": "Không sao chứ? Đây, mình nhặt giấy rồi."
+      },
+      "3": {
+       "jp": "大丈夫？はい、書類は全部拾っておいたよ。",
+       "ro": "Daijoubu? Hai, shorui wa zenbu hirotte oita yo.",
+       "vi": "Không sao chứ? Đây, mình nhặt hết giấy tờ rồi."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-10-5"
+      ],
+      "2": [
+       "a21-4-3"
+      ],
+      "3": [
+       "b1-2-6"
+      ]
+     },
+     "next": "n7"
+    },
+    {
+     "id": "n7",
+     "sp": "スクロース",
+     "t": {
+      "1": {
+       "jp": "あ、ありがとう ございます…。私は スクロースです。先生の じょしゅです。",
+       "ro": "A, arigatou gozaimasu... Watashi wa Sukuroosu desu. Sensei no joshu desu.",
+       "vi": "C-cảm ơn bạn... Mình là Sucrose, trợ lý của thầy."
+      },
+      "2": {
+       "jp": "あ、ありがとうございます…。私はスクロース。アルベド先生のじょしゅをしています。",
+       "ro": "A, arigatou gozaimasu... Watashi wa Sukuroosu. Arubedo sensei no joshu o shite imasu.",
+       "vi": "C-cảm ơn bạn... Mình là Sucrose. Mình đang làm trợ lý cho thầy Albedo."
+      },
+      "3": {
+       "jp": "あ、ありがとうございます…。わ、私、スクロースと申します。アルベド先生の助手を務めております。",
+       "ro": "A, arigatou gozaimasu... Wa, watashi, Sukuroosu to moushimasu. Arubedo sensei no joshu o tsutomete orimasu.",
+       "vi": "C-cảm ơn bạn... M-mình tên là Sucrose. Mình đang làm trợ lý cho thầy Albedo."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-1-3",
+       "a1-3-1"
+      ],
+      "2": [
+       "a1-1-3",
+       "a21-1-1"
+      ],
+      "3": [
+       "b1-4-1",
+       "b1-4-8"
+      ]
+     },
+     "next": "n8"
+    },
+    {
+     "id": "n8",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "ちょうど いいです。旅人、パイモン、ふたりの えを かきたいです。いいですか。",
+       "ro": "Choudo ii desu. Tabibito, Paimon, futari no e o kakitai desu. Ii desu ka.",
+       "vi": "Vừa đúng lúc. Lữ Khách, Paimon, tôi muốn vẽ hai người. Được không?"
+      },
+      "2": {
+       "jp": "ちょうどよかった。旅人、パイモン、二人の絵をかいてもいいかな？",
+       "ro": "Choudo yokatta. Tabibito, Paimon, futari no e o kaite mo ii ka na?",
+       "vi": "Vừa đúng lúc. Lữ Khách, Paimon, tôi vẽ hai người được không?"
+      },
+      "3": {
+       "jp": "ちょうどいい。旅人、パイモン、よかったら君たちをモデルに描かせてもらえないかな？",
+       "ro": "Choudo ii. Tabibito, Paimon, yokattara kimi tachi o moderu ni kakasete moraenai ka na?",
+       "vi": "Vừa đúng lúc. Lữ Khách, Paimon, nếu được thì cho tôi vẽ hai người làm mẫu nhé?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-18-4"
+      ],
+      "2": [
+       "a21-14-4"
+      ],
+      "3": [
+       "b1-3-1",
+       "ab1-9-3",
+       "b12-2-7"
+      ]
+     },
+     "next": "n9"
+    },
+    {
+     "id": "n9",
+     "sp": "paimon",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "いいですよ！オイラを かわいく かいて ください！",
+       "ro": "Ii desu yo! Oira o kawaiku kaite kudasai!",
+       "vi": "Được chứ! Vẽ Paimon thật dễ thương nhé!"
+      },
+      "2": {
+       "jp": "もちろん！オイラをかわいくかいてくれよな！",
+       "ro": "Mochiron! Oira o kawaiku kaite kure yo na!",
+       "vi": "Tất nhiên! Vẽ Paimon thật dễ thương nhé!"
+      },
+      "3": {
+       "jp": "もちろんだぜ！オイラのこと、とびっきり可愛く描いてくれよな！",
+       "ro": "Mochiron da ze! Oira no koto, tobikkiri kawaiku kaite kure yo na!",
+       "vi": "Tất nhiên rồi! Vẽ Paimon thật là dễ thương vào nhé!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-2-2"
+      ],
+      "2": [
+       "a22-2-6"
+      ],
+      "3": [
+       "ab1-4-1",
+       "a22-2-6"
+      ]
+     },
+     "next": "n10"
+    },
+    {
+     "id": "n10",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "アルベドは えを かきます。とても しずかです。",
+       "ro": "Arubedo wa e o kakimasu. Totemo shizuka desu.",
+       "vi": "Albedo bắt đầu vẽ. Mọi thứ thật yên bình."
+      },
+      "2": {
+       "jp": "アルベドは、しずかにペンを動かした。",
+       "ro": "Arubedo wa, shizuka ni pen o ugokashita.",
+       "vi": "Albedo lặng lẽ đưa bút."
+      },
+      "3": {
+       "jp": "アルベドは静かに筆を走らせ始めた。",
+       "ro": "Arubedo wa shizuka ni fude o hashirase hajimeta.",
+       "vi": "Albedo lặng lẽ bắt đầu đưa bút."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-5-3"
+      ],
+      "2": [
+       "a22-2-6"
+      ],
+      "3": [
+       "b1-1-3",
+       "b1-3-3"
+      ]
+     },
+     "choices": [
+      {
+       "t": {
+        "1": {
+         "jp": "アルベドは どうして えが 好きですか。",
+         "ro": "Arubedo wa doushite e ga suki desu ka.",
+         "vi": "Sao Albedo lại thích vẽ vậy?"
+        },
+        "2": {
+         "jp": "アルベドは、どうして絵をかくのが好きなの？",
+         "ro": "Arubedo wa, doushite e o kaku no ga suki na no?",
+         "vi": "Sao Albedo lại thích vẽ tranh vậy?"
+        },
+        "3": {
+         "jp": "アルベドは、どうしてそんなに絵を描くのが好きなの？",
+         "ro": "Arubedo wa, doushite sonna ni e o kaku no ga suki na no?",
+         "vi": "Sao Albedo lại thích vẽ tranh đến thế?"
+        }
+       },
+       "g": {
+        "1": [
+         "a1-5-1"
+        ],
+        "2": [
+         "a21-3-3",
+         "a22-11-6"
+        ],
+        "3": [
+         "a21-3-3",
+         "b1-8-3"
+        ]
+       },
+       "next": "n11"
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "スクロースも いっしょに かいて ください！",
+         "ro": "Sukuroosu mo issho ni kaite kudasai!",
+         "vi": "Vẽ cả Sucrose nữa nhé!"
+        },
+        "2": {
+         "jp": "スクロースも、いっしょにかいてよ！",
+         "ro": "Sukuroosu mo, issho ni kaite yo!",
+         "vi": "Vẽ cả Sucrose cùng nữa đi!"
+        },
+        "3": {
+         "jp": "せっかくだから、スクロースも一緒に描いてあげてよ！",
+         "ro": "Sekkaku da kara, Sukuroosu mo issho ni kaite agete yo!",
+         "vi": "Nhân tiện thì vẽ luôn cả Sucrose đi!"
+        }
+       },
+       "g": {
+        "1": [
+         "a1-2-2",
+         "a1-3-5"
+        ],
+        "2": [
+         "a21-6-1"
+        ],
+        "3": [
+         "b12-7-1",
+         "ab1-6-5"
+        ]
+       },
+       "next": "n12"
+      }
+     ]
+    },
+    {
+     "id": "n11",
+     "sp": "char",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "ボクは えで せかいを 見ます。それから、好きな 時を のこしたいです。",
+       "ro": "Boku wa e de sekai o mimasu. Sorekara, sukina toki o nokoshitai desu.",
+       "vi": "Tôi nhìn thế giới qua tranh vẽ. Và tôi muốn lưu giữ những khoảnh khắc mình yêu thích."
+      },
+      "2": {
+       "jp": "絵をかくと、世界をよく見るようになるんだ。それに…好きなしゅんかんを、のこしたいから。",
+       "ro": "E o kaku to, sekai o yoku miru you ni naru n da. Soreni... Sukina shunkan o, nokoshitai kara.",
+       "vi": "Khi vẽ, tôi quan sát thế giới kỹ hơn. Với lại... tôi muốn lưu giữ những khoảnh khắc mình yêu thích."
+      },
+      "3": {
+       "jp": "描くことは、世界を観察することだからね。それに…心惹かれた瞬間を、形にして残しておきたいんだ。",
+       "ro": "Kaku koto wa, sekai o kansatsu suru koto da kara ne. Soreni... Kokoro hikareta shunkan o, katachi ni shite nokoshite okitai n da.",
+       "vi": "Vì vẽ tranh chính là quan sát thế giới. Với lại... tôi muốn lưu giữ những khoảnh khắc làm tim mình rung động."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-18-4",
+       "a1-18-1"
+      ],
+      "2": [
+       "a22-4-4",
+       "a22-18-4",
+       "a21-3-5"
+      ],
+      "3": [
+       "b12-5-3",
+       "b1-2-6"
+      ]
+     },
+     "next": "n13"
+    },
+    {
+     "id": "n12",
+     "sp": "スクロース",
+     "t": {
+      "1": {
+       "jp": "え、わ、私もですか？…はい、うれしいです。",
+       "ro": "E, wa, watashi mo desu ka?... Hai, ureshii desu.",
+       "vi": "Ơ, c-cả mình nữa sao? ...Vâng, mình vui lắm."
+      },
+      "2": {
+       "jp": "え、わ、私もですか？…は、はずかしいけど、うれしいです。",
+       "ro": "E, wa, watashi mo desu ka?... Wa, hazukashii kedo, ureshii desu.",
+       "vi": "Ơ, c-cả mình nữa sao? ...T-tuy ngại nhưng mình vui lắm."
+      },
+      "3": {
+       "jp": "え、わ、私もですか？…は、恥ずかしいですけど、光栄です…！",
+       "ro": "E, wa, watashi mo desu ka?... Wa, hazukashii desu kedo, kouei desu...!",
+       "vi": "Ơ, c-cả mình nữa sao? ...T-tuy ngại lắm, nhưng đó là vinh dự của mình ạ...!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-5",
+       "a1-7-4"
+      ],
+      "2": [
+       "a21-5-3"
+      ],
+      "3": [
+       "a21-5-3"
+      ]
+     },
+     "next": "n13"
+    },
+    {
+     "id": "n13",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "えが できました。旅人、パイモン、スクロースが 日の ひかりの 中で わらいます。",
+       "ro": "E ga dekimashita. Tabibito, Paimon, Sukuroosu ga hi no hikari no naka de waraimasu.",
+       "vi": "Bức tranh đã hoàn thành. Lữ Khách, Paimon và Sucrose đang cười dưới ánh nắng."
+      },
+      "2": {
+       "jp": "絵ができあがった。旅人とパイモンとスクロースが、日の光の中でわらっている。",
+       "ro": "E ga dekiagatta. Tabibito to Paimon to Sukuroosu ga, hi no hikari no naka de waratte iru.",
+       "vi": "Bức tranh đã hoàn thành. Lữ Khách, Paimon và Sucrose đang cười giữa ánh nắng."
+      },
+      "3": {
+       "jp": "やがて絵が完成した。柔らかな陽だまりの中で、旅人とパイモン、スクロースが笑っている。",
+       "ro": "Yagate e ga kansei shita. Yawarakana hidamari no naka de, tabibito to Paimon, Sukuroosu ga waratte iru.",
+       "vi": "Chẳng bao lâu, bức tranh hoàn thành. Giữa vạt nắng dịu dàng, Lữ Khách, Paimon và Sucrose đang mỉm cười."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-6-2"
+      ],
+      "2": [
+       "a21-4-4",
+       "a1-4-1"
+      ],
+      "3": [
+       "a21-4-4"
+      ]
+     },
+     "next": "n14"
+    },
+    {
+     "id": "n14",
+     "sp": "スクロース",
+     "t": {
+      "1": {
+       "jp": "先生の えは いつも あたたかいです。日の ひかりと おなじです。",
+       "ro": "Sensei no e wa itsumo atatakai desu. Hi no hikari to onaji desu.",
+       "vi": "Tranh của thầy lúc nào cũng ấm áp. Giống như ánh mặt trời vậy."
+      },
+      "2": {
+       "jp": "先生の絵は、いつもあたたかいですね。日の光とにています。",
+       "ro": "Sensei no e wa, itsumo atatakai desu ne. Hi no hikari to nite imasu.",
+       "vi": "Tranh của thầy lúc nào cũng ấm áp nhỉ. Giống như ánh mặt trời vậy."
+      },
+      "3": {
+       "jp": "先生の絵は、いつも温かいですね。まるで陽だまりそのものみたいです。",
+       "ro": "Sensei no e wa, itsumo atatakai desu ne. Marude hidamari sonomono mitai desu.",
+       "vi": "Tranh của thầy lúc nào cũng ấm áp nhỉ. Cứ như chính vạt nắng vậy."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-5-4",
+       "a1-7-4"
+      ],
+      "2": [
+       "a21-9-3",
+       "a1-5-4"
+      ],
+      "3": [
+       "b12-13-3"
+      ]
+     },
+     "next": "n15"
+    },
+    {
+     "id": "n15",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "ありがとう。でも、それは ボクの ちからじゃないです。みんなが います。だから、あたたかいです。",
+       "ro": "Arigatou. Demo, sore wa boku no chikara janai desu. Minna ga imasu. Dakara, atatakai desu.",
+       "vi": "Cảm ơn em. Nhưng đó không phải nhờ tài của tôi. Là vì có mọi người ở đó, nên nó mới ấm áp."
+      },
+      "2": {
+       "jp": "ありがとう。でも、それはボクの力じゃないよ。絵の中にみんながいるから、あたたかいんだ。",
+       "ro": "Arigatou. Demo, sore wa boku no chikara janai yo. E no naka ni minna ga iru kara, atatakai n da.",
+       "vi": "Cảm ơn em. Nhưng đó không phải nhờ tài của tôi. Là vì có mọi người trong tranh nên nó mới ấm áp."
+      },
+      "3": {
+       "jp": "ありがとう。でも、それはボクの腕のおかげじゃない。この絵が温かいのは、君たちがそこにいるからさ。",
+       "ro": "Arigatou. Demo, sore wa boku no ude no okage janai. Kono e ga atatakai no wa, kimi tachi ga soko ni iru kara sa.",
+       "vi": "Cảm ơn em. Nhưng đó không phải nhờ tay nghề của tôi. Bức tranh này ấm áp là vì có các cậu ở trong đó."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-2",
+       "a1-18-2"
+      ],
+      "2": [
+       "a21-3-5",
+       "a21-17-1"
+      ],
+      "3": [
+       "a22-3-2",
+       "ab1-3-3"
+      ]
+     },
+     "end": true
+    }
+   ]
+  },
+  {
+   "c": 4,
+   "title": {
+    "jp": "天より来たる者",
+    "vi": "Sự Giáng Thế Của Thần"
+   },
+   "summary": "Đêm trên đỉnh Dragonspine, dưới bầu trời đầy sao, Albedo hỏi Lữ Khách về những người \"giáng xuống từ trời cao\". Cậu cho Lữ Khách xem dấu ấn hình ngôi sao trên cổ và thú nhận nỗi băn khoăn: phải chăng mình cũng đến từ \"bên ngoài\"?",
+   "bg": "starry-sky",
+   "nodes": [
+    {
+     "id": "n1",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "よるの ドラゴンスパインです。山の 上に ほしが たくさん あります。パイモンは ねました。",
+       "ro": "Yoru no Doragonsupain desu. Yama no ue ni hoshi ga takusan arimasu. Paimon wa nemashita.",
+       "vi": "Dragonspine về đêm. Trên đỉnh núi có rất nhiều sao. Paimon đã ngủ mất."
+      },
+      "2": {
+       "jp": "夜のドラゴンスパイン。山のちょうじょうには、星がいっぱい見えた。パイモンはもう寝ている。",
+       "ro": "Yoru no Doragonsupain. Yama no choujou ni wa, hoshi ga ippai mieta. Paimon wa mou nete iru.",
+       "vi": "Dragonspine về đêm. Trên đỉnh núi, có thể thấy cả bầu trời sao. Paimon đã ngủ rồi."
+      },
+      "3": {
+       "jp": "夜のドラゴンスパイン。山頂から見上げる空には、満天の星が瞬いていた。パイモンはすでに寝息を立てている。",
+       "ro": "Yoru no Doragonsupain. Sanchou kara miageru sora ni wa, manten no hoshi ga matataite ita. Paimon wa sudeni neiki o tatete iru.",
+       "vi": "Dragonspine về đêm. Nhìn lên từ đỉnh núi, cả bầu trời đầy sao lấp lánh. Paimon đã ngủ khò từ lúc nào."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-7-1",
+       "a1-15-4"
+      ],
+      "2": [
+       "a21-6-5",
+       "a22-8-1",
+       "a21-4-4"
+      ],
+      "3": [
+       "b1-6-2",
+       "b1-9-2"
+      ]
+     },
+     "next": "n2"
+    },
+    {
+     "id": "n2",
+     "sp": "char",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "旅人は ほしの むこうから 来ましたね。",
+       "ro": "Tabibito wa hoshi no mukou kara kimashita ne.",
+       "vi": "Lữ Khách đến từ bên kia những vì sao nhỉ."
+      },
+      "2": {
+       "jp": "旅人、君は星のむこうから来たんだよね。",
+       "ro": "Tabibito, kimi wa hoshi no mukou kara kita n da yo ne.",
+       "vi": "Lữ Khách, cậu đến từ bên kia những vì sao, đúng không?"
+      },
+      "3": {
+       "jp": "旅人、君はあの星々の彼方からやって来たんだろう？",
+       "ro": "Tabibito, kimi wa ano hoshiboshi no kanata kara yatte kita n darou?",
+       "vi": "Lữ Khách, cậu đến từ nơi xa xăm bên kia những vì sao, phải không?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-4-2"
+      ],
+      "2": [
+       "a21-17-1"
+      ],
+      "3": [
+       "b1-8-5",
+       "b1-2-8"
+      ]
+     },
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "sp": "trav",
+     "t": {
+      "1": {
+       "jp": "はい。ふたごの きょうだいと いっしょに、たくさんの せかいへ 行きました。",
+       "ro": "Hai. Futago no kyoudai to issho ni, takusan no sekai e ikimashita.",
+       "vi": "Ừ. Mình đã cùng anh em song sinh của mình đi qua rất nhiều thế giới."
+      },
+      "2": {
+       "jp": "うん。ふたごのきょうだいといっしょに、たくさんの世界を旅してきたんだ。",
+       "ro": "Un. Futago no kyoudai to issho ni, takusan no sekai o tabi shite kita n da.",
+       "vi": "Ừ. Mình đã cùng anh em song sinh của mình du hành qua rất nhiều thế giới."
+      },
+      "3": {
+       "jp": "うん。双子のきょうだいと一緒に、いくつもの世界を渡り歩いてきたんだ。",
+       "ro": "Un. Futago no kyoudai to issho ni, ikutsu mo no sekai o watariaruite kita n da.",
+       "vi": "Ừ. Mình đã cùng anh em song sinh của mình rong ruổi qua biết bao thế giới."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-4-1",
+       "a1-15-4"
+      ],
+      "2": [
+       "a21-11-1",
+       "a21-17-1"
+      ],
+      "3": [
+       "ab1-5-3",
+       "b1-2-8"
+      ]
+     },
+     "next": "n4"
+    },
+    {
+     "id": "n4",
+     "sp": "char",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "テイワットでは、かみさまは そらから 来ます。みんな そう 言います。",
+       "ro": "Teiwatto de wa, kamisama wa sora kara kimasu. Minna sou iimasu.",
+       "vi": "Ở Teyvat, thần linh đến từ bầu trời. Mọi người đều nói vậy."
+      },
+      "2": {
+       "jp": "テイワットでは、空から来る人を、よく「神」とよぶんだ。",
+       "ro": "Teiwatto de wa, sora kara kuru hito o, yoku \"kami\" to yobu n da.",
+       "vi": "Ở Teyvat, người ta thường gọi những ai đến từ bầu trời là \"thần\"."
+      },
+      "3": {
+       "jp": "テイワットでは、天から降り立つ者を「神」と呼ぶことが多い。",
+       "ro": "Teiwatto de wa, ten kara oritatsu mono o \"kami\" to yobu koto ga ooi.",
+       "vi": "Ở Teyvat, những kẻ giáng xuống từ trời cao thường được gọi là \"thần\"."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-9-5"
+      ],
+      "2": [
+       "a21-16-2",
+       "a21-17-1"
+      ],
+      "3": [
+       "b1-6-2"
+      ]
+     },
+     "next": "n5"
+    },
+    {
+     "id": "n5",
+     "sp": "paimon",
+     "t": {
+      "1": {
+       "jp": "むにゃ…オイラ、もう 食べません…。",
+       "ro": "Munya... Oira, mou tabemasen...",
+       "vi": "Ư ư... Paimon không ăn nổi nữa đâu..."
+      },
+      "2": {
+       "jp": "むにゃ…オイラ、もう食べられないぞ…。",
+       "ro": "Munya... Oira, mou taberarenai zo...",
+       "vi": "Ư ư... Paimon không ăn nổi nữa đâu..."
+      },
+      "3": {
+       "jp": "むにゃむにゃ…オイラ、もうお腹いっぱいで食べられないぞ…。",
+       "ro": "Munyamunya... Oira, mou onaka ippai de taberarenai zo...",
+       "vi": "Ư ư... Paimon no căng bụng, không ăn nổi nữa đâu..."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-5-3"
+      ],
+      "2": [
+       "a22-6-1"
+      ],
+      "3": [
+       "a22-6-1",
+       "a21-7-5"
+      ]
+     },
+     "next": "n6"
+    },
+    {
+     "id": "n6",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "ふふ。でも、旅人は かみさまじゃないです。旅人は 旅人です。",
+       "ro": "Fufu. Demo, tabibito wa kamisama janai desu. Tabibito wa tabibito desu.",
+       "vi": "Hừm. Nhưng Lữ Khách không phải thần. Lữ Khách là lữ khách."
+      },
+      "2": {
+       "jp": "ふふ。でも、君は神じゃない。ただの旅人だね。",
+       "ro": "Fufu. Demo, kimi wa kami janai. Tada no tabibito da ne.",
+       "vi": "Hừm. Nhưng cậu không phải thần. Chỉ là một lữ khách thôi nhỉ."
+      },
+      "3": {
+       "jp": "ふふ。けれど君は神じゃない。どこまでも旅人だ。",
+       "ro": "Fufu. Keredo kimi wa kami janai. Doko made mo tabibito da.",
+       "vi": "Hừm. Nhưng cậu không phải thần. Cậu mãi là một lữ khách."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-2",
+       "a1-18-2"
+      ],
+      "2": [
+       "a1-3-2"
+      ],
+      "3": [
+       "a1-3-2"
+      ]
+     },
+     "next": "n7"
+    },
+    {
+     "id": "n7",
+     "sp": "char",
+     "mood": "serious",
+     "t": {
+      "1": {
+       "jp": "旅人、ここを 見て ください。ボクの くびに しるしが あります。ほしの かたちです。",
+       "ro": "Tabibito, koko o mite kudasai. Boku no kubi ni shirushi ga arimasu. Hoshi no katachi desu.",
+       "vi": "Lữ Khách, nhìn chỗ này. Trên cổ tôi có một dấu ấn. Nó có hình ngôi sao."
+      },
+      "2": {
+       "jp": "旅人、これを見て。ボクのくびに、星の形のしるしがあるんだ。",
+       "ro": "Tabibito, kore o mite. Boku no kubi ni, hoshi no katachi no shirushi ga aru n da.",
+       "vi": "Lữ Khách, nhìn này. Trên cổ tôi có một dấu ấn hình ngôi sao."
+      },
+      "3": {
+       "jp": "旅人、これを見てくれるかい。ボクの首筋には、星のような形の印が刻まれているんだ。",
+       "ro": "Tabibito, kore o mite kureru kai. Boku no kubisuji ni wa, hoshi no you na katachi no shirushi ga kizamarete iru n da.",
+       "vi": "Lữ Khách, cậu nhìn cái này giúp tôi nhé. Trên gáy tôi có khắc một dấu ấn trông như ngôi sao."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-2-2",
+       "a1-7-1"
+      ],
+      "2": [
+       "a21-6-1",
+       "a21-17-1"
+      ],
+      "3": [
+       "ab1-4-1",
+       "a22-13-4"
+      ]
+     },
+     "next": "n8"
+    },
+    {
+     "id": "n8",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "ほしの ひかりの 下で、しるしが 少し ひかりました。",
+       "ro": "Hoshi no hikari no shita de, shirushi ga sukoshi hikarimashita.",
+       "vi": "Dưới ánh sao, dấu ấn khẽ lóe sáng."
+      },
+      "2": {
+       "jp": "星の光の下で、そのしるしは少しだけかがやいて見えた。",
+       "ro": "Hoshi no hikari no shita de, sono shirushi wa sukoshi dake kagayaite mieta.",
+       "vi": "Dưới ánh sao, dấu ấn ấy trông như khẽ tỏa sáng."
+      },
+      "3": {
+       "jp": "星明かりの下、その印はかすかに光を帯びているように見えた。",
+       "ro": "Hoshiakari no shita, sono shirushi wa kasuka ni hikari o obite iru you ni mieta.",
+       "vi": "Dưới ánh sao, dấu ấn ấy dường như ánh lên một tia sáng mờ nhạt."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-8-1",
+       "a1-15-4"
+      ],
+      "2": [
+       "a22-9-4",
+       "a21-6-5"
+      ],
+      "3": [
+       "b1-5-5"
+      ]
+     },
+     "next": "n9"
+    },
+    {
+     "id": "n9",
+     "sp": "char",
+     "mood": "serious",
+     "t": {
+      "1": {
+       "jp": "ボクも ときどき かんがえます。ボクも 「そと」から 来ましたか。",
+       "ro": "Boku mo tokidoki kangaemasu. Boku mo \"soto\" kara kimashita ka.",
+       "vi": "Đôi khi tôi cũng nghĩ. Liệu tôi cũng đến từ \"bên ngoài\" sao?"
+      },
+      "2": {
+       "jp": "ボクもときどき考えるんだ。ボクも、君と同じ「外」から来たのかもしれない、って。",
+       "ro": "Boku mo tokidoki kangaeru n da. Boku mo, kimi to onaji \"soto\" kara kita no kamo shirenai, tte.",
+       "vi": "Đôi khi tôi cũng nghĩ. Có lẽ tôi cũng đến từ \"bên ngoài\" giống như cậu."
+      },
+      "3": {
+       "jp": "時々思うんだ。ボクもまた、君と同じ「外側」に由来する存在なんじゃないか、とね。",
+       "ro": "Tokidoki omou n da. Boku mo mata, kimi to onaji \"sotogawa\" ni yurai suru sonzai na n janai ka, to ne.",
+       "vi": "Đôi khi tôi nghĩ. Liệu tôi có phải cũng là một tồn tại bắt nguồn từ \"bên ngoài\" giống như cậu không."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-11-5",
+       "a1-3-5"
+      ],
+      "2": [
+       "a22-17-5",
+       "a21-17-1"
+      ],
+      "3": [
+       "b12-17-2",
+       "b1-6-2"
+      ]
+     },
+     "choices": [
+      {
+       "t": {
+        "1": {
+         "jp": "アルベドは アルベドです。",
+         "ro": "Arubedo wa Arubedo desu.",
+         "vi": "Albedo là Albedo."
+        },
+        "2": {
+         "jp": "アルベドは、アルベドだよ。どこから来たかは、関係ない。",
+         "ro": "Arubedo wa, Arubedo da yo. Doko kara kita ka wa, kankei nai.",
+         "vi": "Albedo là Albedo mà. Đến từ đâu cũng chẳng liên quan."
+        },
+        "3": {
+         "jp": "どこから来たとしても、アルベドはアルベドだよ。",
+         "ro": "Doko kara kita to shite mo, Arubedo wa Arubedo da yo.",
+         "vi": "Dù đến từ đâu đi nữa, Albedo vẫn là Albedo."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-3-1"
+        ],
+        "2": [
+         "a1-3-1",
+         "a22-8-5"
+        ],
+        "3": [
+         "b1-9-6"
+        ]
+       },
+       "next": "n10"
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "アルベドは こわいですか。",
+         "ro": "Arubedo wa kowai desu ka.",
+         "vi": "Albedo có sợ không?"
+        },
+        "2": {
+         "jp": "アルベドは、それがこわいの？",
+         "ro": "Arubedo wa, sore ga kowai no?",
+         "vi": "Albedo sợ điều đó sao?"
+        },
+        "3": {
+         "jp": "アルベドは、それが怖いの？",
+         "ro": "Arubedo wa, sore ga kowai no?",
+         "vi": "Albedo sợ điều đó sao?"
+        }
+       },
+       "g": {
+        "1": [
+         "a1-3-3"
+        ],
+        "2": [
+         "a22-11-6"
+        ],
+        "3": [
+         "b1-8-3"
+        ]
+       },
+       "next": "n11"
+      }
+     ]
+    },
+    {
+     "id": "n10",
+     "sp": "char",
+     "mood": "shy",
+     "t": {
+      "1": {
+       "jp": "…かんたんな こたえですね。でも、心が あたたかいです。",
+       "ro": "... Kantanna kotae desu ne. Demo, kokoro ga atatakai desu.",
+       "vi": "...Câu trả lời đơn giản nhỉ. Nhưng lòng tôi thấy ấm áp."
+      },
+      "2": {
+       "jp": "…かんたんな答えだね。でも、なんだか心があたたかくなったよ。",
+       "ro": "... Kantanna kotae da ne. Demo, nandaka kokoro ga atatakaku natta yo.",
+       "vi": "...Câu trả lời đơn giản nhỉ. Nhưng không hiểu sao lòng tôi thấy ấm lại."
+      },
+      "3": {
+       "jp": "…単純な答えだね。でも不思議と、胸のつかえが取れたような気がするよ。",
+       "ro": "... Tanjunna kotae da ne. Demo fushigi to, mune no tsukae ga toreta you na ki ga suru yo.",
+       "vi": "...Câu trả lời đơn giản nhỉ. Nhưng lạ thay, tôi thấy như vừa trút được gánh nặng trong lòng."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-14-1",
+       "a1-18-2"
+      ],
+      "2": [
+       "a21-3-1"
+      ],
+      "3": [
+       "b12-13-2"
+      ]
+     },
+     "next": "n12"
+    },
+    {
+     "id": "n11",
+     "sp": "char",
+     "mood": "sad",
+     "t": {
+      "1": {
+       "jp": "少し こわいです。ボクは いつか この せかいを こわしますか…。",
+       "ro": "Sukoshi kowai desu. Boku wa itsuka kono sekai o kowashimasu ka...",
+       "vi": "Một chút. Liệu một ngày nào đó tôi sẽ phá hủy thế giới này không..."
+      },
+      "2": {
+       "jp": "少しね。もしボクがこの世界のものじゃなかったら、いつかこの世界をきずつけてしまうかもしれない。",
+       "ro": "Sukoshi ne. Moshi boku ga kono sekai no mono janakattara, itsuka kono sekai o kizutsukete shimau kamo shirenai.",
+       "vi": "Một chút. Nếu tôi không thuộc về thế giới này, có lẽ một ngày nào đó tôi sẽ làm tổn thương nó."
+      },
+      "3": {
+       "jp": "少しね。もしボクがこの世界の理の外にいるのなら、いつか世界を傷つけてしまうかもしれない。",
+       "ro": "Sukoshi ne. Moshi boku ga kono sekai no kotowari no soto ni iru no nara, itsuka sekai o kizutsukete shimau kamo shirenai.",
+       "vi": "Một chút. Nếu tôi nằm ngoài quy luật của thế giới này, có lẽ một ngày tôi sẽ làm tổn thương nó."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-7-4",
+       "a1-3-3"
+      ],
+      "2": [
+       "a22-7-3",
+       "a22-11-2",
+       "a22-17-5"
+      ],
+      "3": [
+       "ab1-1-4",
+       "ab1-7-2",
+       "a22-11-2"
+      ]
+     },
+     "next": "n12"
+    },
+    {
+     "id": "n12",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "その 時、そらに ながれぼしが 見えました。",
+       "ro": "Sono toki, sora ni nagareboshi ga miemashita.",
+       "vi": "Đúng lúc đó, một ngôi sao băng vụt qua bầu trời."
+      },
+      "2": {
+       "jp": "その時、空に一つのながれ星が走った。",
+       "ro": "Sono toki, sora ni hitotsu no nagareboshi ga hashitta.",
+       "vi": "Đúng lúc ấy, một ngôi sao băng vụt ngang bầu trời."
+      },
+      "3": {
+       "jp": "その時、夜空を一筋の流れ星が駆け抜けた。",
+       "ro": "Sono toki, yozora o hitosuji no nagareboshi ga kakenuketa.",
+       "vi": "Đúng lúc ấy, một vệt sao băng lao vút qua bầu trời đêm."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4"
+      ],
+      "2": [
+       "a21-4-3"
+      ],
+      "3": [
+       "b1-2-7"
+      ]
+     },
+     "next": "n13"
+    },
+    {
+     "id": "n13",
+     "sp": "trav",
+     "t": {
+      "1": {
+       "jp": "見て ください、ながれぼしです！",
+       "ro": "Mite kudasai, nagareboshi desu!",
+       "vi": "Nhìn kìa, sao băng!"
+      },
+      "2": {
+       "jp": "見て、ながれ星だ！",
+       "ro": "Mite, nagareboshi da!",
+       "vi": "Nhìn kìa, sao băng!"
+      },
+      "3": {
+       "jp": "見て、流れ星！",
+       "ro": "Mite, nagareboshi!",
+       "vi": "Nhìn kìa, sao băng!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-2-2"
+      ],
+      "2": [
+       "a21-6-1"
+      ],
+      "3": [
+       "b1-1-4"
+      ]
+     },
+     "next": "n14"
+    },
+    {
+     "id": "n14",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "きれいですね。…かみさまは そらから 来ます。でも、ボクは この 下の せかいが 好きです。みんなが いますから。",
+       "ro": "Kirei desu ne... Kamisama wa sora kara kimasu. Demo, boku wa kono shita no sekai ga suki desu. Minna ga imasu kara.",
+       "vi": "Đẹp thật. ...Thần linh giáng xuống từ trời. Nhưng tôi thích thế giới bên dưới này. Vì có mọi người ở đây."
+      },
+      "2": {
+       "jp": "きれいだね。…神は空から来るのかもしれない。でもボクは、みんながいるこの地上にいたいな。",
+       "ro": "Kirei da ne... Kami wa sora kara kuru no kamo shirenai. Demo boku wa, minna ga iru kono chijou ni itai na.",
+       "vi": "Đẹp nhỉ. ...Có lẽ thần linh đến từ bầu trời. Nhưng tôi muốn ở lại mặt đất này, nơi có mọi người."
+      },
+      "3": {
+       "jp": "綺麗だね。…神は天から降り立つものかもしれない。それでもボクは、君たちのいるこの大地に立っていたいんだ。",
+       "ro": "Kirei da ne... Kami wa ten kara oritatsu mono kamo shirenai. Soredemo boku wa, kimi tachi no iru kono daichi ni tatte itai n da.",
+       "vi": "Đẹp nhỉ. ...Có lẽ thần linh là những kẻ giáng xuống từ trời cao. Dù vậy, tôi vẫn muốn đứng trên mặt đất này, nơi có các cậu."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-5-1",
+       "a1-13-4"
+      ],
+      "2": [
+       "a22-17-5",
+       "a21-17-3",
+       "a21-10-1"
+      ],
+      "3": [
+       "ab1-7-2",
+       "b1-6-2"
+      ]
+     },
+     "end": true
+    }
+   ]
+  },
+  {
+   "c": 5,
+   "title": {
+    "jp": "冥古の潮",
+    "vi": "Thủy Triều Cổ Đại"
+   },
+   "summary": "Albedo đưa Lữ Khách đến nơi sâu nhất của Dragonspine, nơi trái tim của độc long Durin vẫn đang đập, sức mạnh của nó lan ra như thủy triều cổ đại. Cậu tiết lộ: Durin và cậu được tạo ra bởi cùng một người – sư phụ Rhinedottir.",
+   "bg": "dragonspine",
+   "nodes": [
+    {
+     "id": "n1",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "山の おくに 大きい あなが あります。中に 大きい 赤い しんぞうが あります。しんぞうは まだ うごきます。",
+       "ro": "Yama no oku ni ookii ana ga arimasu. Naka ni ookii akai shinzou ga arimasu. Shinzou wa mada ugokimasu.",
+       "vi": "Sâu trong núi có một hang động lớn. Bên trong có một trái tim khổng lồ màu đỏ. Trái tim ấy vẫn còn đập."
+      },
+      "2": {
+       "jp": "山のおくのどうくつに、赤い大きなしんぞうがあった。ゆっくりと動いている。",
+       "ro": "Yama no oku no doukutsu ni, akai ookina shinzou ga atta. Yukkuri to ugoite iru.",
+       "vi": "Trong hang động sâu trong núi có một trái tim đỏ khổng lồ. Nó vẫn đang chậm rãi đập."
+      },
+      "3": {
+       "jp": "雪山の最深部。洞窟の奥で、巨大な赤い心臓が、今なおゆっくりと脈打っていた。",
+       "ro": "Yukiyama no saishinbu. Doukutsu no oku de, kyodaina akai shinzou ga, ima nao yukkuri to myakuutte ita.",
+       "vi": "Nơi sâu nhất của núi tuyết. Trong cùng hang động, một trái tim đỏ khổng lồ vẫn đang chậm rãi đập."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-7-1",
+       "a1-14-1"
+      ],
+      "2": [
+       "a21-4-4",
+       "a1-14-1"
+      ],
+      "3": [
+       "b1-1-4",
+       "b1-9-2"
+      ]
+     },
+     "next": "n2"
+    },
+    {
+     "id": "n2",
+     "sp": "paimon",
+     "mood": "surprised",
+     "t": {
+      "1": {
+       "jp": "う、うごきます…！これは 何ですか。",
+       "ro": "U, ugokimasu...! Kore wa nan desu ka.",
+       "vi": "N-nó đang cử động...! Cái này là gì vậy?"
+      },
+      "2": {
+       "jp": "う、動いてる…。これ、何なんだ？",
+       "ro": "U, ugoiteru... Kore, nani na n da?",
+       "vi": "N-nó đang cử động... Cái này là gì vậy?"
+      },
+      "3": {
+       "jp": "う、動いてるぞ…！なんなんだよ、これ…！？",
+       "ro": "U, ugoiteru zo...! Nan na n da yo, kore...!?",
+       "vi": "N-nó đang cử động kìa...! Cái quái gì thế này...!?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-3",
+       "a1-8-4"
+      ],
+      "2": [
+       "a22-1-5",
+       "a22-11-6"
+      ],
+      "3": [
+       "ab1-5-7",
+       "a22-11-6"
+      ]
+     },
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "sp": "char",
+     "mood": "serious",
+     "t": {
+      "1": {
+       "jp": "これは ドゥリンの しんぞうです。ドゥリンは りゅうです。ごひゃく年 まえに モンドを こうげきしました。",
+       "ro": "Kore wa Durin no shinzou desu. Durin wa ryuu desu. Gohyakunen mae ni Mondo o kougeki shimashita.",
+       "vi": "Đây là trái tim của Durin. Durin là một con rồng. Năm trăm năm trước, nó đã tấn công Mondstadt."
+      },
+      "2": {
+       "jp": "これはドゥリンのしんぞうだよ。五百年前、モンドをおそった龍だ。",
+       "ro": "Kore wa Durin no shinzou da yo. Gohyakunen mae, Mondo o osotta ryuu da.",
+       "vi": "Đây là trái tim của Durin. Con rồng đã tấn công Mondstadt năm trăm năm trước."
+      },
+      "3": {
+       "jp": "これはドゥリンの心臓さ。五百年前、モンドを襲った毒龍のね。",
+       "ro": "Kore wa Durin no shinzou sa. Gohyakunen mae, Mondo o osotta dokuryuu no ne.",
+       "vi": "Đây là trái tim của Durin. Con độc long đã tấn công Mondstadt năm trăm năm trước."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-1",
+       "a1-4-2",
+       "a1-15-4"
+      ],
+      "2": [
+       "a21-17-3",
+       "a1-4-2"
+      ],
+      "3": [
+       "b1-6-2",
+       "b1-1-4"
+      ]
+     },
+     "next": "n4"
+    },
+    {
+     "id": "n4",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "しんぞうが うごきます。赤い ひかりが こおりの 中に ひろがります。なみと おなじです。",
+       "ro": "Shinzou ga ugokimasu. Akai hikari ga koori no naka ni hirogarimasu. Nami to onaji desu.",
+       "vi": "Trái tim đập. Ánh sáng đỏ lan ra trong băng, giống như sóng vậy."
+      },
+      "2": {
+       "jp": "しんぞうが動くと、赤い光が、こおりの中にしずかに広がった。海のなみとにていた。",
+       "ro": "Shinzou ga ugoku to, akai hikari ga, koori no naka ni shizuka ni hirogatta. Umi no nami to nite ita.",
+       "vi": "Mỗi khi trái tim đập, ánh sáng đỏ lặng lẽ lan ra trong băng, giống như sóng biển."
+      },
+      "3": {
+       "jp": "鼓動のたびに、赤い光が氷の中を静かに広がっていく。まるで太古の潮が満ち引きするかのように。",
+       "ro": "Kodou no tabi ni, akai hikari ga koori no naka o shizuka ni hirogatte iku. Marude taiko no shio ga michihiki suru ka no you ni.",
+       "vi": "Mỗi nhịp đập, ánh sáng đỏ lại lặng lẽ lan ra trong băng, như thể thủy triều thời cổ đại đang lên xuống."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-14-1"
+      ],
+      "2": [
+       "a22-4-4",
+       "a21-9-3",
+       "a22-2-6"
+      ],
+      "3": [
+       "b12-11-7",
+       "b1-7-4",
+       "b1-3-7"
+      ]
+     },
+     "next": "n5"
+    },
+    {
+     "id": "n5",
+     "sp": "char",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "ドゥリンの ちからは、いまも この 山に あります。ゆきの 中の 赤い いしも ドゥリンの ちからです。",
+       "ro": "Durin no chikara wa, ima mo kono yama ni arimasu. Yuki no naka no akai ishi mo Durin no chikara desu.",
+       "vi": "Sức mạnh của Durin đến giờ vẫn còn trong ngọn núi này. Những viên đá đỏ trong tuyết cũng là sức mạnh của Durin."
+      },
+      "2": {
+       "jp": "ドゥリンの力は、今もこの山に広がっている。雪の中の赤い石も、その力でできたんだ。",
+       "ro": "Durin no chikara wa, ima mo kono yama ni hirogatte iru. Yuki no naka no akai ishi mo, sono chikara de dekita n da.",
+       "vi": "Sức mạnh của Durin đến giờ vẫn lan khắp ngọn núi này. Những viên đá đỏ trong tuyết cũng được tạo thành từ sức mạnh ấy."
+      },
+      "3": {
+       "jp": "ドゥリンの力は今もなお、この山を侵し続けている。雪中の緋紅玉髄も、その血が生み出したものなんだ。",
+       "ro": "Durin no chikara wa ima mo nao, kono yama o okashitsuzukete iru. Setchuu no hikougyokuzui mo, sono chi ga umidashita mono na n da.",
+       "vi": "Sức mạnh của Durin đến nay vẫn không ngừng xâm thực ngọn núi này. Những viên Mã Não Đỏ trong tuyết cũng được sinh ra từ máu của nó."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-7-1",
+       "a1-3-5"
+      ],
+      "2": [
+       "a21-1-1",
+       "a21-17-1"
+      ],
+      "3": [
+       "b1-6-2",
+       "a21-17-1"
+      ]
+     },
+     "next": "n6"
+    },
+    {
+     "id": "n6",
+     "sp": "trav",
+     "t": {
+      "1": {
+       "jp": "アルベドは どうして 私たちと ここに 来ましたか。",
+       "ro": "Arubedo wa doushite watashi tachi to koko ni kimashita ka.",
+       "vi": "Sao Albedo lại cùng bọn mình đến đây?"
+      },
+      "2": {
+       "jp": "アルベドは、どうしてわたしたちをここにつれてきたの？",
+       "ro": "Arubedo wa, doushite watashi tachi o koko ni tsurete kita no?",
+       "vi": "Albedo, sao cậu lại đưa bọn mình đến đây?"
+      },
+      "3": {
+       "jp": "アルベド、どうして私たちをここに連れてきたの？",
+       "ro": "Arubedo, doushite watashi tachi o koko ni tsurete kita no?",
+       "vi": "Albedo, sao cậu lại dẫn bọn mình đến đây?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-9-5",
+       "a1-15-4"
+      ],
+      "2": [
+       "a21-11-1",
+       "a22-11-6"
+      ],
+      "3": [
+       "b1-8-3",
+       "b1-2-8"
+      ]
+     },
+     "next": "n7"
+    },
+    {
+     "id": "n7",
+     "sp": "char",
+     "mood": "sad",
+     "t": {
+      "1": {
+       "jp": "ボクの ししょう、レインドットは ドゥリンを つくりました。そして、ボクも つくりました。",
+       "ro": "Boku no shishou, Reindotto wa Durin o tsukurimashita. Soshite, boku mo tsukurimashita.",
+       "vi": "Sư phụ của tôi, Rhinedottir, đã tạo ra Durin. Và cũng tạo ra cả tôi."
+      },
+      "2": {
+       "jp": "ドゥリンとボクは、同じ人に作られたんだ。ボクのししょう、レインドットにね。",
+       "ro": "Durin to boku wa, onaji hito ni tsukurareta n da. Boku no shishou, Reindotto ni ne.",
+       "vi": "Durin và tôi được tạo ra bởi cùng một người. Sư phụ của tôi, Rhinedottir."
+      },
+      "3": {
+       "jp": "ドゥリンとボクは、同じ創造主の手によって生み出されたんだ。ボクの師匠、レインドットによってね。",
+       "ro": "Durin to boku wa, onaji souzoushu no te ni yotte umidasareta n da. Boku no shishou, Reindotto ni yotte ne.",
+       "vi": "Durin và tôi được sinh ra từ bàn tay của cùng một đấng sáng tạo. Sư phụ tôi, Rhinedottir."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-18-3"
+      ],
+      "2": [
+       "a22-18-1",
+       "a21-17-1"
+      ],
+      "3": [
+       "a22-13-3",
+       "a21-17-1"
+      ]
+     },
+     "next": "n8"
+    },
+    {
+     "id": "n8",
+     "sp": "paimon",
+     "mood": "surprised",
+     "t": {
+      "1": {
+       "jp": "え！？じゃあ、ドゥリンは アルベドの きょうだいですか！？",
+       "ro": "E!? Jaa, Durin wa Arubedo no kyoudai desu ka!?",
+       "vi": "Hả!? Vậy Durin là anh em của Albedo sao!?"
+      },
+      "2": {
+       "jp": "ええっ！？じゃあドゥリンって、アルベドのきょうだいなのか！？",
+       "ro": "Ee!? Jaa Durin tte, Arubedo no kyoudai na no ka!?",
+       "vi": "Hảả!? Vậy Durin là anh em của Albedo sao!?"
+      },
+      "3": {
+       "jp": "ええっ！？それじゃドゥリンって、アルベドの兄貴みたいなもんじゃないか！？",
+       "ro": "Ee!? Soreja Durin tte, Arubedo no aniki mitaina mon janai ka!?",
+       "vi": "Hảả!? Vậy chẳng phải Durin giống như anh trai của Albedo sao!?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-3",
+       "a1-4-2"
+      ],
+      "2": [
+       "a22-1-4",
+       "a22-11-6"
+      ],
+      "3": [
+       "b12-1-1",
+       "ab1-3-4",
+       "b12-17-2"
+      ]
+     },
+     "next": "n9"
+    },
+    {
+     "id": "n9",
+     "sp": "char",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "たぶん そうです。ドゥリンは せかいを 見たかったです。でも、ドゥリンの どくは とても つよかったです。",
+       "ro": "Tabun sou desu. Durin wa sekai o mitakatta desu. Demo, Durin no doku wa totemo tsuyokatta desu.",
+       "vi": "Có lẽ vậy. Có thể Durin chỉ muốn nhìn ngắm thế giới. Nhưng chất độc của Durin quá mạnh."
+      },
+      "2": {
+       "jp": "たぶんね。ドゥリンは、ただ世界を見たかったのかもしれない。でも、そのどくは強すぎたんだ。",
+       "ro": "Tabun ne. Durin wa, tada sekai o mitakatta no kamo shirenai. Demo, sono doku wa tsuyosugita n da.",
+       "vi": "Có lẽ vậy. Có thể Durin chỉ muốn được nhìn ngắm thế giới. Nhưng chất độc của nó quá mạnh."
+      },
+      "3": {
+       "jp": "そうとも言えるね。ドゥリンはただ、この世界を知りたかっただけなのかもしれない。けれど、その毒は強すぎた。",
+       "ro": "Sou tomo ieru ne. Durin wa tada, kono sekai o shiritakatta dake na no kamo shirenai. Keredo, sono doku wa tsuyosugita.",
+       "vi": "Có thể nói vậy. Có lẽ Durin chỉ muốn tìm hiểu thế giới này mà thôi. Nhưng chất độc của nó lại quá mạnh."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-12-6",
+       "a1-17-2",
+       "a1-18-2"
+      ],
+      "2": [
+       "a22-17-5",
+       "a21-13-4",
+       "a21-17-1"
+      ],
+      "3": [
+       "ab1-7-2",
+       "a22-9-4",
+       "a22-12-2"
+      ]
+     },
+     "choices": [
+      {
+       "t": {
+        "1": {
+         "jp": "アルベドは ドゥリンじゃないです。",
+         "ro": "Arubedo wa Durin janai desu.",
+         "vi": "Albedo không phải là Durin."
+        },
+        "2": {
+         "jp": "でも、アルベドはドゥリンじゃないよ。",
+         "ro": "Demo, Arubedo wa Durin janai yo.",
+         "vi": "Nhưng Albedo không phải Durin mà."
+        },
+        "3": {
+         "jp": "それでも、アルベドはドゥリンとは違うよ。",
+         "ro": "Soredemo, Arubedo wa Durin to wa chigau yo.",
+         "vi": "Dù vậy, Albedo khác với Durin mà."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-3-2"
+        ],
+        "2": [
+         "a1-3-2",
+         "a1-18-2"
+        ],
+        "3": [
+         "a21-9-3"
+        ]
+       },
+       "next": "n10"
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "ドゥリンは さびしかったですね。",
+         "ro": "Durin wa sabishikatta desu ne.",
+         "vi": "Durin hẳn đã cô đơn lắm nhỉ."
+        },
+        "2": {
+         "jp": "ドゥリンは、きっとさびしかったんだね。",
+         "ro": "Durin wa, kitto sabishikatta n da ne.",
+         "vi": "Durin chắc hẳn đã cô đơn lắm nhỉ."
+        },
+        "3": {
+         "jp": "ドゥリンは、きっと寂しかったんだろうね。",
+         "ro": "Durin wa, kitto sabishikatta n darou ne.",
+         "vi": "Durin chắc hẳn đã rất cô đơn nhỉ."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-17-2"
+        ],
+        "2": [
+         "a21-17-1",
+         "a21-4-2"
+        ],
+        "3": [
+         "b1-8-5"
+        ]
+       },
+       "next": "n11"
+      }
+     ]
+    },
+    {
+     "id": "n10",
+     "sp": "char",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "…はい。ボクは ボクの みちを 行きます。",
+       "ro": "... Hai. Boku wa boku no michi o ikimasu.",
+       "vi": "...Ừ. Tôi sẽ đi con đường của riêng mình."
+      },
+      "2": {
+       "jp": "…うん。ボクは、自分の道を自分でえらぶよ。",
+       "ro": "... Un. Boku wa, jibun no michi o jibun de erabu yo.",
+       "vi": "...Ừ. Tôi sẽ tự mình chọn con đường của mình."
+      },
+      "3": {
+       "jp": "…ああ。ボクは潮に呑まれたりしない。自分の道は、自分で選ぶよ。",
+       "ro": "... Aa. Boku wa shio ni nomaretari shinai. Jibun no michi wa, jibun de erabu yo.",
+       "vi": "...Phải. Tôi sẽ không để thủy triều nuốt chửng. Con đường của mình, tôi sẽ tự chọn."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-9-5"
+      ],
+      "2": [
+       "a21-2-2"
+      ],
+      "3": [
+       "a22-13-3",
+       "a21-16-1"
+      ]
+     },
+     "next": "n12"
+    },
+    {
+     "id": "n11",
+     "sp": "char",
+     "mood": "sad",
+     "t": {
+      "1": {
+       "jp": "たぶん そうです。ドゥリンは ひとりでした。",
+       "ro": "Tabun sou desu. Durin wa hitori deshita.",
+       "vi": "Có lẽ vậy. Durin đã luôn một mình."
+      },
+      "2": {
+       "jp": "そうかもしれない。ドゥリンの気持ちをわかる人は、だれもいなかったんだ。",
+       "ro": "Sou kamo shirenai. Durin no kimochi o wakaru hito wa, dare mo inakatta n da.",
+       "vi": "Có lẽ vậy. Chẳng có ai hiểu được cảm xúc của Durin cả."
+      },
+      "3": {
+       "jp": "そうかもしれない。ドゥリンには、その心を理解してくれる者が誰一人いなかったんだから。",
+       "ro": "Sou kamo shirenai. Durin ni wa, sono kokoro o rikai shite kureru mono ga dare hitori inakatta n da kara.",
+       "vi": "Có lẽ vậy. Vì chẳng có một ai thấu hiểu được trái tim của Durin cả."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-17-3",
+       "a1-12-6"
+      ],
+      "2": [
+       "a22-17-5",
+       "a21-16-2",
+       "a21-17-1"
+      ],
+      "3": [
+       "ab1-7-2",
+       "ab1-4-1"
+      ]
+     },
+     "next": "n12"
+    },
+    {
+     "id": "n12",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "アルベドは れんきんじゅつで 小さい 白い 花を つくりました。しんぞうの まえに おきました。",
+       "ro": "Arubedo wa renkinjutsu de chiisai shiroi hana o tsukurimashita. Shinzou no mae ni okimashita.",
+       "vi": "Albedo dùng giả kim thuật tạo ra một bông hoa trắng nhỏ, rồi đặt nó trước trái tim."
+      },
+      "2": {
+       "jp": "アルベドは、れんきんじゅつで作った白い花を、しんぞうの前にそっとおいた。",
+       "ro": "Arubedo wa, renkinjutsu de tsukutta shiroi hana o, shinzou no mae ni sotto oita.",
+       "vi": "Albedo nhẹ nhàng đặt một bông hoa trắng tạo từ giả kim thuật trước trái tim."
+      },
+      "3": {
+       "jp": "アルベドは錬金術で生み出した白い花を一輪、心臓の前にそっと手向けた。",
+       "ro": "Arubedo wa renkinjutsu de umidashita shiroi hana o ichirin, shinzou no mae ni sotto tamuketa.",
+       "vi": "Albedo nhẹ nhàng dâng một đóa hoa trắng tạo từ giả kim thuật trước trái tim."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-14-3",
+       "a1-15-4"
+      ],
+      "2": [
+       "a21-17-3",
+       "a21-4-3"
+      ],
+      "3": [
+       "b1-6-2"
+      ]
+     },
+     "next": "n13"
+    },
+    {
+     "id": "n13",
+     "sp": "char",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "ゆっくり 休んで ください、にいさん。ボクは この せかいを まもります。",
+       "ro": "Yukkuri yasunde kudasai, niisan. Boku wa kono sekai o mamorimasu.",
+       "vi": "Anh hãy nghỉ ngơi thật yên bình nhé, anh trai. Em sẽ bảo vệ thế giới này."
+      },
+      "2": {
+       "jp": "ゆっくり休んで、兄さん。君が見たかったこの世界は、ボクが守るから。",
+       "ro": "Yukkuri yasunde, niisan. Kimi ga mitakatta kono sekai wa, boku ga mamoru kara.",
+       "vi": "Hãy yên nghỉ nhé, anh trai. Thế giới mà anh từng muốn nhìn ngắm, em sẽ bảo vệ nó."
+      },
+      "3": {
+       "jp": "安らかに眠ってくれ、兄さん。君が見たかったこの世界は、ボクが守ってみせるよ。",
+       "ro": "Yasuraka ni nemutte kure, niisan. Kimi ga mitakatta kono sekai wa, boku ga mamotte miseru yo.",
+       "vi": "Hãy yên nghỉ, anh trai. Thế giới mà anh từng muốn được thấy, em nhất định sẽ bảo vệ nó."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-2-2",
+       "a1-5-3"
+      ],
+      "2": [
+       "a21-6-1",
+       "a21-17-3",
+       "a21-3-5"
+      ],
+      "3": [
+       "b1-6-2",
+       "ab1-4-1"
+      ]
+     },
+     "end": true
+    }
+   ]
+  },
+  {
+   "c": 6,
+   "title": {
+    "jp": "白き土の約束",
+    "vi": "Đất Tinh Khiết"
+   },
+   "summary": "Bình minh ở Dragonspine, Albedo kể về ý nghĩa cái tên \"hóa trắng – thanh tẩy\", về việc mình được tạo ra từ đất trắng, và bài tập cuối cùng của sư phụ. Câu trả lời của cậu là những người cậu muốn bảo vệ – và cậu nhờ Lữ Khách một lời hứa.",
+   "bg": "dragonspine",
+   "nodes": [
+    {
+     "id": "n1",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "あさの ドラゴンスパインです。ゆきは もう ふりません。とても しずかです。",
+       "ro": "Asa no Doragonsupain desu. Yuki wa mou furimasen. Totemo shizuka desu.",
+       "vi": "Buổi sáng ở Dragonspine. Tuyết đã ngừng rơi. Mọi thứ thật tĩnh lặng."
+      },
+      "2": {
+       "jp": "朝のドラゴンスパイン。雪はもうやんで、キャンプはとても静かだった。",
+       "ro": "Asa no Doragonsupain. Yuki wa mou yande, kyanpu wa totemo shizuka datta.",
+       "vi": "Buổi sáng ở Dragonspine. Tuyết đã ngừng rơi, khu trại vô cùng tĩnh lặng."
+      },
+      "3": {
+       "jp": "夜明けのドラゴンスパイン。吹雪はすっかり止み、キャンプは深い静寂に包まれていた。",
+       "ro": "Yoake no Doragonsupain. Fubuki wa sukkari yami, kyanpu wa fukai seijaku ni tsutsumarete ita.",
+       "vi": "Bình minh trên Dragonspine. Bão tuyết đã tạnh hẳn, khu trại chìm trong sự tĩnh lặng sâu thẳm."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-5-3"
+      ],
+      "2": [
+       "a21-6-2",
+       "a21-4-1"
+      ],
+      "3": [
+       "b1-2-4",
+       "a22-13-3",
+       "b1-9-2"
+      ]
+     },
+     "next": "n2"
+    },
+    {
+     "id": "n2",
+     "sp": "char",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "旅人、「アルベド」は れんきんじゅつの ことばです。「白く、きれいに する」の いみです。",
+       "ro": "Tabibito, \"Arubedo\" wa renkinjutsu no kotoba desu. \"shiroku, kirei ni suru\" no imi desu.",
+       "vi": "Lữ Khách, \"Albedo\" là một từ trong giả kim thuật. Nó mang nghĩa \"làm cho trắng và tinh khiết\"."
+      },
+      "2": {
+       "jp": "旅人、「アルベド」ってどういういみか、知ってる？れんきんじゅつで「白く、きれいになること」なんだ。",
+       "ro": "Tabibito, \"Arubedo\" tte douiu imi ka, shitteru? Renkinjutsu de \"shiroku, kirei ni naru koto\" na n da.",
+       "vi": "Lữ Khách, cậu có biết \"Albedo\" nghĩa là gì không? Trong giả kim thuật, nó có nghĩa là \"hóa trắng và tinh khiết\"."
+      },
+      "3": {
+       "jp": "旅人、「アルベド」という言葉の意味を知っているかい？錬金術において「白化」…浄化の段階を指すんだ。",
+       "ro": "Tabibito, \"Arubedo\" to iu kotoba no imi o shitte iru kai? Renkinjutsu ni oite \"hakka\"... Jouka no dankai o sasu n da.",
+       "vi": "Lữ Khách, cậu có biết ý nghĩa của từ \"Albedo\" không? Trong giả kim thuật, nó chỉ giai đoạn \"hóa trắng\"... tức là thanh tẩy."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-1",
+       "a1-4-2"
+      ],
+      "2": [
+       "a22-8-5",
+       "a22-1-4",
+       "a21-3-1"
+      ],
+      "3": [
+       "a22-1-2",
+       "b12-18-1"
+      ]
+     },
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "sp": "trav",
+     "t": {
+      "1": {
+       "jp": "白く、きれいに…？",
+       "ro": "Shiroku, kirei ni...?",
+       "vi": "Trắng và tinh khiết...?"
+      },
+      "2": {
+       "jp": "白く、きれいになる…？",
+       "ro": "Shiroku, kirei ni naru...?",
+       "vi": "Hóa trắng và tinh khiết...?"
+      },
+      "3": {
+       "jp": "浄化…？",
+       "ro": "Jouka...?",
+       "vi": "Thanh tẩy...?"
+      }
+     },
+     "g": {
+      "1": [],
+      "2": [
+       "a21-3-1"
+      ],
+      "3": [
+       "b1-1-4"
+      ]
+     },
+     "next": "n4"
+    },
+    {
+     "id": "n4",
+     "sp": "char",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "ボクの ししょうは 白い つちで ボクを つくりました。ボクの なまえは 「白い つちの 子」です。",
+       "ro": "Boku no shishou wa shiroi tsuchi de boku o tsukurimashita. Boku no namae wa \"shiroi tsuchi no ko\" desu.",
+       "vi": "Sư phụ đã tạo ra tôi từ đất trắng. Tôi được gọi là \"Đứa Con Vôi Trắng\"."
+      },
+      "2": {
+       "jp": "ししょうは、白い土からボクを作ったんだ。だから、ボクは「白い土の子」とよばれている。",
+       "ro": "Shishou wa, shiroi tsuchi kara boku o tsukutta n da. Dakara, boku wa \"shiroi tsuchi no ko\" to yobarete iru.",
+       "vi": "Sư phụ đã tạo ra tôi từ đất trắng. Vì thế tôi được gọi là \"Đứa Con Vôi Trắng\"."
+      },
+      "3": {
+       "jp": "師匠はボクを、白亜…つまり白い土から創り出した。だからボクは「白亜の申し子」と呼ばれているんだ。",
+       "ro": "Shishou wa boku o, hakua... Tsumari shiroi tsuchi kara tsukuridashita. Dakara boku wa \"hakua no moushigo\" to yobarete iru n da.",
+       "vi": "Sư phụ đã tạo ra tôi từ bạch phấn... tức là đất trắng. Vì thế tôi được gọi là \"Đứa Con Vôi Trắng\"."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-4-2"
+      ],
+      "2": [
+       "a21-17-1",
+       "a22-13-4"
+      ],
+      "3": [
+       "a22-13-4",
+       "a21-17-1"
+      ]
+     },
+     "next": "n5"
+    },
+    {
+     "id": "n5",
+     "sp": "paimon",
+     "mood": "sad",
+     "t": {
+      "1": {
+       "jp": "白い つち…？アルベドは つちから 生まれましたか…？",
+       "ro": "Shiroi tsuchi...? Arubedo wa tsuchi kara umaremashita ka...?",
+       "vi": "Đất trắng...? Albedo được sinh ra từ đất sao...?"
+      },
+      "2": {
+       "jp": "白い土から…？アルベド、そんなこと、ぜんぜん知らなかったぞ…。",
+       "ro": "Shiroi tsuchi kara...? Arubedo, sonna koto, zenzen shiranakatta zo...",
+       "vi": "Từ đất trắng...? Albedo, Paimon chẳng hề biết chuyện đó..."
+      },
+      "3": {
+       "jp": "白い土から、って…。アルベド、お前そんな大事なこと、今まで黙ってたのかよ…。",
+       "ro": "Shiroi tsuchi kara, tte... Arubedo, omae sonna daijina koto, ima made damatteta no ka yo...",
+       "vi": "Từ đất trắng á...? Albedo, chuyện quan trọng thế mà cậu giấu đến tận giờ sao..."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-3-3"
+      ],
+      "2": [
+       "a1-11-5"
+      ],
+      "3": [
+       "ab1-5-7",
+       "b1-8-3"
+      ]
+     },
+     "next": "n6"
+    },
+    {
+     "id": "n6",
+     "sp": "char",
+     "mood": "serious",
+     "t": {
+      "1": {
+       "jp": "ししょうは もう いません。さいごに ボクに 言いました。「この せかいの いみを 見つけて ください」。",
+       "ro": "Shishou wa mou imasen. Saigo ni boku ni iimashita. \"kono sekai no imi o mitsukete kudasai\".",
+       "vi": "Sư phụ không còn ở đây nữa. Lần cuối, người đã nói với tôi: \"Hãy tìm ra ý nghĩa của thế giới này.\""
+      },
+      "2": {
+       "jp": "ししょうは、いなくなる前に、ボクに課題をのこした。「この世界のいみを見つけなさい」って。",
+       "ro": "Shishou wa, inaku naru mae ni, boku ni kadai o nokoshita. \"kono sekai no imi o mitsukenasai\" tte.",
+       "vi": "Trước khi biến mất, sư phụ để lại cho tôi một bài tập: \"Hãy tìm ra ý nghĩa của thế giới này.\""
+      },
+      "3": {
+       "jp": "師匠は姿を消す前に、ボクに最後の課題を残した。「この世界の真意を見出せ」とね。",
+       "ro": "Shishou wa sugata o kesu mae ni, boku ni saigo no kadai o nokoshita. \"kono sekai no shin'i o miidase\" to ne.",
+       "vi": "Trước khi biến mất, sư phụ để lại cho tôi bài tập cuối cùng: \"Hãy tìm ra chân lý của thế giới này.\""
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-2-2"
+      ],
+      "2": [
+       "a21-15-1",
+       "a22-1-4"
+      ],
+      "3": [
+       "a21-15-1",
+       "ab1-1-7"
+      ]
+     },
+     "next": "n7"
+    },
+    {
+     "id": "n7",
+     "sp": "char",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "ボクの こたえは これです。クレー、スクロース、そして 旅人。みんなが ボクの せかいです。",
+       "ro": "Boku no kotae wa kore desu. Kuree, Sukuroosu, soshite tabibito. Minna ga boku no sekai desu.",
+       "vi": "Câu trả lời của tôi là thế này. Klee, Sucrose, và cả Lữ Khách. Mọi người chính là thế giới của tôi."
+      },
+      "2": {
+       "jp": "ボクの答えはこうだ。クレーやスクロース、そして君。守りたい人がいる所が、ボクの世界なんだ。",
+       "ro": "Boku no kotae wa kou da. Kuree ya Sukuroosu, soshite kimi. Mamoritai hito ga iru tokoro ga, boku no sekai na n da.",
+       "vi": "Câu trả lời của tôi là thế này. Klee, Sucrose, và cả cậu. Nơi có những người tôi muốn bảo vệ, đó chính là thế giới của tôi."
+      },
+      "3": {
+       "jp": "ボクなりの答えは見つかったよ。クレー、スクロース、そして君。守りたい者たちがいる場所――それがボクにとっての世界さ。",
+       "ro": "Boku nari no kotae wa mitsukatta yo. Kuree, Sukuroosu, soshite kimi. Mamoritai mono tachi ga iru basho--sore ga boku ni totte no sekai sa.",
+       "vi": "Tôi đã tìm ra câu trả lời của riêng mình. Klee, Sucrose, và cả cậu. Nơi có những người tôi muốn bảo vệ – đó chính là thế giới đối với tôi."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-1",
+       "a1-18-3"
+      ],
+      "2": [
+       "a21-5-4",
+       "a21-17-3",
+       "a21-17-1"
+      ],
+      "3": [
+       "ab1-3-6",
+       "b1-6-2"
+      ]
+     },
+     "next": "n8"
+    },
+    {
+     "id": "n8",
+     "sp": "char",
+     "mood": "serious",
+     "t": {
+      "1": {
+       "jp": "旅人、おねがいです。いつか ボクが モンドの 人を きずつけますか？その 時は、ボクを とめて ください。",
+       "ro": "Tabibito, onegai desu. Itsuka boku ga Mondo no hito o kizutsukemasu ka? Sono toki wa, boku o tomete kudasai.",
+       "vi": "Lữ Khách, tôi có một thỉnh cầu. Liệu một ngày nào đó tôi có làm tổn thương người dân Mondstadt không? Nếu lúc ấy đến, hãy ngăn tôi lại."
+      },
+      "2": {
+       "jp": "旅人、一つおねがいがあるんだ。もしいつか、ボクがモンドをきずつけたら…その時は、ボクを止めてね。",
+       "ro": "Tabibito, hitotsu onegai ga aru n da. Moshi itsuka, boku ga Mondo o kizutsuketara... Sono toki wa, boku o tomete ne.",
+       "vi": "Lữ Khách, tôi có một thỉnh cầu. Nếu một ngày nào đó tôi làm tổn thương Mondstadt... lúc ấy, hãy ngăn tôi lại nhé."
+      },
+      "3": {
+       "jp": "旅人、一つ頼みがある。もしボクが我を失い、モンドに害をなす存在になったら…その時は、君がボクを止めてほしい。",
+       "ro": "Tabibito, hitotsu tanomi ga aru. Moshi boku ga ware o ushinai, Mondo ni gai o nasu sonzai ni nattara... Sono toki wa, kimi ga boku o tomete hoshii.",
+       "vi": "Lữ Khách, tôi có một thỉnh cầu. Nếu tôi đánh mất chính mình và trở thành mối họa cho Mondstadt... lúc ấy, tôi muốn cậu ngăn tôi lại."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-2-2",
+       "a1-3-3"
+      ],
+      "2": [
+       "a22-7-3",
+       "a21-6-1"
+      ],
+      "3": [
+       "ab1-7-4",
+       "b1-2-4",
+       "a22-16-3"
+      ]
+     },
+     "choices": [
+      {
+       "t": {
+        "1": {
+         "jp": "はい、やくそくします。でも、その 日は 来ません。",
+         "ro": "Hai, yakusoku shimasu. Demo, sono hi wa kimasen.",
+         "vi": "Được, mình hứa. Nhưng ngày đó sẽ không đến đâu."
+        },
+        "2": {
+         "jp": "うん、やくそくする。でも、そんな日は来ないよ。",
+         "ro": "Un, yakusoku suru. Demo, sonna hi wa konai yo.",
+         "vi": "Ừ, mình hứa. Nhưng ngày đó sẽ không đến đâu."
+        },
+        "3": {
+         "jp": "わかった、約束する。でも、そんな日は絶対に来ないよ。",
+         "ro": "Wakatta, yakusoku suru. Demo, sonna hi wa zettai ni konai yo.",
+         "vi": "Được rồi, mình hứa. Nhưng ngày đó chắc chắn sẽ không bao giờ đến."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-18-2"
+        ],
+        "2": [
+         "a21-2-2",
+         "a1-18-2"
+        ],
+        "3": [
+         "ab1-4-4",
+         "ab1-6-4"
+        ]
+       },
+       "next": "n9"
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "はい。私が とめます。そして、アルベドと いっしょに かえります。",
+         "ro": "Hai. Watashi ga tomemasu. Soshite, Arubedo to issho ni kaerimasu.",
+         "vi": "Được. Mình sẽ ngăn cậu lại. Rồi cùng cậu trở về."
+        },
+        "2": {
+         "jp": "うん、止めるよ。それから、アルベドをちゃんとつれて帰るから。",
+         "ro": "Un, tomeru yo. Sorekara, Arubedo o chanto tsurete kaeru kara.",
+         "vi": "Ừ, mình sẽ ngăn cậu. Rồi mình sẽ đưa cậu trở về đàng hoàng."
+        },
+        "3": {
+         "jp": "もちろん止めるよ。そして、何度でもアルベドをここに連れ戻す。",
+         "ro": "Mochiron tomeru yo. Soshite, nando demo Arubedo o koko ni tsuremodosu.",
+         "vi": "Tất nhiên mình sẽ ngăn cậu. Rồi dù bao nhiêu lần, mình cũng sẽ đưa Albedo trở lại đây."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-18-3",
+         "a1-9-5"
+        ],
+        "2": [
+         "a1-18-1",
+         "a21-3-5"
+        ],
+        "3": [
+         "a21-11-2",
+         "a1-18-3"
+        ]
+       },
+       "next": "n10"
+      }
+     ]
+    },
+    {
+     "id": "n9",
+     "sp": "char",
+     "mood": "shy",
+     "t": {
+      "1": {
+       "jp": "…ありがとう。旅人の ことばで、ボクは あんしんしました。",
+       "ro": "... Arigatou. Tabibito no kotoba de, boku wa anshin shimashita.",
+       "vi": "...Cảm ơn cậu. Nghe lời cậu nói, tôi thấy yên lòng."
+      },
+      "2": {
+       "jp": "…ありがとう。君にそう言われると、なんだかあんしんするよ。",
+       "ro": "... Arigatou. Kimi ni sou iwareru to, nandaka anshin suru yo.",
+       "vi": "...Cảm ơn cậu. Được cậu nói vậy, không hiểu sao tôi thấy yên lòng."
+      },
+      "3": {
+       "jp": "…ありがとう。君にそう断言されると、不思議と心が軽くなるよ。",
+       "ro": "... Arigatou. Kimi ni sou dangen sareru to, fushigi to kokoro ga karuku naru yo.",
+       "vi": "...Cảm ơn cậu. Được cậu khẳng định như vậy, lạ thay lòng tôi nhẹ nhõm hẳn."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4"
+      ],
+      "2": [
+       "a22-18-1",
+       "a22-4-4"
+      ],
+      "3": [
+       "a22-18-1",
+       "b1-3-6"
+      ]
+     },
+     "next": "n11"
+    },
+    {
+     "id": "n10",
+     "sp": "char",
+     "mood": "surprised",
+     "t": {
+      "1": {
+       "jp": "いっしょに かえります…？ふふ、ボクは その こたえを かんがえませんでした。",
+       "ro": "Issho ni kaerimasu...? Fufu, boku wa sono kotae o kangaemasen deshita.",
+       "vi": "Cùng trở về...? Hừm, tôi chưa từng nghĩ đến câu trả lời đó."
+      },
+      "2": {
+       "jp": "つれて帰る…？ふふ、そんな答えは、考えたこともなかったよ。",
+       "ro": "Tsurete kaeru...? Fufu, sonna kotae wa, kangaeta koto mo nakatta yo.",
+       "vi": "Đưa tôi trở về...? Hừm, tôi chưa từng nghĩ đến một câu trả lời như thế."
+      },
+      "3": {
+       "jp": "連れ戻す、か…。ふふ、止めた先のことまで考えてくれるなんて、思いもしなかったよ。",
+       "ro": "Tsuremodosu, ka... Fufu, tometa saki no koto made kangaete kureru nante, omoi mo shinakatta yo.",
+       "vi": "Đưa tôi trở lại à... Hừm, tôi chưa từng nghĩ cậu sẽ tính đến cả chuyện sau khi ngăn tôi lại."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-17-1"
+      ],
+      "2": [
+       "a21-13-1"
+      ],
+      "3": [
+       "b12-5-1",
+       "ab1-4-1"
+      ]
+     },
+     "next": "n11"
+    },
+    {
+     "id": "n11",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "日が のぼりました。白い ゆきが きらきら ひかります。",
+       "ro": "Hi ga noborimashita. Shiroi yuki ga kirakira hikarimasu.",
+       "vi": "Mặt trời đã lên. Tuyết trắng lấp lánh."
+      },
+      "2": {
+       "jp": "朝日がのぼって、白い雪がきらきらと光った。",
+       "ro": "Asahi ga nobotte, shiroi yuki ga kirakira to hikatta.",
+       "vi": "Mặt trời buổi sáng nhô lên, tuyết trắng lấp lánh."
+      },
+      "3": {
+       "jp": "朝日が昇り、一面の白い雪がきらきらと輝き始めた。",
+       "ro": "Asahi ga nobori, ichimen no shiroi yuki ga kirakira to kagayaki hajimeta.",
+       "vi": "Mặt trời buổi sáng nhô lên, cả vùng tuyết trắng bắt đầu lấp lánh rực rỡ."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4"
+      ],
+      "2": [
+       "a21-6-2"
+      ],
+      "3": [
+       "b1-2-4",
+       "b1-1-3"
+      ]
+     },
+     "next": "n12"
+    },
+    {
+     "id": "n12",
+     "sp": "paimon",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "オイラも やくそくします！オイラは さいこうの ガイドですから！",
+       "ro": "Oira mo yakusoku shimasu! Oira wa saikou no gaido desu kara!",
+       "vi": "Paimon cũng hứa! Vì Paimon là hướng dẫn viên giỏi nhất mà!"
+      },
+      "2": {
+       "jp": "オイラもやくそくするぞ！オイラは、さいこうのガイドだからな！",
+       "ro": "Oira mo yakusoku suru zo! Oira wa, saikou no gaido da kara na!",
+       "vi": "Paimon cũng hứa đấy! Vì Paimon là hướng dẫn viên tuyệt nhất mà!"
+      },
+      "3": {
+       "jp": "オイラも約束するぞ！なんたってオイラは、テイワット一の案内人だからな！",
+       "ro": "Oira mo yakusoku suru zo! Nantatte oira wa, Teiwatto ichi no annainin da kara na!",
+       "vi": "Paimon cũng hứa đấy! Nói gì thì nói, Paimon là hướng dẫn viên số một Teyvat mà!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-5",
+       "a1-13-4"
+      ],
+      "2": [
+       "a21-3-5"
+      ],
+      "3": [
+       "ab1-3-3"
+      ]
+     },
+     "next": "n13"
+    },
+    {
+     "id": "n13",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "アルベドは ノートを 見せました。クレー、スクロース、パイモン、旅人の えが あります。",
+       "ro": "Arubedo wa nooto o misemashita. Kuree, Sukuroosu, Paimon, tabibito no e ga arimasu.",
+       "vi": "Albedo cho xem cuốn sổ. Trong đó có tranh vẽ Klee, Sucrose, Paimon và Lữ Khách."
+      },
+      "2": {
+       "jp": "アルベドがスケッチブックを開くと、クレーやスクロース、パイモン、旅人の絵がかいてあった。",
+       "ro": "Arubedo ga suketchibukku o hiraku to, Kuree ya Sukuroosu, Paimon, tabibito no e ga kaite atta.",
+       "vi": "Albedo mở cuốn sổ phác họa, trong đó có vẽ Klee, Sucrose, Paimon và Lữ Khách."
+      },
+      "3": {
+       "jp": "アルベドがスケッチブックを開く。そこには、クレーやスクロース、パイモン、そして旅人の姿が描かれていた。",
+       "ro": "Arubedo ga suketchibukku o hiraku. Soko ni wa, Kuree ya Sukuroosu, Paimon, soshite tabibito no sugata ga egakarete ita.",
+       "vi": "Albedo mở cuốn sổ phác họa. Trong đó là hình bóng của Klee, Sucrose, Paimon và cả Lữ Khách."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-7-1"
+      ],
+      "2": [
+       "a22-4-4",
+       "a22-14-4",
+       "a21-5-4"
+      ],
+      "3": [
+       "a22-13-3",
+       "b1-9-2"
+      ]
+     },
+     "next": "n14"
+    },
+    {
+     "id": "n14",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "白い つちは 白です。でも、ボクは ボクの いろを えらびます。ボクの いろは これです。",
+       "ro": "Shiroi tsuchi wa shiro desu. Demo, boku wa boku no iro o erabimasu. Boku no iro wa kore desu.",
+       "vi": "Đất trắng thì màu trắng. Nhưng tôi sẽ tự chọn màu của mình. Màu của tôi là đây."
+      },
+      "2": {
+       "jp": "白い土は、どんな色にもなれる。ボクがえらんだ色は…これなんだ。",
+       "ro": "Shiroi tsuchi wa, donna iro ni mo nareru. Boku ga eranda iro wa... Kore na n da.",
+       "vi": "Đất trắng có thể trở thành bất kỳ màu nào. Màu mà tôi đã chọn... chính là đây."
+      },
+      "3": {
+       "jp": "白い土は、どんな色にも染まることができる。そしてボクが選んだ色は――ほら、これさ。",
+       "ro": "Shiroi tsuchi wa, donna iro ni mo somaru koto ga dekiru. Soshite boku ga eranda iro ha--hora, kore sa.",
+       "vi": "Đất trắng có thể nhuộm thành bất kỳ màu nào. Và màu mà tôi đã chọn – đây, chính là nó."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-1",
+       "a1-18-2",
+       "a1-8-4"
+      ],
+      "2": [
+       "a22-6-1",
+       "a21-17-3",
+       "a21-17-1"
+      ],
+      "3": [
+       "ab1-9-4",
+       "b1-6-2"
+      ]
+     },
+     "end": true
+    }
+   ]
+  }
+ ],
+ "chat": [
+  {
+   "id": "art",
+   "title": "Hội họa",
+   "turns": [
+    {
+     "t": {
+      "1": {
+       "jp": "旅人は えを かきますか。",
+       "ro": "Tabibito wa e o kakimasu ka.",
+       "vi": "Lữ Khách có vẽ tranh không?"
+      },
+      "2": {
+       "jp": "旅人は、絵をかくのが好き？",
+       "ro": "Tabibito wa, e o kaku no ga suki?",
+       "vi": "Lữ Khách có thích vẽ tranh không?"
+      },
+      "3": {
+       "jp": "君は絵を描いたりするかい？",
+       "ro": "Kimi wa e o kaitari suru kai?",
+       "vi": "Cậu có hay vẽ vời gì không?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-5-3",
+       "a1-3-3"
+      ],
+      "2": [
+       "a21-3-3"
+      ],
+      "3": [
+       "a21-16-1"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "はい、よく かきます。花の えが 好きです。",
+         "ro": "Hai, yoku kakimasu. Hana no e ga suki desu.",
+         "vi": "Có, mình hay vẽ lắm. Mình thích vẽ hoa."
+        },
+        "2": {
+         "jp": "はい、よくかきます。花の絵をかくのが好きです。",
+         "ro": "Hai, yoku kakimasu. Hana no e o kaku no ga suki desu.",
+         "vi": "Có, mình hay vẽ lắm. Mình thích vẽ hoa."
+        },
+        "3": {
+         "jp": "うん、たまに描くよ。花を描くのが好きなんだ。",
+         "ro": "Un, tamani kaku yo. Hana o kaku no ga suki na n da.",
+         "vi": "Ừ, thỉnh thoảng mình có vẽ. Mình thích vẽ hoa."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-5-4",
+         "a1-5-1"
+        ],
+        "2": [
+         "a1-5-4",
+         "a21-3-3"
+        ],
+        "3": [
+         "a21-3-3",
+         "a21-17-1"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "いいですね。花は いろが きれいですから。",
+         "ro": "Ii desu ne. Hana wa iro ga kirei desu kara.",
+         "vi": "Hay đấy. Vì hoa có màu sắc rất đẹp."
+        },
+        "2": {
+         "jp": "いいね。花は色も形もおもしろいから、いいモデルだよ。",
+         "ro": "Ii ne. Hana wa iro mo katachi mo omoshiroi kara, ii moderu da yo.",
+         "vi": "Hay đấy. Hoa có màu sắc lẫn hình dáng thú vị, là người mẫu tốt lắm."
+        },
+        "3": {
+         "jp": "いいね。花は色も形も多様だから、最高のモデルさ。",
+         "ro": "Ii ne. Hana wa iro mo katachi mo tayou da kara, saikou no moderu sa.",
+         "vi": "Hay đấy. Hoa đa dạng cả về màu sắc lẫn hình dáng, là người mẫu tuyệt nhất."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-13-4"
+        ],
+        "2": [
+         "a22-5-6",
+         "a21-3-5"
+        ],
+        "3": [
+         "ab1-3-3"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "いいえ、あまり かきません。へたですから。",
+         "ro": "Iie, amari kakimasen. Heta desu kara.",
+         "vi": "Không, mình không hay vẽ lắm. Vì mình vẽ dở."
+        },
+        "2": {
+         "jp": "あまりかきません。絵がにがてなんです。",
+         "ro": "Amari kakimasen. E ga nigate na n desu.",
+         "vi": "Mình không hay vẽ lắm. Mình vẽ kém."
+        },
+        "3": {
+         "jp": "あんまり描かないな。絵は苦手で…。",
+         "ro": "Anmari kakanai na. E wa nigate de...",
+         "vi": "Mình không hay vẽ lắm. Mình kém khoản vẽ..."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-5-4",
+         "a1-13-4"
+        ],
+        "2": [
+         "a21-3-4",
+         "a22-11-6"
+        ],
+        "3": [
+         "a21-3-4",
+         "ab1-2-1"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "だいじょうぶです。えは 楽しいですよ。いっしょに かきましょう。",
+         "ro": "Daijoubu desu. E wa tanoshii desu yo. Issho ni kakimashou.",
+         "vi": "Không sao đâu. Vẽ vui lắm đấy. Cùng vẽ nhé."
+        },
+        "2": {
+         "jp": "だいじょうぶ。絵は、楽しくかくのがいちばんだよ。今度いっしょにかこう。",
+         "ro": "Daijoubu. E wa, tanoshiku kaku no ga ichiban da yo. Kondo issho ni kakou.",
+         "vi": "Không sao. Vẽ tranh thì vui là nhất. Lần tới cùng vẽ nhé."
+        },
+        "3": {
+         "jp": "大丈夫。上手い下手より、よく見ることが大切なんだ。今度一緒に描いてみよう。",
+         "ro": "Daijoubu. Umai heta yori, yoku miru koto ga taisetsu na n da. Kondo issho ni kaite miyou.",
+         "vi": "Không sao. Quan sát kỹ mới là quan trọng, hơn cả chuyện vẽ đẹp hay xấu. Lần tới cùng thử vẽ nhé."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-10-5",
+         "a1-6-6"
+        ],
+        "2": [
+         "a21-9-2",
+         "a21-8-2"
+        ],
+        "3": [
+         "a22-12-3",
+         "a21-10-4"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": {
+      "1": {
+       "jp": "旅人は、どんな えが 好きですか。",
+       "ro": "Tabibito wa, donna e ga suki desu ka.",
+       "vi": "Lữ Khách thích tranh như thế nào?"
+      },
+      "2": {
+       "jp": "旅人は、どんな絵が好き？",
+       "ro": "Tabibito wa, donna e ga suki?",
+       "vi": "Lữ Khách thích loại tranh nào?"
+      },
+      "3": {
+       "jp": "君は、どんな絵に心惹かれる？",
+       "ro": "Kimi wa, donna e ni kokoro hikareru?",
+       "vi": "Cậu bị cuốn hút bởi loại tranh nào?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-11-2"
+      ],
+      "2": [
+       "a21-2-6"
+      ],
+      "3": [
+       "b12-2-4"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "山と うみの えが 好きです。",
+         "ro": "Yama to umi no e ga suki desu.",
+         "vi": "Mình thích tranh núi và biển."
+        },
+        "2": {
+         "jp": "山や海の絵が好きです。",
+         "ro": "Yama ya umi no e ga suki desu.",
+         "vi": "Mình thích tranh núi non, biển cả."
+        },
+        "3": {
+         "jp": "山や海みたいな、風景画が好きだな。",
+         "ro": "Yama ya umi mitaina, fuukeiga ga suki da na.",
+         "vi": "Mình thích tranh phong cảnh, kiểu như núi hay biển."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-4-1",
+         "a1-5-1"
+        ],
+        "2": [
+         "a21-5-4"
+        ],
+        "3": [
+         "ab1-3-4"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "ボクも です。ドラゴンスパインの えを たくさん かきました。",
+         "ro": "Boku mo desu. Doragonsupain no e o takusan kakimashita.",
+         "vi": "Tôi cũng vậy. Tôi đã vẽ rất nhiều tranh về Dragonspine."
+        },
+        "2": {
+         "jp": "ボクもだよ。ドラゴンスパインの絵をたくさんかいたんだ。",
+         "ro": "Boku mo da yo. Doragonsupain no e o takusan kaita n da.",
+         "vi": "Tôi cũng thế. Tôi đã vẽ rất nhiều tranh về Dragonspine."
+        },
+        "3": {
+         "jp": "気が合うね。ボクもドラゴンスパインの風景を何枚も描いてきたよ。",
+         "ro": "Ki ga au ne. Boku mo Doragonsupain no fuukei o nanmai mo kaite kita yo.",
+         "vi": "Hợp ý nhau ghê. Tôi cũng đã vẽ phong cảnh Dragonspine không biết bao nhiêu bức rồi."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-11-6",
+         "a1-15-4"
+        ],
+        "2": [
+         "a1-11-6",
+         "a21-17-1"
+        ],
+        "3": [
+         "ab1-5-3",
+         "b1-2-8"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "人の えが 好きです。かおが おもしろいですから。",
+         "ro": "Hito no e ga suki desu. Kao ga omoshiroi desu kara.",
+         "vi": "Mình thích tranh vẽ người. Vì gương mặt rất thú vị."
+        },
+        "2": {
+         "jp": "人の絵が好きです。ひょうじょうがおもしろいですから。",
+         "ro": "Hito no e ga suki desu. Hyoujou ga omoshiroi desu kara.",
+         "vi": "Mình thích tranh vẽ người. Vì biểu cảm rất thú vị."
+        },
+        "3": {
+         "jp": "人物画が好き。表情ひとつで印象が変わるのが面白いんだ。",
+         "ro": "Jinbutsuga ga suki. Hyoujou hitotsu de inshou ga kawaru no ga omoshiroi n da.",
+         "vi": "Mình thích tranh chân dung. Chỉ một biểu cảm thôi là ấn tượng đã khác, thú vị lắm."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-5-1",
+         "a1-13-4"
+        ],
+        "2": [
+         "a21-3-5"
+        ],
+        "3": [
+         "a21-9-2",
+         "a21-17-1"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "いいですね。こんど、旅人の えを かきます。",
+         "ro": "Ii desu ne. Kondo, tabibito no e o kakimasu.",
+         "vi": "Hay đấy. Lần tới tôi sẽ vẽ Lữ Khách."
+        },
+        "2": {
+         "jp": "いいね。今度、君の絵をかいてもいい？",
+         "ro": "Ii ne. Kondo, kimi no e o kaite mo ii?",
+         "vi": "Hay đấy. Lần tới tôi vẽ cậu được không?"
+        },
+        "3": {
+         "jp": "いいね。今度、君の肖像画を描かせてくれないか。",
+         "ro": "Ii ne. Kondo, kimi no shouzouga o kakasete kurenai ka.",
+         "vi": "Hay đấy. Lần tới, cho tôi vẽ chân dung cậu nhé?"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-5-3"
+        ],
+        "2": [
+         "a21-14-4"
+        ],
+        "3": [
+         "b1-3-3",
+         "ab1-4-1"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": {
+      "1": {
+       "jp": "ボクの えを 見ましたか。どうでしたか。",
+       "ro": "Boku no e o mimashita ka. Dou deshita ka.",
+       "vi": "Cậu đã xem tranh của tôi chưa? Thấy thế nào?"
+      },
+      "2": {
+       "jp": "ボクの絵を見たことがある？どうだった？",
+       "ro": "Boku no e o mita koto ga aru? Dou datta?",
+       "vi": "Cậu đã từng xem tranh của tôi chưa? Thấy thế nào?"
+      },
+      "3": {
+       "jp": "ボクの絵を見たことはあるかい？率直な感想を聞かせてほしいな。",
+       "ro": "Boku no e o mita koto wa aru kai? Sotchokuna kansou o kikasete hoshii na.",
+       "vi": "Cậu đã từng xem tranh của tôi chưa? Tôi muốn nghe cảm nhận thật lòng của cậu."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-17-5"
+      ],
+      "2": [
+       "a21-13-1",
+       "a1-17-5"
+      ],
+      "3": [
+       "a21-13-1",
+       "ab1-7-4"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "はい、とても きれいでした。",
+         "ro": "Hai, totemo kirei deshita.",
+         "vi": "Rồi, đẹp lắm."
+        },
+        "2": {
+         "jp": "はい、とてもきれいでした。色がすてきでした。",
+         "ro": "Hai, totemo kirei deshita. Iro ga suteki deshita.",
+         "vi": "Rồi, đẹp lắm. Màu sắc rất tuyệt."
+        },
+        "3": {
+         "jp": "あるよ。色使いがすごく綺麗だった。",
+         "ro": "Aru yo. Irozukai ga sugoku kirei datta.",
+         "vi": "Rồi chứ. Cách dùng màu đẹp lắm."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-17-3"
+        ],
+        "2": [
+         "a21-4-1"
+        ],
+        "3": [
+         "ab1-8-2"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "ありがとう。うれしいです。",
+         "ro": "Arigatou. Ureshii desu.",
+         "vi": "Cảm ơn cậu. Tôi vui lắm."
+        },
+        "2": {
+         "jp": "ありがとう。君にほめられると、うれしいな。",
+         "ro": "Arigatou. Kimi ni homerareru to, ureshii na.",
+         "vi": "Cảm ơn cậu. Được cậu khen, tôi vui lắm."
+        },
+        "3": {
+         "jp": "ありがとう。君にそう言ってもらえると、描いた甲斐があるよ。",
+         "ro": "Arigatou. Kimi ni sou itte moraeru to, kaita kai ga aru yo.",
+         "vi": "Cảm ơn cậu. Được cậu nói vậy, thật đáng công vẽ."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-1-3",
+         "a1-7-4"
+        ],
+        "2": [
+         "a22-18-1",
+         "a22-4-4"
+        ],
+        "3": [
+         "ab1-4-2",
+         "a22-4-4"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "いいえ、見ませんでした。見たいです！",
+         "ro": "Iie, mimasen deshita. Mitai desu!",
+         "vi": "Chưa, mình chưa xem. Mình muốn xem lắm!"
+        },
+        "2": {
+         "jp": "まだ見ていません。見てみたいです！",
+         "ro": "Mada mite imasen. Mite mitai desu!",
+         "vi": "Mình vẫn chưa xem. Mình muốn xem thử lắm!"
+        },
+        "3": {
+         "jp": "まだなんだ。今度ぜひ見せてほしいな！",
+         "ro": "Mada na n da. Kondo zehi misete hoshii na!",
+         "vi": "Mình chưa xem. Lần tới nhất định cho mình xem nhé!"
+        }
+       },
+       "g": {
+        "1": [
+         "a1-17-1",
+         "a1-18-4"
+        ],
+        "2": [
+         "a22-8-2",
+         "a21-10-4"
+        ],
+        "3": [
+         "ab1-7-4"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "じゃあ、こんど 見せます。ボクの へやに 来て ください。",
+         "ro": "Jaa, kondo misemasu. Boku no heya ni kite kudasai.",
+         "vi": "Vậy lần tới tôi sẽ cho cậu xem. Hãy đến phòng tôi nhé."
+        },
+        "2": {
+         "jp": "じゃあ、今度見せるよ。ボクのけんきゅうしつに来て。",
+         "ro": "Jaa, kondo miseru yo. Boku no kenkyuushitsu ni kite.",
+         "vi": "Vậy lần tới tôi cho cậu xem. Đến phòng nghiên cứu của tôi nhé."
+        },
+        "3": {
+         "jp": "なら、今度工房においで。とっておきの一枚を見せてあげるよ。",
+         "ro": "Nara, kondo koubou ni oide. Totteoki no ichimai o misete ageru yo.",
+         "vi": "Vậy lần tới cậu ghé xưởng của tôi nhé. Tôi sẽ cho cậu xem bức tranh tâm đắc nhất."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-2-2"
+        ],
+        "2": [
+         "a21-6-1"
+        ],
+        "3": [
+         "ab1-6-5"
+        ]
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "alchemy",
+   "title": "Giả kim thuật",
+   "turns": [
+    {
+     "t": {
+      "1": {
+       "jp": "旅人、れんきんじゅつが 好きですか。",
+       "ro": "Tabibito, renkinjutsu ga suki desu ka.",
+       "vi": "Lữ Khách có thích giả kim thuật không?"
+      },
+      "2": {
+       "jp": "旅人は、れんきんじゅつにきょうみがある？",
+       "ro": "Tabibito wa, renkinjutsu ni kyoumi ga aru?",
+       "vi": "Lữ Khách có hứng thú với giả kim thuật không?"
+      },
+      "3": {
+       "jp": "君は、錬金術に興味はあるかい？",
+       "ro": "Kimi wa, renkinjutsu ni kyoumi wa aru kai?",
+       "vi": "Cậu có hứng thú với giả kim thuật không?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-5-1",
+       "a1-3-3"
+      ],
+      "2": [
+       "a21-10-6"
+      ],
+      "3": [
+       "a21-10-6"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "はい、とても おもしろいです。",
+         "ro": "Hai, totemo omoshiroi desu.",
+         "vi": "Có, thú vị lắm."
+        },
+        "2": {
+         "jp": "はい、きょうみがあります。おもしろそうです。",
+         "ro": "Hai, kyoumi ga arimasu. Omoshiro sou desu.",
+         "vi": "Có, mình có hứng thú. Trông thú vị lắm."
+        },
+        "3": {
+         "jp": "うん、すごく興味ある。奥が深そうだよね。",
+         "ro": "Un, sugoku kyoumi aru. Oku ga fuka sou da yo ne.",
+         "vi": "Ừ, mình hứng thú lắm. Trông có vẻ rất thâm sâu nhỉ."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-7-4"
+        ],
+        "2": [
+         "a21-10-6",
+         "a21-12-1"
+        ],
+        "3": [
+         "a21-12-1",
+         "ab1-6-4"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "うれしいです。こんど いっしょに やりましょう。",
+         "ro": "Ureshii desu. Kondo issho ni yarimashou.",
+         "vi": "Vui quá. Lần tới cùng làm nhé."
+        },
+        "2": {
+         "jp": "うれしいな。今度、かんたんなものをいっしょに作ってみよう。",
+         "ro": "Ureshii na. Kondo, kantanna mono o issho ni tsukutte miyou.",
+         "vi": "Vui quá. Lần tới, cùng thử làm thứ gì đó đơn giản nhé."
+        },
+        "3": {
+         "jp": "嬉しいな。今度、簡単な錬成から一緒にやってみようか。",
+         "ro": "Ureshii na. Kondo, kantanna rensei kara issho ni yatte miyou ka.",
+         "vi": "Vui quá. Lần tới, cùng thử bắt đầu từ những phép luyện thành đơn giản nhé."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-6-6"
+        ],
+        "2": [
+         "a21-10-4"
+        ],
+        "3": [
+         "a21-10-4"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "むずかしいです。よく わかりません。",
+         "ro": "Muzukashii desu. Yoku wakarimasen.",
+         "vi": "Khó quá. Mình không hiểu lắm."
+        },
+        "2": {
+         "jp": "むずかしそうです。よくわかりません。",
+         "ro": "Muzukashi sou desu. Yoku wakarimasen.",
+         "vi": "Trông khó quá. Mình không hiểu lắm."
+        },
+        "3": {
+         "jp": "正直、難しそうでよくわからないな。",
+         "ro": "Shoujiki, muzukashi sou de yoku wakaranai na.",
+         "vi": "Thật lòng, trông khó quá nên mình không hiểu lắm."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-7-4",
+         "a1-2-4"
+        ],
+        "2": [
+         "a21-12-1"
+        ],
+        "3": [
+         "a21-12-1",
+         "a21-12-4"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "だいじょうぶです。ボクが おしえます。",
+         "ro": "Daijoubu desu. Boku ga oshiemasu.",
+         "vi": "Không sao đâu. Tôi sẽ dạy cậu."
+        },
+        "2": {
+         "jp": "だいじょうぶ。ボクが一から教えるよ。",
+         "ro": "Daijoubu. Boku ga ichi kara oshieru yo.",
+         "vi": "Không sao. Tôi sẽ dạy cậu từ đầu."
+        },
+        "3": {
+         "jp": "心配いらないよ。基礎から丁寧に教えてあげるから。",
+         "ro": "Shinpai iranai yo. Kiso kara teinei ni oshiete ageru kara.",
+         "vi": "Không cần lo đâu. Tôi sẽ dạy cậu cẩn thận từ những điều cơ bản."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-10-5"
+        ],
+        "2": [
+         "a21-2-2"
+        ],
+        "3": [
+         "ab1-6-5",
+         "ab1-3-3"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": {
+      "1": {
+       "jp": "れんきんじゅつで 何が ほしいですか。",
+       "ro": "Renkinjutsu de nani ga hoshii desu ka.",
+       "vi": "Với giả kim thuật, cậu muốn có thứ gì?"
+      },
+      "2": {
+       "jp": "れんきんじゅつで、何を作りたい？",
+       "ro": "Renkinjutsu de, nani o tsukuritai?",
+       "vi": "Cậu muốn tạo ra thứ gì bằng giả kim thuật?"
+      },
+      "3": {
+       "jp": "もし錬金術で何でも作れるとしたら、何が欲しい？",
+       "ro": "Moshi renkinjutsu de nan demo tsukureru to shitara, nani ga hoshii?",
+       "vi": "Nếu giả sử giả kim thuật tạo ra được mọi thứ, cậu muốn có gì?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-1"
+      ],
+      "2": [
+       "a21-10-1"
+      ],
+      "3": [
+       "b1-9-6",
+       "a22-6-1"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "おいしい 食べものが ほしいです。",
+         "ro": "Oishii tabemono ga hoshii desu.",
+         "vi": "Mình muốn có đồ ăn ngon."
+        },
+        "2": {
+         "jp": "おいしい食べ物を作りたいです。",
+         "ro": "Oishii tabemono o tsukuritai desu.",
+         "vi": "Mình muốn tạo ra đồ ăn ngon."
+        },
+        "3": {
+         "jp": "いくら食べてもなくならない、おいしいご飯かな。",
+         "ro": "Ikura tabete mo nakunaranai, oishii gohan kana.",
+         "vi": "Chắc là đồ ăn ngon mà ăn bao nhiêu cũng không hết."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-15-1",
+         "a1-14-1"
+        ],
+        "2": [
+         "a21-10-1"
+        ],
+        "3": [
+         "ab1-2-4",
+         "b1-3-8"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "ふふ、パイモンが よろこびますね。",
+         "ro": "Fufu, Paimon ga yorokobimasu ne.",
+         "vi": "Hừm, Paimon sẽ vui lắm đấy."
+        },
+        "2": {
+         "jp": "ふふ、パイモンがよろこびそうだね。",
+         "ro": "Fufu, Paimon ga yorokobi sou da ne.",
+         "vi": "Hừm, Paimon chắc sẽ vui lắm nhỉ."
+        },
+        "3": {
+         "jp": "ふふ、パイモンが真っ先に喜びそうだね。",
+         "ro": "Fufu, Paimon ga massaki ni yorokobi sou da ne.",
+         "vi": "Hừm, Paimon chắc sẽ là người vui mừng đầu tiên nhỉ."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-5-3"
+        ],
+        "2": [
+         "a22-12-5"
+        ],
+        "3": [
+         "ab1-5-2"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "花が ほしいです。ともだちに あげます。",
+         "ro": "Hana ga hoshii desu. Tomodachi ni agemasu.",
+         "vi": "Mình muốn có hoa. Mình sẽ tặng bạn bè."
+        },
+        "2": {
+         "jp": "花を作りたいです。友だちにあげたいです。",
+         "ro": "Hana o tsukuritai desu. Tomodachi ni agetai desu.",
+         "vi": "Mình muốn tạo ra hoa. Mình muốn tặng bạn bè."
+        },
+        "3": {
+         "jp": "枯れない花がいいな。友達に贈りたいんだ。",
+         "ro": "Karenai hana ga ii na. Tomodachi ni okuritai n da.",
+         "vi": "Mình thích hoa không bao giờ héo. Mình muốn tặng bạn bè."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-15-1",
+         "a1-15-2"
+        ],
+        "2": [
+         "a21-10-1",
+         "a21-17-2"
+        ],
+        "3": [
+         "a21-10-1",
+         "a21-17-1"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "すてきですね。ボクも 花を つくります。",
+         "ro": "Suteki desu ne. Boku mo hana o tsukurimasu.",
+         "vi": "Tuyệt đấy. Tôi cũng làm hoa."
+        },
+        "2": {
+         "jp": "すてきだね。ボクも、よく花を作るんだよ。",
+         "ro": "Suteki da ne. Boku mo, yoku hana o tsukuru n da yo.",
+         "vi": "Tuyệt đấy. Tôi cũng hay làm hoa lắm."
+        },
+        "3": {
+         "jp": "素敵だね。ボクもよく花を錬成するから、コツを教えてあげるよ。",
+         "ro": "Suteki da ne. Boku mo yoku hana o rensei suru kara, kotsu o oshiete ageru yo.",
+         "vi": "Tuyệt đấy. Tôi cũng hay luyện thành hoa, để tôi chỉ cậu bí quyết."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-3-5"
+        ],
+        "2": [
+         "a21-2-5",
+         "a21-17-1"
+        ],
+        "3": [
+         "ab1-6-5",
+         "ab1-3-3"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": {
+      "1": {
+       "jp": "ボクは よく よるも けんきゅうします。旅人は よく ねますか。",
+       "ro": "Boku wa yoku yoru mo kenkyuu shimasu. Tabibito wa yoku nemasu ka.",
+       "vi": "Tôi hay nghiên cứu cả ban đêm. Lữ Khách có ngủ đủ không?"
+      },
+      "2": {
+       "jp": "ボクは、けんきゅうにむちゅうになると、ねるのをわすれちゃうんだ。君はよくねてる？",
+       "ro": "Boku wa, kenkyuu ni muchuu ni naru to, neru no o wasurechau n da. Kimi wa yoku neteru?",
+       "vi": "Hễ mải mê nghiên cứu là tôi quên cả ngủ. Cậu có ngủ đủ không?"
+      },
+      "3": {
+       "jp": "研究に没頭すると、つい寝食を忘れてしまってね。君はちゃんと寝ているかい？",
+       "ro": "Kenkyuu ni bottou suru to, tsui shinshoku o wasurete shimatte ne. Kimi wa chanto nete iru kai?",
+       "vi": "Hễ vùi đầu vào nghiên cứu là tôi lại quên ăn quên ngủ. Cậu có ngủ đàng hoàng không?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-5-4",
+       "a1-3-3"
+      ],
+      "2": [
+       "a22-4-4",
+       "a22-15-5",
+       "a22-1-5"
+      ],
+      "3": [
+       "b1-3-6",
+       "a22-11-2"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "はい、まいにち はちじかん ねます。",
+         "ro": "Hai, mainichi hachijikan nemasu.",
+         "vi": "Có, ngày nào mình cũng ngủ tám tiếng."
+        },
+        "2": {
+         "jp": "はい、毎日八時間ぐらいねています。",
+         "ro": "Hai, mainichi hachijikan gurai nete imasu.",
+         "vi": "Có, ngày nào mình cũng ngủ khoảng tám tiếng."
+        },
+        "3": {
+         "jp": "うん、毎日しっかり八時間は寝てるよ。",
+         "ro": "Un, mainichi shikkari hachijikan wa neteru yo.",
+         "vi": "Ừ, ngày nào mình cũng ngủ đủ tám tiếng."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-10-3"
+        ],
+        "2": [
+         "a21-1-1",
+         "a1-10-3"
+        ],
+        "3": [
+         "ab1-5-7"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "いいですね。ボクも ねます。",
+         "ro": "Ii desu ne. Boku mo nemasu.",
+         "vi": "Tốt đấy. Tôi cũng sẽ ngủ."
+        },
+        "2": {
+         "jp": "えらいね。ボクも、ちゃんとねるようにするよ。",
+         "ro": "Erai ne. Boku mo, chanto neru you ni suru yo.",
+         "vi": "Giỏi đấy. Tôi cũng sẽ cố ngủ đàng hoàng."
+        },
+        "3": {
+         "jp": "偉いね。ボクも見習って、少しは休むようにしなきゃ。",
+         "ro": "Erai ne. Boku mo minaratte, sukoshi wa yasumu you ni shinakya.",
+         "vi": "Giỏi đấy. Tôi cũng phải học theo, cố nghỉ ngơi một chút mới được."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-3-5"
+        ],
+        "2": [
+         "a22-15-2"
+        ],
+        "3": [
+         "ab1-1-1",
+         "ab1-5-4"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "いいえ、あまり ねません。よるに 本を 読みますから。",
+         "ro": "Iie, amari nemasen. Yoru ni hon o yomimasu kara.",
+         "vi": "Không, mình không ngủ nhiều. Vì ban đêm mình đọc sách."
+        },
+        "2": {
+         "jp": "あまりねていません。夜おそくまで本を読むんです。",
+         "ro": "Amari nete imasen. Yoru osoku made hon o yomu n desu.",
+         "vi": "Mình ngủ không đủ lắm. Mình đọc sách đến khuya."
+        },
+        "3": {
+         "jp": "実はあんまり。つい夜更かしして本を読んじゃうんだ。",
+         "ro": "Jitsu wa anmari. Tsui yofukashi shite hon o yonjau n da.",
+         "vi": "Thật ra là không lắm. Mình cứ lỡ thức khuya đọc sách."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-5-4",
+         "a1-13-4"
+        ],
+        "2": [
+         "a21-1-3",
+         "a22-11-6"
+        ],
+        "3": [
+         "ab1-1-6",
+         "a22-11-2"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "ボクと おなじですね。でも、ねて ください。",
+         "ro": "Boku to onaji desu ne. Demo, nete kudasai.",
+         "vi": "Giống tôi nhỉ. Nhưng cậu hãy ngủ đi nhé."
+        },
+        "2": {
+         "jp": "ボクと同じだね。でも、ちゃんとねたほうがいいよ。",
+         "ro": "Boku to onaji da ne. Demo, chanto neta hou ga ii yo.",
+         "vi": "Giống tôi nhỉ. Nhưng cậu nên ngủ đàng hoàng thì hơn."
+        },
+        "3": {
+         "jp": "ボクと同じだね。でも、睡眠は大切だ。お互い気をつけよう。",
+         "ro": "Boku to onaji da ne. Demo, suimin wa taisetsu da. Otagai ki o tsukeyou.",
+         "vi": "Giống tôi nhỉ. Nhưng giấc ngủ quan trọng lắm. Cả hai ta cùng chú ý nhé."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-2-2",
+         "a1-18-2"
+        ],
+        "2": [
+         "a22-5-1"
+        ],
+        "3": [
+         "a21-8-2"
+        ]
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "klee",
+   "title": "Klee và gia đình",
+   "turns": [
+    {
+     "t": {
+      "1": {
+       "jp": "クレーと あそびましたか。",
+       "ro": "Kuree to asobimashita ka.",
+       "vi": "Cậu đã chơi với Klee chưa?"
+      },
+      "2": {
+       "jp": "クレーといっしょにあそんだことはある？",
+       "ro": "Kuree to issho ni asonda koto wa aru?",
+       "vi": "Cậu đã từng chơi cùng Klee chưa?"
+      },
+      "3": {
+       "jp": "クレーと遊んだことはあるかい？",
+       "ro": "Kuree to asonda koto wa aru kai?",
+       "vi": "Cậu đã từng chơi với Klee chưa?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4"
+      ],
+      "2": [
+       "a21-13-1"
+      ],
+      "3": [
+       "a21-13-1"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "はい、いっしょに さかなを とりました。",
+         "ro": "Hai, issho ni sakana o torimashita.",
+         "vi": "Rồi, bọn mình đã cùng đi bắt cá."
+        },
+        "2": {
+         "jp": "はい、いっしょに魚をとりに行きました。",
+         "ro": "Hai, issho ni sakana o tori ni ikimashita.",
+         "vi": "Rồi, bọn mình đã cùng đi bắt cá."
+        },
+        "3": {
+         "jp": "あるよ。一緒に魚を…ドカーンって捕りに行った。",
+         "ro": "Aru yo. Issho ni sakana o... Dokaan tte tori ni itta.",
+         "vi": "Rồi chứ. Bọn mình đã cùng đi bắt cá... kiểu \"Bùm!\" ấy."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-15-4"
+        ],
+        "2": [
+         "a21-8-3"
+        ],
+        "3": [
+         "a21-8-3",
+         "ab1-8-2"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "ふふ、また ばくだんですね。",
+         "ro": "Fufu, mata bakudan desu ne.",
+         "vi": "Hừm, lại là bom nhỉ."
+        },
+        "2": {
+         "jp": "ふふ、また、ばくだんを使ったのかい？",
+         "ro": "Fufu, mata, bakudan o tsukatta no kai?",
+         "vi": "Hừm, lại dùng bom nữa à?"
+        },
+        "3": {
+         "jp": "ふふ…ジン団長には内緒にしておくよ。",
+         "ro": "Fufu... Jin danchou ni wa naisho ni shite oku yo.",
+         "vi": "Hừm... chuyện này tôi sẽ giữ bí mật với Đoàn trưởng Jean."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-3-1"
+        ],
+        "2": [
+         "a22-11-6"
+        ],
+        "3": [
+         "b1-2-6"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "いいえ、まだです。あそびたいです。",
+         "ro": "Iie, mada desu. Asobitai desu.",
+         "vi": "Chưa. Mình muốn chơi lắm."
+        },
+        "2": {
+         "jp": "まだです。いっしょにあそんでみたいです。",
+         "ro": "Mada desu. Issho ni asonde mitai desu.",
+         "vi": "Chưa ạ. Mình muốn thử chơi cùng lắm."
+        },
+        "3": {
+         "jp": "まだなんだ。今度一緒に遊んでみたいな。",
+         "ro": "Mada na n da. Kondo issho ni asonde mitai na.",
+         "vi": "Chưa đâu. Lần tới mình muốn thử chơi cùng."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-2-1",
+         "a1-18-4"
+        ],
+        "2": [
+         "a21-10-4"
+        ],
+        "3": [
+         "a21-10-4",
+         "a21-17-1"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "クレーは よろこびます。こんど いっしょに 行きましょう。",
+         "ro": "Kuree wa yorokobimasu. Kondo issho ni ikimashou.",
+         "vi": "Klee sẽ vui lắm. Lần tới cùng đi nhé."
+        },
+        "2": {
+         "jp": "クレーもきっとよろこぶよ。今度いっしょに行こう。",
+         "ro": "Kuree mo kitto yorokobu yo. Kondo issho ni ikou.",
+         "vi": "Klee chắc chắn sẽ vui lắm. Lần tới cùng đi nhé."
+        },
+        "3": {
+         "jp": "クレーもきっと大喜びするよ。今度三人で出かけよう。",
+         "ro": "Kuree mo kitto ooyorokobi suru yo. Kondo sannin de dekakeyou.",
+         "vi": "Klee chắc chắn sẽ mừng rỡ lắm. Lần tới ba người cùng đi chơi nhé."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-6-6"
+        ],
+        "2": [
+         "a21-8-2"
+        ],
+        "3": [
+         "a22-13-2"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": {
+      "1": {
+       "jp": "旅人の かぞくは だれですか。",
+       "ro": "Tabibito no kazoku wa dare desu ka.",
+       "vi": "Gia đình của Lữ Khách là những ai?"
+      },
+      "2": {
+       "jp": "旅人には、どんなかぞくがいるの？",
+       "ro": "Tabibito ni wa, donna kazoku ga iru no?",
+       "vi": "Lữ Khách có gia đình như thế nào?"
+      },
+      "3": {
+       "jp": "君の家族のこと、よかったら聞かせてくれないか。",
+       "ro": "Kimi no kazoku no koto, yokattara kikasete kurenai ka.",
+       "vi": "Nếu được, kể cho tôi nghe về gia đình cậu nhé."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-4-5",
+       "a1-4-2"
+      ],
+      "2": [
+       "a21-2-6",
+       "a22-11-6"
+      ],
+      "3": [
+       "b12-2-7",
+       "ab1-4-1"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "ふたごの きょうだいが います。",
+         "ro": "Futago no kyoudai ga imasu.",
+         "vi": "Mình có một anh em song sinh."
+        },
+        "2": {
+         "jp": "ふたごのきょうだいがいます。今、さがしています。",
+         "ro": "Futago no kyoudai ga imasu. Ima, sagashite imasu.",
+         "vi": "Mình có một anh em song sinh. Giờ mình đang đi tìm."
+        },
+        "3": {
+         "jp": "双子のきょうだいがいるよ。今は離れ離れなんだ。",
+         "ro": "Futago no kyoudai ga iru yo. Ima wa hanarebanare na n da.",
+         "vi": "Mình có một anh em song sinh. Giờ thì đang thất lạc nhau."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-7-2"
+        ],
+        "2": [
+         "a1-7-2",
+         "a21-4-4"
+        ],
+        "3": [
+         "a21-17-1"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "そうですか。はやく あいたいですね。",
+         "ro": "Sou desu ka. Hayaku aitai desu ne.",
+         "vi": "Vậy à. Cậu muốn sớm gặp lại nhỉ."
+        },
+        "2": {
+         "jp": "そうか…。早く会えたらいいね。",
+         "ro": "Sou ka... Hayaku aetara ii ne.",
+         "vi": "Vậy à... Mong là cậu sớm gặp lại."
+        },
+        "3": {
+         "jp": "そうか…。一日も早く再会できるといいね。",
+         "ro": "Sou ka... Ichinichi mo hayaku saikai dekiru to ii ne.",
+         "vi": "Vậy à... Mong cậu sớm ngày được đoàn tụ."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-18-4"
+        ],
+        "2": [
+         "a22-7-3",
+         "a22-6-1"
+        ],
+        "3": [
+         "ab1-2-6"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "パイモンが 私の かぞくです！",
+         "ro": "Paimon ga watashi no kazoku desu!",
+         "vi": "Paimon là gia đình của mình!"
+        },
+        "2": {
+         "jp": "今は、パイモンがわたしのかぞくです！",
+         "ro": "Ima wa, Paimon ga watashi no kazoku desu!",
+         "vi": "Giờ thì Paimon là gia đình của mình!"
+        },
+        "3": {
+         "jp": "今はパイモンが家族みたいなものかな。",
+         "ro": "Ima wa Paimon ga kazoku mitaina mono kana.",
+         "vi": "Giờ thì Paimon giống như gia đình của mình vậy."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-3-1",
+         "a1-4-2"
+        ],
+        "2": [
+         "a1-3-1"
+        ],
+        "3": [
+         "ab1-3-4",
+         "b1-3-8"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "ふふ、いい かぞくですね。",
+         "ro": "Fufu, ii kazoku desu ne.",
+         "vi": "Hừm, gia đình tốt đấy."
+        },
+        "2": {
+         "jp": "ふふ、いいかぞくだね。パイモンがよろこぶよ。",
+         "ro": "Fufu, ii kazoku da ne. Paimon ga yorokobu yo.",
+         "vi": "Hừm, gia đình tốt đấy. Paimon sẽ vui lắm."
+        },
+        "3": {
+         "jp": "ふふ、素敵な家族だね。パイモンが聞いたら大喜びするよ。",
+         "ro": "Fufu, sutekina kazoku da ne. Paimon ga kiitara ooyorokobi suru yo.",
+         "vi": "Hừm, một gia đình tuyệt vời. Paimon mà nghe thấy chắc mừng lắm."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-14-1"
+        ],
+        "2": [
+         "a1-14-1"
+        ],
+        "3": [
+         "a22-16-3"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": {
+      "1": {
+       "jp": "ボクは クレーの いい あにですか。",
+       "ro": "Boku wa Kuree no ii ani desu ka.",
+       "vi": "Tôi có phải là một người anh tốt của Klee không?"
+      },
+      "2": {
+       "jp": "ボクは、クレーのいいお兄さんになれているかな？",
+       "ro": "Boku wa, Kuree no ii oniisan ni narete iru ka na?",
+       "vi": "Tôi có đang là một người anh tốt của Klee không nhỉ?"
+      },
+      "3": {
+       "jp": "ボクは、クレーにとって良い兄でいられているだろうか。",
+       "ro": "Boku wa, Kuree ni totte yoi ani de irarete iru darou ka.",
+       "vi": "Đối với Klee, không biết tôi có đang là một người anh tốt không."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-3",
+       "a1-4-2"
+      ],
+      "2": [
+       "a22-6-1",
+       "a21-3-1"
+      ],
+      "3": [
+       "ab1-3-6",
+       "b1-8-5"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "はい、とても やさしい あにです。",
+         "ro": "Hai, totemo yasashii ani desu.",
+         "vi": "Có, cậu là một người anh rất hiền."
+        },
+        "2": {
+         "jp": "はい、とてもやさしいお兄さんだと思います。",
+         "ro": "Hai, totemo yasashii oniisan da to omoimasu.",
+         "vi": "Có, mình nghĩ cậu là một người anh rất hiền."
+        },
+        "3": {
+         "jp": "もちろん。クレーはいつもアルベドの話ばかりしてるよ。",
+         "ro": "Mochiron. Kuree wa itsumo Arubedo no hanashi bakari shiteru yo.",
+         "vi": "Tất nhiên. Klee lúc nào cũng chỉ nói về Albedo thôi."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-14-1"
+        ],
+        "2": [
+         "a21-18-1"
+        ],
+        "3": [
+         "b1-5-6",
+         "ab1-5-7"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "ありがとう。あんしんしました。",
+         "ro": "Arigatou. Anshin shimashita.",
+         "vi": "Cảm ơn cậu. Tôi yên tâm rồi."
+        },
+        "2": {
+         "jp": "ありがとう。そう言われると、ほっとするよ。",
+         "ro": "Arigatou. Sou iwareru to, hotto suru yo.",
+         "vi": "Cảm ơn cậu. Nghe cậu nói vậy tôi thấy nhẹ lòng."
+        },
+        "3": {
+         "jp": "そうか…。それを聞いて、少しほっとしたよ。",
+         "ro": "Sou ka... Sore o kiite, sukoshi hotto shita yo.",
+         "vi": "Vậy à... Nghe vậy tôi thấy nhẹ lòng đôi chút."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-15-4"
+        ],
+        "2": [
+         "a22-18-1",
+         "a22-4-4"
+        ],
+        "3": [
+         "a21-7-6"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "もっと いっしょに あそんで ください。",
+         "ro": "Motto issho ni asonde kudasai.",
+         "vi": "Hãy chơi với em ấy nhiều hơn nhé."
+        },
+        "2": {
+         "jp": "もっといっしょにあそぶといいと思います。",
+         "ro": "Motto issho ni asobu to ii to omoimasu.",
+         "vi": "Mình nghĩ cậu nên chơi với em ấy nhiều hơn."
+        },
+        "3": {
+         "jp": "研究もいいけど、もっと一緒に遊んであげてほしいな。",
+         "ro": "Kenkyuu mo ii kedo, motto issho ni asonde agete hoshii na.",
+         "vi": "Nghiên cứu cũng tốt, nhưng mình mong cậu chơi với em ấy nhiều hơn."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-2-2"
+        ],
+        "2": [
+         "a21-15-2",
+         "a21-18-1"
+        ],
+        "3": [
+         "ab1-7-4",
+         "ab1-6-5"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "…そうですね。こんど 休みの 日に あそびます。",
+         "ro": "... Sou desu ne. Kondo yasumi no hi ni asobimasu.",
+         "vi": "...Đúng vậy. Ngày nghỉ tới tôi sẽ chơi với em ấy."
+        },
+        "2": {
+         "jp": "…そうだね。今度の休みは、クレーとすごすよ。",
+         "ro": "... Sou da ne. Kondo no yasumi wa, Kuree to sugosu yo.",
+         "vi": "...Đúng nhỉ. Ngày nghỉ tới tôi sẽ dành cho Klee."
+        },
+        "3": {
+         "jp": "…耳が痛いね。次の休みは、クレーのために空けておこう。",
+         "ro": "... Mimi ga itai ne. Tsugi no yasumi wa, Kuree no tame ni akete okou.",
+         "vi": "...Nghe mà nhức tai ghê. Ngày nghỉ tới tôi sẽ dành trọn cho Klee."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-5-3"
+        ],
+        "2": [
+         "a21-2-2"
+        ],
+        "3": [
+         "b1-2-6",
+         "a21-16-3"
+        ]
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mondstadt",
+   "title": "Núi tuyết và Mondstadt",
+   "turns": [
+    {
+     "t": {
+      "1": {
+       "jp": "さむい ところは 好きですか。",
+       "ro": "Samui tokoro wa suki desu ka.",
+       "vi": "Cậu có thích những nơi lạnh không?"
+      },
+      "2": {
+       "jp": "寒いところは好き？",
+       "ro": "Samui tokoro wa suki?",
+       "vi": "Cậu có thích những nơi lạnh không?"
+      },
+      "3": {
+       "jp": "寒い土地は得意かい？",
+       "ro": "Samui tochi wa tokui kai?",
+       "vi": "Cậu có chịu lạnh giỏi không?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-5-1",
+       "a1-14-1"
+      ],
+      "2": [
+       "a1-14-1"
+      ],
+      "3": [
+       "ab1-4-4"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "はい、ゆきが 好きですから。",
+         "ro": "Hai, yuki ga suki desu kara.",
+         "vi": "Có, vì mình thích tuyết."
+        },
+        "2": {
+         "jp": "はい、雪が好きだから、寒いところも好きです。",
+         "ro": "Hai, yuki ga suki da kara, samui tokoro mo suki desu.",
+         "vi": "Có, vì mình thích tuyết nên cũng thích nơi lạnh."
+        },
+        "3": {
+         "jp": "うん、雪景色が好きだから平気だよ。",
+         "ro": "Un, yukigeshiki ga suki da kara heiki da yo.",
+         "vi": "Ừ, mình thích cảnh tuyết nên chẳng sao cả."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-13-4"
+        ],
+        "2": [
+         "a21-3-5"
+        ],
+        "3": [
+         "ab1-3-3"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "いいですね。ドラゴンスパインへ 行きましょう。",
+         "ro": "Ii desu ne. Doragonsupain e ikimashou.",
+         "vi": "Hay đấy. Cùng đến Dragonspine nhé."
+        },
+        "2": {
+         "jp": "いいね。じゃあ、今度ドラゴンスパインに行こう。",
+         "ro": "Ii ne. Jaa, kondo Doragonsupain ni ikou.",
+         "vi": "Hay đấy. Vậy lần tới cùng đi Dragonspine nhé."
+        },
+        "3": {
+         "jp": "気が合うね。なら今度、ドラゴンスパインを案内するよ。",
+         "ro": "Ki ga au ne. Nara kondo, Doragonsupain o annai suru yo.",
+         "vi": "Hợp ý nhau ghê. Vậy lần tới tôi sẽ dẫn cậu đi Dragonspine."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-6-6"
+        ],
+        "2": [
+         "a21-8-2"
+        ],
+        "3": [
+         "ab1-1-4"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "いいえ、さむい ところは 好きじゃないです。",
+         "ro": "Iie, samui tokoro wa suki janai desu.",
+         "vi": "Không, mình không thích nơi lạnh."
+        },
+        "2": {
+         "jp": "寒いのは、ちょっとにがてです。",
+         "ro": "Samui no wa, chotto nigate desu.",
+         "vi": "Mình hơi kém chịu lạnh."
+        },
+        "3": {
+         "jp": "寒いのは苦手なんだ。すぐ手が冷たくなっちゃう。",
+         "ro": "Samui no wa nigate na n da. Sugu te ga tsumetaku natchau.",
+         "vi": "Mình chịu lạnh kém lắm. Tay cứ lạnh cóng ngay."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-5-1"
+        ],
+        "2": [
+         "a21-3-4",
+         "a21-3-3"
+        ],
+        "3": [
+         "a21-3-4",
+         "a22-11-2"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "じゃあ、あたたかい のみものを どうぞ。",
+         "ro": "Jaa, atatakai nomimono o douzo.",
+         "vi": "Vậy mời cậu đồ uống nóng nhé."
+        },
+        "2": {
+         "jp": "じゃあ、あたたかい飲み物を持っていくといいよ。",
+         "ro": "Jaa, atatakai nomimono o motte iku to ii yo.",
+         "vi": "Vậy cậu nên mang theo đồ uống nóng."
+        },
+        "3": {
+         "jp": "なら、温かい飲み物と防寒具は必須だね。ボクが用意しておくよ。",
+         "ro": "Nara, atatakai nomimono to boukangu wa hissu da ne. Boku ga youi shite oku yo.",
+         "vi": "Vậy thì đồ uống nóng và đồ giữ ấm là bắt buộc. Để tôi chuẩn bị sẵn."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-14-1"
+        ],
+        "2": [
+         "a21-15-2",
+         "a21-11-1"
+        ],
+        "3": [
+         "ab1-1-4",
+         "b1-2-6"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": {
+      "1": {
+       "jp": "山で 何が したいですか。",
+       "ro": "Yama de nani ga shitai desu ka.",
+       "vi": "Cậu muốn làm gì trên núi?"
+      },
+      "2": {
+       "jp": "雪山で、何をしてみたい？",
+       "ro": "Yukiyama de, nani o shite mitai?",
+       "vi": "Cậu muốn thử làm gì trên núi tuyết?"
+      },
+      "3": {
+       "jp": "雪山に行ったら、何をしてみたい？",
+       "ro": "Yukiyama ni ittara, nani o shite mitai?",
+       "vi": "Nếu lên núi tuyết, cậu muốn thử làm gì?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-18-4"
+      ],
+      "2": [
+       "a21-10-4"
+      ],
+      "3": [
+       "a22-7-3",
+       "a21-10-4"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "スキーが したいです。",
+         "ro": "Sukii ga shitai desu.",
+         "vi": "Mình muốn trượt tuyết."
+        },
+        "2": {
+         "jp": "スキーをしてみたいです。",
+         "ro": "Sukii o shite mitai desu.",
+         "vi": "Mình muốn thử trượt tuyết."
+        },
+        "3": {
+         "jp": "スキーで思いっきり滑ってみたい！",
+         "ro": "Sukii de omoikkiri subette mitai!",
+         "vi": "Mình muốn thử trượt tuyết thật đã!"
+        }
+       },
+       "g": {
+        "1": [
+         "a1-18-4"
+        ],
+        "2": [
+         "a21-10-4"
+        ],
+        "3": [
+         "a21-10-4"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "いいですね。でも、気を つけて ください。",
+         "ro": "Ii desu ne. Demo, ki o tsukete kudasai.",
+         "vi": "Hay đấy. Nhưng cẩn thận nhé."
+        },
+        "2": {
+         "jp": "いいね。でも、あぶないから気をつけてね。",
+         "ro": "Ii ne. Demo, abunai kara ki o tsukete ne.",
+         "vi": "Hay đấy. Nhưng nguy hiểm đấy, cẩn thận nhé."
+        },
+        "3": {
+         "jp": "いいね。ただ、雪崩には十分注意するんだよ。",
+         "ro": "Ii ne. Tada, nadare ni wa juubun chuui suru n da yo.",
+         "vi": "Hay đấy. Có điều, phải hết sức cẩn thận với tuyết lở đấy."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-2-2",
+         "a1-18-2"
+        ],
+        "2": [
+         "a21-3-5",
+         "a21-6-1"
+        ],
+        "3": [
+         "b1-8-3"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "ゆきの 中の 花を 見たいです。",
+         "ro": "Yuki no naka no hana o mitai desu.",
+         "vi": "Mình muốn ngắm hoa giữa tuyết."
+        },
+        "2": {
+         "jp": "雪の中にさく花を見てみたいです。",
+         "ro": "Yuki no naka ni saku hana o mite mitai desu.",
+         "vi": "Mình muốn thử ngắm những bông hoa nở giữa tuyết."
+        },
+        "3": {
+         "jp": "雪の中に咲く、珍しい花を探してみたいな。",
+         "ro": "Yuki no naka ni saku, mezurashii hana o sagashite mitai na.",
+         "vi": "Mình muốn thử tìm những bông hoa quý hiếm nở giữa tuyết."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-18-4",
+         "a1-4-2"
+        ],
+        "2": [
+         "a21-17-3",
+         "a21-10-4"
+        ],
+        "3": [
+         "b1-6-2",
+         "a21-10-4"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "ボクも 見たいです。いっしょに さがしましょう。",
+         "ro": "Boku mo mitai desu. Issho ni sagashimashou.",
+         "vi": "Tôi cũng muốn xem. Cùng đi tìm nhé."
+        },
+        "2": {
+         "jp": "それなら、ボクがいい場所を知っているよ。",
+         "ro": "Sorenara, boku ga ii basho o shitte iru yo.",
+         "vi": "Nếu vậy thì tôi biết một chỗ rất hay đấy."
+        },
+        "3": {
+         "jp": "それならボクに任せて。とっておきの場所があるんだ。",
+         "ro": "Sorenara boku ni makasete. Totteoki no basho ga aru n da.",
+         "vi": "Vậy cứ để tôi lo. Tôi biết một chỗ tuyệt nhất."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-3-5",
+         "a1-6-6"
+        ],
+        "2": [
+         "a21-13-2",
+         "a22-6-5"
+        ],
+        "3": [
+         "ab1-1-4",
+         "a21-17-1"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": {
+      "1": {
+       "jp": "モンドで いちばん 好きな ところは どこですか。",
+       "ro": "Mondo de ichiban sukina tokoro wa doko desu ka.",
+       "vi": "Ở Mondstadt, nơi cậu thích nhất là đâu?"
+      },
+      "2": {
+       "jp": "モンドで、いちばん好きな場所はどこ？",
+       "ro": "Mondo de, ichiban sukina basho wa doko?",
+       "vi": "Ở Mondstadt, cậu thích nơi nào nhất?"
+      },
+      "3": {
+       "jp": "モンドで一番気に入っている場所はどこだい？",
+       "ro": "Mondo de ichiban ki ni itte iru basho wa doko dai?",
+       "vi": "Ở Mondstadt, nơi cậu ưng ý nhất là đâu?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-6-1",
+       "a1-8-2"
+      ],
+      "2": [
+       "a21-3-6"
+      ],
+      "3": [
+       "a22-1-3"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "かぜたちの ちが 好きです。大きい 木が ありますから。",
+         "ro": "Kazetachi no chi ga suki desu. Ookii ki ga arimasu kara.",
+         "vi": "Mình thích Windrise. Vì ở đó có một cái cây lớn."
+        },
+        "2": {
+         "jp": "風立ちの地がいちばん好きです。大きな木があるからです。",
+         "ro": "Kazetachi no chi ga ichiban suki desu. Ookina ki ga aru kara desu.",
+         "vi": "Mình thích Windrise nhất. Vì ở đó có một cái cây lớn."
+        },
+        "3": {
+         "jp": "風立ちの地かな。あの大樹の下は気持ちいいんだ。",
+         "ro": "Kazetachi no chi kana. Ano taiju no shita wa kimochiii n da.",
+         "vi": "Chắc là Windrise. Dưới gốc đại thụ ấy dễ chịu lắm."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-5-1",
+         "a1-13-4"
+        ],
+        "2": [
+         "a21-3-6",
+         "a21-3-5"
+        ],
+        "3": [
+         "b1-3-8",
+         "a21-17-1"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "ボクも 好きです。あそこで よく えを かきます。",
+         "ro": "Boku mo suki desu. Asoko de yoku e o kakimasu.",
+         "vi": "Tôi cũng thích. Tôi hay vẽ tranh ở đó."
+        },
+        "2": {
+         "jp": "ボクもだよ。あそこでよく絵をかくんだ。",
+         "ro": "Boku mo da yo. Asoko de yoku e o kaku n da.",
+         "vi": "Tôi cũng vậy. Tôi hay vẽ tranh ở đó lắm."
+        },
+        "3": {
+         "jp": "わかるよ。ボクもあそこでよくスケッチをするんだ。",
+         "ro": "Wakaru yo. Boku mo asoko de yoku suketchi o suru n da.",
+         "vi": "Hiểu mà. Tôi cũng hay ký họa ở đó."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-5-4",
+         "a1-6-2"
+        ],
+        "2": [
+         "a1-11-6",
+         "a21-17-1"
+        ],
+        "3": [
+         "a21-17-1"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "まちの ひろばが 好きです。人が たくさん いますから。",
+         "ro": "Machi no hiroba ga suki desu. Hito ga takusan imasu kara.",
+         "vi": "Mình thích quảng trường thành phố. Vì có rất nhiều người."
+        },
+        "2": {
+         "jp": "町の広場が好きです。いつもにぎやかですから。",
+         "ro": "Machi no hiroba ga suki desu. Itsumo nigiyaka desu kara.",
+         "vi": "Mình thích quảng trường thành phố. Vì lúc nào cũng náo nhiệt."
+        },
+        "3": {
+         "jp": "広場かな。いつも活気があって楽しいんだ。",
+         "ro": "Hiroba kana. Itsumo kakki ga atte tanoshii n da.",
+         "vi": "Chắc là quảng trường. Lúc nào cũng nhộn nhịp, vui lắm."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-7-2",
+         "a1-13-4"
+        ],
+        "2": [
+         "a21-3-5"
+        ],
+        "3": [
+         "a21-6-2",
+         "a21-17-1"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "そうですね。モンドの 人は みんな やさしいです。",
+         "ro": "Sou desu ne. Mondo no hito wa minna yasashii desu.",
+         "vi": "Đúng vậy. Người Mondstadt ai cũng hiền hậu."
+        },
+        "2": {
+         "jp": "そうだね。モンドの人たちは、みんなやさしいから。",
+         "ro": "Sou da ne. Mondo no hito tachi wa, minna yasashii kara.",
+         "vi": "Đúng nhỉ. Vì người Mondstadt ai cũng hiền hậu."
+        },
+        "3": {
+         "jp": "そうだね。あの賑わいこそが、モンドらしさなんだろうね。",
+         "ro": "Sou da ne. Ano nigiwai koso ga, Mondo rashisa na n darou ne.",
+         "vi": "Đúng nhỉ. Chính sự náo nhiệt ấy mới là nét đặc trưng của Mondstadt."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-7-4"
+        ],
+        "2": [
+         "a21-3-5"
+        ],
+        "3": [
+         "ab1-7-5",
+         "b1-8-5"
+        ]
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
