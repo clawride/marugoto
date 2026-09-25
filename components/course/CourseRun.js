@@ -19,7 +19,7 @@ const orderHostOf = (course) => course.char && {
 export function CourseQuestion({ course, q, idx, first, onScore, onNext, hostLine }) {
   const { Host } = course;
   const host = <Host line={hostLine} />;
-  if (q.type === "fill") return <FillQ key={idx} q={q} onScore={onScore} onNext={onNext} top={host} />;
+  if (q.type === "fill") return <FillQ key={idx} q={{ ...q, after: q.viAfter && <div className="bvi">{q.viAfter}</div> }} onScore={onScore} onNext={onNext} top={host} />;
   if (q.type === "order") return <OrderQ key={idx} q={q} onScore={onScore} onNext={onNext} first={first} host={orderHostOf(course)} />;
   if (q.type === "listen") {
     const it = q.item;

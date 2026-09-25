@@ -35,7 +35,7 @@ export default function HubView({ course }) {
                     <h3>{L.title}</h3>
                     <div className="vi">{L.titleVi}</div>
                     <div className="a22parts">
-                      {PARTS.map((p) => { const s = P.p?.[`${L.lesson}:${p.key}`]?.stars || 0; return <span key={p.key} className={`s${s}`} title={`${p.label}: ${s}/3 sao`}>{p.ico}</span>; })}
+                      {PARTS.map((p) => { const s = P.p?.[`${L.lesson}:${p.key}`]?.stars || 0; return <span key={p.key} className={`s${s}`} title={`${course.partLabels?.[p.key] || p.label}: ${s}/3 sao`}>{p.ico}</span>; })}
                     </div>
                     <div className="a22meter"><i style={{ width: `${(st / MAXS) * 100}%` }} /></div>
                     <div className="b1gp">★ {st}/{MAXS} · {L.vocab.length} từ · {L.kanji.length} kanji · {L.listening.length} bài nghe</div>

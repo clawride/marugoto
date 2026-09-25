@@ -161,6 +161,7 @@ export default function LessonView({ course, lesson }) {
   if (!L) return <p style={{ marginTop: 40 }}>Không tìm thấy bài. <Link href={base}>{title}</Link></p>;
   if (!S) return null;
   const P = S[store]?.p || {};
+  const lbl = (p) => course.partLabels?.[p.key] || p.label;
   const part = PARTS.find((p) => p.key === tab);
   const start = () => { setRes(null); setRun(MAKE[tab](L)); sfx.open(); window.scrollTo({ top: 0, behavior: "smooth" }); };
   const View = VIEW[tab];
@@ -178,7 +179,7 @@ export default function LessonView({ course, lesson }) {
       <div className="chips a22tabs">
         {PARTS.map((p) => (
           <button key={p.key} className={`chip dk ${tab === p.key ? "on" : ""}`} onClick={() => { setTab(p.key); setRun(null); setRes(null); sfx.click(); }}>
-            <span className="pi">{p.ico}</span>{p.label}<Stars n={P[`${lesson}:${p.key}`]?.stars} />
+            <span className="pi">{p.ico}</span>{lbl(p)}<Stars n={P[`${lesson}:${p.key}`]?.stars} />
           </button>
         ))}
       </div>
@@ -186,12 +187,12 @@ export default function LessonView({ course, lesson }) {
       {tab === "read" ? <ReadingPart key={lesson} L={L} save={save} course={course} /> : res ? (
         <Result course={course} res={res} onAgain={start} onBack={() => { setRes(null); setRun(null); }} />
       ) : run ? (
-        <CourseRun key={`${tab}-${lesson}`} course={course} qs={run} title={part.label} intro={lines[tab]} onFinish={(c, n) => { setRes(save(tab, c, n)); setRun(null); window.scrollTo({ top: 0, behavior: "smooth" }); }} />
+        <CourseRun key={`${tab}-${lesson}`} course={course} qs={run} title={lbl(part)} intro={lines[tab]} onFinish={(c, n) => { setRes(save(tab, c, n)); setRun(null); window.scrollTo({ top: 0, behavior: "smooth" }); }} />
       ) : (
         <>
           <Host line={lines[tab]} />
           <div className="panel a22start">
-            <div><b>{part.ico} {part.label}</b><span>{counts[tab]} câu · đúng ≥60% được 1 sao, ≥80% 2 sao, ≥95% 3 sao · mỗi sao mới +{STAR_REWARD} <Ico id="pgm" /></span></div>
+            <div><b>{part.ico} {lbl(part)}</b><span>{counts[tab]} câu · đúng ≥60% được 1 sao, ≥80% 2 sao, ≥95% 3 sao · mỗi sao mới +{STAR_REWARD} <Ico id="pgm" /></span></div>
             <button className="gbtn tri" onClick={start} disabled={!counts[tab]}><span className="c" />Bắt đầu kiểm tra</button>
           </div>
           {View && <View L={L} course={course} />}

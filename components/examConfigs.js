@@ -3,13 +3,15 @@
 import { ZhongliHost, ZL } from "@/components/Zhongli";
 import { NahidaHost, ND } from "@/components/Nahida";
 import { FurinaHost, FU } from "@/components/Furina";
+import { VentiHost, VT } from "@/components/Venti";
 import ScriptPlayer from "@/components/ScriptPlayer";
 import { Player, AudioSetup } from "@/components/Listen";
-import { A22_AUDIO, AB1_AUDIO } from "@/lib/audioLib";
+import { A22_AUDIO, AB1_AUDIO, A1_AUDIO } from "@/lib/audioLib";
 import { SECTIONS, buildExam, PASS_TOTAL, PASS_SECTION, EXCELLENT, MAX, REWARD_PASS, REWARD_EXCELLENT, certId } from "@/lib/b1";
 import { EXAM_SECTIONS } from "@/lib/course";
 import { A22 } from "@/lib/a22";
 import { AB1 } from "@/lib/ab1";
+import { A1C } from "@/lib/a1";
 
 export const B1_EXAM = {
   store: "b1",
@@ -75,4 +77,21 @@ export const AB1_EXAM = {
   introExtra: <AudioSetup lib={AB1_AUDIO} folder="Marugoto A2B1 Audio" />,
   renderListen: courseListen(AB1_AUDIO),
   cert: { course: "Marugoto 初中級 (A2/B1)", signer: "Furina", signerTitle: "Giám khảo · Thủy Thần Fontaine", seal: ["歌劇", "水神"], emblem: "hydro", tint: "#8fd0ff", emblemColor: "#2d5f9a", cornerColor: "#6aa8e0", sealColor: "#2553a0", filePrefix: "chung-chi-A2B1", line: "đã hoàn thành kỳ khảo hạch năng lực tiếng Nhật kiểu JLPT của khóa Marugoto A2/B1 với kết quả:" },
+};
+
+export const A1_EXAM = {
+  store: "a1",
+  sections: EXAM_SECTIONS,
+  build: A1C.buildExam,
+  pass: { total: 95, section: 19, excellent: 150, max: 180 },
+  reward: { pass: 1000, excellent: 500 },
+  certId: courseCertId("a1"),
+  home: "/a1", homeLabel: "Marugoto A1", homeShort: "Về A1",
+  certHref: (n) => `/a1/cert/${n}`, examHref: (n) => `/a1/exam/${n}`,
+  Host: VentiHost, lines: VT, hostName: "Venti",
+  rows: COURSE_ROWS,
+  langHint: "Câu 1–10: từ vựng (chọn nghĩa / chọn từ). Câu 11–18: chữ (chọn cách đọc / cách viết). Câu 19–30: chọn từ điền vào （　）.",
+  introExtra: <AudioSetup lib={A1_AUDIO} folder="new marugoto A1 (Audio Katsudou + Audio Rikai)" />,
+  renderListen: courseListen(A1_AUDIO),
+  cert: { course: "Marugoto 入門 (A1)", signer: "Venti", signerTitle: "Giám khảo · Phong Thần Barbatos", seal: ["風神", "詩人"], emblem: "anemo", tint: "#8ff0d4", emblemColor: "#2a8a74", cornerColor: "#6fd4b8", sealColor: "#1f7a66", filePrefix: "chung-chi-A1", line: "đã hoàn thành kỳ khảo hạch năng lực tiếng Nhật kiểu JLPT của khóa Marugoto A1 với kết quả:" },
 };

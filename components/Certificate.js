@@ -21,6 +21,14 @@ const EMBLEM = {
       <circle r="38" />
     </>
   ),
+  // Phong (Venti): ba luồng gió xoáy
+  anemo: (
+    <>
+      <circle r="250" fill="none" stroke="currentColor" strokeWidth="12" />
+      {[0, 120, 240].map((a) => <path key={a} transform={`rotate(${a})`} d="M0-40C40-120 150-150 200-80 130-130 60-100 20-30Z" />)}
+      <circle r="42" />
+    </>
+  ),
   // Thủy (Furina): giọt nước giữa các vòng sóng
   hydro: (
     <>
