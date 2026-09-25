@@ -63,6 +63,12 @@ export default function CharacterPage() {
             <span>Hệ {el.vi}</span><span>{WTYPE_VI[c.wt]}</span>{cons.native && <span>{cons.native}</span>}
           </div>
           <div className="cconsname">Chòm sao · <b>{cons.cname}</b></div>
+          {c.rank === 5 && (
+            <div className="cvnbtns">
+              <Link href={`/characters/${c.id}/story`} className="gbtn sm" onClick={() => sfx.page()}><span className="c" />📖 Truyện nhân vật{owned ? ` · ${act + 1}/7 chương` : " 🔒"}</Link>
+              {owned && <Link href={`/characters/${c.id}/chat`} className="gbtn sm x dark" onClick={() => sfx.page()}><span className="c" />💬 Trò chuyện</Link>}
+            </div>
+          )}
           <div className="cstella">
             {owned ? <>Cung mệnh <b>C{act}</b> · Chòm Sao Mệnh Định chưa dùng: <b>{left}</b>{pot >= 6 && act >= 6 ? " · Đã mở tối đa" : ""}</> : <>Chưa sở hữu nhân vật này — <Link href="/wish">Cầu Nguyện</Link></>}
           </div>

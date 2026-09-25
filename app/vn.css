@@ -1,0 +1,120 @@
+/* ===== TRUYỆN NHÂN VẬT (galgame) ===== */
+.cvnbtns{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.ccard .cvn{position:absolute;left:4px;bottom:26px;font-size:15px;filter:drop-shadow(0 1px 2px #000)}
+.ccard .cvn.off{opacity:.45;filter:grayscale(1)}
+.vnhub,.vnchat{margin-top:10px}
+.vnhero{position:relative;display:flex;align-items:flex-end;min-height:190px;border-radius:12px;overflow:hidden;margin:12px 0;border:1px solid var(--ec,#d3bc8e);background:linear-gradient(135deg,#141a30,#262f52)}
+.vnhero img{position:absolute;right:-8%;top:50%;height:150%;transform:translateY(-50%);opacity:.6;-webkit-mask-image:linear-gradient(90deg,transparent,#000 45%);mask-image:linear-gradient(90deg,transparent,#000 45%)}
+.vnherotxt{position:relative;padding:18px 20px;max-width:62%}
+.vnherotxt .tag{font-size:11px;letter-spacing:2px;color:var(--gold2)}
+.vnherotxt h1{margin:4px 0;color:#fff;font-size:26px}
+.vnherotxt p{margin:0;color:#dfe2ec;font-size:13.5px}
+@media(max-width:640px){.vnherotxt{max-width:100%}.vnhero img{opacity:.3}}
+.vnlock{padding:12px 16px;color:#e8dcc0}
+.vnset{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;padding:10px 14px;margin:10px 0;color:var(--cream2)}
+.vnset.compact{margin:6px 0}
+.vntog{display:flex;gap:6px;align-items:center;font-size:13.5px;cursor:pointer;min-height:32px}
+.vntog input{width:18px;height:18px;accent-color:#d9a24e}
+.vntier{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13px}
+.vntier .chip:disabled{opacity:.5;cursor:not-allowed}
+.vnhint{flex-basis:100%;color:#aeb3c4}
+.vnchs{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin-top:10px}
+.vnch{padding:12px 14px;text-decoration:none;color:var(--cream2);display:flex;flex-direction:column;gap:3px;transition:transform .15s}
+.vnch h3{margin:2px 0 0;color:#fff;font-size:19px}
+.vnch .vi{color:#d9dbe4;font-size:13px}
+.vnch p{margin:4px 0 0;font-size:12.5px;color:#aeb3c4;line-height:1.45}
+.vnch .lk{color:#e8b08a}
+.vnchn{font-size:11.5px;letter-spacing:1px;color:var(--gold2)}
+.vnch.done{border-color:rgba(120,210,140,.6)}
+.vnch.off{opacity:.55}
+.vnch:not(.off):hover{transform:translateY(-2px)}
+/* trình phát */
+.vnplay{margin-top:8px}
+.vntop{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.vntools{display:flex;gap:6px;flex-wrap:wrap}
+.vnstage{position:relative;height:min(72vh,620px);min-height:440px;border-radius:14px;overflow:hidden;margin-top:8px;border:1px solid rgba(255,255,255,.18);cursor:pointer;user-select:none}
+.vnscene{position:absolute;left:12px;top:10px;font-size:12px;letter-spacing:1px;color:#fff;background:rgba(0,0,0,.35);padding:3px 10px;border-radius:99px}
+.vnchapter{position:absolute;right:12px;top:10px;font-size:12px;color:#fff;background:rgba(0,0,0,.35);padding:3px 10px;border-radius:99px;max-width:60%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vnsprite{position:absolute;left:50%;bottom:0;height:115%;transform:translateX(-50%);object-fit:cover;object-position:center top;pointer-events:none;transition:filter .3s;-webkit-mask-image:linear-gradient(180deg,#000 70%,transparent);mask-image:linear-gradient(180deg,#000 70%,transparent)}
+.vnsprite.idle{filter:brightness(.62) saturate(.8)}
+.vnsprite.talk{animation:vnbob 3.2s ease-in-out infinite}
+@keyframes vnbob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-6px)}}
+.vnsprite.mood-surprised.talk{animation:vnjump .5s ease-out 1}
+@keyframes vnjump{0%{transform:translateX(-50%) translateY(0)}40%{transform:translateX(-50%) translateY(-18px)}100%{transform:translateX(-50%) translateY(0)}}
+.vnsprite.mood-sad{filter:brightness(.8) saturate(.6)}
+.vnsprite.mood-angry{filter:saturate(1.3) contrast(1.1)}
+.vnbox{position:absolute;left:12px;right:12px;bottom:12px;padding:16px 18px 12px;border-radius:12px;background:linear-gradient(180deg,rgba(14,18,36,.86),rgba(10,12,26,.94));border:1px solid rgba(243,211,138,.45);color:#fff;box-shadow:0 10px 30px rgba(0,0,0,.45);max-height:64%;overflow-y:auto}
+.vnbox.narr{border-style:dashed;text-align:center}
+.vnname{display:inline-block;margin:-4px 0 8px;padding:3px 14px;border-radius:8px;background:linear-gradient(90deg,#d9a24e,#f3d38a);color:#2a1a08;font-weight:700;font-size:15px}
+.vnname small{font-weight:400;color:#5a3a18}
+.vnline .jp{font-size:17px;line-height:1.7}
+.vnline.big .jp{font-size:20px;padding-right:34px}
+.vnline .ro{font-size:13px;color:#b7d8ff;font-style:italic;margin-top:2px}
+.vnline .vi{font-size:14px;color:#f3e4c4;margin-top:4px}
+.vngchips{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.vngchips .chip{background:rgba(120,170,255,.16);color:#cfe0ff;border-color:rgba(120,170,255,.5);cursor:pointer}
+.vnspk{position:absolute;right:10px;top:10px;width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);color:#fff;cursor:pointer}
+.vnspk.sm{position:static;width:28px;height:28px;flex:none}
+.vnnext{text-align:right;font-size:12px;color:#f3d38a;margin-top:6px;animation:vnblink 1.4s infinite}
+@keyframes vnblink{50%{opacity:.35}}
+.vnchoices,.vnopts{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.vnopts>small{color:#aeb3c4}
+.vnchoice{display:flex;gap:10px;align-items:flex-start;text-align:left;padding:10px 12px;border-radius:10px;border:1px solid rgba(243,211,138,.55);background:rgba(243,211,138,.1);color:#fff;cursor:pointer;font:inherit;min-height:44px}
+.vnchoice:hover,.vnchoice:focus-visible{background:rgba(243,211,138,.22);outline:none}
+.vnchoice .k{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:#f3d38a;color:#2a1a08;font-weight:700;font-size:13px}
+.vnchoice .jpt{display:block;font-size:16px}
+.vnchoice small{display:block;font-size:12.5px;color:#f3e4c4}
+.vnchoice small.ro{color:#b7d8ff;font-style:italic}
+.vnfin{margin-top:10px;padding-top:10px;border-top:1px dashed rgba(243,211,138,.4);text-align:center;cursor:default}
+.vnkeys{text-align:center;margin-top:6px}
+.vnpanel{position:relative;margin-top:10px;padding:14px 16px;max-height:60vh;overflow-y:auto;color:var(--cream2)}
+.vnpanel h3{margin:0 0 8px;color:#f3d38a;font-size:16px;padding-right:36px}
+.vnpanel h3 small{color:#9aa0b3;font-weight:400;font-size:12px;margin-left:6px}
+.vnpanel h4{color:#9fe3d2;margin:14px 0 6px}
+.vnx{position:absolute;right:10px;top:8px;width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:rgba(0,0,0,.3);color:#fff;cursor:pointer;z-index:2}
+.vnlog{display:flex;flex-direction:column;gap:6px}
+.vnlogi{text-align:left;padding:8px 10px;border-radius:8px;border:1px solid rgba(211,188,142,.25);background:rgba(0,0,0,.2);color:inherit;font:inherit;cursor:pointer}
+.vnlogi:hover{border-color:#f3d38a}
+.vnlogi.on{border-color:#f3d38a;background:rgba(243,211,138,.12)}
+.lg{display:grid;grid-template-columns:90px 1fr;gap:8px;align-items:start}
+.lg>b{font-size:12.5px;color:#f3d38a;font-family:var(--jp)}
+.lg.me>b{color:#9fe3d2}
+.lg .vnline .jp{font-size:15.5px}
+@media(max-width:560px){.lg{grid-template-columns:1fr}}
+.vntree{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:4px}
+.vntree li{color:#8a90a3}
+.vntree li button{text-align:left;background:none;border:none;color:inherit;font:inherit;cursor:pointer;padding:4px 0;min-height:30px}
+.vntree li button:disabled{cursor:default}
+.vntree li.vis{color:#e8e9ef}
+.vntree li.vis button:hover{color:#f3d38a}
+.vntree li.on{color:#f3d38a;font-weight:600}
+.vntree li.fork::marker{color:#9fe3d2}
+.vntree li.end::marker{color:#f08a5a}
+.vntree b{font-size:12px;color:#9fe3d2;margin-right:6px}
+.vnfork{display:flex;flex-direction:column;font-size:12px;color:#9fe3d2;padding-left:10px}
+.vnscript{display:flex;flex-direction:column;gap:10px}
+.vnsl{padding-bottom:8px;border-bottom:1px dashed rgba(211,188,142,.18)}
+.vnglist{padding-left:18px;display:flex;flex-direction:column;gap:4px;font-size:13.5px}
+.vnglist a{color:#9fe3d2}
+.vnoverlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:60;display:grid;place-items:center;padding:16px}
+.vngpop{position:relative;max-width:520px;width:100%;max-height:80vh;overflow-y:auto;padding:18px 20px;border-radius:12px;background:#fffaf0;color:#2a2418;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.vngpop .vnx{background:#eee2c8;color:#2a2418;border-color:#c9b68a}
+.vngpt{font-size:20px;font-weight:700;color:#6a3a18;padding-right:30px}
+.vngvi{font-size:15px;color:#3a5a2a;margin:4px 0 8px}
+.vngpop p{line-height:1.6;font-size:14px}
+.vngref{display:block;margin-top:10px;padding:10px 12px;border-radius:8px;background:#f3e4c4;color:#4a2a10;text-decoration:none}
+.vngref:hover{background:#ecd6a8}
+/* trò chuyện */
+.vntopics{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:10px}
+.vntopic{padding:14px;text-align:left;color:var(--cream2);cursor:pointer;font:inherit;display:flex;flex-direction:column;gap:4px;min-height:64px}
+.vntopic b{color:#fff;font-size:16px}
+.vntopic small{color:#aeb3c4}
+.vntopic.done{border-color:rgba(120,210,140,.6)}
+.vnconv{padding:12px 14px;margin-top:10px}
+.vnconvh{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;color:#f3d38a}
+.vnmsgs{display:flex;flex-direction:column;gap:10px;max-height:55vh;overflow-y:auto;padding:4px}
+.vnmsg{display:flex;gap:8px;align-items:flex-start}
+.vnmsg img{width:40px;height:40px;border-radius:50%;flex:none}
+.vnmsg .bub{display:flex;gap:6px;align-items:flex-start;max-width:85%;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.07);border:1px solid rgba(211,188,142,.3);color:#fff}
+.vnmsg.me{justify-content:flex-end}
+.vnmsg.me .bub{background:rgba(95,201,176,.14);border-color:rgba(95,201,176,.5)}

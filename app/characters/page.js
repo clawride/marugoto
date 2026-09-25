@@ -54,6 +54,7 @@ export default function CharactersPage() {
             <img className="cel" src={elemIcon(c.el)} alt="" />
             {owned && <span className="ccons">C{act}</span>}
             {left > 0 && <span className="cnew" title="Có Chòm Sao Mệnh Định chưa kích hoạt">+{left}</span>}
+            {c.rank === 5 && <span className={`cvn ${owned ? "" : "off"}`} title={owned ? "Có truyện nhân vật" : "Truyện nhân vật — cần sở hữu"}>📖</span>}
             <div className="cname">{c.vi}</div>
           </Link>
         ))}
