@@ -5,7 +5,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useGame } from "@/components/Game";
 import MediaPanel, { preloadMedia } from "@/components/MediaPanel";
 import { Ico } from "@/components/Icons";
-import { SEC, TOPICS, topicOf, wordsOf, shuffle, pickRand, starsFor, ELEM } from "@/lib/data";
+import { shuffle, pickRand, starsFor, ELEM } from "@/lib/data";
+import { nbTopic, nbWords, secOf, topicLabel, meaningsNear } from "@/lib/notebook";
 import { CHARS, charIcon, charSplash } from "@/lib/genshin";
 import { sfx } from "@/lib/sfx";
 
@@ -18,12 +19,12 @@ export default function QuizPage() {
 }
 
 function makeOptions(item) {
-  const T = topicOf(item.t);
+  const near = meaningsNear(item.t);
   const bad = new Set([item.m.trim().toLowerCase()]);
   const opts = [];
   const tryAdd = (m) => { const k = m.trim().toLowerCase(); if (opts.length < 3 && !bad.has(k)) { bad.add(k); opts.push(m); } };
-  shuffle(T.sections.flatMap((s) => s.words.map((w) => w[2]))).forEach(tryAdd);
-  if (opts.length < 3) shuffle(TOPICS.flatMap((t) => t.sections.flatMap((s) => s.words.map((w) => w[2])))).forEach(tryAdd);
+  shuffle(near.same).forEach(tryAdd);
+  if (opts.length < 3) shuffle(near.book).forEach(tryAdd);
   const all = shuffle([...opts, item.m]);
   return { all, ans: all.indexOf(item.m) };
 }
@@ -39,7 +40,7 @@ function Quiz() {
   const sp = useSearchParams();
   const router = useRouter();
   const { S, update } = useGame();
-  const t = +sp.get("t"), key = sp.get("k") || "all", count = +sp.get("n") || 20, retry = sp.get("retry") === "1";
+  const t = sp.get("t") || "1", key = sp.get("k") || "all", count = +sp.get("n") || 20, retry = sp.get("retry") === "1";
 
   const [list, setList] = useState(null);
   const [idx, setIdx] = useState(0);
@@ -52,7 +53,7 @@ function Quiz() {
   useEffect(() => {
     let words;
     if (retry || sp.get("ss") === "1") { try { words = JSON.parse(sessionStorage.getItem("retryWords") || "[]"); } catch { words = []; } }
-    else words = shuffle(wordsOf(t, key)).slice(0, count);
+    else words = shuffle(nbWords(t, key)).slice(0, count);
     setList(shuffle(words)); setIdx(0); setPicked(null); setDone(null);
     setStat({ correct: 0, wrong: [], streak: 0, earned: 0 });
   }, [t, key, count, retry, sp]);
@@ -115,7 +116,8 @@ function Quiz() {
   }, [answer, next, picked, done, opts]);
 
   if (!S || !list) return null;
-  const sec = SEC[key] || SEC.all;
+  const TT = nbTopic(t);
+  const sec = TT ? secOf(TT, key) : { vi: "" };
   if (!list.length) return <p style={{ marginTop: 40 }}>Không có câu hỏi. <Link href={`/topic/${t}`}>Quay lại</Link></p>;
   if (done) return <Result t={t} k={key} retry={retry} done={done} list={list} router={router} />;
 
@@ -124,7 +126,7 @@ function Quiz() {
   const el = ELEM[buddy.el];
   return (
     <>
-      <Link href={`/topic/${t}`} className="back">‹ Topic {t} · {sec.vi}{retry ? " (làm lại câu sai)" : ""}</Link>
+      <Link href={`/topic/${t}`} className="back">‹ {TT ? topicLabel(TT) : "Topic"} · {sec.vi}{retry ? " (làm lại câu sai)" : ""}</Link>
       <div className="qtop">
         <span className="cnt">Câu {idx + 1}/{list.length}</span>
         <div className="prog"><div className="bar"><i style={{ width: `${(idx / list.length) * 100}%` }} /></div></div>
@@ -174,7 +176,8 @@ function Quiz() {
 function Result({ t, k, retry, done, list, router }) {
   const { total, c, pct, bonus, newBest, earned, wrong } = done;
   const st = starsFor(pct);
-  const sec = SEC[k] || SEC.all;
+  const TT = nbTopic(t);
+  const sec = TT ? secOf(TT, k) : { vi: "" };
   const hero = useMemo(() => pickRand(pct >= 80 ? CHARS.filter((x) => x.rank === 5) : CHARS), [pct]);
   const [gif, setGif] = useState(null);
   const gifRef = useRef(false);
@@ -187,12 +190,12 @@ function Result({ t, k, retry, done, list, router }) {
   const say = pct === 100 ? "Hoàn hảo tuyệt đối! Bạn đúng là thiên tài ngôn ngữ của Teyvat!" : pct >= 80 ? "Làm tốt lắm! Chỉ còn vài từ nữa là hoàn hảo rồi." : pct >= 60 ? "Khá lắm! Ôn lại các từ sai rồi thử lại nhé." : "Đừng nản chí! Làm lại các câu sai, mình tin bạn làm được!";
   const again = (words, isRetry) => {
     sessionStorage.setItem("retryWords", JSON.stringify(words));
-    router.push(`/quiz?t=${t}&k=${k}&n=${words.length}&retry=${isRetry ? 1 : 0}&ss=1&r=${Date.now()}`);
+    router.push(`/quiz?t=${encodeURIComponent(t)}&k=${k}&n=${words.length}&retry=${isRetry ? 1 : 0}&ss=1&r=${Date.now()}`);
   };
   return (
     <div className="panel result">
       <div className="rhero"><img src={charSplash(hero)} onError={(e) => { e.currentTarget.src = charIcon(hero); e.currentTarget.style.objectFit = "contain"; }} alt="" /><div className="say"><b>{hero.vi}:</b> {say}</div></div>
-      <div style={{ fontSize: 13, letterSpacing: 3, color: "var(--gold)" }}>TOPIC {t} · {sec.vi.toUpperCase()}{retry ? " · LÀM LẠI CÂU SAI" : ""}</div>
+      <div style={{ fontSize: 13, letterSpacing: 3, color: "var(--gold)" }}>{(TT ? topicLabel(TT) : "TOPIC").toUpperCase()} · {sec.vi.toUpperCase()}{retry ? " · LÀM LẠI CÂU SAI" : ""}</div>
       <h2 style={{ marginTop: 8 }}>{pct === 100 ? "Hoàn Mỹ!" : pct >= 80 ? "Thử Thách Hoàn Thành!" : pct >= 60 ? "Khá lắm, Nhà Lữ Hành!" : "Cố lên, Nhà Lữ Hành!"}</h2>
       <div className="bigstars">{[0, 1, 2].map((i) => <span key={i} className={i < st ? "on" : ""} style={{ animationDelay: `${0.2 + i * 0.25}s` }}>★</span>)}</div>
       <div className="score">{c}<small> / {total}</small> <small>({pct}%)</small>{newBest && <span className="newbest">Kỷ lục mới</span>}</div>

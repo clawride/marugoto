@@ -15,8 +15,8 @@ import { SvgDefs } from "@/components/Icons";
 import { ProfileGate } from "@/components/Profile";
 
 export const metadata = {
-  title: "Sổ Tay Từ Vựng Teyvat · Marugoto B1-1",
-  description: "Kiểm tra từ vựng tiếng Nhật Marugoto 中級1 (B1-1) theo từng Topic/Part — phong cách Genshin Impact",
+  title: "Sổ Tay Từ Vựng Teyvat · Marugoto A1–B1",
+  description: "Học tiếng Nhật Marugoto A1 → B1-1: bảng chữ cái, từ vựng, nghe, kanji, ngữ pháp, thi chứng chỉ — phong cách Genshin Impact",
 };
 
 export const viewport = { themeColor: "#0b0f22", width: "device-width", initialScale: 1 };

@@ -2,11 +2,13 @@
   "name": "marugoto-teyvat",
   "version": "1.0.0",
   "private": true,
-  "description": "Kiểm tra từ vựng tiếng Nhật Marugoto 中級1 (B1-1) phong cách Genshin Impact",
+  "description": "Học tiếng Nhật Marugoto A1 → B1-1 phong cách Genshin Impact",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "notebook": "node scripts/build-notebook.mjs",
+    "prebuild": "node scripts/build-notebook.mjs"
   },
   "dependencies": {
     "@upstash/redis": "^1.39.0",

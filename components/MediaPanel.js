@@ -8,7 +8,7 @@ const TABS = [["photo", "📷 Ảnh thật"], ["meme", "😂 Meme"], ["anime", "
 const cache = new Map();
 
 function genshinList(item) {
-  const el = TOPIC_EL[item.t];
+  const el = item.el || TOPIC_EL[item.t] || "anemo";
   const m = item.m.toLowerCase();
   // Từ liên quan vũ khí → ưu tiên ảnh vũ khí đúng loại
   const wt = /kiếm|dao/.test(m) ? [0, 1] : /cung|tên/.test(m) ? [3] : /giáo|thương|gậy/.test(m) ? [2] : /sách|phép/.test(m) ? [4] : null;

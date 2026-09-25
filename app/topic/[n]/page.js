@@ -3,7 +3,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useGame } from "@/components/Game";
-import { SEC, TOPIC_VI, topicOf, wordsOf, starsFor } from "@/lib/data";
+import { starsFor } from "@/lib/data";
+import { nbTopic, nbWords, secOf, bookOf } from "@/lib/notebook";
 import { sfx } from "@/lib/sfx";
 import Portal from "@/components/Portal";
 
@@ -11,25 +12,25 @@ const Stars = ({ n }) => <span className="starsrow">{[0, 1, 2].map((i) => (i < n
 
 export default function TopicPage() {
   const { n: ns } = useParams();
-  const n = +ns;
-  const T = topicOf(n);
+  const n = decodeURIComponent(ns);
+  const T = nbTopic(n);
   const { S } = useGame();
   const [ask, setAsk] = useState(null);
   if (!T) return <p style={{ marginTop: 40 }}>Không tìm thấy Topic. <Link href="/">Về trang chủ</Link></p>;
-  const rows = [{ key: "all", sub: "Tất cả từ của Topic (không trùng lặp)", count: wordsOf(n, "all").length }].concat(T.sections.map((s) => ({ key: s.key, sub: s.sub, count: s.words.length })));
+  const rows = [{ key: "all", sub: "Tất cả từ của Topic (không trùng lặp)", count: nbWords(n, "all").length }].concat(T.sections.map((s) => ({ key: s.key, sub: s.sub, count: s.words.length })));
   return (
     <>
       <Link href="/" className="back" onClick={() => sfx.page()}>‹ Về Sổ Tay</Link>
       <div className="pagehead" style={{ marginTop: 10 }}>
-        <p style={{ letterSpacing: 3, margin: "0 0 6px" }}>TOPIC {n}</p>
+        <p style={{ letterSpacing: 3, margin: "0 0 6px" }}>{bookOf(T).full.toUpperCase()} · TOPIC {T.n}</p>
         <h1 style={{ fontFamily: "var(--jp)" }}>{T.title}</h1>
-        <p>{TOPIC_VI[n]}</p>
+        <p>{T.vi}</p>
         <div className="orn"><span /></div>
       </div>
       <div className="slist">
         {rows.map((r) => {
           const b = S?.best[`t${n}_${r.key}`];
-          const meta = SEC[r.key];
+          const meta = secOf(T, r.key);
           return (
             <div key={r.key} className={`panel srow ${r.key === "all" ? "all" : ""}`}>
               <div className="ico"><span>{meta.ico}</span></div>
@@ -55,17 +56,18 @@ function CountModal({ n, ask, onClose }) {
   const min = Math.min(5, total);
   const [val, setVal] = useState(Math.min(Math.max(S?.lastN || 20, min), total));
   const [kana, setKana] = useState(S?.showKana ?? true);
-  const meta = SEC[ask.key];
+  const T = nbTopic(n);
+  const meta = secOf(T, ask.key);
   const start = () => {
     update((s) => { s.showKana = kana; if (val < total) s.lastN = val; });
     sfx.click();
-    router.push(`/quiz?t=${n}&k=${ask.key}&n=${val}`);
+    router.push(`/quiz?t=${encodeURIComponent(n)}&k=${ask.key}&n=${val}`);
   };
   return (
     <Portal><div className="modal" onClick={(e) => e.target === e.currentTarget && onClose()}>
       <div className="parch dialog">
         <h2>{meta.vi}</h2>
-        <div className="jp">トピック{n} · {topicOf(n).title} · {meta.jp}</div>
+        <div className="jp">{bookOf(T).name} · トピック{T.n} · {T.title}{meta.jp ? ` · ${meta.jp}` : ""}</div>
         <hr />
         <div style={{ fontSize: 13, color: "var(--mute)", marginBottom: 6 }}>Số câu hỏi</div>
         <div className="qn">{val}<small> / {total}</small></div>
