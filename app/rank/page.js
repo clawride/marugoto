@@ -8,12 +8,13 @@ import { sfx } from "@/lib/sfx";
 const MEDAL = ["🥇", "🥈", "🥉"];
 const ROMAN = ["", "I", "II", "III"];
 // Huy hiệu chứng chỉ B1-1 bên cạnh tên
-// "1".."3" = B1-1, "A1"/"A2" = A2-2; "*" = Xuất sắc
+// "1".."3" = B1-1, "A1"/"A2" = A2-2, "C1"/"C2" = A2/B1; "*" = Xuất sắc
+const CERT_KIND = { A: { cls: "a22", name: "A2-2", ico: "🌱A2-2·" }, C: { cls: "ab1", name: "A2/B1", ico: "🌊A2/B1·" } };
 function Certs({ c }) {
   if (!c) return null;
   return <span className="certbadges">{c.split(",").filter(Boolean).map((x) => {
-    const a = x.startsWith("A"), lv = ROMAN[parseInt(a ? x.slice(1) : x)], ex = x.endsWith("*");
-    return <i key={x} className={`${ex ? "ex" : ""} ${a ? "a22" : ""}`} title={`Chứng chỉ ${a ? "A2-2" : "B1-1"} Cấp ${lv}${ex ? " · Xuất sắc" : ""}`}>{a ? "🌱A2-2·" : "📜"}{lv}</i>;
+    const k = CERT_KIND[x[0]], lv = ROMAN[parseInt(k ? x.slice(1) : x)], ex = x.endsWith("*");
+    return <i key={x} className={`${ex ? "ex" : ""} ${k?.cls || ""}`} title={`Chứng chỉ ${k?.name || "B1-1"} Cấp ${lv}${ex ? " · Xuất sắc" : ""}`}>{k?.ico || "📜"}{lv}</i>;
   })}</span>;
 }
 
@@ -36,7 +37,7 @@ export default function RankPage() {
 
   const fmt = (score) => {
     if (board === "overall") return <><b>{score.toLocaleString("vi-VN")}</b><small>điểm</small></>;
-    if (board.startsWith("ex:") || board.startsWith("x22:")) { const { pct, total } = decode(score); return <><b>{total}/180</b><small>{pct}%</small></>; }
+    if (/^(ex|x22|xb1):/.test(board)) { const { pct, total } = decode(score); return <><b>{total}/180</b><small>{pct}%</small></>; }
     const { pct, total } = decode(score);
     return <><b>{pct}%</b><small>{total} câu</small></>;
   };

@@ -18,7 +18,7 @@ export async function POST(req) {
   }
   const ov = Number(body.overall);
   if (ov >= 0 && ov <= 10_000_000) { p.zadd("lb:overall", { gt: true }, { score: Math.round(ov), member: body.id }); n++; }
-  if (Array.isArray(body.certs)) { const c = body.certs.filter((x) => /^(?:[1-3]|A[12])\*?$/.test(String(x))).slice(0, 5).join(","); p.hset(`u:${body.id}`, { certs: c }); n++; }
+  if (Array.isArray(body.certs)) { const c = body.certs.filter((x) => /^(?:[1-3]|[AC][12])\*?$/.test(String(x))).slice(0, 7).join(","); p.hset(`u:${body.id}`, { certs: c }); n++; }
   if (n) await p.exec();
   return Response.json({ ok: true, saved: n });
 }

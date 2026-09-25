@@ -22,6 +22,13 @@ export default function Home() {
         <div className="panel stat"><b>{(S?.total || 0).toLocaleString("vi-VN")}</b><span>Câu trả lời đúng</span></div>
         <div className="panel stat"><b>{(S?.wishes || 0).toLocaleString("vi-VN")}</b><span>Lần cầu nguyện</span></div>
       </div>
+      <Link href="/ab1" className="panel homeboss" onClick={() => sfx.page()} style={{ borderColor: "rgba(110,170,240,.6)" }}>
+        <img src="https://gi.yatta.moe/assets/UI/UI_AvatarIcon_Furina.png" alt="" style={{ borderRadius: "50%" }} />
+        <div>
+          <b>🌊 Marugoto A2/B1 · Furina</b>
+          <span>9 Topic sách 初中級: từ vựng, nghe hội thoại, kanji, bài đọc, ngữ pháp, điền từ, sắp xếp câu · boss mỗi Topic · 2 kỳ thi chứng chỉ</span>
+        </div>
+      </Link>
       <Link href="/a22" className="panel homeboss" onClick={() => sfx.page()} style={{ borderColor: "rgba(126,200,90,.6)" }}>
         <img src="https://gi.yatta.moe/assets/UI/UI_AvatarIcon_Nahida.png" alt="" style={{ borderRadius: "50%" }} />
         <div>

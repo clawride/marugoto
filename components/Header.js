@@ -17,6 +17,7 @@ export default function Header() {
         </Link>
         <div className="curr" title="Nguyên Thạch"><Ico id="pgm" />{n(S?.primo)}</div>
         <div className="curr hide-sm" title="Mối Duyên Vương Vấn / Mối Duyên Tương Ngộ"><Ico id="fateI" />{n(S?.fates.i)} <Ico id="fateA" />{n(S?.fates.a)}</div>
+        <Link href="/ab1" className="navbtn" onClick={() => sfx.page()}><span aria-hidden="true">🌊</span><span className="lbl">A2/B1</span></Link>
         <Link href="/a22" className="navbtn" onClick={() => sfx.page()}><span aria-hidden="true">🌱</span><span className="lbl">A2-2</span></Link>
         <Link href="/b1" className="navbtn" onClick={() => sfx.page()}><span aria-hidden="true">🎓</span><span className="lbl">B1</span></Link>
         <Link href="/boss" className="navbtn" onClick={() => sfx.page()}><span aria-hidden="true">⚔️</span><span className="lbl">Boss</span></Link>

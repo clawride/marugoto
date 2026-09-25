@@ -26,7 +26,8 @@ const defaults = () => ({
   profile: null, profileSkip: false, syncSig: "",
   bossPct: {}, listenPct: {},
   b1: {}, // Học Viện B1-1: { g, r, l, ex }
-  a22: {}, // Marugoto A2-2: { p: {"bài:phần": {pct, stars}}, boss, ex }
+  a22: {},
+  ab1: {}, // Marugoto A2/B1: { p, boss, ex } // Marugoto A2-2: { p: {"bài:phần": {pct, stars}}, boss, ex }
   cons: {}, // cung mệnh đã kích hoạt: { "c:ID": 0..6 }
   bannerPick: null, // nhân vật 5★ sự kiện đang chọn
   boss: {}, // { [lesson]: { best: 0..3, cleared: bool, reward: "YYYY-MM-DD" } }

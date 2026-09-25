@@ -21,6 +21,14 @@ const EMBLEM = {
       <circle r="38" />
     </>
   ),
+  // Thủy (Furina): giọt nước giữa các vòng sóng
+  hydro: (
+    <>
+      <circle r="250" fill="none" stroke="currentColor" strokeWidth="12" />
+      <circle r="190" fill="none" stroke="currentColor" strokeWidth="6" />
+      <path d="M0-170C60-80 110-20 110 45A110 110 0 0 1-110 45C-110-20-60-80 0-170Z" />
+    </>
+  ),
 };
 
 // cert: { course, signer, signerTitle, seal:[line1,line2], emblem:"geo"|"dendro", tint, filePrefix }
