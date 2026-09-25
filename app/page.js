@@ -5,7 +5,7 @@ import { ELEM, starsFor } from "@/lib/data";
 import { BOOKS, topicsOf, nbWords, NB_TOTAL, bookTotal } from "@/lib/notebook";
 import { CHARS, charIcon } from "@/lib/genshin";
 import { sfx } from "@/lib/sfx";
-import { BOSSES, bossIcon } from "@/lib/bosses";
+import { GROUPS, programsIn, TEYVAT, progressLabel } from "@/lib/programs";
 
 export default function Home() {
   const { S, update } = useGame();
@@ -16,7 +16,7 @@ export default function Home() {
     <>
       <div className="pagehead">
         <h1>Sổ Tay Mạo Hiểm · Từ Vựng</h1>
-        <p>Từ vựng Marugoto A1 → B1-2 — chọn sách và Topic để bắt đầu thử thách</p>
+        <p>Học tiếng Nhật Marugoto A1 → B1-2 · chọn chương trình theo cấp độ, hoặc luyện từ vựng trong Sổ Tay bên dưới</p>
         <div className="orn"><span /></div>
       </div>
       <div className="stats">
@@ -25,77 +25,32 @@ export default function Home() {
         <div className="panel stat"><b>{(S?.total || 0).toLocaleString("vi-VN")}</b><span>Câu trả lời đúng</span></div>
         <div className="panel stat"><b>{(S?.wishes || 0).toLocaleString("vi-VN")}</b><span>Lần cầu nguyện</span></div>
       </div>
-      <Link href="/kana" className="panel homeboss" onClick={() => sfx.page()} style={{ borderColor: "rgba(255,150,110,.6)" }}>
-        <img src="https://gi.yatta.moe/assets/UI/UI_AvatarIcon_Klee.png" alt="" style={{ borderRadius: "50%" }} />
-        <div>
-          <b>あ Bảng Chữ Cái · Klee</b>
-          <span>Chữ mềm & chữ cứng theo lộ trình 54 video: luyện viết có sửa nét, rèn chữ đẹp, âm đục, âm tròn, âm ghép, trường âm, âm ngắt</span>
-        </div>
-      </Link>
-      <Link href="/kanji" className="panel homeboss" onClick={() => sfx.page()} style={{ borderColor: "rgba(224,106,80,.6)" }}>
-        <img src="https://gi.yatta.moe/assets/UI/UI_AvatarIcon_Kazuha.png" alt="" style={{ borderRadius: "50%" }} />
-        <div>
-          <b>漢 Chữ Hán A1 → B1-2 · Kazuha</b>
-          <span>1.303 chữ gom từ vốn từ mọi cấp: giải thích cấu tạo, mẹo nhớ, tập viết có sửa nét, tập đọc, đặt câu, mẹo đoán nghĩa qua bộ thủ và đoán âm qua phần chỉ âm</span>
-        </div>
-      </Link>
-      <Link href="/a1" className="panel homeboss" onClick={() => sfx.page()} style={{ borderColor: "rgba(110,220,190,.6)" }}>
-        <img src="https://gi.yatta.moe/assets/UI/UI_AvatarIcon_Venti.png" alt="" style={{ borderRadius: "50%" }} />
-        <div>
-          <b>🍃 Marugoto A1 · Venti</b>
-          <span>18 bài nhập môn theo かつどう &amp; りかい: từ vựng, nghe, chữ kana/kanji, bài đọc, ngữ pháp, điền từ, sắp xếp câu · boss mỗi Topic · 2 kỳ thi chứng chỉ</span>
-        </div>
-      </Link>
-      <Link href="/a21" className="panel homeboss" onClick={() => sfx.page()} style={{ borderColor: "rgba(170,130,240,.6)" }}>
-        <img src="https://gi.yatta.moe/assets/UI/UI_AvatarIcon_Shougun.png" alt="" style={{ borderRadius: "50%" }} />
-        <div>
-          <b>⚡ Marugoto A2-1 · Raiden Shogun</b>
-          <span>18 bài đầy đủ theo かつどう &amp; りかい: từ vựng, nghe hội thoại, kanji, bài đọc, ngữ pháp, điền từ, sắp xếp câu · boss mỗi Topic · 2 kỳ thi chứng chỉ</span>
-        </div>
-      </Link>
-      <Link href="/ab1" className="panel homeboss" onClick={() => sfx.page()} style={{ borderColor: "rgba(110,170,240,.6)" }}>
-        <img src="https://gi.yatta.moe/assets/UI/UI_AvatarIcon_Furina.png" alt="" style={{ borderRadius: "50%" }} />
-        <div>
-          <b>🌊 Marugoto A2/B1 · Furina</b>
-          <span>9 Topic sách 初中級: từ vựng, nghe hội thoại, kanji, bài đọc, ngữ pháp, điền từ, sắp xếp câu · boss mỗi Topic · 2 kỳ thi chứng chỉ</span>
-        </div>
-      </Link>
-      <Link href="/a22" className="panel homeboss" onClick={() => sfx.page()} style={{ borderColor: "rgba(126,200,90,.6)" }}>
-        <img src="https://gi.yatta.moe/assets/UI/UI_AvatarIcon_Nahida.png" alt="" style={{ borderRadius: "50%" }} />
-        <div>
-          <b>🌱 Marugoto A2-2 · Nahida</b>
-          <span>18 bài theo かつどう &amp; りかい: từ vựng, nghe hội thoại, kanji, bài đọc, ngữ pháp, điền từ, sắp xếp câu · boss mỗi Topic · 2 kỳ thi chứng chỉ</span>
-        </div>
-      </Link>
-      <Link href="/b1" className="panel homeboss" onClick={() => sfx.page()} style={{ borderColor: "rgba(240,185,60,.6)" }}>
-        <img src="https://gi.yatta.moe/assets/UI/UI_AvatarIcon_Zhongli.png" alt="" style={{ borderRadius: "50%" }} />
-        <div>
-          <b>🎓 Học Viện B1-1 · Zhongli</b>
-          <span>Ngữ pháp, bài đọc dài, bài nghe theo 9 Topic · thi chứng chỉ kiểu JLPT sau mỗi 3 Topic</span>
-        </div>
-      </Link>
-      <Link href="/b12" className="panel homeboss" onClick={() => sfx.page()} style={{ borderColor: "rgba(255,120,70,.6)" }}>
-        <img src="https://gi.yatta.moe/assets/UI/UI_AvatarIcon_Mavuika.png" alt="" style={{ borderRadius: "50%" }} />
-        <div>
-          <b>🔥 Marugoto B1-2 · Mavuika</b>
-          <span>中級2 đầy đủ: 18 bài theo 9 Topic · từ vựng từng Part, nghe hội thoại, kanji, bài đọc, ngữ pháp, điền từ, sắp xếp câu · boss mỗi Topic · 3 kỳ thi chứng chỉ</span>
-        </div>
-      </Link>
-      <Link href="/boss" className="panel homeboss" onClick={() => sfx.page()}>
-        <img src={bossIcon(BOSSES[13])} alt="" />
-        <div>
-          <b>⚔️ Thử Thách Boss · Marugoto A2-1</b>
-          <span>18 boss theo 18 bài: từ vựng, ngữ pháp, Yae Miko thách xếp câu, hội thoại với nhân vật Genshin — đã hạ {BOSSES.filter((b) => S?.boss?.[b.lesson]?.cleared).length}/{BOSSES.length}</span>
-        </div>
-      </Link>
-      <Link href="/nghe" className="panel homeboss" onClick={() => sfx.page()} style={{ borderColor: "rgba(160,215,255,.6)" }}>
-        <img src="https://gi.yatta.moe/assets/UI/monster/UI_MonsterIcon_HerraFrost.png" alt="" />
-        <div>
-          <b style={{ color: "#bfe6ff" }}>🎧 Thử Thách Nghe · Băng Thần</b>
-          <span>18 boss nghe theo audio sách A2-1 và boss cuối Chấp Chính Cái Chết Ronova</span>
-        </div>
-      </Link>
-      <div className="chips nbbooks" id="sotay">
+      {/* ===== Lộ trình học: từ cấp thấp đến cấp cao ===== */}
+      {GROUPS.map((g) => (
+        <section key={g.id} className="homesec">
+          <h2 className="a22th"><span>{g.name}</span> <small>{g.sub}</small></h2>
+          <div className={`progrid ${g.id}`}>
+            {programsIn(g.id).map((p, i) => (
+              <Link key={p.id} href={p.href} className="panel procard" style={{ "--c": p.color }} onClick={() => sfx.page()}>
+                {g.id === "path" && <span className="prostep" aria-hidden="true">{i + 1}</span>}
+                <img src={p.avatar} alt="" />
+                <div className="protxt">
+                  <div className="prolv"><b>{p.ico} {p.lv}</b> <span className="jpt">{p.jp}</span></div>
+                  <h3>{p.name}</h3>
+                  <small className="prohost">Người dẫn: {p.host}</small>
+                  <p>{p.desc}</p>
+                  <em>{progressLabel(p, S) || "Chưa bắt đầu"}</em>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      ))}
+
+      {/* ===== Sổ tay từ vựng ===== */}
+      <section className="homesec" id="sotay">
+        <h2 className="a22th"><span>Sổ Tay Từ Vựng</span> <small>Luyện từ vựng từng sách theo Topic</small></h2>
+      <div className="chips nbbooks">
         {BOOKS.map((b) => <button key={b.id} className={`chip dk ${b.id === book ? "on" : ""}`} onClick={() => { update((s) => { s.nbBook = b.id; }); sfx.click(); }}>{b.ico} {b.name} <small>{bookTotal(b.id).toLocaleString("vi-VN")} từ</small></button>)}
       </div>
       <p className="hint" style={{ textAlign: "center", marginTop: 4 }}>{B.full} · {bookTotal(B.id).toLocaleString("vi-VN")} từ · 9 Topic</p>
@@ -120,6 +75,20 @@ export default function Home() {
           );
         })}
       </div>
+      </section>
+
+      {/* ===== Teyvat ===== */}
+      <section className="homesec">
+        <h2 className="a22th"><span>Teyvat</span> <small>Dùng Nguyên Thạch kiếm được khi học</small></h2>
+        <div className="progrid teyvat">
+          {TEYVAT.map((t) => (
+            <Link key={t.id} href={t.href} className="panel procard mini" onClick={() => sfx.page()}>
+              <span className="proico" aria-hidden="true">{t.ico}</span>
+              <div className="protxt"><h3>{t.name}</h3><p>{t.desc}</p></div>
+            </Link>
+          ))}
+        </div>
+      </section>
       <footer>
         Dữ liệu từ vựng: bảng từ mới Marugoto A1, A2-1, A2-2, A2/B1, B1-1, B1-2 (bản tiếng Việt).<br />
         Ảnh: Pexels, GIPHY, Wikimedia, Openverse, nekos.best · Ảnh nhân vật/vũ khí Genshin Impact © HoYoverse (qua gi.yatta.moe).<br />

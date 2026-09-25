@@ -428,8 +428,52 @@ footer{text-align:center;color:var(--mute);font-size:12px;margin-top:40px;line-h
 
 .nbbooks{justify-content:center;margin-top:18px}
 .nbbooks .chip small{opacity:.7;margin-left:4px;font-size:11px}
-/* Menu nhiều khóa học: dải nút cuộn ngang riêng, không làm tràn cả trang */
-header.top .navs{flex:1;min-width:0;display:flex;align-items:center;gap:10px;overflow-x:auto;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,#000 92%,transparent);mask-image:linear-gradient(90deg,#000 92%,transparent);padding-right:18px}
-header.top .navs::-webkit-scrollbar{display:none}
 header.top .brand,header.top .curr,header.top .profchip{flex-shrink:0}
 @media(max-width:640px){header.top .brand div{display:none}header.top .in{gap:8px;padding:9px 12px}}
+
+/* ===== Menu điều hướng (nút ☰ Menu) ===== */
+header.top .topgap{flex:1}
+.menubtn{font-weight:600}
+.menubtn.on{background:rgba(243,211,138,.2);border-color:var(--gold2)}
+.mainmenu{position:absolute;left:0;right:0;top:100%;z-index:40;background:linear-gradient(180deg,rgba(14,19,40,.98),rgba(11,15,34,.98));border-bottom:1px solid rgba(211,188,142,.35);box-shadow:0 18px 40px rgba(0,0,0,.55);max-height:calc(100vh - 64px);max-height:calc(100dvh - 64px);overflow-y:auto;overscroll-behavior:contain}
+.mnwrap{max-width:1040px;margin:0 auto;padding:14px 16px 18px;display:grid;grid-template-columns:repeat(2,1fr);gap:10px 18px}
+.mnwrap>.mnitem.wide{grid-column:1/-1}
+.mngroup h3{margin:6px 0 6px;font-size:13px;letter-spacing:1px;color:var(--gold2);text-transform:uppercase}
+.mngroup h3 small{text-transform:none;letter-spacing:0;color:#9aa0b3;font-weight:400;margin-left:6px}
+.mngroup:nth-of-type(2){grid-row:span 2}
+.mnlist{display:flex;flex-direction:column;gap:6px}
+.mnitem{--c:211,188,142;display:grid;grid-template-columns:38px 1fr auto;align-items:center;gap:10px;padding:8px 12px;border-radius:10px;border:1px solid rgba(var(--c),.35);background:rgba(var(--c),.07);color:var(--cream2);text-decoration:none;min-height:44px}
+.mnitem:hover,.mnitem:focus-visible{background:rgba(var(--c),.18);outline:none;border-color:rgba(var(--c),.8)}
+.mnitem.on{border-color:rgba(var(--c),.95);box-shadow:inset 3px 0 0 rgba(var(--c),1)}
+.mnico{font-size:20px;text-align:center;font-family:var(--jp)}
+.mntxt{display:flex;flex-direction:column;min-width:0}
+.mntxt b{font-size:14.5px;color:#fff}
+.mntxt small{font-size:12px;color:#aeb3c4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mnitem em{font-style:normal;font-size:12px;color:var(--gold2);white-space:nowrap}
+@media(max-width:720px){.mnwrap{grid-template-columns:1fr}.mngroup:nth-of-type(2){grid-row:auto}.mnitem em{display:none}}
+
+/* ===== Trang chủ: các khu chương trình ===== */
+.homesec{margin:26px 0 10px}
+.homesec>.a22th small{color:#9aa0b3;font-weight:400;font-size:13px}
+.progrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;margin-top:10px}
+.progrid.start{grid-template-columns:1fr}
+.procard{--c:211,188,142;position:relative;display:flex;gap:14px;align-items:flex-start;padding:14px 16px;text-decoration:none;color:var(--cream2);border-color:rgba(var(--c),.55)!important;transition:transform .15s,box-shadow .15s}
+.procard:hover,.procard:focus-visible{transform:translateY(-2px);box-shadow:0 8px 26px rgba(var(--c),.22);outline:none}
+.procard img{width:60px;height:60px;border-radius:50%;object-fit:cover;flex:none;background:radial-gradient(circle,rgba(var(--c),.35),transparent 70%);border:2px solid rgba(var(--c),.7)}
+.prostep{position:absolute;top:10px;right:12px;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;color:#141a30;background:rgb(var(--c))}
+.protxt{min-width:0;display:flex;flex-direction:column;gap:2px}
+.prolv{font-size:12px;letter-spacing:1px;color:rgb(var(--c))}
+.prolv .jpt{color:#aeb3c4;letter-spacing:0;margin-left:4px}
+.procard h3{margin:0;font-size:18px;color:#fff}
+.prohost{color:#aeb3c4;font-size:12px}
+.procard p{margin:4px 0 2px;font-size:13px;line-height:1.45;color:#d9dbe4}
+.procard em{font-style:normal;font-size:12.5px;color:var(--gold2)}
+.procard.mini{align-items:center}
+.proico{font-size:30px;width:48px;text-align:center;flex:none}
+.progrid.teyvat{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+@media(max-width:640px){.progrid{grid-template-columns:1fr}.procard img{width:50px;height:50px}.procard h3{font-size:16px}}
+.mngroup.teyvat{grid-column:1/-1}
+.mngroup.teyvat .mnlist{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.mngroup.teyvat .mnitem{grid-template-columns:30px 1fr}
+.mngroup.teyvat .mntxt small{display:none}
+@media(max-width:720px){.mngroup.teyvat .mnlist{grid-template-columns:repeat(2,1fr)}}
