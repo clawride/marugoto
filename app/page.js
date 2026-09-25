@@ -22,6 +22,13 @@ export default function Home() {
         <div className="panel stat"><b>{(S?.total || 0).toLocaleString("vi-VN")}</b><span>Câu trả lời đúng</span></div>
         <div className="panel stat"><b>{(S?.wishes || 0).toLocaleString("vi-VN")}</b><span>Lần cầu nguyện</span></div>
       </div>
+      <Link href="/kana" className="panel homeboss" onClick={() => sfx.page()} style={{ borderColor: "rgba(255,150,110,.6)" }}>
+        <img src="https://gi.yatta.moe/assets/UI/UI_AvatarIcon_Klee.png" alt="" style={{ borderRadius: "50%" }} />
+        <div>
+          <b>あ Bảng Chữ Cái · Klee</b>
+          <span>Chữ mềm & chữ cứng theo lộ trình 54 video: luyện viết có sửa nét, rèn chữ đẹp, âm đục, âm tròn, âm ghép, trường âm, âm ngắt</span>
+        </div>
+      </Link>
       <Link href="/a1" className="panel homeboss" onClick={() => sfx.page()} style={{ borderColor: "rgba(110,220,190,.6)" }}>
         <img src="https://gi.yatta.moe/assets/UI/UI_AvatarIcon_Venti.png" alt="" style={{ borderRadius: "50%" }} />
         <div>

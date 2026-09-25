@@ -1,0 +1,91 @@
+/* ===== BẢNG CHỮ CÁI · KLEE ===== */
+.klhero{border-color:rgba(255,150,110,.65);background:radial-gradient(ellipse at 80% 40%,rgba(255,170,120,.32),transparent 60%),linear-gradient(135deg,#3a1510,#5a2216 55%,#2a0f0b)}
+.klhero .zlcopy .tag{color:#ffd0b5;border-color:#ffd0b5}
+.klhero .zlcopy h1{color:#fff3ea;text-shadow:0 0 18px rgba(255,150,110,.6)}
+.klhero .zlcopy .t2{color:#ffc09c}
+.klhero .zlcopy p{color:#fbe4d6}
+.klhost img{border-color:#ff9a6e;background:radial-gradient(circle,#ffe0cc,#a0402a)}
+.klhost .bubble{background:#fff4ec;border-color:#f3c3a7;color:#4a1f12}
+.klhost .bubble b{color:#c2522e}
+.th-kana .a22exam{background:linear-gradient(135deg,rgba(90,34,22,.92),rgba(40,14,10,.96));border-color:#ff9a6e}
+.th-kana .a22exam .seal{border-color:#c2522e;color:#c2522e;font-family:var(--jp)}
+.th-kana .a22meter i,.th-kana .a22bar i{background:linear-gradient(90deg,#d9603a,#ffc09c)}
+.th-kana .a22head .tag{color:#ffc09c}
+.kprev{margin-top:8px;font-size:18px;letter-spacing:2px;color:#ffe7d8}
+.kvids{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:10px}
+.kvids .chip{text-decoration:none}
+
+/* bảng 50 âm */
+.kchart-wrap{display:grid;grid-template-columns:1.2fr 1fr;gap:12px;margin-top:10px}
+@media(max-width:760px){.kchart-wrap{grid-template-columns:1fr}}
+.kchart{padding:10px}
+.krow{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-bottom:5px}
+.kcell{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px 0;border-radius:8px;border:1px solid rgba(211,188,142,.25);background:rgba(0,0,0,.25);color:#fff;cursor:pointer;font:inherit}
+.kcell b{font-size:24px;line-height:1.1}
+.kcell small{font-size:11px;color:#c9cbd6}
+.kcell.empty{border:none;background:none;cursor:default}
+.kcell:hover{border-color:#ff9a6e}
+.kcell.on{border-color:#ffc09c;box-shadow:0 0 0 2px rgba(255,192,156,.5)}
+.kcell.s1{border-bottom:3px solid #8a7a5a}.kcell.s2{border-bottom:3px solid #c9a24e}.kcell.s3{border-bottom:3px solid #f3d38a}
+.kquick{margin-top:12px;padding:14px;display:flex;flex-direction:column;align-items:center}
+.kbigsm{font-size:34px;color:#fff;margin-right:6px}
+
+/* bảng viết */
+.kboard{display:flex;flex-direction:column;align-items:center;gap:8px}
+.kpad{background:#fffdf7;border-radius:10px;box-shadow:inset 0 0 0 1px #e2d6bd,0 6px 18px rgba(0,0,0,.35);cursor:crosshair;max-width:100%;height:auto;user-select:none;-webkit-user-select:none}
+.kpad.watch{cursor:default}
+.kgrid-box{fill:none;stroke:#e0caa4;stroke-width:.8}
+.kgrid-line{stroke:#e8d7b8;stroke-width:.6;stroke-dasharray:2 2}
+.kstroke{fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:3.4}
+.kstroke.ghost{stroke:#d9d4e6}
+.kstroke.ghost.done{stroke:#ece9f2}
+.kstroke.ref{stroke:rgba(63,163,77,.28);stroke-width:5}
+.kstroke.anim{stroke:#c2522e;stroke-dasharray:1;stroke-dashoffset:1;animation:kdraw .7s ease-out forwards}
+@keyframes kdraw{to{stroke-dashoffset:0}}
+.kink{fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:3.6}
+.knum{font-size:6px;fill:#c2522e;font-weight:700;font-family:sans-serif;pointer-events:none}
+.kstart{fill:#c2522e;opacity:.85;animation:blink 1.2s infinite}
+.kctl{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.kmsg{max-width:340px;text-align:center;font-size:14px;padding:6px 10px;border-radius:8px}
+.kmsg.good{background:#e3f1dc;color:#285c2e}
+.kmsg.ok{background:#fff3cf;color:#6a4d00}
+.kmsg.bad{background:#fbe1dc;color:#8a2a1f}
+.kmsg.hint{color:#c9cbd6}
+.kresult{width:100%;max-width:360px;background:#fffaf0;border-radius:10px;padding:10px 12px;color:#3a2a10}
+.kscore{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+.kscore b{font-size:34px;color:#c2522e}
+.kscore span{margin-left:auto;font-size:12px;color:#6a5a40}
+.kresult ul{margin:6px 0 0;padding-left:18px;font-size:13.5px;line-height:1.5}
+.kresult li.good{color:#285c2e}.kresult li.ok{color:#6a4d00}.kresult li.bad,.kresult li.miss{color:#8a2a1f}
+.linkbtn{background:none;border:none;color:#2f6fd1;text-decoration:underline;cursor:pointer;font:inherit;padding:0;margin-left:4px}
+.klegend{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:11.5px;color:#6a5a40;margin-top:6px}
+.klegend i{display:inline-block;width:10px;height:10px;border-radius:50%}
+
+/* trang bài */
+.kpick{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:10px 0}
+.kchip{min-width:46px;height:46px;border-radius:10px;border:1px solid rgba(211,188,142,.35);background:rgba(0,0,0,.3);color:#fff;font-size:24px;font-family:var(--jp);cursor:pointer}
+.kchip.on{border-color:#ffc09c;box-shadow:0 0 0 2px rgba(255,192,156,.5)}
+.kchip.s1{border-bottom:3px solid #8a7a5a}.kchip.s2{border-bottom:3px solid #c9a24e}.kchip.s3{border-bottom:3px solid #f3d38a}
+.kwrite{display:grid;grid-template-columns:1fr 1.1fr;gap:12px;align-items:start}
+@media(max-width:760px){.kwrite{grid-template-columns:1fr}}
+.kinfo{padding:14px 16px;color:#e8e4d6;font-size:14px;line-height:1.6}
+.kinfo p{margin:8px 0 0}
+.kinfo b{color:var(--gold2)}
+.kbig{font-size:84px;line-height:1;text-align:center;color:#fff;cursor:pointer}
+.krom{text-align:center;font-size:20px;color:#ffc09c;display:flex;align-items:center;justify-content:center;gap:8px}
+.kmeta{text-align:center;font-size:12.5px;color:#9aa0b8}
+.kpadwrap{padding:12px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.kmodes{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;align-items:center}
+.kcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin:10px 0}
+.kcard2{display:flex;flex-direction:column;align-items:center;gap:2px;padding:12px 8px;color:inherit;font:inherit;cursor:pointer;text-align:center}
+.kcard2 b{font-size:40px;color:#fff;line-height:1.1}
+.kcard2 span{color:#ffc09c}
+.kcard2.on{border-color:#ffc09c;grid-column:span 2}
+.kback{font-size:12.5px;color:#dcd8ea;line-height:1.45}
+.kback p{margin:4px 0 0}
+.kdone{padding:10px 14px;margin:10px 0;text-align:center;color:#fff}
+.klisten{display:flex;justify-content:center;margin:6px 0 4px}
+.krule{padding:16px 18px;color:#e8e4d6;line-height:1.65;font-size:14.5px}
+.krule h3{margin:0 0 6px;color:var(--gold2)}
+.krule ul{margin:8px 0;padding-left:20px}
+.kex{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
