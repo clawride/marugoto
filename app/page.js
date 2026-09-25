@@ -36,7 +36,7 @@ export default function Home() {
         <img src="https://gi.yatta.moe/assets/UI/UI_AvatarIcon_Kazuha.png" alt="" style={{ borderRadius: "50%" }} />
         <div>
           <b>漢 Chữ Hán A1 → B1-2 · Kazuha</b>
-          <span>1.303 chữ gom từ vốn từ mọi cấp: giải thích cấu tạo, mẹo nhớ, tập viết có sửa nét, tập đọc, đặt câu, mẹo đoán âm qua Hán Việt và phần chỉ âm</span>
+          <span>1.303 chữ gom từ vốn từ mọi cấp: giải thích cấu tạo, mẹo nhớ, tập viết có sửa nét, tập đọc, đặt câu, mẹo đoán nghĩa qua bộ thủ và đoán âm qua phần chỉ âm</span>
         </div>
       </Link>
       <Link href="/a1" className="panel homeboss" onClick={() => sfx.page()} style={{ borderColor: "rgba(110,220,190,.6)" }}>

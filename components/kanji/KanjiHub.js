@@ -18,7 +18,7 @@ export default function KanjiHub() {
   const found = useMemo(() => {
     const t = stripTone(q.trim());
     if (!t) return [];
-    return Object.entries(KIDX).filter(([k, [vi, hv]]) => k === q.trim() || stripTone(hv).startsWith(t) || stripTone(vi).includes(t)).slice(0, 40);
+    return Object.entries(KIDX).filter(([k, [vi]]) => k === q.trim() || stripTone(vi).includes(t)).slice(0, 40);
   }, [q]);
   if (!S) return null;
   const P = S.kanji?.p || {}, W = S.kanji?.w || {};
@@ -35,13 +35,13 @@ export default function KanjiHub() {
       </p>
       <div className="kjtools">
         <Link href="/kanji/meo" className="panel kjtool" onClick={() => sfx.page()}>
-          <b>🔮 Mẹo đọc chữ Hán cho người Việt</b>
-          <span>Quy tắc Hán Việt → âm On, phần chỉ âm (thanh phù), bộ chỉ nghĩa: nhớ một phần vẫn đoán được cả chữ</span>
+          <b>🔮 Mẹo đoán chữ Hán</b>
+          <span>Bộ chỉ nghĩa, phần chỉ âm (cùng phần thì đọc giống nhau), âm On hay Kun: nhớ một phần vẫn đoán được cả chữ</span>
         </Link>
         <div className="panel kjtool kjsearch">
           <b>🔎 Tra chữ</b>
-          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Nhập chữ Hán, âm Hán Việt (vd: nhat) hoặc nghĩa…" />
-          {found.length > 0 && <div className="kjfound">{found.map(([k, [vi, hv]]) => <Link key={k} href={kanjiHref(k)} className="chip sm"><b className="jpt">{k}</b> {hv} · {vi}</Link>)}</div>}
+          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Nhập chữ Hán hoặc nghĩa tiếng Việt (vd: mặt trời, nuoc)…" />
+          {found.length > 0 && <div className="kjfound">{found.map(([k, [vi]]) => <Link key={k} href={kanjiHref(k)} className="chip sm"><b className="jpt">{k}</b> {vi}</Link>)}</div>}
           {q.trim() && !found.length && <small>Không tìm thấy chữ nào.</small>}
         </div>
       </div>
@@ -60,7 +60,7 @@ export default function KanjiHub() {
               <Link key={les.n} href={`/kanji/${L.id}/${les.n}`} className="panel b1card a22card" onClick={() => sfx.page()}>
                 <div className="num">Bài {les.n} · Topic {les.t.join(", ")}</div>
                 <h3 className="jpt kjprev">{les.k}</h3>
-                <div className="vi">{[...les.k].slice(0, 4).map((k) => KIDX[k][1]).join(" · ")}{les.k.length > 4 ? " …" : ""}</div>
+                <div className="vi">{[...les.k].slice(0, 3).map((k) => KIDX[k][0].split(/[,;]/)[0]).join(" · ")}{les.k.length > 3 ? " …" : ""}</div>
                 <div className="a22meter"><i style={{ width: `${(st / max) * 100}%` }} /></div>
                 <div className="b1gp">★ {st}/{max} · ✍️ {written}/{les.k.length}</div>
               </Link>
@@ -73,7 +73,7 @@ export default function KanjiHub() {
         </Link>
       </section>
       <p className="hint" style={{ textAlign: "center" }}>
-        Âm đọc, số nét, âm Hán Việt: KANJIDIC2 (EDRDG, CC BY-SA 4.0). Nét chữ và cấu tạo: KanjiVG (kanjivg.tagaini.net) © Ulrich Apel, CC BY-SA 3.0.
+        Âm đọc, số nét: KANJIDIC2 (EDRDG, CC BY-SA 4.0). Nét chữ và cấu tạo: KanjiVG (kanjivg.tagaini.net) © Ulrich Apel, CC BY-SA 3.0.
       </p>
     </div>
   );

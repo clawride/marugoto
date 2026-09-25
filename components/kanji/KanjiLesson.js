@@ -114,7 +114,7 @@ function WriteTab({ list, strokes, skey }) {
       <div className="kwrite">
         <div className="panel kinfo">
           <div className="kbig jpt">{E.k}</div>
-          <div className="krom">{E.hv} · {E.vi}</div>
+          <div className="krom">{E.vi}</div>
           <div className="kmeta">{E.sc} nét{best[E.k] ? <> · điểm viết tốt nhất <b>{best[E.k]}</b></> : null}</div>
           <p><b>🧩</b> {E.explain}</p>
           <p><b>✒️ Viết đẹp:</b> viết từ trên xuống dưới, từ trái sang phải; nét ngang trước nét sổ; bộ bên trái viết hẹp hơn để nhường chỗ cho phần bên phải. Giữ chữ cân trong ô, dùng đường chữ thập làm mốc.</p>
@@ -131,10 +131,10 @@ function WriteTab({ list, strokes, skey }) {
 
 // ===== các phần kiểm tra =====
 const PART_INFO = {
-  memo: { line: KZ.memo, title: "Ghi nhớ", desc: "Nhìn chữ đoán nghĩa, chọn chữ theo nghĩa, âm Hán Việt, nhận chữ qua mẹo nhớ", make: memoQs },
+  memo: { line: KZ.memo, title: "Ghi nhớ", desc: "Nhìn chữ đoán nghĩa, chọn chữ theo nghĩa, nghĩa của từ chứa chữ, nhận chữ qua mẹo nhớ", make: memoQs },
   read: { line: KZ.read, title: "Tập đọc", desc: "Đọc từ, đọc âm của chữ trong từ, nghe và chọn từ", make: readQs },
   sent: { line: KZ.sentence, title: "Đặt câu", desc: "Điền từ vào câu, chọn đúng chữ Hán cho từ, sắp xếp câu", make: sentQs },
-  guess: { line: KZ.guess, title: "Đoán chữ", desc: "Đoán âm từ phần chỉ âm, từ âm Hán Việt; đoán nghĩa từ bộ thủ và từ ghép", make: guessQs },
+  guess: { line: KZ.guess, title: "Đoán chữ", desc: "Đoán âm từ phần chỉ âm; đoán nghĩa từ bộ chỉ nghĩa và từ nghĩa từng chữ trong từ ghép", make: guessQs },
 };
 function QuizTab({ part, list, pool, learned, skey }) {
   const P = PART_INFO[part];
@@ -161,7 +161,7 @@ function GuessTips({ list }) {
   return (
     <div className="panel kjtips">
       <h4>🔮 Mẹo đoán của bài này <Link href="/kanji/meo" className="chip sm">Xem toàn bộ mẹo ›</Link></h4>
-      <ul>{list.map((E) => <li key={E.k}><b className="jpt">{E.k}</b> <small>{E.hv}</small> — {E.tip}</li>)}</ul>
+      <ul>{list.map((E) => <li key={E.k}><b className="jpt">{E.k}</b> <small>{E.vi}</small> — {E.tip}</li>)}</ul>
     </div>
   );
 }

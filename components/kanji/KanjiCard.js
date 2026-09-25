@@ -1,7 +1,7 @@
 "use client";
-// Thẻ một chữ Hán: nghĩa · Hán Việt · âm On/Kun · cấu tạo (bộ chỉ nghĩa / phần chỉ âm) · mẹo nhớ · mẹo đọc · từ · câu ví dụ · chữ dễ nhầm
+// Thẻ một chữ Hán: nghĩa tiếng Việt · âm On/Kun · cấu tạo (bộ chỉ nghĩa / phần chỉ âm) · mẹo nhớ · mẹo đọc · từ · câu ví dụ · chữ dễ nhầm
 import Link from "next/link";
-import { KIDX, COMPS, compName, kunParts, toHira, levelOf } from "@/lib/kanjiProg";
+import { KIDX, COMPS, compName, compLabel, kunParts, toHira, levelOf } from "@/lib/kanjiProg";
 import { speakLines } from "@/lib/tts";
 
 const say = (t) => speakLines([{ t }], { rate: 0.85 });
@@ -36,7 +36,6 @@ export default function KanjiCard({ E, compact = false }) {
       <div className="kjtop">
         <button className="kjglyph jpt" onClick={() => say(E.words?.[0]?.r || toHira(E.on?.[0] || "") || E.k)} title="Bấm để nghe">{E.k}</button>
         <div className="kjhead">
-          <div className="kjhv">{E.hv}</div>
           <div className="kjvi">{E.vi}</div>
           <div className="kjmeta">{E.sc} nét{E.jlpt ? ` · JLPT cũ N${E.jlpt}` : ""}{L ? ` · ${L.ico} ${L.name}` : ""}</div>
           <div className="kjreads">
@@ -53,7 +52,7 @@ export default function KanjiCard({ E, compact = false }) {
             {E.comps.filter((c) => c.el).map((c, i) => (
               <span key={i} className={`kjcomp ${c.rad ? "rad" : ""} ${c.phon ? "phon" : ""}`}>
                 <b className="jpt">{c.el}</b>
-                <span>{compName(c.el)}{COMPS[c.el]?.vi ? ` · ${COMPS[c.el].vi}` : ""}</span>
+                <span>{compLabel(c.el)}</span>
                 <small>{[POS[c.pos], c.rad && "chỉ nghĩa", c.phon && "chỉ âm"].filter(Boolean).join(" · ")}</small>
               </span>
             ))}
@@ -92,7 +91,7 @@ export default function KanjiCard({ E, compact = false }) {
           {E.similar.map((s) => (
             <p key={s.k} className="kjsim">
               {KIDX[s.k] ? <Link href={kanjiHref(s.k)} className="jpt">{s.k}</Link> : <b className="jpt">{s.k}</b>}
-              {KIDX[s.k] && <small> {KIDX[s.k][1]} · {KIDX[s.k][0]}</small>} — {s.note}
+              {KIDX[s.k] && <small> {KIDX[s.k][0]}</small>} — {s.note}
             </p>
           ))}
         </div>

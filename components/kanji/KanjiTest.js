@@ -34,7 +34,7 @@ export function KanjiTest({ lv }) {
       <KazuhaHost line={KZ.test} />
       {res && <div className="panel kdone"><Stars n={res.stars} /> Đúng {res.pct}%{res.reward > 0 && <> · <Ico id="pgm" /> +{res.reward}</>}</div>}
       <div className="panel a22start">
-        <div><b>試 Bài kiểm tra khoảng 30 câu</b><span>Nghĩa, âm Hán Việt, đọc từ, đọc chữ trong từ, nghe, điền từ, chọn đúng chữ, đoán âm và nghĩa{rec ? ` · tốt nhất ${rec.pct}%` : ""} · mỗi sao mới +20 <Ico id="pgm" /></span></div>
+        <div><b>試 Bài kiểm tra khoảng 30 câu</b><span>Nghĩa của chữ và từ, đọc từ, đọc chữ trong từ, nghe, điền từ, chọn đúng chữ, đoán âm và nghĩa{rec ? ` · tốt nhất ${rec.pct}%` : ""} · mỗi sao mới +20 <Ico id="pgm" /></span></div>
         <button className="gbtn tri" disabled={!D} onClick={() => { setQs(testQs(Object.values(D), learned)); sfx.open(); }}><span className="c" />{D ? "Bắt đầu" : "Đang tải…"}</button>
       </div>
     </div>
@@ -43,7 +43,7 @@ export function KanjiTest({ lv }) {
 
 export function KanjiChar({ k }) {
   const I = KIDX[k];
-  const lv = I?.[2];
+  const lv = I?.[1];
   const D = useLevelData(lv || "a1");
   const [strokes, setStrokes] = useState(null);
   const [mode, setMode] = useState("watch");
@@ -53,7 +53,7 @@ export function KanjiChar({ k }) {
   const E = D?.[k];
   return (
     <div className="th-kanji">
-      <Link href={`/kanji/${lv}/${I[3]}`} className="back">‹ {L.name} · Bài {I[3]}</Link>
+      <Link href={`/kanji/${lv}/${I[2]}`} className="back">‹ {L.name} · Bài {I[2]}</Link>
       {!E ? <p className="hint">Đang tải…</p> : (
         <div className="kjlearn" style={{ marginTop: 14 }}>
           <KanjiCard E={E} />
