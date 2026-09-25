@@ -29,6 +29,13 @@ const EMBLEM = {
       <circle r="42" />
     </>
   ),
+  // Lôi (Raiden): tia sét trong vòng tròn
+  electro: (
+    <>
+      <circle r="250" fill="none" stroke="currentColor" strokeWidth="12" />
+      <path d="M30-200-90 20H-10L-40 200 90-30H10Z" />
+    </>
+  ),
   // Thủy (Furina): giọt nước giữa các vòng sóng
   hydro: (
     <>

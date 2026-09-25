@@ -99,7 +99,7 @@ function GrammarView({ L }) {
 function ListenView({ L, course }) {
   return (
     <>
-      <AudioSetup lib={course.audio} folder={course.folder} />
+      {(course.audioSetups || [{ lib: course.audio, folder: course.folder }]).map((a) => <AudioSetup key={a.folder} lib={a.lib} folder={a.folder} />)}
       <div className="panel a22list">
         {L.listening.map((it, i) => (
           <div key={i} className="lrow"><span className="trk">{trackLabel(it)}</span><div><b className="jpt">{it.title}</b><small>{it.situation}</small></div><em>{it.questions.length} câu</em></div>

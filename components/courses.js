@@ -3,11 +3,13 @@
 import { NahidaHost, NahidaHero, ND, NAHIDA } from "@/components/Nahida";
 import { FurinaHost, FurinaHero, FU, FURINA } from "@/components/Furina";
 import { VentiHost, VentiHero, VT, VENTI } from "@/components/Venti";
-import { A22_EXAM, AB1_EXAM, A1_EXAM } from "@/components/examConfigs";
-import { A22_AUDIO, AB1_AUDIO, A1_AUDIO } from "@/lib/audioLib";
+import { RaidenHost, RaidenHero, RD, RAIDEN } from "@/components/Raiden";
+import { A22_EXAM, AB1_EXAM, A1_EXAM, A21_EXAM } from "@/components/examConfigs";
+import { A22_AUDIO, AB1_AUDIO, A1_AUDIO, A21_AUDIO, A21R_AUDIO, A21C_AUDIO } from "@/lib/audioLib";
 import { A22 } from "@/lib/a22";
 import { AB1 } from "@/lib/ab1";
 import { A1C } from "@/lib/a1";
+import { A21C } from "@/lib/a21";
 
 export const A22_COURSE = {
   store: "a22", C: A22, base: "/a22", title: "Marugoto A2-2",
@@ -32,4 +34,13 @@ export const A1_COURSE = {
   partLabels: { kanji: "Chữ & Kanji" },
   Host: VentiHost, Hero: VentiHero, lines: VT, char: VENTI, hostName: "Venti",
   exam: A1_EXAM,
+};
+
+export const A21_COURSE = {
+  store: "a21", C: A21C, base: "/a21", title: "Marugoto A2-1",
+  unit: "Bài", unitTag: (L) => `TOPIC ${L.topic} · ${L.topicTitle} · だい${L.lesson}か`,
+  audio: A21C_AUDIO,
+  audioSetups: [{ lib: A21_AUDIO, folder: "New A2-1 Katsudou audio" }, { lib: A21R_AUDIO, folder: "New A2-1 Rikai audio" }],
+  Host: RaidenHost, Hero: RaidenHero, lines: RD, char: RAIDEN, hostName: "Raiden Shogun",
+  exam: A21_EXAM,
 };

@@ -36,6 +36,13 @@ export default function Home() {
           <span>18 bài nhập môn theo かつどう &amp; りかい: từ vựng, nghe, chữ kana/kanji, bài đọc, ngữ pháp, điền từ, sắp xếp câu · boss mỗi Topic · 2 kỳ thi chứng chỉ</span>
         </div>
       </Link>
+      <Link href="/a21" className="panel homeboss" onClick={() => sfx.page()} style={{ borderColor: "rgba(170,130,240,.6)" }}>
+        <img src="https://gi.yatta.moe/assets/UI/UI_AvatarIcon_Shougun.png" alt="" style={{ borderRadius: "50%" }} />
+        <div>
+          <b>⚡ Marugoto A2-1 · Raiden Shogun</b>
+          <span>18 bài đầy đủ theo かつどう &amp; りかい: từ vựng, nghe hội thoại, kanji, bài đọc, ngữ pháp, điền từ, sắp xếp câu · boss mỗi Topic · 2 kỳ thi chứng chỉ</span>
+        </div>
+      </Link>
       <Link href="/ab1" className="panel homeboss" onClick={() => sfx.page()} style={{ borderColor: "rgba(110,170,240,.6)" }}>
         <img src="https://gi.yatta.moe/assets/UI/UI_AvatarIcon_Furina.png" alt="" style={{ borderRadius: "50%" }} />
         <div>

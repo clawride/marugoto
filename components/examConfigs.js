@@ -4,14 +4,16 @@ import { ZhongliHost, ZL } from "@/components/Zhongli";
 import { NahidaHost, ND } from "@/components/Nahida";
 import { FurinaHost, FU } from "@/components/Furina";
 import { VentiHost, VT } from "@/components/Venti";
+import { RaidenHost, RD } from "@/components/Raiden";
 import ScriptPlayer from "@/components/ScriptPlayer";
 import { Player, AudioSetup } from "@/components/Listen";
-import { A22_AUDIO, AB1_AUDIO, A1_AUDIO } from "@/lib/audioLib";
+import { A22_AUDIO, AB1_AUDIO, A1_AUDIO, A21_AUDIO, A21R_AUDIO, A21C_AUDIO } from "@/lib/audioLib";
 import { SECTIONS, buildExam, PASS_TOTAL, PASS_SECTION, EXCELLENT, MAX, REWARD_PASS, REWARD_EXCELLENT, certId } from "@/lib/b1";
 import { EXAM_SECTIONS } from "@/lib/course";
 import { A22 } from "@/lib/a22";
 import { AB1 } from "@/lib/ab1";
 import { A1C } from "@/lib/a1";
+import { A21C } from "@/lib/a21";
 
 export const B1_EXAM = {
   store: "b1",
@@ -94,4 +96,21 @@ export const A1_EXAM = {
   introExtra: <AudioSetup lib={A1_AUDIO} folder="new marugoto A1 (Audio Katsudou + Audio Rikai)" />,
   renderListen: courseListen(A1_AUDIO),
   cert: { course: "Marugoto 入門 (A1)", signer: "Venti", signerTitle: "Giám khảo · Phong Thần Barbatos", seal: ["風神", "詩人"], emblem: "anemo", tint: "#8ff0d4", emblemColor: "#2a8a74", cornerColor: "#6fd4b8", sealColor: "#1f7a66", filePrefix: "chung-chi-A1", line: "đã hoàn thành kỳ khảo hạch năng lực tiếng Nhật kiểu JLPT của khóa Marugoto A1 với kết quả:" },
+};
+
+export const A21_EXAM = {
+  store: "a21",
+  sections: EXAM_SECTIONS,
+  build: A21C.buildExam,
+  pass: { total: 95, section: 19, excellent: 150, max: 180 },
+  reward: { pass: 1100, excellent: 550 },
+  certId: courseCertId("a21"),
+  home: "/a21", homeLabel: "Marugoto A2-1", homeShort: "Về A2-1",
+  certHref: (n) => `/a21/cert/${n}`, examHref: (n) => `/a21/exam/${n}`,
+  Host: RaidenHost, lines: RD, hostName: "Raiden Shogun",
+  rows: COURSE_ROWS,
+  langHint: COURSE_LANG_HINT,
+  introExtra: <><AudioSetup lib={A21_AUDIO} folder="New A2-1 Katsudou audio" /><AudioSetup lib={A21R_AUDIO} folder="New A2-1 Rikai audio" /></>,
+  renderListen: courseListen(A21C_AUDIO),
+  cert: { course: "Marugoto 初級1 (A2-1)", signer: "Raiden Shogun", signerTitle: "Giám khảo · Lôi Thần Inazuma", seal: ["永遠", "雷神"], emblem: "electro", tint: "#c9a8ff", emblemColor: "#5a3a9a", cornerColor: "#a07ae0", sealColor: "#6a3aa8", filePrefix: "chung-chi-A2-1", line: "đã hoàn thành kỳ khảo hạch năng lực tiếng Nhật kiểu JLPT của khóa Marugoto A2-1 với kết quả:" },
 };
