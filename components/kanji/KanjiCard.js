@@ -1,7 +1,7 @@
 "use client";
 // Thẻ một chữ Hán: nghĩa tiếng Việt · âm On/Kun · cấu tạo (bộ chỉ nghĩa / phần chỉ âm) · mẹo nhớ · mẹo đọc · từ · câu ví dụ · chữ dễ nhầm
 import Link from "next/link";
-import { KIDX, COMPS, compName, compLabel, kunParts, toHira, levelOf } from "@/lib/kanjiProg";
+import { KIDX, COMPS, compName, compLabel, learnedFor, kunParts, toHira, levelOf } from "@/lib/kanjiProg";
 import { speakLines } from "@/lib/tts";
 
 const say = (t) => speakLines([{ t }], { rate: 0.85 });
@@ -31,6 +31,7 @@ export function KunLabel({ r }) {
 export default function KanjiCard({ E, compact = false }) {
   if (!E) return null;
   const L = levelOf(E.lv);
+  const learned = learnedFor(E.k); // chỉ hiện chữ ví dụ đã học
   return (
     <article className="panel kjcard">
       <div className="kjtop">
@@ -52,7 +53,7 @@ export default function KanjiCard({ E, compact = false }) {
             {E.comps.filter((c) => c.el).map((c, i) => (
               <span key={i} className={`kjcomp ${c.rad ? "rad" : ""} ${c.phon ? "phon" : ""}`}>
                 <b className="jpt">{c.el}</b>
-                <span>{compLabel(c.el)}</span>
+                <span>{compLabel(c.el, learned)}</span>
                 <small>{[POS[c.pos], c.rad && "chỉ nghĩa", c.phon && "chỉ âm"].filter(Boolean).join(" · ")}</small>
               </span>
             ))}

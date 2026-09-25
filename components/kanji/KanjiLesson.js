@@ -10,7 +10,7 @@ import KanjiCard from "@/components/kanji/KanjiCard";
 import { KazuhaHost, KZ, KAZUHA } from "@/components/Kazuha";
 import { Ico } from "@/components/Icons";
 import { charIcon } from "@/lib/genshin";
-import { KLEVELS, PARTS, SCORED, levelOf, lessonOf, lessonKey, loadLevel, loadStrokes, memoQs, readQs, sentQs, guessQs } from "@/lib/kanjiProg";
+import { KLEVELS, KIDX, PARTS, SCORED, levelOf, lessonOf, lessonKey, loadLevel, loadStrokes, memoQs, readQs, sentQs, guessQs } from "@/lib/kanjiProg";
 import { starsFor, pickRand } from "@/lib/data";
 import { speakLines } from "@/lib/tts";
 import { sfx } from "@/lib/sfx";
@@ -174,7 +174,8 @@ export default function KanjiLesson({ lv, n }) {
   const [tab, setTab] = useState("learn");
   useEffect(() => { loadStrokes(lv).then(setStrokes); }, [lv]);
   const list = useMemo(() => (D && les ? [...les.k].map((k) => D[k]).filter(Boolean) : []), [D, les]);
-  const pool = useMemo(() => (D ? Object.values(D) : []), [D]);
+  // câu hỏi & phương án nhiễu chỉ dùng chữ đã học: các bài trước trong cấp + bài hiện tại
+  const pool = useMemo(() => (D ? Object.values(D).filter((E) => (KIDX[E.k]?.[2] || 0) <= +n) : []), [D, n]);
   const learned = useMemo(() => learnedUpTo(lv, +n), [lv, n]);
   if (!L || !les) return <p style={{ marginTop: 40 }}>Không tìm thấy bài. <Link href="/kanji">Chữ Hán</Link></p>;
   if (!S) return null;
