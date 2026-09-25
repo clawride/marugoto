@@ -1,5 +1,5 @@
 "use client";
-// Bảng luyện viết chữ kana: xem thứ tự nét · tô theo nét mờ (chấm từng nét) · viết tự do (chấm cả chữ, sửa nét)
+// Bảng luyện viết chữ (kana, chữ Hán): xem thứ tự nét · tô theo nét mờ (chấm từng nét) · viết tự do (chấm cả chữ, sửa nét)
 // Nét mẫu: KanjiVG (http://kanjivg.tagaini.net) © Ulrich Apel, CC BY-SA 3.0
 import { useCallback, useEffect, useRef, useState } from "react";
 import { KANA_STROKES } from "@/lib/kana";
@@ -21,8 +21,8 @@ function StrokeAnim({ paths, playKey, only }) {
 }
 
 // mode: "watch" | "trace" | "free"
-export default function StrokeBoard({ char, mode, onResult, size = 300 }) {
-  const paths = KANA_STROKES[char] || [];
+export default function StrokeBoard({ char, mode, onResult, size = 300, paths: given }) {
+  const paths = given || KANA_STROKES[char] || []; // chữ Hán truyền nét qua `paths`
   const [tpl, setTpl] = useState([]);
   useEffect(() => { setTpl(paths.map((d) => samplePath(d))); }, [char]); // eslint-disable-line react-hooks/exhaustive-deps
   const [strokes, setStrokes] = useState([]); // nét tay đã chấp nhận (trace) / đã viết (free)

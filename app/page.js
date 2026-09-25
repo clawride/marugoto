@@ -32,6 +32,13 @@ export default function Home() {
           <span>Chữ mềm & chữ cứng theo lộ trình 54 video: luyện viết có sửa nét, rèn chữ đẹp, âm đục, âm tròn, âm ghép, trường âm, âm ngắt</span>
         </div>
       </Link>
+      <Link href="/kanji" className="panel homeboss" onClick={() => sfx.page()} style={{ borderColor: "rgba(224,106,80,.6)" }}>
+        <img src="https://gi.yatta.moe/assets/UI/UI_AvatarIcon_Kazuha.png" alt="" style={{ borderRadius: "50%" }} />
+        <div>
+          <b>漢 Chữ Hán A1 → B1-2 · Kazuha</b>
+          <span>1.303 chữ gom từ vốn từ mọi cấp: giải thích cấu tạo, mẹo nhớ, tập viết có sửa nét, tập đọc, đặt câu, mẹo đoán âm qua Hán Việt và phần chỉ âm</span>
+        </div>
+      </Link>
       <Link href="/a1" className="panel homeboss" onClick={() => sfx.page()} style={{ borderColor: "rgba(110,220,190,.6)" }}>
         <img src="https://gi.yatta.moe/assets/UI/UI_AvatarIcon_Venti.png" alt="" style={{ borderRadius: "50%" }} />
         <div>

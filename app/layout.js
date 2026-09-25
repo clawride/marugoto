@@ -8,6 +8,7 @@ import "./wishfx.css";
 import "./b1.css";
 import "./a22.css";
 import "./kana.css";
+import "./kanji.css";
 import { GameProvider } from "@/components/Game";
 import Header from "@/components/Header";
 import Sky from "@/components/Sky";
