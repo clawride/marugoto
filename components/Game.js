@@ -30,6 +30,7 @@ const defaults = () => ({
   ab1: {}, // Marugoto A2/B1: { p, boss, ex }
   a1: {}, // Marugoto A1: { p, boss, ex }
   a21: {}, // Marugoto A2-1 (khóa đầy đủ): { p, boss, ex }
+  b12: {}, // Marugoto B1-2: { p, boss, ex }
   kana: {}, // Bảng chữ cái: { w: {chữ: điểm viết}, p: {"bài:phần": {pct, stars}} } // Marugoto A2-2: { p: {"bài:phần": {pct, stars}}, boss, ex }
   cons: {}, // cung mệnh đã kích hoạt: { "c:ID": 0..6 }
   bannerPick: null, // nhân vật 5★ sự kiện đang chọn

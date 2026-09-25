@@ -16,7 +16,7 @@ export default function Home() {
     <>
       <div className="pagehead">
         <h1>Sổ Tay Mạo Hiểm · Từ Vựng</h1>
-        <p>Từ vựng Marugoto A1 → B1-1 — chọn sách và Topic để bắt đầu thử thách</p>
+        <p>Từ vựng Marugoto A1 → B1-2 — chọn sách và Topic để bắt đầu thử thách</p>
         <div className="orn"><span /></div>
       </div>
       <div className="stats">
@@ -67,6 +67,13 @@ export default function Home() {
           <span>Ngữ pháp, bài đọc dài, bài nghe theo 9 Topic · thi chứng chỉ kiểu JLPT sau mỗi 3 Topic</span>
         </div>
       </Link>
+      <Link href="/b12" className="panel homeboss" onClick={() => sfx.page()} style={{ borderColor: "rgba(255,120,70,.6)" }}>
+        <img src="https://gi.yatta.moe/assets/UI/UI_AvatarIcon_Mavuika.png" alt="" style={{ borderRadius: "50%" }} />
+        <div>
+          <b>🔥 Marugoto B1-2 · Mavuika</b>
+          <span>中級2 đầy đủ: 18 bài theo 9 Topic · từ vựng từng Part, nghe hội thoại, kanji, bài đọc, ngữ pháp, điền từ, sắp xếp câu · boss mỗi Topic · 3 kỳ thi chứng chỉ</span>
+        </div>
+      </Link>
       <Link href="/boss" className="panel homeboss" onClick={() => sfx.page()}>
         <img src={bossIcon(BOSSES[13])} alt="" />
         <div>
@@ -107,7 +114,7 @@ export default function Home() {
         })}
       </div>
       <footer>
-        Dữ liệu từ vựng: bảng từ mới Marugoto A1, A2-1, A2-2, A2/B1, B1-1 (bản tiếng Việt).<br />
+        Dữ liệu từ vựng: bảng từ mới Marugoto A1, A2-1, A2-2, A2/B1, B1-1, B1-2 (bản tiếng Việt).<br />
         Ảnh: Pexels, GIPHY, Wikimedia, Openverse, nekos.best · Ảnh nhân vật/vũ khí Genshin Impact © HoYoverse (qua gi.yatta.moe).<br />
         Trang học tập cá nhân, phi thương mại — không phải sản phẩm chính thức của HoYoverse.
       </footer>

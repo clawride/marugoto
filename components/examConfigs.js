@@ -5,15 +5,17 @@ import { NahidaHost, ND } from "@/components/Nahida";
 import { FurinaHost, FU } from "@/components/Furina";
 import { VentiHost, VT } from "@/components/Venti";
 import { RaidenHost, RD } from "@/components/Raiden";
+import { MavuikaHost, MV } from "@/components/Mavuika";
 import ScriptPlayer from "@/components/ScriptPlayer";
 import { Player, AudioSetup } from "@/components/Listen";
-import { A22_AUDIO, AB1_AUDIO, A1_AUDIO, A21_AUDIO, A21R_AUDIO, A21C_AUDIO } from "@/lib/audioLib";
+import { A22_AUDIO, AB1_AUDIO, A1_AUDIO, A21_AUDIO, A21R_AUDIO, A21C_AUDIO, NO_AUDIO } from "@/lib/audioLib";
 import { SECTIONS, buildExam, PASS_TOTAL, PASS_SECTION, EXCELLENT, MAX, REWARD_PASS, REWARD_EXCELLENT, certId } from "@/lib/b1";
 import { EXAM_SECTIONS } from "@/lib/course";
 import { A22 } from "@/lib/a22";
 import { AB1 } from "@/lib/ab1";
 import { A1C } from "@/lib/a1";
 import { A21C } from "@/lib/a21";
+import { B12 } from "@/lib/b12";
 
 export const B1_EXAM = {
   store: "b1",
@@ -113,4 +115,20 @@ export const A21_EXAM = {
   introExtra: <><AudioSetup lib={A21_AUDIO} folder="New A2-1 Katsudou audio" /><AudioSetup lib={A21R_AUDIO} folder="New A2-1 Rikai audio" /></>,
   renderListen: courseListen(A21C_AUDIO),
   cert: { course: "Marugoto 初級1 (A2-1)", signer: "Raiden Shogun", signerTitle: "Giám khảo · Lôi Thần Inazuma", seal: ["永遠", "雷神"], emblem: "electro", tint: "#c9a8ff", emblemColor: "#5a3a9a", cornerColor: "#a07ae0", sealColor: "#6a3aa8", filePrefix: "chung-chi-A2-1", line: "đã hoàn thành kỳ khảo hạch năng lực tiếng Nhật kiểu JLPT của khóa Marugoto A2-1 với kết quả:" },
+};
+
+export const B12_EXAM = {
+  store: "b12",
+  sections: EXAM_SECTIONS,
+  build: B12.buildExam,
+  pass: { total: 95, section: 19, excellent: 150, max: 180 },
+  reward: { pass: 1300, excellent: 650 },
+  certId: courseCertId("b12"),
+  home: "/b12", homeLabel: "Marugoto B1-2", homeShort: "Về B1-2",
+  certHref: (n) => `/b12/cert/${n}`, examHref: (n) => `/b12/exam/${n}`,
+  Host: MavuikaHost, lines: MV, hostName: "Mavuika",
+  rows: [["言語知識", "10 câu từ vựng + 8 câu kanji + 12 câu điền từ"], ["読解", "3 bài đọc · câu hỏi đọc hiểu"], ["聴解", "6 bài nghe hội thoại (giọng máy) · mỗi bài nghe tối đa 2 lần"]],
+  langHint: COURSE_LANG_HINT,
+  renderListen: courseListen(NO_AUDIO),
+  cert: { course: "Marugoto 中級2 (B1-2)", signer: "Mavuika", signerTitle: "Giám khảo · Hỏa Thần Natlan", seal: ["烈火", "炎神"], emblem: "pyro", tint: "#ffc09a", emblemColor: "#a8321a", cornerColor: "#e0602a", sealColor: "#b3261e", filePrefix: "chung-chi-B1-2", line: "đã hoàn thành kỳ khảo hạch năng lực tiếng Nhật kiểu JLPT của khóa Marugoto B1-2 với kết quả:" },
 };

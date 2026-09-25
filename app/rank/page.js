@@ -9,7 +9,7 @@ const MEDAL = ["🥇", "🥈", "🥉"];
 const ROMAN = ["", "I", "II", "III"];
 // Huy hiệu chứng chỉ B1-1 bên cạnh tên
 // "1".."3" = B1-1, "A1"/"A2" = A2-2, "C1"/"C2" = A2/B1; "*" = Xuất sắc
-const CERT_KIND = { A: { cls: "a22", name: "A2-2", ico: "🌱A2-2·" }, C: { cls: "ab1", name: "A2/B1", ico: "🌊A2/B1·" }, E: { cls: "a1", name: "A1", ico: "🍃A1·" }, D: { cls: "a21", name: "A2-1", ico: "⚡A2-1·" } };
+const CERT_KIND = { A: { cls: "a22", name: "A2-2", ico: "🌱A2-2·" }, C: { cls: "ab1", name: "A2/B1", ico: "🌊A2/B1·" }, E: { cls: "a1", name: "A1", ico: "🍃A1·" }, D: { cls: "a21", name: "A2-1", ico: "⚡A2-1·" }, F: { cls: "b12", name: "B1-2", ico: "🔥B1-2·" } };
 function Certs({ c }) {
   if (!c) return null;
   return <span className="certbadges">{c.split(",").filter(Boolean).map((x) => {
@@ -37,7 +37,7 @@ export default function RankPage() {
 
   const fmt = (score) => {
     if (board === "overall") return <><b>{score.toLocaleString("vi-VN")}</b><small>điểm</small></>;
-    if (/^(ex|x22|xb1|x01|x21):/.test(board)) { const { pct, total } = decode(score); return <><b>{total}/180</b><small>{pct}%</small></>; }
+    if (/^(ex|x22|xb1|x01|x21|x12):/.test(board)) { const { pct, total } = decode(score); return <><b>{total}/180</b><small>{pct}%</small></>; }
     const { pct, total } = decode(score);
     return <><b>{pct}%</b><small>{total} câu</small></>;
   };

@@ -3,7 +3,7 @@
 import { readFileSync, writeFileSync } from "node:fs";
 
 const read = (f) => JSON.parse(readFileSync(new URL(`../data/${f}.json`, import.meta.url), "utf8"));
-const BOOKS = { a1: "a1-lessons", a21: "a21-lessons", a22: "a22-lessons", ab1: "ab1-units" };
+const BOOKS = { a1: "a1-lessons", a21: "a21-lessons", a22: "a22-lessons", ab1: "ab1-units", b12: "b12-lessons" };
 const out = {};
 for (const [id, file] of Object.entries(BOOKS)) {
   out[id] = read(file).map((L) => ({

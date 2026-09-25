@@ -428,3 +428,8 @@ footer{text-align:center;color:var(--mute);font-size:12px;margin-top:40px;line-h
 
 .nbbooks{justify-content:center;margin-top:18px}
 .nbbooks .chip small{opacity:.7;margin-left:4px;font-size:11px}
+/* Menu nhiều khóa học: dải nút cuộn ngang riêng, không làm tràn cả trang */
+header.top .navs{flex:1;min-width:0;display:flex;align-items:center;gap:10px;overflow-x:auto;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,#000 92%,transparent);mask-image:linear-gradient(90deg,#000 92%,transparent);padding-right:18px}
+header.top .navs::-webkit-scrollbar{display:none}
+header.top .brand,header.top .curr,header.top .profchip{flex-shrink:0}
+@media(max-width:640px){header.top .brand div{display:none}header.top .in{gap:8px;padding:9px 12px}}

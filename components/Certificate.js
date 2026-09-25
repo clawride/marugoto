@@ -36,6 +36,14 @@ const EMBLEM = {
       <path d="M30-200-90 20H-10L-40 200 90-30H10Z" />
     </>
   ),
+  // Hỏa (Mavuika): ngọn lửa trong vòng tròn
+  pyro: (
+    <>
+      <circle r="250" fill="none" stroke="currentColor" strokeWidth="12" />
+      <path d="M0-200C40-130 120-80 120 30A120 120 0 0 1-120 30C-120-40-70-70-60-130-30-80-20-50 0-40-10-100 0-150 0-200Z" />
+      <path d="M0-10C30 30 50 60 50 95A50 50 0 0 1-50 95C-50 60-25 35 0-10Z" fill="#fff" opacity=".35" />
+    </>
+  ),
   // Thủy (Furina): giọt nước giữa các vòng sóng
   hydro: (
     <>
