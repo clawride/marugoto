@@ -42,7 +42,7 @@ export function VoiceNote({ D, set, sps = ["char", "trav"] }) {
     <p className="hint vnvoice">
       {st.busy > 0 && <span className="vnbusy">⏳ Đang tạo giọng… </span>}
       {st.err && <span className="vnerr">{st.err} </span>}
-      Lồng tiếng: {credits.join(", ")}{set.voice === "online" ? " · qua api.tts.quest" : ""}
+      Lồng tiếng: {credits.join(", ")}
     </p>
   );
 }
