@@ -5,7 +5,10 @@
 // Cần: VOICEVOX Engine đang chạy (mặc định http://127.0.0.1:50021) và ffmpeg.
 //   node --no-warnings scripts/gen-voice.mjs --chapters 0 --tiers 1
 //   node --no-warnings scripts/gen-voice.mjs --chapters 0-6 --tiers 1,2,3 --ids 10000030,10000029
-// Tùy chọn: --engine URL · --ffmpeg đường-dẫn · --bitrate 32k · --out thư-mục · --force (tạo lại cả phần đã có)
+// Trò chuyện (mỗi nhân vật/mức một file, để trên GitHub Releases thay vì trong repo):
+//   node --no-warnings scripts/gen-voice.mjs --chat --tiers 1-3 --asset-dir D:/voice-chat \
+//     --asset-base https://github.com/clawride/marugoto/releases/download/voice-chat
+// Tùy chọn: --engine URL · --ffmpeg đường-dẫn · --bitrate 32k · --out thư-mục mục lục · --force (tạo lại cả phần đã có)
 import fs from "fs";
 import path from "path";
 import os from "os";
@@ -21,6 +24,10 @@ const CHAPTERS = range(arg("chapters", "0"));
 const TIERS = range(arg("tiers", "1"));
 const IDS = arg("ids", "") ? arg("ids").split(",").map(Number) : null;
 const FORCE = process.argv.includes("--force");
+const CHAT = process.argv.includes("--chat");
+const ASSET_BASE = arg("asset-base", "").replace(/\/+$/, "");
+const ASSET_DIR = arg("asset-dir", "");
+if (ASSET_BASE && !ASSET_DIR) throw new Error("--asset-base cần kèm --asset-dir (thư mục chứa file để tải lên)");
 const GAP = 0.35; // giây lặng giữa hai câu
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1")), "..");
@@ -80,14 +87,17 @@ for (const [fi, file] of files.entries()) {
   const D = JSON.parse(fs.readFileSync(path.join(VN, file), "utf8"));
   const manPath = path.join(OUT, `${D.id}.json`);
   const man = fs.existsSync(manPath) ? JSON.parse(fs.readFileSync(manPath, "utf8")) : {};
-  for (const ch of CHAPTERS) {
-    const C = D.chapters.find((x) => x.c === ch);
-    if (!C) continue;
+  // đơn vị = một file mp3: mỗi chương (hoặc toàn bộ phần trò chuyện) ở một mức
+  // lines: [{ sp, mood, t }] — t là câu 3 mức như trong dữ liệu truyện
+  const units = CHAT
+    ? [{ key: "chat", lines: (D.chat || []).flatMap((T) => T.turns.flatMap((tu) => [{ sp: "char", t: tu.t }, ...tu.opts.flatMap((o) => [{ sp: "trav", t: o.t }, { sp: "char", t: o.r }])])) }]
+    : CHAPTERS.map((ch) => D.chapters.find((x) => x.c === ch)).filter(Boolean).map((C) => ({ key: `c${C.c}`, lines: C.nodes }));
+  for (const u of units) {
     for (const tier of TIERS) {
       // các câu cần đọc: mỗi câu theo giọng Lữ Khách nam và nữ (trùng mã thì chỉ tạo một lần)
       const want = [];
       const seen = new Set();
-      for (const n of C.nodes) {
+      for (const n of u.lines) {
         const text = pick(n.t, tier)?.jp;
         if (!text) continue;
         for (const trav of ["m", "f"]) {
@@ -95,7 +105,7 @@ for (const [fi, file] of files.entries()) {
           if (!seen.has(h)) { seen.add(h); want.push({ h, c, mood: n.mood, text }); }
         }
       }
-      const key = `c${ch}-t${tier}`, old = man[key];
+      const key = `${u.key}-t${tier}`, old = man[key];
       if (!FORCE && old && want.every((w) => old.s[w.h])) { skipped++; continue; }
       const parts = [], seg = {};
       const gap = Buffer.alloc(Math.round(GAP * 24000) * 2);
@@ -109,14 +119,16 @@ for (const [fi, file] of files.entries()) {
         at += dur + GAP;
         lines++; secs += dur;
       }
-      fs.mkdirSync(path.join(OUT, String(D.id)), { recursive: true });
-      const tmp = path.join(os.tmpdir(), `vv-${D.id}-${key}.wav`);
-      const mp3 = path.join(OUT, String(D.id), `${key}.mp3`);
-      fs.writeFileSync(tmp, wavOf(Buffer.concat(parts)));
-      execFileSync(FFMPEG, ["-y", "-loglevel", "error", "-i", tmp, "-codec:a", "libmp3lame", "-b:a", BITRATE, "-ar", "24000", "-ac", "1", mp3]);
-      fs.unlinkSync(tmp);
       const v = voiceHash({ fam: "zunda", p: 0, i: 1, s: 1 }, "", Object.keys(seg).join(",")).slice(0, 8);
-      man[key] = { f: `${key}.mp3`, v, s: seg };
+      // file để trong repo (public/vn/voice/<id>/) hoặc để tải lên GitHub Releases (tên phẳng, có mã phiên bản)
+      const name = ASSET_BASE ? `${D.id}-${key}-${v}.mp3` : `${key}.mp3`;
+      const dir = ASSET_BASE ? ASSET_DIR : path.join(OUT, String(D.id));
+      fs.mkdirSync(dir, { recursive: true });
+      const tmp = path.join(os.tmpdir(), `vv-${D.id}-${key}.wav`);
+      fs.writeFileSync(tmp, wavOf(Buffer.concat(parts)));
+      execFileSync(FFMPEG, ["-y", "-loglevel", "error", "-i", tmp, "-codec:a", "libmp3lame", "-b:a", BITRATE, "-ar", "24000", "-ac", "1", path.join(dir, name)]);
+      fs.unlinkSync(tmp);
+      man[key] = { f: ASSET_BASE ? `${ASSET_BASE}/${name}` : name, v, s: seg };
       fs.writeFileSync(manPath, JSON.stringify(man));
       made++;
     }

@@ -8,7 +8,7 @@ import { ownedOf, vnOf, CHAT_REWARD, TIERS } from "@/lib/vn";
 import { useVN, useGrammar, Line, GrammarCard, VNSettings, VoiceNote, pick, say } from "@/components/vn/VNParts";
 import { useStory, LockedNote } from "@/components/vn/StoryHub";
 import { Ico } from "@/components/Icons";
-import { stopVoice } from "@/lib/voicevox";
+import { stopVoice, warmVoice } from "@/lib/voicevox";
 import { sfx } from "@/lib/sfx";
 
 export default function ChatView({ id }) {
@@ -33,7 +33,7 @@ export default function ChatView({ id }) {
   const owned = ownedOf(S, c);
   const P = vnOf(S, c.id);
 
-  const start = (T) => { setTopic(T); setTurn(0); setDone(null); setLog([{ who: "char", t: T.turns[0].t, g: T.turns[0].g }]); setWaiting(false); speak(T.turns[0].t); sfx.open?.(); };
+  const start = (T) => { warmVoice([{ text: pick(T.turns[0].t, tier)?.jp, sp: "char" }], { D, set }); setTopic(T); setTurn(0); setDone(null); setLog([{ who: "char", t: T.turns[0].t, g: T.turns[0].g }]); setWaiting(false); speak(T.turns[0].t); sfx.open?.(); };
   const answer = (o) => {
     if (waiting) return;
     setWaiting(true); sfx.click();
