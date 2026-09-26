@@ -2,13 +2,13 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useGame } from "@/components/Game";
 import Portal from "@/components/Portal";
-import { CHARS, charIcon } from "@/lib/genshin";
+import { CHARS, charIcon, ASSET } from "@/lib/genshin";
 import { entriesOf, overallOf, certsOf } from "@/lib/boards";
 import { sfx } from "@/lib/sfx";
 
 const AVATAR_PICKS = ["Qin", "Venti", "Zhongli", "Shougun", "Nahida", "Furina", "Ayaka", "Yae", "Hutao", "Ganyu", "Kazuha", "Klee", "Paimon", "Xiao", "Nilou", "Keqing", "Diluc", "Mona", "Raiden", "Neuvillette", "Arlecchino", "Mavuika", "Kokomi", "Yoimiya"];
 
-export const avatarUrl = (icon) => `https://gi.yatta.moe/assets/UI/UI_AvatarIcon_${icon || "Qin"}.png`;
+export const avatarUrl = (icon) => `${ASSET}UI_AvatarIcon_${icon || "Qin"}.png`;
 
 async function api(path, method, body) {
   const r = await fetch(path, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });

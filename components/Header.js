@@ -7,6 +7,7 @@ import { useGame } from "@/components/Game";
 import { Ico } from "@/components/Icons";
 import { sfx } from "@/lib/sfx";
 import { avatarUrl } from "@/components/Profile";
+import { BackupItems } from "@/components/Backup";
 import { GROUPS, programsIn, TEYVAT, progressLabel } from "@/lib/programs";
 
 export default function Header() {
@@ -67,7 +68,7 @@ export default function Header() {
             ))}
             <section className="mngroup teyvat">
               <h3>Teyvat <small>Phần thưởng & hồ sơ</small></h3>
-              <div className="mnlist">{TEYVAT.map(item)}</div>
+              <div className="mnlist">{TEYVAT.map(item)}<BackupItems /></div>
             </section>
           </div>
         </nav>

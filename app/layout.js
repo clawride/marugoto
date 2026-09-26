@@ -21,17 +21,27 @@ export const metadata = {
   description: "Học tiếng Nhật Marugoto A1 → B1-1: bảng chữ cái, từ vựng, nghe, kanji, ngữ pháp, thi chứng chỉ — phong cách Genshin Impact",
 };
 
-export const viewport = { themeColor: "#0b0f22", width: "device-width", initialScale: 1 };
+const OFFLINE = process.env.NEXT_PUBLIC_OFFLINE === "1";
+
+export const viewport ={ themeColor: "#0b0f22", width: "device-width", initialScale: 1 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="vi">
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        {/* eslint-disable-next-line @next/next/no-page-custom-font */}
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&family=Noto+Serif+JP:wght@400;600;700&display=swap" rel="stylesheet" />
-        <link rel="preconnect" href="https://gi.yatta.moe" />
+        {OFFLINE ? (
+          // Bản offline: phông chữ đã tải sẵn trong public/fonts (scripts/build-offline.mjs)
+          // eslint-disable-next-line @next/next/no-css-tags
+          <link href="/fonts/fonts.css" rel="stylesheet" />
+        ) : (
+          <>
+            <link rel="preconnect" href="https://fonts.googleapis.com" />
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+            {/* eslint-disable-next-line @next/next/no-page-custom-font */}
+            <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&family=Noto+Serif+JP:wght@400;600;700&display=swap" rel="stylesheet" />
+            <link rel="preconnect" href="https://gi.yatta.moe" />
+          </>
+        )}
       </head>
       <body>
         <SvgDefs />

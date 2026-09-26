@@ -1,4 +1,5 @@
 // Biểu tượng vẽ lại (không dùng tài nguyên gốc của game)
+import { ASSET } from "@/lib/genshin";
 export function SvgDefs() {
   return (
     <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden="true">
@@ -41,7 +42,7 @@ export const ITEM_ICON = {
   fateI: { id: 223, name: "Mối Duyên Vương Vấn" },
   fateA: { id: 224, name: "Mối Duyên Tương Ngộ" },
 };
-export const itemIconUrl = (id) => `https://gi.yatta.moe/assets/UI/UI_ItemIcon_${ITEM_ICON[id].id}.png`;
+export const itemIconUrl = (id) => `${ASSET}UI_ItemIcon_${ITEM_ICON[id].id}.png`;
 
 export const Ico = ({ id, className = "ic" }) =>
   ITEM_ICON[id]
