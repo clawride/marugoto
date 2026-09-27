@@ -13,6 +13,12 @@ export default function B1Hub() {
   return (
     <>
       <ZhongliHero />
+      <div className="kjtools">
+        <Link href="/kanji/phieu?lv=b1" className="panel kjtool" onClick={() => sfx.page()}>
+          <b>📝 Phiếu luyện viết Kanji B1-1</b>
+          <span>Phiếu theo Topic như phiếu giấy của lớp: tô chữ mờ, viết vào ô kẻ, viết cách đọc & chữ Hán phần gạch chân — có chấm điểm, in được</span>
+        </Link>
+      </div>
       {EXAMS.map((ex) => {
         const r = P.ex?.[ex.n];
         return (

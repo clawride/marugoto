@@ -35,8 +35,8 @@ export default function KanjiHub() {
       </p>
       <div className="kjtools">
         <Link href="/kanji/phieu" className="panel kjtool" onClick={() => sfx.page()}>
-          <b>📝 Phiếu luyện viết Kanji A2/B1</b>
-          <span>18 phiếu theo Topic (giống phiếu giấy của lớp Marugoto): tô chữ mờ, viết vào ô kẻ, viết cách đọc & chữ Hán phần gạch chân — có chấm điểm, in được</span>
+          <b>📝 Phiếu luyện viết Kanji A1 → B1-2</b>
+          <span>Phiếu theo từng Topic (giống phiếu giấy của lớp Marugoto): tô chữ mờ, viết vào ô kẻ, viết cách đọc & chữ Hán phần gạch chân — có chấm điểm, in được</span>
         </Link>
         <Link href="/kanji/meo" className="panel kjtool" onClick={() => sfx.page()}>
           <b>🔮 Mẹo đoán chữ Hán</b>

@@ -13,12 +13,16 @@ import { A1C } from "@/lib/a1";
 import { A21C } from "@/lib/a21";
 import { B12 } from "@/lib/b12";
 
+// lối vào Phiếu luyện viết Kanji của cấp (hiện ở trang tổng khóa học)
+const sheetLink = (lv, name) => [{ href: `/kanji/phieu?lv=${lv}`, title: `📝 Phiếu luyện viết Kanji ${name}`, sub: "Phiếu theo Topic như phiếu giấy của lớp: tô chữ mờ, viết vào ô kẻ, viết cách đọc & chữ Hán phần gạch chân — có chấm điểm, in được" }];
+
 export const A22_COURSE = {
   store: "a22", C: A22, base: "/a22", title: "Marugoto A2-2",
   unit: "Bài", unitTag: (L) => `TOPIC ${L.topic} · ${L.topicTitle} · だい${L.lesson}か`,
   audio: A22_AUDIO, folder: "New Marugoto A2-2 audio",
   Host: NahidaHost, Hero: NahidaHero, lines: ND, char: NAHIDA, hostName: "Nahida",
   exam: A22_EXAM,
+  extra: sheetLink("a22", "A2-2"),
 };
 
 export const AB1_COURSE = {
@@ -27,7 +31,7 @@ export const AB1_COURSE = {
   audio: AB1_AUDIO, folder: "Marugoto A2B1 Audio",
   Host: FurinaHost, Hero: FurinaHero, lines: FU, char: FURINA, hostName: "Furina",
   exam: AB1_EXAM,
-  extra: [{ href: "/kanji/phieu", title: "📝 Phiếu luyện viết Kanji A2/B1", sub: "18 phiếu theo Topic: tô chữ mờ, viết vào ô kẻ, viết cách đọc & chữ Hán phần gạch chân — có chấm điểm, in được" }],
+  extra: sheetLink("ab1", "A2/B1"),
 };
 
 export const A1_COURSE = {
@@ -37,6 +41,7 @@ export const A1_COURSE = {
   partLabels: { kanji: "Chữ & Kanji" },
   Host: VentiHost, Hero: VentiHero, lines: VT, char: VENTI, hostName: "Venti",
   exam: A1_EXAM,
+  extra: sheetLink("a1", "A1"),
 };
 
 export const A21_COURSE = {
@@ -46,6 +51,7 @@ export const A21_COURSE = {
   audioSetups: [{ lib: A21_AUDIO, folder: "New A2-1 Katsudou audio" }, { lib: A21R_AUDIO, folder: "New A2-1 Rikai audio" }],
   Host: RaidenHost, Hero: RaidenHero, lines: RD, char: RAIDEN, hostName: "Raiden Shogun",
   exam: A21_EXAM,
+  extra: sheetLink("a21", "A2-1"),
 };
 
 export const B12_COURSE = {
@@ -54,4 +60,5 @@ export const B12_COURSE = {
   audio: NO_AUDIO, audioSetups: [],
   Host: MavuikaHost, Hero: MavuikaHero, lines: MV, char: MAVUIKA, hostName: "Mavuika",
   exam: B12_EXAM,
+  extra: sheetLink("b12", "B1-2"),
 };

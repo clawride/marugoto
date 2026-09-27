@@ -10,7 +10,7 @@ import StrokeBoard from "@/components/kana/StrokeBoard";
 import SheetPad from "@/components/kanji/SheetPad";
 import { useKanjiSave, Stars } from "@/components/kanji/KanjiLesson";
 import { KANA_STROKES } from "@/lib/kana";
-import { SHEETS, SHEET_BOOK, sheetOf, sheetKey, parseEx, checkAns, cellsOf, chunk, loadSheetStrokes } from "@/lib/kanjiSheets";
+import { sheetsOf, levelOfSheet, sheetOf, sheetKey, parseEx, checkAns, cellsOf, chunk, loadSheetStrokes } from "@/lib/kanjiSheets";
 import { speakLines } from "@/lib/tts";
 import { sfx } from "@/lib/sfx";
 
@@ -35,7 +35,7 @@ function Head({ sh }) {
   useEffect(() => { try { setName(localStorage.getItem("kw_name") || ""); } catch {} }, []);
   return (
     <div className="kwhead">
-      <span>{SHEET_BOOK}</span><span>トピック{sh.t}</span><span>漢字練習シート({sh.p})</span>
+      <span>{sh.book}</span><span>トピック{sh.t}</span><span>漢字練習シート({sh.p})</span>
       <label>名前：<input value={name} onChange={(e) => { setName(e.target.value); try { localStorage.setItem("kw_name", e.target.value); } catch {} }} /></label>
     </div>
   );
@@ -188,18 +188,20 @@ export default function KanjiSheet({ id }) {
   const [clearKey, setClearKey] = useState(0);
   const [prac, setPrac] = useState(null);
   const [strokes, setStrokes] = useState(null);
-  useEffect(() => { loadSheetStrokes().then(setStrokes); }, []);
+  useEffect(() => { if (sh) loadSheetStrokes(sh.lv).then(setStrokes); }, [sh?.lv]); // eslint-disable-line react-hooks/exhaustive-deps
   const total = sh ? sh.words.reduce((a, w) => a + cellsOf(w), 0) : 10;
   const [box1, cell1] = useCell(total);
   const [box2, cell2] = useCell(12, 56);
   const onPractice = useCallback((w) => { setPrac(w); sfx.open?.(); }, []);
   if (!sh) return <p style={{ marginTop: 40 }}>Không tìm thấy phiếu. <Link href="/kanji/phieu">Danh sách phiếu</Link></p>;
   if (!S) return null;
-  const idx = SHEETS.findIndex((x) => x.id === id), prev = SHEETS[idx - 1], next = SHEETS[idx + 1];
+  const LV = levelOfSheet(sh), list = sheetsOf(sh.lv);
+  const idx = list.findIndex((x) => x.id === id), prev = list[idx - 1], next = list[idx + 1];
+  const foot = LV.jf ? "©国際交流基金ベトナム日本文化交流センター" : "Sổ Tay Teyvat · theo mẫu phiếu 漢字練習シート";
   return (
     <div className="kwsheet">
       <div className="kwbar noprint">
-        <Link href="/kanji/phieu" className="back" onClick={() => sfx.page()}>‹ Phiếu luyện viết A2/B1</Link>
+        <Link href={`/kanji/phieu?lv=${sh.lv}`} className="back" onClick={() => sfx.page()}>‹ Phiếu luyện viết {LV.name}</Link>
         <div className="chips">
           <button className={`chip dk ${page === 1 ? "on" : ""}`} onClick={() => setPage(1)}>1 · Tập viết</button>
           <button className={`chip dk ${page === 2 ? "on" : ""}`} onClick={() => setPage(2)}>2 · Bài tập</button>
@@ -213,12 +215,12 @@ export default function KanjiSheet({ id }) {
         <Head sh={sh} />
         <PageOne sh={sh} cell={cell1} clearKey={clearKey} onPractice={onPractice} />
         {sh.notes?.map((n, i) => <p key={i} className="kwnote">{n}</p>)}
-        <p className="kwfoot">©国際交流基金ベトナム日本文化交流センター</p>
+        <p className="kwfoot">{foot}</p>
       </div>
       <div className={`kwpaper ${page === 2 ? "" : "kwhide"}`} ref={box2}>
         <Head sh={sh} />
         <PageTwo sh={sh} cell={cell2} clearKey={clearKey} onPractice={onPractice} />
-        <p className="kwfoot">©国際交流基金ベトナム日本文化交流センター</p>
+        <p className="kwfoot">{foot}</p>
       </div>
 
       <div className="kwnav noprint">
