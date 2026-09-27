@@ -91,6 +91,8 @@ function readingOf(lemma, tok) {
 
 // từ cùng chữ khác nghĩa mà kuromoji hay đọc sai: chọn cách đọc theo các từ xung quanh trong câu
 const SENSE = [
+  ["間", "ま", /いつの間|間もな|茶の間|床の間|束の間|瞬く間|あっという間|間違|間合い/],
+  ["間", "あいだ", /間/], // 旅の間・この間・二人の間 … (máy hay đọc nhầm thành ま)
   ["辛い", "からい", /料理|味|食|唐辛子|辣|スープ|鍋|ソース|舌|チリ|香辛|スパイス|激辛|甘い|塩|グゥオパァー|絶雲|におい|匂|辛いもの|辛さ|ピリ|ぴり|煮|ぽかぽか|香菱|万民堂|重雲|うまい|辛すぎ/],
 ];
 const senseReading = (lemma, jp) => { for (const [w, r, re] of SENSE) if (w === lemma && re.test(jp)) return r; return null; };
@@ -99,6 +101,7 @@ const VI_BY_LEMMA = new Map();
 for (const [k, v] of VI) { const [w, r] = k.split("\t"); if (!VI_BY_LEMMA.has(w)) VI_BY_LEMMA.set(w, []); VI_BY_LEMMA.get(w).push({ r, ...v }); }
 const viOf = (lemma, kana) => VI.get(`${lemma}\t${kana}`) || (VI_BY_LEMMA.get(lemma) || []).find((x) => x.fix === kana) || null;
 
+const FAKE = new Set(["うい"]); // うう → "憂い"
 const dict = new Map(); // "từ gốc\tđọc" → { id, lemma, kana, ex }
 const words = (jp, names) => {
   const out = [];
@@ -110,6 +113,7 @@ const words = (jp, names) => {
     if (t.word_type === "UNKNOWN" && /^[぀-ゟ]+$/.test(t.surface_form)) continue; // hiragana không có trong từ điển
     const lemma = t.basic_form && t.basic_form !== "*" ? t.basic_form : t.surface_form;
     if (names.has(lemma) || names.has(t.surface_form)) continue;
+    if (/^[ぁ-ゖ]+$/.test(t.surface_form) && FAKE.has(lemma)) continue; // tiếng kêu (うう…) bị máy hiểu nhầm thành từ
     const guess = senseReading(lemma, jp) || readingOf(lemma, t);
     const tr = viOf(lemma, guess);
     if (tr?.vi === "-") continue; // người dịch đánh dấu "-" = mảnh tách sai, bỏ

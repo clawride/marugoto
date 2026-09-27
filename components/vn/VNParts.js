@@ -127,15 +127,49 @@ export function VocabTable({ ids, dict, onlyOutside = false }) {
   );
 }
 
-// Hộp từ vựng của một câu (mở từ nút 📗)
+// Khung neo cạnh màn hình (không che câu truyện): máy tính = cột bên phải, điện thoại = khung dưới đáy.
+// Khi mở, trang tự chừa chỗ (html.vndock-on) và cuộn câu vừa bấm lên trên khung để vừa đọc vừa so.
+// nhớ chỗ vừa chạm (iPhone không đặt focus cho nút khi bấm)
+let lastTap = null;
+if (typeof document !== "undefined") document.addEventListener("pointerdown", (e) => { lastTap = e.target; }, true);
+export function Dock({ title, k, onClose, children }) {
+  const [min, setMin] = useState(false);
+  useEffect(() => {
+    const h = document.documentElement; h.classList.add("vndock-on");
+    const esc = (e) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", esc);
+    return () => { h.classList.remove("vndock-on"); window.removeEventListener("keydown", esc); };
+  }, [onClose]);
+  useEffect(() => {
+    setMin(false);
+    if (window.innerWidth >= 1100) return;
+    const a = (lastTap?.isConnected ? lastTap : document.activeElement)?.closest?.(".vnbox, .bub, .vnchoice, .lg");
+    if (!a) return;
+    requestAnimationFrame(() => {
+      const top = document.querySelector(".vndock")?.getBoundingClientRect().top ?? window.innerHeight * 0.55;
+      const r = a.getBoundingClientRect();
+      if (r.bottom > top - 8 || r.top < 60) window.scrollBy({ top: r.bottom - (top - 8), behavior: "smooth" });
+    });
+  }, [k]);
+  return (
+    <aside className={`vndock ${min ? "min" : ""}`} aria-label={title} onClick={(e) => e.stopPropagation()}>
+      <div className="vndock-h">
+        <b>{title}</b>
+        <button onClick={() => setMin(!min)} aria-label={min ? "Mở rộng" : "Thu nhỏ"} title={min ? "Mở rộng" : "Thu nhỏ"}>{min ? "▴" : "▾"}</button>
+        <button onClick={onClose} aria-label="Đóng" title="Đóng (Esc)">✕</button>
+      </div>
+      <div className="vndock-b">{children}</div>
+    </aside>
+  );
+}
+
+// Từ vựng của một câu (mở từ nút 📗) — hiện trong khung neo
 export function VocabCard({ ids, dict, onClose }) {
   if (!ids) return null;
   return (
-    <div className="vngpop vnvpop" role="dialog" aria-label="Từ vựng" onClick={(e) => e.stopPropagation()}>
-      <button className="vnx" onClick={onClose} aria-label="Đóng">✕</button>
-      <div className="vngvi">📗 Từ vựng trong câu</div>
-      <VocabTable ids={ids} dict={dict} />
-    </div>
+    <Dock title={`📗 Từ vựng trong câu (${ids.length})`} k={ids.join(",")} onClose={onClose}>
+      {ids.length ? <VocabTable ids={ids} dict={dict} /> : <p className="hint">Câu này không có từ cần tra.</p>}
+    </Dock>
   );
 }
 
@@ -160,8 +194,7 @@ export function GrammarCard({ id, G, onClose }) {
   const g = G?.[id];
   if (!id) return null;
   return (
-    <div className="vngpop" role="dialog" aria-label="Ngữ pháp" onClick={(e) => e.stopPropagation()}>
-      <button className="vnx" onClick={onClose} aria-label="Đóng">✕</button>
+    <Dock title="📘 Ngữ pháp trong câu" k={id} onClose={onClose}>
       {!g ? <p>Đang tải…</p> : (
         <>
           <div className="vngpt jpt">{g[4]}</div>
@@ -170,7 +203,7 @@ export function GrammarCard({ id, G, onClose }) {
           <Link href={grammarHref(g)} className="vngref" onClick={() => stopVoice()}>📚 Học kỹ trong <b>{g[2]}</b>{g[3] ? ` — ${g[3]}` : ""} · phần Ngữ pháp ›</Link>
         </>
       )}
-    </div>
+    </Dock>
   );
 }
 

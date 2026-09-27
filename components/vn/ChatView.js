@@ -1,7 +1,7 @@
 "use client";
 // Trò chuyện với nhân vật: chọn chủ đề → nhân vật nói → chọn câu trả lời (câu mẫu dùng ngữ pháp Marugoto) → nhân vật đáp
 // Nhân vật dùng mức ngôn ngữ theo chứng chỉ của người học.
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
 import { CHARS, charIcon } from "@/lib/genshin";
 import { ownedOf, vnOf, CHAT_REWARD, TIERS } from "@/lib/vn";
@@ -22,6 +22,10 @@ export default function ChatView({ id }) {
   const [waiting, setWaiting] = useState(false);
   const [gram, setGram] = useState(null);
   const [voc, setVoc] = useState(null);
+  // chỉ mở một khung (ngữ pháp HOẶC từ vựng), neo ở cạnh màn hình để không che câu truyện
+  const openGram = (g) => { setVoc(null); setGram(g); };
+  const openVoc = (w) => { setGram(null); setVoc(w); };
+  const closeDock = useCallback(() => { setGram(null); setVoc(null); }, []);
   const dict = useDict();
   const [done, setDone] = useState(null);
   const endRef = useRef(null);
@@ -76,7 +80,7 @@ export default function ChatView({ id }) {
                   <div key={i} className={`vnmsg ${m.who}`}>
                     {m.who === "char" && <img src={charIcon(c)} alt="" />}
                     <div className="bub">
-                      <Line t={m.t} g={m.g} w={m.w} tier={tier} set={set} onGrammar={setGram} onVocab={setVoc} />
+                      <Line t={m.t} g={m.g} w={m.w} tier={tier} set={set} onGrammar={openGram} onVocab={openVoc} />
                       <button className="vnspk sm" onClick={() => sayMsg(m.t, m.who)} aria-label="Nghe">🔊</button>
                     </div>
                   </div>
@@ -99,8 +103,8 @@ export default function ChatView({ id }) {
           )}
         </>
       )}
-      {gram && <div className="vnoverlay" onClick={() => setGram(null)}><GrammarCard id={gram} G={G} onClose={() => setGram(null)} /></div>}
-      {voc && <div className="vnoverlay" onClick={() => setVoc(null)}><VocabCard ids={voc} dict={dict} onClose={() => setVoc(null)} /></div>}
+      {gram && <GrammarCard id={gram} G={G} onClose={closeDock} />}
+      {voc && <VocabCard ids={voc} dict={dict} onClose={closeDock} />}
     </div>
   );
 }
