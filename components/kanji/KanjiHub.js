@@ -34,6 +34,10 @@ export default function KanjiHub() {
         Mỗi bài có 6 phần: <b>học chữ</b> (giải thích cấu tạo, mẹo nhớ), <b>tập viết</b> có sửa nét, <b>ghi nhớ</b>, <b>tập đọc</b>, <b>đặt câu</b> và <b>đoán chữ</b>.
       </p>
       <div className="kjtools">
+        <Link href="/kanji/phieu" className="panel kjtool" onClick={() => sfx.page()}>
+          <b>📝 Phiếu luyện viết Kanji A2/B1</b>
+          <span>18 phiếu theo Topic (giống phiếu giấy của lớp Marugoto): tô chữ mờ, viết vào ô kẻ, viết cách đọc & chữ Hán phần gạch chân — có chấm điểm, in được</span>
+        </Link>
         <Link href="/kanji/meo" className="panel kjtool" onClick={() => sfx.page()}>
           <b>🔮 Mẹo đoán chữ Hán</b>
           <span>Bộ chỉ nghĩa, phần chỉ âm (cùng phần thì đọc giống nhau), âm On hay Kun: nhớ một phần vẫn đoán được cả chữ</span>

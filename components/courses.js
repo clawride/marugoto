@@ -27,6 +27,7 @@ export const AB1_COURSE = {
   audio: AB1_AUDIO, folder: "Marugoto A2B1 Audio",
   Host: FurinaHost, Hero: FurinaHero, lines: FU, char: FURINA, hostName: "Furina",
   exam: AB1_EXAM,
+  extra: [{ href: "/kanji/phieu", title: "📝 Phiếu luyện viết Kanji A2/B1", sub: "18 phiếu theo Topic: tô chữ mờ, viết vào ô kẻ, viết cách đọc & chữ Hán phần gạch chân — có chấm điểm, in được" }],
 };
 
 export const A1_COURSE = {

@@ -19,6 +19,11 @@ export default function HubView({ course }) {
   return (
     <div className={`th-${store}`}>
       <Hero />
+      {course.extra?.length > 0 && (
+        <div className="kjtools">
+          {course.extra.map((x) => <Link key={x.href} href={x.href} className="panel kjtool" onClick={() => sfx.page()}><b>{x.title}</b><span>{x.sub}</span></Link>)}
+        </div>
+      )}
       {C.topics.map((T) => {
         const el = ELEM[TOPIC_EL[T.topic]];
         const boss = C.bossOf(T.topic), br = P.boss?.[T.topic];

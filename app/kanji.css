@@ -17,7 +17,7 @@
 .th-kanji .kchip{font-size:22px;min-width:46px}
 
 /* công cụ trên trang tổng */
-.kjtools{display:grid;grid-template-columns:1fr 1.3fr;gap:12px;margin:14px 0}
+.kjtools{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:14px 0}
 @media(max-width:760px){.kjtools{grid-template-columns:1fr}}
 .kjtool{padding:14px 16px;display:flex;flex-direction:column;gap:6px;text-decoration:none;color:var(--cream2)}
 .kjtool b{color:#ffd2c0}
@@ -97,3 +97,73 @@
 .kjrad div{display:flex;flex-direction:column;gap:2px;font-size:13px}
 .kjrad small{color:#c9cbd6}
 .kjrad .ks a{font-size:17px;color:#ffd2c0;margin-right:5px;text-decoration:none}
+
+/* ===== Phiếu luyện viết kanji A2/B1 (giống phiếu PDF của JF Việt Nam) ===== */
+.kwsheet{max-width:1100px;margin:0 auto}
+.kwbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-top:8px}
+.kwpaper{background:#fff;color:#111;border-radius:6px;padding:18px 16px 10px;margin:12px 0;box-shadow:0 8px 30px rgba(0,0,0,.35);overflow-x:auto}
+.kwpaper.kwhide{display:none}
+.kwhead{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 18px;font-family:var(--jp);font-size:14px;font-weight:600;margin-bottom:14px;color:#111}
+.kwhead input{border:0;border-bottom:1px solid #333;background:transparent;width:150px;font:inherit;color:#111;padding:0 4px;outline:none}
+.kwtable{display:grid;border:1.5px solid #222;width:max-content;margin:0 auto}
+.kwtable>*{border-right:1.5px solid #222;min-width:0}
+.kwbig{grid-row:1;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(var(--c)*1.45);background:#fff;border:0;border-right:1.5px solid #222;border-bottom:1px solid #222;cursor:pointer;color:#111;padding:4px 2px;font-size:calc(var(--c)*.78);line-height:1.1}
+.kwbig:hover{background:#fff8e6}
+.kwbig .kwmark{font-size:.4em;vertical-align:bottom}
+.kwbig .kwsub{font-size:calc(var(--c)*.36);margin-top:2px;white-space:nowrap}
+.kwcell{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;text-align:center;padding:3px 4px;font-size:12px;line-height:1.3;border-bottom:1px dotted #555;color:#111}
+.kwr{font-size:11.5px}
+.kwhv{font-family:Times New Roman,serif;font-size:12px}
+.kwvi{font-family:Times New Roman,serif;font-size:12.5px;border-bottom:1px solid #222}
+.kwtr{padding:0;border-bottom:1px solid #222;justify-content:center;flex-wrap:nowrap}
+.kwtrace{display:inline-flex;color:#c9c9c9;font-size:calc(var(--c)*.78);line-height:1}
+.kwtrace i{font-style:normal;width:var(--c);height:calc(var(--c)*1.1);display:flex;align-items:center;justify-content:center}
+.kwgrid{position:relative;border-bottom:1px solid #222}
+.kwpad{display:block;touch-action:none;cursor:crosshair;background-size:var(--c) var(--c);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M100 0V100M0 100H100' stroke='%23444' stroke-width='1.2' vector-effect='non-scaling-stroke' fill='none'/%3E%3Cpath d='M50 0V100M0 50H100' stroke='%23aaa' stroke-width='1' stroke-dasharray='3 3' vector-effect='non-scaling-stroke' fill='none'/%3E%3C/svg%3E")}
+.kwinst{font-family:var(--jp);font-size:14px;margin:4px 0 10px;color:#111}
+.kwinst b{font-family:Times New Roman,serif;font-weight:400;margin-left:6px}
+.kwex{margin:0 0 10px;padding-left:22px;color:#111;font-size:15px;line-height:2.5}
+.kwex li{margin-bottom:6px}
+.kwblank{display:inline-flex;flex-direction:column;align-items:center;vertical-align:top;line-height:1.5;margin:0 1px}
+.kwblank u{text-underline-offset:4px;text-decoration-thickness:1.5px}
+.kwin{display:inline-flex;align-items:center;gap:2px}
+.kwin input{font:inherit;font-size:13px;padding:1px 4px;border:1px solid #bbb;border-radius:4px;background:#fffdf5;color:#111;min-width:3em}
+.kwblank.ok input{border-color:#3fa34d;background:#eefbe9}
+.kwblank.bad input{border-color:#d0453a;background:#fdeceb}
+.kwans{font-style:normal;font-size:12px;color:#2f6fd1;margin-left:3px;white-space:nowrap}
+.kwpen{border:0;background:none;cursor:pointer;font-size:13px;padding:0 2px}
+.kwactions{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:6px 0 4px}
+.kwactions .chip{color:#fff}
+.kwscore{color:#111;font-size:14px}
+.kwpaper .hint{color:#555}
+.kwrows{display:grid;border:1.5px solid #222;width:max-content;margin:14px auto 4px}
+.kwrows>*{border-bottom:1.5px solid #222}
+.kwrowtr{border:0;border-right:1.5px solid #222;border-bottom:1.5px solid #222;background:#fff;cursor:pointer;padding:0;height:var(--c)}
+.kwrowtr .kwtrace i{height:var(--c)}
+.kwnote{font-family:var(--jp);font-size:12px;color:#333;margin:6px 0 0}
+.kwfoot{text-align:center;font-size:10px;color:#555;margin:14px 0 0;font-family:var(--jp)}
+.kwnav{display:flex;justify-content:space-between;margin:6px 0 20px}
+.kwprac{max-width:420px;position:relative;text-align:center}
+.kwprac h2 small{font-size:15px;margin-left:8px;opacity:.75}
+.kwpvi{margin:-6px 0 8px;opacity:.85}
+.kwclose{position:absolute;right:10px;top:8px;width:30px;height:30px;border-radius:50%;border:1px solid rgba(0,0,0,.25);background:rgba(255,255,255,.6);cursor:pointer}
+.kwprac .kpick,.kwprac .kmodes{justify-content:center}
+.kwprac .kpad{margin:6px auto}
+.kwcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.kwcard{display:flex;flex-direction:column;gap:6px;padding:14px;color:var(--cream2);text-decoration:none}
+.kwcardh{display:flex;justify-content:space-between;align-items:center;font-family:var(--jp)}
+.kwwords{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:20px;color:#fff}
+.kwcard small{color:var(--mute)}
+@media(max-width:560px){.kwpaper{padding:12px 8px 8px}.kwex{font-size:14px;padding-left:18px}}
+
+/* In phiếu: khổ A4 ngang, cả 2 trang, ẩn phần giao diện web */
+@page kwsheet{size:A4 landscape;margin:10mm}
+@media print{
+  body *{visibility:hidden}
+  .kwsheet,.kwsheet *{visibility:visible}
+  .kwsheet{position:absolute;left:0;top:0;width:100%;page:kwsheet}
+  .kwsheet .noprint,.kwsheet .hint,.kwactions,.kwpen,.kwans{display:none!important}
+  .kwpaper,.kwpaper.kwhide{display:block;box-shadow:none;margin:0;padding:0;break-after:page;overflow:visible}
+  .kwin input{border:0;border-bottom:1px solid #999;background:none}
+}
