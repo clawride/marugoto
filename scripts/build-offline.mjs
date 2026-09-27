@@ -1,5 +1,5 @@
 // Đóng gói bản chạy OFFLINE trên máy (Windows): trang Next.js chạy độc lập + ảnh Genshin + phông chữ + lồng tiếng + VOICEVOX
-//   node scripts/build-offline.mjs [--out C:/Users/<tên>/SoTayTeyvatOffline] [--chat-dir <thư mục mp3 trò chuyện>] [--engine <run.exe của VOICEVOX>]
+//   node scripts/build-offline.mjs [--out C:/Users/<tên>/SoTayTeyvatOffline] [--chat-dir <thư mục mp3 trò chuyện>] [--voice4-dir <mp3 4★>] [--engine <run.exe của VOICEVOX>]
 // Kết quả: <out>/SoTayTeyvat-Offline.vbs (+ biểu tượng "Sổ Tay Teyvat (Offline)" trên Desktop). Chạy lại để cập nhật — ảnh/phông đã tải được giữ trong <out>/assets.
 // File âm thanh dùng liên kết cứng (hard link) nên gần như không tốn thêm dung lượng ổ đĩa.
 import fs from "fs";
@@ -11,6 +11,8 @@ const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace
 const HOME = process.env.USERPROFILE || process.env.HOME;
 const OUT = path.resolve(arg("out", path.join(HOME, "SoTayTeyvatOffline")));
 const CHAT_DIR = arg("chat-dir", path.join(HOME, "voicevox_tools", "voice-chat"));
+// thư mục mp3 đã tạo trên máy (lấy thẳng, khỏi tải lại từ GitHub): trò chuyện 5★ + truyện & trò chuyện 4★
+const LOCAL_DIRS = [CHAT_DIR, arg("voice4-dir", path.join(HOME, "voicevox_tools", "voice-4star"))];
 const ENGINE = arg("engine", path.join(HOME, "voicevox_tools", "engine", "run.exe"));
 const GI = "https://gi.yatta.moe/assets/UI/";
 const PORT = 39390;
@@ -115,8 +117,9 @@ for (const f of fs.readdirSync(path.join(ROOT, "public", "vn", "voice")).filter(
 }
 let vcLinked = 0, vcDl = 0;
 for (const [name, url] of need) {
-  const local = path.join(CHAT_DIR, name), d = path.join(VC, name);
-  if (fs.existsSync(local)) { try { fs.linkSync(local, d); } catch { fs.copyFileSync(local, d); } vcLinked++; continue; }
+  const d = path.join(VC, name);
+  const local = LOCAL_DIRS.map((dir) => path.join(dir, name)).find((p) => fs.existsSync(p));
+  if (local) { try { fs.linkSync(local, d); } catch { fs.copyFileSync(local, d); } vcLinked++; continue; }
   const cache = path.join(ASSETS, "voice-chat", name);
   if (!fs.existsSync(cache)) { fs.mkdirSync(path.dirname(cache), { recursive: true }); fs.writeFileSync(cache, Buffer.from(await (await fetch(url)).arrayBuffer())); vcDl++; }
   fs.linkSync(cache, d); vcLinked++;
