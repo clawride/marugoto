@@ -1,5 +1,5 @@
 "use client";
-// Giao diện cơ bản: các mục game (Cầu Nguyện, Nhân Vật & truyện nhân vật, Túi Đồ, Thử thách Boss, Thử thách Nghe) bị ẩn —
+// Giao diện cơ bản: các mục game (Cầu Nguyện, Nhân Vật & truyện nhân vật, Túi Đồ, Thử thách Boss, Thử thách Nghe, Sổ tay Genshin) bị ẩn —
 // mở thẳng đường dẫn thì hiện thông báo kèm nút chuyển sang giao diện game.
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -13,7 +13,7 @@ export default function PlainGate({ children }) {
   return (
     <div className="panel plaingate">
       <h2>🎮 Mục này chỉ có ở giao diện game</h2>
-      <p>Giao diện học tập cơ bản ẩn các phần trò chơi (Cầu Nguyện, Nhân Vật và truyện nhân vật, Túi Đồ, Thử thách Boss, Thử thách Nghe). Tiến độ học của bạn vẫn được giữ nguyên.</p>
+      <p>Giao diện học tập cơ bản ẩn các phần trò chơi (Cầu Nguyện, Nhân Vật và truyện nhân vật, Túi Đồ, Thử thách Boss, Thử thách Nghe, Sổ tay Genshin). Tiến độ học của bạn vẫn được giữ nguyên.</p>
       <div className="btnrow">
         <button className="gbtn" onClick={() => setUITheme("game")}><span className="c" />Chuyển sang giao diện game</button>
         <Link href="/" className="chip dk">‹ Về trang chủ</Link>

@@ -12,8 +12,9 @@ export default function Home() {
   const { S, update } = useGame();
   const plain = useUITheme() === "plain"; // giao diện cơ bản: ẩn các mục game
   const best = S?.best || {};
-  const book = S?.nbBook || "a1";
-  const B = BOOKS.find((b) => b.id === book) || BOOKS[0];
+  const books = plain ? BOOKS.filter((b) => b.id !== "gi") : BOOKS; // giao diện cơ bản: ẩn Sổ tay Genshin
+  const book = books.some((b) => b.id === S?.nbBook) ? S.nbBook : "a1";
+  const B = books.find((b) => b.id === book) || books[0];
   return (
     <>
       <div className="pagehead">
@@ -53,7 +54,7 @@ export default function Home() {
       <section className="homesec" id="sotay">
         <h2 className="a22th"><span>Sổ Tay Từ Vựng</span> <small>Luyện từ vựng từng sách theo Topic</small></h2>
       <div className="chips nbbooks">
-        {BOOKS.map((b) => <button key={b.id} className={`chip dk ${b.id === book ? "on" : ""}`} onClick={() => { update((s) => { s.nbBook = b.id; }); sfx.click(); }}>{b.ico} {b.name} <small>{bookTotal(b.id).toLocaleString("vi-VN")} từ</small></button>)}
+        {books.map((b) => <button key={b.id} className={`chip dk ${b.id === book ? "on" : ""}`} onClick={() => { update((s) => { s.nbBook = b.id; }); sfx.click(); }}>{b.ico} {b.name} <small>{bookTotal(b.id).toLocaleString("vi-VN")} từ</small></button>)}
       </div>
       <p className="hint" style={{ textAlign: "center", marginTop: 4 }}>{B.full} · {bookTotal(B.id).toLocaleString("vi-VN")} từ · {topicsOf(book).length} {B.id === "gi" ? "nhân vật" : "Topic"}</p>
       {B.id === "gi" && (
