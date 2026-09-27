@@ -30,9 +30,9 @@ export default function Home() {
       {/* ===== Lộ trình học: từ cấp thấp đến cấp cao ===== */}
       {GROUPS.map((g) => (
         <section key={g.id} className="homesec">
-          <h2 className="a22th"><span>{g.name}</span> <small>{g.sub}</small></h2>
+          <h2 className="a22th"><span>{g.name}</span> <small>{(plain && g.plainSub) || g.sub}</small></h2>
           <div className={`progrid ${g.id}`}>
-            {programsIn(g.id).map((p, i) => (
+            {programsIn(g.id).filter((p) => !(plain && p.game)).map((p, i) => (
               <Link key={p.id} href={p.href} className="panel procard" style={{ "--c": p.color }} onClick={() => sfx.page()}>
                 {g.id === "path" && <span className="prostep" aria-hidden="true">{i + 1}</span>}
                 <img src={p.avatar} alt="" />

@@ -70,8 +70,8 @@ export default function Header() {
             </Link>
             {GROUPS.map((g) => (
               <section key={g.id} className="mngroup">
-                <h3>{g.name} <small>{g.sub}</small></h3>
-                <div className="mnlist">{programsIn(g.id).map(item)}</div>
+                <h3>{g.name} <small>{(ui === "plain" && g.plainSub) || g.sub}</small></h3>
+                <div className="mnlist">{programsIn(g.id).filter((p) => !(ui === "plain" && p.game)).map(item)}</div>
               </section>
             ))}
             <section className="mngroup teyvat">
