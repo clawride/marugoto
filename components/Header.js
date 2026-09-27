@@ -1,6 +1,7 @@
 "use client";
 // Thanh trên cùng gọn: logo · tiền tệ · nút Menu (mở bảng điều hướng đầy đủ, chia nhóm, xếp theo cấp độ) · hồ sơ · âm thanh
 import { useEffect, useRef, useState } from "react";
+import { setUITheme, useUITheme } from "@/lib/uiTheme";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useGame } from "@/components/Game";
@@ -29,6 +30,7 @@ export default function Header() {
     return () => { document.removeEventListener("keydown", key); document.removeEventListener("pointerdown", click); };
   }, [open]);
 
+  const ui = useUITheme();
   const item = (p) => (
     <Link key={p.id} href={p.href} className={`mnitem ${isOn(p.href) ? "on" : ""}`} style={{ "--c": p.color || "211,188,142" }} onClick={() => { sfx.page(); setOpen(false); }}>
       <span className="mnico" aria-hidden="true">{p.ico}</span>
@@ -51,6 +53,10 @@ export default function Header() {
           <span aria-hidden="true">{open ? "✕" : "☰"}</span><span className="lbl">Menu</span>
         </button>
         <Link href="/rank" className="navbtn profchip" onClick={() => sfx.page()} title="Bảng xếp hạng & hồ sơ">{S?.profile ? <img src={avatarUrl(S.profile.avatar)} alt="" /> : <span aria-hidden="true">🏆</span>}<span className="lbl">{S?.profile?.name || "Xếp hạng"}</span></Link>
+        <button className="navbtn uibtn" onClick={() => { setUITheme(ui === "plain" ? "game" : "plain"); sfx.click(); }}
+          title={ui === "plain" ? "Chuyển sang giao diện Teyvat (game)" : "Chuyển sang giao diện học tập cơ bản (không ảnh anime)"} aria-label="Đổi giao diện">
+          <span aria-hidden="true">{ui === "plain" ? "🎮" : "📘"}</span><span className="lbl">{ui === "plain" ? "Giao diện game" : "Giao diện cơ bản"}</span>
+        </button>
         <button className="navbtn" onClick={toggleSound} title={S?.sound === false ? "Bật âm thanh" : "Tắt âm thanh"} aria-label={S?.sound === false ? "Bật âm thanh" : "Tắt âm thanh"}>{S?.sound === false ? "🔇" : "🔊"}</button>
       </div>
       {open && (

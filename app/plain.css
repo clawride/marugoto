@@ -1,0 +1,106 @@
+/* ===== Giao diện học tập cơ bản (html[data-ui="plain"]) =====
+   Nền sáng, chữ tối, màu nhấn xanh dương; không ảnh nhân vật anime, không nền trời sao / sao băng.
+   Bật/tắt bằng nút 📘 trên thanh đầu trang (lib/uiTheme.js). */
+:root[data-ui="plain"]{
+  --sky0:#f6f7fb;--sky1:#eef1f7;--sky2:#e3e8f1;--sky3:#c9d3e3;
+  --gold:#2f6fd1;--gold2:#1d4f9e;--gold3:#5b8fd9;
+  --cream:#1f2937;--cream2:#111827;--ink:#374151;--ink2:#1f2937;--mute:#6b7280;
+  --ok:#2e8b57;--bad:#d14343;
+  --serif:"Segoe UI","Noto Sans","Helvetica Neue",Arial,"Noto Sans JP","Yu Gothic",sans-serif;
+  --jp:"Noto Sans JP","Yu Gothic","Meiryo","Noto Serif JP",sans-serif;
+  --pl-card:#ffffff;--pl-line:#d9e0ea;--pl-soft:#f1f4f9;--pl-accent:#2f6fd1;--pl-accent-2:#e8f0fc;--pl-text:#1f2937;
+  color-scheme:light;
+}
+[data-ui="plain"] body{background:var(--sky0);color:var(--pl-text)}
+
+/* — ẩn ảnh anime (ảnh nhân vật/vũ khí Genshin), nền trời sao, sao băng — */
+/* ảnh nhân vật, ảnh gacha, vũ khí, quái vật, cung mệnh (giữ biểu tượng nguyên tố / loại vũ khí / vật phẩm) */
+[data-ui="plain"] img[src*="UI_AvatarIcon"],[data-ui="plain"] img[src*="UI_Gacha_AvatarImg"],[data-ui="plain"] img[src*="UI_Gacha_EquipIcon"],
+[data-ui="plain"] img[src*="UI_EquipIcon"],[data-ui="plain"] img[src*="MonsterIcon"],[data-ui="plain"] img[src*="UI_Talent"],
+[data-ui="plain"] canvas.sky,[data-ui="plain"] .meteor-cv,[data-ui="plain"] .msky{display:none!important}
+[data-ui="plain"] [style*="yatta.moe"],[data-ui="plain"] [style*="/gi/UI_"]{background-image:none!important}
+
+/* — khung chung — */
+[data-ui="plain"] header.top{background:#fff;border-bottom:1px solid var(--pl-line);backdrop-filter:none;box-shadow:0 1px 3px rgba(15,23,42,.06)}
+[data-ui="plain"] .brand svg{color:var(--pl-accent)}
+[data-ui="plain"] .brand b{color:var(--pl-text)}
+[data-ui="plain"] .brand small{color:var(--mute)}
+[data-ui="plain"] .navbtn,[data-ui="plain"] .curr{background:var(--pl-soft);border:1px solid var(--pl-line);color:var(--pl-text)}
+[data-ui="plain"] .navbtn:hover,[data-ui="plain"] .menubtn.on{background:var(--pl-accent-2);border-color:var(--pl-accent)}
+[data-ui="plain"] .panel{background:var(--pl-card);border:1px solid var(--pl-line);box-shadow:0 1px 3px rgba(15,23,42,.06);color:var(--pl-text)}
+[data-ui="plain"] .panel:before,[data-ui="plain"] .panel:after{display:none}
+[data-ui="plain"] .parch{background:#fff;color:var(--pl-text);border:1px solid var(--pl-line)}
+[data-ui="plain"] .modal{background:rgba(15,23,42,.45);backdrop-filter:none}
+[data-ui="plain"] .pagehead h1{color:var(--pl-text);text-shadow:none}
+[data-ui="plain"] .pagehead p{color:var(--mute)}
+[data-ui="plain"] .orn:before,[data-ui="plain"] .orn:after{background:var(--pl-line)}
+[data-ui="plain"] .orn span{border-color:var(--pl-line);background:var(--sky0)}
+[data-ui="plain"] .back{color:var(--pl-accent)}
+[data-ui="plain"] .hint{color:var(--mute)}
+
+/* — nút — */
+[data-ui="plain"] .gbtn{background:var(--pl-accent);color:#fff;border:1px solid var(--pl-accent);border-radius:8px;box-shadow:none;text-shadow:none}
+[data-ui="plain"] .gbtn .c{display:none}
+[data-ui="plain"] .gbtn:hover{filter:brightness(1.08)}
+[data-ui="plain"] .gbtn.dark,[data-ui="plain"] .gbtn.x{background:#fff;color:var(--pl-accent)}
+[data-ui="plain"] .chip{background:#fff;border:1px solid var(--pl-line);color:var(--pl-text)}
+[data-ui="plain"] .chip.dk{background:#fff;color:var(--pl-text)}
+[data-ui="plain"] .chip.on,[data-ui="plain"] .chip.dk.on{background:var(--pl-accent);border-color:var(--pl-accent);color:#fff}
+[data-ui="plain"] .chip small{color:inherit;opacity:.75}
+[data-ui="plain"] input,[data-ui="plain"] select,[data-ui="plain"] textarea{background:#fff;color:var(--pl-text);border-color:var(--pl-line)}
+
+/* — menu điều hướng — */
+[data-ui="plain"] .mainmenu{background:#fff;border-bottom:1px solid var(--pl-line);box-shadow:0 8px 24px rgba(15,23,42,.12)}
+[data-ui="plain"] .mnitem{background:var(--pl-soft);border:1px solid var(--pl-line);color:var(--pl-text)}
+[data-ui="plain"] .mnitem.on,[data-ui="plain"] .mnitem:hover{background:var(--pl-accent-2);border-color:var(--pl-accent)}
+[data-ui="plain"] .mntxt b{color:var(--pl-text)}
+[data-ui="plain"] .mngroup h3{color:var(--mute)}
+[data-ui="plain"] .toast{background:#1f2937;color:#fff;border-color:#1f2937}
+
+/* — trang chủ: thẻ chương trình / Topic (không còn ảnh nhân vật) — */
+[data-ui="plain"] .prohost{display:none}
+[data-ui="plain"] .procard p{color:#4b5563}
+[data-ui="plain"] .procard em{color:var(--pl-accent)}
+[data-ui="plain"] .procard:hover{box-shadow:0 6px 18px rgba(15,23,42,.1)}
+[data-ui="plain"] .tcard .glow{display:none}
+[data-ui="plain"] .tcard h3,[data-ui="plain"] .tcard .vi{padding-right:0}
+[data-ui="plain"] .tcard:hover{box-shadow:0 6px 18px rgba(15,23,42,.1),0 0 0 1px var(--pl-accent)}
+[data-ui="plain"] .bar{background:#e5e9f0}
+[data-ui="plain"] .bar i{background:var(--pl-accent)}
+
+/* — khung chào của khóa học: chỉ giữ tên khóa, bỏ lời nhân vật dẫn đường — */
+[data-ui="plain"] .zlhero{background:#fff;border:1px solid var(--pl-line);box-shadow:0 1px 3px rgba(15,23,42,.06);min-height:0;padding:18px 22px}
+[data-ui="plain"] .zlhero .tag,[data-ui="plain"] .zlhero .t2,[data-ui="plain"] .zlcopy>p:not(.t2){display:none}
+[data-ui="plain"] .zlhero h1{color:var(--pl-text);text-shadow:none;margin:0}
+[data-ui="plain"] .parch,[data-ui="plain"] .qcard{border:1px solid var(--pl-line)!important;box-shadow:0 1px 3px rgba(15,23,42,.06)!important;outline:0}
+[data-ui="plain"] .qcard .kana{color:#6b7280}
+
+/* — hộp lời nhân vật dẫn đường → hộp "Mẹo" bình thường (ẩn tên nhân vật) — */
+[data-ui="plain"] .zlhost .bubble{background:#f0f6ff;border:1px solid #cfe0f7;color:var(--pl-text)}
+[data-ui="plain"] .zlhost .bubble:before{display:none}
+[data-ui="plain"] .zlhost .bubble>b:first-child{font-size:0}
+[data-ui="plain"] .zlhost .bubble>b:first-child:after{content:"💡 Mẹo";font-size:13px;color:var(--pl-accent)}
+[data-ui="plain"] .buddy .av{display:none}
+
+/* — trang Nhân vật: thẻ ảnh → ô tên — */
+[data-ui="plain"] .ccard{background:#fff;border:1px solid var(--pl-line);min-height:0}
+[data-ui="plain"] .ccard .cimg{display:none}
+[data-ui="plain"] .ccard .cname{position:static;background:none;color:var(--pl-text);padding:14px 8px 10px;font-weight:600;text-align:center}
+[data-ui="plain"] .ccard .cel{position:static;display:block;margin:10px auto 0;width:26px;height:26px}
+[data-ui="plain"] .ccard.lock{opacity:.6}
+
+/* — trận Boss: bỏ hình quái vật & vầng sáng, chỉ giữ tên + thanh máu — */
+[data-ui="plain"] .arena{min-height:0!important;height:auto!important;background:#fff!important;border:1px solid var(--pl-line);padding-bottom:10px}
+[data-ui="plain"] .arena .bossfig,[data-ui="plain"] .arena .aura{display:none!important}
+
+/* — đọc truyện nhân vật: bỏ nền phong cảnh + hình nhân vật, khung thoại nằm gọn trong khung trắng — */
+[data-ui="plain"] .vnstage{height:auto;min-height:0;background:#fff!important;border:1px solid var(--pl-line);padding:44px 0 0}
+[data-ui="plain"] .vnstage>*:not(.vnbox):not(.vnscene):not(.vnchapter){display:none}
+[data-ui="plain"] .vnscene,[data-ui="plain"] .vnchapter{background:var(--pl-soft);color:var(--mute);border:1px solid var(--pl-line)}
+[data-ui="plain"] .vnbox{position:relative;left:auto;right:auto;bottom:auto;margin:0 12px 12px;max-height:none;background:#fff;border:1px solid var(--pl-line);box-shadow:none;color:var(--pl-text)}
+[data-ui="plain"] .vnname{background:var(--pl-accent-2);color:var(--pl-accent)}
+[data-ui="plain"] .vnname small{color:var(--mute)}
+
+/* nút đổi giao diện: chữ chỉ hiện trên màn hình rộng */
+.uibtn .lbl{display:none}
+@media(min-width:900px){.uibtn .lbl{display:inline}}

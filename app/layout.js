@@ -10,6 +10,8 @@ import "./a22.css";
 import "./kana.css";
 import "./kanji.css";
 import "./vn.css";
+import "./plain.auto.css";
+import "./plain.css";
 import { GameProvider } from "@/components/Game";
 import Header from "@/components/Header";
 import Sky from "@/components/Sky";
@@ -27,8 +29,10 @@ export const viewport ={ themeColor: "#0b0f22", width: "device-width", initialSc
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="vi">
+    <html lang="vi" suppressHydrationWarning>
       <head>
+        {/* giao diện cơ bản (nếu đã chọn, lưu ở lib/uiTheme.js): đặt trước khi vẽ trang để không nháy giao diện game */}
+        <script dangerouslySetInnerHTML={{ __html: `try{if(localStorage.getItem("ui_theme")==="plain")document.documentElement.dataset.ui="plain"}catch(e){}` }} />
         {OFFLINE ? (
           // Bản offline: phông chữ đã tải sẵn trong public/fonts (scripts/build-offline.mjs)
           // eslint-disable-next-line @next/next/no-css-tags
