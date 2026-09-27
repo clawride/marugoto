@@ -31,6 +31,7 @@ const MG = new Map();
 // (tránh ghép nhầm từ đồng âm khác nghĩa: 跳ねる ≠ 羽根, 橋 ≠ 箸)
 // MGK = từ sách viết bằng kana · MGR = cách đọc của từ sách viết bằng kanji (chỉ dùng khi truyện viết từ đó bằng kana)
 const MGK = new Map(), MGR = new Map();
+const MASU = /ま(す|した|せん|しょう)/;
 const HASK = (s) => /[一-鿿々]/.test(s);
 const put = (m, k, v) => { if (k && !m.has(k)) m.set(k, v); };
 const clean = (s) => (s || "").replace(/[（(].*?[)）]|〜|～|\s/g, "").trim();
@@ -43,11 +44,13 @@ const addMG = (jp, kana, vi, src) => {
   const v = [vi, src], J = clean(jp), K = clean(kana);
   if (J && HASK(J)) {
     put(MG, J, v); const b = base(J); if (b) put(MG, b, v);
-    if (K) { put(MGR, K, v); const bk = base(K); if (bk) put(MGR, bk, v); }
+    if (K) { put(MGR, K, v); const bk = MASU.test(K) ? base(K) : null; if (bk) put(MGR, bk, v); }
     if (b) put(MGR, readOf(b), v);
   } else if (J || K) {
     const w = J || K; put(MGK, w, v);
-    const b = base(w); if (b) { put(MGK, b, v); put(MGK, readOf(b), v); }
+    // chỉ đổi về thể từ điển khi sách ghi thể ます (はなします → はなす). Danh từ kana (もり, うみ, やっつ) mà đổi
+    // thì máy tưởng là động từ chia dở → もる, うむ, やる: trùng âm khác nghĩa
+    const b = MASU.test(w) ? base(w) : null; if (b) { put(MGK, b, v); put(MGK, readOf(b), v); }
   }
 };
 // từ có kanji: chỉ khớp đúng chữ (khớp theo cách đọc sẽ nhầm từ đồng âm: 橋 ≠ はし "đũa") · từ viết bằng kana: khớp cả cách đọc
@@ -96,50 +99,138 @@ const SENSE = [
   ["辛い", "からい", /料理|味|食|唐辛子|辣|スープ|鍋|ソース|舌|チリ|香辛|スパイス|激辛|甘い|塩|グゥオパァー|絶雲|におい|匂|辛いもの|辛さ|ピリ|ぴり|煮|ぽかぽか|香菱|万民堂|重雲|うまい|辛すぎ/],
 ];
 const senseReading = (lemma, jp) => { for (const [w, r, re] of SENSE) if (w === lemma && re.test(jp)) return r; return null; };
+// ——— bảng sửa lỗi sau khi soát (data/vocab-fix.tsv): từ⇥đọc⇥HÀNH ĐỘNG⇥từ đúng⇥đọc đúng⇥nghĩa ———
+// DROP = mảnh tách sai / tiếng kêu → bỏ · FIX = sai từ hoặc sai cách đọc → thay · MEAN = nghĩa sai theo ngữ cảnh
+// (kể cả ghép nhầm với từ Marugoto trùng âm): từ Marugoto → ghép "nghĩa trong truyện; nghĩa giáo trình", từ ngoài → thay.
+// Cột 7 (không bắt buộc): các câu đã soát, cách nhau " ‖ " → DROP/FIX chỉ áp dụng ở đúng các câu đó
+// (một từ có thể đúng ở câu này mà sai ở câu khác: 亡くなる, よる…); MEAN áp dụng mọi nơi.
+const FIX = new Map();
+const normS = (s) => (s || "").replace(/\s+/g, " ").trim().slice(0, 80);
+const fixFile = path.join(DATA, "vocab-fix.tsv");
+if (fs.existsSync(fixFile)) for (const line of fs.readFileSync(fixFile, "utf8").split(/\r?\n/)) {
+  const [w, r, a, nl, nk, vi, ctx] = line.split("\t"); if (!w || !a || w.startsWith("#")) continue;
+  const x = { a: a.trim(), l: (nl || "").trim() || w, k: hira((nk || "").trim()) || hira(r), vi: (vi || "").trim(), ctx: ctx ? new Set(ctx.split(" ‖ ").map(normS)) : null };
+  const key = `${w}\t${hira(r)}`;
+  if (!FIX.has(key)) FIX.set(key, []);
+  FIX.get(key).push(x); // một từ có thể có nhiều dòng sửa, mỗi dòng cho một nhóm câu
+  if (x.vi && x.a === "FIX" && !VI.has(`${x.l}\t${x.k}`)) VI.set(`${x.l}\t${x.k}`, { vi: x.vi, fix: "" });
+}
+// chọn cách sửa cho một câu: dòng có đúng câu này → dòng áp dụng mọi câu → nghĩa (MEAN)
+const pickFix = (key, jp) => {
+  const a = FIX.get(key); if (!a) return null;
+  const s = normS(jp);
+  return a.find((x) => x.a !== "MEAN" && x.ctx?.has(s)) || a.find((x) => x.a !== "MEAN" && !x.ctx) || a.find((x) => x.a === "MEAN") || null;
+};
 // bản dịch theo từ gốc (để tìm theo cách đọc đã sửa ở cột 4)
 const VI_BY_LEMMA = new Map();
 for (const [k, v] of VI) { const [w, r] = k.split("\t"); if (!VI_BY_LEMMA.has(w)) VI_BY_LEMMA.set(w, []); VI_BY_LEMMA.get(w).push({ r, ...v }); }
 const viOf = (lemma, kana) => VI.get(`${lemma}\t${kana}`) || (VI_BY_LEMMA.get(lemma) || []).find((x) => x.fix === kana) || null;
 
-const FAKE = new Set(["うい"]); // うう → "憂い"
-const dict = new Map(); // "từ gốc\tđọc" → { id, lemma, kana, ex }
-const words = (jp, names) => {
-  const out = [];
-  // câu mức A1 viết cách chữ theo cụm → tách từng cụm riêng (hiragana liền nhau dễ bị tách sai)
-  const toks = jp.split(/[\s　]+/).filter(Boolean).flatMap((chunk) => tokenizer.tokenize(chunk));
-  for (const t of toks) {
-    if (!KEEP(t)) continue;
-    if (/^[ぁぃぅぇぉゃゅょっゎァィゥェォャュョッ]/.test(t.surface_form)) continue; // mảnh bắt đầu bằng chữ nhỏ = tách sai
-    if (t.word_type === "UNKNOWN" && /^[぀-ゟ]+$/.test(t.surface_form)) continue; // hiragana không có trong từ điển
-    const lemma = t.basic_form && t.basic_form !== "*" ? t.basic_form : t.surface_form;
-    if (names.has(lemma) || names.has(t.surface_form)) continue;
-    if (/^[ぁ-ゖ]+$/.test(t.surface_form) && FAKE.has(lemma)) continue; // tiếng kêu (うう…) bị máy hiểu nhầm thành từ
-    const guess = senseReading(lemma, jp) || readingOf(lemma, t);
-    const tr = viOf(lemma, guess);
-    if (tr?.vi === "-") continue; // người dịch đánh dấu "-" = mảnh tách sai, bỏ
-    const kana = tr?.fix || guess;
-    const key = `${lemma}\t${kana}`;
-    if (!dict.has(key)) dict.set(key, { id: dict.size, lemma, kana, guess, ex: jp });
-    const id = dict.get(key).id;
-    if (!out.includes(id)) out.push(id);
+// ——— gợi ý kanji: câu mức sơ cấp viết hiragana (かみ, もり, おおかみ) hay bị máy tách sai (かむ, もる, お+おかみ).
+// Dùng chữ kanji của CÙNG câu ở mức cao hơn (髪, 森, 狼), rồi của cả truyện, để thay tạm trước khi tách từ.
+const KANJI = /[一-鿿々]/;
+const addHints = (H, jp) => {
+  for (const t of tokenizer.tokenize(jp || "")) {
+    const s = t.surface_form; if (!KANJI.test(s) || !t.reading || t.reading === "*") continue;
+    const r = hira(t.reading); if (r.length >= 2 && /^[ぁ-ゖー]+$/.test(r) && !H.has(r)) H.set(r, s);
+  }
+  return H;
+};
+const PART = new Set(["助詞", "助動詞"]);
+const FUNC = new Set(["助詞", "助動詞", "感動詞", "接続詞", "連体詞", "副詞", "フィラー", "記号"]);
+// gợi ý chung (mọi mức, mọi truyện): từ hiragana máy hay tách sai
+const GH = new Map(Object.entries({ おおかみ: "狼", ひみつ: "秘密", たいせつ: "大切", りょうり: "料理", かんたん: "簡単", ひめ: "姫", しらさぎ: "白鷺", おか: "丘", もり: "森", うみ: "海", かみなり: "雷" }));
+// thay tạm từ hiragana bằng kanji gợi ý — xét trên CẢ cụm (giữ ngữ cảnh: ました ≠ 増す), chỉ ở đầu một từ gốc,
+// không cắt ngang từ gốc dài hơn, không đụng từ chức năng; phần thừa sau gợi ý chỉ được là trợ từ
+function hinted(chunk, hints) {
+  if (!hints) return chunk;
+  const B = new Set([0]), F = new Set(), LEN = new Map(); let p = 0;
+  for (const t of tokenizer.tokenize(chunk)) { if (FUNC.has(t.pos)) F.add(p); LEN.set(p, t.surface_form.length); B.add((p += t.surface_form.length)); }
+  const HI = /[ぁ-ゖー]/;
+  let out = "", i = 0;
+  while (i < chunk.length) {
+    let hit = null;
+    if (B.has(i) && !F.has(i) && HI.test(chunk[i])) {
+      let j = i; while (j < chunk.length && HI.test(chunk[j])) j++;
+      for (let L = Math.min(10, j - i); L >= 2 && !hit && !(LEN.get(i) > L); L--) {
+        const r = chunk.substr(i, L);
+        for (const H of hints) { const sf = H.get(r); if (!sf) continue;
+          const tk = tokenizer.tokenize(sf + chunk.slice(i + L));
+          if (tk[0]?.surface_form !== sf) continue;
+          let q = i + L, ok = true;
+          for (let x = 1; !B.has(q) && x < tk.length; x++) { if (!PART.has(tk[x].pos)) { ok = false; break; } q += tk[x].surface_form.length; }
+          if (ok && B.has(q)) { hit = [sf, L]; break; }
+        }
+      }
+    }
+    if (hit) { out += hit[0]; i += hit[1]; } else { out += chunk[i]; i++; }
   }
   return out;
+}
+
+const FAKE = new Set(["うい", "うむ"]); // うう → "憂い"
+const dict = new Map(); // "từ gốc\tđọc" → { id, lemma, kana, ex }
+const words = (jp, names, hints) => {
+  const out = [];
+  // câu mức A1 viết cách chữ theo cụm → tách từng cụm riêng (hiragana liền nhau dễ bị tách sai)
+  const toks = jp.split(/[\s　]+/).filter(Boolean).flatMap((chunk) => tokenizer.tokenize(hinted(chunk, hints)));
+  toks.forEach((t, i) => {
+    const nx = toks[i + 1];
+    if (t.pos === "動詞" && t.conjugated_form !== "基本形" && /^[ぁ-ゖ]+$/.test(t.surface_form) && t.surface_form !== t.basic_form
+      && !(nx && (nx.pos === "助動詞" || nx.pos === "動詞" || (nx.pos === "助詞" && nx.pos_detail_1 === "接続助詞" && /^(て|で|ながら|つつ|ば|たり|だり)$/.test(nx.surface_form)))))
+      t = { ...t, pos: "名詞", pos_detail_1: "一般", basic_form: t.surface_form };
+    if (!KEEP(t)) return;
+    if (/^[ぁぃぅぇぉゃゅょっゎァィゥェォャュョッ]/.test(t.surface_form)) return; // mảnh bắt đầu bằng chữ nhỏ = tách sai
+    if (t.word_type === "UNKNOWN" && /^[぀-ゟ]+$/.test(t.surface_form)) return; // hiragana không có trong từ điển
+    const lemma = t.basic_form && t.basic_form !== "*" ? t.basic_form : t.surface_form;
+    if (names.has(lemma) || names.has(t.surface_form)) return;
+    if (/^[ぁ-ゖ]+$/.test(t.surface_form) && FAKE.has(lemma)) return; // tiếng kêu (うう…) bị máy hiểu nhầm thành từ
+    const guess = senseReading(lemma, jp) || readingOf(lemma, t);
+    const tr = viOf(lemma, guess);
+    if (tr?.vi === "-") return; // người dịch đánh dấu "-" = mảnh tách sai, bỏ
+    let L = lemma, kana = tr?.fix || guess;
+    const fx = pickFix(`${L}\t${hira(kana)}`, jp);
+    if (fx?.a === "DROP") return;
+    if (fx?.a === "FIX") { L = fx.l; kana = fx.k; }
+    const key = `${L}\t${kana}`;
+    if (!dict.has(key)) dict.set(key, { id: dict.size, lemma: L, kana, guess: fx?.a === "FIX" ? kana : guess, ex: jp, mean: fx?.a === "MEAN" ? fx.vi : "" });
+    const id = dict.get(key).id;
+    if (!out.includes(id)) out.push(id);
+  });
+  return out;
 };
-const tag = (t, names) => { const w = {}; for (const k of ["1", "2", "3"]) if (t?.[k]?.jp) w[k] = words(t[k].jp, names); return w; };
+// mức 1 được gợi ý từ mức 2+3 của cùng câu, mức 2 từ mức 3; sau đó mới đến gợi ý của cả truyện (SH)
+const tag = (t, names, SH) => {
+  const w = {}, L3 = addHints(new Map(), t?.["3"]?.jp), L23 = addHints(new Map(L3), t?.["2"]?.jp);
+  const hintsOf = { 1: [L23, SH, GH, AH], 2: [L3, SH, GH, AH], 3: [GH] };
+  for (const k of ["1", "2", "3"]) if (t?.[k]?.jp) w[k] = words(t[k].jp, names, hintsOf[k]);
+  return w;
+};
 
 const files = fs.readdirSync(VN).filter((f) => /^\d+\.json$/.test(f));
+// gợi ý từ kanji của TẤT CẢ truyện (chỉ từ ≥ 3 âm để ít trùng âm) — dùng sau cùng
+const AH = new Map();
+for (const f of files) { const D = JSON.parse(fs.readFileSync(path.join(VN, f), "utf8"));
+  const each = (t) => { addHints(AH, t?.["3"]?.jp); addHints(AH, t?.["2"]?.jp); };
+  for (const C of D.chapters) for (const n of C.nodes) { each(n.t); (n.choices || []).forEach((ch) => each(ch.t)); }
+  for (const T of D.chat || []) for (const tu of T.turns) { each(tu.t); tu.opts.forEach((o) => { each(o.t); each(o.r); }); } }
+for (const [k] of AH) if (k.length < 3) AH.delete(k);
 const ids = (w) => ["1", "2", "3"].flatMap((k) => w?.[k] || []);
 const per = []; // từ theo từng nhân vật · từng chương (cho Sổ Tay "Từ vựng thêm có trong Genshin Impact")
 for (const f of files) {
   const p = path.join(VN, f), D = JSON.parse(fs.readFileSync(p, "utf8"));
   const names = new Set([...(D.names || []), "旅人", "パイモン", "オイラ"]);
+  const all = [];
+  for (const C of D.chapters) for (const n of C.nodes) all.push(n.t, ...(n.choices || []).map((ch) => ch.t));
+  for (const T of D.chat || []) for (const tu of T.turns) all.push(tu.t, ...tu.opts.flatMap((o) => [o.t, o.r]));
+  const SH = new Map(); for (const t of all) { addHints(SH, t?.["3"]?.jp); addHints(SH, t?.["2"]?.jp); }
   for (const C of D.chapters) for (const n of C.nodes) {
-    n.w = tag(n.t, names);
-    for (const ch of n.choices || []) ch.w = tag(ch.t, names);
+    n.w = tag(n.t, names, SH);
+    for (const ch of n.choices || []) ch.w = tag(ch.t, names, SH);
   }
   for (const T of D.chat || []) for (const tu of T.turns) {
-    tu.w = tag(tu.t, names);
-    for (const o of tu.opts) { o.w = tag(o.t, names); o.rw = tag(o.r, names); }
+    tu.w = tag(tu.t, names, SH);
+    for (const o of tu.opts) { o.w = tag(o.t, names, SH); o.rw = tag(o.r, names, SH); }
   }
   per.push({ c: D.id ?? +f.split(".")[0], name: D.name || "", s: [
     ...D.chapters.map((C) => [`c${C.c}`, C.title?.jp || "", C.title?.vi || "", C.nodes.flatMap((n) => [...ids(n.w), ...(n.choices || []).flatMap((ch) => ids(ch.w))])]),
@@ -156,7 +247,11 @@ for (const e of dict.values()) {
   let mg = findMG(e.lemma, e.kana);
   let fuzzy = false; // ghép theo nghĩa: giữ nghĩa theo truyện, vẫn ghi nguồn bài Marugoto
   if (!mg && HASK(e.lemma)) { const k = MGK.get(e.kana); if (k && sameSense(own, k[0])) { mg = k; fuzzy = true; } }
-  const vi = mg ? (fuzzy && own) || mg[0] : own;
+  // nghĩa đã soát (MEAN): từ Marugoto → "nghĩa trong truyện; nghĩa giáo trình", từ ngoài Marugoto → thay hẳn
+  const base = mg ? (fuzzy && own) || mg[0] : own;
+  const mean = (FIX.get(`${e.lemma}\t${hira(e.kana)}`) || []).find((x) => x.a === "MEAN")?.vi || "";
+  const low = (s) => s.toLowerCase();
+  const vi = mean ? (mg && base && !low(mean).includes(low(base)) && !low(base).includes(low(mean)) ? `${mean}; ${base}` : mean) : base;
   if (mg) inMG++; else if (vi) withVI++; else todo.push(`${e.lemma}\t${e.guess}\t${e.ex}`);
   // từ katakana (クローバー): giữ nguyên katakana làm cách đọc — đổi sang hiragana sẽ ra "くろうばあ" rất lạ
   const kana = /^[゠-ヿー]+$/.test(e.lemma) ? e.lemma : e.kana;
