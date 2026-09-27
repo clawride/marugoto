@@ -1,0 +1,5956 @@
+{
+ "id": 10000032,
+ "name": "ベネット",
+ "names": [
+  "ベネット",
+  "旅人",
+  "パイモン",
+  "モンド",
+  "冒険者協会",
+  "ベニー冒険団",
+  "キャサリン",
+  "レザー",
+  "フィッシュル",
+  "オズ",
+  "風立ちの地",
+  "千風の神殿",
+  "奔狼領",
+  "ドラゴンスパイン"
+ ],
+ "region": "mondstadt",
+ "chapters": [
+  {
+   "c": 0,
+   "title": {
+    "jp": "ベニー冒険団へようこそ",
+    "vi": "Chào Mừng Đến Đội Mạo Hiểm Benny"
+   },
+   "summary": "Ở Hiệp Hội Nhà Mạo Hiểm Mondstadt, Lữ khách và Paimon gặp Bennett — cậu thiếu niên băng bó khắp người, đội trưởng kiêm thành viên duy nhất của \"Đội Mạo Hiểm Benny\". Cậu hăng hái mời họ vào đội, ngay khi vận xui lại ập đến.",
+   "bg": "mond-city",
+   "nodes": [
+    {
+     "id": "n1",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "旅人と パイモンは 冒険者協会に 来ました。",
+       "ro": "Tabibito to Paimon wa Boukensha Kyoukai ni kimashita.",
+       "vi": "Lữ khách và Paimon đến Hiệp Hội Nhà Mạo Hiểm."
+      },
+      "2": {
+       "jp": "旅人とパイモンは、依頼を見に冒険者協会へやって来た。",
+       "ro": "Tabibito to Paimon wa, irai o mi ni Boukensha Kyoukai e yatte kita.",
+       "vi": "Lữ khách và Paimon đến Hiệp Hội Nhà Mạo Hiểm để xem ủy thác."
+      },
+      "3": {
+       "jp": "依頼の掲示板を確かめようと、旅人とパイモンはモンドの冒険者協会に足を運んだ。",
+       "ro": "Irai no keijiban o tashikameyou to, tabibito to Paimon wa Mondo no Boukensha Kyoukai ni ashi o hakonda.",
+       "vi": "Để xem bảng ủy thác, Lữ khách và Paimon ghé qua Hiệp Hội Nhà Mạo Hiểm Mondstadt."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-9-5"
+      ],
+      "2": [
+       "a21-8-3",
+       "a21-11-1"
+      ],
+      "3": [
+       "b12-14-3",
+       "a21-4-3"
+      ]
+     },
+     "next": "n2"
+    },
+    {
+     "id": "n2",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "あっ、こんにちは！オレは ベネットです！ベニー冒険団の リーダーです！",
+       "ro": "A, konnichiwa! Ore wa Benetto desu! Benii Boukendan no riidaa desu!",
+       "vi": "A, chào! Tớ là Bennett! Đội trưởng của Đội Mạo Hiểm Benny!"
+      },
+      "2": {
+       "jp": "やあ、はじめまして！オレはベネット。ベニー冒険団のリーダーをしてるんだ！",
+       "ro": "Yaa, hajimemashite! Ore wa Benetto. Benii Boukendan no riidaa o shiteru n da!",
+       "vi": "Chào, rất vui được gặp! Tớ là Bennett. Tớ đang làm đội trưởng Đội Mạo Hiểm Benny đó!"
+      },
+      "3": {
+       "jp": "よう、はじめまして！オレはベネット、ベニー冒険団のリーダーさ！君たちが噂の旅人とパイモンだろ？",
+       "ro": "You, hajimemashite! Ore wa Benetto, Benii Boukendan no riidaa sa! Kimi-tachi ga uwasa no tabibito to Paimon daro?",
+       "vi": "Chào, hân hạnh! Tớ là Bennett, đội trưởng Đội Mạo Hiểm Benny! Các cậu là Lữ khách và Paimon nổi tiếng đó hả?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-1-1",
+       "a1-3-1",
+       "a1-4-2"
+      ],
+      "2": [
+       "a22-1-5",
+       "a21-17-1"
+      ],
+      "3": [
+       "b1-8-5",
+       "b1-1-4"
+      ]
+     },
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "sp": "paimon",
+     "mood": "surprised",
+     "t": {
+      "1": {
+       "jp": "ベネット、けがが たくさん ありますね。だいじょうぶですか。",
+       "ro": "Benetto, kega ga takusan arimasu ne. Daijoubu desu ka.",
+       "vi": "Bennett, cậu bị thương nhiều quá. Có sao không?"
+      },
+      "2": {
+       "jp": "うわ、ばんそうこうだらけだぞ！だいじょうぶなのか？",
+       "ro": "Uwa, bansoukou darake da zo! Daijoubu na no ka?",
+       "vi": "Oa, toàn băng dán thôi! Cậu có ổn không đấy?"
+      },
+      "3": {
+       "jp": "うわっ、ばんそうこうと包帯だらけじゃないか！おまえ、いったい何があったんだ？",
+       "ro": "Uwa, bansoukou to houtai darake ja nai ka! Omae, ittai nani ga atta n da?",
+       "vi": "Oa, toàn băng dán với băng quấn thế kia! Cậu rốt cuộc đã gặp chuyện gì vậy?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-7-1",
+       "a1-10-5"
+      ],
+      "2": [
+       "a22-11-6"
+      ],
+      "3": [
+       "b12-17-2",
+       "a22-11-6"
+      ]
+     },
+     "next": "n4"
+    },
+    {
+     "id": "n4",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "だいじょうぶです！オレは いつも うんが わるいです。でも げんきです！",
+       "ro": "Daijoubu desu! Ore wa itsumo un ga warui desu. Demo genki desu!",
+       "vi": "Không sao! Tớ lúc nào cũng xui. Nhưng tớ khỏe lắm!"
+      },
+      "2": {
+       "jp": "ははっ、平気平気！オレ、昔からすごく運が悪いんだ。でも、けがにはなれてるから！",
+       "ro": "Hahha, heiki heiki! Ore, mukashi kara sugoku un ga warui n da. Demo, kega ni wa nareteru kara!",
+       "vi": "Ha ha, không sao không sao! Tớ từ xưa đã xui cực kỳ rồi. Nhưng bị thương thì quen rồi!"
+      },
+      "3": {
+       "jp": "ははっ、へっちゃらさ！オレ、生まれつき運が悪くてさ。これくらいの怪我は日常茶飯事なんだ！",
+       "ro": "Hahha, hetchara sa! Ore, umaretsuki un ga warukute sa. Kore kurai no kega wa nichijou sahanji na n da!",
+       "vi": "Ha ha, chuyện nhỏ! Tớ sinh ra đã xui rồi mà. Vết thương cỡ này là chuyện thường ngày!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-10-5",
+       "a1-5-4",
+       "a1-18-2"
+      ],
+      "2": [
+       "a21-17-1",
+       "a21-3-5"
+      ],
+      "3": [
+       "b12-13-4",
+       "a21-12-3"
+      ]
+     },
+     "next": "n5"
+    },
+    {
+     "id": "n5",
+     "sp": "char",
+     "mood": "serious",
+     "t": {
+      "1": {
+       "jp": "旅人、ベニー冒険団に 入りませんか。今は オレ 一人です。",
+       "ro": "Tabibito, Benii Boukendan ni hairimasen ka. Ima wa ore hitori desu.",
+       "vi": "Lữ khách, vào Đội Mạo Hiểm Benny không? Giờ chỉ có mình tớ thôi."
+      },
+      "2": {
+       "jp": "なあ旅人、ベニー冒険団に入らないか？今、メンバーはオレ一人だけなんだ。",
+       "ro": "Naa tabibito, Benii Boukendan ni hairanai ka? Ima, menbaa wa ore hitori dake na n da.",
+       "vi": "Này Lữ khách, vào Đội Mạo Hiểm Benny không? Giờ thành viên chỉ có mỗi tớ thôi."
+      },
+      "3": {
+       "jp": "なあ旅人、よかったらベニー冒険団に入ってくれないか？実は今、団員はオレ一人しかいなくてさ。",
+       "ro": "Naa tabibito, yokattara Benii Boukendan ni haitte kurenai ka? Jitsu wa ima, dan'in wa ore hitori shika inakute sa.",
+       "vi": "Này Lữ khách, nếu được thì vào Đội Mạo Hiểm Benny giúp tớ nhé? Thật ra bây giờ đội viên chỉ có mỗi mình tớ."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-12-4"
+      ],
+      "2": [
+       "a21-8-2",
+       "a22-9-4"
+      ],
+      "3": [
+       "ab1-4-1",
+       "ab1-1-6",
+       "a22-9-3"
+      ]
+     },
+     "next": "n6"
+    },
+    {
+     "id": "n6",
+     "sp": "paimon",
+     "mood": "surprised",
+     "t": {
+      "1": {
+       "jp": "えっ、一人ですか。どうしてですか。",
+       "ro": "E, hitori desu ka. Doushite desu ka.",
+       "vi": "Hả, một mình à? Sao vậy?"
+      },
+      "2": {
+       "jp": "えっ、一人だけ？どうしてなんだ？",
+       "ro": "E, hitori dake? Doushite na n da?",
+       "vi": "Hả, có một mình thôi á? Sao thế?"
+      },
+      "3": {
+       "jp": "えっ、リーダーなのに一人だけ？ほかのメンバーはどうしちゃったんだ？",
+       "ro": "E, riidaa na noni hitori dake? Hoka no menbaa wa doushichatta n da?",
+       "vi": "Hả, là đội trưởng mà chỉ có một mình? Mấy thành viên khác đi đâu hết rồi?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-3"
+      ],
+      "2": [
+       "a22-9-4",
+       "a22-11-6"
+      ],
+      "3": [
+       "ab1-7-3",
+       "a22-11-2"
+      ]
+     },
+     "next": "n7"
+    },
+    {
+     "id": "n7",
+     "sp": "char",
+     "mood": "sad",
+     "t": {
+      "1": {
+       "jp": "オレは うんが わるいです。みんな けがを しました。だから、みんな いなく なりました。",
+       "ro": "Ore wa un ga warui desu. Minna kega o shimashita. Dakara, minna inaku narimashita.",
+       "vi": "Tớ xui lắm. Mọi người đều bị thương. Vì thế ai cũng đi mất rồi."
+      },
+      "2": {
+       "jp": "オレといっしょだと、なぜかみんなけがをするんだ。それで、みんなやめちゃって…。",
+       "ro": "Ore to issho da to, nazeka minna kega o suru n da. Sore de, minna yamechatte...",
+       "vi": "Đi cùng tớ thì không hiểu sao ai cũng bị thương. Thế là mọi người đều bỏ đội..."
+      },
+      "3": {
+       "jp": "オレの不運が移るっていうか…一緒にいると、みんな災難に巻き込まれちゃうんだ。それで、一人、また一人って抜けていってさ。",
+       "ro": "Ore no fuun ga utsuru tte iu ka... issho ni iru to, minna sainan ni makikomarechau n da. Sore de, hitori, mata hitori tte nukete itte sa.",
+       "vi": "Kiểu như vận xui của tớ lây sang... ở cạnh tớ là ai cũng bị cuốn vào tai họa. Thế là từng người, từng người một rời đội."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-5-3",
+       "a1-15-4"
+      ],
+      "2": [
+       "a22-4-4",
+       "a22-11-2"
+      ],
+      "3": [
+       "b12-1-2",
+       "a22-18-1",
+       "b1-7-4"
+      ]
+     },
+     "next": "n8"
+    },
+    {
+     "id": "n8",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "その とき、上から かんばんが おちました。ベネットの あたまに あたりました！",
+       "ro": "Sono toki, ue kara kanban ga ochimashita. Benetto no atama ni atarimashita!",
+       "vi": "Đúng lúc đó, tấm bảng hiệu từ trên rơi xuống. Trúng ngay đầu Bennett!"
+      },
+      "2": {
+       "jp": "そのとき、かべのかんばんが落ちてきて、ベネットの頭に当たった！",
+       "ro": "Sono toki, kabe no kanban ga ochite kite, Benetto no atama ni atatta!",
+       "vi": "Đúng lúc đó, tấm bảng trên tường rơi xuống, trúng ngay đầu Bennett!"
+      },
+      "3": {
+       "jp": "その言葉を裏付けるかのように、壁の看板がぐらりと傾き、ベネットの頭上に見事に落下した。",
+       "ro": "Sono kotoba o urazukeru ka no you ni, kabe no kanban ga gurari to katamuki, Benetto no zujou ni migoto ni rakka shita.",
+       "vi": "Như để chứng minh cho lời cậu nói, tấm bảng trên tường nghiêng lắc lư rồi rơi trúng ngay đầu Bennett."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-4-2"
+      ],
+      "2": [
+       "a21-11-1",
+       "a21-4-3"
+      ],
+      "3": [
+       "b1-5-5",
+       "b1-2-4"
+      ]
+     },
+     "next": "n9"
+    },
+    {
+     "id": "n9",
+     "sp": "char",
+     "mood": "surprised",
+     "t": {
+      "1": {
+       "jp": "いたた…。ほら、いつも こうです。",
+       "ro": "Itata... Hora, itsumo kou desu.",
+       "vi": "Ui da... Thấy chưa, lúc nào cũng thế này."
+      },
+      "2": {
+       "jp": "いててて…。ほらね、いつもこうなんだ。…それでも、入る？",
+       "ro": "Itetete... Hora ne, itsumo kou na n da. ...Soredemo, hairu?",
+       "vi": "Ui da da... Thấy chưa, lúc nào cũng thế. ...Dù vậy, cậu vẫn vào đội chứ?"
+      },
+      "3": {
+       "jp": "いててて…。な？こういうことなんだよ。…それでも、オレの冒険団に入ってくれるか？",
+       "ro": "Itetete... Na? Kou iu koto na n da yo. ...Soredemo, ore no boukendan ni haitte kureru ka?",
+       "vi": "Ui da da... Thấy chưa? Là như thế này đây. ...Dù vậy, cậu vẫn chịu vào đội mạo hiểm của tớ chứ?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-5-4"
+      ],
+      "2": [
+       "a21-17-1",
+       "a1-5-4"
+      ],
+      "3": [
+       "ab1-4-1",
+       "b12-1-4"
+      ]
+     },
+     "choices": [
+      {
+       "t": {
+        "1": {
+         "jp": "はい、入ります！",
+         "ro": "Hai, hairimasu!",
+         "vi": "Ừ, mình vào!"
+        },
+        "2": {
+         "jp": "うん、入るよ！運なんて気にしない。",
+         "ro": "Un, hairu yo! Un nante ki ni shinai.",
+         "vi": "Ừ, mình vào! Mình không bận tâm chuyện xui xẻo đâu."
+        },
+        "3": {
+         "jp": "もちろん。不運くらいで冒険をあきらめるなんて、もったいないよ。",
+         "ro": "Mochiron. Fuun kurai de bouken o akirameru nante, mottainai yo.",
+         "vi": "Tất nhiên. Chỉ vì xui xẻo mà bỏ phiêu lưu thì uổng lắm."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-9-5"
+        ],
+        "2": [
+         "a21-2-2"
+        ],
+        "3": [
+         "b12-5-1",
+         "a22-15-6"
+        ]
+       },
+       "next": "n10"
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "ちょっと かんがえます。",
+         "ro": "Chotto kangaemasu.",
+         "vi": "Để mình suy nghĩ chút."
+        },
+        "2": {
+         "jp": "うーん、まずはいっしょに一つ依頼をやってみてもいい？",
+         "ro": "Uun, mazu wa issho ni hitotsu irai o yatte mite mo ii?",
+         "vi": "Ừm, trước tiên cùng thử làm một ủy thác được không?"
+        },
+        "3": {
+         "jp": "まずはお試しで一回、一緒に依頼をこなしてみるっていうのはどう？",
+         "ro": "Mazu wa otameshi de ikkai, issho ni irai o konashite miru tte iu no wa dou?",
+         "vi": "Trước tiên, thử cùng làm một ủy thác xem sao thì thế nào?"
+        }
+       },
+       "g": {
+        "1": [
+         "a1-12-6"
+        ],
+        "2": [
+         "a21-10-4",
+         "a21-14-4"
+        ],
+        "3": [
+         "b12-3-4",
+         "a21-10-4"
+        ]
+       },
+       "next": "n11"
+      }
+     ]
+    },
+    {
+     "id": "n10",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "ほんとうですか！やった！ありがとう、旅人！",
+       "ro": "Hontou desu ka! Yatta! Arigatou, tabibito!",
+       "vi": "Thật sao! Tuyệt! Cảm ơn nhé, Lữ khách!"
+      },
+      "2": {
+       "jp": "本当か！？やったー！ベニー冒険団、ついに二人め…いや、三人めだ！",
+       "ro": "Hontou ka!? Yattaa! Benii Boukendan, tsui ni futarime... iya, sanninme da!",
+       "vi": "Thật hả?! Yeah! Đội Mạo Hiểm Benny cuối cùng có người thứ hai... à không, thứ ba!"
+      },
+      "3": {
+       "jp": "マジか！？やったぜ！ベニー冒険団、久しぶりの新メンバーだ！パイモンも入れて、一気に三人だな！",
+       "ro": "Maji ka!? Yatta ze! Benii Boukendan, hisashiburi no shin menbaa da! Paimon mo irete, ikki ni sannin da na!",
+       "vi": "Thật hả?! Tuyệt quá! Đội Mạo Hiểm Benny có thành viên mới sau bao lâu! Tính cả Paimon là một lúc ba người luôn!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-1-3"
+      ],
+      "2": [
+       "a21-6-6"
+      ],
+      "3": [
+       "b1-1-4",
+       "a22-13-2"
+      ]
+     },
+     "next": "n12"
+    },
+    {
+     "id": "n11",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "はい！いっしょに しごとを しましょう！",
+       "ro": "Hai! Issho ni shigoto o shimashou!",
+       "vi": "Được! Cùng làm việc nào!"
+      },
+      "2": {
+       "jp": "うん、それでいいよ！いっしょに冒険したら、きっと楽しさがわかるって！",
+       "ro": "Un, sore de ii yo! Issho ni bouken shitara, kitto tanoshisa ga wakaru tte!",
+       "vi": "Ừ, vậy cũng được! Cùng phiêu lưu một lần là chắc chắn cậu sẽ hiểu cái vui của nó!"
+      },
+      "3": {
+       "jp": "もちろんさ！一度でもオレと冒険すれば、きっと病みつきになるぜ。…たぶん、怪我も少しはするけどな！",
+       "ro": "Mochiron sa! Ichido demo ore to bouken sureba, kitto yamitsuki ni naru ze. ...Tabun, kega mo sukoshi wa suru kedo na!",
+       "vi": "Tất nhiên! Chỉ cần phiêu lưu cùng tớ một lần thôi là chắc chắn nghiện luôn. ...Chắc là cũng bị thương chút đỉnh đấy!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-12-5"
+      ],
+      "2": [
+       "a22-7-3",
+       "a21-18-3"
+      ],
+      "3": [
+       "ab1-2-5",
+       "a21-18-3"
+      ]
+     },
+     "next": "n12"
+    },
+    {
+     "id": "n12",
+     "sp": "paimon",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "パイモンも 入ります！ベネット、よろしく！",
+       "ro": "Paimon mo hairimasu! Benetto, yoroshiku!",
+       "vi": "Paimon cũng vào! Bennett, rất vui được gặp!"
+      },
+      "2": {
+       "jp": "オイラも入るぞ！でも、けがはしたくないからな！",
+       "ro": "Oira mo hairu zo! Demo, kega wa shitakunai kara na!",
+       "vi": "Tớ cũng vào! Nhưng tớ không muốn bị thương đâu đấy!"
+      },
+      "3": {
+       "jp": "オイラも入ってやるぞ！ただし、怪我だけは勘弁だからな！",
+       "ro": "Oira mo haitte yaru zo! Tadashi, kega dake wa kanben da kara na!",
+       "vi": "Tớ cũng vào luôn! Có điều, bị thương thì xin miễn đấy nhé!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-5"
+      ],
+      "2": [
+       "a21-10-1",
+       "a21-3-5"
+      ],
+      "3": [
+       "a22-9-4",
+       "ab1-3-3"
+      ]
+     },
+     "next": "n13"
+    },
+    {
+     "id": "n13",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "こうして、旅人と パイモンは ベニー冒険団に 入りました。",
+       "ro": "Koushite, tabibito to Paimon wa Benii Boukendan ni hairimashita.",
+       "vi": "Thế là Lữ khách và Paimon gia nhập Đội Mạo Hiểm Benny."
+      },
+      "2": {
+       "jp": "こうして、ベニー冒険団に新しいなかまがふえた。",
+       "ro": "Koushite, Benii Boukendan ni atarashii nakama ga fueta.",
+       "vi": "Thế là Đội Mạo Hiểm Benny có thêm đồng đội mới."
+      },
+      "3": {
+       "jp": "こうして、不運な少年が率いるベニー冒険団に、久々に新しい仲間が加わったのでした。",
+       "ro": "Koushite, fuun na shounen ga hikiiru Benii Boukendan ni, hisabisa ni atarashii nakama ga kuwawatta no deshita.",
+       "vi": "Và thế là Đội Mạo Hiểm Benny do cậu thiếu niên xui xẻo dẫn dắt, lâu lắm rồi mới có thêm đồng đội mới."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4"
+      ],
+      "2": [
+       "a1-14-1",
+       "a21-4-3"
+      ],
+      "3": [
+       "b1-6-2",
+       "b1-9-7"
+      ]
+     },
+     "end": true
+    }
+   ]
+  },
+  {
+   "c": 1,
+   "title": {
+    "jp": "冒険の展望",
+    "vi": "Tầm Nhìn Phiêu Lưu"
+   },
+   "summary": "Chuyến phiêu lưu đầu tiên của Đội Mạo Hiểm Benny hướng về di tích Đền Ngàn Gió. Trên đồi Phong Khởi Địa, Bennett kể ước mơ trở thành nhà mạo hiểm vĩ đại, đi khắp Teyvat — cho đến khi một cơn gió cuốn mất tấm bản đồ.",
+   "bg": "windrise",
+   "nodes": [
+    {
+     "id": "n1",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "風立ちの地の おかの 上です。ベネットは 大きい ちずを 見て います。",
+       "ro": "Kazetachi no Chi no oka no ue desu. Benetto wa ookii chizu o mite imasu.",
+       "vi": "Trên ngọn đồi ở Phong Khởi Địa. Bennett đang nhìn tấm bản đồ lớn."
+      },
+      "2": {
+       "jp": "風立ちの地の丘の上で、ベネットは大きな地図を広げていた。",
+       "ro": "Kazetachi no Chi no oka no ue de, Benetto wa ookina chizu o hirogete ita.",
+       "vi": "Trên đồi Phong Khởi Địa, Bennett trải rộng tấm bản đồ lớn."
+      },
+      "3": {
+       "jp": "風立ちの地の小高い丘。ベネットは使い込まれた地図を広げ、目を輝かせていた。",
+       "ro": "Kazetachi no Chi no kodakai oka. Benetto wa tsukaikomareta chizu o hiroge, me o kagayakasete ita.",
+       "vi": "Ngọn đồi nhỏ ở Phong Khởi Địa. Bennett trải tấm bản đồ đã sờn cũ, đôi mắt sáng rực."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-8-1",
+       "a1-14-1"
+      ],
+      "2": [
+       "a22-9-1",
+       "a1-14-1"
+      ],
+      "3": [
+       "b1-1-4",
+       "b1-2-4"
+      ]
+     },
+     "next": "n2"
+    },
+    {
+     "id": "n2",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "今日は 千風の神殿に 行きます！ふるい いせきです！",
+       "ro": "Kyou wa Senpuu no Shinden ni ikimasu! Furui iseki desu!",
+       "vi": "Hôm nay ta sẽ đến Đền Ngàn Gió! Là một di tích cổ đó!"
+      },
+      "2": {
+       "jp": "今日の目的地は千風の神殿だ！古いいせきで、まだだれも知らないことがたくさんあると思うんだ！",
+       "ro": "Kyou no mokutekichi wa Senpuu no Shinden da! Furui iseki de, mada dare mo shiranai koto ga takusan aru to omou n da!",
+       "vi": "Điểm đến hôm nay là Đền Ngàn Gió! Đó là di tích cổ, tớ nghĩ còn nhiều điều chưa ai biết lắm!"
+      },
+      "3": {
+       "jp": "今日の目的地は千風の神殿！古代の遺跡で、まだ誰も見つけてない秘密が眠ってるかもしれないんだってさ！",
+       "ro": "Kyou no mokutekichi wa Senpuu no Shinden! Kodai no iseki de, mada dare mo mitsuketenai himitsu ga nemutteru kamo shirenai n datte sa!",
+       "vi": "Điểm đến hôm nay là Đền Ngàn Gió! Nghe nói ở di tích cổ đại đó có thể còn ẩn giấu bí mật chưa ai tìm ra!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-9-5",
+       "a1-14-1"
+      ],
+      "2": [
+       "a21-5-2",
+       "a21-18-1"
+      ],
+      "3": [
+       "ab1-7-2",
+       "b12-9-5"
+      ]
+     },
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "sp": "paimon",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "たからものは ありますか。",
+       "ro": "Takaramono wa arimasu ka.",
+       "vi": "Có kho báu không?"
+      },
+      "2": {
+       "jp": "たからものもあるのか？オイラ、金貨がほしいぞ！",
+       "ro": "Takaramono mo aru no ka? Oira, kinka ga hoshii zo!",
+       "vi": "Có cả kho báu à? Tớ muốn tiền vàng!"
+      },
+      "3": {
+       "jp": "お宝もあるのか！？モラがざっくざく出てきたら、オイラたち大金持ちだな！",
+       "ro": "Otakara mo aru no ka!? Mora ga zakkuzaku dete kitara, oira-tachi ookanemochi da na!",
+       "vi": "Có cả kho báu à?! Nếu Mora tuôn ra ào ào thì tụi mình giàu to luôn!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-7-1"
+      ],
+      "2": [
+       "a1-15-1",
+       "a22-11-6"
+      ],
+      "3": [
+       "a22-7-3",
+       "b1-2-8"
+      ]
+     },
+     "next": "n4"
+    },
+    {
+     "id": "n4",
+     "sp": "char",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "たからものも いいです。でも、オレは あたらしい ところが 見たいです。",
+       "ro": "Takaramono mo ii desu. Demo, ore wa atarashii tokoro ga mitai desu.",
+       "vi": "Kho báu cũng hay. Nhưng tớ muốn được thấy những nơi mới."
+      },
+      "2": {
+       "jp": "お宝もいいけど、オレは新しい場所を見るのがいちばん好きなんだ。",
+       "ro": "Otakara mo ii kedo, ore wa atarashii basho o miru no ga ichiban suki na n da.",
+       "vi": "Kho báu cũng hay, nhưng điều tớ thích nhất là được thấy những nơi mới."
+      },
+      "3": {
+       "jp": "お宝もいいけどさ、オレにとっては、まだ見たことのない景色に出会える瞬間こそが最高の宝なんだ。",
+       "ro": "Otakara mo ii kedo sa, ore ni totte wa, mada mita koto no nai keshiki ni deaeru shunkan koso ga saikou no takara na n da.",
+       "vi": "Kho báu cũng hay đấy, nhưng với tớ, khoảnh khắc được gặp cảnh sắc chưa từng thấy mới là kho báu tuyệt nhất."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-18-2",
+       "a1-18-4"
+      ],
+      "2": [
+       "a21-5-3",
+       "a21-3-6",
+       "a21-9-2"
+      ],
+      "3": [
+       "ab1-3-6",
+       "a21-13-1"
+      ]
+     },
+     "next": "n5"
+    },
+    {
+     "id": "n5",
+     "sp": "char",
+     "mood": "serious",
+     "t": {
+      "1": {
+       "jp": "いつか オレは すごい 冒険者に なりたいです。テイワットを ぜんぶ 見たいです。",
+       "ro": "Itsuka ore wa sugoi boukensha ni naritai desu. Teiwatto o zenbu mitai desu.",
+       "vi": "Một ngày nào đó tớ muốn trở thành nhà mạo hiểm vĩ đại. Tớ muốn thấy hết Teyvat."
+      },
+      "2": {
+       "jp": "いつか、オレはすごい冒険者になりたいんだ。モンドの外へ出て、テイワットじゅうを旅したい！",
+       "ro": "Itsuka, ore wa sugoi boukensha ni naritai n da. Mondo no soto e dete, Teiwatto juu o tabi shitai!",
+       "vi": "Một ngày nào đó, tớ muốn thành nhà mạo hiểm cừ khôi. Tớ muốn ra khỏi Mondstadt, đi khắp Teyvat!"
+      },
+      "3": {
+       "jp": "いつかオレは、誰もが名前を知ってるような大冒険者になるんだ。モンドを飛び出して、テイワットの端から端まで歩いてみせるぜ！",
+       "ro": "Itsuka ore wa, dare mo ga namae o shitteru you na daiboukensha ni naru n da. Mondo o tobidashite, Teiwatto no hashi kara hashi made aruite miseru ze!",
+       "vi": "Một ngày nào đó tớ sẽ thành đại mạo hiểm giả mà ai cũng biết tên. Tớ sẽ lao ra khỏi Mondstadt, đi bộ từ đầu này đến đầu kia Teyvat cho xem!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-18-4"
+      ],
+      "2": [
+       "a21-10-2",
+       "a22-6-6",
+       "a21-6-2"
+      ],
+      "3": [
+       "b1-5-5",
+       "ab1-5-7"
+      ]
+     },
+     "next": "n6"
+    },
+    {
+     "id": "n6",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "旅人は いろいろな 国を 見ましたね。どうでしたか。",
+       "ro": "Tabibito wa iroiro na kuni o mimashita ne. Dou deshita ka.",
+       "vi": "Lữ khách đã thấy nhiều nước rồi nhỉ. Thế nào vậy?"
+      },
+      "2": {
+       "jp": "旅人は、いろんな国を旅してきたんだよね？外の世界って、どんな感じ？",
+       "ro": "Tabibito wa, ironna kuni o tabi shite kita n da yo ne? Soto no sekai tte, donna kanji?",
+       "vi": "Lữ khách đã đi qua nhiều nước rồi đúng không? Thế giới bên ngoài thế nào?"
+      },
+      "3": {
+       "jp": "旅人は、いろんな国を渡り歩いてきたんだよな？なあ、外の世界ってどんなところなんだ？聞かせてくれよ！",
+       "ro": "Tabibito wa, ironna kuni o watariaruite kita n da yo na? Naa, soto no sekai tte donna tokoro na n da? Kikasete kure yo!",
+       "vi": "Lữ khách đã đi qua nhiều nước rồi nhỉ? Này, thế giới bên ngoài là nơi thế nào? Kể cho tớ nghe đi!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-17-5",
+       "a1-15-4"
+      ],
+      "2": [
+       "a21-11-1",
+       "a22-1-4"
+      ],
+      "3": [
+       "b12-1-1",
+       "b1-3-1",
+       "ab1-6-4"
+      ]
+     },
+     "choices": [
+      {
+       "t": {
+        "1": {
+         "jp": "山と うみが とても きれいです。",
+         "ro": "Yama to umi ga totemo kirei desu.",
+         "vi": "Núi và biển đẹp lắm."
+        },
+        "2": {
+         "jp": "高い山や大きな海があって、とてもきれいだよ。",
+         "ro": "Takai yama ya ookina umi ga atte, totemo kirei da yo.",
+         "vi": "Có núi cao, biển rộng, đẹp lắm đó."
+        },
+        "3": {
+         "jp": "空まで届きそうな岩山とか、どこまでも続く海とか…言葉じゃ伝えきれないくらいだよ。",
+         "ro": "Sora made todokisou na iwayama toka, doko made mo tsuzuku umi toka... kotoba ja tsutaekirenai kurai da yo.",
+         "vi": "Nào là núi đá như chạm tới trời, nào là biển kéo dài vô tận... đẹp đến mức không tả nổi bằng lời."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-4-1"
+        ],
+        "2": [
+         "a21-5-4",
+         "a21-7-6"
+        ],
+        "3": [
+         "ab1-5-2",
+         "a22-9-5",
+         "b12-13-4"
+        ]
+       },
+       "next": "n7"
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "私も まだ しりません。",
+         "ro": "Watashi mo mada shirimasen.",
+         "vi": "Mình cũng chưa biết hết đâu."
+        },
+        "2": {
+         "jp": "じつは、私もまだ知らない場所がたくさんあるんだ。",
+         "ro": "Jitsu wa, watashi mo mada shiranai basho ga takusan aru n da.",
+         "vi": "Thật ra, còn nhiều nơi mình cũng chưa biết."
+        },
+        "3": {
+         "jp": "実は、私もまだ見てない場所ばかりなんだ。世界は思ってるよりずっと広いよ。",
+         "ro": "Jitsu wa, watashi mo mada mitenai basho bakari na n da. Sekai wa omotteru yori zutto hiroi yo.",
+         "vi": "Thật ra, những nơi mình chưa thấy còn nhiều lắm. Thế giới rộng hơn cậu nghĩ nhiều."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-3-5"
+        ],
+        "2": [
+         "a21-17-3",
+         "a21-17-1"
+        ],
+        "3": [
+         "ab1-1-6",
+         "b1-5-6",
+         "a22-12-3"
+        ]
+       },
+       "next": "n8"
+      }
+     ]
+    },
+    {
+     "id": "n7",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "わあ、すごい！オレも 見たいです！",
+       "ro": "Waa, sugoi! Ore mo mitai desu!",
+       "vi": "Oa, tuyệt quá! Tớ cũng muốn thấy!"
+      },
+      "2": {
+       "jp": "すげえ！聞いただけでわくわくする！オレもいつか、ぜったい見に行くぞ！",
+       "ro": "Sugee! Kiita dake de wakuwaku suru! Ore mo itsuka, zettai mi ni iku zo!",
+       "vi": "Đỉnh thật! Chỉ nghe thôi đã thấy háo hức! Một ngày nào đó tớ nhất định cũng sẽ đi xem!"
+      },
+      "3": {
+       "jp": "すっげえ…！話を聞いてるだけで胸が熱くなってきた！よし、決めた。その景色、いつか絶対この目で確かめてやる！",
+       "ro": "Suggee...! Hanashi o kiiteru dake de mune ga atsuku natte kita! Yoshi, kimeta. Sono keshiki, itsuka zettai kono me de tashikamete yaru!",
+       "vi": "Đỉnh quá...! Chỉ nghe kể thôi mà ngực tớ đã nóng rực lên rồi! Được, quyết rồi. Cảnh đó, một ngày nào đó nhất định tớ sẽ tận mắt xác nhận!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-18-4",
+       "a1-3-5"
+      ],
+      "2": [
+       "a22-9-4",
+       "a21-8-3"
+      ],
+      "3": [
+       "b1-2-8",
+       "a22-9-4"
+      ]
+     },
+     "next": "n9"
+    },
+    {
+     "id": "n8",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "そうですか！じゃあ、いっしょに 見ましょう！",
+       "ro": "Sou desu ka! Jaa, issho ni mimashou!",
+       "vi": "Vậy à! Vậy thì cùng đi xem nhé!"
+      },
+      "2": {
+       "jp": "そうなのか！じゃあ、いっしょに見に行こうぜ！ベニー冒険団でさ！",
+       "ro": "Sou na no ka! Jaa, issho ni mi ni ikou ze! Benii Boukendan de sa!",
+       "vi": "Vậy à! Thế thì cùng đi xem nào! Với Đội Mạo Hiểm Benny!"
+      },
+      "3": {
+       "jp": "旅人でもそうなのか！なら話は早い、まだ見ぬ世界、ベニー冒険団みんなで見に行こうぜ！",
+       "ro": "Tabibito demo sou na no ka! Nara hanashi wa hayai, mada minu sekai, Benii Boukendan minna de mi ni ikou ze!",
+       "vi": "Ngay cả Lữ khách cũng vậy à! Thế thì dễ rồi, thế giới chưa ai thấy, cả Đội Mạo Hiểm Benny cùng đi xem nào!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-6-6"
+      ],
+      "2": [
+       "a21-8-3",
+       "a21-8-2"
+      ],
+      "3": [
+       "ab1-1-4",
+       "a21-8-3"
+      ]
+     },
+     "next": "n9"
+    },
+    {
+     "id": "n9",
+     "sp": "paimon",
+     "mood": "surprised",
+     "t": {
+      "1": {
+       "jp": "ベネット、その ちずは 上と 下が ちがいます！",
+       "ro": "Benetto, sono chizu wa ue to shita ga chigaimasu!",
+       "vi": "Bennett, tấm bản đồ đó ngược trên dưới rồi!"
+      },
+      "2": {
+       "jp": "…なあベネット、その地図、さかさまじゃないか？",
+       "ro": "...Naa Benetto, sono chizu, sakasama ja nai ka?",
+       "vi": "...Này Bennett, tấm bản đồ đó bị ngược rồi phải không?"
+      },
+      "3": {
+       "jp": "…なあベネット、盛り上がってるとこ悪いんだけど、その地図、上下逆さまだぞ？",
+       "ro": "...Naa Benetto, moriagatteru toko warui n da kedo, sono chizu, jouge sakasama da zo?",
+       "vi": "...Này Bennett, đang hăng hái mà xin lỗi nhé, nhưng tấm bản đồ đó bị ngược trên dưới rồi đó?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-16-2"
+      ],
+      "2": [
+       "a1-16-2",
+       "a22-11-6"
+      ],
+      "3": [
+       "ab1-2-1",
+       "ab1-5-7"
+      ]
+     },
+     "next": "n10"
+    },
+    {
+     "id": "n10",
+     "sp": "char",
+     "mood": "surprised",
+     "t": {
+      "1": {
+       "jp": "えっ！？…あはは、ほんとうです。",
+       "ro": "E!? ...Ahaha, hontou desu.",
+       "vi": "Hả?! ...A ha ha, thật này."
+      },
+      "2": {
+       "jp": "えっ！？…あはは、本当だ。だから道がわからなかったんだ。",
+       "ro": "E!? ...Ahaha, hontou da. Dakara michi ga wakaranakatta n da.",
+       "vi": "Hả?! ...A ha ha, thật này. Hèn gì tớ không tìm ra đường."
+      },
+      "3": {
+       "jp": "えっ！？…うわ、本当だ。どうりでさっきから同じ場所をぐるぐる回ってたわけだぜ…。",
+       "ro": "E!? ...Uwa, hontou da. Douri de sakki kara onaji basho o guruguru mawatteta wake da ze...",
+       "vi": "Hả?! ...Oái, thật này. Thảo nào nãy giờ cứ đi vòng vòng một chỗ..."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-1"
+      ],
+      "2": [
+       "a21-4-3",
+       "a21-17-1"
+      ],
+      "3": [
+       "b1-9-4",
+       "ab1-5-7"
+      ]
+     },
+     "next": "n11"
+    },
+    {
+     "id": "n11",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "その とき、つよい 風が ふきました。ちずが とんで いきました！",
+       "ro": "Sono toki, tsuyoi kaze ga fukimashita. Chizu ga tonde ikimashita!",
+       "vi": "Đúng lúc đó, một cơn gió mạnh thổi qua. Tấm bản đồ bay mất!"
+      },
+      "2": {
+       "jp": "そのとき、強い風がふいて、地図が空へ飛んでいった！",
+       "ro": "Sono toki, tsuyoi kaze ga fuite, chizu ga sora e tonde itta!",
+       "vi": "Đúng lúc đó, gió mạnh thổi tới, tấm bản đồ bay vút lên trời!"
+      },
+      "3": {
+       "jp": "その瞬間、狙いすましたような突風が吹き抜け、地図は青空の彼方へと舞い上がっていった。",
+       "ro": "Sono shunkan, neraisumashita you na toppuu ga fukinuke, chizu wa aozora no kanata e to maiagatte itta.",
+       "vi": "Ngay khoảnh khắc đó, một cơn gió giật như nhắm sẵn thổi qua, tấm bản đồ bay vút về phía bầu trời xanh xa xăm."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-14-1"
+      ],
+      "2": [
+       "a21-6-2",
+       "a21-11-1"
+      ],
+      "3": [
+       "b1-5-5",
+       "b1-2-4"
+      ]
+     },
+     "next": "n12"
+    },
+    {
+     "id": "n12",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "あっ、ちず！まって！…ははは、これも 冒険です！",
+       "ro": "A, chizu! Matte! ...Hahaha, kore mo bouken desu!",
+       "vi": "A, bản đồ! Đợi đã! ...Ha ha ha, cái này cũng là phiêu lưu!"
+      },
+      "2": {
+       "jp": "あーっ、地図が！…ははっ、まあいいか。これも冒険の一つだ！追いかけよう！",
+       "ro": "Aa, chizu ga! ...Hahha, maa ii ka. Kore mo bouken no hitotsu da! Oikakeyou!",
+       "vi": "Aaa, bản đồ! ...Ha ha, thôi kệ. Cái này cũng là một phần của phiêu lưu! Đuổi theo nào!"
+      },
+      "3": {
+       "jp": "あーっ、オレの地図が！…ははっ、でも見ろよ、ちょうど神殿の方へ飛んでくぜ。これも冒険の神様のお導きってやつだ！",
+       "ro": "Aa, ore no chizu ga! ...Hahha, demo miro yo, choudo shinden no hou e tondeku ze. Kore mo bouken no kamisama no omichibiki tte yatsu da!",
+       "vi": "Aaa, bản đồ của tớ! ...Ha ha, nhưng nhìn kìa, nó bay đúng về phía ngôi đền đấy. Cái này gọi là thần phiêu lưu dẫn đường đó!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-5"
+      ],
+      "2": [
+       "a21-8-2",
+       "a1-3-5"
+      ],
+      "3": [
+       "ab1-1-7",
+       "b1-8-4"
+      ]
+     },
+     "next": "n13"
+    },
+    {
+     "id": "n13",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "三人は わらいました。そして、ちずを おいかけました。",
+       "ro": "Sannin wa waraimashita. Soshite, chizu o oikakemashita.",
+       "vi": "Ba người bật cười. Rồi đuổi theo tấm bản đồ."
+      },
+      "2": {
+       "jp": "三人は笑って、風に飛ぶ地図を追いかけていった。",
+       "ro": "Sannin wa waratte, kaze ni tobu chizu o oikakete itta.",
+       "vi": "Ba người cười vang, đuổi theo tấm bản đồ bay trong gió."
+      },
+      "3": {
+       "jp": "こうしてベニー冒険団の最初の冒険は、風に舞う地図を笑いながら追いかけるところから始まったのでした。",
+       "ro": "Koushite Benii Boukendan no saisho no bouken wa, kaze ni mau chizu o warai nagara oikakeru tokoro kara hajimatta no deshita.",
+       "vi": "Và thế là chuyến phiêu lưu đầu tiên của Đội Mạo Hiểm Benny bắt đầu bằng cảnh vừa cười vừa đuổi theo tấm bản đồ bay trong gió."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-18-3"
+      ],
+      "2": [
+       "a21-17-3",
+       "a21-6-2"
+      ],
+      "3": [
+       "ab1-8-5",
+       "b1-9-7"
+      ]
+     },
+     "end": true
+    }
+   ]
+  },
+  {
+   "c": 2,
+   "title": {
+    "jp": "逆境を越えて",
+    "vi": "Vượt Qua Nghịch Cảnh"
+   },
+   "summary": "Vừa tới Đền Ngàn Gió thì trời đổ mưa, rồi sàn đá sụp khiến Bennett rơi xuống hố. Nhưng chính dưới đáy hố, cả nhóm tìm thấy một chiếc rương cũ — và Bennett cười bảo: xui xẻo đôi khi cũng dẫn đường tới điều bất ngờ.",
+   "bg": "windrise",
+   "nodes": [
+    {
+     "id": "n1",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "三人は 千風の神殿に つきました。そらに 黒い くもが あります。",
+       "ro": "Sannin wa Senpuu no Shinden ni tsukimashita. Sora ni kuroi kumo ga arimasu.",
+       "vi": "Ba người đến Đền Ngàn Gió. Trên trời có mây đen."
+      },
+      "2": {
+       "jp": "やっと千風の神殿に着いた。でも、空には黒い雲が広がっていた。",
+       "ro": "Yatto Senpuu no Shinden ni tsuita. Demo, sora ni wa kuroi kumo ga hirogatte ita.",
+       "vi": "Cuối cùng cũng đến Đền Ngàn Gió. Nhưng trên trời mây đen đang giăng kín."
+      },
+      "3": {
+       "jp": "ようやく千風の神殿にたどり着いた一行。だが、見上げた空にはいつの間にか分厚い雨雲が垂れ込めていた。",
+       "ro": "Youyaku Senpuu no Shinden ni tadoritsuita ikkou. Da ga, miageta sora ni wa itsu no ma ni ka buatsui amagumo ga tarekomete ita.",
+       "vi": "Cả nhóm cuối cùng cũng tới được Đền Ngàn Gió. Nhưng bầu trời họ ngước nhìn đã bị mây mưa dày đặc phủ kín từ lúc nào."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-7-1"
+      ],
+      "2": [
+       "a21-4-3",
+       "a22-9-1"
+      ],
+      "3": [
+       "b1-1-4",
+       "b1-9-2"
+      ]
+     },
+     "next": "n2"
+    },
+    {
+     "id": "n2",
+     "sp": "paimon",
+     "mood": "sad",
+     "t": {
+      "1": {
+       "jp": "あめが ふりますか…。",
+       "ro": "Ame ga furimasu ka...",
+       "vi": "Trời sắp mưa sao..."
+      },
+      "2": {
+       "jp": "うう、雨がふりそうだぞ…。",
+       "ro": "Uu, ame ga furisou da zo...",
+       "vi": "Ư, có vẻ trời sắp mưa rồi..."
+      },
+      "3": {
+       "jp": "うう、今にも降り出しそうだぞ…。さっきまであんなに晴れてたのに。",
+       "ro": "Uu, ima ni mo furidashisou da zo... Sakki made anna ni hareteta noni.",
+       "vi": "Ư, trời như sắp đổ mưa tới nơi... Rõ ràng lúc nãy còn nắng thế cơ mà."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-5-3"
+      ],
+      "2": [
+       "a21-12-1"
+      ],
+      "3": [
+       "ab1-5-2",
+       "ab1-7-3"
+      ]
+     },
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "ははは、オレの 冒険の 日は、いつも あめです。",
+       "ro": "Hahaha, ore no bouken no hi wa, itsumo ame desu.",
+       "vi": "Ha ha ha, ngày tớ đi phiêu lưu lúc nào cũng mưa."
+      },
+      "2": {
+       "jp": "ははっ、オレが冒険に出ると、だいたい雨になるんだよな。",
+       "ro": "Hahha, ore ga bouken ni deru to, daitai ame ni naru n da yo na.",
+       "vi": "Ha ha, cứ tớ ra ngoài phiêu lưu là y như rằng trời mưa."
+      },
+      "3": {
+       "jp": "ははっ、心配いらないさ。オレが冒険に出るたびに天気が崩れるのは、もはやお約束だからな！",
+       "ro": "Hahha, shinpai iranai sa. Ore ga bouken ni deru tabi ni tenki ga kuzureru no wa, mohaya oyakusoku da kara na!",
+       "vi": "Ha ha, không cần lo đâu. Cứ mỗi lần tớ đi phiêu lưu là thời tiết xấu đi, chuyện đó giờ thành lệ rồi!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-5-4",
+       "a1-4-2"
+      ],
+      "2": [
+       "a22-4-4",
+       "a21-3-1"
+      ],
+      "3": [
+       "b12-11-7",
+       "a22-3-2"
+      ]
+     },
+     "next": "n4"
+    },
+    {
+     "id": "n4",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "あめが ふりました。そして、ゆかが こわれました！ベネットが あなに おちました！",
+       "ro": "Ame ga furimashita. Soshite, yuka ga kowaremashita! Benetto ga ana ni ochimashita!",
+       "vi": "Trời đổ mưa. Rồi sàn nhà vỡ ra! Bennett rơi xuống hố!"
+      },
+      "2": {
+       "jp": "雨がふりだしたそのとき、ベネットの足もとのゆかがくずれて、ベネットは穴に落ちてしまった！",
+       "ro": "Ame ga furidashita sono toki, Benetto no ashimoto no yuka ga kuzurete, Benetto wa ana ni ochite shimatta!",
+       "vi": "Đúng lúc trời bắt đầu mưa, sàn dưới chân Bennett sụp xuống, và Bennett rơi tọt xuống hố!"
+      },
+      "3": {
+       "jp": "雨粒が石畳を叩き始めたその瞬間、ベネットの足元の床が音を立てて崩れ落ち、彼の姿は暗い穴の中へと消えた。",
+       "ro": "Amatsubu ga ishidatami o tatakihajimeta sono shunkan, Benetto no ashimoto no yuka ga oto o tatete kuzureochi, kare no sugata wa kurai ana no naka e to kieta.",
+       "vi": "Ngay khoảnh khắc hạt mưa bắt đầu gõ lên nền đá, sàn dưới chân Bennett đổ sụp với tiếng động lớn, bóng dáng cậu biến mất vào trong hố tối."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-18-3"
+      ],
+      "2": [
+       "a22-11-2",
+       "a21-7-6"
+      ],
+      "3": [
+       "b1-1-3",
+       "b1-2-4"
+      ]
+     },
+     "next": "n5"
+    },
+    {
+     "id": "n5",
+     "sp": "char",
+     "mood": "surprised",
+     "t": {
+      "1": {
+       "jp": "わあっ！…いたた…。だいじょうぶです！",
+       "ro": "Waa! ...Itata... Daijoubu desu!",
+       "vi": "Oaa! ...Ui da... Tớ không sao!"
+      },
+      "2": {
+       "jp": "うわああっ！…いててて。だ、だいじょうぶ！ちょっとおしりを打っただけ！",
+       "ro": "Uwaaa! ...Itetete. Da, daijoubu! Chotto oshiri o utta dake!",
+       "vi": "Oaaa! ...Ui da da. K-không sao! Chỉ bị đập mông một chút thôi!"
+      },
+      "3": {
+       "jp": "うわああっ！…いってえ〜。へ、平気平気！尻もちついただけだ！これくらい慣れっこさ！",
+       "ro": "Uwaaa! ...Ittee. He, heiki heiki! Shirimochi tsuita dake da! Kore kurai narekko sa!",
+       "vi": "Oaaa! ...Đau quá~. K-không sao không sao! Chỉ ngã phịch mông thôi! Chuyện này quen rồi!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-10-5"
+      ],
+      "2": [
+       "a22-9-4"
+      ],
+      "3": [
+       "a22-9-4",
+       "b12-13-4"
+      ]
+     },
+     "next": "n6"
+    },
+    {
+     "id": "n6",
+     "sp": "char",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "旅人、ちょっと 手つだって ください！",
+       "ro": "Tabibito, chotto tetsudatte kudasai!",
+       "vi": "Lữ khách, giúp tớ một chút với!"
+      },
+      "2": {
+       "jp": "旅人、ちょっと手をかして！ここ、けっこう深いんだ。",
+       "ro": "Tabibito, chotto te o kashite! Koko, kekkou fukai n da.",
+       "vi": "Lữ khách, giúp tớ một tay với! Chỗ này khá sâu đấy."
+      },
+      "3": {
+       "jp": "おーい旅人、悪いけど手を貸してもらえるか？思ったより深くてさ、一人じゃ登れそうにないんだ。",
+       "ro": "Ooi tabibito, warui kedo te o kashite moraeru ka? Omotta yori fukakute sa, hitori ja noboresou ni nai n da.",
+       "vi": "Ê Lữ khách, phiền cậu giúp một tay được không? Sâu hơn tớ tưởng, một mình chắc không leo lên nổi."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-2-2"
+      ],
+      "2": [
+       "a21-6-1",
+       "a21-17-1"
+      ],
+      "3": [
+       "ab1-9-3",
+       "a21-12-3",
+       "ab1-5-2"
+      ]
+     },
+     "choices": [
+      {
+       "t": {
+        "1": {
+         "jp": "私も 下に 行きます！",
+         "ro": "Watashi mo shita ni ikimasu!",
+         "vi": "Mình cũng xuống!"
+        },
+        "2": {
+         "jp": "待ってて、私も下におりるよ！",
+         "ro": "Mattete, watashi mo shita ni oriru yo!",
+         "vi": "Chờ đó, mình cũng xuống!"
+        },
+        "3": {
+         "jp": "待ってて、今そっちに飛び降りるから！",
+         "ro": "Mattete, ima sotchi ni tobioriru kara!",
+         "vi": "Chờ đó, mình nhảy xuống chỗ cậu ngay đây!"
+        }
+       },
+       "g": {
+        "1": [
+         "a1-9-5",
+         "a1-3-5"
+        ],
+        "2": [
+         "a22-1-5",
+         "a21-2-2"
+        ],
+        "3": [
+         "ab1-5-7",
+         "ab1-3-3"
+        ]
+       },
+       "next": "n7"
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "ロープを なげます！",
+         "ro": "Roopu o nagemasu!",
+         "vi": "Mình ném dây xuống!"
+        },
+        "2": {
+         "jp": "ロープをなげるから、つかまって！",
+         "ro": "Roopu o nageru kara, tsukamatte!",
+         "vi": "Mình ném dây đây, bám vào!"
+        },
+        "3": {
+         "jp": "今ロープを下ろすよ！しっかりつかまってて！",
+         "ro": "Ima roopu o orosu yo! Shikkari tsukamattete!",
+         "vi": "Mình thả dây xuống ngay! Bám thật chặt vào nhé!"
+        }
+       },
+       "g": {
+        "1": [
+         "a1-5-3"
+        ],
+        "2": [
+         "a21-3-5",
+         "a21-6-1"
+        ],
+        "3": [
+         "ab1-5-7",
+         "ab1-8-4"
+        ]
+       },
+       "next": "n8"
+      }
+     ]
+    },
+    {
+     "id": "n7",
+     "sp": "char",
+     "mood": "surprised",
+     "t": {
+      "1": {
+       "jp": "えっ、旅人も 来ましたか！？あははは！",
+       "ro": "E, tabibito mo kimashita ka!? Ahahaha!",
+       "vi": "Hả, Lữ khách cũng xuống luôn á?! A ha ha ha!"
+      },
+      "2": {
+       "jp": "えっ、旅人まで下りてきたのか！？あはは、むちゃするなあ！",
+       "ro": "E, tabibito made orite kita no ka!? Ahaha, mucha suru naa!",
+       "vi": "Hả, cả Lữ khách cũng xuống đây à?! A ha ha, liều quá đi!"
+      },
+      "3": {
+       "jp": "うおっ、旅人まで飛び込んできたのかよ！？ははっ、あんたも相当な冒険バカだな！気に入ったぜ！",
+       "ro": "Uo, tabibito made tobikonde kita no ka yo!? Hahha, anta mo soutou na bouken baka da na! Ki ni itta ze!",
+       "vi": "Ối, Lữ khách cũng nhảy xuống luôn à?! Ha ha, cậu cũng là một kẻ mê phiêu lưu cỡ bự đấy! Tớ thích rồi đó!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-3-5"
+      ],
+      "2": [
+       "a21-11-1",
+       "a22-11-6"
+      ],
+      "3": [
+       "b1-2-8",
+       "b1-1-4"
+      ]
+     },
+     "next": "n9"
+    },
+    {
+     "id": "n8",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "ありがとう！…あれ？あそこに 何か あります！",
+       "ro": "Arigatou! ...Are? Asoko ni nanika arimasu!",
+       "vi": "Cảm ơn! ...Ơ? Đằng kia có gì đó!"
+      },
+      "2": {
+       "jp": "助かった、ありがとう！…ん？待って、あっちに何か光ってるぞ！",
+       "ro": "Tasukatta, arigatou! ...N? Matte, atchi ni nanika hikatteru zo!",
+       "vi": "Được cứu rồi, cảm ơn! ...Hửm? Khoan, bên kia có gì đó phát sáng!"
+      },
+      "3": {
+       "jp": "サンキュー、助かった！…っと、ちょっと待ってくれ。奥の方で、何かがキラッと光ったような…。",
+       "ro": "Sankyuu, tasukatta! ...tto, chotto matte kure. Oku no hou de, nanika ga kiratto hikatta you na...",
+       "vi": "Cảm ơn, được cứu rồi! ...Khoan đã. Hình như ở phía trong có cái gì vừa lóe sáng..."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-1-3",
+       "a1-7-1"
+      ],
+      "2": [
+       "a1-1-3",
+       "a22-1-5"
+      ],
+      "3": [
+       "b1-5-5",
+       "b12-1-6"
+      ]
+     },
+     "next": "n9"
+    },
+    {
+     "id": "n9",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "あなの 中に ふるい はこが ありました。たからばこです！",
+       "ro": "Ana no naka ni furui hako ga arimashita. Takarabako desu!",
+       "vi": "Trong hố có một chiếc hộp cũ. Là rương báu!"
+      },
+      "2": {
+       "jp": "穴のおくに、とても古いたからばこがあった。まだだれも開けていないはこだ。",
+       "ro": "Ana no oku ni, totemo furui takarabako ga atta. Mada dare mo akete inai hako da.",
+       "vi": "Ở sâu trong hố có một chiếc rương báu rất cũ. Một chiếc rương chưa ai mở."
+      },
+      "3": {
+       "jp": "穴の奥には、苔むした古い宝箱がひっそりと置かれていた。長い年月、誰の目にも触れずに眠っていたらしい。",
+       "ro": "Ana no oku ni wa, kokemushita furui takarabako ga hissori to okarete ita. Nagai nengetsu, dare no me ni mo furezu ni nemutte ita rashii.",
+       "vi": "Sâu trong hố, một chiếc rương báu cũ phủ rêu nằm lặng lẽ. Có vẻ nó đã ngủ yên suốt nhiều năm tháng mà không ai trông thấy."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-14-2",
+       "a1-14-1"
+      ],
+      "2": [
+       "a1-14-2",
+       "a22-8-2"
+      ],
+      "3": [
+       "b1-6-6",
+       "b1-5-1"
+      ]
+     },
+     "next": "n10"
+    },
+    {
+     "id": "n10",
+     "sp": "paimon",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "たからばこです！ベネット、すごいです！",
+       "ro": "Takarabako desu! Benetto, sugoi desu!",
+       "vi": "Rương báu kìa! Bennett giỏi quá!"
+      },
+      "2": {
+       "jp": "たからばこだ！ベネットが落ちたおかげで見つかったぞ！",
+       "ro": "Takarabako da! Benetto ga ochita okage de mitsukatta zo!",
+       "vi": "Rương báu! Nhờ Bennett rơi xuống mà tìm ra đấy!"
+      },
+      "3": {
+       "jp": "宝箱だーっ！ベネットが穴に落ちなかったら、絶対に見つからなかったぞ、これ！",
+       "ro": "Takarabako daa! Benetto ga ana ni ochinakattara, zettai ni mitsukaranakatta zo, kore!",
+       "vi": "Rương báuuu! Nếu Bennett không rơi xuống hố thì chắc chắn chẳng tìm thấy cái này đâu!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-1",
+       "a1-7-4"
+      ],
+      "2": [
+       "a21-17-3",
+       "a21-4-3"
+      ],
+      "3": [
+       "a22-7-3",
+       "a21-4-3"
+      ]
+     },
+     "next": "n11"
+    },
+    {
+     "id": "n11",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "そうです！うんが わるい 日も、いい ことが あります！",
+       "ro": "Sou desu! Un ga warui hi mo, ii koto ga arimasu!",
+       "vi": "Đúng vậy! Ngày xui xẻo cũng có chuyện tốt!"
+      },
+      "2": {
+       "jp": "だろ？運が悪いことも、べつの見方をすれば、ラッキーになるんだ！",
+       "ro": "Daro? Un ga warui koto mo, betsu no mikata o suru to, rakkii ni naru n da!",
+       "vi": "Thấy chưa? Chuyện xui xẻo mà nhìn theo cách khác thì cũng thành may mắn đó!"
+      },
+      "3": {
+       "jp": "だろ？不運ってのは、見方を変えりゃ誰も通らない道への入り口なんだ。転んだ分だけ、新しい発見がある！",
+       "ro": "Daro? Fuun tte no wa, mikata o kaerya dare mo tooranai michi e no iriguchi na n da. Koronda bun dake, atarashii hakken ga aru!",
+       "vi": "Thấy chưa? Vận xui mà đổi góc nhìn thì là lối vào con đường chẳng ai đi. Ngã bao nhiêu lần thì có bấy nhiêu phát hiện mới!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-14-1",
+       "a1-7-1"
+      ],
+      "2": [
+       "a22-4-4",
+       "a21-3-1"
+      ],
+      "3": [
+       "ab1-2-5",
+       "b12-12-1",
+       "ab1-1-3"
+      ]
+     },
+     "next": "n12"
+    },
+    {
+     "id": "n12",
+     "sp": "char",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "オレの 父さんたちが いつも 言います。「冒険は、前に すすむ ことだ」。",
+       "ro": "Ore no tousan-tachi ga itsumo iimasu. \"Bouken wa, mae ni susumu koto da\".",
+       "vi": "Các bố của tớ lúc nào cũng nói: \"Phiêu lưu là tiến về phía trước\"."
+      },
+      "2": {
+       "jp": "オレを育てた冒険者の父さんたちが、よく言ってたんだ。「転んだら、また前に進もう」ってさ。",
+       "ro": "Ore o sodateta boukensha no tousan-tachi ga, yoku itteta n da. \"Korondara, mata mae ni susumou\" tte sa.",
+       "vi": "Các bố mạo hiểm giả đã nuôi tớ lớn hay nói lắm. \"Ngã rồi thì lại tiến về phía trước thôi\" ấy."
+      },
+      "3": {
+       "jp": "オレを育ててくれた冒険者の親父たちの口ぐせでさ。「転んだら、転んだ場所で何か拾ってから立ち上がれ」ってな。",
+       "ro": "Ore o sodatete kureta boukensha no oyaji-tachi no kuchiguse de sa. \"Korondara, koronda basho de nanika hirotte kara tachiagare\" tte na.",
+       "vi": "Đó là câu cửa miệng của các ông bố mạo hiểm giả đã nuôi tớ đấy. \"Nếu có ngã, hãy nhặt được gì đó ở chỗ ngã rồi hẵng đứng dậy\"."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-5-4",
+       "a1-4-2"
+      ],
+      "2": [
+       "a21-18-4",
+       "a22-7-3"
+      ],
+      "3": [
+       "ab1-4-1",
+       "ab1-1-7",
+       "a22-4-2"
+      ]
+     },
+     "next": "n13"
+    },
+    {
+     "id": "n13",
+     "sp": "paimon",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "はこの 中は 何ですか。…モラが 少し あります！",
+       "ro": "Hako no naka wa nan desu ka. ...Mora ga sukoshi arimasu!",
+       "vi": "Trong rương có gì vậy? ...Có một ít Mora!"
+      },
+      "2": {
+       "jp": "それで、中身は…モラが少しと、古いばんそうこう？ベネットにぴったりだな！",
+       "ro": "Sore de, nakami wa... mora ga sukoshi to, furui bansoukou? Benetto ni pittari da na!",
+       "vi": "Rồi, bên trong là... một ít Mora với... băng dán cũ? Hợp với Bennett ghê!"
+      },
+      "3": {
+       "jp": "で、肝心の中身は…モラがちょっぴりと、古い絆創膏の束？…なんというか、ベネットのための宝箱みたいだな！",
+       "ro": "De, kanjin no nakami wa... mora ga choppiri to, furui bansoukou no taba? ...Nan to iu ka, Benetto no tame no takarabako mitai da na!",
+       "vi": "Rồi, thứ quan trọng bên trong là... một chút Mora với một xấp băng dán cũ? ...Nói sao nhỉ, cứ như rương báu dành riêng cho Bennett vậy!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-3",
+       "a1-7-1"
+      ],
+      "2": [
+       "a1-5-2",
+       "a1-14-1"
+      ],
+      "3": [
+       "b12-1-2",
+       "ab1-3-4",
+       "a22-10-4"
+      ]
+     },
+     "next": "n14"
+    },
+    {
+     "id": "n14",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "あめが やみました。そらに にじが 見えました。",
+       "ro": "Ame ga yamimashita. Sora ni niji ga miemashita.",
+       "vi": "Mưa tạnh. Trên trời hiện ra cầu vồng."
+      },
+      "2": {
+       "jp": "やがて雨がやんで、神殿の上に大きなにじが出た。",
+       "ro": "Yagate ame ga yande, shinden no ue ni ookina niji ga deta.",
+       "vi": "Chẳng bao lâu mưa tạnh, một cầu vồng lớn hiện lên trên ngôi đền."
+      },
+      "3": {
+       "jp": "やがて雨は上がり、神殿の上に大きな虹が架かった。泥だらけの三人は、顔を見合わせて笑い合ったのでした。",
+       "ro": "Yagate ame wa agari, shinden no ue ni ookina niji ga kakatta. Dorodarake no sannin wa, kao o miawasete waraiatta no deshita.",
+       "vi": "Chẳng bao lâu mưa tạnh, một cầu vồng lớn vắt ngang trên ngôi đền. Ba người lấm lem bùn đất nhìn nhau rồi cùng bật cười."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4"
+      ],
+      "2": [
+       "a21-6-2",
+       "a1-14-1"
+      ],
+      "3": [
+       "b1-2-4",
+       "b1-9-7"
+      ]
+     },
+     "end": true
+    }
+   ]
+  },
+  {
+   "c": 3,
+   "title": {
+    "jp": "燃え上がる情熱",
+    "vi": "Đam Mê Rực Cháy"
+   },
+   "summary": "Bennett dẫn Lữ khách tới Bôn Lang Lĩnh để luyện tập cùng người bạn thân Razor — cậu bé lớn lên giữa bầy sói. Ngã bao nhiêu lần Bennett cũng đứng dậy, và Razor nói rằng trái tim của Bennett ấm như ngọn lửa.",
+   "bg": "windrise",
+   "nodes": [
+    {
+     "id": "n1",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "ここは 奔狼領です。大きい 木が たくさん あります。",
+       "ro": "Koko wa Honrouryou desu. Ookii ki ga takusan arimasu.",
+       "vi": "Đây là Bôn Lang Lĩnh. Có rất nhiều cây lớn."
+      },
+      "2": {
+       "jp": "旅人たちは、深い森が広がる奔狼領にやって来た。",
+       "ro": "Tabibito-tachi wa, fukai mori ga hirogaru Honrouryou ni yatte kita.",
+       "vi": "Nhóm Lữ khách đến Bôn Lang Lĩnh, nơi rừng sâu trải rộng."
+      },
+      "3": {
+       "jp": "一行が足を踏み入れたのは、鬱蒼とした森が広がる奔狼領。どこか遠くで、狼の遠吠えが響いている。",
+       "ro": "Ikkou ga ashi o fumiireta no wa, ussou to shita mori ga hirogaru Honrouryou. Dokoka tooku de, ookami no tooboe ga hibiite iru.",
+       "vi": "Nơi cả nhóm đặt chân đến là Bôn Lang Lĩnh với khu rừng rậm rạp. Đâu đó xa xa vang lên tiếng sói tru."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-8-6",
+       "a1-7-1"
+      ],
+      "2": [
+       "a21-17-3",
+       "a21-11-1"
+      ],
+      "3": [
+       "a22-3-2",
+       "b1-1-4"
+      ]
+     },
+     "next": "n2"
+    },
+    {
+     "id": "n2",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "今日は ここで 友だちと れんしゅうします！",
+       "ro": "Kyou wa koko de tomodachi to renshuu shimasu!",
+       "vi": "Hôm nay tớ sẽ luyện tập với bạn ở đây!"
+      },
+      "2": {
+       "jp": "今日はここで、オレの友だちといっしょに特訓するんだ！",
+       "ro": "Kyou wa koko de, ore no tomodachi to issho ni tokkun suru n da!",
+       "vi": "Hôm nay tớ sẽ luyện tập đặc biệt với bạn tớ ở đây!"
+      },
+      "3": {
+       "jp": "今日はここで特訓だ！オレの親友が、この森に住んでるんだよ。",
+       "ro": "Kyou wa koko de tokkun da! Ore no shin'yuu ga, kono mori ni sunderu n da yo.",
+       "vi": "Hôm nay luyện tập đặc biệt ở đây! Bạn thân của tớ sống trong khu rừng này đấy."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-6-2",
+       "a1-4-1"
+      ],
+      "2": [
+       "a21-17-1",
+       "a1-6-2"
+      ],
+      "3": [
+       "ab1-5-7",
+       "a21-17-1"
+      ]
+     },
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "sp": "paimon",
+     "mood": "surprised",
+     "t": {
+      "1": {
+       "jp": "もりに 友だちが いますか。",
+       "ro": "Mori ni tomodachi ga imasu ka.",
+       "vi": "Trong rừng có bạn cậu à?"
+      },
+      "2": {
+       "jp": "えっ、森の中に友だちが住んでいるのか？",
+       "ro": "E, mori no naka ni tomodachi ga sunde iru no ka?",
+       "vi": "Hả, bạn cậu sống trong rừng à?"
+      },
+      "3": {
+       "jp": "森に住んでる友だちって…まさか、狼とか言わないよな？",
+       "ro": "Mori ni sunderu tomodachi tte... masaka, ookami toka iwanai yo na?",
+       "vi": "Người bạn sống trong rừng... đừng nói là sói nhé?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-7-2"
+      ],
+      "2": [
+       "a21-1-4",
+       "a22-11-6"
+      ],
+      "3": [
+       "b12-1-1",
+       "ab1-5-7"
+      ]
+     },
+     "next": "n4"
+    },
+    {
+     "id": "n4",
+     "sp": "レザー",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "ベネット。来た。",
+       "ro": "Benetto. Kita.",
+       "vi": "Bennett. Đến rồi."
+      },
+      "2": {
+       "jp": "ベネット、来たな。…知らない人もいる。",
+       "ro": "Benetto, kita na. ...Shiranai hito mo iru.",
+       "vi": "Bennett, đến rồi à. ...Có cả người lạ."
+      },
+      "3": {
+       "jp": "ベネット、来たか。…におい、知らない。おまえたち、ベネットの…ルピカか？",
+       "ro": "Benetto, kita ka. ...Nioi, shiranai. Omae-tachi, Benetto no... rupika ka?",
+       "vi": "Bennett, đến rồi à. ...Mùi, lạ. Các ngươi, là... lupical của Bennett à?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4"
+      ],
+      "2": [
+       "a21-4-3",
+       "a21-17-3"
+      ],
+      "3": [
+       "a21-4-3",
+       "a1-4-2"
+      ]
+     },
+     "next": "n5"
+    },
+    {
+     "id": "n5",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "レザー！この 人は 旅人です。こっちは パイモンです。",
+       "ro": "Rezaa! Kono hito wa tabibito desu. Kotchi wa Paimon desu.",
+       "vi": "Razor! Đây là Lữ khách. Còn đây là Paimon."
+      },
+      "2": {
+       "jp": "よう、レザー！こっちは旅人とパイモン。ベニー冒険団の新しいなかまなんだ！",
+       "ro": "You, Rezaa! Kotchi wa tabibito to Paimon. Benii Boukendan no atarashii nakama na n da!",
+       "vi": "Chào, Razor! Đây là Lữ khách và Paimon. Đồng đội mới của Đội Mạo Hiểm Benny đấy!"
+      },
+      "3": {
+       "jp": "よっ、レザー！紹介するぜ、旅人とパイモン。ベニー冒険団の頼もしい新メンバーだ。ルピカってのは…まあ、家族みたいなもんかな！",
+       "ro": "Yo, Rezaa! Shoukai suru ze, tabibito to Paimon. Benii Boukendan no tanomoshii shin menbaa da. Rupika tte no wa... maa, kazoku mitai na mon ka na!",
+       "vi": "Chào, Razor! Giới thiệu nhé, Lữ khách và Paimon. Thành viên mới đáng tin của Đội Mạo Hiểm Benny. Còn lupical thì... chắc giống như gia đình ấy!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-4-5",
+       "a1-3-1"
+      ],
+      "2": [
+       "a21-14-1",
+       "a21-17-1"
+      ],
+      "3": [
+       "ab1-4-5",
+       "ab1-3-4",
+       "b1-3-8"
+      ]
+     },
+     "next": "n6"
+    },
+    {
+     "id": "n6",
+     "sp": "レザー",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "オレは レザー。ベネットは 友だち。いつも けが。でも、あきらめない。",
+       "ro": "Ore wa Rezaa. Benetto wa tomodachi. Itsumo kega. Demo, akiramenai.",
+       "vi": "Ta là Razor. Bennett là bạn. Lúc nào cũng bị thương. Nhưng không bỏ cuộc."
+      },
+      "2": {
+       "jp": "オレ、レザー。ベネットは友だち。いつもけがしてる。でも、ぜったいあきらめない。",
+       "ro": "Ore, Rezaa. Benetto wa tomodachi. Itsumo kega shiteru. Demo, zettai akiramenai.",
+       "vi": "Ta, Razor. Bennett là bạn. Lúc nào cũng bị thương. Nhưng tuyệt đối không bỏ cuộc."
+      },
+      "3": {
+       "jp": "オレ、レザー。ベネット、友だち。いつも、ケガだらけ。でも、何度倒れても、立つ。オレ、そこ、好き。",
+       "ro": "Ore, Rezaa. Benetto, tomodachi. Itsumo, kega darake. Demo, nando taorete mo, tatsu. Ore, soko, suki.",
+       "vi": "Ta, Razor. Bennett, bạn. Lúc nào cũng, đầy thương tích. Nhưng ngã bao nhiêu lần, cũng đứng dậy. Ta, thích điểm đó."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-1",
+       "a1-18-2"
+      ],
+      "2": [
+       "a22-1-5",
+       "a1-18-2"
+      ],
+      "3": [
+       "a22-13-1",
+       "a1-5-1"
+      ]
+     },
+     "next": "n7"
+    },
+    {
+     "id": "n7",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "さあ、れんしゅうしましょう！オレの 火が もえて います！",
+       "ro": "Saa, renshuu shimashou! Ore no hi ga moete imasu!",
+       "vi": "Nào, luyện tập thôi! Ngọn lửa của tớ đang bùng cháy!"
+      },
+      "2": {
+       "jp": "へへっ、照れるな。よし、特訓を始めよう！今日のオレは、いつもより燃えてるぜ！",
+       "ro": "Hehe, tereru na. Yoshi, tokkun o hajimeyou! Kyou no ore wa, itsumo yori moeteru ze!",
+       "vi": "Hề hề, ngại ghê. Được, bắt đầu luyện tập nào! Hôm nay tớ còn hừng hực hơn mọi khi!"
+      },
+      "3": {
+       "jp": "へへっ、照れるじゃねえか。よーし、始めるぞ！今日のオレの情熱は、いつもの三割増しで燃え上がってるからな！",
+       "ro": "Hehe, tereru ja nee ka. Yooshi, hajimeru zo! Kyou no ore no jounetsu wa, itsumo no sanwari mashi de moeagatteru kara na!",
+       "vi": "Hề hề, làm tớ ngại rồi đấy. Được rồi, bắt đầu nào! Nhiệt huyết hôm nay của tớ đang cháy bùng hơn mọi khi ba phần đấy!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-6-6",
+       "a1-4-2"
+      ],
+      "2": [
+       "a21-8-2",
+       "a22-12-3",
+       "a22-1-5"
+      ],
+      "3": [
+       "b12-17-2",
+       "ab1-3-3"
+      ]
+     },
+     "next": "n8"
+    },
+    {
+     "id": "n8",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "ベネットは なんども たおれました。でも、すぐ 立ちました。",
+       "ro": "Benetto wa nando mo taoremashita. Demo, sugu tachimashita.",
+       "vi": "Bennett ngã rất nhiều lần. Nhưng lần nào cũng đứng dậy ngay."
+      },
+      "2": {
+       "jp": "ベネットは何回もたおれた。それでも、そのたびに笑って立ち上がった。",
+       "ro": "Benetto wa nankai mo taoreta. Soredemo, sono tabi ni waratte tachiagatta.",
+       "vi": "Bennett ngã không biết bao nhiêu lần. Dù vậy, mỗi lần như thế cậu lại cười và đứng dậy."
+      },
+      "3": {
+       "jp": "ベネットはレザーの一撃に何度も吹き飛ばされた。それでも、そのたびに泥を払い、前にも増して目を輝かせて立ち上がるのだった。",
+       "ro": "Benetto wa Rezaa no ichigeki ni nando mo fukitobasareta. Soredemo, sono tabi ni doro o harai, mae ni mo mashite me o kagayakasete tachiagaru no datta.",
+       "vi": "Bennett bị đòn của Razor hất văng không biết bao nhiêu lần. Dù vậy, mỗi lần như thế cậu phủi bùn, đứng dậy với đôi mắt còn sáng rực hơn trước."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-18-2"
+      ],
+      "2": [
+       "a21-4-3",
+       "a21-6-2"
+      ],
+      "3": [
+       "a22-18-1",
+       "b1-2-4",
+       "b1-9-7"
+      ]
+     },
+     "next": "n9"
+    },
+    {
+     "id": "n9",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "旅人も いっしょに しませんか。",
+       "ro": "Tabibito mo issho ni shimasen ka.",
+       "vi": "Lữ khách cũng cùng tập không?"
+      },
+      "2": {
+       "jp": "旅人も、いっしょにやらないか？三人のほうが楽しいぞ！",
+       "ro": "Tabibito mo, issho ni yaranai ka? Sannin no hou ga tanoshii zo!",
+       "vi": "Lữ khách cũng cùng tập không? Ba người vui hơn đấy!"
+      },
+      "3": {
+       "jp": "おーい旅人、見てるだけじゃもったいないぜ！一緒に汗を流そうぜ！",
+       "ro": "Ooi tabibito, miteru dake ja mottainai ze! Issho ni ase o nagasou ze!",
+       "vi": "Ê Lữ khách, chỉ đứng nhìn thì phí lắm! Cùng đổ mồ hôi nào!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-12-4"
+      ],
+      "2": [
+       "a21-8-2",
+       "a22-12-3"
+      ],
+      "3": [
+       "a22-15-6",
+       "a22-9-4",
+       "a21-8-2"
+      ]
+     },
+     "choices": [
+      {
+       "t": {
+        "1": {
+         "jp": "はい、します！",
+         "ro": "Hai, shimasu!",
+         "vi": "Ừ, mình tập!"
+        },
+        "2": {
+         "jp": "うん、私もやる！",
+         "ro": "Un, watashi mo yaru!",
+         "vi": "Ừ, mình cũng tập!"
+        },
+        "3": {
+         "jp": "よし、私も混ぜて！手加減はしないよ？",
+         "ro": "Yoshi, watashi mo mazete! Tekagen wa shinai yo?",
+         "vi": "Được, cho mình tham gia với! Mình không nương tay đâu nhé?"
+        }
+       },
+       "g": {
+        "1": [
+         "a1-5-3"
+        ],
+        "2": [
+         "a1-3-5"
+        ],
+        "3": [
+         "a21-6-1"
+        ]
+       },
+       "next": "n10"
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "私は ここで おうえんします！",
+         "ro": "Watashi wa koko de ouen shimasu!",
+         "vi": "Mình cổ vũ ở đây!"
+        },
+        "2": {
+         "jp": "私はここで応援するよ！がんばれ、ベネット！",
+         "ro": "Watashi wa koko de ouen suru yo! Ganbare, Benetto!",
+         "vi": "Mình sẽ cổ vũ ở đây! Cố lên, Bennett!"
+        },
+        "3": {
+         "jp": "今日は応援に回るよ。がんばれ、ベネット！負けるな！",
+         "ro": "Kyou wa ouen ni mawaru yo. Ganbare, Benetto! Makeru na!",
+         "vi": "Hôm nay mình làm cổ động viên. Cố lên, Bennett! Đừng thua!"
+        }
+       },
+       "g": {
+        "1": [
+         "a1-6-2"
+        ],
+        "2": [
+         "a21-2-2",
+         "a1-6-2"
+        ],
+        "3": [
+         "ab1-1-7"
+        ]
+       },
+       "next": "n11"
+      }
+     ]
+    },
+    {
+     "id": "n10",
+     "sp": "レザー",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "三人。むれと おなじ。いい。",
+       "ro": "Sannin. Mure to onaji. Ii.",
+       "vi": "Ba người. Giống bầy. Tốt."
+      },
+      "2": {
+       "jp": "三人…むれと同じ。オレ、うれしい。",
+       "ro": "Sannin... mure to onaji. Ore, ureshii.",
+       "vi": "Ba người... giống một bầy. Ta, vui."
+      },
+      "3": {
+       "jp": "三人。まるで、群れ。いっしょに走る、強くなる。オレ、うれしい。",
+       "ro": "Sannin. Marude, mure. Issho ni hashiru, tsuyoku naru. Ore, ureshii.",
+       "vi": "Ba người. Như một bầy. Cùng chạy, sẽ mạnh lên. Ta, vui."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-7-4"
+      ],
+      "2": [
+       "a21-9-3"
+      ],
+      "3": [
+       "b1-3-7",
+       "a21-3-1"
+      ]
+     },
+     "next": "n12"
+    },
+    {
+     "id": "n11",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "ありがとう、旅人！オレ、がんばります！",
+       "ro": "Arigatou, tabibito! Ore, ganbarimasu!",
+       "vi": "Cảm ơn Lữ khách! Tớ sẽ cố!"
+      },
+      "2": {
+       "jp": "サンキュー、旅人！応援があると、力がわいてくるな！",
+       "ro": "Sankyuu, tabibito! Ouen ga aru to, chikara ga waite kuru na!",
+       "vi": "Cảm ơn Lữ khách! Có người cổ vũ là sức lực trào dâng ngay!"
+      },
+      "3": {
+       "jp": "へへっ、サンキュー！声援ってのは、最高の燃料だよな。体の奥から炎が湧いてくる感じだぜ！",
+       "ro": "Hehe, sankyuu! Seien tte no wa, saikou no nenryou da yo na. Karada no oku kara honoo ga waite kuru kanji da ze!",
+       "vi": "Hề hề, cảm ơn! Lời cổ vũ đúng là nhiên liệu tốt nhất. Cảm giác như ngọn lửa trào lên từ sâu trong người vậy!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-1-3"
+      ],
+      "2": [
+       "a22-4-4",
+       "a21-11-1"
+      ],
+      "3": [
+       "b12-15-7",
+       "b1-2-8"
+      ]
+     },
+     "next": "n12"
+    },
+    {
+     "id": "n12",
+     "sp": "レザー",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "ベネットの こころは 火です。あたたかいです。",
+       "ro": "Benetto no kokoro wa hi desu. Atatakai desu.",
+       "vi": "Trái tim của Bennett là lửa. Ấm áp."
+      },
+      "2": {
+       "jp": "ベネットの心、火と同じ。あたたかい。だから、みんなベネットが好き。",
+       "ro": "Benetto no kokoro, hi to onaji. Atatakai. Dakara, minna Benetto ga suki.",
+       "vi": "Trái tim Bennett, như lửa. Ấm áp. Vì vậy, mọi người thích Bennett."
+      },
+      "3": {
+       "jp": "ベネットの心、火と同じ。熱くて、あたたかい。だから、ルピカ、みんな集まる。",
+       "ro": "Benetto no kokoro, hi to onaji. Atsukute, atatakai. Dakara, rupika, minna atsumaru.",
+       "vi": "Trái tim Bennett, giống lửa. Nóng, và ấm áp. Vì vậy, lupical, mọi người đều tụ lại."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-1",
+       "a1-7-4"
+      ],
+      "2": [
+       "a21-9-3",
+       "a1-5-1"
+      ],
+      "3": [
+       "a21-9-3",
+       "a21-5-1"
+      ]
+     },
+     "next": "n13"
+    },
+    {
+     "id": "n13",
+     "sp": "char",
+     "mood": "shy",
+     "t": {
+      "1": {
+       "jp": "え…はずかしいです。でも、うれしいです！",
+       "ro": "E... hazukashii desu. Demo, ureshii desu!",
+       "vi": "Hả... ngại quá. Nhưng tớ vui lắm!"
+      },
+      "2": {
+       "jp": "な、なんだよ急に…。でも、ありがとな。熱いのだけは、だれにも負けない自信があるんだ！",
+       "ro": "Na, nan da yo kyuu ni... Demo, arigato na. Atsui no dake wa, dare ni mo makenai jishin ga aru n da!",
+       "vi": "S-sao tự nhiên vậy... Nhưng cảm ơn nhé. Riêng khoản nhiệt huyết thì tớ tự tin không thua ai!"
+      },
+      "3": {
+       "jp": "な、なんだよ急に改まって…。でもまあ、ありがとな。運はなくても、情熱だけは誰にも負けない自信があるからさ！",
+       "ro": "Na, nan da yo kyuu ni aratamatte... Demo maa, arigato na. Un wa nakute mo, jounetsu dake wa dare ni mo makenai jishin ga aru kara sa!",
+       "vi": "S-sao tự nhiên nghiêm túc thế... Nhưng mà, cảm ơn nhé. Dù không có vận may, riêng nhiệt huyết thì tớ tự tin không thua ai đâu!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-7-4",
+       "a1-18-2"
+      ],
+      "2": [
+       "a22-9-4",
+       "a21-17-1"
+      ],
+      "3": [
+       "ab1-2-4",
+       "a22-9-4"
+      ]
+     },
+     "next": "n14"
+    },
+    {
+     "id": "n14",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "ゆうがたです。どこかで おおかみが なきました。",
+       "ro": "Yuugata desu. Dokoka de ookami ga nakimashita.",
+       "vi": "Trời đã chiều tà. Đâu đó có tiếng sói tru."
+      },
+      "2": {
+       "jp": "夕方になった。森のどこかで、おおかみたちが楽しそうに鳴いた。",
+       "ro": "Yuugata ni natta. Mori no dokoka de, ookami-tachi ga tanoshisou ni naita.",
+       "vi": "Trời đã về chiều. Đâu đó trong rừng, bầy sói tru lên như đang vui vẻ."
+      },
+      "3": {
+       "jp": "やがて森が夕焼けに染まるころ、どこからか狼たちの遠吠えが、三人をたたえるように響き渡ったのでした。",
+       "ro": "Yagate mori ga yuuyake ni somaru koro, doko kara ka ookami-tachi no tooboe ga, sannin o tataeru you ni hibikiwatatta no deshita.",
+       "vi": "Khi khu rừng nhuộm màu hoàng hôn, từ đâu đó tiếng tru của bầy sói vang vọng, như thể đang ca ngợi ba người."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4"
+      ],
+      "2": [
+       "a21-3-1",
+       "a22-2-6"
+      ],
+      "3": [
+       "b1-5-5",
+       "b1-9-7"
+      ]
+     },
+     "end": true
+    }
+   ]
+  },
+  {
+   "c": 4,
+   "title": {
+    "jp": "不滅の熱意",
+    "vi": "Nhiệt Huyết Bất Diệt"
+   },
+   "summary": "Một đêm ở Hiệp Hội Nhà Mạo Hiểm, Bennett kể về xuất thân của mình: bị bỏ rơi từ khi còn bé, được các nhà mạo hiểm kỳ cựu nuôi lớn như những người cha. Ngọn lửa trong cậu là để tiếp nối những chuyến phiêu lưu họ còn dang dở.",
+   "bg": "indoor",
+   "nodes": [
+    {
+     "id": "n1",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "よるの 冒険者協会です。ベネットが 一人で けんを みがいて います。",
+       "ro": "Yoru no Boukensha Kyoukai desu. Benetto ga hitori de ken o migaite imasu.",
+       "vi": "Hiệp Hội Nhà Mạo Hiểm về đêm. Bennett đang ngồi một mình mài kiếm."
+      },
+      "2": {
+       "jp": "夜の冒険者協会は、しずかだった。ベネットが一人で、剣をみがいていた。",
+       "ro": "Yoru no Boukensha Kyoukai wa, shizuka datta. Benetto ga hitori de, ken o migaite ita.",
+       "vi": "Hiệp Hội Nhà Mạo Hiểm về đêm thật yên tĩnh. Bennett đang một mình lau kiếm."
+      },
+      "3": {
+       "jp": "夜更けの冒険者協会は、昼間の喧騒が嘘のように静まり返っていた。その片隅で、ベネットが一人黙々と剣を磨いている。",
+       "ro": "Yofuke no Boukensha Kyoukai wa, hiruma no kensou ga uso no you ni shizumarikaette ita. Sono katasumi de, Benetto ga hitori mokumoku to ken o migaite iru.",
+       "vi": "Về khuya, Hiệp Hội Nhà Mạo Hiểm im phăng phắc như thể sự ồn ào ban ngày chưa từng có. Ở một góc, Bennett đang lặng lẽ mài kiếm một mình."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-1",
+       "a1-4-2"
+      ],
+      "2": [
+       "a21-4-1",
+       "a22-9-1"
+      ],
+      "3": [
+       "b1-3-7",
+       "a21-4-4"
+      ]
+     },
+     "next": "n2"
+    },
+    {
+     "id": "n2",
+     "sp": "paimon",
+     "mood": "surprised",
+     "t": {
+      "1": {
+       "jp": "ベネット、まだ ここに いますか。",
+       "ro": "Benetto, mada koko ni imasu ka.",
+       "vi": "Bennett, cậu vẫn còn ở đây à?"
+      },
+      "2": {
+       "jp": "ベネット、こんな時間まで何してるんだ？家に帰らないのか？",
+       "ro": "Benetto, konna jikan made nani shiteru n da? Ie ni kaeranai no ka?",
+       "vi": "Bennett, giờ này còn làm gì thế? Không về nhà à?"
+      },
+      "3": {
+       "jp": "ベネット、こんな夜中まで残ってるのか？家の人が心配するんじゃないか？",
+       "ro": "Benetto, konna yonaka made nokotteru no ka? Ie no hito ga shinpai suru n ja nai ka?",
+       "vi": "Bennett, khuya thế này vẫn còn ở lại à? Người nhà không lo sao?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-7-2"
+      ],
+      "2": [
+       "a22-1-5",
+       "a1-9-5"
+      ],
+      "3": [
+       "ab1-5-7",
+       "b12-17-2"
+      ]
+     },
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "sp": "char",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "はい。ここが オレの 家です。",
+       "ro": "Hai. Koko ga ore no ie desu.",
+       "vi": "Ừ. Đây là nhà của tớ."
+      },
+      "2": {
+       "jp": "ここは、オレの家と同じなんだ。",
+       "ro": "Koko wa, ore no ie to onaji na n da.",
+       "vi": "Chỗ này cũng như nhà của tớ vậy."
+      },
+      "3": {
+       "jp": "ははっ、ここがオレの家みたいなもんさ。協会の人たちが、オレの家族だからな。",
+       "ro": "Hahha, koko ga ore no ie mitai na mon sa. Kyoukai no hito-tachi ga, ore no kazoku da kara na.",
+       "vi": "Ha ha, chỗ này như nhà tớ vậy. Vì người trong hiệp hội là gia đình tớ mà."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-8-6",
+       "a1-4-2"
+      ],
+      "2": [
+       "a21-9-3",
+       "a21-17-1"
+      ],
+      "3": [
+       "ab1-3-4",
+       "ab1-3-3"
+      ]
+     },
+     "next": "n4"
+    },
+    {
+     "id": "n4",
+     "sp": "paimon",
+     "mood": "surprised",
+     "t": {
+      "1": {
+       "jp": "えっ、ここが 家ですか。",
+       "ro": "E, koko ga ie desu ka.",
+       "vi": "Hả, đây là nhà cậu à?"
+      },
+      "2": {
+       "jp": "えっ、どういうことだ？",
+       "ro": "E, dou iu koto da?",
+       "vi": "Hả, nghĩa là sao?"
+      },
+      "3": {
+       "jp": "え…それって、どういう意味なんだ？",
+       "ro": "E... sore tte, dou iu imi na n da?",
+       "vi": "Hả... thế nghĩa là sao?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-3"
+      ],
+      "2": [
+       "a22-1-4"
+      ],
+      "3": [
+       "b12-3-5",
+       "b12-1-1"
+      ]
+     },
+     "next": "n5"
+    },
+    {
+     "id": "n5",
+     "sp": "char",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "オレは 小さい 時、一人でした。としよりの 冒険者が オレを 見つけました。",
+       "ro": "Ore wa chiisai toki, hitori deshita. Toshiyori no boukensha ga ore o mitsukemashita.",
+       "vi": "Hồi bé, tớ chỉ có một mình. Một nhà mạo hiểm già đã tìm thấy tớ."
+      },
+      "2": {
+       "jp": "オレ、赤ちゃんのときにすてられていたんだ。年を取った冒険者が、オレを見つけて協会につれてきたんだ。",
+       "ro": "Ore, akachan no toki ni suterarete ita n da. Toshi o totta boukensha ga, ore o mitsukete kyoukai ni tsurete kita n da.",
+       "vi": "Tớ bị bỏ rơi từ lúc còn là em bé. Một nhà mạo hiểm lớn tuổi đã tìm thấy tớ rồi đưa về hiệp hội."
+      },
+      "3": {
+       "jp": "オレさ、赤ん坊のころに置き去りにされてたらしいんだ。それを通りがかった年寄りの冒険者が拾って、協会まで連れて帰ってくれたんだってさ。",
+       "ro": "Ore sa, akanbou no koro ni okizari ni sareteta rashii n da. Sore o toorigakatta toshiyori no boukensha ga hirotte, kyoukai made tsurete kaette kureta n datte sa.",
+       "vi": "Tớ ấy mà, nghe nói hồi còn đỏ hỏn đã bị bỏ lại. Một nhà mạo hiểm lớn tuổi đi ngang qua nhặt tớ lên, rồi đưa về tận hiệp hội."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-17-3",
+       "a1-15-4"
+      ],
+      "2": [
+       "a22-18-1",
+       "a21-2-3",
+       "a21-6-2"
+      ],
+      "3": [
+       "b1-5-1",
+       "ab1-4-1",
+       "b12-9-5"
+      ]
+     },
+     "next": "n6"
+    },
+    {
+     "id": "n6",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "協会の 冒険者たちが オレを そだてました。みんな オレの 父さんです。",
+       "ro": "Kyoukai no boukensha-tachi ga ore o sodatemashita. Minna ore no tousan desu.",
+       "vi": "Các nhà mạo hiểm trong hiệp hội đã nuôi tớ lớn. Tất cả đều là bố tớ."
+      },
+      "2": {
+       "jp": "それから、協会のベテラン冒険者たちがオレを育てたんだ。オレにとっては、みんな父さんなんだよ。",
+       "ro": "Sore kara, kyoukai no beteran boukensha-tachi ga ore o sodateta n da. Ore ni totte wa, minna tousan na n da yo.",
+       "vi": "Sau đó, các nhà mạo hiểm kỳ cựu của hiệp hội đã nuôi tớ lớn. Với tớ, ai cũng là bố cả."
+      },
+      "3": {
+       "jp": "それからは、協会の古株の冒険者たちが寄ってたかってオレを育ててくれてさ。だからオレには、親父が何人もいるってわけ！",
+       "ro": "Sore kara wa, kyoukai no furukabu no boukensha-tachi ga yotte takatte ore o sodatete kurete sa. Dakara ore ni wa, oyaji ga nannin mo iru tte wake!",
+       "vi": "Từ đó, các nhà mạo hiểm lâu năm trong hiệp hội xúm vào nuôi tớ lớn. Vì thế tớ có tới mấy ông bố lận!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-4-2"
+      ],
+      "2": [
+       "a21-17-1",
+       "a1-18-1"
+      ],
+      "3": [
+       "ab1-4-1",
+       "b1-9-4",
+       "ab1-5-3"
+      ]
+     },
+     "next": "n7"
+    },
+    {
+     "id": "n7",
+     "sp": "char",
+     "mood": "sad",
+     "t": {
+      "1": {
+       "jp": "でも、父さんたちは けがを しました。もう 冒険が できません。",
+       "ro": "Demo, tousan-tachi wa kega o shimashita. Mou bouken ga dekimasen.",
+       "vi": "Nhưng các bố đều đã bị thương. Không thể phiêu lưu được nữa."
+      },
+      "2": {
+       "jp": "でも、父さんたちはみんな、大きなけがをして冒険をやめてしまったんだ。",
+       "ro": "Demo, tousan-tachi wa minna, ookina kega o shite bouken o yamete shimatta n da.",
+       "vi": "Nhưng các bố đều bị thương nặng và đã phải từ bỏ phiêu lưu."
+      },
+      "3": {
+       "jp": "ただ、親父たちはみんな、昔の冒険で大きな怪我を負って引退しちまったんだ。今は協会で、若いやつらの世話を焼いてるよ。",
+       "ro": "Tada, oyaji-tachi wa minna, mukashi no bouken de ookina kega o otte intai shichimatta n da. Ima wa kyoukai de, wakai yatsura no sewa o yaiteru yo.",
+       "vi": "Có điều, các ông bố đều bị thương nặng trong những chuyến phiêu lưu ngày trước và đã giải nghệ. Giờ họ ở hiệp hội chăm lo cho đám trẻ."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-11-3"
+      ],
+      "2": [
+       "a22-11-2",
+       "a21-7-6"
+      ],
+      "3": [
+       "a22-11-2",
+       "ab1-5-7"
+      ]
+     },
+     "next": "n8"
+    },
+    {
+     "id": "n8",
+     "sp": "char",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "だから、オレは がんばります。",
+       "ro": "Dakara, ore wa ganbarimasu.",
+       "vi": "Vì thế, tớ sẽ cố gắng."
+      },
+      "2": {
+       "jp": "だから、オレががんばらないといけないんだ。",
+       "ro": "Dakara, ore ga ganbaranai to ikenai n da.",
+       "vi": "Vì thế, tớ phải cố gắng."
+      },
+      "3": {
+       "jp": "だからさ、オレが代わりにあちこち冒険して、親父たちに土産話を持って帰らなきゃって思ってるんだ。",
+       "ro": "Dakara sa, ore ga kawari ni achikochi bouken shite, oyaji-tachi ni miyagebanashi o motte kaeranakya tte omotteru n da.",
+       "vi": "Vì thế, tớ nghĩ mình phải thay họ đi phiêu lưu khắp nơi rồi mang chuyện về kể cho các ông bố nghe."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-5-3"
+      ],
+      "2": [
+       "a21-17-1"
+      ],
+      "3": [
+       "b12-7-3",
+       "ab1-1-1"
+      ]
+     },
+     "choices": [
+      {
+       "t": {
+        "1": {
+         "jp": "父さんたちの ゆめも いっしょですね。",
+         "ro": "Tousan-tachi no yume mo issho desu ne.",
+         "vi": "Cậu mang theo cả giấc mơ của các bố nhỉ."
+        },
+        "2": {
+         "jp": "お父さんたちの夢も、いっしょに持っているんだね。",
+         "ro": "Otousan-tachi no yume mo, issho ni motte iru n da ne.",
+         "vi": "Cậu đang mang theo cả giấc mơ của các bố nữa nhỉ."
+        },
+        "3": {
+         "jp": "ベネットは、お父さんたちの夢も背負って冒険してるんだね。",
+         "ro": "Benetto wa, otousan-tachi no yume mo seotte bouken shiteru n da ne.",
+         "vi": "Bennett đi phiêu lưu mà gánh cả giấc mơ của các bố nữa nhỉ."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-4-2"
+        ],
+        "2": [
+         "a21-1-1",
+         "a21-17-1"
+        ],
+        "3": [
+         "ab1-5-7",
+         "a21-17-1"
+        ]
+       },
+       "next": "n9"
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "父さんたちは しんぱいしますか。",
+         "ro": "Tousan-tachi wa shinpai shimasu ka.",
+         "vi": "Các bố có lo cho cậu không?"
+        },
+        "2": {
+         "jp": "お父さんたちは、ベネットのことを心配してない？",
+         "ro": "Otousan-tachi wa, Benetto no koto o shinpai shitenai?",
+         "vi": "Các bố không lo cho Bennett sao?"
+        },
+        "3": {
+         "jp": "でも、お父さんたちは、ベネットが怪我ばかりしてるのを心配してるんじゃない？",
+         "ro": "Demo, otousan-tachi wa, Benetto ga kega bakari shiteru no o shinpai shiteru n ja nai?",
+         "vi": "Nhưng các bố không lo khi Bennett cứ bị thương suốt sao?"
+        }
+       },
+       "g": {
+        "1": [
+         "a1-5-3"
+        ],
+        "2": [
+         "a22-1-5"
+        ],
+        "3": [
+         "b1-5-6",
+         "b12-17-2"
+        ]
+       },
+       "next": "n10"
+      }
+     ]
+    },
+    {
+     "id": "n9",
+     "sp": "char",
+     "mood": "serious",
+     "t": {
+      "1": {
+       "jp": "はい。父さんたちの ゆめも オレの ゆめです。",
+       "ro": "Hai. Tousan-tachi no yume mo ore no yume desu.",
+       "vi": "Ừ. Giấc mơ của các bố cũng là giấc mơ của tớ."
+      },
+      "2": {
+       "jp": "そうなんだ。父さんたちが行けなかった場所に、オレが行きたいんだ。",
+       "ro": "Sou na n da. Tousan-tachi ga ikenakatta basho ni, ore ga ikitai n da.",
+       "vi": "Đúng thế. Tớ muốn đến những nơi các bố đã không thể đến."
+      },
+      "3": {
+       "jp": "ああ。親父たちがたどり着けなかった場所に、オレがいつか必ず立ってみせる。それがオレの恩返しなんだ。",
+       "ro": "Aa. Oyaji-tachi ga tadoritsukenakatta basho ni, ore ga itsuka kanarazu tatte miseru. Sore ga ore no ongaeshi na n da.",
+       "vi": "Ừ. Những nơi các ông bố không thể đặt chân tới, một ngày nào đó tớ nhất định sẽ đứng ở đó. Đó là cách tớ báo đáp họ."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-5",
+       "a1-4-2"
+      ],
+      "2": [
+       "a22-6-1",
+       "a21-10-1"
+      ],
+      "3": [
+       "a22-6-1",
+       "a21-17-1"
+      ]
+     },
+     "next": "n11"
+    },
+    {
+     "id": "n10",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "はい、とても しんぱいします！でも、いつも オレを おうえんします。",
+       "ro": "Hai, totemo shinpai shimasu! Demo, itsumo ore o ouen shimasu.",
+       "vi": "Có, lo lắm! Nhưng lúc nào họ cũng ủng hộ tớ."
+      },
+      "2": {
+       "jp": "ははっ、すっごく心配してるよ！でも、いつも「行ってこい」って言うんだ。",
+       "ro": "Hahha, suggoku shinpai shiteru yo! Demo, itsumo \"itte koi\" tte iu n da.",
+       "vi": "Ha ha, lo cực kỳ luôn! Nhưng lúc nào họ cũng bảo \"Đi đi\"."
+      },
+      "3": {
+       "jp": "ははっ、そりゃもう毎日のように小言を言われてるよ！でも最後にはいつも、「行ってこい、ベネット」って背中を押してくれるんだ。",
+       "ro": "Hahha, sorya mou mainichi no you ni kogoto o iwareteru yo! Demo saigo ni wa itsumo, \"itte koi, Benetto\" tte senaka o oshite kureru n da.",
+       "vi": "Ha ha, ngày nào tớ cũng bị càu nhàu ấy chứ! Nhưng cuối cùng lúc nào họ cũng đẩy lưng tớ mà bảo \"Đi đi, Bennett\"."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-18-2",
+       "a1-5-4"
+      ],
+      "2": [
+       "a22-1-5",
+       "a21-17-1"
+      ],
+      "3": [
+       "a22-13-4",
+       "ab1-4-1"
+      ]
+     },
+     "next": "n11"
+    },
+    {
+     "id": "n11",
+     "sp": "char",
+     "mood": "serious",
+     "t": {
+      "1": {
+       "jp": "オレの 火は、父さんたちの 火です。ずっと きえません。",
+       "ro": "Ore no hi wa, tousan-tachi no hi desu. Zutto kiemasen.",
+       "vi": "Ngọn lửa của tớ là ngọn lửa của các bố. Sẽ mãi không tắt."
+      },
+      "2": {
+       "jp": "神の目をもらったとき、思ったんだ。この火は、父さんたちの冒険をつづけるための火なんだって。",
+       "ro": "Kami no me o moratta toki, omotta n da. Kono hi wa, tousan-tachi no bouken o tsuzukeru tame no hi na n datte.",
+       "vi": "Khi nhận được Vision, tớ đã nghĩ. Ngọn lửa này là để tiếp nối chuyến phiêu lưu của các bố."
+      },
+      "3": {
+       "jp": "神の目を授かったとき、オレは思ったんだ。この炎は、親父たちの冒険の続きを照らすためにあるんだって。だから、どんなに転んでも消えやしないさ。",
+       "ro": "Kami no me o sazukatta toki, ore wa omotta n da. Kono honoo wa, oyaji-tachi no bouken no tsuzuki o terasu tame ni aru n datte. Dakara, donna ni koronde mo kie ya shinai sa.",
+       "vi": "Khi được ban Vision, tớ đã nghĩ. Ngọn lửa này tồn tại để soi sáng phần tiếp theo trong chuyến phiêu lưu của các ông bố. Vì thế, dù có ngã bao nhiêu, nó cũng không tắt đâu."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-1",
+       "a1-5-3"
+      ],
+      "2": [
+       "a22-5-4",
+       "a22-14-2"
+      ],
+      "3": [
+       "a22-14-2",
+       "a22-13-1"
+      ]
+     },
+     "next": "n12"
+    },
+    {
+     "id": "n12",
+     "sp": "paimon",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "ベネット、かっこいいです！",
+       "ro": "Benetto, kakkoii desu!",
+       "vi": "Bennett, ngầu quá!"
+      },
+      "2": {
+       "jp": "ベネット…なんだか、すごくかっこいいぞ！",
+       "ro": "Benetto... nandaka, sugoku kakkoii zo!",
+       "vi": "Bennett... sao mà ngầu thế!"
+      },
+      "3": {
+       "jp": "ベネット…おまえ、普段はドジなのに、今日はなんだかすごくかっこよく見えるぞ！",
+       "ro": "Benetto... omae, fudan wa doji na noni, kyou wa nandaka sugoku kakkoyoku mieru zo!",
+       "vi": "Bennett... bình thường cậu hậu đậu thế mà hôm nay trông ngầu ghê!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-7-4"
+      ],
+      "2": [
+       "a1-7-4"
+      ],
+      "3": [
+       "ab1-7-3",
+       "a21-6-5"
+      ]
+     },
+     "next": "n13"
+    },
+    {
+     "id": "n13",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "あはは、ありがとう！父さんたちの 話は おもしろいです。こんど 話します！",
+       "ro": "Ahaha, arigatou! Tousan-tachi no hanashi wa omoshiroi desu. Kondo hanashimasu!",
+       "vi": "A ha ha, cảm ơn! Chuyện của các bố thú vị lắm. Lần sau tớ kể cho!"
+      },
+      "2": {
+       "jp": "あはは、よせよ！それより、父さんたちの冒険の話、すっごくおもしろいんだ。今度聞かせるよ！",
+       "ro": "Ahaha, yose yo! Sore yori, tousan-tachi no bouken no hanashi, suggoku omoshiroi n da. Kondo kikaseru yo!",
+       "vi": "A ha ha, thôi đi mà! Mà này, chuyện phiêu lưu của các bố thú vị cực kỳ. Lần tới tớ kể cho nghe!"
+      },
+      "3": {
+       "jp": "あはは、よせって、照れるだろ！…そうだ、親父たちの武勇伝、めちゃくちゃおもしろいんだぜ。今度一緒に聞きに来いよ！",
+       "ro": "Ahaha, yose tte, tereru daro! ...Sou da, oyaji-tachi no buyuuden, mechakucha omoshiroi n da ze. Kondo issho ni kiki ni koi yo!",
+       "vi": "A ha ha, thôi đi, ngại lắm! ...À đúng rồi, chuyện anh hùng của các ông bố hay kinh khủng luôn. Lần tới cùng đến nghe nhé!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-1-3",
+       "a1-7-4"
+      ],
+      "2": [
+       "a21-17-1"
+      ],
+      "3": [
+       "b1-8-5",
+       "ab1-1-7",
+       "a21-8-3"
+      ]
+     },
+     "next": "n14"
+    },
+    {
+     "id": "n14",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "よるの 協会で、三人は ながく 話しました。",
+       "ro": "Yoru no kyoukai de, sannin wa nagaku hanashimashita.",
+       "vi": "Trong hiệp hội về đêm, ba người trò chuyện thật lâu."
+      },
+      "2": {
+       "jp": "夜の協会で、三人の話はいつまでも続いた。",
+       "ro": "Yoru no kyoukai de, sannin no hanashi wa itsumademo tsuzuita.",
+       "vi": "Trong hiệp hội về đêm, câu chuyện của ba người kéo dài mãi."
+      },
+      "3": {
+       "jp": "静かな夜の協会に、ベネットの明るい笑い声だけが、いつまでも温かく響いていたのでした。",
+       "ro": "Shizuka na yoru no kyoukai ni, Benetto no akarui waraigoe dake ga, itsumademo atatakaku hibiite ita no deshita.",
+       "vi": "Trong hiệp hội đêm yên tĩnh, chỉ có tiếng cười rộn ràng của Bennett vang lên ấm áp mãi không thôi."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-6-2",
+       "a1-15-4"
+      ],
+      "2": [
+       "a21-4-3"
+      ],
+      "3": [
+       "a22-9-4",
+       "b1-9-7"
+      ]
+     },
+     "end": true
+    }
+   ]
+  },
+  {
+   "c": 5,
+   "title": {
+    "jp": "心を開いて",
+    "vi": "Mở Rộng Tâm Hồn"
+   },
+   "summary": "Một thành viên mới vừa rời đội sau khi bị thương, Bennett buồn bã thú nhận mình sợ vận xui làm hại đồng đội. Lữ khách, rồi cả Fischl và Oz đến bên cậu — và lần đầu tiên, Bennett mở lòng nói ra nỗi sợ giấu kín.",
+   "bg": "mond-city",
+   "nodes": [
+    {
+     "id": "n1",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "ゆうがたの モンドです。ベネットが 一人で すわって います。",
+       "ro": "Yuugata no Mondo desu. Benetto ga hitori de suwatte imasu.",
+       "vi": "Mondstadt lúc chiều tà. Bennett đang ngồi một mình."
+      },
+      "2": {
+       "jp": "夕方のモンド。ふん水の前で、ベネットが一人でぼんやりすわっていた。",
+       "ro": "Yuugata no Mondo. Funsui no mae de, Benetto ga hitori de bonyari suwatte ita.",
+       "vi": "Mondstadt lúc chiều tà. Trước đài phun nước, Bennett đang ngồi thẫn thờ một mình."
+      },
+      "3": {
+       "jp": "夕暮れのモンド。噴水のそばで、いつもは騒がしいベネットが、珍しく一人で肩を落としていた。",
+       "ro": "Yuugure no Mondo. Funsui no soba de, itsumo wa sawagashii Benetto ga, mezurashiku hitori de kata o otoshite ita.",
+       "vi": "Mondstadt lúc hoàng hôn. Bên đài phun nước, Bennett vốn lúc nào cũng ồn ào nay lại hiếm hoi ngồi một mình, vai rũ xuống."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-1",
+       "a1-4-2"
+      ],
+      "2": [
+       "a22-9-1",
+       "a1-14-3"
+      ],
+      "3": [
+       "b1-1-4",
+       "a22-9-1"
+      ]
+     },
+     "next": "n2"
+    },
+    {
+     "id": "n2",
+     "sp": "paimon",
+     "mood": "surprised",
+     "t": {
+      "1": {
+       "jp": "ベネット？げんきが ありませんね。",
+       "ro": "Benetto? Genki ga arimasen ne.",
+       "vi": "Bennett? Trông cậu không vui nhỉ."
+      },
+      "2": {
+       "jp": "ベネット？なんだか元気がないな。どうしたんだ？",
+       "ro": "Benetto? Nandaka genki ga nai na. Doushita n da?",
+       "vi": "Bennett? Trông cậu buồn buồn. Có chuyện gì vậy?"
+      },
+      "3": {
+       "jp": "ベネット？おまえがそんな顔してるなんて珍しいな。何かあったのか？",
+       "ro": "Benetto? Omae ga sonna kao shiteru nante mezurashii na. Nanika atta no ka?",
+       "vi": "Bennett? Hiếm khi thấy cậu mang vẻ mặt đó. Có chuyện gì à?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-7-1"
+      ],
+      "2": [
+       "a21-15-4"
+      ],
+      "3": [
+       "b12-5-1",
+       "a22-11-6"
+      ]
+     },
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "sp": "char",
+     "mood": "sad",
+     "t": {
+      "1": {
+       "jp": "今日、あたらしい なかまが やめました。しごとで けがを しました。",
+       "ro": "Kyou, atarashii nakama ga yamemashita. Shigoto de kega o shimashita.",
+       "vi": "Hôm nay một đồng đội mới đã rời đội. Cậu ấy bị thương khi làm nhiệm vụ."
+      },
+      "2": {
+       "jp": "今日、新しく入ったメンバーがやめちゃったんだ。オレといっしょの依頼で、けがをして…。",
+       "ro": "Kyou, atarashiku haitta menbaa ga yamechatta n da. Ore to issho no irai de, kega o shite...",
+       "vi": "Hôm nay thành viên mới vào đội đã bỏ đi rồi. Trong ủy thác cùng tớ, cậu ấy bị thương..."
+      },
+      "3": {
+       "jp": "今日、入ったばかりの新メンバーが抜けちまってさ。オレと行った依頼で、崖から落ちて怪我しちゃって…。",
+       "ro": "Kyou, haitta bakari no shin menbaa ga nukechimatte sa. Ore to itta irai de, gake kara ochite kega shichatte...",
+       "vi": "Hôm nay thành viên mới vừa vào đội đã rời đi. Trong ủy thác đi cùng tớ, cậu ấy rơi từ vách đá xuống và bị thương..."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-14-1"
+      ],
+      "2": [
+       "a22-11-2",
+       "a21-7-6"
+      ],
+      "3": [
+       "b12-2-3",
+       "a22-11-2"
+      ]
+     },
+     "next": "n4"
+    },
+    {
+     "id": "n4",
+     "sp": "char",
+     "mood": "sad",
+     "t": {
+      "1": {
+       "jp": "オレは 一人が いいですか…。みんな けがを しますから…。",
+       "ro": "Ore wa hitori ga ii desu ka... Minna kega o shimasu kara...",
+       "vi": "Tớ nên đi một mình chăng...? Vì mọi người toàn bị thương..."
+      },
+      "2": {
+       "jp": "オレ…一人で冒険したほうがいいのかな。そうしたら、だれもけがをしないし…。",
+       "ro": "Ore... hitori de bouken shita hou ga ii no ka na. Sou shitara, dare mo kega o shinai shi...",
+       "vi": "Tớ... có nên đi phiêu lưu một mình không nhỉ. Như thế thì chẳng ai bị thương cả..."
+      },
+      "3": {
+       "jp": "やっぱりオレ、一人で冒険したほうがいいのかもな。オレの不運に誰かを巻き込むくらいなら、そのほうがずっとマシだろ…。",
+       "ro": "Yappari ore, hitori de bouken shita hou ga ii no kamo na. Ore no fuun ni dareka o makikomu kurai nara, sono hou ga zutto mashi daro...",
+       "vi": "Quả nhiên tớ nên phiêu lưu một mình thì hơn. Thà thế còn hơn kéo ai đó vào vận xui của tớ..."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-13-4"
+      ],
+      "2": [
+       "a22-5-1",
+       "a22-7-3",
+       "a22-6-3"
+      ],
+      "3": [
+       "ab1-7-2",
+       "b12-6-4",
+       "b1-8-5"
+      ]
+     },
+     "choices": [
+      {
+       "t": {
+        "1": {
+         "jp": "私は ベネットと いっしょに 行きます。",
+         "ro": "Watashi wa Benetto to issho ni ikimasu.",
+         "vi": "Mình sẽ đi cùng Bennett."
+        },
+        "2": {
+         "jp": "私はやめないよ。これからもいっしょに冒険しよう。",
+         "ro": "Watashi wa yamenai yo. Korekara mo issho ni bouken shiyou.",
+         "vi": "Mình không bỏ đâu. Từ giờ vẫn cùng phiêu lưu nhé."
+        },
+        "3": {
+         "jp": "私は抜けないよ。怪我が怖くて冒険者なんてやってられないしね。",
+         "ro": "Watashi wa nukenai yo. Kega ga kowakute boukensha nante yatterarenai shi ne.",
+         "vi": "Mình không rời đội đâu. Sợ bị thương thì làm sao làm nhà mạo hiểm được."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-9-5",
+         "a1-4-1"
+        ],
+        "2": [
+         "a21-8-2"
+        ],
+        "3": [
+         "a21-12-3",
+         "b12-5-4"
+        ]
+       },
+       "next": "n5"
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "ベネットの せいじゃ ありません。",
+         "ro": "Benetto no sei ja arimasen.",
+         "vi": "Không phải lỗi của Bennett đâu."
+        },
+        "2": {
+         "jp": "けがは、ベネットのせいじゃないよ。",
+         "ro": "Kega wa, Benetto no sei ja nai yo.",
+         "vi": "Bị thương không phải lỗi của Bennett."
+        },
+        "3": {
+         "jp": "それはベネットのせいじゃないよ。冒険に危険はつきものだし、ベネットはいつも仲間を守ろうとしてるじゃないか。",
+         "ro": "Sore wa Benetto no sei ja nai yo. Bouken ni kiken wa tsukimono da shi, Benetto wa itsumo nakama o mamorou to shiteru ja nai ka.",
+         "vi": "Đó không phải lỗi của Bennett. Phiêu lưu thì luôn có nguy hiểm, mà Bennett lúc nào cũng cố bảo vệ đồng đội còn gì."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-3-2"
+        ],
+        "2": [
+         "a21-6-4"
+        ],
+        "3": [
+         "b12-14-3",
+         "b12-17-2",
+         "a22-6-3"
+        ]
+       },
+       "next": "n6"
+      }
+     ]
+    },
+    {
+     "id": "n5",
+     "sp": "char",
+     "mood": "surprised",
+     "t": {
+      "1": {
+       "jp": "旅人…。ほんとうですか。",
+       "ro": "Tabibito... Hontou desu ka.",
+       "vi": "Lữ khách... Thật sao?"
+      },
+      "2": {
+       "jp": "旅人…。本当に、いいのか？",
+       "ro": "Tabibito... Hontou ni, ii no ka?",
+       "vi": "Lữ khách... Thật sự được sao?"
+      },
+      "3": {
+       "jp": "旅人…。オレと一緒にいたら、また何が起こるかわからないんだぞ？それでも、いいのか？",
+       "ro": "Tabibito... Ore to issho ni itara, mata nani ga okoru ka wakaranai n da zo? Soredemo, ii no ka?",
+       "vi": "Lữ khách... Ở cạnh tớ thì chẳng biết lại có chuyện gì xảy ra đâu? Dù vậy vẫn được sao?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-3"
+      ],
+      "2": [
+       "a22-11-6"
+      ],
+      "3": [
+       "a22-7-3",
+       "a22-8-5"
+      ]
+     },
+     "next": "n7"
+    },
+    {
+     "id": "n6",
+     "sp": "char",
+     "mood": "surprised",
+     "t": {
+      "1": {
+       "jp": "オレの せいじゃ ない…？",
+       "ro": "Ore no sei ja nai...?",
+       "vi": "Không phải lỗi của tớ...?"
+      },
+      "2": {
+       "jp": "オレのせいじゃ、ない…？",
+       "ro": "Ore no sei ja, nai...?",
+       "vi": "Không phải... lỗi của tớ...?"
+      },
+      "3": {
+       "jp": "オレの、せいじゃない…？…そんなふうに言ってもらえたの、初めてかもしれないな。",
+       "ro": "Ore no, sei ja nai...? ...Sonna fuu ni itte moraeta no, hajimete kamo shirenai na.",
+       "vi": "Không phải... lỗi của tớ...? ...Có lẽ đây là lần đầu tiên có người nói với tớ như thế."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-2"
+      ],
+      "2": [
+       "a21-6-4"
+      ],
+      "3": [
+       "ab1-4-2",
+       "ab1-7-2"
+      ]
+     },
+     "next": "n7"
+    },
+    {
+     "id": "n7",
+     "sp": "フィッシュル",
+     "mood": "angry",
+     "t": {
+      "1": {
+       "jp": "ベネット！その ことばは だめです！",
+       "ro": "Benetto! Sono kotoba wa dame desu!",
+       "vi": "Bennett! Không được nói như thế!"
+      },
+      "2": {
+       "jp": "ベネット！そんな弱い言葉は、ゆるさないわ！",
+       "ro": "Benetto! Sonna yowai kotoba wa, yurusanai wa!",
+       "vi": "Bennett! Ta không cho phép những lời yếu đuối như vậy!"
+      },
+      "3": {
+       "jp": "愚かなり、ベネット！汝の口からそのような弱音、この断罪の皇女が断じて許さぬ！",
+       "ro": "Oroka nari, Benetto! Nanji no kuchi kara sono you na yowane, kono Danzai no Koujo ga danjite yurusanu!",
+       "vi": "Ngu ngốc, Bennett! Hoàng Nữ Định Tội này tuyệt đối không cho phép những lời yếu đuối như thế thốt ra từ miệng ngươi!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-10-5"
+      ],
+      "2": [
+       "a1-14-1"
+      ],
+      "3": [
+       "b1-7-6",
+       "b1-6-6"
+      ]
+     },
+     "next": "n8"
+    },
+    {
+     "id": "n8",
+     "sp": "オズ",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "おじょうさまは「私は ベニー冒険団の なかまです。やめません」と 言いました。",
+       "ro": "Ojousama wa \"watashi wa Benii Boukendan no nakama desu. Yamemasen\" to iimashita.",
+       "vi": "Tiểu thư nói: \"Ta là thành viên Đội Mạo Hiểm Benny. Ta không rời đi đâu\"."
+      },
+      "2": {
+       "jp": "お嬢様は「私もベニー冒険団のメンバーだから、ぜったいにやめない」と言っています。",
+       "ro": "Ojousama wa \"watashi mo Benii Boukendan no menbaa da kara, zettai ni yamenai\" to itte imasu.",
+       "vi": "Tiểu thư nói: \"Ta cũng là thành viên Đội Mạo Hiểm Benny nên tuyệt đối không bỏ đội\"."
+      },
+      "3": {
+       "jp": "通訳いたします。「我もまたベニー冒険団の一員。多少の不運ごときで、我が忠誠が揺らぐことはない」——とのことです。",
+       "ro": "Tsuuyaku itashimasu. \"Ware mo mata Benii Boukendan no ichiin. Tashou no fuun gotoki de, waga chuusei ga yuragu koto wa nai\" — to no koto desu.",
+       "vi": "Tôi xin phiên dịch. \"Ta cũng là một thành viên của Đội Mạo Hiểm Benny. Chút vận xui cỏn con không thể làm lung lay lòng trung thành của ta\" — tiểu thư nói vậy ạ."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-3-1"
+      ],
+      "2": [
+       "a21-18-4",
+       "a21-3-5"
+      ],
+      "3": [
+       "b1-4-2",
+       "b12-12-4"
+      ]
+     },
+     "next": "n9"
+    },
+    {
+     "id": "n9",
+     "sp": "char",
+     "mood": "surprised",
+     "t": {
+      "1": {
+       "jp": "フィッシュル…オズ…。",
+       "ro": "Fisshuru... Ozu...",
+       "vi": "Fischl... Oz..."
+      },
+      "2": {
+       "jp": "フィッシュル、オズ…。二人とも、聞いてたのか…。",
+       "ro": "Fisshuru, Ozu... Futari tomo, kiiteta no ka...",
+       "vi": "Fischl, Oz... Cả hai nghe hết rồi à..."
+      },
+      "3": {
+       "jp": "フィッシュル、オズ…。いつからそこに…。まいったな、みっともないところを見られちまった。",
+       "ro": "Fisshuru, Ozu... Itsu kara soko ni... Maitta na, mittomonai tokoro o mirarechimatta.",
+       "vi": "Fischl, Oz... Hai người ở đó từ khi nào... Chết thật, để bị thấy bộ dạng thảm hại mất rồi."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-4-1"
+      ],
+      "2": [
+       "a22-1-5",
+       "a22-11-6"
+      ],
+      "3": [
+       "a22-18-1",
+       "a22-11-2"
+      ]
+     },
+     "next": "n10"
+    },
+    {
+     "id": "n10",
+     "sp": "char",
+     "mood": "shy",
+     "t": {
+      "1": {
+       "jp": "オレ、ほんとうは こわかったです。みんなが いなく なるのが…。",
+       "ro": "Ore, hontou wa kowakatta desu. Minna ga inaku naru no ga...",
+       "vi": "Tớ thật ra đã sợ lắm. Sợ mọi người rời đi..."
+      },
+      "2": {
+       "jp": "オレ、本当はずっとこわかったんだ。みんなが、オレのせいでいなくなるのが。",
+       "ro": "Ore, hontou wa zutto kowakatta n da. Minna ga, ore no sei de inaku naru no ga.",
+       "vi": "Thật ra tớ vẫn luôn sợ. Sợ mọi người vì tớ mà rời đi."
+      },
+      "3": {
+       "jp": "…実はさ、ずっと怖かったんだ。笑ってごまかしてたけど、仲間がオレのせいで離れていくたびに、胸の奥がちくっと痛くてさ。",
+       "ro": "...Jitsu wa sa, zutto kowakatta n da. Waratte gomakashiteta kedo, nakama ga ore no sei de hanarete iku tabi ni, mune no oku ga chikutto itakute sa.",
+       "vi": "...Thật ra, tớ vẫn luôn sợ. Tớ cười để lấp liếm thôi, chứ mỗi lần đồng đội vì tớ mà rời đi, sâu trong ngực lại nhói lên."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-17-2"
+      ],
+      "2": [
+       "a21-17-1",
+       "a22-11-1"
+      ],
+      "3": [
+       "ab1-1-6",
+       "b12-9-1",
+       "b12-11-7"
+      ]
+     },
+     "next": "n11"
+    },
+    {
+     "id": "n11",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "でも、今は だいじょうぶです。みんな、ありがとう！",
+       "ro": "Demo, ima wa daijoubu desu. Minna, arigatou!",
+       "vi": "Nhưng giờ thì ổn rồi. Cảm ơn mọi người!"
+      },
+      "2": {
+       "jp": "でも、話したら気持ちが軽くなったよ。みんな、ありがとう！",
+       "ro": "Demo, hanashitara kimochi ga karuku natta yo. Minna, arigatou!",
+       "vi": "Nhưng nói ra rồi thấy nhẹ lòng hẳn. Cảm ơn mọi người!"
+      },
+      "3": {
+       "jp": "でも、口に出したら不思議と心が軽くなったよ。こんなオレを信じてくれる仲間がいるんだ。落ち込んでる場合じゃないよな！",
+       "ro": "Demo, kuchi ni dashitara fushigi to kokoro ga karuku natta yo. Konna ore o shinjite kureru nakama ga iru n da. Ochikonderu baai ja nai yo na!",
+       "vi": "Nhưng nói ra rồi, lạ thay lòng tớ nhẹ hẳn. Có những đồng đội tin một người như tớ. Đâu phải lúc để ủ rũ nhỉ!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-10-5",
+       "a1-1-3"
+      ],
+      "2": [
+       "a22-7-3",
+       "a21-3-1"
+      ],
+      "3": [
+       "ab1-4-1",
+       "b12-8-4"
+      ]
+     },
+     "next": "n12"
+    },
+    {
+     "id": "n12",
+     "sp": "paimon",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "ベニー冒険団は つよいです！",
+       "ro": "Benii Boukendan wa tsuyoi desu!",
+       "vi": "Đội Mạo Hiểm Benny mạnh lắm!"
+      },
+      "2": {
+       "jp": "そうだぞ！ベニー冒険団は、不運なんかに負けないんだ！",
+       "ro": "Sou da zo! Benii Boukendan wa, fuun nanka ni makenai n da!",
+       "vi": "Đúng đó! Đội Mạo Hiểm Benny không thua vận xui đâu!"
+      },
+      "3": {
+       "jp": "そうだそうだ！ベニー冒険団は、不運なんかに負けるようなやわなチームじゃないぞ！",
+       "ro": "Sou da sou da! Benii Boukendan wa, fuun nanka ni makeru you na yawa na chiimu ja nai zo!",
+       "vi": "Đúng đúng! Đội Mạo Hiểm Benny đâu phải đội yếu ớt dễ thua vận xui!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-7-4"
+      ],
+      "2": [
+       "a21-17-1"
+      ],
+      "3": [
+       "b12-5-4",
+       "b1-5-5"
+      ]
+     },
+     "next": "n13"
+    },
+    {
+     "id": "n13",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "ベネットは 大きく わらいました。いつもの ベネットです。",
+       "ro": "Benetto wa ookiku waraimashita. Itsumo no Benetto desu.",
+       "vi": "Bennett cười thật tươi. Lại là Bennett như mọi khi."
+      },
+      "2": {
+       "jp": "ベネットは、いつもの明るい顔で笑った。",
+       "ro": "Benetto wa, itsumo no akarui kao de waratta.",
+       "vi": "Bennett cười với gương mặt rạng rỡ thường ngày."
+      },
+      "3": {
+       "jp": "夕日に照らされたベネットの顔には、いつもの、いや、いつも以上に晴れやかな笑顔が戻っていたのでした。",
+       "ro": "Yuuhi ni terasareta Benetto no kao ni wa, itsumo no, iya, itsumo ijou ni hareyaka na egao ga modotte ita no deshita.",
+       "vi": "Trên gương mặt Bennett được ánh hoàng hôn soi sáng, nụ cười quen thuộc — không, còn rạng rỡ hơn mọi khi — đã trở lại."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-4-2"
+      ],
+      "2": [
+       "a1-14-1",
+       "a21-4-3"
+      ],
+      "3": [
+       "a22-18-1",
+       "b1-9-7"
+      ]
+     },
+     "end": true
+    }
+   ]
+  },
+  {
+   "c": 6,
+   "title": {
+    "jp": "炎と勇気",
+    "vi": "Lửa Và Can Đảm"
+   },
+   "summary": "Giữa bão tuyết ở Long Tích Tuyết Sơn, ngọn lửa của Bennett sưởi ấm cả đội, và cậu lao ra che chắn khi tuyết lở. Bên đống lửa trại, Bennett ghi tên Lữ khách và Paimon vào danh sách thành viên chính thức — vì với cậu, đồng đội là gia đình.",
+   "bg": "dragonspine",
+   "nodes": [
+    {
+     "id": "n1",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "ここは ドラゴンスパインです。ゆきが たくさん ふって います。",
+       "ro": "Koko wa Doragonsupain desu. Yuki ga takusan futte imasu.",
+       "vi": "Đây là Long Tích Tuyết Sơn. Tuyết đang rơi rất nhiều."
+      },
+      "2": {
+       "jp": "ドラゴンスパインでは、強い風と雪がふきあれていた。",
+       "ro": "Doragonsupain de wa, tsuyoi kaze to yuki ga fukiarete ita.",
+       "vi": "Ở Long Tích Tuyết Sơn, gió mạnh và tuyết đang gào thét."
+      },
+      "3": {
+       "jp": "雪山ドラゴンスパイン。吹きすさぶ吹雪が視界を白く塗りつぶし、骨の髄まで凍るような寒さが一行を襲っていた。",
+       "ro": "Yukiyama Doragonsupain. Fukisusabu fubuki ga shikai o shiroku nuritsubushi, hone no zui made kooru you na samusa ga ikkou o osotte ita.",
+       "vi": "Núi tuyết Long Tích. Bão tuyết cuồng nộ phủ trắng tầm nhìn, cái lạnh thấu tận xương tủy tấn công cả nhóm."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-8-6"
+      ],
+      "2": [
+       "a22-9-1",
+       "a1-14-1"
+      ],
+      "3": [
+       "b1-1-4",
+       "b1-2-4",
+       "b1-5-5"
+      ]
+     },
+     "next": "n2"
+    },
+    {
+     "id": "n2",
+     "sp": "paimon",
+     "mood": "sad",
+     "t": {
+      "1": {
+       "jp": "さむいです…！パイモンは こおります…！",
+       "ro": "Samui desu...! Paimon wa koorimasu...!",
+       "vi": "Lạnh quá...! Paimon sắp đông cứng rồi...!"
+      },
+      "2": {
+       "jp": "さ、さむすぎる…！オイラ、こおっちゃうぞ…！",
+       "ro": "Sa, samusugiru...! Oira, koocchau zo...!",
+       "vi": "L-lạnh quá mức...! Tớ sắp đóng băng mất...!"
+      },
+      "3": {
+       "jp": "さ、寒すぎて羽…じゃなくて、手足の感覚がなくなってきたぞ…！",
+       "ro": "Sa, samusugite hane... ja nakute, teashi no kankaku ga nakunatte kita zo...!",
+       "vi": "L-lạnh đến mức cánh... à không, tay chân mất hết cảm giác rồi...!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-7-4",
+       "a1-5-3"
+      ],
+      "2": [
+       "a22-12-2",
+       "a22-11-2"
+      ],
+      "3": [
+       "a22-12-2",
+       "b1-2-8"
+      ]
+     },
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "sp": "char",
+     "mood": "serious",
+     "t": {
+      "1": {
+       "jp": "みんな、オレの ちかくに 来て ください！オレの 火は あたたかいです！",
+       "ro": "Minna, ore no chikaku ni kite kudasai! Ore no hi wa atatakai desu!",
+       "vi": "Mọi người, lại gần tớ đi! Lửa của tớ ấm lắm!"
+      },
+      "2": {
+       "jp": "みんな、オレのそばをはなれないで！オレの炎で、あたためるから！",
+       "ro": "Minna, ore no soba o hanarenaide! Ore no honoo de, atatameru kara!",
+       "vi": "Mọi người, đừng rời xa tớ! Tớ sẽ sưởi ấm bằng lửa của mình!"
+      },
+      "3": {
+       "jp": "みんな、オレから離れるなよ！寒さなんか、オレの炎で吹き飛ばしてやる！",
+       "ro": "Minna, ore kara hanareru na yo! Samusa nanka, ore no honoo de fukitobashite yaru!",
+       "vi": "Mọi người, đừng rời xa tớ! Cái lạnh này, tớ sẽ dùng lửa thổi bay hết!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-2-2",
+       "a1-14-3"
+      ],
+      "2": [
+       "a21-15-3",
+       "a21-3-5"
+      ],
+      "3": [
+       "ab1-1-7",
+       "b12-5-4",
+       "ab1-1-2"
+      ]
+     },
+     "next": "n4"
+    },
+    {
+     "id": "n4",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "ベネットの 火で、みんなは あたたかく なりました。",
+       "ro": "Benetto no hi de, minna wa atatakaku narimashita.",
+       "vi": "Nhờ lửa của Bennett, mọi người ấm lên."
+      },
+      "2": {
+       "jp": "ベネットのまわりに、赤い炎の輪が広がった。みんなの体が少しずつあたたかくなった。",
+       "ro": "Benetto no mawari ni, akai honoo no wa ga hirogatta. Minna no karada ga sukoshi zutsu atatakaku natta.",
+       "vi": "Quanh Bennett, một vòng lửa đỏ lan rộng. Cơ thể mọi người dần ấm lên."
+      },
+      "3": {
+       "jp": "ベネットを中心に紅蓮の炎が円を描き、凍えきった一行の体に、じんわりとぬくもりが戻っていった。",
+       "ro": "Benetto o chuushin ni guren no honoo ga en o egaki, kogoekitta ikkou no karada ni, jinwari to nukumori ga modotte itta.",
+       "vi": "Lấy Bennett làm tâm, ngọn lửa đỏ rực vẽ nên một vòng tròn, hơi ấm dần dần quay lại trên cơ thể lạnh cóng của cả nhóm."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4"
+      ],
+      "2": [
+       "a21-3-1",
+       "a22-3-4"
+      ],
+      "3": [
+       "b1-2-4",
+       "b1-7-4"
+      ]
+     },
+     "next": "n5"
+    },
+    {
+     "id": "n5",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "その とき、上から ゆきが おちました！ベネットは 旅人を おしました！",
+       "ro": "Sono toki, ue kara yuki ga ochimashita! Benetto wa tabibito o oshimashita!",
+       "vi": "Đúng lúc đó, tuyết từ trên đổ xuống! Bennett đẩy Lữ khách ra!"
+      },
+      "2": {
+       "jp": "そのとき、がけの上から雪が落ちてきた！ベネットはとっさに旅人とパイモンをおしのけた！",
+       "ro": "Sono toki, gake no ue kara yuki ga ochite kita! Benetto wa tossa ni tabibito to Paimon o oshinoketa!",
+       "vi": "Đúng lúc đó, tuyết từ trên vách đá đổ ập xuống! Bennett lập tức đẩy Lữ khách và Paimon ra!"
+      },
+      "3": {
+       "jp": "その時、頭上の崖から轟音とともに雪の塊が崩れ落ちてきた！ベネットは迷わず旅人とパイモンを突き飛ばし、自らが雪の下敷きになった。",
+       "ro": "Sono toki, zujou no gake kara gouon to tomo ni yuki no katamari ga kuzureochite kita! Benetto wa mayowazu tabibito to Paimon o tsukitobashi, mizukara ga yuki no shitajiki ni natta.",
+       "vi": "Đúng lúc đó, từ vách đá trên đầu, một khối tuyết lớn đổ sập xuống kèm tiếng ầm ầm! Bennett không chút do dự đẩy văng Lữ khách và Paimon ra, còn bản thân thì bị tuyết vùi."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4"
+      ],
+      "2": [
+       "a21-11-1",
+       "a21-4-3"
+      ],
+      "3": [
+       "b1-6-6",
+       "b1-2-4"
+      ]
+     },
+     "next": "n6"
+    },
+    {
+     "id": "n6",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "だ、だいじょうぶです！ははは…。",
+       "ro": "Da, daijoubu desu! Hahaha...",
+       "vi": "K-không sao! Ha ha ha..."
+      },
+      "2": {
+       "jp": "ぷはっ！だ、だいじょうぶだ！こういうのはなれてるから！",
+       "ro": "Puha! Da, daijoubu da! Kou iu no wa nareteru kara!",
+       "vi": "Phù! K-không sao đâu! Chuyện này tớ quen rồi!"
+      },
+      "3": {
+       "jp": "ぷはっ！へ、平気平気！雪崩に巻き込まれるのは、これで三回目くらいだからな！",
+       "ro": "Puha! He, heiki heiki! Nadare ni makikomareru no wa, kore de sankaime kurai da kara na!",
+       "vi": "Phù! K-không sao không sao! Bị cuốn vào tuyết lở tính ra là lần thứ ba rồi!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-10-5"
+      ],
+      "2": [
+       "a22-1-5",
+       "a21-3-5"
+      ],
+      "3": [
+       "a22-18-1",
+       "a21-6-6"
+      ]
+     },
+     "choices": [
+      {
+       "t": {
+        "1": {
+         "jp": "すぐ たすけます！",
+         "ro": "Sugu tasukemasu!",
+         "vi": "Mình cứu cậu ngay!"
+        },
+        "2": {
+         "jp": "今すぐ引っぱり出すよ！手をつかんで！",
+         "ro": "Ima sugu hipparidasu yo! Te o tsukande!",
+         "vi": "Mình kéo cậu ra ngay! Nắm lấy tay mình!"
+        },
+        "3": {
+         "jp": "しゃべってないで、ほら、手をつかんで！今引っぱり出すから！",
+         "ro": "Shabette nai de, hora, te o tsukande! Ima hipparidasu kara!",
+         "vi": "Đừng nói nữa, nào, nắm tay mình đi! Mình kéo cậu ra ngay đây!"
+        }
+       },
+       "g": {
+        "1": [
+         "a1-5-3"
+        ],
+        "2": [
+         "a21-6-1"
+        ],
+        "3": [
+         "a21-6-1",
+         "ab1-3-3"
+        ]
+       },
+       "next": "n7"
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "ベネット！あぶないです！",
+         "ro": "Benetto! Abunai desu!",
+         "vi": "Bennett! Nguy hiểm lắm!"
+        },
+        "2": {
+         "jp": "ベネット！むちゃしないで！",
+         "ro": "Benetto! Mucha shinaide!",
+         "vi": "Bennett! Đừng liều mạng như thế!"
+        },
+        "3": {
+         "jp": "ベネット！自分を犠牲にするような無茶はしないでよ！",
+         "ro": "Benetto! Jibun o gisei ni suru you na mucha wa shinaide yo!",
+         "vi": "Bennett! Đừng liều mạng kiểu hy sinh bản thân như thế chứ!"
+        }
+       },
+       "g": {
+        "1": [
+         "a1-7-4"
+        ],
+        "2": [
+         "a21-15-3"
+        ],
+        "3": [
+         "b1-5-5",
+         "a21-15-3"
+        ]
+       },
+       "next": "n8"
+      }
+     ]
+    },
+    {
+     "id": "n7",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "ありがとう、旅人！たすかりました！",
+       "ro": "Arigatou, tabibito! Tasukarimashita!",
+       "vi": "Cảm ơn Lữ khách! Được cứu rồi!"
+      },
+      "2": {
+       "jp": "サンキュー、旅人！旅人がすぐ来たから、助かったぜ！",
+       "ro": "Sankyuu, tabibito! Tabibito ga sugu kita kara, tasukatta ze!",
+       "vi": "Cảm ơn Lữ khách! Nhờ cậu đến ngay nên tớ được cứu rồi!"
+      },
+      "3": {
+       "jp": "サンキュー、旅人！迷わず手を伸ばしてくれる仲間がいるって、最高だな！",
+       "ro": "Sankyuu, tabibito! Mayowazu te o nobashite kureru nakama ga iru tte, saikou da na!",
+       "vi": "Cảm ơn Lữ khách! Có đồng đội không chút do dự chìa tay ra, thật tuyệt vời!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-1-3",
+       "a1-15-4"
+      ],
+      "2": [
+       "a21-3-5",
+       "a21-4-3"
+      ],
+      "3": [
+       "ab1-4-1",
+       "b1-6-6"
+      ]
+     },
+     "next": "n9"
+    },
+    {
+     "id": "n8",
+     "sp": "char",
+     "mood": "shy",
+     "t": {
+      "1": {
+       "jp": "ごめんなさい…。でも、みんなが だいじです。",
+       "ro": "Gomen nasai... Demo, minna ga daiji desu.",
+       "vi": "Xin lỗi... Nhưng mọi người quan trọng với tớ."
+      },
+      "2": {
+       "jp": "ごめん、ごめん。でも、なかまがけがをするほうが、ずっといやなんだ。",
+       "ro": "Gomen, gomen. Demo, nakama ga kega o suru hou ga, zutto iya na n da.",
+       "vi": "Xin lỗi, xin lỗi. Nhưng đồng đội bị thương thì tớ còn ghét hơn nhiều."
+      },
+      "3": {
+       "jp": "わ、悪い悪い。でもさ、仲間が怪我するのを見てるくらいなら、オレが代わりに埋まったほうがずっとマシなんだよ。",
+       "ro": "Wa, warui warui. Demo sa, nakama ga kega suru no o miteru kurai nara, ore ga kawari ni umatta hou ga zutto mashi na n da yo.",
+       "vi": "X-xin lỗi xin lỗi. Nhưng mà, thà để tớ bị vùi thay còn hơn đứng nhìn đồng đội bị thương."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-18-2"
+      ],
+      "2": [
+       "a22-12-3",
+       "a21-17-1"
+      ],
+      "3": [
+       "b12-6-4",
+       "a22-5-1"
+      ]
+     },
+     "next": "n9"
+    },
+    {
+     "id": "n9",
+     "sp": "char",
+     "mood": "serious",
+     "t": {
+      "1": {
+       "jp": "なかまが います。だから、オレの 火は つよいです。",
+       "ro": "Nakama ga imasu. Dakara, ore no hi wa tsuyoi desu.",
+       "vi": "Tớ có đồng đội. Vì thế, lửa của tớ mạnh lắm."
+      },
+      "2": {
+       "jp": "まもりたいなかまがいると、炎はもっと強くなるんだ。それが、オレの勇気なんだよ。",
+       "ro": "Mamoritai nakama ga iru to, honoo wa motto tsuyoku naru n da. Sore ga, ore no yuuki na n da yo.",
+       "vi": "Có đồng đội muốn bảo vệ thì ngọn lửa càng mạnh hơn. Đó là lòng can đảm của tớ."
+      },
+      "3": {
+       "jp": "守りたい仲間がいる限り、オレの炎は何度だって燃え上がる。不運にも吹雪にも負けない——それがオレの勇気ってやつさ。",
+       "ro": "Mamoritai nakama ga iru kagiri, ore no honoo wa nando datte moeagaru. Fuun ni mo fubuki ni mo makenai — sore ga ore no yuuki tte yatsu sa.",
+       "vi": "Chừng nào còn có đồng đội muốn bảo vệ, ngọn lửa của tớ sẽ bùng lên bao nhiêu lần cũng được. Không thua vận xui, không thua bão tuyết — đó chính là lòng can đảm của tớ."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-7-2",
+       "a1-7-4"
+      ],
+      "2": [
+       "a22-4-4",
+       "a21-3-1",
+       "a21-17-1"
+      ],
+      "3": [
+       "a21-11-2",
+       "b1-8-4"
+      ]
+     },
+     "next": "n10"
+    },
+    {
+     "id": "n10",
+     "sp": "narr",
+     "bg": "camp-night",
+     "t": {
+      "1": {
+       "jp": "よる、三人は たき火の 前で 休みました。",
+       "ro": "Yoru, sannin wa takibi no mae de yasumimashita.",
+       "vi": "Buổi tối, ba người nghỉ ngơi trước đống lửa trại."
+      },
+      "2": {
+       "jp": "夜、三人はキャンプのたき火の前で休んでいた。",
+       "ro": "Yoru, sannin wa kyanpu no takibi no mae de yasunde ita.",
+       "vi": "Buổi tối, ba người nghỉ ngơi trước đống lửa trại."
+      },
+      "3": {
+       "jp": "その夜、ようやく辿り着いた野営地で、三人はぱちぱちと爆ぜるたき火を囲んでいた。",
+       "ro": "Sono yoru, youyaku tadoritsuita yaeichi de, sannin wa pachipachi to hazeru takibi o kakonde ita.",
+       "vi": "Tối hôm đó, ở khu cắm trại cuối cùng cũng tới được, ba người quây quanh đống lửa đang tí tách nổ."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-14-3",
+       "a1-15-4"
+      ],
+      "2": [
+       "a22-9-1",
+       "a1-14-3"
+      ],
+      "3": [
+       "a21-17-3",
+       "a22-9-1"
+      ]
+     },
+     "next": "n11"
+    },
+    {
+     "id": "n11",
+     "sp": "char",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "これは ベニー冒険団の なかまの 名前です。旅人と パイモンの 名前も 書きました！",
+       "ro": "Kore wa Benii Boukendan no nakama no namae desu. Tabibito to Paimon no namae mo kakimashita!",
+       "vi": "Đây là tên các thành viên Đội Mạo Hiểm Benny. Tớ đã viết cả tên Lữ khách và Paimon!"
+      },
+      "2": {
+       "jp": "見て、これがベニー冒険団のメンバー表だ。レザー、フィッシュルとオズ…そして、旅人とパイモンの名前も書いたんだ！",
+       "ro": "Mite, kore ga Benii Boukendan no menbaahyou da. Rezaa, Fisshuru to Ozu... soshite, tabibito to Paimon no namae mo kaita n da!",
+       "vi": "Nhìn này, đây là danh sách thành viên Đội Mạo Hiểm Benny. Razor, Fischl và Oz... và tớ đã viết cả tên Lữ khách với Paimon!"
+      },
+      "3": {
+       "jp": "じゃーん！ベニー冒険団の正式メンバー表だ。レザー、フィッシュルとオズ…そして今日から、旅人とパイモンの名前もここに刻ませてもらったぜ！",
+       "ro": "Jaan! Benii Boukendan no seishiki menbaahyou da. Rezaa, Fisshuru to Ozu... soshite kyou kara, tabibito to Paimon no namae mo koko ni kizamasete moratta ze!",
+       "vi": "Ta-da! Danh sách thành viên chính thức của Đội Mạo Hiểm Benny. Razor, Fischl và Oz... và từ hôm nay, tớ đã xin phép khắc cả tên Lữ khách với Paimon vào đây!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-1",
+       "a1-15-4"
+      ],
+      "2": [
+       "a21-6-1",
+       "a21-17-1",
+       "a1-18-3"
+      ],
+      "3": [
+       "b1-3-3",
+       "ab1-4-2"
+      ]
+     },
+     "next": "n12"
+    },
+    {
+     "id": "n12",
+     "sp": "paimon",
+     "mood": "happy",
+     "t": {
+      "1": {
+       "jp": "パイモンの 名前も あります！うれしいです！",
+       "ro": "Paimon no namae mo arimasu! Ureshii desu!",
+       "vi": "Có cả tên Paimon! Vui quá!"
+      },
+      "2": {
+       "jp": "オイラの名前もある！しかも、字が大きいぞ！",
+       "ro": "Oira no namae mo aru! Shikamo, ji ga ookii zo!",
+       "vi": "Có cả tên tớ! Mà chữ còn to nữa!"
+      },
+      "3": {
+       "jp": "おおっ、オイラの名前もちゃんとある！しかも旅人より字が大きいじゃないか！さすがベネット、わかってるな！",
+       "ro": "Oo, oira no namae mo chanto aru! Shikamo tabibito yori ji ga ookii ja nai ka! Sasuga Benetto, wakatteru na!",
+       "vi": "Ồ, có cả tên tớ này! Mà chữ còn to hơn của Lữ khách nữa chứ! Không hổ là Bennett, hiểu chuyện ghê!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-7-1",
+       "a1-7-4"
+      ],
+      "2": [
+       "a1-7-1",
+       "a21-2-2"
+      ],
+      "3": [
+       "b12-17-2",
+       "b12-12-5"
+      ]
+     },
+     "next": "n13"
+    },
+    {
+     "id": "n13",
+     "sp": "char",
+     "mood": "calm",
+     "t": {
+      "1": {
+       "jp": "なかまは かぞくです。旅人は ずっと オレの かぞくです。",
+       "ro": "Nakama wa kazoku desu. Tabibito wa zutto ore no kazoku desu.",
+       "vi": "Đồng đội là gia đình. Lữ khách mãi là gia đình của tớ."
+      },
+      "2": {
+       "jp": "オレにとって、なかまは家族なんだ。旅人がどこへ行っても、ずっとオレの家族だよ。",
+       "ro": "Ore ni totte, nakama wa kazoku na n da. Tabibito ga doko e itte mo, zutto ore no kazoku da yo.",
+       "vi": "Với tớ, đồng đội là gia đình. Lữ khách có đi đâu thì vẫn mãi là gia đình của tớ."
+      },
+      "3": {
+       "jp": "親父たちが教えてくれたんだ。「仲間は家族だ」ってな。だから旅人、あんたがどこを旅していても、ベニー冒険団はずっとあんたの帰る場所だぜ。",
+       "ro": "Oyaji-tachi ga oshiete kureta n da. \"Nakama wa kazoku da\" tte na. Dakara tabibito, anta ga doko o tabi shite ite mo, Benii Boukendan wa zutto anta no kaeru basho da ze.",
+       "vi": "Các ông bố đã dạy tớ. \"Đồng đội là gia đình\". Vì vậy Lữ khách à, dù cậu đang du hành ở đâu, Đội Mạo Hiểm Benny vẫn mãi là nơi để cậu trở về."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-1"
+      ],
+      "2": [
+       "a22-13-1",
+       "a21-17-1"
+      ],
+      "3": [
+       "ab1-4-1",
+       "a22-13-1",
+       "a21-17-3"
+      ]
+     },
+     "next": "n14"
+    },
+    {
+     "id": "n14",
+     "sp": "narr",
+     "t": {
+      "1": {
+       "jp": "たき火の 火が あかるく もえて いました。",
+       "ro": "Takibi no hi ga akaruku moete imashita.",
+       "vi": "Ngọn lửa trại cháy sáng rực."
+      },
+      "2": {
+       "jp": "たき火は、朝まであたたかくもえつづけた。",
+       "ro": "Takibi wa, asa made atatakaku moetsuzuketa.",
+       "vi": "Đống lửa trại cháy ấm áp cho đến sáng."
+      },
+      "3": {
+       "jp": "吹雪の夜、たき火の炎は朝まで消えることなく、三人を温かく照らし続けていたのでした。",
+       "ro": "Fubuki no yoru, takibi no honoo wa asa made kieru koto naku, sannin o atatakaku terashitsuzukete ita no deshita.",
+       "vi": "Trong đêm bão tuyết, ngọn lửa trại không hề tắt cho đến sáng, cứ thế ấm áp soi rọi ba người."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-4-2"
+      ],
+      "2": [
+       "a1-10-1",
+       "a22-2-6"
+      ],
+      "3": [
+       "a22-11-4",
+       "b1-9-7"
+      ]
+     },
+     "end": true
+    }
+   ]
+  }
+ ],
+ "chat": [
+  {
+   "id": "phieu-luu",
+   "title": "Phiêu lưu",
+   "turns": [
+    {
+     "t": {
+      "1": {
+       "jp": "旅人は 冒険が 好きですか。",
+       "ro": "Tabibito wa bouken ga suki desu ka.",
+       "vi": "Lữ khách có thích phiêu lưu không?"
+      },
+      "2": {
+       "jp": "なあ旅人、冒険って楽しいよな！旅人も好きだよね？",
+       "ro": "Naa tabibito, bouken tte tanoshii yo na! Tabibito mo suki da yo ne?",
+       "vi": "Này Lữ khách, phiêu lưu vui nhỉ! Lữ khách cũng thích đúng không?"
+      },
+      "3": {
+       "jp": "なあ旅人、冒険ってのは最高だよな！旅人も、知らない場所に行くとワクワクするタイプだろ？",
+       "ro": "Naa tabibito, bouken tte no wa saikou da yo na! Tabibito mo, shiranai basho ni iku to wakuwaku suru taipu daro?",
+       "vi": "Này Lữ khách, phiêu lưu là tuyệt nhất nhỉ! Lữ khách cũng là kiểu người cứ đến nơi lạ là háo hức đúng không?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-5-1",
+       "a1-3-3"
+      ],
+      "2": [
+       "a22-1-4",
+       "a1-5-1"
+      ],
+      "3": [
+       "b12-1-1",
+       "b1-8-5",
+       "a22-4-4"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "はい、大好きです！",
+         "ro": "Hai, daisuki desu!",
+         "vi": "Có, mình mê lắm!"
+        },
+        "2": {
+         "jp": "うん、大好き！新しい場所に行くのが楽しい。",
+         "ro": "Un, daisuki! Atarashii basho ni iku no ga tanoshii.",
+         "vi": "Có, mê lắm! Đến những nơi mới vui lắm."
+        },
+        "3": {
+         "jp": "もちろん。地図の空白を埋めていく瞬間がたまらないんだ。",
+         "ro": "Mochiron. Chizu no kuuhaku o umete iku shunkan ga tamaranai n da.",
+         "vi": "Tất nhiên. Khoảnh khắc lấp đầy chỗ trống trên bản đồ thì không gì bằng."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-5-1"
+        ],
+        "2": [
+         "a21-9-2"
+        ],
+        "3": [
+         "b1-7-4",
+         "a21-17-1"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "オレも です！いっしょに 行きましょう！",
+         "ro": "Ore mo desu! Issho ni ikimashou!",
+         "vi": "Tớ cũng vậy! Cùng đi nào!"
+        },
+        "2": {
+         "jp": "だよな！オレたち、気が合うな！次の冒険もいっしょに行こうぜ！",
+         "ro": "Da yo na! Ore-tachi, ki ga au na! Tsugi no bouken mo issho ni ikou ze!",
+         "vi": "Đúng thế! Tụi mình hợp nhau ghê! Chuyến phiêu lưu tới cũng đi cùng nhé!"
+        },
+        "3": {
+         "jp": "わかる！その瞬間のために生きてるって感じだよな！よし、次の空白もベニー冒険団で埋めに行こうぜ！",
+         "ro": "Wakaru! Sono shunkan no tame ni ikiteru tte kanji da yo na! Yoshi, tsugi no kuuhaku mo Benii Boukendan de ume ni ikou ze!",
+         "vi": "Hiểu mà! Cứ như sống là vì khoảnh khắc đó ấy nhỉ! Được, chỗ trống tiếp theo cũng để Đội Mạo Hiểm Benny đi lấp nào!"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-11-6",
+         "a1-6-6"
+        ],
+        "2": [
+         "a21-8-2"
+        ],
+        "3": [
+         "b12-13-1",
+         "a22-14-3",
+         "a21-8-3"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "ちょっと こわいです。",
+         "ro": "Chotto kowai desu.",
+         "vi": "Mình hơi sợ."
+        },
+        "2": {
+         "jp": "楽しいけど、ちょっとこわいときもあるよ。",
+         "ro": "Tanoshii kedo, chotto kowai toki mo aru yo.",
+         "vi": "Vui thì vui, nhưng có lúc cũng hơi sợ."
+        },
+        "3": {
+         "jp": "楽しいけど、正直怖いと思う瞬間もあるよ。遺跡の罠とか特にね。",
+         "ro": "Tanoshii kedo, shoujiki kowai to omou shunkan mo aru yo. Iseki no wana toka toku ni ne.",
+         "vi": "Vui thì vui, nhưng thật lòng cũng có lúc thấy sợ. Nhất là mấy cái bẫy trong di tích."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-12-6",
+         "a1-7-4"
+        ],
+        "2": [
+         "a21-5-3",
+         "a21-2-3"
+        ],
+        "3": [
+         "a21-18-1",
+         "a21-17-4"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "だいじょうぶです！オレが います！",
+         "ro": "Daijoubu desu! Ore ga imasu!",
+         "vi": "Không sao! Có tớ đây!"
+        },
+        "2": {
+         "jp": "わかるよ。でも、だいじょうぶ！わなには、オレがいつも先にかかるから！",
+         "ro": "Wakaru yo. Demo, daijoubu! Wana ni wa, ore ga itsumo saki ni kakaru kara!",
+         "vi": "Hiểu mà. Nhưng không sao! Bẫy thì lúc nào tớ cũng dính trước mà!"
+        },
+        "3": {
+         "jp": "わかるぜ。でも安心しな、罠なら大抵オレが先に引っかかるからさ！旅人の分まで、オレが体を張ってやるよ！",
+         "ro": "Wakaru ze. Demo anshin shina, wana nara taitei ore ga saki ni hikkakaru kara sa! Tabibito no bun made, ore ga karada o hatte yaru yo!",
+         "vi": "Hiểu mà. Nhưng yên tâm đi, bẫy thì thường tớ dính trước rồi! Phần của Lữ khách, tớ cũng liều mình đỡ luôn!"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-10-5",
+         "a1-7-2"
+        ],
+        "2": [
+         "a21-3-5",
+         "a1-10-5"
+        ],
+        "3": [
+         "ab1-1-4",
+         "ab1-3-3"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": {
+      "1": {
+       "jp": "どこへ 行きたいですか。",
+       "ro": "Doko e ikitai desu ka.",
+       "vi": "Cậu muốn đi đâu?"
+      },
+      "2": {
+       "jp": "旅人は、次にどこへ冒険に行きたい？",
+       "ro": "Tabibito wa, tsugi ni doko e bouken ni ikitai?",
+       "vi": "Lữ khách muốn đi phiêu lưu ở đâu tiếp theo?"
+      },
+      "3": {
+       "jp": "次の冒険、旅人ならどこを選ぶ？オレ、どこでもついて行くぜ！",
+       "ro": "Tsugi no bouken, tabibito nara doko o erabu? Ore, doko demo tsuite iku ze!",
+       "vi": "Chuyến phiêu lưu tới, nếu là Lữ khách thì chọn đâu? Đi đâu tớ cũng theo!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-18-4"
+      ],
+      "2": [
+       "a21-8-3",
+       "a21-10-1"
+      ],
+      "3": [
+       "ab1-1-4",
+       "a21-11-2"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "山に 行きたいです。",
+         "ro": "Yama ni ikitai desu.",
+         "vi": "Mình muốn đi núi."
+        },
+        "2": {
+         "jp": "高い山に登ってみたいな。",
+         "ro": "Takai yama ni nobotte mitai na.",
+         "vi": "Mình muốn thử leo núi cao."
+        },
+        "3": {
+         "jp": "まだ誰も登ったことのない山の頂上から、景色を見てみたいな。",
+         "ro": "Mada dare mo nobotta koto no nai yama no choujou kara, keshiki o mite mitai na.",
+         "vi": "Mình muốn thử ngắm cảnh từ đỉnh núi chưa ai từng leo."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-18-4"
+        ],
+        "2": [
+         "a21-10-4",
+         "a21-10-1"
+        ],
+        "3": [
+         "a21-13-1",
+         "a21-10-4"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "いいですね！山の 上は きれいですよ！",
+         "ro": "Ii desu ne! Yama no ue wa kirei desu yo!",
+         "vi": "Hay đó! Trên núi đẹp lắm!"
+        },
+        "2": {
+         "jp": "いいな！山の上から見る景色は、最高なんだよな！",
+         "ro": "Ii na! Yama no ue kara miru keshiki wa, saikou na n da yo na!",
+         "vi": "Hay ghê! Cảnh nhìn từ trên núi là tuyệt nhất!"
+        },
+        "3": {
+         "jp": "最高じゃないか！…まあ、オレと行くと十中八九、途中で雷雨になるけどな。それも含めて冒険だ！",
+         "ro": "Saikou ja nai ka! ...Maa, ore to iku to jicchuu hakku, tochuu de raiu ni naru kedo na. Sore mo fukumete bouken da!",
+         "vi": "Tuyệt còn gì! ...Có điều, đi với tớ thì mười phần tám chín giữa đường sẽ có mưa giông. Cái đó cũng là phiêu lưu!"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-8-1"
+        ],
+        "2": [
+         "a21-17-3",
+         "a21-17-1"
+        ],
+        "3": [
+         "b12-17-2",
+         "a22-4-4"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "うみに 行きたいです。",
+         "ro": "Umi ni ikitai desu.",
+         "vi": "Mình muốn đi biển."
+        },
+        "2": {
+         "jp": "海の向こうの島に行ってみたいな。",
+         "ro": "Umi no mukou no shima ni itte mitai na.",
+         "vi": "Mình muốn thử đến hòn đảo bên kia biển."
+        },
+        "3": {
+         "jp": "船に乗って、地図にない島を探しに行くなんてどう？",
+         "ro": "Fune ni notte, chizu ni nai shima o sagashi ni iku nante dou?",
+         "vi": "Lên thuyền đi tìm hòn đảo không có trên bản đồ thì sao?"
+        }
+       },
+       "g": {
+        "1": [
+         "a1-18-4"
+        ],
+        "2": [
+         "a21-10-4"
+        ],
+        "3": [
+         "b12-7-4",
+         "a21-8-3"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "うみですか！オレも 行きたいです！",
+         "ro": "Umi desu ka! Ore mo ikitai desu!",
+         "vi": "Biển à! Tớ cũng muốn đi!"
+        },
+        "2": {
+         "jp": "島か！いいな！でも、オレが船に乗ると、たいてい嵐になるんだ…。",
+         "ro": "Shima ka! Ii na! Demo, ore ga fune ni noru to, taitei arashi ni naru n da...",
+         "vi": "Đảo à! Hay đấy! Nhưng tớ mà lên thuyền thì thường có bão..."
+        },
+        "3": {
+         "jp": "地図にない島！？燃えるな、それ！…ただ、オレが乗った船は、なぜか必ず嵐に遭うんだよな。それでもいいか？",
+         "ro": "Chizu ni nai shima!? Moeru na, sore! ...Tada, ore ga notta fune wa, nazeka kanarazu arashi ni au n da yo na. Soredemo ii ka?",
+         "vi": "Đảo không có trên bản đồ?! Nghe hừng hực ghê! ...Có điều, thuyền tớ đi không hiểu sao lần nào cũng gặp bão. Vậy vẫn được chứ?"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-18-4",
+         "a1-3-5"
+        ],
+        "2": [
+         "a22-4-4",
+         "a21-3-1"
+        ],
+        "3": [
+         "b12-12-5",
+         "a21-17-3"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": {
+      "1": {
+       "jp": "冒険で 何が ほしいですか。",
+       "ro": "Bouken de nani ga hoshii desu ka.",
+       "vi": "Đi phiêu lưu cậu muốn có gì?"
+      },
+      "2": {
+       "jp": "冒険で見つけたいものって、何かある？",
+       "ro": "Bouken de mitsuketai mono tte, nanika aru?",
+       "vi": "Có thứ gì cậu muốn tìm thấy khi phiêu lưu không?"
+      },
+      "3": {
+       "jp": "旅人は、冒険の先に何を見つけたい？お宝？それとも、もっと別の何か？",
+       "ro": "Tabibito wa, bouken no saki ni nani o mitsuketai? Otakara? Soretomo, motto betsu no nanika?",
+       "vi": "Lữ khách muốn tìm thấy gì ở cuối cuộc phiêu lưu? Kho báu? Hay là một thứ gì khác?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-1"
+      ],
+      "2": [
+       "a22-1-4",
+       "a21-10-1"
+      ],
+      "3": [
+       "a21-10-1",
+       "b1-1-4"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "たからものが ほしいです。",
+         "ro": "Takaramono ga hoshii desu.",
+         "vi": "Mình muốn kho báu."
+        },
+        "2": {
+         "jp": "やっぱり、お宝がほしいな！",
+         "ro": "Yappari, otakara ga hoshii na!",
+         "vi": "Quả nhiên là muốn kho báu!"
+        },
+        "3": {
+         "jp": "そりゃあお宝でしょ！…パイモンの影響かもしれないけど。",
+         "ro": "Soryaa otakara desho! ...Paimon no eikyou kamo shirenai kedo.",
+         "vi": "Tất nhiên là kho báu rồi! ...Có khi do ảnh hưởng của Paimon."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-15-1"
+        ],
+        "2": [
+         "a1-15-1"
+        ],
+        "3": [
+         "ab1-7-2",
+         "ab1-6-1"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "オレも！たからばこ、大好きです！",
+         "ro": "Ore mo! Takarabako, daisuki desu!",
+         "vi": "Tớ cũng vậy! Tớ mê rương báu lắm!"
+        },
+        "2": {
+         "jp": "オレもお宝は好きだぜ！…ただ、オレが開けると、たいてい中は空っぽなんだよな。",
+         "ro": "Ore mo otakara wa suki da ze! ...Tada, ore ga akeru to, taitei naka wa karappo na n da yo na.",
+         "vi": "Tớ cũng thích kho báu! ...Có điều, tớ mà mở thì bên trong thường trống trơn."
+        },
+        "3": {
+         "jp": "お宝はロマンだよな！…ただ、オレが開ける宝箱って、なぜか八割がた空っぽなんだ。だから旅人が開けてくれると助かる！",
+         "ro": "Otakara wa roman da yo na! ...Tada, ore ga akeru takarabako tte, nazeka hachiwari gata karappo na n da. Dakara tabibito ga akete kureru to tasukaru!",
+         "vi": "Kho báu là lãng mạn nhỉ! ...Có điều, rương báu tớ mở không hiểu sao tám phần là trống rỗng. Nên Lữ khách mở giúp thì tốt quá!"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-11-6",
+         "a1-5-1"
+        ],
+        "2": [
+         "a22-4-4",
+         "a21-17-1"
+        ],
+        "3": [
+         "ab1-4-1",
+         "b12-1-1"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "友だちが ほしいです。",
+         "ro": "Tomodachi ga hoshii desu.",
+         "vi": "Mình muốn có bạn bè."
+        },
+        "2": {
+         "jp": "お宝より、いろいろな人に会えるのがうれしいかな。",
+         "ro": "Otakara yori, iroiro na hito ni aeru no ga ureshii ka na.",
+         "vi": "Hơn kho báu, mình vui khi được gặp nhiều người."
+        },
+        "3": {
+         "jp": "お宝もいいけど、旅先で出会う人たちとのつながりのほうが、ずっと大事かな。",
+         "ro": "Otakara mo ii kedo, tabisaki de deau hito-tachi to no tsunagari no hou ga, zutto daiji ka na.",
+         "vi": "Kho báu cũng hay, nhưng mối gắn kết với những người gặp trên đường thì quan trọng hơn nhiều."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-15-1"
+        ],
+        "2": [
+         "a22-12-3",
+         "a22-6-1"
+        ],
+        "3": [
+         "ab1-1-3",
+         "a22-12-3",
+         "b1-3-8"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "いいですね。オレも なかまが 一ばん 好きです。",
+         "ro": "Ii desu ne. Ore mo nakama ga ichiban suki desu.",
+         "vi": "Hay đấy. Tớ cũng thích đồng đội nhất."
+        },
+        "2": {
+         "jp": "わかる！オレもなかまがいちばんの宝物だと思うんだ。",
+         "ro": "Wakaru! Ore mo nakama ga ichiban no takaramono da to omou n da.",
+         "vi": "Hiểu mà! Tớ cũng nghĩ đồng đội là báu vật lớn nhất."
+        },
+        "3": {
+         "jp": "それだよ、それ！親父たちもよく言ってたんだ。「一番の宝は、隣を歩く仲間だ」ってな！",
+         "ro": "Sore da yo, sore! Oyaji-tachi mo yoku itteta n da. \"Ichiban no takara wa, tonari o aruku nakama da\" tte na!",
+         "vi": "Đúng rồi, chính nó! Các ông bố cũng hay nói lắm. \"Báu vật lớn nhất là đồng đội đi bên cạnh\" ấy!"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-5-1"
+        ],
+        "2": [
+         "a21-18-1",
+         "a21-17-1"
+        ],
+        "3": [
+         "a21-18-4",
+         "a21-17-3"
+        ]
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "van-xui",
+   "title": "Vận xui",
+   "turns": [
+    {
+     "t": {
+      "1": {
+       "jp": "オレは うんが わるいです。旅人は どうですか。",
+       "ro": "Ore wa un ga warui desu. Tabibito wa dou desu ka.",
+       "vi": "Tớ xui lắm. Lữ khách thì sao?"
+      },
+      "2": {
+       "jp": "オレ、すごく運が悪いんだ。旅人は運がいいほう？",
+       "ro": "Ore, sugoku un ga warui n da. Tabibito wa un ga ii hou?",
+       "vi": "Tớ xui cực kỳ. Lữ khách thuộc kiểu may mắn không?"
+      },
+      "3": {
+       "jp": "オレの不運は筋金入りでさ。旅人は、自分のこと運がいいほうだと思う？",
+       "ro": "Ore no fuun wa sujiganeiri de sa. Tabibito wa, jibun no koto un ga ii hou da to omou?",
+       "vi": "Vận xui của tớ thuộc loại thâm niên đấy. Lữ khách có nghĩ mình thuộc kiểu may mắn không?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-10-5"
+      ],
+      "2": [
+       "a21-17-1",
+       "a22-12-3"
+      ],
+      "3": [
+       "a21-7-5",
+       "a22-12-4"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "私は うんが いいです。",
+         "ro": "Watashi wa un ga ii desu.",
+         "vi": "Mình may mắn lắm."
+        },
+        "2": {
+         "jp": "わりと運はいいほうかな。",
+         "ro": "Warito un wa ii hou ka na.",
+         "vi": "Chắc mình thuộc kiểu khá may mắn."
+        },
+        "3": {
+         "jp": "どちらかというと、運はいいほうだと思うよ。宝箱もよく見つけるし。",
+         "ro": "Dochira ka to iu to, un wa ii hou da to omou yo. Takarabako mo yoku mitsukeru shi.",
+         "vi": "Nếu phải nói thì mình nghĩ mình khá may. Hay tìm thấy rương báu nữa."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-7-4"
+        ],
+        "2": [
+         "a22-12-3"
+        ],
+        "3": [
+         "b12-1-7",
+         "a22-6-3"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "いいですね！オレの そばに いて ください！",
+         "ro": "Ii desu ne! Ore no soba ni ite kudasai!",
+         "vi": "Hay quá! Ở cạnh tớ nhé!"
+        },
+        "2": {
+         "jp": "いいなあ！じゃあ、オレのそばにいて。運を少しちょうだい！",
+         "ro": "Ii naa! Jaa, ore no soba ni ite. Un o sukoshi choudai!",
+         "vi": "Sướng thế! Vậy ở cạnh tớ nhé. Chia cho tớ chút may mắn đi!"
+        },
+        "3": {
+         "jp": "うらやましいぜ！旅人がそばにいてくれたら、オレの不運も少しは中和されるかもしれないな！",
+         "ro": "Urayamashii ze! Tabibito ga soba ni ite kuretara, ore no fuun mo sukoshi wa chuuwa sareru kamo shirenai na!",
+         "vi": "Ghen tị ghê! Có Lữ khách ở cạnh thì biết đâu vận xui của tớ cũng được trung hòa phần nào!"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-2-2"
+        ],
+        "2": [
+         "a21-6-1"
+        ],
+        "3": [
+         "ab1-4-1",
+         "ab1-7-2",
+         "a22-18-1"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "私も うんが わるいです。",
+         "ro": "Watashi mo un ga warui desu.",
+         "vi": "Mình cũng xui lắm."
+        },
+        "2": {
+         "jp": "私もよく、へんなことに巻き込まれるよ。",
+         "ro": "Watashi mo yoku, hen na koto ni makikomareru yo.",
+         "vi": "Mình cũng hay bị cuốn vào chuyện kỳ quặc lắm."
+        },
+        "3": {
+         "jp": "私も人のことは言えないかも。行く先々で、なぜか事件に巻き込まれるんだよね。",
+         "ro": "Watashi mo hito no koto wa ienai kamo. Iku sakizaki de, nazeka jiken ni makikomareru n da yo ne.",
+         "vi": "Mình cũng chẳng nói được ai đâu. Đi đến đâu không hiểu sao cũng bị cuốn vào sự vụ."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-3-5",
+         "a1-7-4"
+        ],
+        "2": [
+         "a22-18-1",
+         "a21-2-5"
+        ],
+        "3": [
+         "ab1-7-2",
+         "a22-18-1"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "オレと おなじです！ははは！",
+         "ro": "Ore to onaji desu! Hahaha!",
+         "vi": "Giống tớ! Ha ha ha!"
+        },
+        "2": {
+         "jp": "オレと同じだ！運が悪い者どうし、がんばろうぜ！",
+         "ro": "Ore to onaji da! Un ga warui mono doushi, ganbarou ze!",
+         "vi": "Giống tớ! Hai kẻ xui xẻo, cùng cố gắng nào!"
+        },
+        "3": {
+         "jp": "おおっ、仲間だな！不運コンビ結成だ！二人そろえば、どんなトラブルも冒険のネタになるぜ！",
+         "ro": "Oo, nakama da na! Fuun konbi kessei da! Futari soroeba, donna toraburu mo bouken no neta ni naru ze!",
+         "vi": "Ồ, đồng minh đây rồi! Thành lập bộ đôi xui xẻo! Có đủ hai người thì rắc rối nào cũng thành chuyện phiêu lưu hết!"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-3-1"
+        ],
+        "2": [
+         "a21-9-3",
+         "a21-8-2"
+        ],
+        "3": [
+         "ab1-2-5",
+         "b1-1-4"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": {
+      "1": {
+       "jp": "うんが わるい 日、何を しますか。",
+       "ro": "Un ga warui hi, nani o shimasu ka.",
+       "vi": "Ngày xui xẻo, cậu làm gì?"
+      },
+      "2": {
+       "jp": "運が悪い日、旅人はどうやって元気を出す？",
+       "ro": "Un ga warui hi, tabibito wa dou yatte genki o dasu?",
+       "vi": "Ngày xui xẻo, Lữ khách lấy lại tinh thần bằng cách nào?"
+      },
+      "3": {
+       "jp": "ついてない日ってあるだろ？そういうとき、旅人はどうやって気持ちを切り替えるんだ？",
+       "ro": "Tsuitenai hi tte aru daro? Sou iu toki, tabibito wa dou yatte kimochi o kirikaeru n da?",
+       "vi": "Có những ngày chẳng may mắn gì phải không? Những lúc đó, Lữ khách lấy lại tinh thần bằng cách nào?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-5-3",
+       "a1-14-1"
+      ],
+      "2": [
+       "a21-1-5",
+       "a21-17-3"
+      ],
+      "3": [
+       "b12-1-1",
+       "b1-8-5"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "おいしい ものを 食べます。",
+         "ro": "Oishii mono o tabemasu.",
+         "vi": "Mình ăn đồ ngon."
+        },
+        "2": {
+         "jp": "おいしいものを食べて、早くねるよ。",
+         "ro": "Oishii mono o tabete, hayaku neru yo.",
+         "vi": "Mình ăn đồ ngon rồi đi ngủ sớm."
+        },
+        "3": {
+         "jp": "おいしいものをお腹いっぱい食べて、さっさと寝ちゃうのが一番かな。",
+         "ro": "Oishii mono o onaka ippai tabete, sassato nechau no ga ichiban ka na.",
+         "vi": "Ăn no đồ ngon rồi lăn ra ngủ luôn là tốt nhất."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-5-3",
+         "a1-14-1"
+        ],
+        "2": [
+         "a21-6-2"
+        ],
+        "3": [
+         "a22-11-2",
+         "a21-3-6"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "いいですね！オレも 食べます！",
+         "ro": "Ii desu ne! Ore mo tabemasu!",
+         "vi": "Hay đó! Tớ cũng ăn!"
+        },
+        "2": {
+         "jp": "それ、いいな！…でもオレが料理すると、なぜかこげるんだよな。",
+         "ro": "Sore, ii na! ...Demo ore ga ryouri suru to, nazeka kogeru n da yo na.",
+         "vi": "Hay đó! ...Nhưng tớ mà nấu thì không hiểu sao lại cháy khét."
+        },
+        "3": {
+         "jp": "最高の作戦だな！…ただ、オレが作ると目玉焼きですら黒こげになるんだ。今度、旅人の料理を食べさせてくれよ！",
+         "ro": "Saikou no sakusen da na! ...Tada, ore ga tsukuru to medamayaki de sura kurokoge ni naru n da. Kondo, tabibito no ryouri o tabesasete kure yo!",
+         "vi": "Chiến thuật tuyệt nhất! ...Có điều, tớ mà làm thì đến trứng ốp la cũng cháy đen. Lần tới cho tớ ăn món Lữ khách nấu nhé!"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-5-3",
+         "a1-3-5"
+        ],
+        "2": [
+         "a22-4-4",
+         "a21-17-1"
+        ],
+        "3": [
+         "b1-3-3",
+         "a22-4-4"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "友だちと 話します。",
+         "ro": "Tomodachi to hanashimasu.",
+         "vi": "Mình nói chuyện với bạn bè."
+        },
+        "2": {
+         "jp": "友だちと話すと、元気になるよ。",
+         "ro": "Tomodachi to hanasu to, genki ni naru yo.",
+         "vi": "Nói chuyện với bạn bè là mình vui lên."
+        },
+        "3": {
+         "jp": "誰かに話を聞いてもらうと、不思議と気が楽になるんだよね。",
+         "ro": "Dareka ni hanashi o kiite morau to, fushigi to ki ga raku ni naru n da yo ne.",
+         "vi": "Được ai đó lắng nghe thì lạ thay lòng mình nhẹ hẳn."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-4-1",
+         "a1-5-3"
+        ],
+        "2": [
+         "a22-4-4",
+         "a21-3-1"
+        ],
+        "3": [
+         "ab1-4-2",
+         "a22-4-4"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "オレも です！旅人と 話すと、うれしいです！",
+         "ro": "Ore mo desu! Tabibito to hanasu to, ureshii desu!",
+         "vi": "Tớ cũng vậy! Nói chuyện với Lữ khách là tớ vui!"
+        },
+        "2": {
+         "jp": "わかる！オレも、旅人と話してると元気になるんだ。",
+         "ro": "Wakaru! Ore mo, tabibito to hanashiteru to genki ni naru n da.",
+         "vi": "Hiểu mà! Tớ cũng vậy, nói chuyện với Lữ khách là tớ có sức sống hẳn."
+        },
+        "3": {
+         "jp": "わかる！今こうして旅人と話してるだけで、今日転んだことなんてどうでもよくなってきたぜ！",
+         "ro": "Wakaru! Ima koushite tabibito to hanashiteru dake de, kyou koronda koto nante dou demo yoku natte kita ze!",
+         "vi": "Hiểu mà! Chỉ cần nói chuyện với Lữ khách như thế này, chuyện hôm nay bị ngã tớ cũng chẳng bận tâm nữa!"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-11-6"
+        ],
+        "2": [
+         "a22-4-4",
+         "a21-17-1"
+        ],
+        "3": [
+         "a22-9-4",
+         "b1-2-8"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": {
+      "1": {
+       "jp": "オレと いて、こわく ないですか。",
+       "ro": "Ore to ite, kowaku nai desu ka.",
+       "vi": "Ở cùng tớ, cậu không sợ sao?"
+      },
+      "2": {
+       "jp": "オレといっしょにいて、こわくない？けがをするかもしれないよ。",
+       "ro": "Ore to issho ni ite, kowaku nai? Kega o suru kamo shirenai yo.",
+       "vi": "Ở cùng tớ không sợ sao? Có thể bị thương đấy."
+      },
+      "3": {
+       "jp": "…なあ、正直に聞くけどさ。オレと一緒にいて、嫌になったりしないか？",
+       "ro": "...Naa, shoujiki ni kiku kedo sa. Ore to issho ni ite, iya ni nattari shinai ka?",
+       "vi": "...Này, tớ hỏi thật nhé. Ở cùng tớ, cậu không thấy chán ghét gì sao?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-7-4"
+      ],
+      "2": [
+       "a22-17-5"
+      ],
+      "3": [
+       "a21-16-1",
+       "a21-5-3"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "こわく ないです。たのしいです！",
+         "ro": "Kowaku nai desu. Tanoshii desu!",
+         "vi": "Không sợ đâu. Vui lắm!"
+        },
+        "2": {
+         "jp": "ぜんぜんこわくないよ。いっしょだと楽しいから！",
+         "ro": "Zenzen kowaku nai yo. Issho da to tanoshii kara!",
+         "vi": "Chẳng sợ chút nào. Đi cùng vui mà!"
+        },
+        "3": {
+         "jp": "全然。ベネットと一緒だと、毎日が予想外で飽きないよ。",
+         "ro": "Zenzen. Benetto to issho da to, mainichi ga yosougai de akinai yo.",
+         "vi": "Không hề. Đi với Bennett thì ngày nào cũng bất ngờ, chẳng bao giờ chán."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-7-4"
+        ],
+        "2": [
+         "a22-4-4",
+         "a21-3-5"
+        ],
+        "3": [
+         "a22-4-4",
+         "a21-5-2"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "ありがとう、旅人！うれしいです！",
+         "ro": "Arigatou, tabibito! Ureshii desu!",
+         "vi": "Cảm ơn Lữ khách! Tớ vui lắm!"
+        },
+        "2": {
+         "jp": "旅人…！ありがとな。そう言われると、すごくうれしいよ。",
+         "ro": "Tabibito...! Arigato na. Sou iwareru to, sugoku ureshii yo.",
+         "vi": "Lữ khách...! Cảm ơn nhé. Được cậu nói vậy, tớ vui lắm."
+        },
+        "3": {
+         "jp": "旅人…！へへっ、そう言ってもらえるのが、オレにとっては一番のお宝だぜ！",
+         "ro": "Tabibito...! Hehe, sou itte moraeru no ga, ore ni totte wa ichiban no otakara da ze!",
+         "vi": "Lữ khách...! Hề hề, được cậu nói thế, với tớ là kho báu lớn nhất đấy!"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-1-3",
+         "a1-7-4"
+        ],
+        "2": [
+         "a22-18-1",
+         "a22-4-4"
+        ],
+        "3": [
+         "ab1-4-2",
+         "ab1-3-6"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "ちょっと こわいです。でも、いっしょに います。",
+         "ro": "Chotto kowai desu. Demo, issho ni imasu.",
+         "vi": "Hơi sợ. Nhưng mình vẫn ở cùng."
+        },
+        "2": {
+         "jp": "ちょっとだけこわい。でも、ベネットといっしょにいたいよ。",
+         "ro": "Chotto dake kowai. Demo, Benetto to issho ni itai yo.",
+         "vi": "Sợ một chút thôi. Nhưng mình muốn ở cùng Bennett."
+        },
+        "3": {
+         "jp": "たまにひやっとするけどね。でも、それ以上にベネットといる時間が楽しいから。",
+         "ro": "Tama ni hiyatto suru kedo ne. Demo, sore ijou ni Benetto to iru jikan ga tanoshii kara.",
+         "vi": "Thỉnh thoảng cũng thót tim đấy. Nhưng thời gian ở với Bennett còn vui hơn thế nhiều."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-12-6",
+         "a1-18-2"
+        ],
+        "2": [
+         "a22-9-4",
+         "a21-10-1"
+        ],
+        "3": [
+         "a21-5-3",
+         "a21-3-5"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "ほんとうですか！オレが 旅人を まもります！",
+         "ro": "Hontou desu ka! Ore ga tabibito o mamorimasu!",
+         "vi": "Thật sao! Tớ sẽ bảo vệ Lữ khách!"
+        },
+        "2": {
+         "jp": "正直だな、ははっ！よし、旅人がこわくないように、オレが守るぜ！",
+         "ro": "Shoujiki da na, hahha! Yoshi, tabibito ga kowaku nai you ni, ore ga mamoru ze!",
+         "vi": "Thật thà ghê, ha ha! Được, để Lữ khách không sợ, tớ sẽ bảo vệ cậu!"
+        },
+        "3": {
+         "jp": "ははっ、正直でいいな！じゃあ約束だ。オレの不運が旅人に降りかかる前に、全部オレが受け止めてやる！",
+         "ro": "Hahha, shoujiki de ii na! Jaa yakusoku da. Ore no fuun ga tabibito ni furikakaru mae ni, zenbu ore ga uketomete yaru!",
+         "vi": "Ha ha, thật thà thế là tốt! Vậy hứa nhé. Trước khi vận xui của tớ trút xuống Lữ khách, tớ sẽ hứng trọn hết!"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-5-3"
+        ],
+        "2": [
+         "a22-10-1"
+        ],
+        "3": [
+         "a21-15-1",
+         "a21-7-6"
+        ]
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "gia-dinh",
+   "title": "Các ông bố ở Hiệp Hội",
+   "turns": [
+    {
+     "t": {
+      "1": {
+       "jp": "オレの 父さんたちの 話を しましょうか。",
+       "ro": "Ore no tousan-tachi no hanashi o shimashou ka.",
+       "vi": "Tớ kể chuyện các bố cho cậu nghe nhé?"
+      },
+      "2": {
+       "jp": "オレの父さんたちの話、聞きたい？",
+       "ro": "Ore no tousan-tachi no hanashi, kikitai?",
+       "vi": "Cậu có muốn nghe chuyện các bố của tớ không?"
+      },
+      "3": {
+       "jp": "なあ、オレの親父たちの武勇伝、聞いてみたくないか？どれもとびきりの話ばかりだぜ！",
+       "ro": "Naa, ore no oyaji-tachi no buyuuden, kiite mitaku nai ka? Dore mo tobikiri no hanashi bakari da ze!",
+       "vi": "Này, cậu có muốn nghe chuyện anh hùng của các ông bố tớ không? Chuyện nào cũng đỉnh hết!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-4-2"
+      ],
+      "2": [
+       "a21-10-1"
+      ],
+      "3": [
+       "a21-10-4",
+       "b1-5-6"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "はい、聞きたいです！",
+         "ro": "Hai, kikitai desu!",
+         "vi": "Có, mình muốn nghe!"
+        },
+        "2": {
+         "jp": "うん、聞きたい！どんな人たちなの？",
+         "ro": "Un, kikitai! Donna hito-tachi na no?",
+         "vi": "Có, muốn nghe! Họ là những người thế nào?"
+        },
+        "3": {
+         "jp": "ぜひ！ベネットを育てた人たちなら、きっと面白い人ばかりなんだろうね。",
+         "ro": "Zehi! Benetto o sodateta hito-tachi nara, kitto omoshiroi hito bakari na n darou ne.",
+         "vi": "Nhất định rồi! Những người nuôi lớn Bennett chắc hẳn toàn người thú vị nhỉ."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-18-4"
+        ],
+        "2": [
+         "a21-10-1",
+         "a21-2-6"
+        ],
+        "3": [
+         "ab1-1-4",
+         "b1-5-6",
+         "b1-8-5"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "みんな つよくて、やさしいです！",
+         "ro": "Minna tsuyokute, yasashii desu!",
+         "vi": "Ai cũng mạnh mẽ và hiền lành!"
+        },
+        "2": {
+         "jp": "みんな強くて、やさしいんだ。昔は、すごい冒険者だったんだよ！",
+         "ro": "Minna tsuyokute, yasashii n da. Mukashi wa, sugoi boukensha datta n da yo!",
+         "vi": "Ai cũng mạnh mẽ và tốt bụng. Ngày xưa họ là những nhà mạo hiểm cừ khôi đó!"
+        },
+        "3": {
+         "jp": "みんな腕っぷしは強いし、口は悪いけど根っこは優しいんだ。昔は名の知れた冒険者だったんだぜ！",
+         "ro": "Minna udeppushi wa tsuyoi shi, kuchi wa warui kedo nekko wa yasashii n da. Mukashi wa na no shireta boukensha datta n da ze!",
+         "vi": "Ai cũng khỏe, miệng thì cộc nhưng tận đáy lòng hiền lành lắm. Ngày xưa họ là những nhà mạo hiểm có tiếng đấy!"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-7-4"
+        ],
+        "2": [
+         "a21-5-1",
+         "a21-4-1"
+        ],
+        "3": [
+         "a22-6-3",
+         "a21-5-3"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "今は いそがしいです。",
+         "ro": "Ima wa isogashii desu.",
+         "vi": "Giờ mình bận."
+        },
+        "2": {
+         "jp": "ごめん、また今度話して。",
+         "ro": "Gomen, mata kondo hanashite.",
+         "vi": "Xin lỗi, để lần sau kể mình nghe nhé."
+        },
+        "3": {
+         "jp": "聞きたいけど、今はちょっと時間がなくて…。次にゆっくり聞かせてよ。",
+         "ro": "Kikitai kedo, ima wa chotto jikan ga nakute... Tsugi ni yukkuri kikasete yo.",
+         "vi": "Muốn nghe lắm, nhưng giờ hơi không có thời gian... Lần sau kể từ từ cho mình nhé."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-7-4"
+        ],
+        "2": [
+         "a21-6-1"
+        ],
+        "3": [
+         "b12-1-6",
+         "b1-3-3"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "わかりました！また こんど！",
+         "ro": "Wakarimashita! Mata kondo!",
+         "vi": "Hiểu rồi! Để lần sau!"
+        },
+        "2": {
+         "jp": "わかった！話は、いくらでもあるからな！",
+         "ro": "Wakatta! Hanashi wa, ikura demo aru kara na!",
+         "vi": "Hiểu rồi! Chuyện thì tớ có bao nhiêu cũng có mà!"
+        },
+        "3": {
+         "jp": "了解！親父たちの話は一晩じゃ語り尽くせないからな。次は徹夜覚悟で来いよ！",
+         "ro": "Ryoukai! Oyaji-tachi no hanashi wa hitoban ja kataritsukusenai kara na. Tsugi wa tetsuya kakugo de koi yo!",
+         "vi": "Rõ! Chuyện của các ông bố một đêm kể không hết đâu. Lần sau chuẩn bị tinh thần thức trắng nhé!"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-2-4",
+         "a1-1-2"
+        ],
+        "2": [
+         "a21-11-2",
+         "a21-3-5"
+        ],
+        "3": [
+         "ab1-1-7",
+         "ab1-3-3"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": {
+      "1": {
+       "jp": "父さんたちは オレに いろいろな ことを おしえました。",
+       "ro": "Tousan-tachi wa ore ni iroiro na koto o oshiemashita.",
+       "vi": "Các bố đã dạy tớ nhiều điều."
+      },
+      "2": {
+       "jp": "父さんたちは、オレに冒険のやり方をいろいろ教えたんだ。",
+       "ro": "Tousan-tachi wa, ore ni bouken no yarikata o iroiro oshieta n da.",
+       "vi": "Các bố đã dạy tớ nhiều cách để phiêu lưu."
+      },
+      "3": {
+       "jp": "親父たちには、剣の振り方から野宿のコツまで、冒険に必要なことは全部叩き込まれたんだ。",
+       "ro": "Oyaji-tachi ni wa, ken no furikata kara nojuku no kotsu made, bouken ni hitsuyou na koto wa zenbu tatakikomareta n da.",
+       "vi": "Các ông bố đã nhồi cho tớ mọi thứ cần thiết để phiêu lưu, từ cách vung kiếm đến mẹo ngủ ngoài trời."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-15-4",
+       "a1-14-1"
+      ],
+      "2": [
+       "a21-9-5",
+       "a21-17-1"
+      ],
+      "3": [
+       "a22-18-1",
+       "a21-9-5"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "何を ならいましたか。",
+         "ro": "Nani o naraimashita ka.",
+         "vi": "Cậu đã học những gì?"
+        },
+        "2": {
+         "jp": "いちばん役に立ったことは何？",
+         "ro": "Ichiban yaku ni tatta koto wa nani?",
+         "vi": "Điều có ích nhất là gì?"
+        },
+        "3": {
+         "jp": "その中で、一番心に残ってる教えって何？",
+         "ro": "Sono naka de, ichiban kokoro ni nokotteru oshie tte nani?",
+         "vi": "Trong đó, lời dạy cậu nhớ nhất là gì?"
+        }
+       },
+       "g": {
+        "1": [
+         "a1-15-4"
+        ],
+        "2": [
+         "a21-17-3"
+        ],
+        "3": [
+         "b12-1-1",
+         "ab1-5-7"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "「わらって 前に すすめ」です！",
+         "ro": "\"Waratte mae ni susume\" desu!",
+         "vi": "Là \"Hãy cười và tiến về phía trước\"!"
+        },
+        "2": {
+         "jp": "「つらいときこそ笑え」ってことかな。これが一番大事なんだ。",
+         "ro": "\"Tsurai toki koso warae\" tte koto ka na. Kore ga ichiban daiji na n da.",
+         "vi": "Chắc là \"Càng khó khăn càng phải cười\". Đó là điều quan trọng nhất."
+        },
+        "3": {
+         "jp": "「つらいときほど笑え。笑ってりゃ、運のほうが根負けする」ってやつさ。オレの座右の銘だぜ！",
+         "ro": "\"Tsurai toki hodo warae. Waratterya, un no hou ga konmake suru\" tte yatsu sa. Ore no zayuu no mei da ze!",
+         "vi": "\"Càng khó khăn càng phải cười. Cứ cười mãi thì vận xui cũng phải chịu thua\" đấy. Đó là châm ngôn sống của tớ!"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-3-1"
+        ],
+        "2": [
+         "a21-2-3",
+         "a21-17-1"
+        ],
+        "3": [
+         "ab1-1-7",
+         "b1-8-4"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "父さんたちは やさしいですね。",
+         "ro": "Tousan-tachi wa yasashii desu ne.",
+         "vi": "Các bố tốt bụng nhỉ."
+        },
+        "2": {
+         "jp": "お父さんたちのこと、本当に大好きなんだね。",
+         "ro": "Otousan-tachi no koto, hontou ni daisuki na n da ne.",
+         "vi": "Cậu thật sự rất yêu quý các bố nhỉ."
+        },
+        "3": {
+         "jp": "ベネットが話すと、お父さんたちのことが大好きなのが伝わってくるよ。",
+         "ro": "Benetto ga hanasu to, otousan-tachi no koto ga daisuki na no ga tsutawatte kuru yo.",
+         "vi": "Nghe Bennett kể là cảm nhận được cậu yêu quý các bố thế nào."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-7-4"
+        ],
+        "2": [
+         "a21-17-1"
+        ],
+        "3": [
+         "a22-4-4",
+         "b1-2-8"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "はい！みんな 大好きです！",
+         "ro": "Hai! Minna daisuki desu!",
+         "vi": "Ừ! Tớ yêu tất cả họ!"
+        },
+        "2": {
+         "jp": "ああ、大好きだ！…本人たちの前では、ぜったい言えないけどな。",
+         "ro": "Aa, daisuki da! ...Honnin-tachi no mae de wa, zettai ienai kedo na.",
+         "vi": "Ừ, yêu lắm! ...Có điều trước mặt họ thì tuyệt đối không nói được."
+        },
+        "3": {
+         "jp": "当たり前だろ！…あ、でもこれ、親父たちには内緒な。調子に乗って、また昔話が三時間延びるからさ。",
+         "ro": "Atarimae daro! ...A, demo kore, oyaji-tachi ni wa naisho na. Choushi ni notte, mata mukashibanashi ga sanjikan nobiru kara sa.",
+         "vi": "Đương nhiên rồi! ...À, nhưng giữ bí mật với các ông bố nhé. Họ mà được đà thì chuyện ngày xưa lại dài thêm ba tiếng."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-5-1"
+        ],
+        "2": [
+         "a22-6-1",
+         "a21-5-3"
+        ],
+        "3": [
+         "b1-8-5",
+         "ab1-3-3"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": {
+      "1": {
+       "jp": "旅人の かぞくは どこですか。",
+       "ro": "Tabibito no kazoku wa doko desu ka.",
+       "vi": "Gia đình của Lữ khách ở đâu?"
+      },
+      "2": {
+       "jp": "旅人にも、家族はいるのか？",
+       "ro": "Tabibito ni mo, kazoku wa iru no ka?",
+       "vi": "Lữ khách cũng có gia đình chứ?"
+      },
+      "3": {
+       "jp": "そういえば、旅人の家族ってどんな人なんだ？…あ、言いたくなかったら無理にとは言わないぜ。",
+       "ro": "Sou ieba, tabibito no kazoku tte donna hito na n da? ...A, iitaku nakattara muri ni to wa iwanai ze.",
+       "vi": "Nhắc mới nhớ, gia đình của Lữ khách là người thế nào? ...À, nếu không muốn nói thì tớ không ép đâu."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-8-2"
+      ],
+      "2": [
+       "a1-7-2",
+       "a22-11-6"
+      ],
+      "3": [
+       "b12-17-6",
+       "a22-7-3"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "きょうだいが います。今 さがして います。",
+         "ro": "Kyoudai ga imasu. Ima sagashite imasu.",
+         "vi": "Mình có anh/chị em. Giờ mình đang đi tìm."
+        },
+        "2": {
+         "jp": "きょうだいがいるんだ。はなればなれになって、今さがしているんだ。",
+         "ro": "Kyoudai ga iru n da. Hanarebanare ni natte, ima sagashite iru n da.",
+         "vi": "Mình có anh/chị em. Bị chia cắt, giờ mình đang đi tìm."
+        },
+        "3": {
+         "jp": "きょうだいが一人いるんだ。旅の途中で離れ離れになって…今も探し続けてる。",
+         "ro": "Kyoudai ga hitori iru n da. Tabi no tochuu de hanarebanare ni natte... ima mo sagashitsuzuketeru.",
+         "vi": "Mình có một anh/chị em. Bị chia cắt giữa hành trình... đến giờ vẫn tiếp tục tìm kiếm."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-7-2"
+        ],
+        "2": [
+         "a21-17-1",
+         "a21-4-4"
+        ],
+        "3": [
+         "a21-7-6",
+         "ab1-5-7"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "そうですか…。オレも てつだいます！",
+         "ro": "Sou desu ka... Ore mo tetsudaimasu!",
+         "vi": "Vậy à... Tớ cũng giúp!"
+        },
+        "2": {
+         "jp": "そうだったのか…。よし、オレも手伝うよ！冒険者協会の情報も集めてみる！",
+         "ro": "Sou datta no ka... Yoshi, ore mo tetsudau yo! Boukensha Kyoukai no jouhou mo atsumete miru!",
+         "vi": "Ra vậy... Được, tớ cũng giúp! Tớ sẽ thử thu thập thông tin ở Hiệp Hội Nhà Mạo Hiểm!"
+        },
+        "3": {
+         "jp": "そうだったのか…。なら、ベニー冒険団の次の目標は決まりだな！協会のツテを総動員して、必ず手がかりを見つけてやる！",
+         "ro": "Sou datta no ka... Nara, Benii Boukendan no tsugi no mokuhyou wa kimari da na! Kyoukai no tsute o soudouin shite, kanarazu tegakari o mitsukete yaru!",
+         "vi": "Ra vậy... Thế thì mục tiêu tiếp theo của Đội Mạo Hiểm Benny quyết rồi! Huy động mọi mối quan hệ của hiệp hội, nhất định sẽ tìm ra manh mối!"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-5-3"
+        ],
+        "2": [
+         "a21-10-4",
+         "a21-4-1"
+        ],
+        "3": [
+         "ab1-1-4",
+         "b1-1-4"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "今は ベネットたちが かぞくです。",
+         "ro": "Ima wa Benetto-tachi ga kazoku desu.",
+         "vi": "Giờ mọi người như Bennett là gia đình của mình."
+        },
+        "2": {
+         "jp": "今は、ベネットたちも家族と同じだよ。",
+         "ro": "Ima wa, Benetto-tachi mo kazoku to onaji da yo.",
+         "vi": "Giờ thì Bennett và mọi người cũng như gia đình của mình."
+        },
+        "3": {
+         "jp": "旅で出会ったみんなが、今の私にとっては家族みたいなものかな。もちろん、ベネットもね。",
+         "ro": "Tabi de deatta minna ga, ima no watashi ni totte wa kazoku mitai na mono ka na. Mochiron, Benetto mo ne.",
+         "vi": "Với mình bây giờ, mọi người gặp trên hành trình như là gia đình vậy. Tất nhiên có cả Bennett."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-3-1"
+        ],
+        "2": [
+         "a21-9-3"
+        ],
+        "3": [
+         "ab1-3-6",
+         "ab1-3-4"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "うれしいです！オレも おなじです！",
+         "ro": "Ureshii desu! Ore mo onaji desu!",
+         "vi": "Vui quá! Tớ cũng vậy!"
+        },
+        "2": {
+         "jp": "へへっ、うれしいな！オレにとっても、旅人は家族だぜ！",
+         "ro": "Hehe, ureshii na! Ore ni totte mo, tabibito wa kazoku da ze!",
+         "vi": "Hề hề, vui ghê! Với tớ, Lữ khách cũng là gia đình!"
+        },
+        "3": {
+         "jp": "へへっ、そいつは最高の褒め言葉だ！じゃあ今度、親父たちにも「新しい家族だ」って紹介させてくれよな！",
+         "ro": "Hehe, soitsu wa saikou no homekotoba da! Jaa kondo, oyaji-tachi ni mo \"atarashii kazoku da\" tte shoukai sasete kure yo na!",
+         "vi": "Hề hề, đó là lời khen tuyệt nhất! Vậy lần tới, để tớ giới thiệu với các ông bố \"đây là gia đình mới\" nhé!"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-7-4",
+         "a1-11-6"
+        ],
+        "2": [
+         "a1-3-5"
+        ],
+        "3": [
+         "b1-3-1",
+         "a22-1-2"
+        ]
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ban-be",
+   "title": "Bạn bè",
+   "turns": [
+    {
+     "t": {
+      "1": {
+       "jp": "レザーを しって いますか。オレの 友だちです。",
+       "ro": "Rezaa o shitte imasu ka. Ore no tomodachi desu.",
+       "vi": "Cậu biết Razor không? Bạn của tớ đó."
+      },
+      "2": {
+       "jp": "レザーって知ってる？オレのいい友だちなんだ。",
+       "ro": "Rezaa tte shitteru? Ore no ii tomodachi na n da.",
+       "vi": "Cậu biết Razor không? Bạn tốt của tớ đấy."
+      },
+      "3": {
+       "jp": "レザーのこと、知ってるか？奔狼領で狼と暮らしてるやつでさ、オレの大事な親友なんだ。",
+       "ro": "Rezaa no koto, shitteru ka? Honrouryou de ookami to kurashiteru yatsu de sa, ore no daiji na shin'yuu na n da.",
+       "vi": "Cậu biết Razor không? Cậu ấy sống cùng sói ở Bôn Lang Lĩnh, là bạn thân quý giá của tớ."
+      }
+     },
+     "g": {
+      "1": [
+       "a1-4-2",
+       "a1-3-1"
+      ],
+      "2": [
+       "a22-1-4",
+       "a21-17-1"
+      ],
+      "3": [
+       "ab1-5-7",
+       "a21-5-2"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "はい、しって います。",
+         "ro": "Hai, shitte imasu.",
+         "vi": "Có, mình biết."
+        },
+        "2": {
+         "jp": "うん、知ってるよ。ちょっと無口だよね。",
+         "ro": "Un, shitteru yo. Chotto mukuchi da yo ne.",
+         "vi": "Có, mình biết. Cậu ấy hơi ít nói nhỉ."
+        },
+        "3": {
+         "jp": "うん、知ってる。言葉は少ないけど、まっすぐで優しい子だよね。",
+         "ro": "Un, shitteru. Kotoba wa sukunai kedo, massugu de yasashii ko da yo ne.",
+         "vi": "Có, mình biết. Ít nói nhưng thẳng thắn và hiền lành nhỉ."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-2-1"
+        ],
+        "2": [
+         "a22-1-5"
+        ],
+        "3": [
+         "a21-5-3",
+         "a21-6-3"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "はい！レザーは いい 友だちです！",
+         "ro": "Hai! Rezaa wa ii tomodachi desu!",
+         "vi": "Đúng thế! Razor là bạn tốt!"
+        },
+        "2": {
+         "jp": "そうそう！でも、いっしょにいると楽しいんだ。",
+         "ro": "Sou sou! Demo, issho ni iru to tanoshii n da.",
+         "vi": "Đúng đúng! Nhưng ở cùng cậu ấy vui lắm."
+        },
+        "3": {
+         "jp": "そうなんだよ！口数は少ないけど、困ってるときは真っ先に駆けつけてくれるんだ。最高の相棒さ！",
+         "ro": "Sou na n da yo! Kuchikazu wa sukunai kedo, komatteru toki wa massaki ni kaketsukete kureru n da. Saikou no aibou sa!",
+         "vi": "Đúng vậy đó! Ít nói, nhưng lúc tớ gặp khó là cậu ấy chạy đến đầu tiên. Bạn đồng hành tuyệt nhất!"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-14-1",
+         "a1-3-1"
+        ],
+        "2": [
+         "a22-4-4",
+         "a21-17-1"
+        ],
+        "3": [
+         "ab1-4-1",
+         "a22-5-4"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "いいえ、しりません。",
+         "ro": "Iie, shirimasen.",
+         "vi": "Không, mình không biết."
+        },
+        "2": {
+         "jp": "ううん、知らない。どんな人？",
+         "ro": "Uun, shiranai. Donna hito?",
+         "vi": "Không, mình không biết. Người thế nào?"
+        },
+        "3": {
+         "jp": "まだ会ったことないな。どんな子なの？",
+         "ro": "Mada atta koto nai na. Donna ko na no?",
+         "vi": "Mình chưa gặp bao giờ. Cậu ấy thế nào?"
+        }
+       },
+       "g": {
+        "1": [
+         "a1-2-1"
+        ],
+        "2": [
+         "a21-13-2",
+         "a1-6-4"
+        ],
+        "3": [
+         "a21-13-1",
+         "a22-11-6"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "もりに います。おおかみと いっしょです。",
+         "ro": "Mori ni imasu. Ookami to issho desu.",
+         "vi": "Cậu ấy ở trong rừng. Cùng với sói."
+        },
+        "2": {
+         "jp": "おおかみに育てられた子なんだ。強くて、とてもいいやつだよ！",
+         "ro": "Ookami ni sodaterareta ko na n da. Tsuyokute, totemo ii yatsu da yo!",
+         "vi": "Cậu ấy được sói nuôi lớn đấy. Mạnh mẽ và tốt bụng lắm!"
+        },
+        "3": {
+         "jp": "狼に育てられたやつでさ、人間の言葉はまだ勉強中なんだ。でも、誰よりも仲間思いなんだぜ。今度紹介するよ！",
+         "ro": "Ookami ni sodaterareta yatsu de sa, ningen no kotoba wa mada benkyouchuu na n da. Demo, dare yori mo nakamaomoi na n da ze. Kondo shoukai suru yo!",
+         "vi": "Cậu ấy được sói nuôi lớn, tiếng người vẫn đang học. Nhưng quý đồng đội hơn bất cứ ai. Lần tới tớ giới thiệu nhé!"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-7-2"
+        ],
+        "2": [
+         "a22-18-1",
+         "a21-5-1"
+        ],
+        "3": [
+         "a22-18-1",
+         "a22-6-6"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": {
+      "1": {
+       "jp": "フィッシュルも ベニー冒険団の なかまです。",
+       "ro": "Fisshuru mo Benii Boukendan no nakama desu.",
+       "vi": "Fischl cũng là thành viên Đội Mạo Hiểm Benny."
+      },
+      "2": {
+       "jp": "フィッシュルもベニー冒険団のメンバーなんだぜ。知ってた？",
+       "ro": "Fisshuru mo Benii Boukendan no menbaa na n da ze. Shitteta?",
+       "vi": "Fischl cũng là thành viên Đội Mạo Hiểm Benny đấy. Cậu biết không?"
+      },
+      "3": {
+       "jp": "実はフィッシュルもベニー冒険団の一員なんだ。オズの通訳つきでな！",
+       "ro": "Jitsu wa Fisshuru mo Benii Boukendan no ichiin na n da. Ozu no tsuuyaku tsuki de na!",
+       "vi": "Thật ra Fischl cũng là một thành viên của Đội Mạo Hiểm Benny đấy. Có kèm Oz phiên dịch nữa!"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-3-5"
+      ],
+      "2": [
+       "a21-17-1",
+       "a22-1-5"
+      ],
+      "3": [
+       "ab1-1-6"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "フィッシュルの ことばは むずかしいです。",
+         "ro": "Fisshuru no kotoba wa muzukashii desu.",
+         "vi": "Lời Fischl nói khó hiểu lắm."
+        },
+        "2": {
+         "jp": "フィッシュルの話、わかるの？",
+         "ro": "Fisshuru no hanashi, wakaru no?",
+         "vi": "Cậu hiểu Fischl nói gì à?"
+        },
+        "3": {
+         "jp": "フィッシュルの話し方、ベネットはちゃんとわかるの？",
+         "ro": "Fisshuru no hanashikata, Benetto wa chanto wakaru no?",
+         "vi": "Cách nói của Fischl, Bennett hiểu hết à?"
+        }
+       },
+       "g": {
+        "1": [
+         "a1-7-4"
+        ],
+        "2": [
+         "a22-11-6"
+        ],
+        "3": [
+         "a21-9-5",
+         "a22-11-6"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "オレも わかりません！でも、オズが います！",
+         "ro": "Ore mo wakarimasen! Demo, Ozu ga imasu!",
+         "vi": "Tớ cũng không hiểu! Nhưng có Oz mà!"
+        },
+        "2": {
+         "jp": "ぜんぜんわからない！ははっ、でもオズがいるから、だいじょうぶ！",
+         "ro": "Zenzen wakaranai! Hahha, demo Ozu ga iru kara, daijoubu!",
+         "vi": "Chẳng hiểu gì cả! Ha ha, nhưng có Oz nên không sao!"
+        },
+        "3": {
+         "jp": "半分もわかんねえ！ははっ、でも気持ちはちゃんと伝わってくるんだ。それに、オズがいれば百人力さ！",
+         "ro": "Hanbun mo wakannee! Hahha, demo kimochi wa chanto tsutawatte kuru n da. Sore ni, Ozu ga ireba hyakuninriki sa!",
+         "vi": "Một nửa cũng không hiểu nổi! Ha ha, nhưng tấm lòng thì truyền đến rõ lắm. Hơn nữa, có Oz là mạnh như trăm người!"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-18-2",
+         "a1-7-2"
+        ],
+        "2": [
+         "a1-11-5",
+         "a21-3-5"
+        ],
+        "3": [
+         "ab1-2-5",
+         "b1-2-8"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "フィッシュルは やさしいです。",
+         "ro": "Fisshuru wa yasashii desu.",
+         "vi": "Fischl tốt bụng lắm."
+        },
+        "2": {
+         "jp": "フィッシュルは、じつはやさしいよね。",
+         "ro": "Fisshuru wa, jitsu wa yasashii yo ne.",
+         "vi": "Fischl thật ra hiền lành nhỉ."
+        },
+        "3": {
+         "jp": "フィッシュルって、あの言葉づかいの下に優しさが隠れてるよね。",
+         "ro": "Fisshuru tte, ano kotobazukai no shita ni yasashisa ga kakureteru yo ne.",
+         "vi": "Fischl ấy mà, sau cách nói năng đó là sự dịu dàng ẩn giấu nhỉ."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-7-4"
+        ],
+        "2": [
+         "a1-7-4"
+        ],
+        "3": [
+         "b12-1-1",
+         "ab1-1-2"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "はい！オレも そうです！",
+         "ro": "Hai! Ore mo sou desu!",
+         "vi": "Đúng! Tớ cũng thấy vậy!"
+        },
+        "2": {
+         "jp": "そうなんだよ！オレがけがをすると、いちばんに心配するんだ。",
+         "ro": "Sou na n da yo! Ore ga kega o suru to, ichiban ni shinpai suru n da.",
+         "vi": "Đúng vậy đó! Tớ mà bị thương là cậu ấy lo đầu tiên."
+        },
+        "3": {
+         "jp": "だろ！？オレが怪我するたびに「愚か者め！」って怒りながら、こっそり包帯を渡してくれるんだぜ。",
+         "ro": "Daro!? Ore ga kega suru tabi ni \"orokamono me!\" tte okorinagara, kossori houtai o watashite kureru n da ze.",
+         "vi": "Đúng không?! Mỗi lần tớ bị thương, cậu ấy vừa mắng \"Đồ ngốc!\" vừa lén đưa băng cho tớ đấy."
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-11-6"
+        ],
+        "2": [
+         "a22-4-4",
+         "a21-17-1"
+        ],
+        "3": [
+         "b12-11-7",
+         "ab1-8-5",
+         "ab1-4-1"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "t": {
+      "1": {
+       "jp": "旅人の 友だちは だれですか。",
+       "ro": "Tabibito no tomodachi wa dare desu ka.",
+       "vi": "Bạn của Lữ khách là ai?"
+      },
+      "2": {
+       "jp": "旅人には、どんな友だちがいる？",
+       "ro": "Tabibito ni wa, donna tomodachi ga iru?",
+       "vi": "Lữ khách có những người bạn thế nào?"
+      },
+      "3": {
+       "jp": "旅人は、あちこちで友だちを作ってるんだろ？一番の友だちって誰なんだ？",
+       "ro": "Tabibito wa, achikochi de tomodachi o tsukutteru n daro? Ichiban no tomodachi tte dare na n da?",
+       "vi": "Lữ khách kết bạn khắp nơi đúng không? Người bạn thân nhất là ai vậy?"
+      }
+     },
+     "g": {
+      "1": [
+       "a1-4-5"
+      ],
+      "2": [
+       "a1-6-4",
+       "a1-7-2"
+      ],
+      "3": [
+       "b1-8-5",
+       "b12-1-1"
+      ]
+     },
+     "opts": [
+      {
+       "t": {
+        "1": {
+         "jp": "パイモンです！",
+         "ro": "Paimon desu!",
+         "vi": "Là Paimon!"
+        },
+        "2": {
+         "jp": "やっぱり、パイモンかな。",
+         "ro": "Yappari, Paimon ka na.",
+         "vi": "Quả nhiên là Paimon."
+        },
+        "3": {
+         "jp": "やっぱり、ずっと一緒に旅してるパイモンかな。",
+         "ro": "Yappari, zutto issho ni tabi shiteru Paimon ka na.",
+         "vi": "Quả nhiên là Paimon, người luôn đồng hành cùng mình."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-3-1"
+        ],
+        "2": [
+         "a1-3-1"
+        ],
+        "3": [
+         "a22-2-4",
+         "b1-3-8"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "そうですね！パイモンは いい 友だちです！",
+         "ro": "Sou desu ne! Paimon wa ii tomodachi desu!",
+         "vi": "Đúng nhỉ! Paimon là bạn tốt!"
+        },
+        "2": {
+         "jp": "だよな！パイモンと旅人は、いいコンビだもんな！",
+         "ro": "Da yo na! Paimon to tabibito wa, ii konbi da mon na!",
+         "vi": "Đúng thế! Paimon với Lữ khách là cặp đôi ăn ý mà!"
+        },
+        "3": {
+         "jp": "だよな！二人の息の合い方は見てて気持ちいいくらいだ。ベニー冒険団も、そういうチームを目指すぜ！",
+         "ro": "Da yo na! Futari no iki no aikata wa mitete kimochi ii kurai da. Benii Boukendan mo, sou iu chiimu o mezasu ze!",
+         "vi": "Đúng thế! Hai người ăn ý đến mức nhìn thôi cũng thấy dễ chịu. Đội Mạo Hiểm Benny cũng sẽ hướng tới một đội như thế!"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-14-1",
+         "a1-3-1"
+        ],
+        "2": [
+         "a1-4-1",
+         "a1-14-1"
+        ],
+        "3": [
+         "b12-13-4",
+         "a21-9-5"
+        ]
+       }
+      },
+      {
+       "t": {
+        "1": {
+         "jp": "ベネットも 友だちです！",
+         "ro": "Benetto mo tomodachi desu!",
+         "vi": "Bennett cũng là bạn mình!"
+        },
+        "2": {
+         "jp": "ベネットも、大事な友だちだよ！",
+         "ro": "Benetto mo, daiji na tomodachi da yo!",
+         "vi": "Bennett cũng là người bạn quan trọng đấy!"
+        },
+        "3": {
+         "jp": "何言ってるの、ベネットだってその一人に決まってるじゃない。",
+         "ro": "Nani itteru no, Benetto datte sono hitori ni kimatteru ja nai.",
+         "vi": "Nói gì vậy, Bennett tất nhiên cũng là một trong số đó rồi còn gì."
+        }
+       },
+       "g": {
+        "1": [
+         "a1-3-5"
+        ],
+        "2": [
+         "a1-3-5",
+         "a1-14-1"
+        ],
+        "3": [
+         "b12-17-2",
+         "ab1-5-7"
+        ]
+       },
+       "r": {
+        "1": {
+         "jp": "ほんとうですか！うれしいです！",
+         "ro": "Hontou desu ka! Ureshii desu!",
+         "vi": "Thật sao! Vui quá!"
+        },
+        "2": {
+         "jp": "ほ、本当か！？うわあ、うれしいぜ！",
+         "ro": "Ho, hontou ka!? Uwaa, ureshii ze!",
+         "vi": "Th-thật hả?! Oa, vui quá!"
+        },
+        "3": {
+         "jp": "ま、マジか…！へへっ、なんか照れるな。今日はいいことがありすぎて、逆に何か起きそうで怖いぜ！",
+         "ro": "Ma, maji ka...! Hehe, nanka tereru na. Kyou wa ii koto ga arisugite, gyaku ni nanika okisou de kowai ze!",
+         "vi": "Th-thật á...! Hề hề, ngại ghê. Hôm nay nhiều chuyện tốt quá, ngược lại tớ lại sợ sắp có chuyện gì xảy ra!"
+        }
+       },
+       "rg": {
+        "1": [
+         "a1-3-3",
+         "a1-7-4"
+        ],
+        "2": [
+         "a1-7-4"
+        ],
+        "3": [
+         "a22-12-2",
+         "ab1-5-2"
+        ]
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

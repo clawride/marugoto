@@ -15,7 +15,7 @@ export function useStory(id) {
 }
 
 export function LockedNote({ c, owned }) {
-  if (!hasStory(c)) return <p className="panel vnlock">Truyện nhân vật hiện có cho các nhân vật 5★.</p>;
+  if (!hasStory(c)) return <p className="panel vnlock">Truyện nhân vật hiện có cho các nhân vật 4★ và 5★.</p>;
   if (!owned) return <p className="panel vnlock">🔒 Bạn chưa sở hữu {c.vi}. Hãy <Link href="/wish">Cầu Nguyện</Link> để gặp nhân vật này và mở khóa câu chuyện.</p>;
   return null;
 }

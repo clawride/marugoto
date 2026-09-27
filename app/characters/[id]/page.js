@@ -8,6 +8,7 @@ import { CHARS, WTYPE_VI, charSplash, charIcon, elemIcon, keyOf } from "@/lib/ge
 import { consActive, consPotential, stellaLeft } from "@/lib/gacha";
 import { consOf, talentIcon, parseDesc } from "@/lib/constellations";
 import { sfx } from "@/lib/sfx";
+import { hasStory } from "@/lib/vn";
 
 // Vị trí 6 nút chòm sao — sinh ổn định theo id nhân vật (mỗi người một hình chòm sao)
 function layout(id) {
@@ -63,7 +64,7 @@ export default function CharacterPage() {
             <span>Hệ {el.vi}</span><span>{WTYPE_VI[c.wt]}</span>{cons.native && <span>{cons.native}</span>}
           </div>
           <div className="cconsname">Chòm sao · <b>{cons.cname}</b></div>
-          {c.rank === 5 && (
+          {hasStory(c) && (
             <div className="cvnbtns">
               <Link href={`/characters/${c.id}/story`} className="gbtn sm" onClick={() => sfx.page()}><span className="c" />📖 Truyện nhân vật{owned ? ` · ${act + 1}/7 chương` : " 🔒"}</Link>
               {owned && <Link href={`/characters/${c.id}/chat`} className="gbtn sm x dark" onClick={() => sfx.page()}><span className="c" />💬 Trò chuyện</Link>}

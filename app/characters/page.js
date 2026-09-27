@@ -6,6 +6,7 @@ import { ELEM } from "@/lib/data";
 import { CHARS, WTYPE_VI, charIcon, elemIcon, keyOf } from "@/lib/genshin";
 import { consActive, stellaLeft } from "@/lib/gacha";
 import { sfx } from "@/lib/sfx";
+import { hasStory } from "@/lib/vn";
 
 const EL_ORDER = ["pyro", "hydro", "anemo", "electro", "dendro", "cryo", "geo"];
 
@@ -54,7 +55,7 @@ export default function CharactersPage() {
             <img className="cel" src={elemIcon(c.el)} alt="" />
             {owned && <span className="ccons">C{act}</span>}
             {left > 0 && <span className="cnew" title="Có Chòm Sao Mệnh Định chưa kích hoạt">+{left}</span>}
-            {c.rank === 5 && <span className={`cvn ${owned ? "" : "off"}`} title={owned ? "Có truyện nhân vật" : "Truyện nhân vật — cần sở hữu"}>📖</span>}
+            {hasStory(c) && <span className={`cvn ${owned ? "" : "off"}`} title={owned ? "Có truyện nhân vật" : "Truyện nhân vật — cần sở hữu"}>📖</span>}
             <div className="cname">{c.vi}</div>
           </Link>
         ))}
