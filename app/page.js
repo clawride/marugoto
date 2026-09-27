@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useGame } from "@/components/Game";
 import { ELEM, starsFor } from "@/lib/data";
-import { BOOKS, topicsOf, nbWords, NB_TOTAL, bookTotal } from "@/lib/notebook";
+import { BOOKS, topicsOf, topicCount, NB_TOTAL, bookTotal } from "@/lib/notebook";
 import { CHARS, charIcon } from "@/lib/genshin";
 import { sfx } from "@/lib/sfx";
 import { GROUPS, programsIn, TEYVAT, progressLabel } from "@/lib/programs";
@@ -53,7 +53,13 @@ export default function Home() {
       <div className="chips nbbooks">
         {BOOKS.map((b) => <button key={b.id} className={`chip dk ${b.id === book ? "on" : ""}`} onClick={() => { update((s) => { s.nbBook = b.id; }); sfx.click(); }}>{b.ico} {b.name} <small>{bookTotal(b.id).toLocaleString("vi-VN")} từ</small></button>)}
       </div>
-      <p className="hint" style={{ textAlign: "center", marginTop: 4 }}>{B.full} · {bookTotal(B.id).toLocaleString("vi-VN")} từ · 9 Topic</p>
+      <p className="hint" style={{ textAlign: "center", marginTop: 4 }}>{B.full} · {bookTotal(B.id).toLocaleString("vi-VN")} từ · {topicsOf(book).length} {B.id === "gi" ? "nhân vật" : "Topic"}</p>
+      {B.id === "gi" && (
+        <div className="panel ginote">
+          <p>📜 <b>Từ vựng thêm có trong Genshin Impact</b> — những từ <b>không có trong giáo trình Marugoto</b> mà bạn gặp trong truyện và trò chuyện của từng nhân vật. Mỗi nhân vật là một Topic, mỗi chương là một phần; có cách đọc, phiên âm Latinh và nghĩa tiếng Việt.</p>
+          <Link href="/genshin-vocab" className="gbtn sm" onClick={() => sfx.page()}><span className="c" />🔎 Bảng tra cứu tất cả {bookTotal("gi").toLocaleString("vi-VN")} từ</Link>
+        </div>
+      )}
       <div className="grid">
         {topicsOf(book).map((T) => {
           const keys = ["all", ...T.sections.map((s) => s.key)];
@@ -61,15 +67,15 @@ export default function Home() {
           const max = keys.length * 3;
           const el = T.el;
           const pool = CHARS.filter((c) => c.el === el && c.rank === 5);
-          const mascot = pool[(T.n * 5) % pool.length] || CHARS[0];
+          const mascot = T.char || pool[(T.n * 5) % pool.length] || CHARS[0];
           return (
             <Link key={T.id} href={`/topic/${T.id}`} className="panel tcard" style={{ "--el": ELEM[el].c }} onClick={() => sfx.page()}>
               <div className="glow" />
               <img className="tchar" src={charIcon(mascot)} alt={mascot.vi} title={mascot.vi} />
-              <div className="num">Topic {T.n} · <em>{ELEM[el].vi}</em></div>
-              <h3>{T.title}</h3>
+              <div className="num">{T.char ? `${T.char.rank}★` : `Topic ${T.n}`} · <em>{ELEM[el].vi}</em></div>
+              <h3 style={T.char ? { fontFamily: "var(--jp)" } : undefined}>{T.title}</h3>
               <div className="vi">{T.vi}</div>
-              <div className="meta"><span>{nbWords(T.id, "all").length} từ · {T.sections.length} phần</span><span className="starsrow">★ {got}/{max}</span></div>
+              <div className="meta"><span>{topicCount(T)} từ · {T.sections.length} phần</span><span className="starsrow">★ {got}/{max}</span></div>
               <div className="bar"><i style={{ width: `${Math.round((got / max) * 100)}%` }} /></div>
             </Link>
           );

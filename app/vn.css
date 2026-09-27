@@ -18,6 +18,25 @@
 .vntier{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13px}
 .vntier .chip:disabled{opacity:.5;cursor:not-allowed}
 .vnhint{flex-basis:100%;color:#aeb3c4}
+/* từ vựng */
+.vngchips .chip.vnvchip{background:rgba(120,210,140,.16);color:#c8f0d0;border-color:rgba(120,210,140,.55)}
+.vnvpop{max-width:640px}
+.vnvocab{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:6px}
+.vnvocab th{text-align:left;font-weight:600;font-size:12px;color:#8a7a5a;padding:6px 6px;border-bottom:1px solid rgba(0,0,0,.15)}
+.vnvocab td{padding:6px 6px;border-bottom:1px solid rgba(0,0,0,.08);vertical-align:top}
+.vnvocab .vw{font-size:16px;font-weight:600;white-space:nowrap}
+.vnvocab .vro{display:block;font-style:italic;color:#4a6a9a;font-size:12.5px}
+.vnvocab a{color:#2a6a4a;white-space:nowrap}
+.vnvocab .vout{font-size:12px;padding:1px 7px;border-radius:99px;background:#f3e0c0;color:#8a4a10;white-space:nowrap}
+.vnvocab tr.out .vw{color:#8a4a10}
+.vnpanel .vnvocab th{color:#aeb3c4;border-color:rgba(255,255,255,.15)}
+.vnpanel .vnvocab td{border-color:rgba(255,255,255,.08)}
+.vnpanel .vnvocab .vro{color:#b7d8ff}
+.vnpanel .vnvocab a{color:#9fe3d2}
+.vnpanel .vnvocab .vout{background:rgba(243,168,90,.2);color:#ffc98a}
+.vnpanel .vnvocab tr.out .vw{color:#ffc98a}
+.vnvbar{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;justify-content:space-between;font-size:13px;color:#aeb3c4}
+@media(max-width:560px){.vnvocab{font-size:12.5px}.vnvocab .vw{font-size:15px;white-space:normal}.vnvocab a,.vnvocab .vout{white-space:normal}}
 /* lồng tiếng VOICEVOX */
 .vnvsetup{flex-basis:100%}
 .vnvbox{margin-top:8px;padding:10px 12px;border-radius:10px;background:rgba(0,0,0,.25);border:1px solid rgba(211,188,142,.3);font-size:13px;line-height:1.55}
@@ -139,3 +158,25 @@
 .vnmsg .bub{display:flex;gap:6px;align-items:flex-start;max-width:85%;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.07);border:1px solid rgba(211,188,142,.3);color:#fff}
 .vnmsg.me{justify-content:flex-end}
 .vnmsg.me .bub{background:rgba(95,201,176,.14);border-color:rgba(95,201,176,.5)}
+
+/* ===== Sổ Tay: Từ vựng thêm có trong Genshin Impact ===== */
+.ginote{max-width:760px;margin:10px auto 14px;padding:12px 16px;text-align:center;font-size:14px;line-height:1.6}
+.ginote p{margin:0 0 10px}
+.gvface{width:64px;height:64px;border-radius:50%;border:2px solid var(--gold);background:rgba(255,255,255,.06);display:block;margin:0 auto 6px}
+.gvwrap{background:rgba(20,24,40,.55);border:1px solid rgba(211,188,142,.3);border-radius:14px;padding:12px}
+.gvbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
+.gvbar small{color:var(--mute);margin-left:auto}
+.gvsearch{flex:1 1 260px;min-width:0;padding:9px 12px;border-radius:10px;border:1px solid rgba(211,188,142,.45);background:rgba(0,0,0,.25);color:var(--cream);font-size:14px}
+.gvsel{padding:8px 10px;border-radius:10px;border:1px solid rgba(211,188,142,.45);background:#1d2236;color:var(--cream);font-size:14px;max-width:100%}
+.gvscroll{overflow-x:auto}
+.gvwrap .vnvocab th{color:#aeb3c4;border-color:rgba(255,255,255,.15)}
+.gvwrap .vnvocab td{border-color:rgba(255,255,255,.08)}
+.gvwrap .vnvocab .vw{color:#ffd9a0}
+.gvwrap .vnvocab .vro{color:#b7d8ff}
+.gvwrap .vnvocab a{color:#9fe3d2}
+.gvspk{background:none;border:0;padding:0;cursor:pointer;font-size:13px;opacity:.75}
+.gvspk:hover{opacity:1}
+.gvtags{font-size:12.5px}
+.gvtags a,.gvtags span{display:inline-block;margin:0 6px 2px 0}
+.gvtags .more{color:var(--mute)}
+@media(max-width:560px){.gvwrap{padding:8px}.gvwrap .vnvocab th:nth-child(4),.gvwrap .vnvocab td:nth-child(4){display:none}}

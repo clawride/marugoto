@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { CHARS, charIcon } from "@/lib/genshin";
 import { ownedOf, vnOf, CHAT_REWARD, TIERS } from "@/lib/vn";
-import { useVN, useGrammar, Line, GrammarCard, VNSettings, VoiceNote, pick, say } from "@/components/vn/VNParts";
+import { useVN, useGrammar, useDict, Line, GrammarCard, VocabCard, VNSettings, VoiceNote, pick, say } from "@/components/vn/VNParts";
 import { useStory, LockedNote } from "@/components/vn/StoryHub";
 import { Ico } from "@/components/Icons";
 import { stopVoice, warmVoice } from "@/lib/voicevox";
@@ -21,6 +21,8 @@ export default function ChatView({ id }) {
   const [turn, setTurn] = useState(0);
   const [waiting, setWaiting] = useState(false);
   const [gram, setGram] = useState(null);
+  const [voc, setVoc] = useState(null);
+  const dict = useDict();
   const [done, setDone] = useState(null);
   const endRef = useRef(null);
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" }); }, [log.length]);
@@ -33,16 +35,16 @@ export default function ChatView({ id }) {
   const owned = ownedOf(S, c);
   const P = vnOf(S, c.id);
 
-  const start = (T) => { warmVoice([{ text: pick(T.turns[0].t, tier)?.jp, sp: "char" }], { D, set }); setTopic(T); setTurn(0); setDone(null); setLog([{ who: "char", t: T.turns[0].t, g: T.turns[0].g }]); setWaiting(false); speak(T.turns[0].t); sfx.open?.(); };
+  const start = (T) => { warmVoice([{ text: pick(T.turns[0].t, tier)?.jp, sp: "char" }], { D, set }); setTopic(T); setTurn(0); setDone(null); setLog([{ who: "char", t: T.turns[0].t, g: T.turns[0].g, w: T.turns[0].w }]); setWaiting(false); speak(T.turns[0].t); sfx.open?.(); };
   const answer = (o) => {
     if (waiting) return;
     setWaiting(true); sfx.click();
-    setLog((l) => [...l, { who: "me", t: o.t, g: o.g }]);
+    setLog((l) => [...l, { who: "me", t: o.t, g: o.g, w: o.w }]);
     setTimeout(() => {
-      setLog((l) => [...l, { who: "char", t: o.r, g: o.rg }]); speak(o.r);
+      setLog((l) => [...l, { who: "char", t: o.r, g: o.rg, w: o.rw }]); speak(o.r);
       const nt = turn + 1;
       setTimeout(() => {
-        if (nt < topic.turns.length) { setTurn(nt); setLog((l) => [...l, { who: "char", t: topic.turns[nt].t, g: topic.turns[nt].g }]); setWaiting(false); speak(topic.turns[nt].t); }
+        if (nt < topic.turns.length) { setTurn(nt); setLog((l) => [...l, { who: "char", t: topic.turns[nt].t, g: topic.turns[nt].g, w: topic.turns[nt].w }]); setWaiting(false); speak(topic.turns[nt].t); }
         else {
           let reward = 0;
           update((s) => { s.vn = s.vn || {}; const v = (s.vn[id] ||= { done: {}, chat: {}, seen: {} }); if (!v.chat?.[topic.id]) { v.chat = { ...(v.chat || {}), [topic.id]: true }; reward = CHAT_REWARD; s.primo += reward; } });
@@ -74,7 +76,7 @@ export default function ChatView({ id }) {
                   <div key={i} className={`vnmsg ${m.who}`}>
                     {m.who === "char" && <img src={charIcon(c)} alt="" />}
                     <div className="bub">
-                      <Line t={m.t} g={m.g} tier={tier} set={set} onGrammar={setGram} />
+                      <Line t={m.t} g={m.g} w={m.w} tier={tier} set={set} onGrammar={setGram} onVocab={setVoc} />
                       <button className="vnspk sm" onClick={() => sayMsg(m.t, m.who)} aria-label="Nghe">🔊</button>
                     </div>
                   </div>
@@ -98,6 +100,7 @@ export default function ChatView({ id }) {
         </>
       )}
       {gram && <div className="vnoverlay" onClick={() => setGram(null)}><GrammarCard id={gram} G={G} onClose={() => setGram(null)} /></div>}
+      {voc && <div className="vnoverlay" onClick={() => setVoc(null)}><VocabCard ids={voc} dict={dict} onClose={() => setVoc(null)} /></div>}
     </div>
   );
 }

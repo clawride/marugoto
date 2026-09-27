@@ -66,19 +66,92 @@ export function CastList({ D, set, cast }) {
 const SAMPLE = { narr: "これは、ある旅の物語です。", cf: "ねえねえ、一緒にあそぼうよ！", cm: "ぼく、もっと強くなりたいんだ！", robot: "ご用件をお伺いします。", beast: "我の眠りを妨げるのは誰だ。", yf: "はじめまして。よろしくお願いします。" };
 
 // Một dòng thoại theo mức đang chọn; bật/tắt romaji và dịch theo cài đặt
-export function Line({ t, g, tier, set, onGrammar, big = false }) {
+// w: danh sách từ vựng theo mức ({ "1": [id…] } — scripts/build-vocab.mjs) · onVocab(ids): mở bảng từ vựng của câu
+export function Line({ t, g, w, tier, set, onGrammar, onVocab, big = false }) {
   const x = pick(t, tier);
   if (!x) return null;
   const gs = (g?.[tier] || g?.[String(tier)] || []);
+  const ws = (w?.[tier] || w?.[String(tier)] || []);
   return (
     <div className={`vnline ${big ? "big" : ""}`}>
       <div className="jp jpt">{x.jp}</div>
       {set.ro && <div className="ro">{x.ro}</div>}
       {set.vi && <div className="vi">{x.vi}</div>}
-      {gs.length > 0 && onGrammar && (
-        <div className="vngchips">{gs.map((id) => <button key={id} className="chip sm" onClick={(e) => { e.stopPropagation(); onGrammar(id); sfx.click(); }}>📘 {BOOK_LABEL[id.split("-")[0]] || id}</button>)}</div>
+      {((gs.length > 0 && onGrammar) || (ws.length > 0 && onVocab)) && (
+        <div className="vngchips">
+          {onGrammar && gs.map((id) => <button key={id} className="chip sm" onClick={(e) => { e.stopPropagation(); onGrammar(id); sfx.click(); }}>📘 {BOOK_LABEL[id.split("-")[0]] || id}</button>)}
+          {onVocab && ws.length > 0 && <button className="chip sm vnvchip" onClick={(e) => { e.stopPropagation(); onVocab(ws); sfx.click(); }}>📗 Từ vựng ({ws.length})</button>}
+        </div>
       )}
     </div>
+  );
+}
+
+// ——— từ vựng (public/vn/dict.json: id → [từ gốc, cách đọc, romaji, nghĩa, nguồn "a21-5" | ""]) ———
+let dictP = null;
+export const loadDict = () => (dictP ||= fetch("/vn/dict.json").then((r) => r.json()).catch(() => ({})));
+export function useDict() {
+  const [D, setD] = useState(null);
+  useEffect(() => { let on = true; loadDict().then((d) => on && setD(d)); return () => { on = false; }; }, []);
+  return D;
+}
+// nguồn "a21-5" → nhãn + đường dẫn tới bài học
+export const vocabSrc = (src) => {
+  if (!src) return null;
+  const [book, n] = src.split("-");
+  return { label: `Marugoto ${BOOK_LABEL[book] || book} · ${book === "b1" ? "Topic" : "Bài"} ${n}`, href: `/${book}/${n}` };
+};
+
+// Bảng từ vựng (một câu hoặc cả chương): từ · cách đọc · romaji · nghĩa · thuộc bài nào của Marugoto / ngoài Marugoto
+export function VocabTable({ ids, dict, onlyOutside = false }) {
+  if (!dict) return <p className="hint">Đang tải từ vựng…</p>;
+  const rows = ids.map((id) => [id, dict[id]]).filter(([, v]) => v && (!onlyOutside || !v[4]));
+  if (!rows.length) return <p className="hint">{onlyOutside ? "Không có từ nào ngoài Marugoto." : "Không có từ vựng."}</p>;
+  return (
+    <table className="vnvocab">
+      <thead><tr><th>Từ</th><th>Cách đọc · Latinh</th><th>Nghĩa</th><th>Nguồn</th></tr></thead>
+      <tbody>
+        {rows.map(([id, [jp, kana, ro, vi, src]]) => {
+          const s = vocabSrc(src);
+          return (
+            <tr key={id} className={s ? "" : "out"}>
+              <td className="jpt vw">{jp}</td>
+              <td><span className="jpt">{kana !== jp ? kana : ""}</span><small className="vro">{ro}</small></td>
+              <td>{vi || <i className="hint">—</i>}</td>
+              <td>{s ? <Link href={s.href} onClick={() => stopVoice()}>{s.label}</Link> : <span className="vout">ngoài Marugoto</span>}</td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  );
+}
+
+// Hộp từ vựng của một câu (mở từ nút 📗)
+export function VocabCard({ ids, dict, onClose }) {
+  if (!ids) return null;
+  return (
+    <div className="vngpop vnvpop" role="dialog" aria-label="Từ vựng" onClick={(e) => e.stopPropagation()}>
+      <button className="vnx" onClick={onClose} aria-label="Đóng">✕</button>
+      <div className="vngvi">📗 Từ vựng trong câu</div>
+      <VocabTable ids={ids} dict={dict} />
+    </div>
+  );
+}
+
+// Danh sách từ vựng cả đoạn (dùng cho Script): có nút lọc chỉ từ ngoài Marugoto
+export function VocabList({ ids, dict }) {
+  const [only, setOnly] = useState(false);
+  if (!ids.length) return null;
+  const outside = dict ? ids.filter((id) => dict[id] && !dict[id][4]).length : 0;
+  return (
+    <>
+      <div className="vnvbar">
+        <span>{ids.length} từ · <b>{outside}</b> từ ngoài Marugoto</span>
+        <label className="vntog"><input type="checkbox" checked={only} onChange={(e) => setOnly(e.target.checked)} /> Chỉ hiện từ ngoài Marugoto</label>
+      </div>
+      <VocabTable ids={ids} dict={dict} onlyOutside={only} />
+    </>
   );
 }
 

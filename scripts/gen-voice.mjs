@@ -9,6 +9,7 @@
 //   node --no-warnings scripts/gen-voice.mjs --chat --tiers 1-3 --asset-dir D:/voice-chat \
 //     --asset-base https://github.com/clawride/marugoto/releases/download/voice-chat
 // Tùy chọn: --engine URL · --ffmpeg đường-dẫn · --bitrate 32k · --out thư-mục mục lục · --force (tạo lại cả phần đã có)
+//           --pause 150 (nghỉ 150 ms sau mỗi câu để máy bớt giật khi đang dùng)
 import fs from "fs";
 import path from "path";
 import os from "os";
@@ -29,6 +30,7 @@ const ASSET_BASE = arg("asset-base", "").replace(/\/+$/, "");
 const ASSET_DIR = arg("asset-dir", "");
 if (ASSET_BASE && !ASSET_DIR) throw new Error("--asset-base cần kèm --asset-dir (thư mục chứa file để tải lên)");
 const GAP = 0.35; // giây lặng giữa hai câu
+const PAUSE = +arg("pause", "0"); // mili giây nghỉ sau mỗi câu — để máy bớt giật khi đang dùng việc khác
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1")), "..");
 const VN = path.join(ROOT, "public", "vn");
@@ -113,6 +115,7 @@ for (const [fi, file] of files.entries()) {
       parts.push(gap);
       for (const w of want) {
         const pcm = await synth(w.c, w.mood, w.text);
+        if (PAUSE) await new Promise((r) => setTimeout(r, PAUSE));
         const dur = pcm.length / 2 / 24000;
         seg[w.h] = [+at.toFixed(3), +dur.toFixed(3)];
         parts.push(pcm, gap);

@@ -4,7 +4,9 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useGame } from "@/components/Game";
 import { starsFor } from "@/lib/data";
-import { nbTopic, nbWords, secOf, bookOf } from "@/lib/notebook";
+import { nbTopic, nbWords, secOf, bookOf, topicCount, useNBReady } from "@/lib/notebook";
+import GenshinVocabTable from "@/components/GenshinVocab";
+import { charIcon } from "@/lib/genshin";
 import { sfx } from "@/lib/sfx";
 import Portal from "@/components/Portal";
 
@@ -16,13 +18,16 @@ export default function TopicPage() {
   const T = nbTopic(n);
   const { S } = useGame();
   const [ask, setAsk] = useState(null);
+  const ready = useNBReady(n);
   if (!T) return <p style={{ marginTop: 40 }}>Không tìm thấy Topic. <Link href="/">Về trang chủ</Link></p>;
-  const rows = [{ key: "all", sub: "Tất cả từ của Topic (không trùng lặp)", count: nbWords(n, "all").length }].concat(T.sections.map((s) => ({ key: s.key, sub: s.sub, count: s.words.length })));
+  const gi = T.book === "gi";
+  const rows = [{ key: "all", sub: gi ? `Tất cả từ ngoài Marugoto trong truyện của ${T.vi}` : "Tất cả từ của Topic (không trùng lặp)", count: topicCount(T) }].concat(T.sections.map((s) => ({ key: s.key, sub: s.sub, count: s.count ?? s.words.length })));
   return (
     <>
       <Link href="/" className="back" onClick={() => sfx.page()}>‹ Về Sổ Tay</Link>
       <div className="pagehead" style={{ marginTop: 10 }}>
-        <p style={{ letterSpacing: 3, margin: "0 0 6px" }}>{bookOf(T).full.toUpperCase()} · TOPIC {T.n}</p>
+        <p style={{ letterSpacing: 3, margin: "0 0 6px" }}>{bookOf(T).full.toUpperCase()} · {gi ? `${T.char?.rank}★` : `TOPIC ${T.n}`}</p>
+        {gi && T.char && <img src={charIcon(T.char)} alt="" className="gvface" />}
         <h1 style={{ fontFamily: "var(--jp)" }}>{T.title}</h1>
         <p>{T.vi}</p>
         <div className="orn"><span /></div>
@@ -44,6 +49,14 @@ export default function TopicPage() {
           );
         })}
       </div>
+      {gi && (
+        <section style={{ marginTop: 22 }}>
+          <h2 className="a22th"><span>📜 Bảng từ vựng</span> <small>Từ không có trong Marugoto · có cách đọc, Latinh, nghĩa</small></h2>
+          {ready ? <GenshinVocabTable tagHead="Chương" rows={T.sections.flatMap((s) => s.words.map(([w, r, m, ro]) => ({ w, r, m, ro, tags: [{ label: s.meta.vi }] })))} />
+            : <p className="hint" style={{ textAlign: "center" }}>Đang tải bảng từ vựng…</p>}
+          <p className="hint" style={{ textAlign: "center" }}><Link href={`/characters/${T.char?.id}/story`}>📖 Đọc truyện của {T.vi}</Link> · <Link href="/genshin-vocab">🔎 Tra cứu tất cả từ Genshin</Link></p>
+        </section>
+      )}
       {ask && <CountModal n={n} ask={ask} onClose={() => setAsk(null)} />}
     </>
   );
@@ -67,7 +80,7 @@ function CountModal({ n, ask, onClose }) {
     <Portal><div className="modal" onClick={(e) => e.target === e.currentTarget && onClose()}>
       <div className="parch dialog">
         <h2>{meta.vi}</h2>
-        <div className="jp">{bookOf(T).name} · トピック{T.n} · {T.title}{meta.jp ? ` · ${meta.jp}` : ""}</div>
+        <div className="jp">{bookOf(T).name} · {T.book === "gi" ? T.vi : `トピック${T.n}`} · {T.title}{meta.jp ? ` · ${meta.jp}` : ""}</div>
         <hr />
         <div style={{ fontSize: 13, color: "var(--mute)", marginBottom: 6 }}>Số câu hỏi</div>
         <div className="qn">{val}<small> / {total}</small></div>

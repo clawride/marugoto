@@ -5,7 +5,7 @@ import Link from "next/link";
 import { CHARS, charSplash, charIcon } from "@/lib/genshin";
 import { ELEM } from "@/lib/data";
 import { sceneOf, speakerName, chapterOpen, vnOf, STORY_REWARD, TIERS } from "@/lib/vn";
-import { useVN, useGrammar, Line, GrammarCard, GrammarList, VNSettings, VoiceNote, CastList, pick, say } from "@/components/vn/VNParts";
+import { useVN, useGrammar, useDict, Line, GrammarCard, GrammarList, VocabCard, VocabList, VNSettings, VoiceNote, CastList, pick, say } from "@/components/vn/VNParts";
 import { useStory, LockedNote } from "@/components/vn/StoryHub";
 import { stopVoice, prefetchVoice, warmVoice, storyCast } from "@/lib/voicevox";
 import { sfx } from "@/lib/sfx";
@@ -39,6 +39,8 @@ export default function StoryPlayer({ id, c: chN }) {
   const [hist, setHist] = useState([]); // [{id, pick}] — pick = lựa chọn đã chọn tại node đó (-1 nếu không)
   const [panel, setPanel] = useState(null); // "log" | "tree" | "script" | "set"
   const [gram, setGram] = useState(null);
+  const [voc, setVoc] = useState(null); // danh sách id từ vựng của câu đang xem
+  const dict = useDict();
   const [fin, setFin] = useState(null);
   useEffect(() => { if (nodes.length) { setHist([{ id: nodes[0].id, pick: -1 }]); setFin(null); } }, [C]); // eslint-disable-line react-hooks/exhaustive-deps
   const cur = hist.length ? by.get(hist[hist.length - 1].id) : null;
@@ -115,8 +117,8 @@ export default function StoryPlayer({ id, c: chN }) {
   const el = ELEM[c.el];
   const lineOf = (n, pickIdx) => (
     <>
-      <div className="lg"><b>{speakerName(n.sp, D) || "—"}</b><Line t={n.t} g={n.g} tier={tier} set={set} onGrammar={setGram} /></div>
-      {pickIdx >= 0 && n.choices?.[pickIdx] && <div className="lg me"><b>旅人 (bạn chọn)</b><Line t={n.choices[pickIdx].t} g={n.choices[pickIdx].g} tier={tier} set={set} onGrammar={setGram} /></div>}
+      <div className="lg"><b>{speakerName(n.sp, D) || "—"}</b><Line t={n.t} g={n.g} w={n.w} tier={tier} set={set} onGrammar={setGram} onVocab={setVoc} /></div>
+      {pickIdx >= 0 && n.choices?.[pickIdx] && <div className="lg me"><b>旅人 (bạn chọn)</b><Line t={n.choices[pickIdx].t} g={n.choices[pickIdx].g} w={n.choices[pickIdx].w} tier={tier} set={set} onGrammar={setGram} onVocab={setVoc} /></div>}
     </>
   );
 
@@ -140,7 +142,7 @@ export default function StoryPlayer({ id, c: chN }) {
         {showChar && <img className={`vnsprite ${cur.sp === "char" ? "talk" : "idle"} mood-${cur.mood || "calm"}`} src={charSplash(c)} alt={c.vi} onError={(e) => { e.currentTarget.src = charIcon(c); }} />}
         <div className={`vnbox ${cur.sp}`} onClick={(e) => { e.stopPropagation(); advance(); }}>
           {sp && <div className="vnname jpt">{sp}{cur.sp === "char" && cur.mood && cur.mood !== "calm" ? <small> · {({ happy: "vui", sad: "buồn", angry: "giận", surprised: "ngạc nhiên", shy: "ngượng", serious: "nghiêm túc" })[cur.mood]}</small> : null}</div>}
-          <Line t={cur.t} g={cur.g} tier={tier} set={set} onGrammar={setGram} big />
+          <Line t={cur.t} g={cur.g} w={cur.w} tier={tier} set={set} onGrammar={setGram} onVocab={setVoc} big />
           <button className="vnspk" onClick={(e) => { e.stopPropagation(); sayNode(cur); }} aria-label="Nghe câu này">🔊</button>
           {!cur.choices && !fin && <div className="vnnext">{cur.end ? "Kết thúc chương ▸" : "Bấm để tiếp ▸"}</div>}
           {cur.choices && !fin && (
@@ -206,14 +208,17 @@ export default function StoryPlayer({ id, c: chN }) {
           {panel === "script" && (
             <>
               <h3>📜 Script chương <small>{TIERS[tier].name} ({TIERS[tier].short}) · bấm 📘 để xem giải thích ngữ pháp</small></h3>
-              <div className="vnscript">{nodes.map((n) => <div key={n.id} className="vnsl">{lineOf(n, -1)}{n.choices && n.choices.map((ch, i) => <div key={i} className="lg me"><b>Lựa chọn {i + 1}</b><Line t={ch.t} g={ch.g} tier={tier} set={set} onGrammar={setGram} /></div>)}</div>)}</div>
+              <div className="vnscript">{nodes.map((n) => <div key={n.id} className="vnsl">{lineOf(n, -1)}{n.choices && n.choices.map((ch, i) => <div key={i} className="lg me"><b>Lựa chọn {i + 1}</b><Line t={ch.t} g={ch.g} w={ch.w} tier={tier} set={set} onGrammar={setGram} onVocab={setVoc} /></div>)}</div>)}</div>
               <h4>Ngữ pháp trong chương (mức {TIERS[tier].short})</h4>
               <GrammarList ids={[...new Set(nodes.flatMap((n) => [...(n.g?.[tier] || []), ...(n.choices || []).flatMap((ch) => ch.g?.[tier] || [])]))]} G={G} />
+              <h4>Từ vựng trong chương (mức {TIERS[tier].short}) <small className="hint">cách đọc · phiên âm latinh · nghĩa · thuộc bài nào của Marugoto</small></h4>
+              <VocabList ids={[...new Set(nodes.flatMap((n) => [...(n.w?.[tier] || []), ...(n.choices || []).flatMap((ch) => ch.w?.[tier] || [])]))]} dict={dict} />
             </>
           )}
         </div>
       )}
       {gram && <div className="vnoverlay" onClick={() => setGram(null)}><GrammarCard id={gram} G={G} onClose={() => setGram(null)} /></div>}
+      {voc && <div className="vnoverlay" onClick={() => setVoc(null)}><VocabCard ids={voc} dict={dict} onClose={() => setVoc(null)} /></div>}
     </div>
   );
 }

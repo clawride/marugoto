@@ -6,7 +6,7 @@ import { useGame } from "@/components/Game";
 import MediaPanel, { preloadMedia } from "@/components/MediaPanel";
 import { Ico } from "@/components/Icons";
 import { shuffle, pickRand, starsFor, ELEM } from "@/lib/data";
-import { nbTopic, nbWords, secOf, topicLabel, meaningsNear } from "@/lib/notebook";
+import { nbTopic, nbWords, secOf, topicLabel, meaningsNear, useNBReady } from "@/lib/notebook";
 import { CHARS, charIcon, charSplash } from "@/lib/genshin";
 import { sfx } from "@/lib/sfx";
 
@@ -48,15 +48,17 @@ function Quiz() {
   const [stat, setStat] = useState({ correct: 0, wrong: [], streak: 0, earned: 0 });
   const [done, setDone] = useState(null);
   const [floats, setFloats] = useState([]);
+  const ready = useNBReady(t); // Topic Genshin: chờ tải từ vựng
 
   // Khởi tạo danh sách câu hỏi
   useEffect(() => {
+    if (!ready) return;
     let words;
     if (retry || sp.get("ss") === "1") { try { words = JSON.parse(sessionStorage.getItem("retryWords") || "[]"); } catch { words = []; } }
     else words = shuffle(nbWords(t, key)).slice(0, count);
     setList(shuffle(words)); setIdx(0); setPicked(null); setDone(null);
     setStat({ correct: 0, wrong: [], streak: 0, earned: 0 });
-  }, [t, key, count, retry, sp]);
+  }, [t, key, count, retry, sp, ready]);
 
   const item = list?.[idx];
   const opts = useMemo(() => (item ? makeOptions(item) : null), [item]);
