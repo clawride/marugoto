@@ -17,6 +17,7 @@ import Header from "@/components/Header";
 import Sky from "@/components/Sky";
 import { SvgDefs } from "@/components/Icons";
 import { ProfileGate } from "@/components/Profile";
+import PlainGate from "@/components/PlainGate";
 
 export const metadata = {
   title: "Sổ Tay Từ Vựng Teyvat · Marugoto A1–B1",
@@ -31,8 +32,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="vi" suppressHydrationWarning>
       <head>
-        {/* giao diện cơ bản (nếu đã chọn, lưu ở lib/uiTheme.js): đặt trước khi vẽ trang để không nháy giao diện game */}
-        <script dangerouslySetInnerHTML={{ __html: `try{if(localStorage.getItem("ui_theme")==="plain")document.documentElement.dataset.ui="plain"}catch(e){}` }} />
+        {/* giao diện mặc định = cơ bản; ai đã chọn giao diện game (lưu ở lib/uiTheme.js) thì giữ game. Đặt trước khi vẽ trang để không nháy */}
+        <script dangerouslySetInnerHTML={{ __html: `try{if(localStorage.getItem("ui_theme")!=="game")document.documentElement.dataset.ui="plain"}catch(e){document.documentElement.dataset.ui="plain"}` }} />
         {OFFLINE ? (
           // Bản offline: phông chữ đã tải sẵn trong public/fonts (scripts/build-offline.mjs)
           // eslint-disable-next-line @next/next/no-css-tags
@@ -52,7 +53,7 @@ export default function RootLayout({ children }) {
         <Sky />
         <GameProvider>
           <Header />
-          <main className="wrap">{children}</main>
+          <main className="wrap"><PlainGate>{children}</PlainGate></main>
           <ProfileGate />
         </GameProvider>
       </body>

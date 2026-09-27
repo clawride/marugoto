@@ -104,3 +104,14 @@
 /* nút đổi giao diện: chữ chỉ hiện trên màn hình rộng */
 .uibtn .lbl{display:none}
 @media(min-width:900px){.uibtn .lbl{display:inline}}
+
+/* thông báo mục game bị ẩn */
+.plaingate{max-width:640px;margin:40px auto;padding:22px 24px;text-align:center}
+.plaingate h2{margin:0 0 8px}
+.plaingate .btnrow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+
+/* ẩn mục game ngay từ lúc vẽ trang (trước khi React chạy): tiền tệ, mọi liên kết tới Cầu Nguyện / Nhân Vật / Túi Đồ */
+[data-ui="plain"] .curr,
+[data-ui="plain"] a[href="/wish"],[data-ui="plain"] a[href^="/wish/"],
+[data-ui="plain"] a[href="/characters"],[data-ui="plain"] a[href^="/characters/"],
+[data-ui="plain"] a[href="/inventory"],[data-ui="plain"] a[href^="/inventory/"]{display:none!important}

@@ -46,8 +46,10 @@ export default function Header() {
           <svg><use href="#emb" /></svg>
           <div><b>Sổ Tay Từ Vựng Teyvat</b><small>MARUGOTO A1 · B1</small></div>
         </Link>
-        <div className="curr" title="Nguyên Thạch"><Ico id="pgm" />{n(S?.primo)}</div>
-        <div className="curr hide-sm" title="Mối Duyên Vương Vấn / Mối Duyên Tương Ngộ"><Ico id="fateI" />{n(S?.fates.i)} <Ico id="fateA" />{n(S?.fates.a)}</div>
+        {ui !== "plain" && <>
+          <div className="curr" title="Nguyên Thạch"><Ico id="pgm" />{n(S?.primo)}</div>
+          <div className="curr hide-sm" title="Mối Duyên Vương Vấn / Mối Duyên Tương Ngộ"><Ico id="fateI" />{n(S?.fates.i)} <Ico id="fateA" />{n(S?.fates.a)}</div>
+        </>}
         <span className="topgap" />
         <button ref={btn} className={`navbtn menubtn ${open ? "on" : ""}`} aria-expanded={open} aria-controls="mainmenu" onClick={() => { setOpen((v) => !v); sfx.click(); }}>
           <span aria-hidden="true">{open ? "✕" : "☰"}</span><span className="lbl">Menu</span>
@@ -73,8 +75,8 @@ export default function Header() {
               </section>
             ))}
             <section className="mngroup teyvat">
-              <h3>Teyvat <small>Phần thưởng & hồ sơ</small></h3>
-              <div className="mnlist">{TEYVAT.map(item)}<BackupItems /></div>
+              {ui === "plain" ? <h3>Hồ sơ <small>Tiến độ & sao lưu</small></h3> : <h3>Teyvat <small>Phần thưởng & hồ sơ</small></h3>}
+              <div className="mnlist">{TEYVAT.filter((t) => !(ui === "plain" && t.game)).map(item)}<BackupItems /></div>
             </section>
           </div>
         </nav>

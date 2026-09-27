@@ -6,9 +6,11 @@ import { BOOKS, topicsOf, topicCount, NB_TOTAL, bookTotal } from "@/lib/notebook
 import { CHARS, charIcon } from "@/lib/genshin";
 import { sfx } from "@/lib/sfx";
 import { GROUPS, programsIn, TEYVAT, progressLabel } from "@/lib/programs";
+import { useUITheme } from "@/lib/uiTheme";
 
 export default function Home() {
   const { S, update } = useGame();
+  const plain = useUITheme() === "plain"; // giao diện cơ bản: ẩn các mục game
   const best = S?.best || {};
   const book = S?.nbBook || "a1";
   const B = BOOKS.find((b) => b.id === book) || BOOKS[0];
@@ -23,7 +25,7 @@ export default function Home() {
         <div className="panel stat"><b>{NB_TOTAL.toLocaleString("vi-VN")}</b><span>Từ vựng</span></div>
         <div className="panel stat"><b>{Object.keys(best).length}</b><span>Bài đã hoàn thành</span></div>
         <div className="panel stat"><b>{(S?.total || 0).toLocaleString("vi-VN")}</b><span>Câu trả lời đúng</span></div>
-        <div className="panel stat"><b>{(S?.wishes || 0).toLocaleString("vi-VN")}</b><span>Lần cầu nguyện</span></div>
+        {!plain && <div className="panel stat"><b>{(S?.wishes || 0).toLocaleString("vi-VN")}</b><span>Lần cầu nguyện</span></div>}
       </div>
       {/* ===== Lộ trình học: từ cấp thấp đến cấp cao ===== */}
       {GROUPS.map((g) => (
@@ -85,9 +87,10 @@ export default function Home() {
 
       {/* ===== Teyvat ===== */}
       <section className="homesec">
-        <h2 className="a22th"><span>Teyvat</span> <small>Dùng Nguyên Thạch kiếm được khi học</small></h2>
+        {plain ? <h2 className="a22th"><span>Hồ sơ</span> <small>Tiến độ, chứng chỉ và bảng xếp hạng</small></h2>
+          : <h2 className="a22th"><span>Teyvat</span> <small>Dùng Nguyên Thạch kiếm được khi học</small></h2>}
         <div className="progrid teyvat">
-          {TEYVAT.map((t) => (
+          {TEYVAT.filter((t) => !(plain && t.game)).map((t) => (
             <Link key={t.id} href={t.href} className="panel procard mini" onClick={() => sfx.page()}>
               <span className="proico" aria-hidden="true">{t.ico}</span>
               <div className="protxt"><h3>{t.name}</h3><p>{t.desc}</p></div>
