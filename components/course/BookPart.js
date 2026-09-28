@@ -1,8 +1,9 @@
 "use client";
-// 📖 Học theo sách (Marugoto 入門 A1 かつどう): dựng lại từng mục ①②③, từng hoạt động như sách, kèm romaji + nghĩa tiếng Việt;
-// lời thoại bài nghe & đáp án mở khi cần. Cuối bài: ✍️ kiểm tra dịch câu (Nhật → Việt, Việt → Nhật, xếp câu).
-// Dữ liệu: public/book/<khóa>/<bài>.json (chép từ sách, xem scripts/… và data/a1-katsudou.json)
-import { useEffect, useState } from "react";
+// Học theo sách (Marugoto 入門 A1: 📖 かつどう Katsudou, 📘 りかい Rikai): dựng lại từng mục, từng bài tập như sách, kèm romaji + nghĩa tiếng Việt;
+// lời thoại bài nghe & đáp án mở khi cần; bài tập bấm được (nối, điền, chọn, sắp xếp) và hộp ngữ pháp (Rikai).
+// Cuối bài: ✍️ kiểm tra dịch câu (Nhật → Việt, Việt → Nhật, xếp câu).
+// Dữ liệu: public/book/<sách>/<bài>.json (tạo bởi scripts/build-book.mjs từ data/book/*.json)
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { Player, AudioSetup } from "@/components/Listen";
 import { speakLines } from "@/lib/tts";
 import { shuffle } from "@/lib/data";
@@ -16,26 +17,159 @@ const KIND = {
   write: ["✏️", "かきましょう", "Viết"],
   portfolio: ["📁", "ポートフォリオに いれましょう", "Lưu vào hồ sơ học tập"],
   kana: ["あ", "もじ", "Chữ viết"],
+  match: ["🔤", "", "Nối / chọn chữ cái"],
+  fill: ["✏️", "", "Điền vào chỗ trống"],
+  choose: ["☑️", "", "Chọn đáp án"],
+  order: ["🧩", "", "Sắp xếp câu"],
+  grammar: ["📐", "ぶんぽう", "Ngữ pháp"],
   other: ["•", "", ""],
 };
+const Prefix = createContext("sa"); // tên file audio của sách: sa060.mp3 (Katsudou) · sc054.mp3 (Rikai)
 const CIRCLED = "⓪①②③④⑤⑥⑦⑧⑨⑩";
 const say = (jp) => speakLines([{ t: jp }], { rate: 0.85 });
-const trackKey = (t) => `sa${t}.mp3`;
+const trackKey = (t, p = "sa") => `${p}${t}.mp3`;
 // ["061","065"] → 061…065
 const tracksOf = (a = []) => {
   if (a.length === 2 && +a[1] > +a[0] && +a[1] - +a[0] < 12) return Array.from({ length: +a[1] - +a[0] + 1 }, (_, i) => String(+a[0] + i).padStart(3, "0"));
   return a;
 };
 
-function useBook(course, lesson) {
+function useBook(book, lesson) {
   const [B, setB] = useState(undefined);
   useEffect(() => {
     let on = true; setB(undefined);
-    fetch(course.book.url(lesson)).then((r) => (r.ok ? r.json() : null)).catch(() => null).then((d) => on && setB(d));
+    fetch(book.url(lesson)).then((r) => (r.ok ? r.json() : null)).catch(() => null).then((d) => on && setB(d));
     return () => { on = false; };
-  }, [course, lesson]);
+  }, [book, lesson]);
   return B;
 }
+
+// ——— bài tập bấm được (sách Rikai): nối chữ cái, điền chỗ trống, chọn đáp án, sắp xếp câu ———
+const norm = (x) => (x || "").replace(/[\s　。、．，]/g, "");
+function OrderItem({ it, val, set, chk }) {
+  const pool = useMemo(() => shuffle(it.chunks.map((c, i) => [c, i])), [it]);
+  const picked = val ? val.split("|").map(Number) : [];
+  const right = picked.map((i) => it.chunks[i]).join("") === it.chunks.join("");
+  return (
+    <div className="bkorder">
+      <div className={`bkorderans jpt ${chk ? (right ? "ok" : "bad") : ""}`}>{it.pre && <span className="bkfix">{it.pre} </span>}{picked.map((i) => it.chunks[i]).join(" ") || "…"}{it.post && <span className="bkfix"> {it.post}</span>}</div>
+      <div className="bkorderpool">
+        {pool.map(([c, i]) => <button key={i} className="chip sm jpt" disabled={picked.includes(i)} onClick={() => set([...picked, i].join("|"))}>{c}</button>)}
+        <button className="chip sm" onClick={() => set("")}>↺</button>
+      </div>
+      {chk && !right && <em className="bkexa jpt">{[it.pre, ...it.chunks, it.post].filter(Boolean).join(" ")}</em>}
+    </div>
+  );
+}
+function Exercise({ A, show }) {
+  const init = () => Object.fromEntries((A.items || []).flatMap((it) =>
+    A.kind === "fill" ? (it.example || []).map((j) => [`${it.no}-${j}`, it.blanks[j]])
+      : it.example ? [[`${it.no}`, A.kind === "order" ? it.chunks.map((_, i) => i).join("|") : it.a]] : []));
+  const [v, setV] = useState(init);
+  const [chk, setChk] = useState(false);
+  const set = (k, x) => { setV((o) => ({ ...o, [k]: x })); setChk(false); };
+  let total = 0, ok = 0;
+  const rows = A.items.map((it) => {
+    const k = `${it.no}`;
+    if (A.kind === "match") {
+      const ex = !!it.example, right = v[k] === it.a || !!it.alt?.includes(v[k]);
+      if (!ex) { total++; if (right) ok++; }
+      return (
+        <div key={k} className="bkex">
+          <span className="bkexn">{it.no}</span>
+          <span className="bkexq">{it.pic ? <>🖼 {it.pic}</> : <><span className="jpt">{it.q?.jp}</span>{show.vi && it.q?.vi && <small className="bkvi">{it.q.vi}</small>}</>}</span>
+          <select value={v[k] || ""} disabled={ex} className={chk && !ex ? (right ? "ok" : "bad") : ""} onChange={(e) => set(k, e.target.value)}>
+            <option value="">—</option>
+            {(A.choices || []).map((c) => <option key={c.k} value={c.k}>{c.k} · {c.jp}</option>)}
+          </select>
+          {chk && !ex && !right && <em className="bkexa">→ {it.a} · {(A.choices || []).find((c) => c.k === it.a)?.jp}</em>}
+        </div>
+      );
+    }
+    if (A.kind === "fill") {
+      let bi = -1;
+      const parts = (it.jp || "").split(/（([①-⑳])）/);
+      const nodes = parts.map((p, i) => {
+        if (i % 2 === 0) return <span key={i} className="jpt">{p}</span>;
+        bi++;
+        const j = bi, kk = `${it.no}-${j}`, ex = (it.example || []).includes(j), ans = (it.blanks || [])[j] || "";
+        const right = norm(v[kk]) === norm(ans) || (Array.isArray(it.alt?.[j]) && it.alt[j].some((x) => norm(x) === norm(v[kk])));
+        if (!ex) { total++; if (right) ok++; }
+        const cls = chk && !ex ? (right ? "ok" : "bad") : "";
+        return (
+          <span key={i} className="bkblank">
+            （{A.opts
+              ? <select value={v[kk] || ""} disabled={ex} className={cls} onChange={(e) => set(kk, e.target.value)}><option value="">　</option>{A.opts.map((o) => <option key={o}>{o}</option>)}</select>
+              : <input value={v[kk] || ""} disabled={ex} className={cls} size={Math.max(2, [...ans].length + 1)} onChange={(e) => set(kk, e.target.value)} />}）
+            {chk && !ex && !right && <em className="bkexa jpt">{ans}</em>}
+          </span>
+        );
+      });
+      return (
+        <div key={k} className="bkex fill">
+          <span className="bkexn">{it.no}</span>
+          <div>
+            {it.sp && <b className="bksp jpt">{it.sp}：</b>}{nodes}
+            {chk && <>{show.ro && it.ro && <small className="bkro">{it.ro}</small>}{it.vi && <small className="bkvi">{it.vi}</small>}</>}
+          </div>
+        </div>
+      );
+    }
+    if (A.kind === "choose") {
+      const ex = !!it.example, right = v[k] === it.a || !!it.alt?.includes(v[k]);
+      if (!ex) { total++; if (right) ok++; }
+      return (
+        <div key={k} className="bkex choose">
+          <span className="bkexn">{it.no}</span>
+          <div>
+            <span className="jpt">{it.q?.jp}</span>{show.vi && it.q?.vi && <small className="bkvi">{it.q.vi}</small>}
+            <div className="bkopts2">{(it.opts || []).map((o) => <button key={o} disabled={ex} className={`chip sm jpt ${v[k] === o ? (chk ? (right ? "ok" : "bad") : "on") : ""}`} onClick={() => set(k, o)}>{o}</button>)}</div>
+            {chk && !ex && !right && <em className="bkexa jpt">→ {it.a}</em>}
+          </div>
+        </div>
+      );
+    }
+    if (A.kind === "order") {
+      const val = v[k] || "", right = !!val && val.split("|").map((i) => it.chunks[+i]).join("") === it.chunks.join("");
+      if (!it.example) { total++; if (right) ok++; }
+      return (
+        <div key={k} className="bkex">
+          <span className="bkexn">{it.no}</span>
+          <div style={{ flex: 1 }}>{it.pic && <small className="bkvi">🖼 {it.pic}</small>}<OrderItem it={it} val={val} set={(x) => set(k, x)} chk={chk} />{show.vi && it.vi && <small className="bkvi">{it.vi}</small>}</div>
+        </div>
+      );
+    }
+    return null;
+  });
+  return (
+    <div className="bkexs">
+      {A.kind === "match" && A.choices && (
+        <div className="bkchoices">{A.choices.map((c) => <span key={c.k}><b>{c.k}</b> <span className="jpt">{c.jp}</span>{show.ro && c.ro && <i> {c.ro}</i>}{show.vi && c.vi && <small> · {c.vi}</small>}</span>)}</div>
+      )}
+      {rows}
+      <div className="bkexbar">
+        <button className="gbtn sm" onClick={() => { setChk(true); if (ok === total) sfx.correct?.(); else sfx.click(); }}><span className="c" />✔ Kiểm tra</button>
+        <button className="chip sm" onClick={() => { setV(init()); setChk(false); }}>Làm lại</button>
+        {chk && <b className={ok === total ? "pass" : ""}>Đúng {ok}/{total}</b>}
+      </div>
+    </div>
+  );
+}
+function Grammar({ list, show }) {
+  return (
+    <div className="bkgram">
+      {list.map((g, i) => (
+        <div key={i} className="bkgbox">
+          <div className="bkgpat jpt">{g.pattern}</div>
+          <div className="bkgvi">{g.vi}</div>
+          <p>{g.explain}</p>
+          {g.examples?.map((e, j) => <Line key={j} {...e} show={show} />)}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function useOpt(key, def) {
   const [v, setV] = useState(def);
   useEffect(() => { try { const s = localStorage.getItem(key); if (s != null) setV(s === "1"); } catch {} }, [key]);
@@ -56,13 +190,14 @@ const Line = ({ jp, ro: r, vi, show, slot, sp }) => (
 
 function Script({ sc, lib, show }) {
   const [open, setOpen] = useState(false);
+  const prefix = useContext(Prefix);
   return (
     <div className="bkscript">
       <div className="bkscripth">
         <b>{sc.no != null ? `Bài nghe ${sc.no}` : "Bài nghe"}{sc.audio ? ` · track ${sc.audio}` : ""}</b>
         <button className="chip sm" onClick={() => setOpen(!open)}>{open ? "Ẩn lời thoại" : "📜 Xem lời thoại"}</button>
       </div>
-      {sc.audio && <Player file={trackKey(sc.audio)} lib={lib} autoPlay={false} tts={sc.lines.map((l) => ({ t: l.jp }))} />}
+      {sc.audio && <Player file={trackKey(sc.audio, prefix)} lib={lib} autoPlay={false} tts={sc.lines.map((l) => ({ t: l.jp }))} />}
       {open && <div className="bkdlg">{sc.lines.map((l, i) => (
         <div key={i} className="bkturn"><span className="bksp jpt">{l.sp}</span><Line {...l} show={show} /></div>
       ))}</div>}
@@ -73,21 +208,41 @@ function Script({ sc, lib, show }) {
 function Act({ A, lib, show }) {
   const [ico, jpName, viName] = KIND[A.kind] || KIND.other;
   const [ans, setAns] = useState(false);
+  const prefix = useContext(Prefix);
   const tracks = tracksOf(A.audio);
+  if (Array.isArray(A.words)) A = { ...A, words: { items: A.words } }; // Rikai: words là mảng từ
   const wordTts = A.words?.items?.map((w) => ({ t: w.jp })) || [];
+  // dạng bài tập bấm được: theo kind, hoặc đoán từ câu hỏi (bài đọc có câu ○/×, chọn ngày…)
+  const it0 = A.items?.[0];
+  const exKind = !it0 ? null : ["match", "fill", "choose", "order"].includes(A.kind) ? A.kind
+    : it0.chunks ? "order" : it0.blanks ? "fill" : it0.opts ? "choose" : A.choices && it0.a ? "match" : null;
   return (
     <div className={`bkact k-${A.kind}`}>
       <div className="bkacth">
-        <span className="bkn">{A.n}</span>{(A.sub || A.part) && <span className="bksub">{A.sub || A.part}</span>}
+        {A.n > 0 && <span className="bkn">{A.n}</span>}{(A.sub || A.part) && <span className="bksub">{A.sub || A.part}</span>}
         <span className="bkico" title={viName}>{ico}</span>
         {jpName && <span className="bkkind"><span className="jpt">{jpName}</span> · {viName}</span>}
         {A.cando && <span className="bkcando">Can-do {A.cando}</span>}
       </div>
       {A.ask && <div className="bkask"><b className="jpt">{A.ask.jp}</b>{A.ask.en && <i>{A.ask.en}</i>}{show.vi && <small>{A.ask.vi}</small>}</div>}
       {A.parts?.map((p, i) => <div key={i} className="bkask bkpart"><b className="jpt">{p.no} {p.jp}</b>{p.en && <i>{p.en}</i>}{show.vi && p.vi && <small>{p.vi}</small>}</div>)}
+      {A.title?.jp && <div className="bkask"><b className="jpt">{A.title.jp}</b>{show.ro && A.title.ro && <i>{A.title.ro}</i>}{show.vi && A.title.vi && <small>{A.title.vi}</small>}</div>}
       {A.task && <p className="bktask">📝 {A.task}</p>}
+      {A.grid?.length > 0 && <div className="bkgrid2 jpt">{A.grid.map((row, i) => <div key={i}>{[...row].map((c, j) => <span key={j}>{c}</span>)}</div>)}</div>}
+      {A.steps?.map((p, i) => <div key={i} className="bkask bkpart"><b className="jpt">{p.no} {p.jp}</b>{p.en && <i>{p.en}</i>}{show.vi && p.vi && <small>{p.vi}</small>}</div>)}
+      {A.table?.map((t, i) => (
+        <div key={i} className="bktable">
+          <b className="jpt">{t.title?.jp}</b>{t.title?.vi && <small> · {t.title.vi}</small>}
+          <div className="bktscroll">
+            <table><tbody>{t.rows.map((r, j) => (
+              <tr key={j}><th>{r.label}</th>{r.cells.map((c, k) => <td key={k}>{c && <button onClick={() => say(c.jp)}><b className="jpt">{c.jp}</b>{show.ro && <small>{c.ro}</small>}</button>}</td>)}</tr>
+            ))}</tbody></table>
+          </div>
+        </div>
+      ))}
+      {A.fields?.length > 0 && <div className="bkfields">{A.fields.map((f, i) => <span key={i}><b className="jpt">{f.jp}</b>{show.ro && f.ro && <i> {f.ro}</i>}{show.vi && f.vi && <small> · {f.vi}</small>}：<u>　　　　</u></span>)}</div>}
       {tracks.length > 0 && !A.scripts?.length && (
-        <div className="bktracks">{tracks.map((t) => <Player key={t} file={trackKey(t)} lib={lib} autoPlay={false} tts={wordTts} />)}</div>
+        <div className="bktracks">{tracks.map((t) => <Player key={t} file={trackKey(t, prefix)} lib={lib} autoPlay={false} tts={wordTts} />)}</div>
       )}
       {A.words && (
         <div className="bkwords">
@@ -112,8 +267,10 @@ function Act({ A, lib, show }) {
       )}
       {A.model?.length > 0 && <div className="bkmodel">{A.model.map((m, i) => <Line key={i} {...m} show={show} />)}</div>}
       {A.text?.length > 0 && <div className="bktext">{A.text.map((t, i) => <Line key={i} {...t} show={show} />)}</div>}
-      {A.notesAudio && <Player file={trackKey(A.notesAudio)} lib={lib} autoPlay={false} tts={(A.notes || []).map((n) => ({ t: n.jp }))} />}
+      {A.notesAudio && <Player file={trackKey(A.notesAudio, prefix)} lib={lib} autoPlay={false} tts={(A.notes || []).map((n) => ({ t: n.jp }))} />}
       {A.notes?.length > 0 && <div className="bknotes">{A.notes.map((n, i) => <div key={i} className="bknote"><Line {...n} show={{ ro: show.ro, vi: true }} /></div>)}</div>}
+      {A.grammar?.length > 0 && <Grammar list={A.grammar} show={show} />}
+      {exKind && <Exercise A={exKind === A.kind ? A : { ...A, kind: exKind }} show={show} />}
       {A.scripts?.map((sc, i) => <Script key={i} sc={sc} lib={lib} show={show} />)}
       {A.questions?.map((q, i) => <p key={i} className="bktask">💬 <span className="jpt">{q.jp}</span>{show.vi && q.vi && <> — {q.vi}</>}</p>)}
       {A.answer && (
@@ -142,29 +299,33 @@ export function bookQs(B, n = 12) {
   });
 }
 
-export default function BookPart({ course, lesson, stars, onQuiz }) {
-  const B = useBook(course, lesson);
+export default function BookPart({ course, book: bk, lesson, stars, onQuiz }) {
+  const book = bk || { key: "book", ...course.book };
+  const B = useBook(book, lesson);
   const [ro, setRo] = useOpt("bk_ro", true);
   const [vi, setVi] = useOpt("bk_vi", true);
   const show = { ro, vi };
   const lib = course.audio;
   if (B === undefined) return <p className="hint">Đang tải bài học…</p>;
-  if (!B) return <p className="panel hint">Bài này chưa có phần học theo sách Katsudou.</p>;
+  if (!B) return <p className="panel hint">Bài này chưa có phần học theo sách {book.short}.</p>;
   return (
+    <Prefix.Provider value={book.prefix || "sa"}>
     <div className="bkwrap">
       <div className="panel bkhead">
-        <div className="bkbook">📖 {course.book.name} · だい{B.lesson}か{B.page ? ` · sách tr.${B.page}` : ""}</div>
+        <div className="bkbook">{book.ico || "📖"} {book.name} · だい{B.lesson}か{B.page ? ` · sách tr.${B.page}` : ""}</div>
         <h2 className="jpt">{B.title.jp}</h2>
         <p>{B.title.ro && <i>{B.title.ro}</i>} {B.title.vi}</p>
-        {B.cando?.length > 0 && <ul className="bkcandos">{B.cando.map((c) => <li key={c.n}><span className="bkcando">Can-do {c.n}</span> <span className="jpt">{c.jp}</span> — {c.vi}</li>)}</ul>}
+        {B.cando?.length > 0 && <ul className="bkcandos">{B.cando.map((c, i) => <li key={i}><span className="bkcando">{c.n ? `Can-do ${c.n}` : "Mục tiêu"}</span> <span className="jpt">{c.jp}</span> — {c.vi}</li>)}</ul>}
+        {B.before?.length > 0 && <div className="bkbefore"><b className="jpt">べんきょうする まえに</b> <small>Trước khi học</small>{B.before.map((q, i) => <Line key={i} {...q} show={show} />)}</div>}
+        {B.notes?.length > 0 && <div className="bkbefore bkbasic"><b className="jpt">きほんぶん</b> <small>Câu cơ bản của bài</small>{B.notes.map((q, i) => <Line key={i} {...q} show={show} />)}</div>}
         <div className="bkopts">
           <label><input type="checkbox" checked={ro} onChange={(e) => setRo(e.target.checked)} /> Hiện romaji</label>
           <label><input type="checkbox" checked={vi} onChange={(e) => setVi(e.target.checked)} /> Hiện nghĩa tiếng Việt</label>
         </div>
       </div>
       <AudioSetup lib={lib} folder={course.folder} />
-      {B.sections.map((S) => (
-        <section key={S.no} className="panel bksec">
+      {B.sections.map((S, si) => (
+        <section key={si} className="panel bksec">
           <h3><span className="bkno">{CIRCLED[S.no] || S.no}</span> <span className="jpt">{S.title.jp}</span>{S.title.ro && <small className="bkro">{S.title.ro}</small>}<small className="bkvi">{S.title.vi}</small>{S.page && <em className="bkpage">tr.{S.page}</em>}</h3>
           {S.acts.map((A, i) => <Act key={i} A={A} lib={lib} show={show} />)}
         </section>
@@ -177,10 +338,11 @@ export default function BookPart({ course, lesson, stars, onQuiz }) {
         </section>
       )}
       <div className="panel bkquiz">
-        <div><b>✍️ Kiểm tra dịch câu</b><span>{Math.min(12, B.quiz?.length || 0)} câu lấy từ bài vừa học trong sách Katsudou: chọn nghĩa tiếng Việt, chọn câu tiếng Nhật, xếp lại câu · đúng ≥60% được 1 sao, ≥80% 2 sao, ≥95% 3 sao</span></div>
+        <div><b>✍️ Kiểm tra dịch câu</b><span>{Math.min(12, B.quiz?.length || 0)} câu lấy từ bài vừa học trong sách {book.short}: chọn nghĩa tiếng Việt, chọn câu tiếng Nhật, xếp lại câu · đúng ≥60% được 1 sao, ≥80% 2 sao, ≥95% 3 sao</span></div>
         {stars}
         <button className="gbtn tri" onClick={() => { sfx.open(); onQuiz(bookQs(B)); }} disabled={!B.quiz?.length}><span className="c" />Bắt đầu kiểm tra</button>
       </div>
     </div>
+    </Prefix.Provider>
   );
 }

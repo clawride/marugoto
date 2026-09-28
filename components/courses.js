@@ -41,8 +41,13 @@ export const A1_COURSE = {
   partLabels: { kanji: "Chữ & Kanji" },
   Host: VentiHost, Hero: VentiHero, lines: VT, char: VENTI, hostName: "Venti",
   exam: A1_EXAM,
-  // 📖 Học theo sách: dựng lại sách 入門 かつどう từng bài (public/book/a1/<bài>.json)
-  book: { name: "Sách Katsudou · まるごと入門 A1 かつどう", short: "Katsudou", url: (n) => `/book/a1/${n}.json` },
+  // Học theo sách: dựng lại sách 入門 かつどう (📖) và りかい (📘) từng bài — public/book/a1/<bài>.json, public/book/a1-rikai/<bài>.json
+  // key = khóa thẻ trong bài & khóa lưu sao ("book" giữ cho Katsudou); prefix = tên file audio của sách (sa060.mp3 / sc054.mp3)
+  books: [
+    { key: "book", ico: "📖", short: "Katsudou", name: "Sách Katsudou · まるごと入門 A1 かつどう", url: (n) => `/book/a1/${n}.json`, prefix: "sa" },
+    { key: "rikai", ico: "📘", short: "Rikai", name: "Sách Rikai · まるごと入門 A1 りかい", url: (n) => `/book/a1-rikai/${n}.json`, prefix: "sc" },
+  ],
+  book: { name: "Sách Katsudou · まるごと入門 A1 かつどう", short: "Katsudou", url: (n) => `/book/a1/${n}.json`, prefix: "sa" },
   // テストとふりかえり của sách: sau Topic 5 và Topic 9 (app/a1/test/[n])
   bookTests: [{ n: 1, after: 5, topics: "1–5", page: 71 }, { n: 2, after: 9, topics: "6–9", page: 114 }],
   extra: sheetLink("a1", "A1"),

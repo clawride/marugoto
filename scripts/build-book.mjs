@@ -19,14 +19,21 @@ const TESTS = {
 const KANA = /^[぀-ヿ　\sー、。？！0-9０-９]+$/;
 
 for (const f of fs.readdirSync(SRC).filter((f) => f.endsWith(".json"))) {
-  const course = f.split("-")[0]; // a1-katsudou.json → a1
+  // a1-katsudou.json → public/book/a1/ (kèm buổi kiểm tra) · a1-rikai.json → public/book/a1-rikai/
+  const main = f.endsWith("-katsudou.json");
+  const course = main ? f.split("-")[0] : f.replace(/\.json$/, "");
   const D = JSON.parse(fs.readFileSync(path.join(SRC, f), "utf8"));
   const out = path.join(ROOT, "public", "book", course);
   fs.mkdirSync(out, { recursive: true });
+  // câu cơ bản (きほんぶん) của bài Rikai: các trợ lý chép sách ghi ở kihonbun/kihon/key hoặc cando có số → gom về notes
+  for (const L of D.lessons) {
+    if (!main && L.cando?.[0]?.no) { L.notes = L.notes || L.cando; L.cando = []; }
+    for (const k of ["kihonbun", "kihon", "key"]) if (L[k]) { if (!L.notes) L.notes = L[k]; delete L[k]; }
+  }
   for (const L of D.lessons) fs.writeFileSync(path.join(out, `${L.lesson}.json`), JSON.stringify(L));
   console.log(`${f}: ${D.lessons.length} bài → public/book/${course}/`);
 
-  for (const T of TESTS[course] || []) {
+  for (const T of (main && TESTS[course]) || []) {
     const Ls = D.lessons.filter((L) => L.lesson >= T.lessons[0] && L.lesson <= T.lessons[1]);
     const cando = Ls.flatMap((L) => L.cando.map((c) => ({ ...c, lesson: L.lesson, title: L.title.jp })));
     const seen = new Set(), moji = [];

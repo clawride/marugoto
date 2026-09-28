@@ -155,8 +155,10 @@ export default function LessonView({ course, lesson }) {
   const L = C.lessonOf(lesson);
   const { S } = useGame();
   // khóa có sách (A1 かつどう): thẻ đầu tiên "📖 Học theo sách", mở sẵn khi vào bài
-  const tabs = course.book ? [{ key: "book", label: "Học theo sách Katsudou", ico: "📖" }, ...PARTS] : PARTS;
-  const [tab, setTab] = useState(course.book ? "book" : "vocab");
+  const books = course.books || (course.book ? [{ key: "book", ico: "📖", ...course.book }] : []);
+  const tabs = [...books.map((b) => ({ key: b.key, label: `Học theo sách ${b.short}`, ico: b.ico })), ...PARTS];
+  const [tab, setTab] = useState(books[0]?.key || "vocab");
+  const bookTab = books.find((b) => b.key === tab);
   const [run, setRun] = useState(null);
   const [res, setRes] = useState(null);
   const save = useSavePart(store, lesson);
@@ -187,11 +189,11 @@ export default function LessonView({ course, lesson }) {
         ))}
       </div>
 
-      {tab === "book" && !run && !res ? <BookPart key={lesson} course={course} lesson={lesson} stars={<Stars n={P[`${lesson}:book`]?.stars} />} onQuiz={(qs) => { setRes(null); setRun(qs); window.scrollTo({ top: 0, behavior: "smooth" }); }} />
+      {bookTab && !run && !res ? <BookPart key={`${bookTab.key}-${lesson}`} course={course} book={bookTab} lesson={lesson} stars={<Stars n={P[`${lesson}:${bookTab.key}`]?.stars} />} onQuiz={(qs) => { setRes(null); setRun(qs); window.scrollTo({ top: 0, behavior: "smooth" }); }} />
       : tab === "read" ? <ReadingPart key={lesson} L={L} save={save} course={course} /> : res ? (
-        <Result course={course} res={res} onAgain={tab === "book" ? () => { setRes(null); setRun(null); } : start} onBack={() => { setRes(null); setRun(null); }} />
+        <Result course={course} res={res} onAgain={bookTab ? () => { setRes(null); setRun(null); } : start} onBack={() => { setRes(null); setRun(null); }} />
       ) : run ? (
-        <CourseRun key={`${tab}-${lesson}`} course={course} qs={run} title={tab === "book" ? "Kiểm tra dịch câu" : lbl(part)} intro={lines[tab]} onFinish={(c, n) => { setRes(save(tab, c, n)); setRun(null); window.scrollTo({ top: 0, behavior: "smooth" }); }} />
+        <CourseRun key={`${tab}-${lesson}`} course={course} qs={run} title={bookTab ? `Kiểm tra dịch câu · sách ${bookTab.short}` : lbl(part)} intro={lines[tab]} onFinish={(c, n) => { setRes(save(tab, c, n)); setRun(null); window.scrollTo({ top: 0, behavior: "smooth" }); }} />
       ) : (
         <>
           <Host line={lines[tab]} />
