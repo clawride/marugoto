@@ -15,7 +15,25 @@ const TESTS = {
     { n: 2, page: 114, topics: [6, 9], lessons: [11, 18], moji: "sentence", write: ["だい17か「ブログ」"],
       examples: [["やすみの ひは しゃしんを とります。", "Yasumi no hi wa shashin o torimasu.", "Ngày nghỉ tôi chụp ảnh."], ["かわいい ハンカチが ほしいです。", "Kawaii hankachi ga hoshii desu.", "Tôi muốn một chiếc khăn tay dễ thương."], ["1000えんです", "Sen-en desu", "1000 yên."], ["かぶきを みました。", "Kabuki o mimashita.", "Tôi đã xem kabuki."], ["すばらしかったです。", "Subarashikatta desu.", "Tuyệt vời lắm."]] },
   ],
+  // A2-1 かつどう p86–87, p140–141: もじテスト đọc câu (đọc được 80% là đạt), かいわテスト có thẻ tình huống
+  a21: [
+    { n: 1, page: 86, topics: [1, 5], lessons: [1, 10], moji: "sentence", pass: 4, candoPages: "178–181",
+      write: ["だい2か ③[3] ウェブサイトの じこしょうかいへの コメント", "だい9か ③ がいこくごがくしゅうの きろく"],
+      examples: [["しゅみは クラシックを 聞くことです。", "Shumi wa kurashikku o kiku koto desu.", "Sở thích của tôi là nghe nhạc cổ điển.", "しゅみは クラシックを きくことです。"], ["9月ごろ すずしく なります。", "Kugatsu goro suzushiku narimasu.", "Khoảng tháng 9 trời trở nên mát mẻ.", "くがつごろ すずしく なります。"], ["1つめじゃなくて、2つめです。", "Hitotsume ja nakute, futatsume desu.", "Không phải cái thứ nhất mà là cái thứ hai.", "ひとつめじゃなくて、ふたつめです。"], ["いつか 日本に 行きたいです。", "Itsuka Nihon ni ikitai desu.", "Một ngày nào đó tôi muốn đến Nhật.", "いつか にほんに いきたいです。"]],
+      kaiwaEx: { jp: "いままでに どんな がいこくごを べんきょうしましたか。", ro: "Imamade ni donna gaikokugo o benkyoo shimashita ka.", vi: "Từ trước đến giờ bạn đã học những ngoại ngữ nào?" },
+      card: { jp: "日本の ともだちが あなたの まちに 来ました。いま、ホテルに とまっています。日よう日に、まちを あんないします。なんじに どこで あいますか。そうだん して ください。", kana: "にほんの ともだちが あなたの まちに きました。いま、ホテルに とまっています。にちようびに、まちを あんないします。なんじに どこで あいますか。そうだん して ください。", vi: "Một người bạn Nhật đến thành phố của bạn và đang ở khách sạn. Chủ nhật bạn sẽ dẫn bạn ấy đi tham quan. Hãy bàn xem gặp nhau lúc mấy giờ, ở đâu." } },
+    { n: 2, page: 140, topics: [6, 9], lessons: [11, 18], moji: "sentence", pass: 4, candoPages: "178–181",
+      write: ["だい11か ②[3] ピクニックの メモ", "だい18か ③[2] けっこんの おいわいの カード"],
+      examples: [["マレーシアの クロッポと ちょっと にています。", "Mareeshia no kuroppo to chotto nite imasu.", "Hơi giống món bánh phồng kroppok của Malaysia."], ["たなかさんに 東京で 会ったことが あります。", "Tanaka-san ni Tookyoo de atta koto ga arimasu.", "Tôi đã từng gặp anh Tanaka ở Tokyo.", "たなかさんに とうきょうで あったことが あります。"], ["ときどき スポーツを する ひとは 4にんです。", "Tokidoki supootsu o suru hito wa yonin desu.", "Số người thỉnh thoảng chơi thể thao là 4 người."], ["カーラさんは きっと よろこぶと おもいます。", "Kaara-san wa kitto yorokobu to omoimasu.", "Tôi nghĩ chắc chắn chị Carla sẽ vui."]],
+      card: { jp: "きょう、せんせいは すこし ぐあいが わるそうです。せんせいと 話して ください。", kana: "きょう、せんせいは すこし ぐあいが わるそうです。せんせいと はなして ください。", vi: "Hôm nay thầy/cô giáo có vẻ không được khỏe. Hãy nói chuyện với thầy/cô." } },
+  ],
 };
+// Thang đánh giá かいわテスト của sách A2 (khác A1)
+const FLOWERS_A2 = [
+  ["もっと すごい", "Tuyệt vời! Được hỏi rõ ràng về chuyện quen thuộc thì trả lời ngay được tất cả, và nói liền được từ 2 câu trở lên.", "fl-a"],
+  ["ごうかく", "Đạt! Được hỏi rõ ràng về chuyện quen thuộc thì trả lời được hầu hết.", "fl-b"],
+  ["もう すこし", "Cố thêm chút nữa! Được hỏi rõ ràng và thật chậm thì trả lời được một phần.", "fl-c"],
+];
 const KANA = /^[぀-ヿ　\sー、。？！0-9０-９]+$/;
 
 // pics.tsv: "pic<TAB>mô tả<TAB>emoji" hoặc "word<TAB>từ<TAB>nghĩa<TAB>emoji"
@@ -40,17 +58,18 @@ function buildRikaiExtra(D, out, course) {
   const xf = path.join(SRC, "extra", `${course}-extra.json`);
   if (!fs.existsSync(xf)) return;
   const X = JSON.parse(fs.readFileSync(xf, "utf8"));
-  const sheets = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "kanji-sheets-a1.json"), "utf8")).sheets;
+  const base = course.replace(/-rikai$/, ""); // a1-rikai → a1, a21-rikai → a21
+  const sheets = JSON.parse(fs.readFileSync(path.join(ROOT, "data", `kanji-sheets-${base}.json`), "utf8")).sheets;
   fs.writeFileSync(path.join(out, "check.json"), JSON.stringify(X.check));
   for (const T of X.tests) {
     const Ls = D.lessons.filter((L) => L.lesson >= T.lessons[0] && L.lesson <= T.lessons[1]);
     const acts = Ls.flatMap((L) => L.sections.flatMap((S) => S.acts.map((A) => ({ A, L }))));
     const uniq = (arr, key) => { const s = new Set(); return arr.filter((x) => { const k = key(x); if (s.has(k)) return false; s.add(k); return true; }); };
     // ① nghe và viết: từ viết bằng kana trong bài
-    const K = JSON.parse(fs.readFileSync(path.join(SRC, "a1-katsudou.json"), "utf8")).lessons.filter((L) => L.lesson >= T.lessons[0] && L.lesson <= T.lessons[1]);
+    const K = JSON.parse(fs.readFileSync(path.join(SRC, `${base}-katsudou.json`), "utf8")).lessons.filter((L) => L.lesson >= T.lessons[0] && L.lesson <= T.lessons[1]);
     const kacts = K.flatMap((L) => L.sections.flatMap((S) => S.acts.map((A) => ({ A, L }))));
     const listen = uniq([...acts, ...kacts].flatMap(({ A, L }) => ((Array.isArray(A.words) ? A.words : A.words?.items) || [])
-      .filter((w) => KANA_WORD.test(w.jp) && w.vi).map((w) => ({ say: w.jp, a: [w.jp], vi: w.vi, l: L.lesson }))), (x) => x.say);
+      .map((w) => ({ ...w, jp: KANA_WORD.test(w.jp) ? w.jp : w.kana || "" })).filter((w) => KANA_WORD.test(w.jp) && w.vi).map((w) => ({ say: w.jp, a: [w.jp], vi: w.vi, l: L.lesson }))), (x) => x.say);
     // ② đọc kanji: câu ví dụ của phiếu Kanji A1 theo Topic 〔chữ|cách đọc〕 + từ Kanji
     const kanji = [];
     for (const sh of sheets.filter((s) => s.t >= T.topics[0] && s.t <= T.topics[1])) {
@@ -130,12 +149,12 @@ for (const f of fs.readdirSync(SRC).filter((f) => f.endsWith(".json"))) {
     const Ls = D.lessons.filter((L) => L.lesson >= T.lessons[0] && L.lesson <= T.lessons[1]);
     const cando = Ls.flatMap((L) => L.cando.map((c) => ({ ...c, lesson: L.lesson, title: L.title.jp })));
     const seen = new Set(), moji = [];
-    const add = (x, lesson) => { const jp = x.jp.trim(); if (seen.has(jp)) return; seen.add(jp); moji.push({ jp, ro: x.ro || "", vi: x.vi, lesson }); };
+    const add = (x, lesson) => { const jp = x.jp.trim(); if (seen.has(jp)) return; seen.add(jp); moji.push({ jp, kana: x.kana, ro: x.ro || "", vi: x.vi, lesson }); };
     for (const L of Ls) {
       if (T.moji === "word") {
         for (const S of L.sections) for (const A of S.acts) for (const w of A.words?.items || []) if (KANA.test(w.jp) && [...w.jp].length >= 2 && [...w.jp].length <= 8) add(w, L.lesson);
       } else {
-        for (const q of L.quiz) if (KANA.test(q.jp) && [...q.jp].length <= 24) add(q, L.lesson);
+        for (const q of L.quiz) if ((KANA.test(q.jp) || course !== "a1") && [...q.jp].length <= 26) add(q, L.lesson); // A2: đọc cả câu có kanji
       }
     }
     // câu hỏi hội thoại: câu hỏi trong hội thoại mẫu + câu trả lời ngay sau đó
@@ -145,11 +164,12 @@ for (const f of fs.readdirSync(SRC).filter((f) => f.endsWith(".json"))) {
       for (let i = 0; i < m.length - 1; i++) {
         const q = m[i], a = m[i + 1];
         if (!/[か？?]。?$/.test(q.jp.trim()) || /^そうですか/.test(q.jp.trim()) || qseen.has(q.jp) || /[か？?]。?$/.test(a.jp.trim())) continue;
-        qseen.add(q.jp); kaiwa.push({ q: { jp: q.jp, ro: q.ro || "", vi: q.vi }, a: { jp: a.jp, ro: a.ro || "", vi: a.vi }, lesson: L.lesson });
+        qseen.add(q.jp); kaiwa.push({ q: { jp: q.jp, kana: q.kana, ro: q.ro || "", vi: q.vi }, a: { jp: a.jp, kana: a.kana, ro: a.ro || "", vi: a.vi }, lesson: L.lesson });
       }
     }
     const data = { n: T.n, page: T.page, topics: T.topics, lessons: T.lessons, moji: T.moji, write: T.write,
-      examples: T.examples.map(([jp, ro, vi]) => ({ jp, ro, vi })), cando, mojiPool: moji, kaiwa };
+      examples: T.examples.map(([jp, ro, vi, kana]) => ({ jp, kana, ro, vi })), cando, mojiPool: moji, kaiwa,
+      pass: T.pass || 3, candoPages: T.candoPages || "", kaiwaEx: T.kaiwaEx || null, card: T.card || null, flowers: course === "a1" ? null : FLOWERS_A2 };
     fs.writeFileSync(path.join(out, `test${T.n}.json`), JSON.stringify(data));
     console.log(`  test${T.n}: ${cando.length} Can-do · ${moji.length} thẻ もじ · ${kaiwa.length} câu hỏi かいわ`);
   }

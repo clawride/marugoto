@@ -45,7 +45,7 @@ export const A1_COURSE = {
   // key = khóa thẻ trong bài & khóa lưu sao ("book" giữ cho Katsudou); prefix = tên file audio của sách (sa060.mp3 / sc054.mp3)
   books: [
     { key: "book", ico: "📖", short: "Katsudou", name: "Sách Katsudou · まるごと入門 A1 かつどう", url: (n) => `/book/a1/${n}.json`, prefix: "sa" },
-    { key: "rikai", ico: "📘", short: "Rikai", name: "Sách Rikai · まるごと入門 A1 りかい", url: (n) => `/book/a1-rikai/${n}.json`, prefix: "sc", check: "/a1/nihongo-check" },
+    { key: "rikai", ico: "📘", short: "Rikai", name: "Sách Rikai · まるごと入門 A1 りかい", url: (n) => `/book/a1-rikai/${n}.json`, prefix: "sc", check: "/a1/nihongo-check", checkPages: "194–197" },
   ],
   book: { name: "Sách Katsudou · まるごと入門 A1 かつどう", short: "Katsudou", url: (n) => `/book/a1/${n}.json`, prefix: "sa" },
   // テストとふりかえり của sách: sau Topic 5 và Topic 9 (app/a1/test/[n])
@@ -62,7 +62,16 @@ export const A21_COURSE = {
   audioSetups: [{ lib: A21_AUDIO, folder: "New A2-1 Katsudou audio" }, { lib: A21R_AUDIO, folder: "New A2-1 Rikai audio" }],
   Host: RaidenHost, Hero: RaidenHero, lines: RD, char: RAIDEN, hostName: "Raiden Shogun",
   exam: A21_EXAM,
-  extra: sheetLink("a21", "A2-1"),
+  // Học theo sách 初級1 A2 かつどう (📖) và りかい (📘) — public/book/a21/<bài>.json, public/book/a21-rikai/<bài>.json
+  // mỗi sách một thư mục audio riêng; file audio tra theo số track của sách ("#004.mp3" → 004_1_2_1[1].mp3)
+  books: [
+    { key: "book", ico: "📖", short: "Katsudou", name: "Sách Katsudou · まるごと初級1 A2 かつどう", url: (n) => `/book/a21/${n}.json`, prefix: "#", lib: A21_AUDIO, folder: "New A2-1 Katsudou audio" },
+    { key: "rikai", ico: "📘", short: "Rikai", name: "Sách Rikai · まるごと初級1 A2 りかい", url: (n) => `/book/a21-rikai/${n}.json`, prefix: "#", lib: A21R_AUDIO, folder: "New A2-1 Rikai audio", check: "/a21/nihongo-check", checkPages: "196–201" },
+  ],
+  // テストとふりかえり của sách: Katsudou (app/a21/test/[n]) và Rikai (app/a21/rtest/[n]) sau Topic 5 và Topic 9
+  bookTests: [{ n: 1, after: 5, topics: "1–5", page: 86 }, { n: 2, after: 9, topics: "6–9", page: 140 }],
+  rikaiTests: [{ n: 1, after: 5, topics: "1–5", page: 101 }, { n: 2, after: 9, topics: "6–9", page: 168 }],
+  extra: [...sheetLink("a21", "A2-1"), { href: "/a21/nihongo-check", title: "✅ にほんごチェック · sách Rikai", sub: "Tự kiểm tra các câu cơ bản (きほんぶん) và câu hỏi 「日本語で 言いましょう」 của từng bài — tự chấm sao, ghi nhận xét như trang 196–201 của sách" }],
 };
 
 export const B12_COURSE = {

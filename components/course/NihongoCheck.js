@@ -1,7 +1,7 @@
 "use client";
 // にほんごチェック (まるごと入門 A1 りかい p194–197): theo từng bài — にほんごで いいましょう (câu hỏi để tự nói)
 // + きほんぶん 1–57 với ぶんぽう・ぶんけい, tự chấm ひょうか ★☆☆ / ★★☆ / ★★★ và コメント + ngày (lưu trên máy)
-// Dữ liệu: public/book/a1-rikai/check.json (scripts/build-book.mjs từ data/book/extra/a1-rikai-extra.json)
+// Dữ liệu: public/book/<khóa>-rikai/check.json (scripts/build-book.mjs từ data/book/extra/a1-rikai-extra.json)
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useGame } from "@/components/Game";
@@ -15,7 +15,7 @@ export default function NihongoCheck({ course }) {
   const book = course.books?.find((b) => b.key === "rikai");
   const [C, setC] = useState(undefined);
   const [ro, setRo] = useState(true);
-  useEffect(() => { fetch("/book/a1-rikai/check.json").then((r) => (r.ok ? r.json() : null)).catch(() => null).then(setC); }, []);
+  useEffect(() => { fetch(`/book/${course.store}-rikai/check.json`).then((r) => (r.ok ? r.json() : null)).catch(() => null).then(setC); }, [course.store]);
   useEffect(() => { if (C && location.hash) document.querySelector(location.hash)?.scrollIntoView(); }, [C]);
   if (C === undefined || !S) return <p className="hint" style={{ marginTop: 40 }}>Đang tải…</p>;
   if (!C) return <p style={{ marginTop: 40 }}>Không có dữ liệu. <Link href={course.base}>{course.title}</Link></p>;
@@ -29,7 +29,7 @@ export default function NihongoCheck({ course }) {
     <div className="bkwrap bktest">
       <Link href={course.base} className="back">‹ {course.title}</Link>
       <div className="panel bkhead">
-        <div className="bkbook">{book?.ico || "📘"} {book?.name || "Sách Rikai"} · sách tr.194–197</div>
+        <div className="bkbook">{book?.ico || "📘"} {book?.name || "Sách Rikai"}{book?.checkPages ? ` · sách tr.${book.checkPages}` : ""}</div>
         <h2 className="jpt">にほんごチェック</h2>
         <p>Nihongo Check · Tự kiểm tra tiếng Nhật theo từng bài</p>
         <p className="bktask">Mỗi bài có: <b className="jpt">にほんごで いいましょう</b> (câu hỏi để bạn tự trả lời bằng tiếng Nhật), <b className="jpt">きほんぶん</b> (câu cơ bản) và <b className="jpt">ぶんぽう・ぶんけい</b> (mẫu ngữ pháp). Tự chấm <b className="jpt">ひょうか</b> bằng sao, ghi <b className="jpt">コメント</b> — tất cả lưu lại trên máy.</p>
@@ -47,13 +47,13 @@ export default function NihongoCheck({ course }) {
               <h4 className="jpt">だい{L.l}か {L.t} <small className="bkvi">{L.vi}</small> <Link className="chip sm" href={`${course.base}/${L.l}`}>Mở bài</Link></h4>
               <div className="ncsay">
                 <b className="jpt">にほんごで いいましょう</b> <small>Hãy nói bằng tiếng Nhật</small>
-                {L.say.map((q, i) => <div key={i} className="bkline"><button className="bkspk" onClick={() => say(q.jp)}>🔊</button><div><span className="jpt bkjp">・{q.jp}</span><i className="nce">{q.en}</i><small className="bkvi">{q.vi}</small></div></div>)}
+                {L.say.map((q, i) => <div key={i} className="bkline"><button className="bkspk" onClick={() => say(q.kana || q.jp)}>🔊</button><div><span className="jpt bkjp">・{q.jp}</span>{q.kana && <small className="bkkana jpt">{q.kana}</small>}<i className="nce">{q.en}</i><small className="bkvi">{q.vi}</small></div></div>)}
               </div>
               <div className="nctable">
                 {L.kb.map((k) => (
                   <div key={k.no} className="ncrow">
                     <span className="ncno">{k.no}</span>
-                    <div className="bkline"><button className="bkspk" onClick={() => say(k.jp)}>🔊</button><div><span className="jpt bkjp">{k.jp}</span>{ro && <small className="bkro">{k.ro}</small>}<small className="bkvi">{k.vi}</small></div></div>
+                    <div className="bkline"><button className="bkspk" onClick={() => say(k.kana || k.jp)}>🔊</button><div className="ncml"><span className="jpt bkjp">{k.jp}</span>{k.kana && <small className="bkkana jpt">{k.kana}</small>}{ro && <small className="bkro">{k.ro}</small>}<small className="bkvi">{k.vi}</small></div></div>
                     <span className="ncpat jpt">{k.pat}{k.ref && <small> (L{k.ref})＊</small>}</span>
                     <div className="bkcdstars">{[1, 2, 3].map((s) => <button key={s} className={s <= (st[k.no] || 0) ? "on" : ""} title={LEVELS[s - 1][1]} onClick={() => setStar(k.no, st[k.no] === s ? 0 : s)} aria-label={`${s} sao`}>★</button>)}</div>
                   </div>

@@ -3,7 +3,7 @@
 //   ① テストの もんだいれい: câu hỏi mẫu y như sách, làm trực tiếp, nộp bài để chấm
 //   ①+ テスト luyện thêm: cùng các dạng của sách, câu lấy ngẫu nhiên từ các bài Rikai (và phiếu Kanji A1)
 //   ② せつめい: đáp án + giải thích hiện dưới từng câu · ③ ふりかえり: xem lại câu sai · ④ さくぶんの はっぴょう
-// Dữ liệu: public/book/a1-rikai/rtest<n>.json (scripts/build-book.mjs từ data/book/extra/a1-rikai-extra.json)
+// Dữ liệu: public/book/<khóa>-rikai/rtest<n>.json (scripts/build-book.mjs từ data/book/extra/a1-rikai-extra.json)
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useGame } from "@/components/Game";
@@ -13,7 +13,10 @@ import { toRomaji } from "@/lib/kana";
 import { sfx } from "@/lib/sfx";
 
 const say = (jp) => speakLines([{ t: jp }], { rate: 0.85 });
-const sayLines = (ls) => speakLines(ls.map((l) => ({ t: l.jp })), { rate: 0.85 });
+const sayLines = (ls) => speakLines(ls.map((l) => ({ t: l.kana || l.jp })), { rate: 0.85 });
+const Kana = ({ x }) => (x?.kana ? <small className="bkkana jpt">{x.kana}</small> : null);
+// câu sắp xếp theo khuôn: "駅は … ＿、＿ ＿ 右に ＿ ください。" — điền lần lượt các cụm đã chọn vào chỗ ＿
+const fillTpl = (tpl, parts) => tpl.split("＿").map((p, i, a) => (i < a.length - 1 ? p + (parts[i] ?? "＿＿") : p)).join("");
 const nrm = (s) => (s || "").replace(/[\s　。、．，.,！？!?]/g, "");
 const rom = (s) => s.toLowerCase().replace(/[\s\-'’]/g, "").replace(/ō/g, "oo").replace(/ū/g, "uu").replace(/ou/g, "oo");
 const OX = [["○", "○ ただしい"], ["×", "× ただしくない"]];
@@ -33,30 +36,30 @@ const labelOf = (it, k) => { const o = (it.opts || []).find((x) => x[0] === k); 
 function answerText(it) {
   if (it.t === "input") return it.a[0] + (it.ro ? ` / ${toRomaji(nrm(it.a[0]))}` : "");
   if (it.t === "multi") return it.a.map((k) => labelOf(it, k)).join(", ");
-  if (it.t === "order") return [it.pre, ...it.a.map((k) => it.chunks.find((c) => c[0] === k)[1]), it.post].filter(Boolean).join(" ");
+  if (it.t === "order") { const ws = it.a.map((k) => it.chunks.find((c) => c[0] === k)[1]); return it.tpl ? fillTpl(it.tpl, ws) : [it.pre, ...ws, it.post].filter(Boolean).join(" "); }
   return labelOf(it, it.a);
 }
 function questionText(it) {
   if (it.k) return `${it.pre || ""}［${it.k}］${it.post || ""}`;
-  if (it.t === "order") return `${it.pre || ""} ＿＿ ＿＿ ＿＿ ${it.post || ""}`;
+  if (it.t === "order") return it.tpl || `${it.pre || ""} ＿＿ ＿＿ ＿＿ ${it.post || ""}`;
   return [it.q, it.jp, it.label && `${it.label}（${it.labelVi || ""}）`, it.say && `🔊 ${it.say}`, it.lines && `🔊 ${it.lines.map((l) => l.jp).join(" ")}`].filter(Boolean)[0] || "";
 }
 
 // ——— câu hỏi mẫu của sách → nhóm câu hỏi ———
 function sampleGroups(T) {
   return T.sample.map((g) => {
-    const G = { no: g.no, ask: g.ask, texts: g.texts, pic: g.pic, picVi: g.picVi, cal: g.cal, lines: g.type === "fill" ? g.lines : null, box: null, items: [] };
+    const G = { no: g.no, ask: g.ask, note: g.note, texts: g.texts, pic: g.pic, picVi: g.picVi, cal: g.cal, lines: g.type === "fill" ? g.lines : null, box: null, items: [] };
     const id = (i) => `s${g.no}-${i}`;
     if (g.type === "listen") G.items = g.items.map((x, i) => ({ id: id(i), no: x.no, t: "input", say: x.say, a: x.a, vi: x.vi }));
     if (g.type === "kanji") G.items = g.items.map((x, i) => ({ id: id(i), no: x.no, t: "input", pre: x.pre, k: x.k, post: x.post, a: x.a, ro: true, vi: x.vi }));
     if (g.type === "fill") G.items = g.a.map((a, i) => ({ id: id(i), no: i + 1, t: "select", label: CIRC[i], opts: g.opts, a }));
-    if (g.type === "order") G.items = g.items.map((x, i) => ({ id: id(i), no: x.no, t: "order", pre: x.pre, post: x.post, chunks: x.chunks, a: x.a.split("-"), vi: x.vi, em: x.pic }));
+    if (g.type === "order") G.items = g.items.map((x, i) => ({ id: id(i), no: x.no, t: "order", pre: x.pre, post: x.post, tpl: x.tpl, chunks: x.chunks, a: x.a.split("-"), vi: x.vi, em: x.pic }));
     if (g.type === "read") G.items = [{ id: id(0), no: 1, t: g.multi ? "multi" : "select", q: g.q.jp, qvi: g.q.vi, opts: g.opts, a: g.a, why: g.why }];
-    if (g.type === "ox") G.items = g.items.map((x, i) => ({ id: id(i), no: x.no, t: "select", say: x.say, opts: OX, a: x.a, vi: x.vi }));
-    if (g.type === "choose") { G.box = g.opts; G.items = g.items.map((x, i) => ({ id: id(i), no: x.no, t: "select", jp: x.jp, opts: g.opts, a: x.a, vi: x.vi })); }
-    if (g.type === "write") G.items = g.items.map((x, i) => ({ id: id(i), no: x.no, t: "input", q: x.q, pre: x.pre, post: x.post, box: x.box, a: x.a, vi: x.vi }));
-    if (g.type === "read-ox") G.items = g.items.map((x, i) => ({ id: id(i), no: x.no, t: "select", jp: x.jp, opts: OX, a: x.a, vi: x.vi, why: x.why }));
-    if (g.type === "listen-choose") G.items = g.items.map((x, i) => ({ id: id(i), no: x.no, t: "select", label: x.label, labelVi: x.vi, lines: x.lines, opts: g.opts, a: x.a, why: x.why }));
+    if (g.type === "ox") G.items = g.items.map((x, i) => ({ id: id(i), no: x.no, t: "select", say: x.say, sayKana: x.kana, opts: OX, a: x.a, vi: x.vi }));
+    if (g.type === "choose") { G.box = g.opts; G.items = g.items.map((x, i) => ({ id: id(i), no: x.no, t: "select", jp: x.jp, kana: x.kana, opts: g.opts, a: x.a, vi: x.vi })); }
+    if (g.type === "write") G.items = g.items.map((x, i) => ({ id: id(i), no: x.no, t: "input", q: x.q, pre: x.pre, post: x.post, next: x.next, box: x.box, a: x.a, vi: x.vi }));
+    if (g.type === "read-ox") G.items = g.items.map((x, i) => ({ id: id(i), no: x.no, t: "select", jp: x.jp, kana: x.kana, opts: x.opts || OX, a: x.a, vi: x.vi, why: x.why }));
+    if (g.type === "listen-choose") G.items = g.items.map((x, i) => ({ id: id(i), no: x.no, t: "select", label: x.label, labelVi: x.vi, lines: x.lines, opts: x.opts || g.opts, a: x.a, why: x.why, vi: x.vi }));
     return G;
   });
 }
@@ -104,9 +107,11 @@ function OrderPick({ it, v, set, done }) {
   return (
     <div className="bkorder">
       <div className={`bkorderans jpt ${done ? (isRight(it, v) ? "ok" : "bad") : ""}`}>
-        {it.pre && <span className="bkfix">{it.pre} </span>}
-        {picked.length ? picked.map((k) => it.chunks.find((c) => c[0] === k)[1]).join(" ") : "＿＿ ＿＿ ＿＿"}
-        {it.post && <span className="bkfix"> {it.post}</span>}
+        {it.tpl ? fillTpl(it.tpl, picked.map((k) => it.chunks.find((c) => c[0] === k)[1])) : <>
+          {it.pre && <span className="bkfix">{it.pre} </span>}
+          {picked.length ? picked.map((k) => it.chunks.find((c) => c[0] === k)[1]).join(" ") : "＿＿ ＿＿ ＿＿"}
+          {it.post && <span className="bkfix"> {it.post}</span>}
+        </>}
       </div>
       {!done && (
         <div className="bkorderpool">
@@ -122,14 +127,15 @@ function Item({ it, v, set, done }) {
   const opts = it.opts || [];
   return (
     <div className={`bkex rtq ${done ? (right ? "rt-ok" : "rt-bad") : ""}`}>
-      <span className="bkexn">{it.label || it.no}</span>
+      <span className="bkexn">{it.label && [...it.label].length <= 2 ? it.label : it.no}</span>
       <div>
         {it.em && <span className="bkem">{it.em}</span>}
         {it.q && <div className="jpt">{it.q}</div>}
-        {it.say && <button className="chip sm" onClick={() => say(it.say)}>🔊 Nghe</button>}
+        {it.say && <button className="chip sm" onClick={() => say(it.sayKana || it.say)}>🔊 Nghe</button>}
         {it.lines && <button className="chip sm" onClick={() => sayLines(it.lines)}>🔊 Nghe hội thoại</button>}
         {it.label && it.labelVi && <b className="jpt"> {it.label} <small>（{it.labelVi}）</small></b>}
         {it.jp && <div className="jpt rtjp">{it.jp}</div>}
+        {it.jp && it.t !== "input" && <Kana x={it} />}
         {it.qvi && <small className="bkvi">{it.qvi}</small>}
         {it.shown && <div className="bkvi">« {it.shown} »</div>}
         {it.box && <div className="rtbox jpt">{it.box.join("　")}</div>}
@@ -138,6 +144,7 @@ function Item({ it, v, set, done }) {
             {it.k ? <>{it.pre}<u className="rtk">{it.k}</u>{it.post} <span className="rtarrow">→</span> </> : it.pre}
             <input value={v || ""} disabled={done} onChange={(e) => set(e.target.value)} placeholder={it.ro ? "よみかた / romaji" : it.say ? "かいて ください" : "…"} className={done ? (right ? "ok" : "bad") : ""} />
             {!it.k && it.post}
+            {it.next && <div>{typeof it.next === "string" ? it.next : it.next.jp}</div>}
           </div>
         )}
         {it.t === "select" && (
@@ -179,10 +186,11 @@ function Sheet({ groups, onResult, extra }) {
         <div key={g.no} className="rtgroup">
           <div className="bkask"><b className="jpt"><span className="rtno">{g.no}</span> {g.ask.jp}</b>{g.ask.en && <i>{g.ask.en}</i>}<small>{g.ask.vi}</small></div>
           {g.title?.jp && <b className="jpt">「{g.title.jp}」</b>}
-          {g.texts && <div className="rttexts">{g.texts.map((t, i) => <div key={i} className="rttext jpt"><button className="bkspk" onClick={() => say(t.jp)}>🔊</button>{t.jp.split("\n").map((l, j) => <div key={j}>{l}</div>)}{done && <small className="bkvi">{t.vi}</small>}</div>)}</div>}
-          {g.lines && <div className="rttexts">{g.lines.map((l, i) => <div key={i} className="jpt rtjp"><b>{l.sp}：</b>{l.jp}{done && <small className="bkvi">{l.vi}</small>}</div>)}</div>}
+          {g.texts && <div className="rttexts">{g.texts.map((t, i) => <div key={i} className="rttext jpt"><button className="bkspk" onClick={() => say(t.kana || t.jp)}>🔊</button>{t.jp.split("\n").map((l, j) => <div key={j}>{l}</div>)}{t.kana && <details className="rtkana"><summary>Cách đọc (kana)</summary>{t.kana.split("\n").map((l, j) => <div key={j}>{l}</div>)}</details>}{done && <small className="bkvi">{t.vi}</small>}</div>)}</div>}
+          {g.lines && <div className="rttexts">{g.lines.map((l, i) => <div key={i} className="jpt rtjp">{l.sp && <b>{l.sp}：</b>}{l.jp}{done && <Kana x={l} />}{done && <small className="bkvi">{l.vi}</small>}</div>)}</div>}
           {g.box && <div className="rtbox jpt">{g.box.map(([k, t]) => `${k} ${t}`).join("　")}</div>}
-          {g.pic && <div className="rtpic"><span className="bkem">{g.pic}</span><small>{g.picVi}</small></div>}
+          {g.note && <p className="bktask">{typeof g.note === "string" ? g.note : <><span className="jpt">{g.note.jp}</span>{g.note.vi && <> — {g.note.vi}</>}</>}</p>}
+          {(g.pic || g.picVi) && <div className="rtpic">{g.pic && <span className="bkem">{g.pic}</span>}<small>🗺 {g.picVi}</small></div>}
           {g.cal && <div className="rtcal">{g.cal.map(([d, n, x], i) => <div key={i}><small>{d}</small><b>{n}</b><span className="jpt">{x}</span></div>)}</div>}
           {g.items.map((it) => <Item key={it.id} it={it} v={v[it.id]} set={(x) => setV((o) => ({ ...o, [it.id]: x }))} done={done} />)}
         </div>
@@ -206,7 +214,7 @@ export default function RikaiTest({ course, n }) {
   const [T, setT] = useState(undefined);
   const [seed, setSeed] = useState(0);
   const [wrong, setWrong] = useState({ s: [], p: [] });
-  useEffect(() => { fetch(`/book/a1-rikai/rtest${n}.json`).then((r) => (r.ok ? r.json() : null)).catch(() => null).then(setT); }, [n]);
+  useEffect(() => { fetch(`/book/${course.store}-rikai/rtest${n}.json`).then((r) => (r.ok ? r.json() : null)).catch(() => null).then(setT); }, [course.store, n]);
   const sample = useMemo(() => (T ? sampleGroups(T) : []), [T]);
   const prac = useMemo(() => (T ? practiceGroups(T.pools) : []), [T, seed]); // eslint-disable-line react-hooks/exhaustive-deps
   if (T === undefined || !S) return <p className="hint" style={{ marginTop: 40 }}>Đang tải…</p>;

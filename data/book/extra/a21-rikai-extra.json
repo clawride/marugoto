@@ -1,0 +1,1307 @@
+{
+  "tests": [
+    {
+      "n": 1,
+      "page": 101,
+      "topics": [1, 5],
+      "lessons": [1, 10],
+      "sakubun": [1, 3, 5, 7, 9],
+      "plan": [
+        ["50分", "テスト", "Làm bài kiểm tra"],
+        ["10分", "休み", "Nghỉ giải lao"],
+        ["20分", "テストの せつめい", "Chữa bài"],
+        ["20分", "テストの ふりかえり", "Xem lại bài"],
+        ["20分", "さくぶんの はっぴょう", "Trao đổi về bài viết"]
+      ],
+      "sample": [
+        {
+          "no": 1,
+          "type": "listen",
+          "ask": {
+            "jp": "聞いて ひらがなか カタカナで 書いて ください。",
+            "kana": "きいて ひらがなか カタカナで かいて ください。",
+            "en": "Listen and write in hiragana or katakana.",
+            "vi": "Nghe rồi viết bằng hiragana hoặc katakana."
+          },
+          "items": [
+            { "no": 1, "say": "ゆうめいな こうえん", "a": ["ゆうめいなこうえん", "ゆうめいな こうえん"], "vi": "công viên nổi tiếng" },
+            { "no": 2, "say": "タワーの ちかく", "a": ["タワーのちかく", "タワーの ちかく"], "vi": "gần tòa tháp" }
+          ]
+        },
+        {
+          "no": 2,
+          "type": "listen-choose",
+          "ask": {
+            "jp": "かいわを 聞いて、ただしい ものを えらんで ください。",
+            "kana": "かいわを きいて、ただしい ものを えらんで ください。",
+            "en": "Listen to the conversation and choose the correct answer.",
+            "vi": "Nghe hội thoại rồi chọn đáp án đúng."
+          },
+          "items": [
+            {
+              "no": 1,
+              "label": "待ちあわせの 時間は 何時ですか。",
+              "labelKana": "まちあわせの じかんは なんじですか。",
+              "labelVi": "Giờ hẹn gặp là mấy giờ?",
+              "vi": "Giờ hẹn gặp là mấy giờ?",
+              "lines": [
+                {
+                  "sp": "A",
+                  "jp": "土よう日の しょくじ、まちあわせの じかんは どうしますか。",
+                  "kana": "どようびの しょくじ、まちあわせの じかんは どうしますか。",
+                  "vi": "Bữa ăn hôm thứ Bảy, mình hẹn gặp mấy giờ?"
+                },
+                { "sp": "B", "jp": "7時は どうですか。", "kana": "しちじは どうですか。", "vi": "7 giờ thì sao?" },
+                {
+                  "sp": "A",
+                  "jp": "ええ、いいですよ。7時ですね。じゃあ、ばしょは どうしますか。",
+                  "kana": "ええ、いいですよ。しちじですね。じゃあ、ばしょは どうしますか。",
+                  "vi": "Ừ, được đấy. 7 giờ nhé. Vậy còn chỗ hẹn thì sao?"
+                },
+                { "sp": "B", "jp": "えきの なかは どうですか。", "vi": "Trong nhà ga thì sao?" },
+                { "sp": "A", "jp": "えきの なかは ちょっと。えきの まえでも いいですか。", "vi": "Trong ga thì hơi… Trước nhà ga có được không?" },
+                { "sp": "B", "jp": "いいですよ。", "vi": "Được chứ." }
+              ],
+              "opts": [["a", "7:00"], ["b", "8:00"]],
+              "a": "a",
+              "why": "B：7時は どうですか。— A：ええ、いいですよ。7時ですね。→ hẹn lúc 7 giờ."
+            },
+            {
+              "no": 2,
+              "label": "待ちあわせの 場所は どこですか。",
+              "labelKana": "まちあわせの ばしょは どこですか。",
+              "labelVi": "Chỗ hẹn gặp là ở đâu?",
+              "vi": "Chỗ hẹn gặp là ở đâu?",
+              "lines": [
+                {
+                  "sp": "A",
+                  "jp": "土よう日の しょくじ、まちあわせの じかんは どうしますか。",
+                  "kana": "どようびの しょくじ、まちあわせの じかんは どうしますか。",
+                  "vi": "Bữa ăn hôm thứ Bảy, mình hẹn gặp mấy giờ?"
+                },
+                { "sp": "B", "jp": "7時は どうですか。", "kana": "しちじは どうですか。", "vi": "7 giờ thì sao?" },
+                {
+                  "sp": "A",
+                  "jp": "ええ、いいですよ。7時ですね。じゃあ、ばしょは どうしますか。",
+                  "kana": "ええ、いいですよ。しちじですね。じゃあ、ばしょは どうしますか。",
+                  "vi": "Ừ, được đấy. 7 giờ nhé. Vậy còn chỗ hẹn thì sao?"
+                },
+                { "sp": "B", "jp": "えきの なかは どうですか。", "vi": "Trong nhà ga thì sao?" },
+                { "sp": "A", "jp": "えきの なかは ちょっと。えきの まえでも いいですか。", "vi": "Trong ga thì hơi… Trước nhà ga có được không?" },
+                { "sp": "B", "jp": "いいですよ。", "vi": "Được chứ." }
+              ],
+              "opts": [["a", "駅の 中"], ["b", "駅の 前"]],
+              "a": "b",
+              "why": "A：えきの なかは ちょっと。えきの まえでも いいですか。— B：いいですよ。→ trước nhà ga."
+            }
+          ]
+        },
+        {
+          "no": 3,
+          "type": "kanji",
+          "ask": {
+            "jp": "漢字の 読みかたを ひらがなで 書いて ください。",
+            "kana": "かんじの よみかたを ひらがなで かいて ください。",
+            "en": "Write the kanji reading in hiragana.",
+            "vi": "Viết cách đọc của chữ Hán (gạch chân) bằng hiragana."
+          },
+          "items": [
+            { "no": 1, "pre": "あの レストランは とても ", "k": "安い", "post": "です。", "a": ["やすい"], "vi": "Nhà hàng kia rất rẻ." },
+            { "no": 2, "pre": "らいねん メキシコに ", "k": "留学", "post": "します。", "a": ["りゅうがく"], "vi": "Năm sau tôi sẽ đi du học ở Mexico." }
+          ]
+        },
+        {
+          "no": 4,
+          "type": "fill",
+          "ask": {
+            "jp": "（　）に ただしい じょし（に・で・の）を 書いて ください。",
+            "kana": "（　）に ただしい じょし（に・で・の）を かいて ください。",
+            "en": "Write the correct particle (ni, de or no) in the brackets.",
+            "vi": "Viết trợ từ đúng (に・で・の) vào chỗ trống."
+          },
+          "opts": [["に", "に"], ["で", "で"], ["の", "の"]],
+          "lines": [
+            { "jp": "私は 東京の 国立（①）すんでいます。", "kana": "わたしは とうきょうの くにたち（①）すんでいます。", "vi": "Tôi sống ở Kunitachi, Tokyo." },
+            { "jp": "でんしゃ（②）かいしゃ（③）はたらいています。", "vi": "Tôi làm việc ở công ty đường sắt." }
+          ],
+          "a": ["に", "の", "で"]
+        },
+        {
+          "no": 5,
+          "type": "order",
+          "ask": { "jp": "ただしい ぶんを つくって ください。", "en": "Make correct sentences.", "vi": "Sắp xếp thành câu đúng." },
+          "items": [
+            {
+              "no": 1,
+              "pre": "しゅみは",
+              "chunks": [["a", "こと"], ["b", "外国の"], ["c", "あつめる"], ["d", "コインを"]],
+              "post": "です。",
+              "a": "b-d-c-a",
+              "kana": "しゅみは がいこくの コインを あつめる ことです。",
+              "vi": "Sở thích của tôi là sưu tầm tiền xu nước ngoài."
+            },
+            {
+              "no": 2,
+              "tpl": "駅は この 通りを まっすぐ ＿、＿ ＿ 右に ＿ ください。",
+              "chunks": [["a", "1つめの"], ["b", "行って"], ["c", "まがって"], ["d", "しんごうを"]],
+              "a": "b-a-d-c",
+              "kana": "えきは この とおりを まっすぐ いって、ひとつめの しんごうを みぎに まがって ください。",
+              "vi": "Nhà ga thì bạn đi thẳng đường này, đến cột đèn giao thông thứ nhất thì rẽ phải."
+            }
+          ]
+        },
+        {
+          "no": 6,
+          "type": "write",
+          "ask": {
+            "jp": "ただしい ことばを えらんで、かたちを かえて、書いて ください。",
+            "kana": "ただしい ことばを えらんで、かたちを かえて、かいて ください。",
+            "en": "Choose the correct word, change its form and write it in the brackets.",
+            "vi": "Chọn từ đúng, đổi dạng rồi viết vào chỗ trống."
+          },
+          "items": [
+            {
+              "no": 1,
+              "pre": "A：日本りょうりを ",
+              "post": " に 行きませんか。",
+              "box": ["いきます", "ふります", "たべます", "レストラン", "てんき"],
+              "a": ["たべ", "食べ"],
+              "kana": "A：にほんりょうりを （　） に いきませんか。",
+              "vi": "A: Mình cùng đi ăn món Nhật không?",
+              "why": "c たべます → たべ（に 行きます）"
+            },
+            {
+              "no": 2,
+              "q": "A：日本りょうりを たべに 行きませんか。",
+              "pre": "B：いいですね。でも、今 雨が ",
+              "post": " いますよ。",
+              "box": ["いきます", "ふります", "たべます", "レストラン", "てんき"],
+              "a": ["ふって", "降って"],
+              "kana": "B：いいですね。でも、いま あめが （　） いますよ。",
+              "vi": "B: Hay đấy. Nhưng bây giờ trời đang mưa đấy.",
+              "why": "b ふります → ふって（います）"
+            }
+          ]
+        },
+        {
+          "no": 7,
+          "type": "read-ox",
+          "ask": {
+            "jp": "ぶんを 読んで、しつもんに こたえて ください。",
+            "kana": "ぶんを よんで、しつもんに こたえて ください。",
+            "en": "Read the passage and answer the questions.",
+            "vi": "Đọc đoạn văn rồi trả lời câu hỏi."
+          },
+          "note": { "jp": "ただしいですか（○）。ただしくないですか（×）。", "en": "Is it correct? (○) Incorrect? (×)", "vi": "Đúng (○) hay sai (×)?" },
+          "texts": [
+            {
+              "jp": "すずきさん\n駅の 北口の あたりは、でんきてんが たくさん あります。コンピューターが いちばん 安いのは「IT ショップ」です。安いけど、駅から ちょっと とおいです。あるいて 10分ぐらいです。駅を 出て、まっすぐ 行って ください。1つめの こうさてんを わたって ください。それから まっすぐ 行って ください。白くて 大きい ビルです。",
+              "kana": "すずきさん\nえきの きたぐちの あたりは、でんきてんが たくさん あります。コンピューターが いちばん やすいのは「IT ショップ」です。やすいけど、えきから ちょっと とおいです。あるいて じゅっぷんぐらいです。えきを でて、まっすぐ いって ください。ひとつめの こうさてんを わたって ください。それから まっすぐ いって ください。しろくて おおきい ビルです。",
+              "vi": "Gửi anh/chị Suzuki\nQuanh cửa Bắc nhà ga có rất nhiều cửa hàng điện máy. Nơi bán máy tính rẻ nhất là \"IT Shop\". Rẻ nhưng hơi xa ga, đi bộ khoảng 10 phút. Ra khỏi ga thì cứ đi thẳng. Băng qua ngã tư thứ nhất. Sau đó lại đi thẳng. Đó là tòa nhà to màu trắng."
+            }
+          ],
+          "pic": "🗺️",
+          "picVi": "Bản đồ: nhà ga nằm dưới cùng, cửa Bắc (北口) ở giữa. Từ cửa Bắc có một con đường đi thẳng lên, gặp ngã tư thứ nhất (có vạch qua đường); đường ngang chạy sang trái và phải. a: bên trái con đường, phía trên đường ngang (góc trên-trái ngã tư). b: bên trái con đường, phía dưới đường ngang (giữa nhà ga và ngã tư). c: đi qua ngã tư rồi tiếp tục đi thẳng lên, ở bên phải đường. d: bên phải ngã tư, ngay phía trên đường ngang (qua ngã tư rồi rẽ phải).",
+          "items": [
+            {
+              "no": 1,
+              "jp": "IT ショップは どこですか。",
+              "opts": [["a", "a"], ["b", "b"], ["c", "c"], ["d", "d"]],
+              "a": "c",
+              "vi": "IT Shop ở đâu?",
+              "why": "Ra khỏi ga đi thẳng, băng qua ngã tư thứ nhất (1つめの こうさてんを わたって) rồi tiếp tục đi thẳng → c."
+            },
+            {
+              "no": 2,
+              "jp": "IT ショップは 駅から ちかいです。",
+              "kana": "IT ショップは えきから ちかいです。",
+              "a": "×",
+              "vi": "IT Shop gần ga.",
+              "why": "駅から ちょっと とおいです。あるいて 10分ぐらいです。"
+            },
+            {
+              "no": 3,
+              "jp": "IT ショップは コンピューターが 安いです。",
+              "kana": "IT ショップは コンピューターが やすいです。",
+              "a": "○",
+              "vi": "Máy tính ở IT Shop rẻ.",
+              "why": "コンピューターが いちばん 安いのは「IT ショップ」です。"
+            },
+            {
+              "no": 4,
+              "jp": "IT ショップの ビルは 小さいです。",
+              "kana": "IT ショップの ビルは ちいさいです。",
+              "a": "×",
+              "vi": "Tòa nhà của IT Shop nhỏ.",
+              "why": "白くて 大きい ビルです。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "page": 168,
+      "topics": [6, 9],
+      "lessons": [11, 18],
+      "sakubun": [11, 13, 15, 17],
+      "plan": [["120分", "「テストとふりかえり 1」（p101-p102）と おなじ", "Chia thời gian giống buổi 1 (tr.101–102)"]],
+      "sample": [
+        {
+          "no": 1,
+          "type": "listen",
+          "ask": { "jp": "聞いて 書いて ください。", "kana": "きいて かいて ください。", "en": "Listen and write.", "vi": "Nghe rồi viết." },
+          "items": [
+            { "no": 1, "say": "コンピューター", "a": ["コンピューター"], "vi": "máy tính" },
+            { "no": 2, "say": "しゅうしょくの おいわい", "a": ["しゅうしょくのおいわい", "しゅうしょくの おいわい"], "vi": "mừng (ai đó) có việc làm" }
+          ]
+        },
+        {
+          "no": 2,
+          "type": "listen-choose",
+          "ask": {
+            "jp": "かいわを 聞いて、ただしい ものを えらんで ください。",
+            "kana": "かいわを きいて、ただしい ものを えらんで ください。",
+            "en": "Listen to the conversation and choose the correct answer.",
+            "vi": "Nghe hội thoại rồi chọn đáp án đúng."
+          },
+          "items": [
+            {
+              "no": 1,
+              "label": "スープは どうですか。",
+              "labelVi": "Món súp thế nào?",
+              "vi": "Món súp thế nào?",
+              "lines": [
+                { "sp": "A", "jp": "その スープ どうですか。", "vi": "Món súp đó thế nào?" },
+                { "sp": "B", "jp": "あたたかくて、おいしいです。", "vi": "Nóng ấm và ngon." },
+                { "sp": "A", "jp": "そうですか。もう すこし どうですか。", "vi": "Vậy à. Dùng thêm một chút nhé?" },
+                { "sp": "B", "jp": "ありがとうございます。でも、もう おなかが いっぱいで…。", "vi": "Cảm ơn. Nhưng tôi no bụng rồi…" }
+              ],
+              "opts": [["a", "高いです"], ["b", "あたたかいです"]],
+              "a": "b",
+              "why": "B：あたたかくて、おいしいです。"
+            },
+            {
+              "no": 2,
+              "label": "もっと 飲みますか。",
+              "labelKana": "もっと のみますか。",
+              "labelVi": "Có ăn (uống) thêm không?",
+              "vi": "Có ăn (uống) thêm không?",
+              "lines": [
+                { "sp": "A", "jp": "その スープ どうですか。", "vi": "Món súp đó thế nào?" },
+                { "sp": "B", "jp": "あたたかくて、おいしいです。", "vi": "Nóng ấm và ngon." },
+                { "sp": "A", "jp": "そうですか。もう すこし どうですか。", "vi": "Vậy à. Dùng thêm một chút nhé?" },
+                { "sp": "B", "jp": "ありがとうございます。でも、もう おなかが いっぱいで…。", "vi": "Cảm ơn. Nhưng tôi no bụng rồi…" }
+              ],
+              "opts": [["a", "飲みます"], ["b", "飲みません"]],
+              "a": "b",
+              "why": "B：ありがとうございます。でも、もう おなかが いっぱいで…。→ không dùng thêm."
+            }
+          ]
+        },
+        {
+          "no": 3,
+          "type": "kanji",
+          "ask": {
+            "jp": "漢字の 読みかたを ひらがなで 書いて ください。",
+            "kana": "かんじの よみかたを ひらがなで かいて ください。",
+            "en": "Write the kanji reading in hiragana.",
+            "vi": "Viết cách đọc của chữ Hán (gạch chân) bằng hiragana."
+          },
+          "items": [
+            { "no": 1, "k": "去年", "post": " ひっこししました。", "a": ["きょねん"], "vi": "Năm ngoái tôi đã chuyển nhà." },
+            { "no": 2, "k": "電気", "post": "を チェックします。", "a": ["でんき"], "vi": "Tôi kiểm tra đèn điện." }
+          ]
+        },
+        {
+          "no": 4,
+          "type": "fill",
+          "ask": {
+            "jp": "（　）に ただしい じょし（と・が・でも）を 書いて ください。",
+            "kana": "（　）に ただしい じょし（と・が・でも）を かいて ください。",
+            "en": "Write the correct particle (to, ga or demo) in the brackets.",
+            "vi": "Viết trợ từ đúng (と・が・でも) vào chỗ trống."
+          },
+          "opts": [["と", "と"], ["が", "が"], ["でも", "でも"]],
+          "lines": [
+            {
+              "sp": "A",
+              "jp": "食事の とき、おはし（①）フォーク（②）、どちら（③）いいですか。",
+              "kana": "しょくじの とき、おはし（①）フォーク（②）、どちら（③）いいですか。",
+              "vi": "Khi ăn, đũa và nĩa, bạn thích dùng cái nào hơn?"
+            },
+            { "sp": "B", "jp": "私は どっち（④）いいです。", "kana": "わたしは どっち（④）いいです。", "vi": "Tôi thì cái nào cũng được." }
+          ],
+          "a": ["と", "と", "が", "でも"]
+        },
+        {
+          "no": 5,
+          "type": "write",
+          "ask": {
+            "jp": "ただしい ことばを えらんで、かたちを かえて、書いて ください。",
+            "kana": "ただしい ことばを えらんで、かたちを かえて、かいて ください。",
+            "en": "Choose the correct word, change its form and write it in the brackets.",
+            "vi": "Chọn từ đúng, đổi dạng rồi viết vào chỗ trống."
+          },
+          "items": [
+            {
+              "no": 1,
+              "pre": "A：仕事で 外国に ",
+              "post": " ことが ありますか。",
+              "next": "B：はい、あります。メキシコに 行きました。",
+              "box": ["いきます", "はいります", "かいます"],
+              "a": ["いった", "行った"],
+              "kana": "A：しごとで がいこくに （　） ことが ありますか。\nB：はい、あります。メキシコに いきました。",
+              "vi": "A: Anh/chị đã từng đi nước ngoài vì công việc chưa? — B: Có. Tôi đã đi Mexico.",
+              "why": "a いきます → いった（ことが あります）"
+            },
+            {
+              "no": 2,
+              "q": "A：あしたの ピクニックの サンドイッチ、どうしますか。",
+              "pre": "B：ちかくの 店で ",
+              "post": " いきます。",
+              "box": ["いきます", "はいります", "かいます"],
+              "a": ["かって", "買って"],
+              "kana": "A：あしたの ピクニックの サンドイッチ、どうしますか。\nB：ちかくの みせで （　） いきます。",
+              "vi": "A: Bánh sandwich cho buổi picnic ngày mai tính sao? — B: Tôi sẽ mua ở cửa hàng gần đây rồi mang đi.",
+              "why": "c かいます → かって（いきます）"
+            },
+            {
+              "no": 3,
+              "q": "A：さいきん、ちょっと つかれているんです。",
+              "pre": "B：ねる 前に、おふろに ",
+              "post": " いいですよ。",
+              "box": ["いきます", "はいります", "かいます"],
+              "a": ["はいると", "入ると"],
+              "kana": "A：さいきん、ちょっと つかれているんです。\nB：ねる まえに、おふろに （　） いいですよ。",
+              "vi": "A: Dạo này tôi hơi mệt. — B: Trước khi ngủ mà tắm bồn thì tốt đấy.",
+              "why": "b はいります → はいると（いいです）"
+            }
+          ]
+        },
+        {
+          "no": 6,
+          "type": "read-ox",
+          "ask": {
+            "jp": "メールを 読んで、しつもんに こたえて ください。",
+            "kana": "メールを よんで、しつもんに こたえて ください。",
+            "en": "Read the e-mail and answer the questions.",
+            "vi": "Đọc email rồi trả lời câu hỏi."
+          },
+          "note": { "jp": "ただしいですか（○）。ただしくないですか（×）。", "en": "Is it correct? (○) Incorrect? (×)", "vi": "Đúng (○) hay sai (×)?" },
+          "texts": [
+            {
+              "jp": "To：キムさん\n件名：パクさんの しゅうしょくの お祝い\n\nキムさん\nパクさんの しゅうしょくの お祝いに、みんなで 何か プレゼントしませんか。\nパクさんは、仕事で 使う ものが いいと 言っていました。\nキムさんは 何が いいと 思いますか。私は ペンが いいと 思います。\n来週の じゅぎょうの 後で、デパートに 買いに 行きませんか。\nじゃあ、また 来週！\n\nあべ",
+              "kana": "To：キムさん\nけんめい：パクさんの しゅうしょくの おいわい\n\nキムさん\nパクさんの しゅうしょくの おいわいに、みんなで なにか プレゼントしませんか。\nパクさんは、しごとで つかう ものが いいと いっていました。\nキムさんは なにが いいと おもいますか。わたしは ペンが いいと おもいます。\nらいしゅうの じゅぎょうの あとで、デパートに かいに いきませんか。\nじゃあ、また らいしゅう！\n\nあべ",
+              "vi": "Gửi: anh Kim\nTiêu đề: Mừng anh Park có việc làm\n\nAnh Kim ơi,\nĐể mừng anh Park có việc làm, mọi người cùng tặng anh ấy món quà gì đó nhé?\nAnh Park có nói là đồ dùng trong công việc thì tốt.\nAnh Kim nghĩ tặng gì thì hay? Tôi nghĩ tặng bút là hay.\nTuần sau, sau giờ học, mình cùng đi trung tâm thương mại mua nhé?\nVậy hẹn gặp lại tuần sau!\n\nAbe"
+            }
+          ],
+          "items": [
+            {
+              "no": 1,
+              "jp": "キムさんは しゅうしょくしました。",
+              "a": "×",
+              "vi": "Anh Kim đã có việc làm.",
+              "why": "Người có việc làm (しゅうしょく) là anh Park, không phải anh Kim."
+            },
+            {
+              "no": 2,
+              "jp": "パクさんは 仕事で 使うものが ほしいです。",
+              "kana": "パクさんは しごとで つかうものが ほしいです。",
+              "a": "○",
+              "vi": "Anh Park muốn có đồ dùng trong công việc.",
+              "why": "パクさんは、仕事で 使う ものが いいと 言っていました。"
+            },
+            {
+              "no": 3,
+              "jp": "あべさんは 1人で 買い物に 行きたいです。",
+              "kana": "あべさんは ひとりで かいものに いきたいです。",
+              "a": "×",
+              "vi": "Abe muốn đi mua sắm một mình.",
+              "why": "Abe rủ anh Kim đi cùng: デパートに 買いに 行きませんか。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "check": [
+    {
+      "topic": 1,
+      "tt": "私と かぞく",
+      "tk": "わたしと かぞく",
+      "ten": "My Family and Myself",
+      "tvi": "Tôi và gia đình",
+      "lessons": [
+        {
+          "l": 1,
+          "t": "東京に すんでいます",
+          "tk": "とうきょうに すんでいます",
+          "en": "We live in Tokyo",
+          "vi": "Tôi sống ở Tokyo",
+          "say": [
+            {
+              "jp": "はじめて 会った ひとと なにを 話しますか。",
+              "kana": "はじめて あった ひとと なにを はなしますか。",
+              "en": "What do you talk about when you meet someone for the first time?",
+              "vi": "Khi gặp ai đó lần đầu, bạn nói chuyện gì?"
+            },
+            {
+              "jp": "かぞくについて なにを 話しますか。",
+              "kana": "かぞくについて なにを はなしますか。",
+              "en": "What do you say about your family?",
+              "vi": "Bạn nói gì về gia đình mình?"
+            }
+          ],
+          "kb": [
+            {
+              "no": 1,
+              "jp": "私は 東京に すんでいます。\n私は でんしゃの かいしゃで はたらいています。",
+              "kana": "わたしは とうきょうに すんでいます。\nわたしは でんしゃの かいしゃで はたらいています。",
+              "ro": "Watashi wa Tookyoo ni sunde imasu.\nWatashi wa densha no kaisha de hataraite imasu.",
+              "vi": "Tôi sống ở Tokyo.\nTôi làm việc ở công ty đường sắt.",
+              "pat": "V-て います①"
+            },
+            {
+              "no": 2,
+              "jp": "東京に すんでいます。",
+              "kana": "とうきょうに すんでいます。",
+              "ro": "Tookyoo ni sunde imasu.",
+              "vi": "Tôi sống ở Tokyo.",
+              "pat": "じょし N に／N で①（ばしょ）／N で②（しゅだん）"
+            },
+            {
+              "no": 3,
+              "jp": "でんしゃの かいしゃで はたらいています。",
+              "ro": "Densha no kaisha de hataraite imasu.",
+              "vi": "Tôi làm việc ở công ty đường sắt.",
+              "pat": "じょし N に／N で①（ばしょ）／N で②（しゅだん）"
+            },
+            {
+              "no": 4,
+              "jp": "かいしゃまで でんしゃで 行きます。",
+              "kana": "かいしゃまで でんしゃで いきます。",
+              "ro": "Kaisha made densha de ikimasu.",
+              "vi": "Tôi đi đến công ty bằng tàu điện.",
+              "pat": "じょし N に／N で①（ばしょ）／N で②（しゅだん）"
+            }
+          ]
+        },
+        {
+          "l": 2,
+          "t": "しゅみは クラシックを 聞くことです",
+          "tk": "しゅみは クラシックを きくことです",
+          "en": "My hobby is listening to classical music",
+          "vi": "Sở thích của tôi là nghe nhạc cổ điển",
+          "say": [
+            {
+              "jp": "あなたの しゅみは 何ですか。何が すきですか。",
+              "kana": "あなたの しゅみは なんですか。なにが すきですか。",
+              "en": "What are your hobbies? What do you like?",
+              "vi": "Sở thích của bạn là gì? Bạn thích gì?"
+            },
+            { "jp": "ひまな とき、何を しますか。", "kana": "ひまな とき、なにを しますか。", "en": "What do you do in your free time?", "vi": "Lúc rảnh rỗi bạn làm gì?" }
+          ],
+          "kb": [
+            {
+              "no": 5,
+              "jp": "しゅみは クラシックを 聞くことです。",
+              "kana": "しゅみは クラシックを きくことです。",
+              "ro": "Shumi wa kurashikku o kiku koto desu.",
+              "vi": "Sở thích của tôi là nghe nhạc cổ điển.",
+              "pat": "V-る こと"
+            },
+            {
+              "no": 6,
+              "jp": "こどもの とき、よく 日本の アニメを 見ました。\nわかい とき、よく りょこうしました。\nひまな とき、りょうりを つくります。",
+              "kana": "こどもの とき、よく にほんの アニメを みました。\nわかい とき、よく りょこうしました。\nひまな とき、りょうりを つくります。",
+              "ro": "Kodomo no toki, yoku Nihon no anime o mimashita.\nWakai toki, yoku ryokoo shimashita.\nHima na toki, ryoori o tsukurimasu.",
+              "vi": "Hồi nhỏ, tôi hay xem phim hoạt hình Nhật.\nHồi trẻ, tôi hay đi du lịch.\nLúc rảnh, tôi nấu ăn.",
+              "pat": "N の とき／イA-い とき／ナA-な とき、＿＿"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "topic": 2,
+      "tt": "きせつと 天気",
+      "tk": "きせつと てんき",
+      "ten": "Seasons and Weather",
+      "tvi": "Mùa và thời tiết",
+      "lessons": [
+        {
+          "l": 3,
+          "t": "日本は 今、春です",
+          "tk": "にほんは いま、はるです",
+          "en": "It's spring now in Japan",
+          "vi": "Nhật Bản bây giờ đang là mùa xuân",
+          "say": [
+            {
+              "jp": "あなたの 国は いま、どんな きせつですか。きせつは どのように かわりますか。",
+              "kana": "あなたの くには いま、どんな きせつですか。きせつは どのように かわりますか。",
+              "en": "What season is it now in your country? How do the seasons change?",
+              "vi": "Ở nước bạn bây giờ đang là mùa gì? Các mùa thay đổi như thế nào?"
+            },
+            { "jp": "好きな きせつは いつですか。", "kana": "すきな きせつは いつですか。", "en": "What season do you like?", "vi": "Mùa bạn thích là mùa nào?" }
+          ],
+          "kb": [
+            {
+              "no": 7,
+              "jp": "3月ごろ、春に なります。\n3月ごろ、だんだん あたたかく なります。\nこうえんが きれいに なります。",
+              "kana": "さんがつごろ、はるに なります。\nさんがつごろ、だんだん あたたかく なります。\nこうえんが きれいに なります。",
+              "ro": "Sangatsu goro, haru ni narimasu.\nSangatsu goro, dandan atatakaku narimasu.\nKooen ga kiree ni narimasu.",
+              "vi": "Khoảng tháng 3 thì sang xuân.\nKhoảng tháng 3, trời ấm dần lên.\nCông viên trở nên đẹp.",
+              "pat": "N に／イA-く／ナA-に なります"
+            },
+            {
+              "no": 8,
+              "jp": "私は 夏が 好きです。\n私は あついのは 好きじゃないです。",
+              "kana": "わたしは なつが すきです。\nわたしは あついのは すきじゃないです。",
+              "ro": "Watashi wa natsu ga suki desu.\nWatashi wa atsui no wa sukijanai desu.",
+              "vi": "Tôi thích mùa hè.\nTôi không thích trời nóng.",
+              "pat": "N／イA-いの／ナA-なの が すきです\nN／イA-いの／ナA-なの は すきじゃないです"
+            },
+            {
+              "no": 9,
+              "jp": "夏休みが ありますから、夏が いちばん 好きです。",
+              "kana": "なつやすみが ありますから、なつが いちばん すきです。",
+              "ro": "Natsuyasumi ga arimasu kara, natsu ga ichiban suki desu.",
+              "vi": "Vì có kỳ nghỉ hè nên tôi thích mùa hè nhất.",
+              "pat": "S1 から、S2"
+            }
+          ]
+        },
+        {
+          "l": 4,
+          "t": "いい 天気ですね",
+          "tk": "いい てんきですね",
+          "en": "It's a nice day, isn't it?",
+          "vi": "Trời đẹp quá nhỉ",
+          "say": [
+            {
+              "jp": "きょうの てんきは どうですか。きのうは どうでしたか。",
+              "en": "What is the weather like today? What was it like yesterday?",
+              "vi": "Thời tiết hôm nay thế nào? Hôm qua thế nào?"
+            },
+            {
+              "jp": "てんきについて 話すのは どんな ときですか。",
+              "kana": "てんきについて はなすのは どんな ときですか。",
+              "en": "When do you talk about the weather?",
+              "vi": "Khi nào thì bạn nói chuyện về thời tiết?"
+            }
+          ],
+          "kb": [
+            {
+              "no": 10,
+              "jp": "きのうは すごい 雨でしたね。\nきのうは さむかったです。\n今日は いい天気に なりましたね。",
+              "kana": "きのうは すごい あめでしたね。\nきのうは さむかったです。\nきょうは いいてんきに なりましたね。",
+              "ro": "Kinoo wa sugoi ame deshita ne.\nKinoo wa samukatta desu.\nKyoo wa ii tenki ni narimashita ne.",
+              "vi": "Hôm qua mưa to ghê nhỉ.\nHôm qua trời lạnh.\nHôm nay trời đã đẹp lên rồi nhỉ.",
+              "pat": "N／イA／ナA-です／でした\nV-ます／ました"
+            },
+            {
+              "no": 11,
+              "jp": "今、雪が ふっています。",
+              "kana": "いま、ゆきが ふっています。",
+              "ro": "Ima, yuki ga futte imasu.",
+              "vi": "Bây giờ tuyết đang rơi.",
+              "pat": "V-て います②"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "topic": 3,
+      "tt": "私の 町",
+      "tk": "わたしの まち",
+      "ten": "My Town",
+      "tvi": "Thành phố của tôi",
+      "lessons": [
+        {
+          "l": 5,
+          "t": "この こうえんは 広くて、きれいです",
+          "tk": "この こうえんは ひろくて、きれいです",
+          "en": "This park is big and beautiful",
+          "vi": "Công viên này rộng và đẹp",
+          "say": [
+            {
+              "jp": "あなたの まちに はじめて 来た 人に どこを しょうかいしますか。",
+              "kana": "あなたの まちに はじめて きた ひとに どこを しょうかいしますか。",
+              "en": "What places in your town would you introduce to a first-time visitor?",
+              "vi": "Với người lần đầu đến thành phố của bạn, bạn sẽ giới thiệu những nơi nào?"
+            },
+            { "jp": "それは どんな ところですか。", "en": "What are those places like?", "vi": "Đó là những nơi như thế nào?" }
+          ],
+          "kb": [
+            {
+              "no": 12,
+              "jp": "この 店は 安くて、べんりです。\nこの あたりは にぎやかで、おもしろいです。\nこの あたりは 新しい 町で、人気が あります。",
+              "kana": "この みせは やすくて、べんりです。\nこの あたりは にぎやかで、おもしろいです。\nこの あたりは あたらしい まちで、にんきが あります。",
+              "ro": "Kono mise wa yasukute, benri desu.\nKono atari wa nigiyaka de, omoshiroi desu.\nKono atari wa atarashii machi de, ninki ga arimasu.",
+              "vi": "Cửa hàng này rẻ và tiện.\nKhu này nhộn nhịp và thú vị.\nKhu này là khu phố mới và được nhiều người yêu thích.",
+              "pat": "イA-くて／ナA-で／N で、イA／ナA／…"
+            },
+            {
+              "no": 13,
+              "jp": "この ゆうえんちは たのしいけど、高いです。\nこの 町は ちょっと ふべんだけど、たのしいです。\nここは ゆうえんちだけど、おとなも 多いです。",
+              "kana": "この ゆうえんちは たのしいけど、たかいです。\nこの まちは ちょっと ふべんだけど、たのしいです。\nここは ゆうえんちだけど、おとなも おおいです。",
+              "ro": "Kono yuuenchi wa tanoshii kedo, takai desu.\nKono machi wa chotto fuben da kedo, tanoshii desu.\nKoko wa yuuenchi da kedo, otona mo ooi desu.",
+              "vi": "Công viên giải trí này vui nhưng đắt.\nThành phố này hơi bất tiện nhưng vui.\nChỗ này là công viên giải trí nhưng người lớn cũng đông.",
+              "pat": "イA-いけど／ナA-だけど／N だけど、イA／ナA／…"
+            },
+            {
+              "no": 14,
+              "jp": "この あたりに 高い ビルや ホテルが あります。",
+              "kana": "この あたりに たかい ビルや ホテルが あります。",
+              "ro": "Kono atari ni takai biru ya hoteru ga arimasu.",
+              "vi": "Quanh đây có những tòa nhà cao, khách sạn…",
+              "pat": "N1 や N2（など）"
+            }
+          ]
+        },
+        {
+          "l": 6,
+          "t": "まっすぐ 行って ください",
+          "tk": "まっすぐ いって ください",
+          "en": "Please go straight",
+          "vi": "Hãy đi thẳng",
+          "say": [
+            {
+              "jp": "だれかに みちを 聞かれたことが ありますか。どう せつめいしましたか。",
+              "kana": "だれかに みちを きかれたことが ありますか。どう せつめいしましたか。",
+              "en": "Have you ever been asked directions by someone? How did you answer?",
+              "vi": "Bạn đã bao giờ bị ai đó hỏi đường chưa? Bạn đã giải thích thế nào?"
+            },
+            {
+              "jp": "あなたの 町の ゆうめいな たてものは どんな たてものですか。",
+              "kana": "あなたの まちの ゆうめいな たてものは どんな たてものですか。",
+              "en": "What buildings are famous in your town?",
+              "vi": "Ở thành phố của bạn, tòa nhà nổi tiếng là tòa nhà như thế nào?"
+            }
+          ],
+          "kb": [
+            { "no": 15, "jp": "まっすぐ 行って ください。", "kana": "まっすぐ いって ください。", "ro": "Massugu itte kudasai.", "vi": "Hãy đi thẳng.", "pat": "V-て ください" },
+            {
+              "no": 16,
+              "jp": "まっすぐ 行って、しんごうを 右に まがって ください。",
+              "kana": "まっすぐ いって、しんごうを みぎに まがって ください。",
+              "ro": "Massugu itte, shingoo o migi ni magatte kudasai.",
+              "vi": "Hãy đi thẳng, đến cột đèn giao thông thì rẽ phải.",
+              "pat": "V1-て、V2"
+            },
+            {
+              "no": 17,
+              "jp": "あの 大きくて 白い ビルです。\n日本てきで おもしろい たてものです。",
+              "kana": "あの おおきくて しろい ビルです。\nにほんてきで おもしろい たてものです。",
+              "ro": "Ano ookikute shiroi biru desu.\nNihon-teki de omoshiroi tatemono desu.",
+              "vi": "Là tòa nhà to và màu trắng kia.\nLà một tòa nhà mang phong cách Nhật và thú vị.",
+              "pat": "イA-くて／ナA-で イA-い／ナA-な N"
+            },
+            {
+              "no": 18,
+              "jp": "左じゃなくて、右です。",
+              "kana": "ひだりじゃなくて、みぎです。",
+              "ro": "Hidari janakute, migi desu.",
+              "vi": "Không phải bên trái mà là bên phải.",
+              "pat": "N1 じゃなくて、N2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "topic": 4,
+      "tt": "出かける",
+      "tk": "でかける",
+      "ten": "Going Out",
+      "tvi": "Đi chơi",
+      "lessons": [
+        {
+          "l": 7,
+          "t": "10時でも いいですか",
+          "tk": "じゅうじでも いいですか",
+          "en": "Is ten o'clock OK?",
+          "vi": "10 giờ có được không?",
+          "say": [
+            {
+              "jp": "外国人の ともだちに 町を あんないしたことが ありますか。まちあわせの やくそくを しましたか。",
+              "kana": "がいこくじんの ともだちに まちを あんないしたことが ありますか。まちあわせの やくそくを しましたか。",
+              "en": "Have you ever shown a friend from another country around your town? Did you arrange to meet up somewhere?",
+              "vi": "Bạn đã bao giờ dẫn người bạn nước ngoài đi tham quan thành phố chưa? Hai người có hẹn chỗ gặp nhau không?"
+            },
+            {
+              "jp": "まちあわせの じかんに おくれる とき、何と 言って れんらくしますか。",
+              "kana": "まちあわせの じかんに おくれる とき、なんと いって れんらくしますか。",
+              "en": "What do you say when you are going to be late to meet someone?",
+              "vi": "Khi sắp trễ giờ hẹn, bạn liên lạc và nói gì?"
+            }
+          ],
+          "kb": [
+            {
+              "no": 19,
+              "jp": "10時でも いいですか。",
+              "kana": "じゅうじでも いいですか。",
+              "ro": "Juu-ji demo ii desu ka.",
+              "vi": "10 giờ có được không?",
+              "pat": "N でも いいですか"
+            },
+            {
+              "no": 20,
+              "jp": "じゅうたいで、おくれます。\n道に まよって、おくれます。",
+              "kana": "じゅうたいで、おくれます。\nみちに まよって、おくれます。",
+              "ro": "Juutai de, okuremasu.\nMichi ni mayotte, okuremasu.",
+              "vi": "Vì kẹt xe nên tôi sẽ đến muộn.\nVì bị lạc đường nên tôi sẽ đến muộn.",
+              "pat": "N で／V-て、＿＿"
+            }
+          ]
+        },
+        {
+          "l": 8,
+          "t": "もう やけいを 見に 行きましたか",
+          "tk": "もう やけいを みに いきましたか",
+          "en": "Have you been to see the night view yet?",
+          "vi": "Bạn đã đi ngắm cảnh đêm chưa?",
+          "say": [
+            {
+              "jp": "あなたの 町に はじめて 来た 人に どこを あんないしたいですか。",
+              "kana": "あなたの まちに はじめて きた ひとに どこを あんないしたいですか。",
+              "en": "Where would you want to take a first-time visitor to your town?",
+              "vi": "Bạn muốn dẫn người lần đầu đến thành phố của bạn đi đâu?"
+            },
+            {
+              "jp": "おすすめの 場所に だれかを さそう とき、どう 話しますか。",
+              "kana": "おすすめの ばしょに だれかを さそう とき、どう はなしますか。",
+              "en": "When you invite someone to visit a place, what do you say?",
+              "vi": "Khi rủ ai đó đến một nơi bạn muốn giới thiệu, bạn nói thế nào?"
+            }
+          ],
+          "kb": [
+            {
+              "no": 21,
+              "jp": "もう びじゅつかんに 行きましたか。",
+              "kana": "もう びじゅつかんに いきましたか。",
+              "ro": "Moo bijutsukan ni ikimashita ka.",
+              "vi": "Bạn đã đi bảo tàng mỹ thuật chưa?",
+              "pat": "もう V-ました"
+            },
+            { "no": 22, "jp": "…いいえ、まだです。", "ro": "…Iie, mada desu.", "vi": "…Chưa, tôi chưa đi.", "pat": "まだです" },
+            { "no": 23, "jp": "買いものに 行きます。", "kana": "かいものに いきます。", "ro": "Kaimono ni ikimasu.", "vi": "Tôi đi mua sắm.", "pat": "N に／V に いきます／きます" },
+            {
+              "no": 24,
+              "jp": "さくらを 見に 行きます。",
+              "kana": "さくらを みに いきます。",
+              "ro": "Sakura o mi ni ikimasu.",
+              "vi": "Tôi đi ngắm hoa anh đào.",
+              "pat": "N に／V に いきます／きます"
+            },
+            {
+              "no": 25,
+              "jp": "朝ごはんの 前に、さんぽを します。",
+              "kana": "あさごはんの まえに、さんぽを します。",
+              "ro": "Asagohan no mae ni, sanpo o shimasu.",
+              "vi": "Trước bữa sáng, tôi đi dạo.",
+              "pat": "N の まえに、＿＿"
+            },
+            {
+              "no": 26,
+              "jp": "朝ごはんの 後で、仕事を します。",
+              "kana": "あさごはんの あとで、しごとを します。",
+              "ro": "Asagohan no ato de, shigoto o shimasu.",
+              "vi": "Sau bữa sáng, tôi làm việc.",
+              "pat": "N の あとで、＿＿"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "topic": 5,
+      "tt": "外国語と 外国文化",
+      "tk": "がいこくごと がいこくぶんか",
+      "ten": "Languages and Cultures of Other Countries",
+      "tvi": "Ngoại ngữ và văn hóa nước ngoài",
+      "lessons": [
+        {
+          "l": 9,
+          "t": "日本語は はつおんが かんたんです",
+          "tk": "にほんごは はつおんが かんたんです",
+          "en": "Japanese is easy to pronounce",
+          "vi": "Tiếng Nhật thì phát âm dễ",
+          "say": [
+            {
+              "jp": "あなたは 今までに どんな 外国語を べんきょうしましたか。どうでしたか。",
+              "kana": "あなたは いままでに どんな がいこくごを べんきょうしましたか。どうでしたか。",
+              "en": "What languages have you studied before? What were they like?",
+              "vi": "Từ trước đến nay bạn đã học những ngoại ngữ nào? Thấy thế nào?"
+            },
+            {
+              "jp": "ことばが わからなくて こまった とき、あなたは 何と 言って たすけを もとめますか。",
+              "kana": "ことばが わからなくて こまった とき、あなたは なんと いって たすけを もとめますか。",
+              "en": "How do you ask for help when you don't understand?",
+              "vi": "Khi gặp khó khăn vì không hiểu ngôn ngữ, bạn nói gì để nhờ giúp đỡ?"
+            }
+          ],
+          "kb": [
+            {
+              "no": 27,
+              "jp": "スペイン語は たんごが かんたんです。",
+              "kana": "スペインごは たんごが かんたんです。",
+              "ro": "Supeingo wa tango ga kantan desu.",
+              "vi": "Tiếng Tây Ban Nha thì từ vựng dễ.",
+              "pat": "N1 は N2 が イA／ナA です"
+            },
+            {
+              "no": 28,
+              "jp": "中国語は 話すのが おもしろいです。",
+              "kana": "ちゅうごくごは はなすのが おもしろいです。",
+              "ro": "Chuugokugo wa hanasu no ga omoshiroi desu.",
+              "vi": "Tiếng Trung thì nói rất thú vị.",
+              "pat": "N は V-るのが イA／ナA です"
+            },
+            {
+              "no": 29,
+              "jp": "この ことばの いみを おしえて くださいませんか。",
+              "ro": "Kono kotoba no imi o oshiete kudasaimasen ka.",
+              "vi": "Anh/chị có thể cho tôi biết nghĩa của từ này được không ạ?",
+              "pat": "V-て くださいませんか"
+            },
+            {
+              "no": 30,
+              "jp": "この かんじの 読みかたが わかりません。",
+              "kana": "この かんじの よみかたが わかりません。",
+              "ro": "Kono kanji no yomikata ga wakarimasen.",
+              "vi": "Tôi không biết cách đọc chữ Hán này.",
+              "pat": "V-かた"
+            }
+          ]
+        },
+        {
+          "l": 10,
+          "t": "いつか 日本に 行きたいです",
+          "tk": "いつか にほんに いきたいです",
+          "en": "I'd like to go to Japan some day",
+          "vi": "Một ngày nào đó tôi muốn đi Nhật",
+          "say": [
+            {
+              "jp": "ほかの 国の ぶんかに ふれる かつどうを 何か していますか。",
+              "kana": "ほかの くにの ぶんかに ふれる かつどうを なにか していますか。",
+              "en": "What activities do you do in order to experience the cultures of other countries?",
+              "vi": "Bạn có tham gia hoạt động nào để tiếp xúc với văn hóa của nước khác không?"
+            },
+            {
+              "jp": "こまっている 人を 見たら、何と 言いますか。",
+              "kana": "こまっている ひとを みたら、なんと いいますか。",
+              "en": "What do you say when you see someone in trouble?",
+              "vi": "Khi thấy người đang gặp khó khăn, bạn nói gì?"
+            }
+          ],
+          "kb": [
+            {
+              "no": 31,
+              "jp": "ほんやくの 仕事を したいです。",
+              "kana": "ほんやくの しごとを したいです。",
+              "ro": "Hon'yaku no shigoto o shitai desu.",
+              "vi": "Tôi muốn làm công việc biên dịch.",
+              "pat": "V-たいです／V-たくないです"
+            },
+            {
+              "no": 32,
+              "jp": "週に 1回 フラメンコを ならっています。",
+              "kana": "しゅうに いっかい フラメンコを ならっています。",
+              "ro": "Shuu ni ikkai furamenko o naratte imasu.",
+              "vi": "Tôi học nhảy flamenco mỗi tuần một lần.",
+              "pat": "週／月／年 に 〜回（ぐらい）"
+            },
+            {
+              "no": 33,
+              "jp": "日本人と 日本語で 話してみます。",
+              "kana": "にほんじんと にほんごで はなしてみます。",
+              "ro": "Nihonjin to nihongo de hanashite mimasu.",
+              "vi": "Tôi sẽ thử nói chuyện bằng tiếng Nhật với người Nhật.",
+              "pat": "V-て みます"
+            },
+            {
+              "no": 34,
+              "jp": "いっしょに 駅に 行きましょうか。",
+              "kana": "いっしょに えきに いきましょうか。",
+              "ro": "Issho ni eki ni ikimashoo ka.",
+              "vi": "Tôi đi cùng bạn đến nhà ga nhé?",
+              "pat": "V-ましょうか"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "topic": 6,
+      "tt": "そとで 食べる",
+      "tk": "そとで たべる",
+      "ten": "Eating Outdoors",
+      "tvi": "Ăn uống ngoài trời",
+      "lessons": [
+        {
+          "l": 11,
+          "t": "何を 持っていきますか",
+          "tk": "なにを もっていきますか",
+          "en": "What are you going to take to the picnic?",
+          "vi": "Bạn sẽ mang gì đi?",
+          "say": [
+            {
+              "jp": "かぞくや 友だちと ピクニックを しますか。ピクニックの じゅんびについて どんな ことを そうだんしますか。",
+              "kana": "かぞくや ともだちと ピクニックを しますか。ピクニックの じゅんびについて どんな ことを そうだんしますか。",
+              "en": "Do you ever go on picnics with friends and family? What do you talk to them about regarding the preparations for the picnic?",
+              "vi": "Bạn có đi picnic với gia đình hay bạn bè không? Bạn bàn bạc những gì về việc chuẩn bị cho buổi picnic?"
+            },
+            {
+              "jp": "ピクニックの とき、どんな 食べものや 飲みものを もっていきますか。",
+              "kana": "ピクニックの とき、どんな たべものや のみものを もっていきますか。",
+              "en": "What food and drinks do you take to a picnic?",
+              "vi": "Khi đi picnic, bạn mang theo đồ ăn, đồ uống gì?"
+            }
+          ],
+          "kb": [
+            {
+              "no": 35,
+              "jp": "私は おすしを 作っていきます。\n私は おすしを 作ってきました。",
+              "kana": "わたしは おすしを つくっていきます。\nわたしは おすしを つくってきました。",
+              "ro": "Watashi wa osushi o tsukutte ikimasu.\nWatashi wa osushi o tsukutte kimashita.",
+              "vi": "Tôi sẽ làm sushi rồi mang đi.\nTôi đã làm sushi rồi mang đến.",
+              "pat": "V-て いきます／きます"
+            },
+            {
+              "no": 36,
+              "jp": "くだものは 何でも 好きです。",
+              "kana": "くだものは なんでも すきです。",
+              "ro": "Kudamono wa nan demo suki desu.",
+              "vi": "Hoa quả thì loại nào tôi cũng thích.",
+              "pat": "なん／いつ／どこ／いくつ でも ＿＿"
+            },
+            {
+              "no": 37,
+              "jp": "飲み物は お茶と ジュースと どちらが いいですか。\n…私は お茶が いいです。",
+              "kana": "のみものは おちゃと ジュースと どちらが いいですか。\n…わたしは おちゃが いいです。",
+              "ro": "Nomimono wa ocha to juusu to dochira ga ii desu ka.\n…Watashi wa ocha ga ii desu.",
+              "vi": "Đồ uống thì trà và nước hoa quả, bạn thích cái nào?\n…Tôi thích trà.",
+              "pat": "N1 と N2（と） どちらが いいですか\nN1 が いいです"
+            }
+          ]
+        },
+        {
+          "l": 12,
+          "t": "おいしそうですね",
+          "en": "It looks delicious",
+          "vi": "Trông ngon quá nhỉ",
+          "say": [
+            {
+              "jp": "どんな あじの 食べ物が 好きですか。",
+              "kana": "どんな あじの たべものが すきですか。",
+              "en": "What kind of food do you like? What does it taste like?",
+              "vi": "Bạn thích đồ ăn có vị như thế nào?"
+            },
+            {
+              "jp": "食べて おいしいと おもった とき、何と 言いますか。",
+              "kana": "たべて おいしいと おもった とき、なんと いいますか。",
+              "en": "What do you say when you eat something you think is delicious?",
+              "vi": "Khi ăn thấy ngon, bạn nói gì?"
+            }
+          ],
+          "kb": [
+            { "no": 38, "jp": "その おすし、おいしそうですね。", "ro": "Sono osushi, oishisoo desu ne.", "vi": "Món sushi đó trông ngon nhỉ.", "pat": "イA／ナA-そうです" },
+            {
+              "no": 39,
+              "jp": "それ、べんりそうな ナイフですね。",
+              "ro": "Sore, benrisoo na naifu desu ne.",
+              "vi": "Đó là con dao trông tiện lợi nhỉ.",
+              "pat": "イA／ナA-そうな N"
+            },
+            {
+              "no": 40,
+              "jp": "あたたかくて、おいしいです。\nからくなくて、おいしいです。\nしんせんで、おいしいです。\nにがてじゃなくて、よかったです。",
+              "ro": "Atatakakute, oishii desu.\nKarakunakute, oishii desu.\nShinsen de, oishii desu.\nNigate janakute, yokatta desu.",
+              "vi": "Nóng ấm nên ngon.\nKhông cay nên ngon.\nTươi nên ngon.\nMay quá, không phải món tôi ngại ăn.",
+              "pat": "イA-くて／イA-くなくて、＿＿\nナA-で／ナA-じゃなくて、＿＿"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "topic": 7,
+      "tt": "出張",
+      "tk": "しゅっちょう",
+      "ten": "Business Trips",
+      "tvi": "Đi công tác",
+      "lessons": [
+        {
+          "l": 13,
+          "t": "たなかさんに 会ったことが あります",
+          "tk": "たなかさんに あったことが あります",
+          "en": "I have met Mr. Tanaka before",
+          "vi": "Tôi đã từng gặp anh Tanaka",
+          "say": [
+            {
+              "jp": "あなたは 仕事で 外国に 行ったことが ありますか。",
+              "kana": "あなたは しごとで がいこくに いったことが ありますか。",
+              "en": "Have you ever travelled to another country on business?",
+              "vi": "Bạn đã từng đi nước ngoài vì công việc chưa?"
+            },
+            {
+              "jp": "仕事で 外国から 人が 来たら、どんな ことを して てつだいますか。",
+              "kana": "しごとで がいこくから ひとが きたら、どんな ことを して てつだいますか。",
+              "en": "What do you do to help someone visiting your office on business from another country?",
+              "vi": "Khi có người từ nước ngoài đến vì công việc, bạn giúp đỡ họ những gì?"
+            }
+          ],
+          "kb": [
+            {
+              "no": 41,
+              "jp": "外国に 行ったことが あります。",
+              "kana": "がいこくに いったことが あります。",
+              "ro": "Gaikoku ni itta koto ga arimasu.",
+              "vi": "Tôi đã từng đi nước ngoài.",
+              "pat": "V-た ことが あります"
+            },
+            {
+              "no": 42,
+              "jp": "この へやは さむすぎます。\nこの へやは しずかすぎます。\nきのうの 夜 飲みすぎました。",
+              "kana": "この へやは さむすぎます。\nこの へやは しずかすぎます。\nきのうの よる のみすぎました。",
+              "ro": "Kono heya wa samusugimasu.\nKono heya wa shizukasugimasu.\nKinoo no yoru nomisugimashita.",
+              "vi": "Căn phòng này lạnh quá.\nCăn phòng này yên tĩnh quá.\nTối hôm qua tôi đã uống quá nhiều.",
+              "pat": "イA／ナA／V-すぎます"
+            },
+            {
+              "no": 43,
+              "jp": "この ホテルは 古いですが、きれいです。",
+              "kana": "この ホテルは ふるいですが、きれいです。",
+              "ro": "Kono hoteru wa furui desu ga, kiree desu.",
+              "vi": "Khách sạn này cũ nhưng sạch đẹp.",
+              "pat": "S1 が、S2"
+            }
+          ]
+        },
+        {
+          "l": 14,
+          "t": "これ、使っても いいですか",
+          "tk": "これ、つかっても いいですか",
+          "en": "May I use this?",
+          "vi": "Tôi dùng cái này có được không?",
+          "say": [
+            {
+              "jp": "東京本社の 人が 出張で あなたの オフィスに 来ました。スタッフを どのように しょうかいしますか。",
+              "kana": "とうきょうほんしゃの ひとが しゅっちょうで あなたの オフィスに きました。スタッフを どのように しょうかいしますか。",
+              "en": "Some people from the Tokyo headquarters have come to your (overseas) office on business. How do you introduce the office staff?",
+              "vi": "Người của trụ sở chính ở Tokyo đến văn phòng (ở nước ngoài) của bạn công tác. Bạn giới thiệu nhân viên như thế nào?"
+            },
+            {
+              "jp": "オフィスで 仕事を する とき どんな ものが ひつようですか。なかったら どうしますか。",
+              "kana": "オフィスで しごとを する とき どんな ものが ひつようですか。なかったら どうしますか。",
+              "en": "What kind of things do you need when you work in an office? What do you do if you cannot find them?",
+              "vi": "Khi làm việc ở văn phòng, bạn cần những thứ gì? Nếu không có thì bạn làm thế nào?"
+            }
+          ],
+          "kb": [
+            {
+              "no": 44,
+              "jp": "この 会社に 入って 10年に なります。",
+              "kana": "この かいしゃに はいって じゅうねんに なります。",
+              "ro": "Kono kaisha ni haitte juu-nen ni narimasu.",
+              "vi": "Tôi vào công ty này đã được 10 năm.",
+              "pat": "V-て 〜年／〜か月に なります"
+            },
+            {
+              "no": 45,
+              "jp": "ペンを 借りても いいですか。",
+              "kana": "ペンを かりても いいですか。",
+              "ro": "Pen o karite mo ii desu ka.",
+              "vi": "Tôi mượn cái bút được không?",
+              "pat": "V-ても いいですか"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "topic": 8,
+      "tt": "けんこう",
+      "ten": "Staying Healthy",
+      "tvi": "Sức khỏe",
+      "lessons": [
+        {
+          "l": 15,
+          "t": "たいそうすると いいですよ",
+          "en": "How about doing some exercise?",
+          "vi": "Tập thể dục thì tốt đấy",
+          "say": [
+            { "jp": "さいきん、あなたの からだの ちょうしは どうですか。", "en": "How have you been feeling lately?", "vi": "Dạo này sức khỏe của bạn thế nào?" },
+            {
+              "jp": "からだの ちょうしが わるい とき、あなたは どうしますか。",
+              "en": "What do you do when you don't feel well?",
+              "vi": "Khi trong người không khỏe, bạn làm gì?"
+            }
+          ],
+          "kb": [
+            {
+              "no": 46,
+              "jp": "ねる 前に、おふろに 入ります。",
+              "kana": "ねる まえに、おふろに はいります。",
+              "ro": "Neru mae ni, ofuro ni hairimasu.",
+              "vi": "Trước khi ngủ, tôi tắm bồn.",
+              "pat": "V1-る まえに、V2"
+            },
+            {
+              "no": 47,
+              "jp": "ねる 前に、おふろに 入ると いいですよ。",
+              "kana": "ねる まえに、おふろに はいると いいですよ。",
+              "ro": "Neru mae ni, ofuro ni hairu to ii desu yo.",
+              "vi": "Trước khi ngủ mà tắm bồn thì tốt đấy.",
+              "pat": "V-ると いいです（よ）"
+            },
+            {
+              "no": 48,
+              "jp": "きゅうに くびを まわさないで ください。",
+              "ro": "Kyuu ni kubi o mawasanaide kudasai.",
+              "vi": "Đừng xoay cổ đột ngột.",
+              "pat": "V-ないで ください"
+            }
+          ]
+        },
+        {
+          "l": 16,
+          "t": "走ったり、泳いだり しています",
+          "tk": "はしったり、およいだり しています",
+          "en": "I go running and swimming",
+          "vi": "Tôi chạy bộ, bơi lội…",
+          "say": [
+            { "jp": "あなたは けんこうの ために どんな ことを していますか。", "en": "What do you do to stay healthy?", "vi": "Bạn làm gì để giữ sức khỏe?" },
+            {
+              "jp": "あなたは けんこうアンケートに こたえたことが ありますか。どんな アンケートでしたか。",
+              "en": "Have you ever filled out a health questionnaire? What kind of questionnaire was it?",
+              "vi": "Bạn đã từng trả lời phiếu khảo sát sức khỏe chưa? Đó là phiếu khảo sát như thế nào?"
+            }
+          ],
+          "kb": [
+            {
+              "no": 49,
+              "jp": "けんこうの ために ヨガを したり、走ったり しています。",
+              "kana": "けんこうの ために ヨガを したり、はしったり しています。",
+              "ro": "Kenkoo no tame ni yoga o shitari, hashittari shite imasu.",
+              "vi": "Để giữ sức khỏe, tôi tập yoga, chạy bộ…",
+              "pat": "V1-たり、V2-たり しています"
+            },
+            {
+              "no": 50,
+              "jp": "朝ごはんを 食べる 人は 20人です。\n朝ごはんを 食べない 人は 30人です。",
+              "kana": "あさごはんを たべる ひとは にじゅうにんです。\nあさごはんを たべない ひとは さんじゅうにんです。",
+              "ro": "Asagohan o taberu hito wa nijuu-nin desu.\nAsagohan o tabenai hito wa sanjuu-nin desu.",
+              "vi": "Số người ăn sáng là 20 người.\nSố người không ăn sáng là 30 người.",
+              "pat": "めいししゅうしょく①\nV（ふつうけい plain form）＋人"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "topic": 9,
+      "tt": "お祝い",
+      "tk": "おいわい",
+      "ten": "Celebrations",
+      "tvi": "Chúc mừng",
+      "lessons": [
+        {
+          "l": 17,
+          "t": "誕生日に もらったんです",
+          "tk": "たんじょうびに もらったんです",
+          "en": "I got this for my birthday",
+          "vi": "Tôi nhận được vào ngày sinh nhật",
+          "say": [
+            {
+              "jp": "あなたは どんな とき、どんな プレゼントを あげたり、もらったり しますか。",
+              "en": "When do you give and receive presents? What kinds of presents do you give and receive?",
+              "vi": "Bạn tặng và nhận quà vào những dịp nào? Đó là những món quà gì?"
+            },
+            {
+              "jp": "あなたの 国には どんな プレゼントの しゅうかんが ありますか。",
+              "kana": "あなたの くにには どんな プレゼントの しゅうかんが ありますか。",
+              "en": "What kinds of gift-giving customs are there in your country?",
+              "vi": "Ở nước bạn có những phong tục tặng quà nào?"
+            }
+          ],
+          "kb": [
+            {
+              "no": 51,
+              "jp": "この かばんは あねに もらったんです。",
+              "ro": "Kono kaban wa ane ni moratta n desu.",
+              "vi": "Cái túi này là tôi được chị gái tặng đấy.",
+              "pat": "S（ふつうけい plain form）んです"
+            },
+            {
+              "no": 52,
+              "jp": "ジョイさんは さとうさんに 花を あげます。",
+              "kana": "ジョイさんは さとうさんに はなを あげます。",
+              "ro": "Joi-san wa Satoo-san ni hana o agemasu.",
+              "vi": "Joy tặng hoa cho anh Sato.",
+              "pat": "A は B に C を あげます"
+            },
+            {
+              "no": 53,
+              "jp": "さとうさんは ジョイさんに／から 花を もらいます。",
+              "kana": "さとうさんは ジョイさんに／から はなを もらいます。",
+              "ro": "Satoo-san wa Joi-san ni/kara hana o moraimasu.",
+              "vi": "Anh Sato nhận hoa từ Joy.",
+              "pat": "B は A に／から C を もらいます"
+            },
+            {
+              "no": 54,
+              "jp": "あかちゃんが 着る もの",
+              "kana": "あかちゃんが きる もの",
+              "ro": "akachan ga kiru mono",
+              "vi": "đồ mà em bé mặc",
+              "pat": "めいししゅうしょく②\nV（ふつうけい plain form）＋N"
+            }
+          ]
+        },
+        {
+          "l": 18,
+          "t": "パーティーが いいと 思います",
+          "tk": "パーティーが いいと おもいます",
+          "en": "I think a party is a good idea",
+          "vi": "Tôi nghĩ tổ chức tiệc là hay",
+          "say": [
+            {
+              "jp": "自分の かんがえを 言う とき、どんな ひょうげんを 使いますか。",
+              "kana": "じぶんの かんがえを いう とき、どんな ひょうげんを つかいますか。",
+              "en": "What phrases do you use to express your ideas?",
+              "vi": "Khi nói ý kiến của mình, bạn dùng những cách diễn đạt nào?"
+            },
+            {
+              "jp": "だれかが 言った ことを ほかの 人に つたえる とき、どのように 言いますか。",
+              "kana": "だれかが いった ことを ほかの ひとに つたえる とき、どのように いいますか。",
+              "en": "How do you tell someone what someone else said?",
+              "vi": "Khi truyền đạt lại lời ai đó nói cho người khác, bạn nói thế nào?"
+            }
+          ],
+          "kb": [
+            {
+              "no": 55,
+              "jp": "お祝いは パーティーが いいと 思います。",
+              "kana": "おいわいは パーティーが いいと おもいます。",
+              "ro": "Oiwai wa paatii ga ii to omoimasu.",
+              "vi": "Tôi nghĩ để chúc mừng thì tổ chức tiệc là hay.",
+              "pat": "S（ふつうけい plain form）と 思います"
+            },
+            {
+              "no": 56,
+              "jp": "たなかさんは 楽しかったと 言っていました。",
+              "kana": "たなかさんは たのしかったと いっていました。",
+              "ro": "Tanaka-san wa tanoshikatta to itte imashita.",
+              "vi": "Anh Tanaka nói là đã rất vui.",
+              "pat": "S（ふつうけい plain form）と 言っていました"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
