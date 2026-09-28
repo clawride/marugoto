@@ -42,7 +42,9 @@ export const A1_COURSE = {
   Host: VentiHost, Hero: VentiHero, lines: VT, char: VENTI, hostName: "Venti",
   exam: A1_EXAM,
   // 📖 Học theo sách: dựng lại sách 入門 かつどう từng bài (public/book/a1/<bài>.json)
-  book: { name: "まるごと入門 A1 かつどう", url: (n) => `/book/a1/${n}.json` },
+  book: { name: "Sách Katsudou · まるごと入門 A1 かつどう", short: "Katsudou", url: (n) => `/book/a1/${n}.json` },
+  // テストとふりかえり của sách: sau Topic 5 và Topic 9 (app/a1/test/[n])
+  bookTests: [{ n: 1, after: 5, topics: "1–5", page: 71 }, { n: 2, after: 9, topics: "6–9", page: 114 }],
   extra: sheetLink("a1", "A1"),
 };
 

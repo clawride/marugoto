@@ -155,7 +155,7 @@ export default function LessonView({ course, lesson }) {
   const L = C.lessonOf(lesson);
   const { S } = useGame();
   // khóa có sách (A1 かつどう): thẻ đầu tiên "📖 Học theo sách", mở sẵn khi vào bài
-  const tabs = course.book ? [{ key: "book", label: "Học theo sách", ico: "📖" }, ...PARTS] : PARTS;
+  const tabs = course.book ? [{ key: "book", label: "Học theo sách Katsudou", ico: "📖" }, ...PARTS] : PARTS;
   const [tab, setTab] = useState(course.book ? "book" : "vocab");
   const [run, setRun] = useState(null);
   const [res, setRes] = useState(null);

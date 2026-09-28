@@ -63,3 +63,46 @@
 .bkmodel .bksp,.bktext .bksp{min-width:auto;padding:2px 8px 0 0}
 .bkpart b{font-size:15px}
 .bkwgrp{font-size:10.5px;color:var(--mute);margin-bottom:1px}
+
+/* テストとふりかえり */
+.bktn{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:4px;background:#f0a020;color:#fff;font-size:17px;font-weight:700}
+.bkstarlegend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;margin:4px 0 10px}
+.bkstarlegend b{color:#f0a020;letter-spacing:1px}
+.bkcdtable{display:flex;flex-direction:column;gap:6px}
+.bkcdrow{display:grid;grid-template-columns:auto 1fr auto minmax(120px,200px) 76px;gap:8px;align-items:center;padding:6px 0;border-bottom:1px dashed rgba(211,188,142,.25)}
+.bkcdtxt{display:flex;flex-direction:column;min-width:0}
+.bkcdtxt small{font-size:12.5px;color:var(--gold)}
+.bkcdtxt .bkcdl{color:var(--mute);font-size:11.5px}
+.bkcdstars{display:flex}
+.bkcdstars button{border:0;background:none;font-size:22px;line-height:1;color:#bbb;cursor:pointer;padding:0 1px}
+.bkcdstars button.on{color:#f0a020}
+.bkcdnote{padding:5px 8px;border-radius:6px;border:1px solid rgba(211,188,142,.4);background:rgba(0,0,0,.15);color:inherit;font:inherit;font-size:13px;min-width:0}
+.bkcddate{font-size:11.5px;color:var(--mute)}
+.bksub2{margin:10px 0 16px}
+.bksub2 h4{margin:0 0 4px;font-size:17px}
+.bkmoji{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}
+.bkmcard{border:2px solid #f6c77a;border-radius:6px;background:#fff8ea;color:#2a2418;padding:8px;display:flex;flex-direction:column;gap:6px}
+.bkmcard.ok{border-color:#3fa34d;background:#eefbe9}
+.bkmcard.bad{border-color:#d0453a;background:#fdeceb}
+.bkmface{border:0;background:none;font-size:20px;padding:10px 4px;cursor:pointer;color:#2a2418}
+.bkmback{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:13px}
+.bkmback i{color:#2f6fd1}
+.bkmmark{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+.bkmmark button{border:1px solid #c9b68a;background:#fff;border-radius:99px;padding:3px 10px;font-size:12.5px;cursor:pointer;color:#2a2418}
+.bkres{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px}
+.bkres .pass{color:#3fa34d}
+.bkres .fail{color:#d0453a}
+.bkkaiwa{padding-left:22px;display:flex;flex-direction:column;gap:10px}
+.bkkaiwa li{padding:6px 8px;border-radius:8px}
+.bkkaiwa li.ok{background:rgba(63,163,77,.12)}
+.bkkaiwa li.bad{background:rgba(208,69,58,.12)}
+.bkans{margin:4px 0 4px 20px}
+.bkflowers{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.bkflower{border-radius:8px;padding:8px;display:flex;flex-direction:column;gap:2px;opacity:.55;color:#2a2418}
+.bkflower b{font-size:16px}
+.bkflower small{font-size:12px}
+.bkflower.on{opacity:1;outline:3px solid #f0a020}
+.fl-a{background:#f6a58c}.fl-b{background:#f4a9c8}.fl-c{background:#fbc594}
+.bklist{margin:4px 0;padding-left:20px;line-height:1.8}
+.bkbest{font-weight:700;color:var(--gold2)}
+@media(max-width:640px){.bkcdrow{grid-template-columns:auto 1fr;}.bkcdstars,.bkcdnote,.bkcddate{grid-column:2}.bkflowers{grid-template-columns:1fr}}

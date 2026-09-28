@@ -98,7 +98,7 @@ const prefix = (sel) => sel.split(",").map((s) => s.trim()).filter(Boolean).map(
 
 // bỏ qua: phiếu luyện viết (giấy trắng sẵn, trừ thẻ danh sách), hộp tra từ / ngữ pháp (nền sáng sẵn), bảng viết nét, màn gacha,
 // nhãn chữ trắng trên nền màu và thẻ ghi chú giấy trong phần Học theo sách
-const SKIP_SEL = /\.kw(?!card|words|list|bar|nav)|\.vngpop|\.vndock|\.kpad|\.wfx|\.rv\b|\.shop|\.bkn\b|\.bkk\b|\.bkgrp|\.bkcando|\.bknote|\.bkjp mark/;
+const SKIP_SEL = /\.kw(?!card|words|list|bar|nav)|\.vngpop|\.vndock|\.kpad|\.wfx|\.rv\b|\.shop|\.bkn\b|\.bkk\b|\.bkgrp|\.bkcando|\.bknote|\.bkjp mark|\.bkcdstars|\.bkm|\.bkflower|\.fl-/;
 let out = `/* TỰ SINH bởi scripts/build-plain-css.mjs — không sửa tay (chỉnh ở app/plain.css) */\n`, n = 0;
 for (const f of fs.readdirSync(APP).filter((f) => f.endsWith(".css") && !f.startsWith("plain"))) {
   for (const { sel, body, media } of rules(fs.readFileSync(path.join(APP, f), "utf8"))) {

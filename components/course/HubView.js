@@ -73,6 +73,20 @@ export default function HubView({ course }) {
                 </div>
               </Link>
             )}
+            {course.bookTests?.filter((b) => b.after === T.topic).map((b) => {
+              const bt = S[`${store}book`]?.tests?.[b.n];
+              return (
+                <Link key={b.n} href={`${base}/test/${b.n}`} className="panel b1exam a22exam bktestcard" onClick={() => sfx.open()}>
+                  <div className="seal">📝</div>
+                  <div>
+                    <div className="tag">THEO SÁCH KATSUDOU · テストとふりかえり</div>
+                    <h3 className="jpt">テストとふりかえり {b.n} <small>Topic {b.topics}</small></h3>
+                    <p>Can-do チェック · もじテスト (đọc 5 thẻ) · かいわテスト (5 câu hỏi) · nói chuyện theo nhóm — như trang {b.page} của sách.</p>
+                    <div className="b1res">{bt ? <>もじ {bt.moji ?? "—"}/5 · かいわ {bt.kaiwa ?? "—"}/5</> : "Chưa làm"}</div>
+                  </div>
+                </Link>
+              );
+            })}
           </section>
         );
       })}

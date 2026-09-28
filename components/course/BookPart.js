@@ -149,7 +149,7 @@ export default function BookPart({ course, lesson, stars, onQuiz }) {
   const show = { ro, vi };
   const lib = course.audio;
   if (B === undefined) return <p className="hint">Đang tải bài học…</p>;
-  if (!B) return <p className="panel hint">Bài này chưa có phần học theo sách.</p>;
+  if (!B) return <p className="panel hint">Bài này chưa có phần học theo sách Katsudou.</p>;
   return (
     <div className="bkwrap">
       <div className="panel bkhead">
@@ -177,7 +177,7 @@ export default function BookPart({ course, lesson, stars, onQuiz }) {
         </section>
       )}
       <div className="panel bkquiz">
-        <div><b>✍️ Kiểm tra dịch câu</b><span>{Math.min(12, B.quiz?.length || 0)} câu lấy từ bài vừa học: chọn nghĩa tiếng Việt, chọn câu tiếng Nhật, xếp lại câu · đúng ≥60% được 1 sao, ≥80% 2 sao, ≥95% 3 sao</span></div>
+        <div><b>✍️ Kiểm tra dịch câu</b><span>{Math.min(12, B.quiz?.length || 0)} câu lấy từ bài vừa học trong sách Katsudou: chọn nghĩa tiếng Việt, chọn câu tiếng Nhật, xếp lại câu · đúng ≥60% được 1 sao, ≥80% 2 sao, ≥95% 3 sao</span></div>
         {stars}
         <button className="gbtn tri" onClick={() => { sfx.open(); onQuiz(bookQs(B)); }} disabled={!B.quiz?.length}><span className="c" />Bắt đầu kiểm tra</button>
       </div>
