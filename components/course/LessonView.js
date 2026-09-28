@@ -7,6 +7,7 @@ import CourseRun from "@/components/course/CourseRun";
 import QuestionSet from "@/components/QuestionSet";
 import { AudioSetup } from "@/components/Listen";
 import { Ico } from "@/components/Icons";
+import BookPart from "@/components/course/BookPart";
 import { PARTS, STAR_REWARD, readingOf, trackLabel, vocabQs, kanjiQs, grammarQs, fillQs, orderQs, listenQs } from "@/lib/course";
 import { starsFor, shuffle } from "@/lib/data";
 import { speakLines } from "@/lib/tts";
@@ -153,7 +154,9 @@ export default function LessonView({ course, lesson }) {
   const { C, store, base, title, unit, Host, lines } = course;
   const L = C.lessonOf(lesson);
   const { S } = useGame();
-  const [tab, setTab] = useState("vocab");
+  // khóa có sách (A1 かつどう): thẻ đầu tiên "📖 Học theo sách", mở sẵn khi vào bài
+  const tabs = course.book ? [{ key: "book", label: "Học theo sách", ico: "📖" }, ...PARTS] : PARTS;
+  const [tab, setTab] = useState(course.book ? "book" : "vocab");
   const [run, setRun] = useState(null);
   const [res, setRes] = useState(null);
   const save = useSavePart(store, lesson);
@@ -162,7 +165,7 @@ export default function LessonView({ course, lesson }) {
   if (!S) return null;
   const P = S[store]?.p || {};
   const lbl = (p) => course.partLabels?.[p.key] || p.label;
-  const part = PARTS.find((p) => p.key === tab);
+  const part = tabs.find((p) => p.key === tab);
   const start = () => { setRes(null); setRun(MAKE[tab](L)); sfx.open(); window.scrollTo({ top: 0, behavior: "smooth" }); };
   const View = VIEW[tab];
   const prev = C.lessonOf(lesson - 1), next = C.lessonOf(lesson + 1);
@@ -177,17 +180,18 @@ export default function LessonView({ course, lesson }) {
         {L.cando?.length > 0 && <ul className="cando">{L.cando.map((c, i) => <li key={i}>{c}</li>)}</ul>}
       </div>
       <div className="chips a22tabs">
-        {PARTS.map((p) => (
+        {tabs.map((p) => (
           <button key={p.key} className={`chip dk ${tab === p.key ? "on" : ""}`} onClick={() => { setTab(p.key); setRun(null); setRes(null); sfx.click(); }}>
             <span className="pi">{p.ico}</span>{lbl(p)}<Stars n={P[`${lesson}:${p.key}`]?.stars} />
           </button>
         ))}
       </div>
 
-      {tab === "read" ? <ReadingPart key={lesson} L={L} save={save} course={course} /> : res ? (
-        <Result course={course} res={res} onAgain={start} onBack={() => { setRes(null); setRun(null); }} />
+      {tab === "book" && !run && !res ? <BookPart key={lesson} course={course} lesson={lesson} stars={<Stars n={P[`${lesson}:book`]?.stars} />} onQuiz={(qs) => { setRes(null); setRun(qs); window.scrollTo({ top: 0, behavior: "smooth" }); }} />
+      : tab === "read" ? <ReadingPart key={lesson} L={L} save={save} course={course} /> : res ? (
+        <Result course={course} res={res} onAgain={tab === "book" ? () => { setRes(null); setRun(null); } : start} onBack={() => { setRes(null); setRun(null); }} />
       ) : run ? (
-        <CourseRun key={`${tab}-${lesson}`} course={course} qs={run} title={lbl(part)} intro={lines[tab]} onFinish={(c, n) => { setRes(save(tab, c, n)); setRun(null); window.scrollTo({ top: 0, behavior: "smooth" }); }} />
+        <CourseRun key={`${tab}-${lesson}`} course={course} qs={run} title={tab === "book" ? "Kiểm tra dịch câu" : lbl(part)} intro={lines[tab]} onFinish={(c, n) => { setRes(save(tab, c, n)); setRun(null); window.scrollTo({ top: 0, behavior: "smooth" }); }} />
       ) : (
         <>
           <Host line={lines[tab]} />

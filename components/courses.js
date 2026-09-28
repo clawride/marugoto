@@ -41,6 +41,8 @@ export const A1_COURSE = {
   partLabels: { kanji: "Chữ & Kanji" },
   Host: VentiHost, Hero: VentiHero, lines: VT, char: VENTI, hostName: "Venti",
   exam: A1_EXAM,
+  // 📖 Học theo sách: dựng lại sách 入門 かつどう từng bài (public/book/a1/<bài>.json)
+  book: { name: "まるごと入門 A1 かつどう", url: (n) => `/book/a1/${n}.json` },
   extra: sheetLink("a1", "A1"),
 };
 
