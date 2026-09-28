@@ -87,6 +87,20 @@ export default function HubView({ course }) {
                 </Link>
               );
             })}
+            {course.rikaiTests?.filter((b) => b.after === T.topic).map((b) => {
+              const bt = S[`${store}book`]?.rtests?.[b.n];
+              return (
+                <Link key={`r${b.n}`} href={`${base}/rtest/${b.n}`} className="panel b1exam a22exam bktestcard" onClick={() => sfx.open()}>
+                  <div className="seal">📘</div>
+                  <div>
+                    <div className="tag">THEO SÁCH RIKAI · テストとふりかえり</div>
+                    <h3 className="jpt">テストとふりかえり {b.n} <small>Topic {b.topics}</small></h3>
+                    <p>Câu hỏi mẫu y như sách (nghe viết, đọc Kanji, chọn từ, sắp xếp câu, đọc hiểu, nghe ○/×) · bài luyện thêm cùng dạng · ふりかえり · さくぶん — như trang {b.page} của sách.</p>
+                    <div className="b1res">{bt ? <>mẫu {bt.sample ?? "—"}% · luyện thêm {bt.prac ?? "—"}%</> : "Chưa làm"}</div>
+                  </div>
+                </Link>
+              );
+            })}
           </section>
         );
       })}

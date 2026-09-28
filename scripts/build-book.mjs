@@ -18,6 +18,86 @@ const TESTS = {
 };
 const KANA = /^[぀-ヿ　\sー、。？！0-9０-９]+$/;
 
+// pics.tsv: "pic<TAB>mô tả<TAB>emoji" hoặc "word<TAB>từ<TAB>nghĩa<TAB>emoji"
+const PICS = new Map();
+const picsFile = path.join(SRC, "pics.tsv");
+if (fs.existsSync(picsFile)) for (const line of fs.readFileSync(picsFile, "utf8").replace(/\r/g, "").split("\n")) {
+  const c = line.split("\t"); const em = c.pop(); if (em?.trim()) PICS.set(c.join("\t"), em.trim());
+}
+
+// ——— Sách Rikai: テストとふりかえり 1–2 (p99–100, p165–166) và にほんごチェック (p194–197) ———
+// data/book/extra/<sách>-extra.json (chép tay từ sách) + kho câu luyện thêm lấy từ chính các bài Rikai và phiếu Kanji A1
+const HAS_KANJI = /[一-鿿々]/;
+const KANA_WORD = /^[ぁ-ゖァ-ヺー]{2,8}$/;
+function buildRikaiExtra(D, out, course) {
+  const xf = path.join(SRC, "extra", `${course}-extra.json`);
+  if (!fs.existsSync(xf)) return;
+  const X = JSON.parse(fs.readFileSync(xf, "utf8"));
+  const sheets = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "kanji-sheets-a1.json"), "utf8")).sheets;
+  fs.writeFileSync(path.join(out, "check.json"), JSON.stringify(X.check));
+  for (const T of X.tests) {
+    const Ls = D.lessons.filter((L) => L.lesson >= T.lessons[0] && L.lesson <= T.lessons[1]);
+    const acts = Ls.flatMap((L) => L.sections.flatMap((S) => S.acts.map((A) => ({ A, L }))));
+    const uniq = (arr, key) => { const s = new Set(); return arr.filter((x) => { const k = key(x); if (s.has(k)) return false; s.add(k); return true; }); };
+    // ① nghe và viết: từ viết bằng kana trong bài
+    const K = JSON.parse(fs.readFileSync(path.join(SRC, "a1-katsudou.json"), "utf8")).lessons.filter((L) => L.lesson >= T.lessons[0] && L.lesson <= T.lessons[1]);
+    const kacts = K.flatMap((L) => L.sections.flatMap((S) => S.acts.map((A) => ({ A, L }))));
+    const listen = uniq([...acts, ...kacts].flatMap(({ A, L }) => ((Array.isArray(A.words) ? A.words : A.words?.items) || [])
+      .filter((w) => KANA_WORD.test(w.jp) && w.vi).map((w) => ({ say: w.jp, a: [w.jp], vi: w.vi, l: L.lesson }))), (x) => x.say);
+    // ② đọc kanji: câu ví dụ của phiếu Kanji A1 theo Topic 〔chữ|cách đọc〕 + từ Kanji
+    const kanji = [];
+    for (const sh of sheets.filter((s) => s.t >= T.topics[0] && s.t <= T.topics[1])) {
+      const vi = Object.fromEntries(sh.words.map((w) => [w.w, w.vi]));
+      for (const w of sh.words) kanji.push({ k: w.w, a: [w.r], vi: w.vi, t: sh.t });
+      for (const ex of sh.ex) {
+        const parts = [...ex.matchAll(/〔([^|〕]+)\|([^〕]+)〕/g)];
+        parts.forEach((m, i) => {
+          const [kj, rd] = HAS_KANJI.test(m[1]) ? [m[1], m[2]] : [m[2], m[1]];
+          let pre = "", post = "";
+          const plain = (s) => s.replace(/〔([^|〕]+)\|([^〕]+)〕/g, (_, a, b) => (HAS_KANJI.test(a) ? b : a));
+          pre = plain(ex.slice(0, m.index)); post = plain(ex.slice(m.index + m[0].length));
+          kanji.push({ pre, k: kj, post, a: [rd], vi: vi[kj] || "", t: sh.t });
+        });
+      }
+    }
+    // ③ chọn trợ từ / từ: bài điền có sẵn lựa chọn
+    const fill = [];
+    for (const { A, L } of acts) if (A.kind === "fill" && A.opts?.length >= 2) for (const it of A.items || []) {
+      const bl = it.blanks || []; let j = -1;
+      bl.forEach((ans, bi) => {
+        if ((it.example || []).includes(bi) || !A.opts.includes(ans)) return;
+        j = -1;
+        const jp = it.jp.replace(/（([①-⑳])）/g, () => { j++; return j === bi ? "（　）" : bl[j]; });
+        fill.push({ sp: it.sp || "", jp, opts: A.opts, a: ans, vi: it.vi, l: L.lesson });
+      });
+    }
+    // ④ sắp xếp câu
+    const order = acts.flatMap(({ A, L }) => (A.kind === "order" ? A.items || [] : []).filter((it) => !it.example && it.chunks?.length >= 3 && it.chunks.length <= 6 && it.chunks.some((c) => [...c].length > 1))
+      .map((it) => ({ pre: it.pre || "", chunks: it.chunks, post: it.post || "", vi: it.vi, l: L.lesson })));
+    // ⑤ đọc hiểu: bài đọc có câu hỏi chọn (kèm toàn văn)
+    const read = [];
+    for (const [i, { A, L }] of acts.entries()) {
+      if (A.kind !== "read" || !A.text?.length) continue;
+      const qs = [A, acts[i + 1]?.A].filter((x) => x && x.items?.length && (x === A || x.kind !== "read"))
+        .flatMap((x) => x.items.filter((it) => !it.example && it.q?.jp && it.opts?.length >= 2 && it.opts.includes(it.a))
+          .map((it) => ({ q: it.q, opts: it.opts, a: it.a })));
+      if (qs.length) read.push({ title: A.title || null, text: A.text.map((t) => ({ jp: t.jp, vi: t.vi })), qs, l: L.lesson });
+    }
+    // ⑥ nghe ○/×: câu tiêu biểu của bài (quiz) — đúng nghĩa hay không
+    const ox = uniq(Ls.flatMap((L) => L.quiz.filter((q) => [...q.jp].length <= 30).map((q) => ({ jp: q.jp, vi: q.vi, l: L.lesson }))), (x) => x.jp);
+    // ④ さくぶん: bài viết của các bài được nêu trong sách
+    const sakubun = T.sakubun.map((n) => {
+      const L = D.lessons.find((x) => x.lesson === n);
+      const W = L?.sections.flatMap((S) => S.acts).filter((A) => A.kind === "write") || [];
+      return { l: n, title: L?.title || null, acts: W.map((A) => ({ title: A.title || null, ask: A.ask || null, task: A.task || "", model: [...(A.model || []), ...(A.text || [])].map((m) => ({ jp: m.jp, ro: m.ro || "", vi: m.vi })) })) };
+    });
+    const data = { ...T, pools: { listen, kanji, fill, order, read, ox }, sakubun };
+    fs.writeFileSync(path.join(out, `rtest${T.n}.json`), JSON.stringify(data));
+    console.log(`  rtest${T.n}: nghe ${listen.length} · kanji ${kanji.length} · chọn ${fill.length} · xếp ${order.length} · đọc ${read.length} · ○× ${ox.length} · さくぶん ${sakubun.map((s) => s.acts.length).join("/")}`);
+  }
+  console.log(`  にほんごチェック: ${X.check.reduce((s, t) => s + t.lessons.reduce((a, l) => a + l.kb.length, 0), 0)} câu cơ bản`);
+}
+
 for (const f of fs.readdirSync(SRC).filter((f) => f.endsWith(".json"))) {
   // a1-katsudou.json → public/book/a1/ (kèm buổi kiểm tra) · a1-rikai.json → public/book/a1-rikai/
   const main = f.endsWith("-katsudou.json");
@@ -30,8 +110,14 @@ for (const f of fs.readdirSync(SRC).filter((f) => f.endsWith(".json"))) {
     if (!main && L.cando?.[0]?.no) { L.notes = L.notes || L.cando; L.cando = []; }
     for (const k of ["kihonbun", "kihon", "key"]) if (L[k]) { if (!L.notes) L.notes = L[k]; delete L[k]; }
   }
+  // tranh minh họa bằng emoji (không dùng tranh của sách): data/book/pics.tsv → it.em (câu có tranh), w.em (thẻ từ)
+  for (const L of D.lessons) for (const S of L.sections) for (const A of S.acts) {
+    for (const it of A.items || []) if (it.pic && PICS.get(`pic\t${it.pic}`)) it.em = PICS.get(`pic\t${it.pic}`);
+    for (const w of (Array.isArray(A.words) ? A.words : A.words?.items) || []) if (PICS.get(`word\t${w.jp}\t${w.vi}`)) w.em = PICS.get(`word\t${w.jp}\t${w.vi}`);
+  }
   for (const L of D.lessons) fs.writeFileSync(path.join(out, `${L.lesson}.json`), JSON.stringify(L));
   console.log(`${f}: ${D.lessons.length} bài → public/book/${course}/`);
+  if (!main) buildRikaiExtra(D, out, course);
 
   for (const T of (main && TESTS[course]) || []) {
     const Ls = D.lessons.filter((L) => L.lesson >= T.lessons[0] && L.lesson <= T.lessons[1]);

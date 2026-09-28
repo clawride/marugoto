@@ -44,7 +44,7 @@ export default function RootLayout({ children }) {
             <link rel="preconnect" href="https://fonts.googleapis.com" />
             <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
             {/* eslint-disable-next-line @next/next/no-page-custom-font */}
-            <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&family=Noto+Serif+JP:wght@400;600;700&display=swap" rel="stylesheet" />
+            <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&family=Noto+Serif+JP:wght@400;600;700&family=Noto+Color+Emoji&display=swap" rel="stylesheet" />
             <link rel="preconnect" href="https://gi.yatta.moe" />
           </>
         )}

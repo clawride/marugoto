@@ -45,12 +45,14 @@ export const A1_COURSE = {
   // key = khóa thẻ trong bài & khóa lưu sao ("book" giữ cho Katsudou); prefix = tên file audio của sách (sa060.mp3 / sc054.mp3)
   books: [
     { key: "book", ico: "📖", short: "Katsudou", name: "Sách Katsudou · まるごと入門 A1 かつどう", url: (n) => `/book/a1/${n}.json`, prefix: "sa" },
-    { key: "rikai", ico: "📘", short: "Rikai", name: "Sách Rikai · まるごと入門 A1 りかい", url: (n) => `/book/a1-rikai/${n}.json`, prefix: "sc" },
+    { key: "rikai", ico: "📘", short: "Rikai", name: "Sách Rikai · まるごと入門 A1 りかい", url: (n) => `/book/a1-rikai/${n}.json`, prefix: "sc", check: "/a1/nihongo-check" },
   ],
   book: { name: "Sách Katsudou · まるごと入門 A1 かつどう", short: "Katsudou", url: (n) => `/book/a1/${n}.json`, prefix: "sa" },
   // テストとふりかえり của sách: sau Topic 5 và Topic 9 (app/a1/test/[n])
   bookTests: [{ n: 1, after: 5, topics: "1–5", page: 71 }, { n: 2, after: 9, topics: "6–9", page: 114 }],
-  extra: sheetLink("a1", "A1"),
+  // テストとふりかえり của sách Rikai (app/a1/rtest/[n]) và にほんごチェック (app/a1/nihongo-check)
+  rikaiTests: [{ n: 1, after: 5, topics: "1–5", page: 99 }, { n: 2, after: 9, topics: "6–9", page: 165 }],
+  extra: [...sheetLink("a1", "A1"), { href: "/a1/nihongo-check", title: "✅ にほんごチェック · sách Rikai", sub: "Tự kiểm tra 57 câu cơ bản (きほんぶん) và các câu hỏi 「にほんごで いいましょう」 của từng bài — tự chấm sao, ghi nhận xét như trang 194–197 của sách" }],
 };
 
 export const A21_COURSE = {

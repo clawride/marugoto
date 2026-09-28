@@ -4,6 +4,7 @@
 // Cuối bài: ✍️ kiểm tra dịch câu (Nhật → Việt, Việt → Nhật, xếp câu).
 // Dữ liệu: public/book/<sách>/<bài>.json (tạo bởi scripts/build-book.mjs từ data/book/*.json)
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { Player, AudioSetup } from "@/components/Listen";
 import { speakLines } from "@/lib/tts";
 import { shuffle } from "@/lib/data";
@@ -77,7 +78,7 @@ function Exercise({ A, show }) {
       return (
         <div key={k} className="bkex">
           <span className="bkexn">{it.no}</span>
-          <span className="bkexq">{it.pic ? <>🖼 {it.pic}</> : <><span className="jpt">{it.q?.jp}</span>{show.vi && it.q?.vi && <small className="bkvi">{it.q.vi}</small>}</>}</span>
+          <span className="bkexq">{it.pic ? <span className="bkpicq">{it.em ? <span className="bkem" title={it.pic}>{it.em}</span> : "🖼"}<small>{it.pic}</small></span> : <><span className="jpt">{it.q?.jp}</span>{show.vi && it.q?.vi && <small className="bkvi">{it.q.vi}</small>}</>}</span>
           <select value={v[k] || ""} disabled={ex} className={chk && !ex ? (right ? "ok" : "bad") : ""} onChange={(e) => set(k, e.target.value)}>
             <option value="">—</option>
             {(A.choices || []).map((c) => <option key={c.k} value={c.k}>{c.k} · {c.jp}</option>)}
@@ -135,7 +136,7 @@ function Exercise({ A, show }) {
       return (
         <div key={k} className="bkex">
           <span className="bkexn">{it.no}</span>
-          <div style={{ flex: 1 }}>{it.pic && <small className="bkvi">🖼 {it.pic}</small>}<OrderItem it={it} val={val} set={(x) => set(k, x)} chk={chk} />{show.vi && it.vi && <small className="bkvi">{it.vi}</small>}</div>
+          <div style={{ flex: 1 }}>{it.pic && <span className="bkpicq">{it.em ? <span className="bkem" title={it.pic}>{it.em}</span> : "🖼"}<small>{it.pic}</small></span>}<OrderItem it={it} val={val} set={(x) => set(k, x)} chk={chk} />{show.vi && it.vi && <small className="bkvi">{it.vi}</small>}</div>
         </div>
       );
     }
@@ -256,6 +257,7 @@ function Act({ A, lib, show }) {
             {A.words.items.map((w, i) => (
               <button key={i} className="bkword" onClick={() => say(w.jp)} title="Bấm để nghe">
                 {w.k && <span className="bkk">{w.k}</span>}
+                {w.em && <span className="bkem bkwem">{w.em}</span>}
                 {w.group && <span className="bkwgrp jpt">{w.group}</span>}
                 <b className="jpt">{w.jp}</b>
                 {show.ro && w.ro && <small className="bkro">{w.ro}</small>}
@@ -342,6 +344,11 @@ export default function BookPart({ course, book: bk, lesson, stars, onQuiz }) {
         {stars}
         <button className="gbtn tri" onClick={() => { sfx.open(); onQuiz(bookQs(B)); }} disabled={!B.quiz?.length}><span className="c" />Bắt đầu kiểm tra</button>
       </div>
+      {book.check && (
+        <Link href={`${book.check}#l${B.lesson}`} className="panel bkquiz bkchecklink">
+          <div><b>✅ <span className="jpt">にほんごチェック</span> · だい{B.lesson}か</b><span>Tự chấm sao các câu cơ bản của bài này và tập trả lời câu hỏi 「にほんごで いいましょう」 (sách tr.194–197)</span></div>
+        </Link>
+      )}
     </div>
     </Prefix.Provider>
   );
