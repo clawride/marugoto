@@ -24,6 +24,13 @@ const picsFile = path.join(SRC, "pics.tsv");
 if (fs.existsSync(picsFile)) for (const line of fs.readFileSync(picsFile, "utf8").replace(/\r/g, "").split("\n")) {
   const c = line.split("\t"); const em = c.pop(); if (em?.trim()) PICS.set(c.join("\t"), em.trim());
 }
+// pics-img.tsv: cùng khóa + url ảnh いらすとや + tên tranh (chỉ lưu đường dẫn, ảnh hiển thị trực tiếp từ irasutoya.com)
+const IMGS = new Map();
+const imgFile = path.join(SRC, "pics-img.tsv");
+if (fs.existsSync(imgFile)) for (const line of fs.readFileSync(imgFile, "utf8").replace(/\r/g, "").split("\n")) {
+  if (line.startsWith("#")) continue;
+  const c = line.split("\t"); c.pop(); const u = c.pop(); if (u?.startsWith("https://")) IMGS.set(c.join("\t"), u);
+}
 
 // ——— Sách Rikai: テストとふりかえり 1–2 (p99–100, p165–166) và にほんごチェック (p194–197) ———
 // data/book/extra/<sách>-extra.json (chép tay từ sách) + kho câu luyện thêm lấy từ chính các bài Rikai và phiếu Kanji A1
@@ -112,8 +119,8 @@ for (const f of fs.readdirSync(SRC).filter((f) => f.endsWith(".json"))) {
   }
   // tranh minh họa bằng emoji (không dùng tranh của sách): data/book/pics.tsv → it.em (câu có tranh), w.em (thẻ từ)
   for (const L of D.lessons) for (const S of L.sections) for (const A of S.acts) {
-    for (const it of A.items || []) if (it.pic && PICS.get(`pic\t${it.pic}`)) it.em = PICS.get(`pic\t${it.pic}`);
-    for (const w of (Array.isArray(A.words) ? A.words : A.words?.items) || []) if (PICS.get(`word\t${w.jp}\t${w.vi}`)) w.em = PICS.get(`word\t${w.jp}\t${w.vi}`);
+    for (const it of A.items || []) if (it.pic) { const k = `pic\t${it.pic}`; if (PICS.get(k)) it.em = PICS.get(k); if (IMGS.get(k)) it.img = IMGS.get(k); }
+    for (const w of (Array.isArray(A.words) ? A.words : A.words?.items) || []) { const k = `word\t${w.jp}\t${w.vi}`; if (PICS.get(k)) w.em = PICS.get(k); if (IMGS.get(k)) w.img = IMGS.get(k); }
   }
   for (const L of D.lessons) fs.writeFileSync(path.join(out, `${L.lesson}.json`), JSON.stringify(L));
   console.log(`${f}: ${D.lessons.length} bài → public/book/${course}/`);
