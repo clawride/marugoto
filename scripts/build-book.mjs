@@ -162,6 +162,19 @@ for (const f of fs.readdirSync(SRC).filter((f) => f.endsWith(".json"))) {
   for (const L of D.lessons) for (const S of L.sections) for (const A of S.acts) {
     for (const it of A.items || []) if (it.pic) { const k = `pic\t${it.pic}`; if (PICS.get(k)) it.em = PICS.get(k); if (IMGS.get(k)) it.img = IMGS.get(k); }
     for (const w of (Array.isArray(A.words) ? A.words : A.words?.items) || []) { const k = `word\t${w.jp}\t${w.vi}`; if (PICS.get(k)) w.em = PICS.get(k); if (IMGS.get(k)) w.img = IMGS.get(k); }
+    // chuẩn hóa vài cách ghi khác của trợ lý chép sách (中級1): q chuỗi → {jp}, full → form (câu đầy đủ hiện sau khi chấm),
+    // group → gợi ý nhóm, track → audio (lời thoại), sec/para → nhãn đoạn (A, B…) của bài đọc, pic của bài tập → vào đề bài
+    for (const it of A.items || []) {
+      if (typeof it.q === "string") it.q = { jp: it.q };
+      if (it.full && !it.form) { it.form = it.full; delete it.full; }
+      if (it.group && !it.hint) { it.hint = it.group; delete it.group; }
+    }
+    for (const sc of A.scripts || []) {
+      if (sc.track && !sc.audio) { sc.audio = sc.track; delete sc.track; }
+      if (Array.isArray(sc.audio)) sc.audio = sc.audio[0]; // ["8_08"] → "8_08"
+    }
+    for (const t of A.text || []) if ((t.sec || t.para) && !t.sp) { t.sp = t.sec || t.para; delete t.sec; delete t.para; }
+    if (typeof A.pic === "string") { A.task = `${A.task ? A.task + " · " : ""}🖼 ${A.pic}`; delete A.pic; }
     // số câu trùng trong một bài tập (vd. nhiều câu "例") → 例1, 例2… để mỗi câu có ô trả lời riêng
     const seenNo = new Map();
     for (const it of A.items || []) {

@@ -11,13 +11,16 @@ import { b1Topic } from "@/lib/b1";
 import { shuffle, pickRand } from "@/lib/data";
 import { speakLines, stopSpeak, ttsAvailable } from "@/lib/tts";
 import { sfx } from "@/lib/sfx";
+import BookPart from "@/components/course/BookPart";
+import CourseRun from "@/components/course/CourseRun";
+import { B11_BOOK_COURSE } from "@/components/courses";
 
-const TABS = [["grammar", "📐 Ngữ pháp"], ["reading", "📖 Đọc dài"], ["listening", "🎧 Nghe"]];
+const TABS = [["book", "📖 Học theo sách 中級1"], ["grammar", "📐 Ngữ pháp"], ["reading", "📖 Đọc dài"], ["listening", "🎧 Nghe"]];
 
 export default function B1Topic() {
   const { t } = useParams();
   const T = b1Topic(+t);
-  const [tab, setTab] = useState("grammar");
+  const [tab, setTab] = useState("book");
   useEffect(() => () => stopSpeak(), []);
   if (!T) return <p style={{ marginTop: 40 }}>Không tìm thấy Topic. <Link href="/b1">Học Viện B1-1</Link></p>;
   return (
@@ -32,11 +35,36 @@ export default function B1Topic() {
       <div className="chips rtabs" style={{ justifyContent: "center" }}>
         {TABS.map(([k, l]) => <button key={k} className={`chip dk ${tab === k ? "on" : ""}`} onClick={() => { setTab(k); stopSpeak(); sfx.click(); }}>{l}</button>)}
       </div>
+      {tab === "book" && <BookTab T={T} />}
       {tab === "grammar" && <GrammarTab T={T} />}
       {tab === "reading" && <ReadingTab T={T} />}
       {tab === "listening" && <ListeningTab T={T} />}
     </>
   );
+}
+
+// 📖 Học theo sách まるごと 中級1: dựng lại Topic theo đúng sách + kiểm tra dịch câu cuối bài (điểm lưu ở S.b1.book[topic])
+function BookTab({ T }) {
+  const { S, update } = useGame();
+  const [run, setRun] = useState(null);
+  const [res, setRes] = useState(null);
+  const C = B11_BOOK_COURSE, book = C.books[0];
+  const best = S?.b1?.book?.[T.topic];
+  const stars = (p) => (p >= 95 ? 3 : p >= 80 ? 2 : p >= 60 ? 1 : 0);
+  if (run) return <CourseRun course={C} qs={run} title="Kiểm tra dịch câu · sách 中級1" intro={ZL.grammar} onFinish={(c, n) => {
+    const pct = Math.round((c / n) * 100);
+    update((s) => { s.b1 = s.b1 || {}; s.b1.book = s.b1.book || {}; s.b1.book[T.topic] = Math.max(s.b1.book[T.topic] || 0, pct); });
+    setRes({ c, n, pct }); setRun(null); window.scrollTo({ top: 0, behavior: "smooth" });
+  }} />;
+  if (res) return (
+    <div className="panel result">
+      <ZhongliHost line={res.pct >= 80 ? ZL.ok[1] : ZL.bad[1]} />
+      <h2>Kết quả kiểm tra dịch câu</h2>
+      <div className="score">{res.c}<small> / {res.n}</small> <small>({res.pct}% · {"★".repeat(stars(res.pct)) || "chưa có sao"})</small></div>
+      <div className="btnrow"><button className="gbtn x dark" onClick={() => setRes(null)}><span className="c" />Về bài học</button></div>
+    </div>
+  );
+  return <BookPart course={C} book={book} lesson={T.topic} stars={best != null ? <span className="bkbest">Tốt nhất: {best}% {"★".repeat(stars(best))}</span> : null} onQuiz={(qs) => { setRes(null); setRun(qs); window.scrollTo({ top: 0, behavior: "smooth" }); }} />;
 }
 
 function GrammarTab({ T }) {

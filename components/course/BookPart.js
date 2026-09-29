@@ -34,7 +34,7 @@ export function Pic({ img, em, alt, big }) {
 const Prefix = createContext("sa"); // tên file audio của sách: sa060.mp3 (Katsudou) · sc054.mp3 (Rikai)
 const CIRCLED = "⓪①②③④⑤⑥⑦⑧⑨⑩";
 const say = (jp) => speakLines([{ t: jp }], { rate: 0.85 });
-const trackKey = (t, p = "sa") => `${p}${t}.mp3`;
+const trackKey = (t, p = "sa") => `${p}${/^\d+_\d+$/.test(t) ? t.split("_").map(Number).join("_") : t}.mp3`; // "1_05" → "#1_5.mp3" (B1-1)
 // ["061","065"] → 061…065
 const tracksOf = (a = []) => {
   if (a.length === 2 && +a[1] > +a[0] && +a[1] - +a[0] < 12) return Array.from({ length: +a[1] - +a[0] + 1 }, (_, i) => String(+a[0] + i).padStart(3, "0"));
@@ -206,6 +206,7 @@ function Script({ sc, lib, show }) {
         <button className="chip sm" onClick={() => setOpen(!open)}>{open ? "Ẩn lời thoại" : "📜 Xem lời thoại"}</button>
       </div>
       {sc.audio && <Player file={trackKey(sc.audio, prefix)} lib={lib} autoPlay={false} tts={sc.lines.map((l) => ({ t: l.kana || l.jp }))} />}
+      {open && sc.note && <p className="bktask">💡 {sc.note}</p>}
       {open && <div className="bkdlg">{sc.lines.map((l, i) => (
         <div key={i} className="bkturn"><span className="bksp jpt">{l.sp}</span><Line {...l} show={show} /></div>
       ))}</div>}

@@ -1,12 +1,13 @@
 "use client";
 // Cấu hình giao diện cho từng khóa học dùng khung chung (Hub / bài / boss / thi)
+import { ZhongliHost, ZhongliHero, ZL, ZHONGLI } from "@/components/Zhongli";
 import { NahidaHost, NahidaHero, ND, NAHIDA } from "@/components/Nahida";
 import { FurinaHost, FurinaHero, FU, FURINA } from "@/components/Furina";
 import { VentiHost, VentiHero, VT, VENTI } from "@/components/Venti";
 import { RaidenHost, RaidenHero, RD, RAIDEN } from "@/components/Raiden";
 import { MavuikaHost, MavuikaHero, MV, MAVUIKA } from "@/components/Mavuika";
 import { A22_EXAM, AB1_EXAM, A1_EXAM, A21_EXAM, B12_EXAM } from "@/components/examConfigs";
-import { A22_AUDIO, AB1_AUDIO, A1_AUDIO, A21_AUDIO, A21R_AUDIO, A21C_AUDIO, NO_AUDIO } from "@/lib/audioLib";
+import { B11_AUDIO, A22_AUDIO, AB1_AUDIO, A1_AUDIO, A21_AUDIO, A21R_AUDIO, A21C_AUDIO, NO_AUDIO } from "@/lib/audioLib";
 import { A22 } from "@/lib/a22";
 import { AB1 } from "@/lib/ab1";
 import { A1C } from "@/lib/a1";
@@ -97,4 +98,12 @@ export const B12_COURSE = {
   Host: MavuikaHost, Hero: MavuikaHero, lines: MV, char: MAVUIKA, hostName: "Mavuika",
   exam: B12_EXAM,
   extra: sheetLink("b12", "B1-2"),
+};
+
+// Học Viện B1-1 (trang riêng /b1): chỉ dùng phần "Học theo sách 中級1" — public/book/b11/<Topic>.json
+export const B11_BOOK_COURSE = {
+  store: "b1", base: "/b1", title: "Học Viện B1-1",
+  audio: B11_AUDIO, folder: "Marugoto 中級1 audio",
+  Host: ZhongliHost, Hero: ZhongliHero, lines: { ...ZL, order: ZL.grammar }, char: ZHONGLI, hostName: "Zhongli",
+  books: [{ key: "book", ico: "📖", short: "中級1", name: "Sách まるごと 中級1 B1-1", url: (n) => `/book/b11/${n}.json`, prefix: "#" }],
 };
