@@ -372,7 +372,12 @@ export default function BookPart({ course, book: bk, lesson, stars, onQuiz }) {
       {JSON.stringify(B).includes('"img":') && <p className="hint bkcredit">Tranh minh họa: <a href="https://www.irasutoya.com/" target="_blank" rel="noreferrer">いらすとや</a> (hiển thị trực tiếp từ trang gốc; khi không có mạng sẽ hiện biểu tượng thay thế).</p>}
       {book.check && (
         <Link href={`${book.check}#l${B.lesson}`} className="panel bkquiz bkchecklink">
-          <div><b>✅ <span className="jpt">にほんごチェック</span> · だい{B.lesson}か</b><span>Tự chấm sao các câu cơ bản của bài này và tập trả lời câu hỏi 「にほんごで いいましょう」 (sách tr.194–197)</span></div>
+          <div><b>✅ <span className="jpt">にほんごチェック</span> · だい{B.lesson}か</b><span>Tự chấm sao các câu cơ bản của bài này và tập trả lời câu hỏi 「にほんごで いいましょう」{book.checkPages ? ` (sách tr.${book.checkPages})` : ""}</span></div>
+        </Link>
+      )}
+      {book.kiroku && (
+        <Link href={`${book.kiroku}#t${B.lesson}`} className="panel bkquiz bkchecklink">
+          <div><b>📒 <span className="jpt">学習記録シート</span> · Topic {B.lesson}</b><span>Tự đánh giá 5 Can-do của Topic này (★ まだ難しかった → ★★★ 十分にできた), ghi わたしだけのフレーズ và nhật ký trải nghiệm tiếng Nhật{book.kirokuPages ? ` (sách tr.${book.kirokuPages})` : ""}</span></div>
         </Link>
       )}
     </div>

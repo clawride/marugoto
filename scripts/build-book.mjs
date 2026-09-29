@@ -230,3 +230,9 @@ for (const f of fs.readdirSync(path.join(SRC, "extra")).filter((f) => /^\w+-stes
   fs.writeFileSync(path.join(ROOT, "public", "book", course, `stest${n}.json`), JSON.stringify(T));
   console.log(`${f} → public/book/${course}/stest${n}.json`);
 }
+// 学習記録シート (中級1): data/book/extra/<khóa>-kiroku.json → public/book/<khóa>/kiroku.json (components/course/Kiroku.js)
+for (const f of fs.readdirSync(path.join(SRC, "extra")).filter((f) => /^\w+-kiroku\.json$/.test(f))) {
+  const course = f.replace(/-kiroku\.json$/, "");
+  fs.writeFileSync(path.join(ROOT, "public", "book", course, "kiroku.json"), fs.readFileSync(path.join(SRC, "extra", f), "utf8").replace(/\s*\n\s*/g, ""));
+  console.log(`${f} → public/book/${course}/kiroku.json`);
+}
