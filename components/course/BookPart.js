@@ -239,7 +239,8 @@ function Act({ A, lib, show }) {
       {A.task && <p className="bktask">📝 {A.task}</p>}
       {A.grid?.length > 0 && <div className="bkgrid2 jpt">{A.grid.map((row, i) => <div key={i}>{[...row].map((c, j) => <span key={j}>{c}</span>)}</div>)}</div>}
       {A.steps?.map((p, i) => <div key={i} className="bkask bkpart"><b className="jpt">{p.no} {p.jp}</b>{p.en && <i>{p.en}</i>}{show.vi && p.vi && <small>{p.vi}</small>}</div>)}
-      {A.table?.map((t, i) => (
+      {A.table?.some((t) => !t.rows) && <ol className="bkpeople">{A.table.filter((t) => !t.rows).map((t, i) => <li key={i}><span className="jpt">{t.name || t.jp}</span>{t.pic && <small className="bkvi"> · 🖼 {t.pic}</small>}</li>)}</ol>}
+      {A.table?.filter((t) => t.rows).map((t, i) => (
         <div key={i} className="bktable">
           <b className="jpt">{t.title?.jp}</b>{t.title?.vi && <small> · {t.title.vi}</small>}
           <div className="bktscroll">

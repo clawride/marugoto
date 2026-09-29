@@ -22,7 +22,16 @@ export const A22_COURSE = {
   audio: A22_AUDIO, folder: "New Marugoto A2-2 audio",
   Host: NahidaHost, Hero: NahidaHero, lines: ND, char: NAHIDA, hostName: "Nahida",
   exam: A22_EXAM,
-  extra: sheetLink("a22", "A2-2"),
+  // Học theo sách 初級2 A2 かつどう (📖) và りかい (📘) — public/book/a22/<bài>.json, public/book/a22-rikai/<bài>.json
+  // audio chung một thư mục, tách theo thư mục con: "Katsudou/004.mp3" · "Rikai/004.mp3"
+  books: [
+    { key: "book", ico: "📖", short: "Katsudou", name: "Sách Katsudou · まるごと初級2 A2 かつどう", url: (n) => `/book/a22/${n}.json`, prefix: "Katsudou/" },
+    { key: "rikai", ico: "📘", short: "Rikai", name: "Sách Rikai · まるごと初級2 A2 りかい", url: (n) => `/book/a22-rikai/${n}.json`, prefix: "Rikai/", check: "/a22/nihongo-check", checkPages: "194–199" },
+  ],
+  // テストとふりかえり: Katsudou (app/a22/test/[n]) và Rikai (app/a22/rtest/[n]) sau Topic 5 và Topic 9
+  bookTests: [{ n: 1, after: 5, topics: "1–5", page: 87 }, { n: 2, after: 9, topics: "6–9", page: 138 }],
+  rikaiTests: [{ n: 1, after: 5, topics: "1–5", page: 101 }, { n: 2, after: 9, topics: "6–9", page: 168 }],
+  extra: [...sheetLink("a22", "A2-2"), { href: "/a22/nihongo-check", title: "✅ にほんごチェック · sách Rikai", sub: "Tự kiểm tra các câu cơ bản (きほんぶん) và câu hỏi 「日本語で 言いましょう」 của từng bài — tự chấm sao, ghi nhận xét như trang 194–199 của sách" }],
 };
 
 export const AB1_COURSE = {

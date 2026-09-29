@@ -27,6 +27,19 @@ const TESTS = {
       examples: [["マレーシアの クロッポと ちょっと にています。", "Mareeshia no kuroppo to chotto nite imasu.", "Hơi giống món bánh phồng kroppok của Malaysia."], ["たなかさんに 東京で 会ったことが あります。", "Tanaka-san ni Tookyoo de atta koto ga arimasu.", "Tôi đã từng gặp anh Tanaka ở Tokyo.", "たなかさんに とうきょうで あったことが あります。"], ["ときどき スポーツを する ひとは 4にんです。", "Tokidoki supootsu o suru hito wa yonin desu.", "Số người thỉnh thoảng chơi thể thao là 4 người."], ["カーラさんは きっと よろこぶと おもいます。", "Kaara-san wa kitto yorokobu to omoimasu.", "Tôi nghĩ chắc chắn chị Carla sẽ vui."]],
       card: { jp: "きょう、せんせいは すこし ぐあいが わるそうです。せんせいと 話して ください。", kana: "きょう、せんせいは すこし ぐあいが わるそうです。せんせいと はなして ください。", vi: "Hôm nay thầy/cô giáo có vẻ không được khỏe. Hãy nói chuyện với thầy/cô." } },
   ],
+  // A2-2 かつどう p87–88, p138–139: もじテスト "cố gắng đọc được tất cả", かいわテスト có 2 câu hỏi ví dụ + thẻ tình huống
+  a22: [
+    { n: 1, page: 87, topics: [1, 5], lessons: [1, 10], moji: "sentence", pass: 5, passNote: "sách: cố gắng đọc được tất cả", candoPages: "180–183",
+      write: ["だい7か ④ 日本まつりボランティアカード", "だい9か ④ ねんがじょう"],
+      examples: [["3にんきょうだいの いちばんめですから、いちろうと いう なまえです。", "Sannin kyoodai no ichibanme desu kara, Ichiroo to iu namae desu.", "Vì là con cả trong 3 anh em nên tên là Ichirō."], ["ピアノが じょうずに なりますように。", "Piano ga joozu ni narimasu yoo ni.", "Mong sao chơi piano giỏi lên."], ["みなさん、本日は おいそがしい中、日本まつりに おいでくださって、ありがとうございます。", "Minasan, honjitsu wa oisogashii naka, Nihon matsuri ni oide kudasatte, arigatoo gozaimasu.", "Thưa mọi người, xin cảm ơn đã đến lễ hội Nhật Bản hôm nay dù rất bận rộn.", "みなさん、ほんじつは おいそがしいなか、にほんまつりに おいでくださって、ありがとうございます。"]],
+      kaiwaEx: { jp: "（あなたの 国の かんこうち）に 行きたいんですが、7月は どうですか。／今年の 休み（正月など とくべつな 休み）は どう してましたか。", ro: "(Anata no kuni no kankoochi) ni ikitai n desu ga, shichigatsu wa doo desu ka. / Kotoshi no yasumi (shoogatsu nado tokubetsu na yasumi) wa doo shite mashita ka.", vi: "Tôi muốn đi (điểm du lịch ở nước bạn), tháng 7 thì thế nào? / Kỳ nghỉ năm nay (Tết hay kỳ nghỉ đặc biệt) bạn đã làm gì?" },
+      card: { jp: "日本の 友だちを あなたの おすすめの レストランに つれてきました。友だちと そうだんして 料理を ちゅうもんして ください。", kana: "にほんの ともだちを あなたの おすすめの レストランに つれてきました。ともだちと そうだんして りょうりを ちゅうもんして ください。", vi: "Bạn đưa một người bạn Nhật đến nhà hàng bạn giới thiệu. Hãy bàn với bạn ấy rồi gọi món." } },
+    { n: 2, page: 138, topics: [6, 9], lessons: [11, 18], moji: "sentence", pass: 5, passNote: "sách: cố gắng đọc được tất cả", candoPages: "180–183",
+      write: ["だい13か ⑤ かんこうちの コメントノート"],
+      examples: [["できるだけ スーパーの ふくろを もらわないように しています。", "Dekiru dake suupaa no fukuro o morawanai yoo ni shite imasu.", "Tôi cố gắng hết mức để không nhận túi ni-lông ở siêu thị."], ["Aモデルの ほうが デザインが いいです。", "Ee moderu no hoo ga dezain ga ii desu.", "Mẫu A có thiết kế đẹp hơn."], ["ここは 金閣寺です。金閣は 14せいきの おわりに、しょうぐんによって たてられました。", "Koko wa Kinkakuji desu. Kinkaku wa juuyon-seeki no owari ni, shoogun ni yotte tateraremashita.", "Đây là chùa Kinkakuji. Kinkaku được tướng quân cho xây vào cuối thế kỷ 14.", "ここは きんかくじです。きんかくは 14せいきの おわりに、しょうぐんによって たてられました。"]],
+      kaiwaEx: { jp: "どんな エコかつどうを していますか。／どんな 子どもでしたか。", kana: "どんな エコかつどうを していますか。／どんな こどもでしたか。", ro: "Donna eko katsudoo o shite imasu ka. / Donna kodomo deshita ka.", vi: "Bạn đang làm những hoạt động bảo vệ môi trường nào? / Hồi nhỏ bạn là đứa trẻ thế nào?" },
+      card: { jp: "日本の 友だちを はくぶつかんに つれてきました。てんじひんの せつめいを 読んで、友だちに 話しましょう。", kana: "にほんの ともだちを はくぶつかんに つれてきました。てんじひんの せつめいを よんで、ともだちに はなしましょう。", vi: "Bạn đưa một người bạn Nhật đến bảo tàng. Hãy đọc phần giải thích hiện vật (bằng tiếng nước bạn) rồi kể lại cho bạn ấy." } },
+  ],
 };
 // Thang đánh giá かいわテスト của sách A2 (khác A1)
 const FLOWERS_A2 = [
@@ -140,6 +153,12 @@ for (const f of fs.readdirSync(SRC).filter((f) => f.endsWith(".json"))) {
   for (const L of D.lessons) for (const S of L.sections) for (const A of S.acts) {
     for (const it of A.items || []) if (it.pic) { const k = `pic\t${it.pic}`; if (PICS.get(k)) it.em = PICS.get(k); if (IMGS.get(k)) it.img = IMGS.get(k); }
     for (const w of (Array.isArray(A.words) ? A.words : A.words?.items) || []) { const k = `word\t${w.jp}\t${w.vi}`; if (PICS.get(k)) w.em = PICS.get(k); if (IMGS.get(k)) w.img = IMGS.get(k); }
+    // số câu trùng trong một bài tập (vd. nhiều câu "例") → 例1, 例2… để mỗi câu có ô trả lời riêng
+    const seenNo = new Map();
+    for (const it of A.items || []) {
+      const k = String(it.no ?? ""); const c = (seenNo.get(k) || 0) + 1; seenNo.set(k, c);
+      if (c > 1 || (A.items.filter((x) => String(x.no ?? "") === k).length > 1)) it.no = `${k}${c}`;
+    }
   }
   for (const L of D.lessons) fs.writeFileSync(path.join(out, `${L.lesson}.json`), JSON.stringify(L));
   console.log(`${f}: ${D.lessons.length} bài → public/book/${course}/`);
@@ -169,7 +188,7 @@ for (const f of fs.readdirSync(SRC).filter((f) => f.endsWith(".json"))) {
     }
     const data = { n: T.n, page: T.page, topics: T.topics, lessons: T.lessons, moji: T.moji, write: T.write,
       examples: T.examples.map(([jp, ro, vi, kana]) => ({ jp, kana, ro, vi })), cando, mojiPool: moji, kaiwa,
-      pass: T.pass || 3, candoPages: T.candoPages || "", kaiwaEx: T.kaiwaEx || null, card: T.card || null, flowers: course === "a1" ? null : FLOWERS_A2 };
+      pass: T.pass || 3, passNote: T.passNote || "", candoPages: T.candoPages || "", kaiwaEx: T.kaiwaEx || null, card: T.card || null, flowers: course === "a1" ? null : FLOWERS_A2 };
     fs.writeFileSync(path.join(out, `test${T.n}.json`), JSON.stringify(data));
     console.log(`  test${T.n}: ${cando.length} Can-do · ${moji.length} thẻ もじ · ${kaiwa.length} câu hỏi かいわ`);
   }

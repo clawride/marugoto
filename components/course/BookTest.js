@@ -55,7 +55,7 @@ function MojiTest({ T, onDone }) {
   return (
     <div className="bksub2">
       <h4>(1) もじテスト <small className="bkvi">Kiểm tra đọc chữ</small></h4>
-      <p className="bktask">Đọc to {N} {T.moji === "word" ? "từ" : "câu"} dưới đây. Đọc được {need} là <b>đạt</b>{T.pass === 4 ? " (sách: đọc được 80% là đạt)" : ""}. Đọc xong, bấm thẻ để lật xem cách đọc (romaji), nghĩa và nghe lại, rồi tự chấm ✓ / ✗.</p>
+      <p className="bktask">Đọc to {N} {T.moji === "word" ? "từ" : "câu"} dưới đây. Đọc được {need} là <b>đạt</b>{T.passNote ? ` (${T.passNote})` : T.pass === 4 ? " (sách: đọc được 80% là đạt)" : ""}. Đọc xong, bấm thẻ để lật xem cách đọc (romaji), nghĩa và nghe lại, rồi tự chấm ✓ / ✗.</p>
       <div className="bkmoji">
         {cards.map((x, i) => (
           <div key={x.jp + i} className={`bkmcard ${ok[i] === true ? "ok" : ok[i] === false ? "bad" : ""}`}>
