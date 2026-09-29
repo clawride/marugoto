@@ -84,12 +84,12 @@ function Exercise({ A, show }) {
       return (
         <div key={k} className="bkex">
           <span className="bkexn">{it.no}</span>
-          <span className="bkexq">{it.pic ? <span className="bkpicq">{it.em || it.img ? <Pic img={it.img} em={it.em} alt={it.pic} /> : "🖼"}<small>{it.pic}</small></span> : <><span className="jpt">{it.q?.jp}</span>{show.kana !== false && it.q?.kana && <small className="bkkana jpt">{it.q.kana}</small>}{show.vi && it.q?.vi && <small className="bkvi">{it.q.vi}</small>}</>}</span>
+          <span className="bkexq">{it.pic ? <span className="bkpicq">{it.em || it.img ? <Pic img={it.img} em={it.em} alt={it.pic} /> : "🖼"}<small>{it.pic}</small></span> : <><span className="jpt">{it.q?.jp}</span>{show.kana !== false && it.q?.kana && <small className="bkkana jpt">{it.q.kana}</small>}{show.vi && it.q?.vi && <small className="bkvi">{it.q.vi}</small>}</>}{it.hint && <small className="bkhint jpt"> 💡 {it.hint}</small>}</span>
           <select value={v[k] || ""} disabled={ex} className={chk && !ex ? (right ? "ok" : "bad") : ""} onChange={(e) => set(k, e.target.value)}>
             <option value="">—</option>
             {(A.choices || []).map((c) => <option key={c.k} value={c.k}>{c.k} · {c.jp}</option>)}
           </select>
-          {chk && !ex && !right && <em className="bkexa">→ {it.a} · {(A.choices || []).find((c) => c.k === it.a)?.jp}</em>}
+          {chk && !ex && !right && <em className="bkexa">→ {it.a} · {(A.choices || []).find((c) => c.k === it.a)?.jp}</em>}{chk && it.form && <small className="bkexa jpt">→ {Array.isArray(it.form) ? it.form.join("、") : it.form}</small>}
         </div>
       );
     }
@@ -129,9 +129,9 @@ function Exercise({ A, show }) {
         <div key={k} className="bkex choose">
           <span className="bkexn">{it.label || it.no}</span>
           <div>
-            <span className="jpt">{it.q?.jp}</span>{show.kana !== false && it.q?.kana && <small className="bkkana jpt">{it.q.kana}</small>}{show.vi && it.q?.vi && <small className="bkvi">{it.q.vi}</small>}
+            <span className="jpt">{it.q?.jp}</span>{show.kana !== false && it.q?.kana && <small className="bkkana jpt">{it.q.kana}</small>}{show.vi && it.q?.vi && <small className="bkvi">{it.q.vi}</small>}{it.hint && <small className="bkhint jpt"> 💡 {it.hint}</small>}
             <div className="bkopts2">{(it.opts || []).map((o) => <button key={o} disabled={ex} className={`chip sm jpt ${v[k] === o ? (chk ? (right ? "ok" : "bad") : "on") : ""}`} onClick={() => set(k, o)}>{o}</button>)}</div>
-            {chk && !ex && !right && <em className="bkexa jpt">→ {it.a}</em>}
+            {chk && !ex && !right && <em className="bkexa jpt">→ {it.a}</em>}{chk && it.form && <small className="bkexa jpt"> → {Array.isArray(it.form) ? it.form.join("、") : it.form}</small>}
           </div>
         </div>
       );
@@ -142,7 +142,7 @@ function Exercise({ A, show }) {
       return (
         <div key={k} className="bkex">
           <span className="bkexn">{it.no}</span>
-          <div style={{ flex: 1 }}>{it.jp && <div className="jpt bkframe">{it.jp}</div>}{it.pic && <span className="bkpicq">{it.em || it.img ? <Pic img={it.img} em={it.em} alt={it.pic} /> : "🖼"}<small>{it.pic}</small></span>}<OrderItem it={it} val={val} set={(x) => set(k, x)} chk={chk} />{show.vi && it.vi && <small className="bkvi">{it.vi}</small>}</div>
+          <div style={{ flex: 1 }}>{it.jp && <div className="jpt bkframe">{it.jp}</div>}{!it.jp && it.q?.jp && <div className="jpt bkframe">{it.q.jp}{show.vi && it.q.vi && <small className="bkvi"> {it.q.vi}</small>}</div>}{it.hint && <small className="bkhint jpt">💡 {it.hint}</small>}{it.pic && <span className="bkpicq">{it.em || it.img ? <Pic img={it.img} em={it.em} alt={it.pic} /> : "🖼"}<small>{it.pic}</small></span>}<OrderItem it={it} val={val} set={(x) => set(k, x)} chk={chk} />{show.vi && it.vi && <small className="bkvi">{it.vi}</small>}</div>
         </div>
       );
     }
@@ -342,7 +342,7 @@ export default function BookPart({ course, book: bk, lesson, stars, onQuiz }) {
           <label><input type="checkbox" checked={vi} onChange={(e) => setVi(e.target.checked)} /> Hiện nghĩa tiếng Việt</label>
         </div>
       </div>
-      <AudioSetup lib={lib} folder={book.folder || course.folder} />
+      {lib.pickFolder ? <AudioSetup lib={lib} folder={book.folder || course.folder} /> : <p className="hint">🔊 Khóa này chưa có audio sách: bài nghe dùng giọng đọc tiếng Nhật của trình duyệt với lời thoại chép từ sách.</p>}
       {B.sections.map((S, si) => (
         <section key={si} className="panel bksec">
           <h3><span className="bkno">{CIRCLED[S.no] || S.no}</span> <span className="jpt">{S.title.jp}</span>{S.title.ro && <small className="bkro">{S.title.ro}</small>}<small className="bkvi">{S.title.vi}</small>{S.part && <span className="bkcando bkpart2 jpt" title={S.part.vi || ""}>{typeof S.part === "string" ? S.part : S.part.jp}</span>}{S.page && <em className="bkpage">tr.{S.page}</em>}</h3>
@@ -376,8 +376,8 @@ export default function BookPart({ course, book: bk, lesson, stars, onQuiz }) {
         </Link>
       )}
       {book.kiroku && (
-        <Link href={`${book.kiroku}#t${B.lesson}`} className="panel bkquiz bkchecklink">
-          <div><b>📒 <span className="jpt">学習記録シート</span> · Topic {B.lesson}</b><span>Tự đánh giá 5 Can-do của Topic này (★ まだ難しかった → ★★★ 十分にできた), ghi わたしだけのフレーズ và nhật ký trải nghiệm tiếng Nhật{book.kirokuPages ? ` (sách tr.${book.kirokuPages})` : ""}</span></div>
+        <Link href={`${book.kiroku}#t${B.topic || B.lesson}`} className="panel bkquiz bkchecklink">
+          <div><b>📒 <span className="jpt">学習記録シート</span> · Topic {B.topic || B.lesson}</b><span>Tự đánh giá 5 Can-do của Topic này (★ まだ難しかった → ★★★ 十分にできた), ghi わたしだけのフレーズ và nhật ký trải nghiệm tiếng Nhật{book.kirokuPages ? ` (sách tr.${book.kirokuPages})` : ""}</span></div>
         </Link>
       )}
     </div>

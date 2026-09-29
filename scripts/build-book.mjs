@@ -146,11 +146,30 @@ function buildRikaiExtra(D, out, course) {
   console.log(`  にほんごチェック: ${X.check.reduce((s, t) => s + t.lessons.reduce((a, l) => a + l.kb.length, 0), 0)} câu cơ bản`);
 }
 
+// 中級2 (B1-2): khóa học chia mỗi Topic thành 2 bài — bài 2t-1 = 準備・PART1–2, bài 2t = PART3–5・教室の外へ
+// → tách một Topic của sách thành 2 file bài (Can-do, câu quiz chia theo nửa; trước khi học ở bài A, văn hóa ở bài B)
+const SPLIT = { b12: true };
+function splitTopic(L) {
+  const isA = (S) => /^(準備|PART ?[12])/.test(typeof S.part === "string" ? S.part : S.part?.jp || S.title?.jp || "");
+  const A = L.sections.filter(isA), B = L.sections.filter((S) => !isA(S));
+  const q = L.quiz || [], half = Math.ceil(q.length / 2);
+  const cd = L.cando || [];
+  const mk = (secs, n, label, extra) => ({
+    ...L, ...extra, lesson: n, page: secs[0]?.page ?? L.page, sections: secs.map((S, i) => ({ ...S, no: i + 1 })),
+    title: { ...L.title, vi: `${L.title?.vi || ""} · ${label}` },
+  });
+  return [
+    mk(A, L.topic * 2 - 1, "Phần A: 準備, PART 1–2", { cando: cd.slice(0, 2), quiz: q.slice(0, half), culture: undefined }),
+    mk(B, L.topic * 2, "Phần B: PART 3–5, 教室の外へ", { cando: cd.slice(2), quiz: q.slice(half), before: undefined }),
+  ];
+}
+
 for (const f of fs.readdirSync(SRC).filter((f) => f.endsWith(".json"))) {
   // a1-katsudou.json → public/book/a1/ (kèm buổi kiểm tra) · a1-rikai.json → public/book/a1-rikai/
   const main = f.endsWith("-katsudou.json");
   const course = main ? f.split("-")[0] : f.replace(/\.json$/, "");
   const D = JSON.parse(fs.readFileSync(path.join(SRC, f), "utf8"));
+  if (SPLIT[course]) D.lessons = D.lessons.flatMap(splitTopic);
   const out = path.join(ROOT, "public", "book", course);
   fs.mkdirSync(out, { recursive: true });
   // câu cơ bản (きほんぶん) của bài Rikai: các trợ lý chép sách ghi ở kihonbun/kihon/key hoặc cando có số → gom về notes
@@ -166,13 +185,21 @@ for (const f of fs.readdirSync(SRC).filter((f) => f.endsWith(".json"))) {
     // group → gợi ý nhóm, track → audio (lời thoại), sec/para → nhãn đoạn (A, B…) của bài đọc, pic của bài tập → vào đề bài
     for (const it of A.items || []) {
       if (typeof it.q === "string") it.q = { jp: it.q };
-      if (it.full && !it.form) { it.form = it.full; delete it.full; }
+      if (it.full && !it.form) { it.form = typeof it.full === "string" ? it.full : it.full.jp; delete it.full; }
       if (it.group && !it.hint) { it.hint = it.group; delete it.group; }
+      // 中級2: gợi ý kèm câu (câu của người kia, từ gợi ý, mẫu ngữ pháp, ô từ, ghi chú) → gộp vào hint
+      const tips = [
+        it.prompt && `${it.prompt.sp ? it.prompt.sp + "：" : ""}${it.prompt.jp}`, it.cue && (typeof it.cue === "string" ? it.cue : it.cue.jp),
+        typeof it.grammar === "string" && it.grammar, it.box && [].concat(it.box).join("、"), typeof it.note === "string" && it.note,
+      ].filter(Boolean);
+      if (tips.length) { it.hint = [it.hint, ...tips].filter(Boolean).join(" · "); for (const k of ["prompt", "cue", "box", "note"]) delete it[k]; if (typeof it.grammar === "string") delete it.grammar; }
     }
+    for (const g of A.grammar || []) if (g.use) { g.vi = `${g.vi || ""} (${g.use})`.trim(); delete g.use; }
     for (const sc of A.scripts || []) {
       if (sc.track && !sc.audio) { sc.audio = sc.track; delete sc.track; }
       if (Array.isArray(sc.audio)) sc.audio = sc.audio[0]; // ["8_08"] → "8_08"
     }
+    for (const t of A.text || []) if (t.label && !t.sp) { t.sp = t.label; delete t.label; }
     for (const t of A.text || []) if ((t.sec || t.para) && !t.sp) { t.sp = t.sec || t.para; delete t.sec; delete t.para; }
     if (typeof A.pic === "string") { A.task = `${A.task ? A.task + " · " : ""}🖼 ${A.pic}`; delete A.pic; }
     // số câu trùng trong một bài tập (vd. nhiều câu "例") → 例1, 例2… để mỗi câu có ô trả lời riêng

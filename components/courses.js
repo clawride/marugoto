@@ -97,7 +97,12 @@ export const B12_COURSE = {
   audio: NO_AUDIO, audioSetups: [],
   Host: MavuikaHost, Hero: MavuikaHero, lines: MV, char: MAVUIKA, hostName: "Mavuika",
   exam: B12_EXAM,
-  extra: sheetLink("b12", "B1-2"),
+  // Học theo sách 中級2: mỗi Topic của sách tách làm 2 bài (A: 準備・PART1–2 · B: PART3–5) — public/book/b12/<bài>.json · chưa có audio sách → giọng máy
+  books: [{ key: "book", ico: "📖", short: "中級2", name: "Sách まるごと 中級2 B1-2", url: (n) => `/book/b12/${n}.json`, prefix: "#", dir: "b12", kiroku: "/b12/kiroku", kirokuPages: "264–281" }],
+  topicHref: (t) => `/b12/${t * 2 - 1}`,
+  // テストの問題例 của sách (app/b12/test/[n]) sau Topic 3, 6, 9
+  sampleTests: [{ n: 1, after: 3, topics: "1–3", page: 204 }, { n: 2, after: 6, topics: "4–6", page: 210 }, { n: 3, after: 9, topics: "7–9", page: 215 }],
+  extra: [...sheetLink("b12", "B1-2"), { href: "/b12/kiroku", title: "📒 学習記録シート · sách 中級2", sub: "Tự đánh giá 45 Can-do theo từng Topic (★ まだ難しかった → ★★★ 十分にできた), ghi わたしだけのフレーズ và nhật ký trải nghiệm tiếng Nhật — như phiếu tr.264–281 của sách" }],
 };
 
 // Học Viện B1-1 (trang riêng /b1): chỉ dùng phần "Học theo sách 中級1" — public/book/b11/<Topic>.json

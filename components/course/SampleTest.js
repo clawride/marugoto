@@ -26,11 +26,13 @@ const J = ({ x, show, block }) => (x?.jp ? (
 function isRight(it, v) {
   if (it.t === "free") return v?.self === true;
   if (it.t === "input") { const x = nrm(v); return !!x && it.a.some((a) => nrm(a) === x); }
+  if (it.t === "multi") { const s = new Set(v || []); return s.size === it.a.length && it.a.every((k) => s.has(k)); }
   return v != null && v === it.a;
 }
 const optsOf = (it) => (it.t === "ox" ? OX : it.opts || []);
 const answerText = (it) => {
   if (it.t === "input") return it.a.join(" / ");
+  if (it.t === "multi") return it.a.map((k) => { const o = optsOf(it).find((x) => x[0] === k); return o ? `${o[0]} ${o[1]}` : k; }).join("、");
   const o = optsOf(it).find((x) => x[0] === it.a);
   return o ? (o[0] === o[1] || it.t === "ox" ? it.a : `${o[0]} ${o[1]}`) : it.a;
 };
@@ -45,6 +47,9 @@ function Item({ it, v, set, done, show }) {
         {it.q && <div className="rtjp"><J x={it.q} show={{ kana: show.kana, vi: show.vi || done }} /></div>}
         {(it.t === "select" || it.t === "ox") && (
           <div className="bkopts2">{optsOf(it).map(([k, txt]) => <button key={k} disabled={done} className={`chip sm jpt ${v === k ? (done ? (right ? "ok" : "bad") : "on") : ""}`} onClick={() => set(k)}>{k === txt || it.t === "ox" ? txt : `${k}  ${txt}`}</button>)}</div>
+        )}
+        {it.t === "multi" && (
+          <div className="bkopts2">{optsOf(it).map(([k, txt]) => { const on = (v || []).includes(k); return <button key={k} disabled={done} className={`chip sm jpt ${on ? (done ? (it.a.includes(k) ? "ok" : "bad") : "on") : ""}`} onClick={() => set(on ? v.filter((x) => x !== k) : [...(v || []), k])}>{on ? "☑" : "☐"} {k}  {txt}</button>; })}<small className="hint">Chọn tất cả đáp án đúng</small></div>
         )}
         {it.t === "input" && (
           <div className="jpt rtjp">{it.pre}<input value={v || ""} disabled={done} onChange={(e) => set(e.target.value)} placeholder="…" className={done ? (right ? "ok" : "bad") : ""} />{it.post}</div>
@@ -152,6 +157,11 @@ function Prompts({ S: sec, show, notes, saveNote, n }) {
             {p.model.map((m, i) => <div key={i} className="rtjp">{m.sp && <b className="jpt">{m.sp}：</b>}<J x={m} show={{ kana: show.kana, vi: true }} /></div>)}
           </details>
         )}
+        {p.rubric?.length > 0 && (
+          <details className="stscript"><summary>📊 評価表 · Tiêu chí chấm (sách)</summary>
+            <div className="strubric">{p.rubric.map((r, i) => <div key={i}><b className="jpt">{r.level}</b>{r.levelVi && <small className="bkvi">{r.levelVi}</small>}<J x={r} show={{ kana: show.kana, vi: true }} /></div>)}</div>
+          </details>
+        )}
         <textarea className="rtwrite jpt" rows={sec.key === "sakubun" ? 7 : 4} placeholder={sec.key === "sakubun" ? "Viết bài của bạn ở đây (tự lưu trên máy)" : "Ghi dàn ý / câu định nói (tự lưu trên máy)"} defaultValue={notes[k] || ""} onBlur={(e) => e.target.value !== (notes[k] || "") && saveNote(k, e.target.value)} />
         {notes[k] && <button className="chip sm" onClick={() => say(notes[k])}>🔊 Nghe bài của tôi</button>}
       </div>
@@ -187,7 +197,7 @@ export default function SampleTest({ course, n }) {
           <label><input type="checkbox" checked={kana} onChange={(e) => setKana(e.target.checked)} /> Hiện cách đọc (kana)</label>
           <label><input type="checkbox" checked={vi} onChange={(e) => setVi(e.target.checked)} /> Hiện nghĩa tiếng Việt ngay (khi chưa nộp bài)</label>
         </div>
-        <AudioSetup lib={lib} folder={book.folder || course.folder} />
+        {lib.pickFolder ? <AudioSetup lib={lib} folder={book.folder || course.folder} /> : <p className="hint">🔊 Khóa này chưa có audio sách: bài nghe dùng giọng đọc tiếng Nhật của trình duyệt với lời thoại chép từ sách.</p>}
       </div>
       {T.sections.map((sec, i) => (
         <section key={sec.key} className="panel bksec">

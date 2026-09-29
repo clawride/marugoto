@@ -54,7 +54,7 @@ export default function Kiroku({ course }) {
       </div>
       {K.map((T) => (
         <section key={T.topic} id={`t${T.topic}`} className="panel bksec">
-          <h3><span className="bkno">{T.topic}</span> <J x={T.title} kana={kana} /> <Link className="chip sm" href={`${course.base}/${T.topic}`}>Mở Topic</Link></h3>
+          <h3><span className="bkno">{T.topic}</span> <J x={T.title} kana={kana} /> <Link className="chip sm" href={course.topicHref ? course.topicHref(T.topic) : `${course.base}/${T.topic}`}>Mở Topic</Link></h3>
           {T.cando.map((c, i) => {
             const [ico, jp, vi] = ICON[c.icon] || ICON.listen;
             return (

@@ -101,6 +101,20 @@ export default function HubView({ course }) {
                 </Link>
               );
             })}
+            {course.sampleTests?.filter((b) => b.after === T.topic).map((b) => {
+              const bt = S[store]?.stest?.[b.n];
+              return (
+                <Link key={`s${b.n}`} href={`${base}/test/${b.n}`} className="panel b1exam b1stest" onClick={() => sfx.open()}>
+                  <div className="seal">例</div>
+                  <div>
+                    <div className="tag">THEO SÁCH {course.books?.[0]?.short} · テストの問題例</div>
+                    <h3>Đề mẫu trong sách <small>Topic {b.topics}</small></h3>
+                    <p>聴解 · 筆記 (đọc hiểu, kiến thức ngôn ngữ) có chấm điểm · 口頭 / 作文: đề nói & viết kèm gợi ý, 評価表 và bài mẫu tham khảo — như trang {b.page} của sách.</p>
+                    <div className="b1res">{bt ? <>Tốt nhất: 聴解 <b>{bt.choukai ?? "—"}%</b> · 筆記 <b>{bt.hikki ?? "—"}%</b></> : "Chưa làm"}</div>
+                  </div>
+                </Link>
+              );
+            })}
           </section>
         );
       })}
