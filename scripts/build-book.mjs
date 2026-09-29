@@ -221,3 +221,12 @@ for (const f of fs.readdirSync(SRC).filter((f) => f.endsWith(".json"))) {
     console.log(`  test${T.n}: ${cando.length} Can-do · ${moji.length} thẻ もじ · ${kaiwa.length} câu hỏi かいわ`);
   }
 }
+
+// テストの問題例 (中級1…): data/book/extra/<khóa>-stest<n>.json → public/book/<khóa>/stest<n>.json (components/course/SampleTest.js)
+for (const f of fs.readdirSync(path.join(SRC, "extra")).filter((f) => /^\w+-stest\d+\.json$/.test(f))) {
+  const [, course, n] = f.match(/^(\w+)-stest(\d+)\.json$/);
+  const T = JSON.parse(fs.readFileSync(path.join(SRC, "extra", f), "utf8"));
+  fs.mkdirSync(path.join(ROOT, "public", "book", course), { recursive: true });
+  fs.writeFileSync(path.join(ROOT, "public", "book", course, `stest${n}.json`), JSON.stringify(T));
+  console.log(`${f} → public/book/${course}/stest${n}.json`);
+}

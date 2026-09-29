@@ -37,6 +37,7 @@ export default function B1Hub() {
                     <h3>{T.title}</h3>
                     <div className="vi">{T.titleVi}</div>
                     <div className="b1prog">
+                      <span>📚 Sách {P.book?.[t] != null ? `${P.book[t]}%` : "—"}</span>
                       <span>📐 Ngữ pháp {g != null ? `${g}%` : "—"}</span>
                       <span>📖 Đọc {rd}/{T.reading.length}</span>
                       <span>🎧 Nghe {ls}/{T.listening.length}</span>
@@ -56,6 +57,15 @@ export default function B1Hub() {
                   {r ? <>Điểm cao nhất: <b>{r.best}/{MAX}</b> · {r.excellent ? "🏅 Xuất sắc" : r.passed ? "✅ Đã đỗ" : "Chưa đỗ"}</> : "Chưa thi"}
                   {r?.passed && <span className="certlink">📜 Xem chứng chỉ</span>}
                 </div>
+              </div>
+            </Link>
+            <Link href={`/b1/test/${ex.n}`} className="panel b1exam b1stest" onClick={() => sfx.open()}>
+              <div className="seal">例</div>
+              <div>
+                <div className="tag">THEO SÁCH 中級1 · テストの問題例</div>
+                <h3>Đề mẫu trong sách <small>Topic {ex.topics[0]}–{ex.topics[ex.topics.length - 1]}</small></h3>
+                <p>聴解 (nghe audio sách) · 筆記 (đọc hiểu, kính ngữ, chia động từ, Kanji) có chấm điểm · 口頭 / 作文: đề nói & viết kèm gợi ý và bài mẫu tham khảo.</p>
+                <div className="b1res">{P.stest?.[ex.n] ? <>Tốt nhất: 聴解 <b>{P.stest[ex.n].choukai ?? "—"}%</b> · 筆記 <b>{P.stest[ex.n].hikki ?? "—"}%</b></> : "Chưa làm"}</div>
               </div>
             </Link>
           </section>

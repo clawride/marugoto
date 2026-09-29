@@ -105,5 +105,5 @@ export const B11_BOOK_COURSE = {
   store: "b1", base: "/b1", title: "Học Viện B1-1",
   audio: B11_AUDIO, folder: "Marugoto 中級1 audio",
   Host: ZhongliHost, Hero: ZhongliHero, lines: { ...ZL, order: ZL.grammar }, char: ZHONGLI, hostName: "Zhongli",
-  books: [{ key: "book", ico: "📖", short: "中級1", name: "Sách まるごと 中級1 B1-1", url: (n) => `/book/b11/${n}.json`, prefix: "#" }],
+  books: [{ key: "book", ico: "📖", short: "中級1", name: "Sách まるごと 中級1 B1-1", url: (n) => `/book/b11/${n}.json`, prefix: "#", dir: "b11" }],
 };
