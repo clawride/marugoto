@@ -210,7 +210,7 @@ function Sheet({ groups, onResult, extra }) {
 
 export default function RikaiTest({ course, n }) {
   const { S, update } = useGame();
-  const book = course.books?.find((b) => b.key === "rikai");
+  const book = course.books?.find((b) => b.key === "rikai") || course.books?.[0];
   const [T, setT] = useState(undefined);
   const [seed, setSeed] = useState(0);
   const [wrong, setWrong] = useState({ s: [], p: [] });
@@ -265,7 +265,7 @@ export default function RikaiTest({ course, n }) {
         ) : <p className="hint">Nộp bài ở phần 1 để xem danh sách câu sai ở đây.</p>}
       </section>
 
-      <section className="panel bksec">
+      {T.sakubun.length > 0 && <section className="panel bksec">
         <h3><span className="bktn">4</span> <span className="jpt">さくぶんの はっぴょう</span> <small className="bkvi">Trao đổi về bài viết (さくぶん)</small></h3>
         <p className="bktask">
           <span className="jpt">{T.sakubun.map((s) => `だい${s.l}か`).join("、")}の「さくぶん」について グループで はなしましょう。</span> — Nói chuyện theo nhóm về bài viết của các bài {T.sakubun.map((s) => s.l).join(", ")}.<br />
@@ -287,7 +287,7 @@ export default function RikaiTest({ course, n }) {
             {saku[s.l] && <button className="chip sm" onClick={() => say(saku[s.l])}>🔊 Nghe bài của tôi</button>}
           </div>
         ))}
-      </section>
+      </section>}
     </div>
   );
 }

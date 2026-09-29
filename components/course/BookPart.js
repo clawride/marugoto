@@ -106,7 +106,7 @@ function Exercise({ A, show }) {
         return (
           <span key={i} className="bkblank">
             （{A.opts?.includes(ans) // chỗ trống có đáp án trong danh sách thì chọn, còn lại thì gõ
-              ? <select value={v[kk] || ""} disabled={ex} className={cls} onChange={(e) => set(kk, e.target.value)}><option value="">　</option>{A.opts.map((o) => <option key={o}>{o}</option>)}</select>
+              ? <select value={v[kk] || ""} disabled={ex} className={cls} onChange={(e) => set(kk, e.target.value)}><option value="">　</option>{A.opts.map((o) => { const c = A.choices?.find((x) => x.k === o); return <option key={o} value={o}>{c ? `${o} · ${c.jp}` : o}</option>; })}</select>
               : <input value={v[kk] || ""} disabled={ex} className={cls} size={Math.max(2, [...ans].length + 1)} onChange={(e) => set(kk, e.target.value)} />}）
             {chk && !ex && !right && <em className="bkexa jpt">{ans}</em>}
           </span>
@@ -117,7 +117,7 @@ function Exercise({ A, show }) {
           <span className="bkexn">{it.no}</span>
           <div>
             {it.sp && <b className="bksp jpt">{it.sp}：</b>}{nodes}{it.hint && <small className="bkhint jpt"> 💡 {it.hint}</small>}
-            {chk && <>{it.kana && <small className="bkkana jpt">{it.kana}</small>}{show.ro && it.ro && <small className="bkro">{it.ro}</small>}{it.vi && <small className="bkvi">{it.vi}</small>}</>}
+            {chk && <>{it.form && <small className="bkexa jpt">→ {Array.isArray(it.form) ? it.form.join("、") : it.form}</small>}{it.kana && <small className="bkkana jpt">{it.kana}</small>}{show.ro && it.ro && <small className="bkro">{it.ro}</small>}{it.vi && <small className="bkvi">{it.vi}</small>}</>}
           </div>
         </div>
       );
@@ -150,7 +150,7 @@ function Exercise({ A, show }) {
   });
   return (
     <div className="bkexs">
-      {A.kind === "match" && A.choices && (
+      {A.choices?.length > 0 && (
         <div className="bkchoices">{A.choices.map((c) => <span key={c.k}><b>{c.k}</b> <span className="jpt">{c.jp}</span>{show.kana !== false && c.kana && <small className="bkkana jpt"> ({c.kana})</small>}{show.ro && c.ro && <i> {c.ro}</i>}{show.vi && c.vi && <small> · {c.vi}</small>}</span>)}</div>
       )}
       {rows}
@@ -325,7 +325,7 @@ export default function BookPart({ course, book: bk, lesson, stars, onQuiz }) {
   if (B === undefined) return <p className="hint">Đang tải bài học…</p>;
   if (!B) return <p className="panel hint">Bài này chưa có phần học theo sách {book.short}.</p>;
   return (
-    <Prefix.Provider value={book.prefix || "sa"}>
+    <Prefix.Provider value={(typeof book.prefix === "function" ? book.prefix(lesson) : book.prefix) || "sa"}>
     <div className="bkwrap">
       <div className="panel bkhead">
         <div className="bkbook">{book.ico || "📖"} {book.name} · だい{B.lesson}か{B.page ? ` · sách tr.${B.page}` : ""}</div>
@@ -344,7 +344,7 @@ export default function BookPart({ course, book: bk, lesson, stars, onQuiz }) {
       <AudioSetup lib={lib} folder={book.folder || course.folder} />
       {B.sections.map((S, si) => (
         <section key={si} className="panel bksec">
-          <h3><span className="bkno">{CIRCLED[S.no] || S.no}</span> <span className="jpt">{S.title.jp}</span>{S.title.ro && <small className="bkro">{S.title.ro}</small>}<small className="bkvi">{S.title.vi}</small>{S.page && <em className="bkpage">tr.{S.page}</em>}</h3>
+          <h3><span className="bkno">{CIRCLED[S.no] || S.no}</span> <span className="jpt">{S.title.jp}</span>{S.title.ro && <small className="bkro">{S.title.ro}</small>}<small className="bkvi">{S.title.vi}</small>{S.part && <span className="bkcando bkpart2 jpt" title={S.part.vi || ""}>{typeof S.part === "string" ? S.part : S.part.jp}</span>}{S.page && <em className="bkpage">tr.{S.page}</em>}</h3>
           {S.acts.map((A, i) => <Act key={i} A={A} lib={lib} show={show} />)}
         </section>
       ))}

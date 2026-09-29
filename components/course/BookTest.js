@@ -140,9 +140,9 @@ export default function BookTest({ course, n }) {
       </div>
       <Cando T={T} save={saveCd} cd={cd} />
       <section className="panel bksec">
-        <h3><span className="bktn">2</span> テスト（もじ、かいわ） <small className="bkvi">Kiểm tra chữ và hội thoại</small></h3>
+        <h3><span className="bktn">2</span> {T.moji === "none" ? <>会話テスト <small className="bkvi">Kiểm tra hội thoại (1 người 5 phút)</small></> : <>テスト（もじ、かいわ） <small className="bkvi">Kiểm tra chữ và hội thoại</small></>}</h3>
         <p className="bktask">Trong lớp: từng người làm bài, mỗi người 3–4 phút.</p>
-        <MojiTest T={T} onDone={saveTest("moji")} />
+        {T.moji !== "none" && <MojiTest T={T} onDone={saveTest("moji")} />}
         <KaiwaTest T={T} onDone={saveTest("kaiwa")} />
       </section>
       <section className="panel bksec">

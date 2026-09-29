@@ -79,9 +79,9 @@ export default function HubView({ course }) {
                 <Link key={b.n} href={`${base}/test/${b.n}`} className="panel b1exam a22exam bktestcard" onClick={() => sfx.open()}>
                   <div className="seal">📝</div>
                   <div>
-                    <div className="tag">THEO SÁCH KATSUDOU · テストとふりかえり</div>
+                    <div className="tag">{b.tag || "THEO SÁCH KATSUDOU · テストとふりかえり"}</div>
                     <h3 className="jpt">テストとふりかえり {b.n} <small>Topic {b.topics}</small></h3>
-                    <p>Can-do チェック · もじテスト (đọc 5 thẻ) · かいわテスト (5 câu hỏi) · nói chuyện theo nhóm — như trang {b.page} của sách.</p>
+                    <p>{b.desc || "Can-do チェック · もじテスト (đọc 5 thẻ) · かいわテスト (5 câu hỏi) · nói chuyện theo nhóm"} — như trang {b.page} của sách.</p>
                     <div className="b1res">{bt ? <>もじ {bt.moji ?? "—"}/5 · かいわ {bt.kaiwa ?? "—"}/5</> : "Chưa làm"}</div>
                   </div>
                 </Link>
@@ -93,9 +93,9 @@ export default function HubView({ course }) {
                 <Link key={`r${b.n}`} href={`${base}/rtest/${b.n}`} className="panel b1exam a22exam bktestcard" onClick={() => sfx.open()}>
                   <div className="seal">📘</div>
                   <div>
-                    <div className="tag">THEO SÁCH RIKAI · テストとふりかえり</div>
+                    <div className="tag">{b.tag || "THEO SÁCH RIKAI · テストとふりかえり"}</div>
                     <h3 className="jpt">テストとふりかえり {b.n} <small>Topic {b.topics}</small></h3>
-                    <p>Câu hỏi mẫu y như sách (nghe viết, đọc Kanji, chọn từ, sắp xếp câu, đọc hiểu, nghe ○/×) · bài luyện thêm cùng dạng · ふりかえり · さくぶん — như trang {b.page} của sách.</p>
+                    <p>{b.desc || "Câu hỏi mẫu y như sách (nghe viết, đọc Kanji, chọn từ, sắp xếp câu, đọc hiểu, nghe ○/×) · bài luyện thêm cùng dạng · ふりかえり · さくぶん"} — như trang {b.page} của sách.</p>
                     <div className="b1res">{bt ? <>mẫu {bt.sample ?? "—"}% · luyện thêm {bt.prac ?? "—"}%</> : "Chưa làm"}</div>
                   </div>
                 </Link>

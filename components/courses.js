@@ -40,6 +40,13 @@ export const AB1_COURSE = {
   audio: AB1_AUDIO, folder: "Marugoto A2B1 Audio",
   Host: FurinaHost, Hero: FurinaHero, lines: FU, char: FURINA, hostName: "Furina",
   exam: AB1_EXAM,
+  // Học theo sách 初中級 A2/B1 (một cuốn): public/book/ab1/<Topic>.json — audio mỗi Topic một thư mục, số track tính riêng
+  books: [
+    { key: "book", ico: "📖", short: "初中級", name: "Sách まるごと 初中級 A2/B1", url: (n) => `/book/ab1/${n}.json`, prefix: (n) => `MarugotoPre-IntermediateMp3Topic${n}/#` },
+  ],
+  // テストとふりかえり: 会話テスト (app/ab1/test/[n]) và 読解・文法テスト (app/ab1/rtest/[n]) sau Topic 5 và Topic 9
+  bookTests: [{ n: 1, after: 5, topics: "1–5", page: 74, tag: "THEO SÁCH · テストとふりかえり · 会話テスト", desc: "Can-do チェック · 会話テスト (câu hỏi + thẻ tình huống)" }, { n: 2, after: 9, topics: "6–9", page: 116, tag: "THEO SÁCH · テストとふりかえり · 会話テスト", desc: "Can-do チェック · 会話テスト (câu hỏi + thẻ tình huống)" }],
+  rikaiTests: [{ n: 1, after: 5, topics: "1–5", page: 160, tag: "THEO SÁCH · テストとふりかえり · 読解・文法テスト", desc: "Câu hỏi mẫu 読解・文法テスト y như sách (đọc blog, đọc Kanji, chia dạng, sắp xếp, trợ từ) · bài luyện thêm cùng dạng · ふりかえり" }, { n: 2, after: 9, topics: "6–9", page: 161, tag: "THEO SÁCH · テストとふりかえり · 読解・文法テスト", desc: "Câu hỏi mẫu 読解・文法テスト y như sách (đọc blog, đọc Kanji, chia dạng, sắp xếp, trợ từ) · bài luyện thêm cùng dạng · ふりかえり" }],
   extra: sheetLink("ab1", "A2/B1"),
 };
 

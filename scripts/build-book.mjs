@@ -27,6 +27,15 @@ const TESTS = {
       examples: [["マレーシアの クロッポと ちょっと にています。", "Mareeshia no kuroppo to chotto nite imasu.", "Hơi giống món bánh phồng kroppok của Malaysia."], ["たなかさんに 東京で 会ったことが あります。", "Tanaka-san ni Tookyoo de atta koto ga arimasu.", "Tôi đã từng gặp anh Tanaka ở Tokyo.", "たなかさんに とうきょうで あったことが あります。"], ["ときどき スポーツを する ひとは 4にんです。", "Tokidoki supootsu o suru hito wa yonin desu.", "Số người thỉnh thoảng chơi thể thao là 4 người."], ["カーラさんは きっと よろこぶと おもいます。", "Kaara-san wa kitto yorokobu to omoimasu.", "Tôi nghĩ chắc chắn chị Carla sẽ vui."]],
       card: { jp: "きょう、せんせいは すこし ぐあいが わるそうです。せんせいと 話して ください。", kana: "きょう、せんせいは すこし ぐあいが わるそうです。せんせいと はなして ください。", vi: "Hôm nay thầy/cô giáo có vẻ không được khỏe. Hãy nói chuyện với thầy/cô." } },
   ],
+  // 初中級 A2/B1 p74–75, p116–117: Can-do チェック + 会話テスト (không có もじテスト); 読解・文法テスト ở rtest (p160–161)
+  ab1: [
+    { n: 1, page: 74, topics: [1, 5], lessons: [1, 5], moji: "none", candoPages: "162–166", write: [], examples: [],
+      kaiwaEx: { jp: "あなたは今、どんなところに住んでいますか。まとめて話してください。", kana: "あなたは いま、どんな ところに すんでいますか。まとめて はなして ください。", ro: "Anata wa ima, donna tokoro ni sunde imasu ka. Matomete hanashite kudasai.", vi: "Bây giờ bạn đang sống ở nơi như thế nào? Hãy nói tổng hợp lại. (Can-do 9/13/18/22)" },
+      card: { jp: "あなたは日本人の友だちがいます。その人はあなたの国に来てまだ1か月です。食事になれたかどうか、好きなものはあるかなど、聞いてください。", kana: "あなたは にほんじんの ともだちが います。その ひとは あなたの くにに きて まだ いっかげつです。しょくじに なれたか どうか、すきな ものは あるか など、きいて ください。", vi: "Bạn có một người bạn Nhật mới đến nước bạn được 1 tháng. Hãy hỏi xem bạn ấy đã quen với đồ ăn chưa, có món nào thích không, v.v." } },
+    { n: 2, page: 116, topics: [6, 9], lessons: [6, 9], moji: "none", candoPages: "162–166", write: [], examples: [],
+      kaiwaEx: { jp: "あなたはどんなところで働いていますか。／どんな仕事をしていますか。まとめて話してください。", kana: "あなたは どんな ところで はたらいていますか。／どんな しごとを していますか。まとめて はなして ください。", ro: "Anata wa donna tokoro de hataraite imasu ka. / Donna shigoto o shite imasu ka. Matomete hanashite kudasai.", vi: "Bạn làm việc ở nơi như thế nào? / Bạn làm công việc gì? Hãy nói tổng hợp lại. (Can-do 32/42)" },
+      card: { jp: "あなたは日本の空港にいます。アナウンスが聞こえてきましたが、わかりません。そばにいる日本人に聞いてください。", kana: "あなたは にほんの くうこうに います。アナウンスが きこえて きましたが、わかりません。そばに いる にほんじんに きいて ください。", vi: "Bạn đang ở sân bay Nhật. Có thông báo nhưng bạn không hiểu. Hãy hỏi người Nhật đứng cạnh." } },
+  ],
   // A2-2 かつどう p87–88, p138–139: もじテスト "cố gắng đọc được tất cả", かいわテスト có 2 câu hỏi ví dụ + thẻ tình huống
   a22: [
     { n: 1, page: 87, topics: [1, 5], lessons: [1, 10], moji: "sentence", pass: 5, passNote: "sách: cố gắng đọc được tất cả", candoPages: "180–183",
@@ -163,6 +172,12 @@ for (const f of fs.readdirSync(SRC).filter((f) => f.endsWith(".json"))) {
   for (const L of D.lessons) fs.writeFileSync(path.join(out, `${L.lesson}.json`), JSON.stringify(L));
   console.log(`${f}: ${D.lessons.length} bài → public/book/${course}/`);
   if (!main) buildRikaiExtra(D, out, course);
+  // sách một cuốn (A2/B1): phần 読解・文法テスト dùng khung của Rikai → public/book/<khóa>-rikai/rtest<n>.json
+  else if (!fs.existsSync(path.join(SRC, `${course}-rikai.json`)) && fs.existsSync(path.join(SRC, "extra", `${course}-rikai-extra.json`))) {
+    const out2 = path.join(ROOT, "public", "book", `${course}-rikai`);
+    fs.mkdirSync(out2, { recursive: true });
+    buildRikaiExtra(D, out2, `${course}-rikai`);
+  }
 
   for (const T of (main && TESTS[course]) || []) {
     const Ls = D.lessons.filter((L) => L.lesson >= T.lessons[0] && L.lesson <= T.lessons[1]);
