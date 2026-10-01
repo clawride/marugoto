@@ -29,6 +29,12 @@ export default function ChatBox() {
   const [now, setNow] = useState(() => Date.now());
   const [seen, setSeen] = useState(() => { try { return +localStorage.getItem(SEEN) || 0; } catch { return 0; } });
   const listRef = useRef(null), inpRef = useRef(null);
+  const atBottom = useRef(true); // đang xem tin cuối → có tin mới thì tự cuộn xuống; đang kéo lên đọc tin cũ thì giữ nguyên chỗ
+  const [fresh, setFresh] = useState(0); // số tin mới đến trong lúc đang kéo lên đọc tin cũ
+  const [touch, setTouch] = useState(false); // điện thoại: không tự bật bàn phím khi mở khung
+  useEffect(() => { try { setTouch(matchMedia("(pointer: coarse)").matches); } catch {} }, []);
+  const toBottom = (smooth) => { const el = listRef.current; if (el) el.scrollTo({ top: el.scrollHeight, behavior: smooth ? "smooth" : "auto" }); setFresh(0); atBottom.current = true; };
+  const onScroll = () => { const el = listRef.current; if (!el) return; atBottom.current = el.scrollHeight - el.scrollTop - el.clientHeight < 60; if (atBottom.current) setFresh(0); };
   const openRef = useRef(open); openRef.current = open;
 
   const addMsgs = useCallback((arr) => setMsgs((cur) => {
@@ -80,12 +86,18 @@ export default function ChatBox() {
   useEffect(() => { if (!wait) return; const t = setTimeout(() => setWait(0), 45000); return () => clearTimeout(t); }, [wait]);
   const unread = open ? 0 : today.filter((m) => m.id > seen && m.user_id !== me?.id).length;
 
-  // mở khung / có tin mới khi đang mở → đánh dấu đã xem + cuộn xuống cuối
+  // mở khung → đánh dấu đã xem + cuộn xuống cuối
+  useEffect(() => { if (open) requestAnimationFrame(() => toBottom(false)); }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
+  // có tin mới khi đang mở: đang ở cuối (hoặc tin của mình) → cuộn theo; đang đọc tin cũ → hiện nút "↓ tin mới"
+  const prevLast = useRef(0);
   useEffect(() => {
-    if (!open) return;
+    if (!open) { prevLast.current = lastId; return; }
     if (lastId > seen) { setSeen(lastId); try { localStorage.setItem(SEEN, String(lastId)); } catch {} }
-    const el = listRef.current;
-    if (el) requestAnimationFrame(() => { el.scrollTop = el.scrollHeight; });
+    const added = today.filter((m) => m.id > prevLast.current);
+    prevLast.current = lastId;
+    if (!added.length && !wait) return;
+    if (atBottom.current || added.some((m) => m.user_id === me?.id)) requestAnimationFrame(() => toBottom(true));
+    else setFresh((f) => f + added.length);
   }, [open, lastId, wait]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => { if (!open) return; const k = (e) => e.key === "Escape" && setOpen(false); window.addEventListener("keydown", k); return () => window.removeEventListener("keydown", k); }, [open]);
 
@@ -121,7 +133,7 @@ export default function ChatBox() {
             </div>
             <button type="button" className="cb-x" onClick={() => setOpen(false)} aria-label="Đóng">✕</button>
           </header>
-          <div className="cb-list" ref={listRef}>
+          <div className="cb-list" ref={listRef} onScroll={onScroll}>
             {!loaded && <div className="cb-empty"><p>Đang tải tin nhắn…</p></div>}
             {loaded && today.length === 0 && <div className="cb-empty"><span aria-hidden="true">👋</span><p>Hôm nay chưa ai nhắn gì.<br />Chào mọi người một câu nhé — tiếng Nhật càng tốt!</p>{bot && <p className="cb-tip">Gọi <b>Lumie</b> ✨ trong tin nhắn để trò chuyện với bot bằng tiếng Nhật (từ vựng Marugoto A1 → B1-2) hoặc tiếng Việt.</p>}</div>}
             {today.map((m, i) => {
@@ -139,11 +151,12 @@ export default function ChatBox() {
             })}
             {wait > 0 && <div className="cb-msg bot cb-typing" aria-live="polite"><div className="cb-av"><Avatar avatar="i:star" name="Lumie" size={30} /></div><div className="cb-bub"><p><i /><i /><i /><span className="sr-only">Lumie đang trả lời…</span></p></div></div>}
           </div>
+          {fresh > 0 && <button type="button" className="cb-new" onClick={() => toBottom(true)}>↓ {fresh} tin mới</button>}
           <form className="cb-form" onSubmit={send}>
             {err && <div className="cb-err" role="alert">{err}</div>}
             <div className="cb-row">
               <textarea ref={inpRef} value={text} onChange={(e) => { setText(e.target.value); setErr(""); }} placeholder={bot ? "Nhắn gì đó… gọi “Lumie” để hỏi bot" : "Nhắn gì đó… (Enter để gửi)"} rows={1} maxLength={CHAT_MAX + 50}
-                onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) { e.preventDefault(); send(); } }} aria-label="Tin nhắn" autoFocus />
+                onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) { e.preventDefault(); send(); } }} aria-label="Tin nhắn" autoFocus={!touch} enterKeyHint="send" />
               <button type="submit" className="cb-send" disabled={busy || !text.trim() || n > CHAT_MAX} aria-label="Gửi">➤</button>
             </div>
             {n > CHAT_MAX - 50 && <small className={`cb-count ${n > CHAT_MAX ? "over" : ""}`}>{n}/{CHAT_MAX}</small>}
