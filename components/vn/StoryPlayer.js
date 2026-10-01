@@ -7,7 +7,8 @@ import { ELEM } from "@/lib/data";
 import { sceneOf, speakerName, chapterOpen, vnOf, STORY_REWARD, TIERS } from "@/lib/vn";
 import { useVN, useGrammar, useDict, Line, GrammarCard, GrammarList, VocabCard, VocabList, VNSettings, VoiceNote, CastList, pick, say } from "@/components/vn/VNParts";
 import { useStory, LockedNote } from "@/components/vn/StoryHub";
-import { stopVoice, prefetchVoice, warmVoice, storyCast } from "@/lib/voicevox";
+import { stopVoice, prefetchVoice, storyCast } from "@/lib/voicevox";
+import { useVoicePreload, VoiceLoading } from "@/components/vn/VoiceLoad";
 import { sfx } from "@/lib/sfx";
 import { Ico } from "@/components/Icons";
 
@@ -53,9 +54,12 @@ export default function StoryPlayer({ id, c: chN }) {
   const seen = new Set([...(vnOf(S, +id).seen?.[chN] || []), ...hist.map((h) => h.id)]);
 
   // lồng tiếng: đọc câu hiện tại bằng giọng của người nói + tạo trước giọng cho câu kế tiếp
+  // mở chương → tải trước cả file lồng tiếng tạo sẵn (có thanh tiến độ) rồi mới đọc câu đầu
+  const vload = useVoicePreload(`${id}|${chN}|${tier}`, () => nodes.map((n) => ({ text: pick(n.t, tier)?.jp, sp: n.sp, mood: n.mood })), nodes.length ? D : null, set);
+  const ready = vload.pct === null;
   const sayNode = (n) => { const x = pick(n?.t, tier); x && say(x.jp, { sp: n.sp, mood: n.mood, D, set }); };
   useEffect(() => {
-    if (!cur || !set.tts) return;
+    if (!cur || !set.tts || !ready) return;
     sayNode(cur);
     // 3 câu kế tiếp trên đường thẳng, hoặc câu đầu của mỗi nhánh lựa chọn
     const nx = [];
@@ -64,10 +68,8 @@ export default function StoryPlayer({ id, c: chN }) {
       n = by.get(n.next); if (n) nx.push(n);
     }
     prefetchVoice(nx.map((n) => ({ text: pick(n.t, tier)?.jp, sp: n.sp, mood: n.mood })), { D, set });
-  }, [cur?.id, tier, set.voice, set.trav]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [cur?.id, tier, set.voice, set.trav, ready]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => () => stopVoice(), []);
-  // mở chương → tải trước file lồng tiếng tạo sẵn (nếu có) để câu đầu cũng phát ngay
-  useEffect(() => { if (D && nodes.length) warmVoice(nodes.slice(0, 3).map((n) => ({ text: pick(n.t, tier)?.jp, sp: n.sp, mood: n.mood })), { D, set }); }, [D, C, tier, set.trav, set.voice]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const persistSeen = (ids) => update((s) => { s.vn = s.vn || {}; const v = (s.vn[id] ||= { done: {}, chat: {}, seen: {} }); v.seen = v.seen || {}; v.seen[chN] = [...new Set([...(v.seen[chN] || []), ...ids])]; });
   const finish = () => {
@@ -130,6 +132,7 @@ export default function StoryPlayer({ id, c: chN }) {
 
   return (
     <div className="vnplay" style={{ "--ec": el?.c }}>
+      <VoiceLoading pct={vload.pct} onSkip={vload.skip} />
       <div className="vntop">
         <Link href={`/characters/${c.id}/story`} className="back">‹ {c.vi} · {C.c === 0 ? "Mở đầu" : `C${C.c}`}</Link>
         <div className="vntools">

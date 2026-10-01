@@ -9,6 +9,7 @@ import { useVN, useGrammar, useDict, Line, GrammarCard, VocabCard, VNSettings, V
 import { useStory, LockedNote } from "@/components/vn/StoryHub";
 import { Ico } from "@/components/Icons";
 import { stopVoice, warmVoice } from "@/lib/voicevox";
+import { useVoicePreload, VoiceLoading } from "@/components/vn/VoiceLoad";
 import { sfx } from "@/lib/sfx";
 
 export default function ChatView({ id }) {
@@ -33,6 +34,9 @@ export default function ChatView({ id }) {
   useEffect(() => () => stopVoice(), []);
   const sayMsg = (t, who = "char") => { const x = pick(t, tier); x && say(x.jp, { sp: who === "me" ? "trav" : "char", D, set }); };
   const speak = (t) => { if (set.tts) sayMsg(t); };
+  // vào mục trò chuyện → tải trước file lồng tiếng của phần này (mỗi mức một file) để chọn chủ đề là nghe ngay
+  const owned0 = !!c && !!S && ownedOf(S, c);
+  const vload = useVoicePreload(`${id}|${tier}`, () => (D?.chat || []).slice(0, 2).flatMap((T) => [{ text: pick(T.turns[0].t, tier)?.jp, sp: "char" }, { text: pick(T.turns[0].opts?.[0]?.r, tier)?.jp, sp: "char" }, { text: pick(T.turns[0].opts?.[0]?.t, tier)?.jp, sp: "trav" }]).filter((l) => l.text), owned0 ? D : null, set);
 
   if (!c) return <p style={{ marginTop: 40 }}>Không tìm thấy nhân vật.</p>;
   if (!S || D === undefined) return <p className="hint" style={{ marginTop: 40 }}>Đang tải…</p>;
@@ -60,6 +64,7 @@ export default function ChatView({ id }) {
 
   return (
     <div className="vnchat">
+      <VoiceLoading pct={vload.pct} onSkip={vload.skip} what="giọng trò chuyện" />
       <Link href={`/characters/${c.id}/story`} className="back">‹ Truyện {c.vi}</Link>
       <div className="pagehead a22head"><div className="tag">TRÒ CHUYỆN · 会話</div><h1>💬 {c.vi}</h1><p>Mức ngôn ngữ: <b>{TIERS[tier].name} ({TIERS[tier].short})</b> — nhân vật nói vừa với trình độ chứng chỉ của bạn</p></div>
       <LockedNote c={c} owned={owned} />
