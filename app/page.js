@@ -36,7 +36,7 @@ export default function Home() {
             {programsIn(g.id).filter((p) => !(plain && p.game)).map((p, i) => (
               <Link key={p.id} href={p.href} className="panel procard" style={{ "--c": p.color }} onClick={() => sfx.page()}>
                 {g.id === "path" && <span className="prostep" aria-hidden="true">{i + 1}</span>}
-                <img src={p.avatar} alt="" />
+                {!plain && <img src={p.avatar} alt="" />}
                 <div className="protxt">
                   <div className="prolv"><b>{p.ico} {p.lv}</b> <span className="jpt">{p.jp}</span></div>
                   <h3>{p.name}</h3>

@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { A21_AUDIO, canPickDir } from "@/lib/audioLib";
 import { speakLines, stopSpeak, ttsAvailable } from "@/lib/tts";
+import { onVoiceStatus } from "@/lib/voicevox";
 import { TSARITSA } from "@/lib/listenBosses";
 import { MCQ, FillQ } from "@/components/Battle";
 import { sfx } from "@/lib/sfx";
@@ -24,7 +25,7 @@ export function TsaritsaEmblem({ size = 120 }) {
 
 export function TsaritsaPortrait({ className = "" }) {
   const [err, setErr] = useState(false);
-  return err
+  return err || !TSARITSA.img
     ? <div className={`tsa-portrait emblem ${className}`}><TsaritsaEmblem /></div>
     : <img className={`tsa-portrait ${className}`} src={TSARITSA.img} alt={TSARITSA.name} onError={() => setErr(true)} />;
 }
@@ -84,7 +85,17 @@ export function AudioSetup({ lib = A21_AUDIO, folder = "New A2-1 Katsudou audio"
 
 // Nút phát: audio gốc nếu có, không thì TTS
 export function Player({ file, tts, autoPlay = true, onPlayed, lib = A21_AUDIO, maxPlays = 99 }) {
-  const [mode] = useState(() => (file && lib.hasFile(file) ? "file" : "tts"));
+  // Thư mục audio sách được khôi phục bất đồng bộ sau khi mở trang → chọn nguồn phát lại khi danh sách file đổi (trước đây chốt "giọng máy" ngay lúc mở nên không bao giờ dùng audio sách)
+  const [mode, setMode] = useState(() => (file && lib.hasFile(file) ? "file" : "tts"));
+  const [prep, setPrep] = useState(false);
+  useEffect(() => {
+    const calc = () => setMode(file && lib.hasFile(file) ? "file" : "tts");
+    calc();
+    const off = lib.onAudioChange?.(calc);
+    lib.restoreFolder?.(false)?.then?.(calc)?.catch?.(() => {});
+    return () => off?.();
+  }, [file, lib]);
+  useEffect(() => onVoiceStatus((s) => setPrep(s.busy > 0)), []);
   const [playing, setPlaying] = useState(false);
   const [plays, setPlays] = useState(0);
   const audio = useRef(null);
@@ -116,7 +127,7 @@ export function Player({ file, tts, autoPlay = true, onPlayed, lib = A21_AUDIO, 
     <div className={`player ${playing ? "on" : ""}`}>
       <button className="playbtn" onClick={play} disabled={disabled} aria-label="Phát">{playing ? "❚❚" : "▶"}</button>
       <div className="pl-info">
-        <b>{playing ? "Đang phát…" : plays ? "Nghe lại" : "Bấm để nghe"}</b>
+        <b>{playing ? (prep ? "Đang chuẩn bị giọng đọc…" : "Đang phát…") : plays ? "Nghe lại" : "Bấm để nghe"}</b>
         <span>{mode === "file" ? `Audio sách · ${file}` : !ttsAvailable() ? "Trình duyệt không hỗ trợ giọng đọc" : "Giọng đọc máy · lời thoại viết lại"}{maxPlays < 99 ? ` · còn ${Math.max(0, maxPlays - plays)} lượt nghe` : ""}</span>
       </div>
       <div className="wave">{Array.from({ length: 14 }, (_, i) => <i key={i} style={{ animationDelay: `${i * 0.07}s` }} />)}</div>

@@ -2,6 +2,15 @@
 const OFFLINE = process.env.OFFLINE_BUILD === "1";
 const nextConfig = {
   reactStrictMode: true,
+  // Header bảo mật cơ bản (không đặt CSP vì trang nạp ảnh/phông từ nhiều nguồn ngoài)
+  async headers() {
+    return [{ source: "/:path*", headers: [
+      { key: "X-Content-Type-Options", value: "nosniff" },
+      { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+      { key: "X-Frame-Options", value: "SAMEORIGIN" },
+      { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), payment=()" },
+    ] }];
+  },
   // Máy ít RAM: đặt LOW_MEM=1 khi build để chỉ dùng 1 worker
   ...(process.env.LOW_MEM ? { experimental: { cpus: 1 } } : {}),
   // Bản offline (scripts/build-offline.mjs): gói gọn thành thư mục chạy độc lập, build riêng để không đụng .next của bản thường,
