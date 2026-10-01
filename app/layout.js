@@ -20,9 +20,12 @@ import Sky from "@/components/Sky";
 import { SvgDefs } from "@/components/Icons";
 import { ProfileGate } from "@/components/Profile";
 import PlainGate from "@/components/PlainGate";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "Sổ Tay Từ Vựng Teyvat · Marugoto A1–B1",
+  openGraph: { title: "Sổ Tay Từ Vựng Teyvat · Marugoto A1–B1", description: "Học tiếng Nhật Marugoto A1 → B1: từ vựng, nghe, kanji, ngữ pháp, thi chứng chỉ", url: SITE_URL, siteName: "Sổ Tay Từ Vựng Teyvat", locale: "vi_VN", type: "website" },
   description: "Học tiếng Nhật Marugoto A1 → B1-1: bảng chữ cái, từ vựng, nghe, kanji, ngữ pháp, thi chứng chỉ — phong cách Genshin Impact",
 };
 
