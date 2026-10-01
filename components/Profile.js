@@ -15,9 +15,13 @@ const AVATAR_PICKS = ["Qin", "Venti", "Zhongli", "Shougun", "Nahida", "Furina", 
 export const avatarUrl = (icon) => `${ASSET}UI_AvatarIcon_${icon || "Qin"}.png`;
 
 async function api(path, method, body) {
-  const r = await fetch(path, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
-  const j = await r.json().catch(() => ({}));
-  return { ok: r.ok, status: r.status, ...j };
+  try {
+    const r = await fetch(path, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+    const j = await r.json().catch(() => ({}));
+    return { ok: r.ok, status: r.status, ...j };
+  } catch {
+    return { ok: false, status: 0, error: "Không kết nối được máy chủ, kiểm tra mạng rồi thử lại" };
+  }
 }
 export const registerProfile = (name, avatar) => api("/api/profile", "POST", { name, avatar });
 export const patchProfile = (p, upd) => api("/api/profile", "PATCH", { id: p.id, token: p.token, ...upd });
@@ -48,12 +52,13 @@ function AvatarPicker({ value, onChange }) {
 // Gắn thông tin hồ sơ mới vào state (đăng ký / đăng nhập thành công)
 const profileOf = (r) => ({ id: r.id, token: r.token, name: r.name, avatar: r.avatar, ...(r.username ? { username: r.username } : {}) });
 
-// Hộp đăng ký / đăng nhập / sửa hồ sơ
-export function ProfileDialog({ mode = "new", onClose }) {
+// Hộp đăng ký / đăng nhập (bắt buộc: mode "gate", không đóng được) và hộp sửa hồ sơ (mode "edit")
+export function ProfileDialog({ mode = "gate", onClose }) {
   const { S, update } = useGame();
   const p0 = S?.profile;
   const edit = mode === "edit" && !!p0?.id;
-  const [tab, setTab] = useState("login"); // "login" | "signup" | "guest" (chế độ new)
+  const legacy = !edit && !!p0?.id && !p0?.username; // hồ sơ nickname cũ chưa có tài khoản → gắn tài khoản, giữ nguyên điểm & thứ hạng
+  const [tab, setTab] = useState("signup"); // "signup" | "login" (chế độ gate)
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState(S?.profile?.name || "");
@@ -74,67 +79,59 @@ export function ProfileDialog({ mode = "new", onClose }) {
     return "";
   };
 
-  const submit = async (e) => {
-    e?.preventDefault();
-    setErr("");
-    if (!edit && tab === "login") {
-      if (!username.trim() || !password) return setErr("Nhập tên đăng nhập và mật khẩu");
-      setBusy(true);
-      const r = await api("/api/auth/login", "POST", { username: username.trim(), password });
-      setBusy(false);
-      return r.ok ? done(r) : fail(r);
-    }
-    if (!edit && tab === "signup") {
-      const m = checkAccount() || (name.trim() ? checkName(name.trim()) : "");
-      if (m) return setErr(m);
-      setBusy(true);
-      const r = await api("/api/auth/signup", "POST", { username: username.trim(), password, name: name.trim(), avatar });
-      setBusy(false);
-      return r.ok ? done(r) : fail(r);
-    }
-    // nickname nhanh (không cần tài khoản) hoặc sửa hồ sơ
-    const n = name.trim();
-    const m = checkName(n);
-    if (m) return setErr(m);
-    setBusy(true);
-    const p = S.profile;
-    const r = p?.id ? await patchProfile(p, { name: n, avatar }) : await registerProfile(n, avatar);
-    setBusy(false);
-    if (r.status === 503) {
-      // Server chưa bật bảng xếp hạng: vẫn lưu hồ sơ trên máy, sẽ đăng ký khi server sẵn sàng
-      update((s) => { s.profile = { ...(s.profile || {}), name: n, avatar, pending: true }; });
-      sfx.open(); onClose?.(); return;
-    }
-    if (!r.ok) return fail(r);
-    update((s) => { s.profile = p?.id ? { ...p, name: r.name, avatar: r.avatar } : profileOf(r); s.profileSkip = false; s.syncSig = ""; });
-    sfx.win(); onClose?.();
-  };
-
-  // sửa hồ sơ nickname: gắn tài khoản để đăng nhập ở máy khác (giữ nguyên hồ sơ, điểm và thứ hạng cũ)
+  // gắn tài khoản cho hồ sơ nickname cũ
   const link = async () => {
-    setErr("");
     const m = checkAccount();
     if (m) return setErr(m);
     setBusy(true);
     const r = await api("/api/auth/link", "POST", { id: p0.id, token: p0.token, username: username.trim(), password });
     setBusy(false);
     if (!r.ok) return fail(r);
-    update((s) => { s.profile = { ...s.profile, username: r.username }; });
-    setUsername(""); setPassword(""); sfx.win();
+    update((s) => { s.profile = { ...s.profile, username: r.username }; s.syncSig = ""; });
+    sfx.win(); onClose?.();
   };
+
+  const submit = async (e) => {
+    e?.preventDefault();
+    setErr("");
+    if (edit) { // đổi tên / ảnh đại diện
+      const n = name.trim(), m = checkName(n);
+      if (m) return setErr(m);
+      setBusy(true);
+      const r = await patchProfile(p0, { name: n, avatar });
+      setBusy(false);
+      if (!r.ok) return fail(r);
+      update((s) => { s.profile = { ...s.profile, name: r.name, avatar: r.avatar }; s.syncSig = ""; });
+      sfx.win(); onClose?.(); return;
+    }
+    if (tab === "login") {
+      if (!username.trim() || !password) return setErr("Nhập tên đăng nhập và mật khẩu");
+      setBusy(true);
+      const r = await api("/api/auth/login", "POST", { username: username.trim(), password });
+      setBusy(false);
+      return r.ok ? done(r) : fail(r);
+    }
+    if (legacy) return link();
+    const m = checkAccount() || (name.trim() ? checkName(name.trim()) : "");
+    if (m) return setErr(m);
+    setBusy(true);
+    const r = await api("/api/auth/signup", "POST", { username: username.trim(), password, name: name.trim(), avatar });
+    setBusy(false);
+    return r.ok ? done(r) : fail(r);
+  };
+
   const logout = () => {
-    update((s) => { s.profile = null; s.profileSkip = true; s.syncSig = ""; });
+    update((s) => { s.profile = null; s.profileSkip = false; s.syncSig = ""; });
     sfx.click(); onClose?.();
   };
   const syncNow = () => window.dispatchEvent(new CustomEvent("cloud-sync-now"));
 
-  const showAvatar = edit || tab !== "login";
-  const needsName = edit || tab === "guest";
-  const title = edit ? "Hồ Sơ Của Bạn" : tab === "login" ? "Đăng nhập" : tab === "signup" ? "Tạo tài khoản" : "Chào mừng, Nhà Lữ Hành!";
+  const showAvatar = edit || (tab === "signup" && !legacy);
+  const title = edit ? "Hồ Sơ Của Bạn" : tab === "login" ? "Đăng nhập" : legacy ? "Tạo tài khoản" : "Chào mừng, Nhà Lữ Hành!";
   const sub = edit ? "Đổi tên hoặc ảnh đại diện"
     : tab === "login" ? "Vào lại tài khoản để có tiến độ học ở mọi thiết bị"
-    : tab === "signup" ? "Tiến độ đang có trên máy sẽ tự động được lưu vào tài khoản mới"
-    : "Chỉ cần một cái tên để lưu kỷ lục và lên bảng xếp hạng (không đăng nhập được ở máy khác)";
+    : legacy ? `Hồ sơ «${p0.name}» được giữ nguyên điểm và thứ hạng — từ giờ cần tài khoản để vào học`
+    : "Tạo tài khoản để lưu tiến độ học và kỷ lục. Tiến độ đang có trên máy này sẽ tự động được lưu vào tài khoản mới";
   const cloudLabel = cs?.state === "saving" ? "Đang đồng bộ…" : cs?.state === "err" ? "Chưa đồng bộ được — sẽ thử lại" : cs?.at ? `Đã đồng bộ lúc ${new Date(cs.at).toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" })}` : "Tiến độ tự động lưu lên tài khoản";
 
   return (
@@ -143,56 +140,45 @@ export function ProfileDialog({ mode = "new", onClose }) {
         <form className="parch dialog profdlg" onSubmit={submit}>
           {showAvatar
             ? <Avatar key={avatar} avatar={avatar} name={name || username} size={84} className="profav" />
-            : <div className="profav loginico" aria-hidden="true">🔑</div>}
+            : legacy && tab === "signup"
+              ? <Avatar avatar={p0.avatar} name={p0.name} size={84} className="profav" />
+              : <div className="profav loginico" aria-hidden="true">🔑</div>}
           <h2>{title}</h2>
           <div className="jp">{sub}</div>
           {!edit && (
             <div className="proftabs" role="tablist">
-              {[["login", "Đăng nhập"], ["signup", "Đăng ký"], ["guest", "Chỉ nickname"]].map(([k, l]) => (
+              {[["signup", legacy ? "Tạo tài khoản" : "Đăng ký"], ["login", "Đăng nhập"]].map(([k, l]) => (
                 <button key={k} type="button" role="tab" aria-selected={tab === k} className={tab === k ? "on" : ""} onClick={() => { setTab(k); setErr(""); sfx.click(); }}>{l}</button>
               ))}
             </div>
           )}
           <hr />
-          {!edit && tab !== "guest" && (
+          {!edit && (
             <>
               <input className="nameinp acc" value={username} onChange={(e) => setUsername(e.target.value)} maxLength={20} placeholder="Tên đăng nhập" autoComplete="username" autoCapitalize="none" spellCheck={false} autoFocus />
-              <input className="nameinp acc" type="password" value={password} onChange={(e) => setPassword(e.target.value)} maxLength={72} placeholder="Mật khẩu" autoComplete={tab === "login" ? "current-password" : "new-password"} />
+              <input className="nameinp acc" type="password" value={password} onChange={(e) => setPassword(e.target.value)} maxLength={72} placeholder={tab === "signup" ? "Mật khẩu (ít nhất 6 ký tự)" : "Mật khẩu"} autoComplete={tab === "login" ? "current-password" : "new-password"} />
             </>
           )}
-          {(needsName || (!edit && tab === "signup")) && (
-            <input className="nameinp acc" value={name} onChange={(e) => setName(e.target.value)} maxLength={20} placeholder={tab === "signup" && !edit ? "Tên hiển thị trên bảng xếp hạng (không bắt buộc)" : "Tên hoặc nickname…"} autoFocus={needsName} />
+          {(edit || (tab === "signup" && !legacy)) && (
+            <input className="nameinp acc" value={name} onChange={(e) => setName(e.target.value)} maxLength={20} placeholder={edit ? "Tên hoặc nickname…" : "Tên hiển thị trên bảng xếp hạng (không bắt buộc)"} autoFocus={edit} />
           )}
           {showAvatar && (<><div className="lab2">Chọn ảnh đại diện</div><AvatarPicker value={avatar} onChange={setAvatar} /></>)}
           {err && <div className="err" role="alert">{err}</div>}
           <div className="btnrow">
-            {edit
-              ? <button type="button" className="gbtn x dark" onClick={onClose}><span className="c" />Hủy</button>
-              : <button type="button" className="gbtn x dark" onClick={() => { update((s) => { s.profileSkip = true; }); onClose?.(); }}><span className="c" />Để sau</button>}
-            <button type="submit" className="gbtn tri" disabled={busy}><span className="c" />{busy ? "Đang xử lý…" : edit ? "Lưu" : tab === "login" ? "Đăng nhập" : tab === "signup" ? "Tạo tài khoản" : "Bắt đầu"}</button>
+            {edit && <button type="button" className="gbtn x dark" onClick={onClose}><span className="c" />Hủy</button>}
+            <button type="submit" className="gbtn tri" disabled={busy}><span className="c" />{busy ? "Đang xử lý…" : edit ? "Lưu" : tab === "login" ? "Đăng nhập" : "Tạo tài khoản"}</button>
           </div>
+          {!edit && <p className="hint reqnote">Cần đăng nhập để sử dụng trang.</p>}
 
-          {edit && (
+          {edit && p0.username && (
             <div className="profacc">
               <hr />
-              {p0.username ? (
-                <>
-                  <div className="accrow"><span>Tài khoản</span><b>@{p0.username}</b></div>
-                  <div className="accrow"><span className="hint">{cloudLabel}</span></div>
-                  <div className="btnrow">
-                    <button type="button" className="gbtn sm x dark" onClick={syncNow}><span className="c" />Đồng bộ ngay</button>
-                    <button type="button" className="gbtn sm x dark" onClick={logout}><span className="c" />Đăng xuất</button>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="lab2" style={{ marginTop: 0 }}>Tạo tài khoản để đăng nhập ở máy khác</div>
-                  <p className="hint">Giữ nguyên điểm và thứ hạng hiện tại, tiến độ học trên máy sẽ tự động được lưu lên tài khoản.</p>
-                  <input className="nameinp acc" value={username} onChange={(e) => setUsername(e.target.value)} maxLength={20} placeholder="Tên đăng nhập" autoComplete="username" autoCapitalize="none" spellCheck={false} />
-                  <input className="nameinp acc" type="password" value={password} onChange={(e) => setPassword(e.target.value)} maxLength={72} placeholder="Mật khẩu (ít nhất 6 ký tự)" autoComplete="new-password" />
-                  <div className="btnrow"><button type="button" className="gbtn sm tri" disabled={busy} onClick={link}><span className="c" />Tạo tài khoản</button></div>
-                </>
-              )}
+              <div className="accrow"><span>Tài khoản</span><b>@{p0.username}</b></div>
+              <div className="accrow"><span className="hint">{cloudLabel}</span></div>
+              <div className="btnrow">
+                <button type="button" className="gbtn sm x dark" onClick={syncNow}><span className="c" />Đồng bộ ngay</button>
+                <button type="button" className="gbtn sm x dark" onClick={logout}><span className="c" />Đăng xuất</button>
+              </div>
             </div>
           )}
         </form>
@@ -311,15 +297,26 @@ function CloudSync() {
   );
 }
 
-// Hiện hộp đăng ký cho người lần đầu vào + tự đồng bộ kỷ lục lên bảng xếp hạng
+// Bắt buộc đăng nhập: chưa có tài khoản (kể cả hồ sơ nickname cũ) thì không dùng được trang. Bản offline không có máy chủ nên bỏ qua.
+// Đồng thời tự gửi kỷ lục lên bảng xếp hạng và đồng bộ tiến độ.
+const OFFLINE = process.env.NEXT_PUBLIC_OFFLINE === "1";
+
 export function ProfileGate() {
   const { S, update } = useGame();
-  const [open, setOpen] = useState(false);
   const busy = useRef(false);
-  useEffect(() => { if (S && !S.profile && !S.profileSkip) setOpen(true); }, [S]);
+  const need = !OFFLINE && !!S && !(S.profile?.id && S.profile?.token && S.profile?.username);
+
+  // khóa phần còn lại của trang trong lúc chưa đăng nhập
+  useEffect(() => {
+    if (!need) return;
+    const els = [document.querySelector("header.top"), document.querySelector("main.wrap")].filter(Boolean);
+    els.forEach((e) => e.setAttribute("inert", ""));
+    document.documentElement.dataset.gate = "1";
+    return () => { els.forEach((e) => e.removeAttribute("inert")); delete document.documentElement.dataset.gate; };
+  }, [need]);
 
   useEffect(() => {
-    if (!S?.profile || busy.current) return;
+    if (!S?.profile?.id || busy.current) return;
     const p = S.profile;
     const entries = entriesOf(S), overall = overallOf(S), certs = certsOf(S);
     const sig = JSON.stringify([entries, overall, p.id, certs]);
@@ -327,19 +324,12 @@ export function ProfileGate() {
     const t = setTimeout(async () => {
       busy.current = true;
       try {
-        let prof = p;
-        if (!prof.id) { // hồ sơ tạo lúc server chưa sẵn sàng → thử đăng ký lại
-          const r = await registerProfile(prof.name, prof.avatar);
-          if (!r.ok) return;
-          prof = { id: r.id, token: r.token, name: r.name, avatar: r.avatar };
-          update((s) => { s.profile = prof; });
-        }
-        const r = await fetch("/api/score", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: prof.id, token: prof.token, entries, overall, certs }) });
-        if (r.ok) update((s) => { s.syncSig = JSON.stringify([entries, overall, prof.id, certs]); });
+        const r = await fetch("/api/score", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: p.id, token: p.token, entries, overall, certs }) });
+        if (r.ok) update((s) => { s.syncSig = JSON.stringify([entries, overall, p.id, certs]); });
       } catch {} finally { busy.current = false; }
     }, 1500);
     return () => clearTimeout(t);
   }, [S, update]);
 
-  return (<>{open && <ProfileDialog mode="new" onClose={() => setOpen(false)} />}<CloudSync /></>);
+  return (<>{need && <ProfileDialog key={S.profile?.id || "none"} mode="gate" />}<CloudSync /></>);
 }
