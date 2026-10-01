@@ -4,6 +4,7 @@ import { useGame } from "@/components/Game";
 import { CHARS, WEAPONS, WTYPE_VI, charSplash, charIcon, weaponArt, weaponIcon } from "@/lib/genshin";
 import { ELEM, TOPIC_EL, shuffle } from "@/lib/data";
 
+import { useUITheme } from "@/lib/uiTheme";
 const TABS = [["photo", "📷 Ảnh thật"], ["meme", "😂 Meme"], ["anime", "🎌 Anime"], ["genshin", "✨ Genshin"]];
 const cache = new Map();
 
@@ -36,7 +37,9 @@ export function preloadMedia(item, tab) { if (tab === "photo") load(item, "photo
 
 export default function MediaPanel({ item, ok }) {
   const { S, update } = useGame();
-  const tab = S?.imgTab || "photo";
+  const ui = useUITheme();
+  const tabs = ui === "plain" ? TABS.filter(([k]) => k !== "genshin") : TABS; // giao diện trắng: bỏ ảnh Genshin
+  const tab = ui === "plain" && S?.imgTab === "genshin" ? "photo" : S?.imgTab || "photo";
   const [list, setList] = useState(null);
   const [idx, setIdx] = useState(0);
   const [fb, setFb] = useState(false);
@@ -72,7 +75,7 @@ export default function MediaPanel({ item, ok }) {
   return (
     <div>
       <div className="mtabs">
-        {TABS.map(([k, l]) => <button key={k} className={tab === k ? "on" : ""} onClick={() => update((s) => { s.imgTab = k; })}>{l}</button>)}
+        {tabs.map(([k, l]) => <button key={k} className={tab === k ? "on" : ""} onClick={() => update((s) => { s.imgTab = k; })}>{l}</button>)}
       </div>
       <div className="frame">
         <div className="inner">

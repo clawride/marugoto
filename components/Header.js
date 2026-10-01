@@ -8,11 +8,13 @@ import { useGame } from "@/components/Game";
 import { Ico } from "@/components/Icons";
 import { sfx } from "@/lib/sfx";
 import Avatar from "@/components/Avatar";
+import { ProfileDialog } from "@/components/Profile";
 import { BackupItems } from "@/components/Backup";
 import { GROUPS, programsIn, TEYVAT, progressLabel } from "@/lib/programs";
 
 export default function Header() {
   const { S, toggleSound } = useGame();
+  const [profOpen, setProfOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const path = usePathname();
   const panel = useRef(null), btn = useRef(null);
@@ -54,7 +56,8 @@ export default function Header() {
         <button ref={btn} className={`navbtn menubtn ${open ? "on" : ""}`} aria-expanded={open} aria-controls="mainmenu" onClick={() => { setOpen((v) => !v); sfx.click(); }}>
           <span aria-hidden="true">{open ? "✕" : "☰"}</span><span className="lbl">Menu</span>
         </button>
-        <Link href="/rank" className="navbtn profchip" onClick={() => sfx.page()} title="Bảng xếp hạng & hồ sơ">{S?.profile ? <Avatar avatar={S.profile.avatar} name={S.profile.name} size={24} /> : <span aria-hidden="true">🏆</span>}<span className="lbl">{S?.profile?.name || "Xếp hạng"}</span></Link>
+        <Link href="/rank" className={`navbtn rankbtn ${path === "/rank" ? "on" : ""}`} onClick={() => sfx.page()} title="Bảng xếp hạng"><span aria-hidden="true">🏆</span><span className="lbl">Xếp hạng</span></Link>
+        <button type="button" className="navbtn profchip" onClick={() => { setProfOpen(true); sfx.open?.(); }} title="Hồ sơ của bạn" aria-label="Hồ sơ của bạn">{S?.profile ? <Avatar avatar={S.profile.avatar} name={S.profile.name} size={24} /> : <span aria-hidden="true">👤</span>}<span className="lbl">{S?.profile?.name || "Hồ sơ"}</span></button>
         <button className="navbtn uibtn" onClick={() => { setUITheme(ui === "plain" ? "game" : "plain"); sfx.click(); }}
           title={ui === "plain" ? "Chuyển sang giao diện Teyvat (game)" : "Chuyển sang giao diện học tập cơ bản (không ảnh anime)"} aria-label="Đổi giao diện">
           <span aria-hidden="true">{ui === "plain" ? "🎮" : "📘"}</span><span className="lbl">{ui === "plain" ? "Giao diện game" : "Giao diện cơ bản"}</span>
@@ -81,6 +84,7 @@ export default function Header() {
           </div>
         </nav>
       )}
+          {profOpen && S?.profile?.id && <ProfileDialog mode="edit" onClose={() => setProfOpen(false)} />}
     </header>
   );
 }

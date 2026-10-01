@@ -163,3 +163,19 @@ header.top{animation:slideDown .5s cubic-bezier(.2,.7,.2,1) both}
 /* chưa đăng nhập: mờ phần còn lại của trang */
 html[data-gate] header.top,html[data-gate] main.wrap{filter:blur(7px);user-select:none;pointer-events:none}
 html[data-gate] .modal{background:rgba(15,23,42,.62)}
+
+/* — Giao diện trắng: căn chữ trong nút, phông chữ đẹp hơn, nút ở thanh đầu trang — */
+[data-ui="plain"] .gbtn{justify-content:center;padding:9px 20px;line-height:1.25}
+[data-ui="plain"] .gbtn.sm{padding:7px 14px}
+[data-ui="plain"] body{font-family:var(--serif);font-feature-settings:"kern","liga";-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;letter-spacing:.005em}
+[data-ui="plain"] h1,[data-ui="plain"] h2,[data-ui="plain"] h3,[data-ui="plain"] .pagehead h1{font-family:var(--serif);font-weight:700;letter-spacing:-.01em}
+[data-ui="plain"] .pagehead h1{font-weight:800}
+[data-ui="plain"] .brand b{font-weight:700;letter-spacing:0}
+[data-ui="plain"] .jpt,[data-ui="plain"] .word,[data-ui="plain"] .kana{font-family:var(--jp)}
+[data-ui="plain"] .chip,[data-ui="plain"] .navbtn,[data-ui="plain"] .gbtn{font-weight:600}
+.navbtn{line-height:1;align-items:center}
+.navbtn .lbl{display:inline-block;line-height:1;transform:translateY(.5px)}
+.navbtn.rankbtn.on{background:var(--pl-accent-2,rgba(236,229,216,.18));border-color:var(--pl-accent,var(--gold2))}
+button.profchip{font-family:inherit;cursor:pointer}
+[data-ui="plain"] .certbadges i.ex{color:#fff}
+@media (max-width:1000px){.navbtn.uibtn .lbl{display:none}.navbtn.uibtn{padding:7px 10px}}

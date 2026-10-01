@@ -91,7 +91,7 @@ const FONT_DIR = path.join(ASSETS, "fonts");
 if (!fs.existsSync(path.join(FONT_DIR, "fonts.css"))) {
   log("Tải phông chữ…");
   fs.mkdirSync(FONT_DIR, { recursive: true });
-  const css = await (await fetch("https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&family=Noto+Serif+JP:wght@400;600;700&display=swap", {
+  const css = await (await fetch("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif:wght@400;600;700&family=Noto+Serif+JP:wght@400;600;700&display=swap", {
     headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36" },
   })).text();
   const urls = [...new Set([...css.matchAll(/url\((https:[^)]+)\)/g)].map((m) => m[1]))];
