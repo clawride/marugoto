@@ -137,3 +137,21 @@ header.top{animation:slideDown .5s cubic-bezier(.2,.7,.2,1) both}
 .vvload .bar{width:100%;height:10px;margin:2px 0}
 .vvload .bar i{transition:width .25s linear}
 .vvload small{color:var(--mute);font-size:12.5px}
+
+/* — Đăng nhập / đăng ký / đồng bộ (components/Profile.js) — */
+.profdlg .proftabs{display:flex;gap:6px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+.profdlg .proftabs button{border:1px solid var(--pl-line,#cbb98f);background:transparent;color:var(--ink);border-radius:99px;padding:6px 14px;font-size:13px;font-family:inherit;transition:background-color .2s,color .2s,transform .15s}
+.profdlg .proftabs button:hover{transform:translateY(-1px)}
+.profdlg .proftabs button.on{background:var(--pl-accent,var(--ink2));color:#fff;border-color:var(--pl-accent,var(--ink2))}
+.profdlg .nameinp.acc{display:block;margin:0 0 8px;text-align:left;font-size:16px}
+.profdlg .loginico,.syncdlg .loginico{display:grid;place-items:center;width:84px;height:84px;border-radius:50%;font-size:38px;background:linear-gradient(145deg,#e8f0fc,#bcd2f7)}
+.profdlg .profacc{margin-top:6px;text-align:center}
+.profdlg .accrow{display:flex;justify-content:center;align-items:center;gap:8px;font-size:14px;margin:4px 0}
+.profdlg .accrow b{color:var(--pl-accent,var(--ink2))}
+.profdlg .profacc .hint{margin:4px 0}
+.syncdlg{width:min(480px,100%);text-align:center}
+.syncdlg .syncopts{display:grid;gap:10px;margin:12px 0}
+.syncdlg .syncopts button{display:flex;flex-direction:column;gap:3px;text-align:left;padding:12px 14px;border-radius:10px;border:1px solid var(--pl-line,#cbb98f);background:#fff;color:var(--ink2);font-family:inherit;transition:transform .2s cubic-bezier(.3,1.4,.5,1),box-shadow .2s,border-color .2s}
+.syncdlg .syncopts button:hover{transform:translateY(-2px);border-color:var(--pl-accent,var(--gold2));box-shadow:0 8px 20px rgba(47,111,209,.16)}
+.syncdlg .syncopts span{font-size:14px;color:var(--ink)}
+.syncdlg .syncopts small{color:var(--mute);font-size:12px}

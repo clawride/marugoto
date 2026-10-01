@@ -29,6 +29,8 @@ Dùng Supabase (Postgres, miễn phí):
 
 Chỉ server đọc/ghi dữ liệu bằng secret key (RLS bật, không có policy cho anon). Dữ liệu cũ từ Upstash Redis đã chép sang Supabase ngày 2026-10-01.
 
+Tài khoản (tên đăng nhập + mật khẩu băm scrypt, khóa tạm sau 8 lần sai) và tiến độ học lưu theo tài khoản: chạy thêm `supabase/migrations/20261001120000_accounts.sql` (hoặc `supabase db query --linked -f ...`). API: `/api/auth/signup|login|link`, `/api/save`.
+
 Chạy thử trên máy không cần Supabase: `npm run dev` khi chưa có biến môi trường (dùng bộ nhớ tạm), hoặc `LB_MEMORY=1` để luôn dùng bộ nhớ tạm.
 
 ## Deploy lên Vercel

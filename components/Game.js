@@ -80,6 +80,16 @@ export function GameProvider({ children }) {
     return ret;
   }, []);
 
+  // Thay toàn bộ tiến độ bằng bản từ đám mây (giữ hồ sơ đăng nhập của máy này)
+  const replaceAll = useCallback((data) => {
+    const cur = ref.current, base = defaults();
+    const next = { ...base, ...data, fates: { ...base.fates, ...data?.fates }, banners: { ...base.banners, ...data?.banners }, profile: cur?.profile ?? null, profileSkip: cur?.profileSkip ?? false, syncSig: "" };
+    ref.current = next;
+    setS(next);
+    setSoundEnabled(next.sound);
+    try { localStorage.setItem(KEY, JSON.stringify(next)); } catch {}
+  }, []);
+
   const toast = useCallback((m) => { setToast(m); setTimeout(() => setToast(null), 2400); }, []);
 
   const toggleSound = useCallback(() => {
@@ -88,7 +98,7 @@ export function GameProvider({ children }) {
   }, [update]);
 
   return (
-    <Ctx.Provider value={{ S, update, toast, toggleSound }}>
+    <Ctx.Provider value={{ S, update, replaceAll, toast, toggleSound }}>
       {children}
       {toastMsg && <div className="toast">{toastMsg}</div>}
     </Ctx.Provider>
