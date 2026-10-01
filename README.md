@@ -27,7 +27,7 @@ Dùng Supabase (Postgres, miễn phí):
 1. Supabase → **SQL Editor** → dán và chạy `supabase/migrations/20261001000000_leaderboard.sql` (tạo bảng `profiles`, `scores` và 2 hàm)
 2. Vercel → Settings → Environment Variables: thêm `NEXT_PUBLIC_SUPABASE_URL` và `SUPABASE_SECRET_KEY` (Supabase → Project Settings → API Keys) → **Redeploy**
 
-Chỉ server đọc/ghi dữ liệu bằng secret key (RLS bật, không có policy cho anon). Dữ liệu cũ từ Upstash Redis chép sang bằng workflow **Migrate Upstash to Supabase** (`scripts/migrate-upstash.mjs`).
+Chỉ server đọc/ghi dữ liệu bằng secret key (RLS bật, không có policy cho anon). Dữ liệu cũ từ Upstash Redis đã chép sang Supabase ngày 2026-10-01.
 
 Chạy thử trên máy không cần Supabase: `npm run dev` khi chưa có biến môi trường (dùng bộ nhớ tạm), hoặc `LB_MEMORY=1` để luôn dùng bộ nhớ tạm.
 
