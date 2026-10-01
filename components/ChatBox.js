@@ -135,7 +135,7 @@ export default function ChatBox() {
           </header>
           <div className="cb-list" ref={listRef} onScroll={onScroll}>
             {!loaded && <div className="cb-empty"><p>Đang tải tin nhắn…</p></div>}
-            {loaded && today.length === 0 && <div className="cb-empty"><span aria-hidden="true">👋</span><p>Hôm nay chưa ai nhắn gì.<br />Chào mọi người một câu nhé — tiếng Nhật càng tốt!</p>{bot && <p className="cb-tip">Gọi <b>Lumie</b> ✨ trong tin nhắn để trò chuyện với bot bằng tiếng Nhật (từ vựng Marugoto A1 → B1-2) hoặc tiếng Việt.</p>}</div>}
+            {loaded && today.length === 0 && <div className="cb-empty"><span aria-hidden="true">👋</span><p>Hôm nay chưa ai nhắn gì.<br />Chào mọi người một câu nhé — tiếng Nhật càng tốt!</p>{bot && <p className="cb-tip">Gọi <b>Lumie</b> ✨ trong tin nhắn để trò chuyện với bot bằng tiếng Nhật hoặc tiếng Việt.</p>}</div>}
             {today.map((m, i) => {
               const mine = m.user_id === me.id, isBot = m.user_id === "lumie", prev = today[i - 1];
               const same = prev && prev.user_id === m.user_id && Date.parse(m.created_at) - Date.parse(prev.created_at) < 3 * 60e3;
