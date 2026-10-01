@@ -91,6 +91,50 @@ for (let i = 0; i < todo.length; i += 8) {
 log(`  tải mới ${got}, không có trên máy chủ ${miss}${fail.length ? `, lỗi ${fail.length} (chạy lại để thử lại)` : ""}`);
 linkTree(GI_DIR, path.join(APP, "public", "gi"));
 
+// ——— 3b. ảnh minh họa bài học (blogger.googleusercontent.com, nằm trong public/book/*.json) → assets/img, dùng lại giữa các lần build ———
+// File bài học trong app/public là LIÊN KẾT CỨNG tới file của dự án → phải xóa liên kết rồi ghi file mới (ghi đè sẽ sửa luôn file gốc)
+{
+  const IMG_DIR = path.join(ASSETS, "img");
+  fs.mkdirSync(IMG_DIR, { recursive: true });
+  const BOOK = path.join(ROOT, "public", "book");
+  const RE = /https:\/\/blogger\.googleusercontent\.com\/[^"'\s)\\]+/g;
+  const files = fs.readdirSync(BOOK, { recursive: true }).filter((f) => f.endsWith(".json")).map((f) => path.join(BOOK, f));
+  const urls = new Set();
+  for (const f of files) for (const m of fs.readFileSync(f, "utf8").matchAll(RE)) urls.add(m[0]);
+  const nameOf = (u) => {
+    let h = 0x811c9dc5; for (let i = 0; i < u.length; i++) h = Math.imul(h ^ u.charCodeAt(i), 0x01000193) >>> 0;
+    const ext = (u.match(/\.(png|jpe?g|gif|webp)(?=$|[?#])/i)?.[1] || "png").toLowerCase();
+    return `${h.toString(36)}-${u.length.toString(36)}.${ext}`;
+  };
+  const local = new Map(); // url → /img/<tên> (chỉ những ảnh đã có trong máy)
+  let imgNew = 0, imgFail = 0;
+  const list = [...urls];
+  for (let i = 0; i < list.length; i += 8) {
+    await Promise.all(list.slice(i, i + 8).map(async (u) => {
+      const name = nameOf(u), p = path.join(IMG_DIR, name);
+      if (!fs.existsSync(p)) {
+        for (let k = 0; k < 3; k++) {
+          try { const r = await fetch(u); if (!r.ok) throw new Error(r.status); fs.writeFileSync(p, Buffer.from(await r.arrayBuffer())); imgNew++; break; }
+          catch { if (k === 2) { imgFail++; return; } await new Promise((x) => setTimeout(x, 800 * (k + 1))); }
+        }
+      }
+      local.set(u, `/img/${name}`);
+    }));
+    if (i % 400 === 0 && i) log(`  ảnh bài học …${i}/${list.length}`);
+  }
+  linkTree(IMG_DIR, path.join(APP, "public", "img"));
+  let rewritten = 0;
+  for (const f of files) {
+    const t = fs.readFileSync(f, "utf8");
+    if (!t.includes("blogger.googleusercontent.com")) continue;
+    const d = path.join(APP, "public", "book", path.relative(BOOK, f));
+    fs.rmSync(d, { force: true }); // gỡ liên kết cứng trước khi ghi
+    fs.writeFileSync(d, t.replace(RE, (u) => local.get(u) || u));
+    rewritten++;
+  }
+  log(`Ảnh minh họa bài học: ${local.size}/${urls.size} ảnh trong máy (tải mới ${imgNew}${imgFail ? `, lỗi ${imgFail} — chạy lại để thử lại` : ""}), ${rewritten} file bài học trỏ vào ảnh trong máy`);
+}
+
 // ——— 4. phông chữ Google (Noto Serif / Noto Serif JP) → assets/fonts ———
 const FONT_DIR = path.join(ASSETS, "fonts");
 const FONT_URL = "https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif:wght@400;600;700&family=Noto+Serif+JP:wght@400;600;700&display=swap";
