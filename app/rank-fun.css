@@ -58,7 +58,8 @@
 .rk-confetti i{position:absolute;top:-14px;border-radius:2px;opacity:0;animation:confettiFall 2.8s cubic-bezier(.3,.6,.5,1) both}
 
 /* — đường đua — */
-.rk-list{padding:4px 0 6px;margin-top:10px}
+.rk-list{padding:4px 0 6px;margin-top:10px;overflow:hidden}
+.rk{overflow-x:clip}
 .rk-listhead{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:10px 16px;border-bottom:1px solid var(--rk-line);font-weight:700;color:var(--rk-ink)}
 .rk-listhead small{font-weight:400;color:var(--rk-mute);font-size:12.5px}
 .rk-row{display:flex;align-items:flex-start;gap:10px;padding:10px 16px 8px;border-bottom:1px solid var(--rk-line);animation:rowRun .55s cubic-bezier(.2,.9,.3,1) calc(var(--n) * 55ms + 1.3s) both;transition:background-color .2s}

@@ -174,8 +174,10 @@ html[data-gate] .modal{background:rgba(15,23,42,.62)}
 [data-ui="plain"] .jpt,[data-ui="plain"] .word,[data-ui="plain"] .kana{font-family:var(--jp)}
 [data-ui="plain"] .chip,[data-ui="plain"] .navbtn,[data-ui="plain"] .gbtn{font-weight:600}
 .navbtn{line-height:1;align-items:center}
-.navbtn .lbl{display:inline-block;line-height:1;transform:translateY(.5px)}
+.navbtn .lbl{line-height:1;transform:translateY(.5px)}
 .navbtn.rankbtn.on{background:var(--pl-accent-2,rgba(236,229,216,.18));border-color:var(--pl-accent,var(--gold2))}
 button.profchip{font-family:inherit;cursor:pointer}
 [data-ui="plain"] .certbadges i.ex{color:#fff}
 @media (max-width:1000px){.navbtn.uibtn .lbl{display:none}.navbtn.uibtn{padding:7px 10px}}
+/* điện thoại: thanh đầu trang chỉ còn biểu tượng (không tràn ngang) */
+@media (max-width:640px){header.top .navbtn .lbl{display:none}header.top .navbtn{padding:7px 9px}}

@@ -15,12 +15,14 @@ import "./plain.auto.css";
 import "./plain.css";
 import "./motion.css";
 import "./rank-fun.css";
+import "./chat.css";
 import { GameProvider } from "@/components/Game";
 import Header from "@/components/Header";
 import Sky from "@/components/Sky";
 import { SvgDefs } from "@/components/Icons";
 import { ProfileGate } from "@/components/Profile";
 import PlainGate from "@/components/PlainGate";
+import ChatBox from "@/components/ChatBox";
 import { SITE_URL } from "@/lib/site";
 
 export const metadata = {
@@ -61,6 +63,7 @@ export default function RootLayout({ children }) {
           <Header />
           <main className="wrap"><PlainGate>{children}</PlainGate></main>
           <ProfileGate />
+          <ChatBox />
         </GameProvider>
       </body>
     </html>
