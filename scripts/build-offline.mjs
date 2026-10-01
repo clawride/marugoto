@@ -14,6 +14,8 @@ const CHAT_DIR = arg("chat-dir", path.join(HOME, "voicevox_tools", "voice-chat")
 // thư mục mp3 đã tạo trên máy (lấy thẳng, khỏi tải lại từ GitHub): trò chuyện 5★ + truyện & trò chuyện 4★
 const LOCAL_DIRS = [CHAT_DIR, arg("voice4-dir", path.join(HOME, "voicevox_tools", "voice-4star"))];
 const ENGINE = arg("engine", path.join(HOME, "voicevox_tools", "engine", "run.exe"));
+// bài nghe tạo sẵn (scripts/gen-listen.mjs): shard-<n>/<mã>.mp3 — thiếu thì tải từ GitHub Releases voice-listen-<n>
+const LISTEN_DIR = arg("listen-dir", path.join(HOME, "listen-out"));
 const GI = "https://gi.yatta.moe/assets/UI/";
 const PORT = 39390;
 const log = (...a) => console.log("•", ...a);
@@ -23,7 +25,9 @@ log("Build trang (chế độ offline)…");
 execFileSync(process.execPath, [path.join(ROOT, "scripts", "build-notebook.mjs")], { stdio: "inherit", cwd: ROOT });
 execFileSync(process.execPath, [path.join(ROOT, "node_modules", "next", "dist", "bin", "next"), "build"], {
   stdio: "inherit", cwd: ROOT,
-  env: { ...process.env, OFFLINE_BUILD: "1", NEXT_PUBLIC_OFFLINE: "1", NEXT_PUBLIC_GI_BASE: "/gi/", NEXT_PUBLIC_VOICE_CHAT_BASE: "/vn/voice-chat/", NEXT_TELEMETRY_DISABLED: "1" },
+  // khóa bí mật trong .env.local KHÔNG được vào bản offline (bản này có thể chép sang máy khác) — đặt rỗng để Next không đọc từ .env.local
+  env: { ...process.env, OFFLINE_BUILD: "1", NEXT_PUBLIC_OFFLINE: "1", NEXT_PUBLIC_GI_BASE: "/gi/", NEXT_PUBLIC_VOICE_CHAT_BASE: "/vn/voice-chat/", NEXT_PUBLIC_LISTEN_BASE: "/vn/listen/", NEXT_TELEMETRY_DISABLED: "1",
+    SUPABASE_SECRET_KEY: "", SUPABASE_SERVICE_ROLE_KEY: "", GEMINI_API_KEY: "", KV_REST_API_TOKEN: "", UPSTASH_REDIS_REST_TOKEN: "" },
 });
 
 // ——— 2. lắp thư mục app: máy chủ độc lập + static + public ———
@@ -31,6 +35,7 @@ const APP = path.join(OUT, "app"), ASSETS = path.join(OUT, "assets");
 log("Lắp thư mục chương trình:", APP);
 fs.rmSync(APP, { recursive: true, force: true });
 fs.cpSync(path.join(ROOT, ".next-offline", "standalone"), APP, { recursive: true });
+for (const f of fs.readdirSync(APP)) if (/^\.env/.test(f)) fs.rmSync(path.join(APP, f), { force: true }); // không mang file .env theo
 fs.cpSync(path.join(ROOT, ".next-offline", "static"), path.join(APP, ".next-offline", "static"), { recursive: true });
 // public: file nhỏ chép thường, file âm thanh dùng liên kết cứng
 function linkTree(src, dst) {
@@ -88,10 +93,13 @@ linkTree(GI_DIR, path.join(APP, "public", "gi"));
 
 // ——— 4. phông chữ Google (Noto Serif / Noto Serif JP) → assets/fonts ———
 const FONT_DIR = path.join(ASSETS, "fonts");
-if (!fs.existsSync(path.join(FONT_DIR, "fonts.css"))) {
+const FONT_URL = "https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif:wght@400;600;700&family=Noto+Serif+JP:wght@400;600;700&display=swap";
+const FONT_KEY = path.join(FONT_DIR, "fonts.key"); // đổi danh sách phông → tải lại
+if (!fs.existsSync(path.join(FONT_DIR, "fonts.css")) || (fs.existsSync(FONT_KEY) ? fs.readFileSync(FONT_KEY, "utf8") : "") !== FONT_URL) {
   log("Tải phông chữ…");
+  fs.rmSync(FONT_DIR, { recursive: true, force: true });
   fs.mkdirSync(FONT_DIR, { recursive: true });
-  const css = await (await fetch("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif:wght@400;600;700&family=Noto+Serif+JP:wght@400;600;700&display=swap", {
+  const css = await (await fetch(FONT_URL, {
     headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36" },
   })).text();
   const urls = [...new Set([...css.matchAll(/url\((https:[^)]+)\)/g)].map((m) => m[1]))];
@@ -104,6 +112,7 @@ if (!fs.existsSync(path.join(FONT_DIR, "fonts.css"))) {
     }));
   }
   fs.writeFileSync(path.join(FONT_DIR, "fonts.css"), out);
+  fs.writeFileSync(FONT_KEY, FONT_URL);
   log(`  ${urls.length} file phông chữ`);
 }
 linkTree(FONT_DIR, path.join(APP, "public", "fonts"));
@@ -125,6 +134,58 @@ for (const [name, url] of need) {
   fs.linkSync(cache, d); vcLinked++;
 }
 log(`Lồng tiếng trò chuyện: ${vcLinked} file (tải mới ${vcDl})`);
+
+// ——— 5b. bài nghe tạo sẵn → public/vn/listen/<mã>.mp3 (đọc ngay, không cần VOICEVOX) ———
+const LS = path.join(APP, "public", "vn", "listen");
+fs.mkdirSync(LS, { recursive: true });
+const lman = JSON.parse(fs.readFileSync(path.join(ROOT, "public", "listen", "index.json"), "utf8"));
+let lsLinked = 0, lsDl = 0, lsFail = 0;
+const lsTodo = [];
+for (const [key, [shard]] of Object.entries(lman)) {
+  const d = path.join(LS, `${key}.mp3`);
+  if (fs.existsSync(d)) { lsLinked++; continue; }
+  const local = path.join(LISTEN_DIR, `shard-${shard}`, `${key}.mp3`);
+  if (fs.existsSync(local)) { try { fs.linkSync(local, d); } catch { fs.copyFileSync(local, d); } lsLinked++; continue; }
+  lsTodo.push([key, shard, d]);
+}
+for (let i = 0; i < lsTodo.length; i += 8) {
+  await Promise.all(lsTodo.slice(i, i + 8).map(async ([key, shard, d]) => {
+    const cache = path.join(ASSETS, "listen", `${key}.mp3`);
+    try {
+      if (!fs.existsSync(cache)) {
+        const r = await fetch(`https://github.com/clawride/marugoto/releases/download/voice-listen-${shard}/${key}.mp3`);
+        if (!r.ok) throw new Error(r.status);
+        fs.mkdirSync(path.dirname(cache), { recursive: true }); fs.writeFileSync(cache, Buffer.from(await r.arrayBuffer())); lsDl++;
+      }
+      fs.linkSync(cache, d); lsLinked++;
+    } catch { lsFail++; }
+  }));
+}
+log(`Bài nghe tạo sẵn: ${lsLinked}/${Object.keys(lman).length} file (tải mới ${lsDl}${lsFail ? `, lỗi ${lsFail} — chạy lại để thử lại` : ""})`);
+
+// ——— 5c. kiểm tra không có khóa bí mật nào lọt vào thư mục chương trình ———
+{
+  const secrets = [];
+  try {
+    for (const line of fs.readFileSync(path.join(ROOT, ".env.local"), "utf8").split(/\r?\n/)) {
+      const m = line.match(/^([A-Z0-9_]+)=(.{12,})$/);
+      if (m && !m[1].startsWith("NEXT_PUBLIC_")) secrets.push([m[1], m[2].trim()]);
+    }
+  } catch { /* không có .env.local */ }
+  const hits = [];
+  const scan = (dir) => {
+    for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+      const p = path.join(dir, e.name);
+      if (e.isDirectory()) { if (!["public", "node_modules"].includes(e.name) || dir !== APP) scan(p); continue; }
+      if (!/\.(js|json|mjs|cjs|html|txt|map|env)$|^\.env/.test(e.name) || fs.statSync(p).size > 20e6) continue;
+      const t = fs.readFileSync(p, "utf8");
+      for (const [k, v] of secrets) if (t.includes(v)) hits.push(`${k} trong ${path.relative(APP, p)}`);
+    }
+  };
+  scan(APP);
+  if (hits.length) { console.error("✗ KHÓA BÍ MẬT LỌT VÀO BẢN OFFLINE — dừng lại:\n  " + hits.join("\n  ")); fs.rmSync(APP, { recursive: true, force: true }); process.exit(1); }
+  log(`Kiểm tra khóa bí mật: sạch (${secrets.length} khóa trong .env.local, không khóa nào nằm trong bản offline)`);
+}
 
 // ——— 6. kèm Node.js và VOICEVOX vào thư mục → chép sang máy khác vẫn chạy (liên kết cứng: không tốn thêm ổ đĩa trên máy này) ———
 fs.mkdirSync(path.join(OUT, "runtime"), { recursive: true });
@@ -248,7 +309,9 @@ fs.writeFileSync(path.join(OUT, "HƯỚNG DẪN.txt"), "\ufeff" + [
   "• Trang online: Menu ☰ → Sao lưu tiến độ (tải file .json) → bản offline: Menu ☰ → Khôi phục tiến độ, chọn file đó.",
   "  Làm ngược lại để mang tiến độ lên online.",
   "",
-  "KHI OFFLINE KHÔNG CÓ: ảnh minh họa từ vựng (ảnh thật/meme từ internet) và bảng xếp hạng online.",
+  "KHI OFFLINE KHÔNG CÓ: ảnh minh họa từ vựng (ảnh thật/meme từ internet), tài khoản, bảng xếp hạng online,",
+  "  phòng chat chung và chatbot Lumie (những phần này cần internet — dùng trang tiengnhat.online).",
+  "BÀI NGHE: dùng audio tạo sẵn kèm theo (đọc ngay); câu nào chưa có thì đọc bằng VOICEVOX trong máy.",
   "CẬP NHẬT: trong thư mục dự án chạy  node scripts/build-offline.mjs",
 ].join("\r\n"));
 
