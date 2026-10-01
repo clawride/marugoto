@@ -1,5 +1,7 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useGame } from "@/components/Game";
 import Portal from "@/components/Portal";
 import { CHARS, charIcon, ASSET } from "@/lib/genshin";
@@ -53,7 +55,8 @@ function AvatarPicker({ value, onChange }) {
 const profileOf = (r) => ({ id: r.id, token: r.token, name: r.name, avatar: r.avatar, ...(r.username ? { username: r.username } : {}) });
 
 // Hộp đăng ký / đăng nhập (bắt buộc: mode "gate", không đóng được) và hộp sửa hồ sơ (mode "edit")
-export function ProfileDialog({ mode = "gate", onClose }) {
+// mode "gate": đăng ký/đăng nhập — onSkip có thì hiện nút "Để sau"; back có thì hiện nút quay về (trang bắt buộc đăng nhập)
+export function ProfileDialog({ mode = "gate", onClose, onSkip, back }) {
   const { S, update } = useGame();
   const p0 = S?.profile;
   const edit = mode === "edit" && !!p0?.id;
@@ -121,7 +124,7 @@ export function ProfileDialog({ mode = "gate", onClose }) {
   };
 
   const logout = () => {
-    update((s) => { s.profile = null; s.profileSkip = false; s.syncSig = ""; });
+    update((s) => { s.profile = null; s.profileSkip = true; s.syncSig = ""; });
     sfx.click(); onClose?.();
   };
   const syncNow = () => window.dispatchEvent(new CustomEvent("cloud-sync-now"));
@@ -130,7 +133,7 @@ export function ProfileDialog({ mode = "gate", onClose }) {
   const title = edit ? "Hồ Sơ Của Bạn" : tab === "login" ? "Đăng nhập" : legacy ? "Tạo tài khoản" : "Chào mừng, Nhà Lữ Hành!";
   const sub = edit ? "Đổi tên hoặc ảnh đại diện"
     : tab === "login" ? "Vào lại tài khoản để có tiến độ học ở mọi thiết bị"
-    : legacy ? `Hồ sơ «${p0.name}» được giữ nguyên điểm và thứ hạng — từ giờ cần tài khoản để vào học`
+    : legacy ? `Hồ sơ «${p0.name}» được giữ nguyên điểm và thứ hạng — tạo tài khoản để đăng nhập được ở máy khác`
     : "Tạo tài khoản để lưu tiến độ học và kỷ lục. Tiến độ đang có trên máy này sẽ tự động được lưu vào tài khoản mới";
   const cloudLabel = cs?.state === "saving" ? "Đang đồng bộ…" : cs?.state === "err" ? "Chưa đồng bộ được — sẽ thử lại" : cs?.at ? `Đã đồng bộ lúc ${new Date(cs.at).toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" })}` : "Tiến độ tự động lưu lên tài khoản";
 
@@ -166,9 +169,11 @@ export function ProfileDialog({ mode = "gate", onClose }) {
           {err && <div className="err" role="alert">{err}</div>}
           <div className="btnrow">
             {edit && <button type="button" className="gbtn x dark" onClick={onClose}><span className="c" />Hủy</button>}
+            {!edit && onSkip && <button type="button" className="gbtn x dark" onClick={() => { sfx.click(); onSkip(); }}><span className="c" />Để sau</button>}
+            {!edit && back && <Link href={back} className="gbtn x dark"><span className="c" />‹ Về trang chủ</Link>}
             <button type="submit" className="gbtn tri" disabled={busy}><span className="c" />{busy ? "Đang xử lý…" : edit ? "Lưu" : tab === "login" ? "Đăng nhập" : "Tạo tài khoản"}</button>
           </div>
-          {!edit && <p className="hint reqnote">Cần đăng nhập để sử dụng trang.</p>}
+          {!edit && <p className="hint reqnote">{back ? "Cần đăng nhập để xem bảng xếp hạng và cập nhật điểm, thứ hạng của bạn." : "Bạn vẫn học được khi chưa đăng nhập. Đăng nhập để lưu tiến độ, lên bảng xếp hạng và chat."}</p>}
 
           {edit && p0.username && (
             <div className="profacc">
@@ -297,23 +302,26 @@ function CloudSync() {
   );
 }
 
-// Bắt buộc đăng nhập: chưa có tài khoản (kể cả hồ sơ nickname cũ) thì không dùng được trang. Bản offline không có máy chủ nên bỏ qua.
-// Đồng thời tự gửi kỷ lục lên bảng xếp hạng và đồng bộ tiến độ.
+// Đăng nhập: lần đầu vào trang hiện hộp đăng ký/đăng nhập (bỏ qua được bằng "Để sau"); riêng trang Bảng xếp hạng thì bắt buộc
+// đăng nhập để cập nhật điểm và thứ hạng. Bản offline không có máy chủ nên bỏ qua. Đồng thời tự gửi kỷ lục và đồng bộ tiến độ.
 const OFFLINE = process.env.NEXT_PUBLIC_OFFLINE === "1";
 
 export function ProfileGate() {
   const { S, update } = useGame();
   const busy = useRef(false);
-  const need = !OFFLINE && !!S && !(S.profile?.id && S.profile?.token && S.profile?.username);
+  const path = usePathname();
+  const loggedIn = !!(S?.profile?.id && S?.profile?.token && S?.profile?.username);
+  const mustLogin = !OFFLINE && !!S && !loggedIn && /^\/rank(\/|$)/.test(path || ""); // trang xếp hạng: bắt buộc
+  const need = mustLogin || (!OFFLINE && !!S && !loggedIn && !S.profileSkip); // nơi khác: hỏi một lần, bỏ qua được
 
-  // khóa phần còn lại của trang trong lúc chưa đăng nhập
+  // trang bắt buộc đăng nhập: khóa phần còn lại của trang
   useEffect(() => {
-    if (!need) return;
+    if (!mustLogin) return;
     const els = [document.querySelector("header.top"), document.querySelector("main.wrap")].filter(Boolean);
     els.forEach((e) => e.setAttribute("inert", ""));
     document.documentElement.dataset.gate = "1";
     return () => { els.forEach((e) => e.removeAttribute("inert")); delete document.documentElement.dataset.gate; };
-  }, [need]);
+  }, [mustLogin]);
 
   useEffect(() => {
     if (!S?.profile?.id || busy.current) return;
@@ -331,5 +339,6 @@ export function ProfileGate() {
     return () => clearTimeout(t);
   }, [S, update]);
 
-  return (<>{need && <ProfileDialog key={S.profile?.id || "none"} mode="gate" />}<CloudSync /></>);
+  const skip = () => update((s) => { s.profileSkip = true; });
+  return (<>{need && <ProfileDialog key={`${S.profile?.id || "none"}-${mustLogin}`} mode="gate" onSkip={mustLogin ? undefined : skip} back={mustLogin ? "/" : undefined} />}<CloudSync /></>);
 }

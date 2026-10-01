@@ -84,7 +84,9 @@ export default function Header() {
           </div>
         </nav>
       )}
-          {profOpen && S?.profile?.id && <ProfileDialog mode="edit" onClose={() => setProfOpen(false)} />}
+          {profOpen && (S?.profile?.username
+            ? <ProfileDialog mode="edit" onClose={() => setProfOpen(false)} />
+            : <ProfileDialog mode="gate" onClose={() => setProfOpen(false)} onSkip={() => setProfOpen(false)} />)}
     </header>
   );
 }
