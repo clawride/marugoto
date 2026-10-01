@@ -13,6 +13,7 @@ import "./vn.css";
 import "./book.css";
 import "./plain.auto.css";
 import "./plain.css";
+import "./motion.css";
 import { GameProvider } from "@/components/Game";
 import Header from "@/components/Header";
 import Sky from "@/components/Sky";

@@ -1,7 +1,8 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
 import { useGame } from "@/components/Game";
-import { ProfileDialog, avatarUrl } from "@/components/Profile";
+import { ProfileDialog } from "@/components/Profile";
+import Avatar from "@/components/Avatar";
 import { BOARD_GROUPS, decode, boardLabel } from "@/lib/boards";
 import { sfx } from "@/lib/sfx";
 
@@ -55,7 +56,7 @@ export default function RankPage() {
       <div className="panel myprof">
         {S.profile ? (
           <>
-            <img src={avatarUrl(S.profile.avatar)} alt="" />
+            <Avatar avatar={S.profile.avatar} name={S.profile.name} size={56} className="myav" />
             <div><b>{S.profile.name}</b><span>{S.profile.id ? "Kỷ lục tự động được gửi lên bảng xếp hạng" : "Đang chờ server bảng xếp hạng…"}</span></div>
             <button className="gbtn sm" onClick={() => { setEdit(true); sfx.open(); }}><span className="c" />Sửa hồ sơ</button>
           </>
@@ -81,12 +82,12 @@ export default function RankPage() {
         <div className="rlhead"><span>{boardLabel(board)}</span>{data?.count ? <small>{data.count} người chơi</small> : null}</div>
         {!data && <div className="rlempty">Đang tải…</div>}
         {data?.error && <div className="rlempty">Không tải được bảng xếp hạng.</div>}
-        {data && data.configured === false && <div className="rlempty">Bảng xếp hạng chưa được bật trên server (cần kết nối Upstash Redis trong Vercel).</div>}
+        {data && data.configured === false && <div className="rlempty">Bảng xếp hạng chưa được bật trên server (cần cấu hình Supabase trong Vercel).</div>}
         {data?.rows?.length === 0 && <div className="rlempty">Chưa có ai — hãy là người đầu tiên!</div>}
         {data?.rows?.map((r) => (
           <div key={r.id} className={`rrow ${r.id === me ? "me" : ""} ${r.rank <= 3 ? "top" + r.rank : ""}`}>
             <span className="rk">{MEDAL[r.rank - 1] || r.rank}</span>
-            <img src={avatarUrl(r.avatar)} alt="" loading="lazy" />
+            <Avatar avatar={r.avatar} name={r.name} size={40} lazy />
             <span className="nm">{r.name}{r.id === me && <em>Bạn</em>}<Certs c={r.certs} /></span>
             <span className="sc">{fmt(r.score)}</span>
           </div>
@@ -94,7 +95,7 @@ export default function RankPage() {
         {data?.me && !inTop && (
           <div className="rrow me sep">
             <span className="rk">{data.me.rank}</span>
-            <img src={avatarUrl(data.me.avatar)} alt="" />
+            <Avatar avatar={data.me.avatar} name={data.me.name} size={40} />
             <span className="nm">{data.me.name}<em>Bạn</em><Certs c={data.me.certs} /></span>
             <span className="sc">{fmt(data.me.score)}</span>
           </div>

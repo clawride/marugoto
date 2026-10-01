@@ -1,7 +1,8 @@
 import GI from "@/data/genshin.json";
 import { store, auth, sha256 } from "@/lib/store";
+import { ICON_IDS, DEFAULT_ICON } from "@/lib/avatars";
 
-const AVATARS = new Set(GI.characters.map((c) => c.icon));
+const AVATARS = new Set([...GI.characters.map((c) => c.icon), ...ICON_IDS]);
 const NAME_RE = /^[\p{L}\p{N} _.\-]{2,20}$/u;
 
 const bad = (msg, status = 400) => Response.json({ error: msg }, { status });
@@ -14,7 +15,7 @@ export async function POST(req) {
   const body = await req.json().catch(() => ({}));
   const name = cleanName(body.name);
   if (!NAME_RE.test(name)) return bad("Tên cần 2–20 ký tự (chữ, số, khoảng trắng, _ . -)");
-  const avatar = AVATARS.has(body.avatar) ? body.avatar : "Qin";
+  const avatar = AVATARS.has(body.avatar) ? body.avatar : DEFAULT_ICON;
   const id = crypto.randomUUID().replace(/-/g, "").slice(0, 16);
   const token = crypto.randomUUID() + crypto.randomUUID();
   if (!(await store.createProfile({ id, name, avatar, tokenHash: await sha256(token) }))) return bad(TAKEN, 409);

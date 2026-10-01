@@ -5,6 +5,9 @@ import Portal from "@/components/Portal";
 import { CHARS, charIcon, ASSET } from "@/lib/genshin";
 import { entriesOf, overallOf, certsOf } from "@/lib/boards";
 import { sfx } from "@/lib/sfx";
+import Avatar from "@/components/Avatar";
+import { ICON_AVATARS, DEFAULT_ICON } from "@/lib/avatars";
+import { useUITheme, getUITheme } from "@/lib/uiTheme";
 
 const AVATAR_PICKS = ["Qin", "Venti", "Zhongli", "Shougun", "Nahida", "Furina", "Ayaka", "Yae", "Hutao", "Ganyu", "Kazuha", "Klee", "Paimon", "Xiao", "Nilou", "Keqing", "Diluc", "Mona", "Raiden", "Neuvillette", "Arlecchino", "Mavuika", "Kokomi", "Yoimiya"];
 
@@ -19,6 +22,7 @@ export const registerProfile = (name, avatar) => api("/api/profile", "POST", { n
 export const patchProfile = (p, upd) => api("/api/profile", "PATCH", { id: p.id, token: p.token, ...upd });
 
 function AvatarPicker({ value, onChange }) {
+  const ui = useUITheme();
   const list = useMemo(() => {
     const icons = new Set(CHARS.map((c) => c.icon));
     const picks = AVATAR_PICKS.filter((x) => icons.has(x));
@@ -26,7 +30,12 @@ function AvatarPicker({ value, onChange }) {
   }, []);
   return (
     <div className="avpick">
-      {list.map((c) => (
+      {ICON_AVATARS.map((a, i) => (
+        <button key={a.id} type="button" className={value === "i:" + a.id ? "on" : ""} style={{ "--i": i }} onClick={() => { onChange("i:" + a.id); sfx.click(); }} title={a.vi} aria-label={a.vi}>
+          <Avatar avatar={"i:" + a.id} size={44} />
+        </button>
+      ))}
+      {ui !== "plain" && list.map((c) => (
         <button key={c.id} type="button" className={value === c.icon ? "on" : ""} onClick={() => { onChange(c.icon); sfx.click(); }} title={c.vi}>
           <img src={charIcon(c)} alt={c.vi} loading="lazy" />
         </button>
@@ -39,7 +48,7 @@ function AvatarPicker({ value, onChange }) {
 export function ProfileDialog({ mode = "new", onClose }) {
   const { S, update } = useGame();
   const [name, setName] = useState(S?.profile?.name || "");
-  const [avatar, setAvatar] = useState(S?.profile?.avatar || "Qin");
+  const [avatar, setAvatar] = useState(() => S?.profile?.avatar || (getUITheme() === "plain" ? DEFAULT_ICON : "Qin"));
   const [err, setErr] = useState("");
   const [busy, setBusy] = useState(false);
   const submit = async (e) => {
@@ -63,7 +72,7 @@ export function ProfileDialog({ mode = "new", onClose }) {
     <Portal>
       <div className="modal">
         <form className="parch dialog profdlg" onSubmit={submit}>
-          <img className="profav" src={avatarUrl(avatar)} alt="" />
+          <Avatar key={avatar} avatar={avatar} name={name} size={84} className="profav" />
           <h2>{mode === "new" ? "Chào mừng, Nhà Lữ Hành!" : "Hồ Sơ Của Bạn"}</h2>
           <div className="jp">{mode === "new" ? "Chỉ cần một cái tên để lưu kỷ lục và lên bảng xếp hạng" : "Đổi tên hoặc ảnh đại diện"}</div>
           <hr />

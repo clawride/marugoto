@@ -1,0 +1,130 @@
+/* ===== Avatar dạng icon + hiệu ứng chuyển động =====
+   Nạp sau cùng (app/layout.js). Mọi hiệu ứng tắt khi người dùng bật "giảm chuyển động" của hệ điều hành. */
+
+/* — Avatar (components/Avatar.js) — */
+.av{--s:40px;width:var(--s);height:var(--s);border-radius:50%;display:inline-grid;place-items:center;flex:none;overflow:hidden;position:relative;vertical-align:middle;
+  background:linear-gradient(145deg,var(--c1,#e8f0fc),var(--c2,#5b8fd9));box-shadow:inset 0 0 0 2px rgba(255,255,255,.55),0 2px 6px rgba(15,23,42,.14);transition:transform .25s cubic-bezier(.3,1.6,.5,1),box-shadow .25s}
+.av .avi{font-size:calc(var(--s) * .56);line-height:1;filter:drop-shadow(0 1px 1px rgba(15,23,42,.18));font-family:"Noto Color Emoji","Segoe UI Emoji","Apple Color Emoji",sans-serif}
+.av.g{background:#efe6d2}
+.av.g img{width:100%;height:100%;object-fit:cover;display:block;border:0;background:none}
+.av .avf{display:none;font-weight:700;font-size:calc(var(--s) * .46);color:#fff;text-shadow:0 1px 2px rgba(15,23,42,.35);font-family:var(--serif)}
+[data-ui="plain"] .av.g{background:linear-gradient(145deg,var(--c1),var(--c2))}
+[data-ui="plain"] .av .avf{display:block}
+a:hover>.av,.rrow:hover .av,.myprof:hover .av{transform:scale(1.1) rotate(-4deg)}
+.av.profav{--s:84px;border:3px solid #fff;display:grid;margin:-6px auto 8px;box-shadow:0 0 0 2px var(--gold3),0 8px 22px rgba(15,23,42,.22);animation:avPop .5s cubic-bezier(.3,1.6,.5,1)}
+.av.profav .avi{animation:avBob 3.2s ease-in-out infinite}
+.myprof .av{border:0;box-shadow:inset 0 0 0 2px rgba(255,255,255,.7),0 0 0 2px var(--gold),0 4px 12px rgba(15,23,42,.16)}
+.rrow .av{border:0;background-color:transparent}
+.profchip .av{box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.7)}
+
+/* ô chọn avatar */
+.avpick button{background:transparent;padding:3px;border-radius:50%;animation:avPop .45s cubic-bezier(.3,1.6,.5,1) both;animation-delay:calc(var(--i, 0) * 22ms)}
+.avpick button .av{--s:100%;width:100%;height:auto;aspect-ratio:1}
+.avpick button .av .avi{font-size:clamp(18px,3.4vw,24px)}
+.avpick button:hover .av{transform:translateY(-3px) scale(1.08);box-shadow:inset 0 0 0 2px rgba(255,255,255,.7),0 6px 14px rgba(15,23,42,.22)}
+.avpick button.on{box-shadow:none;border-color:var(--pl-accent,var(--gold3))}
+.avpick button.on .av{animation:avSel .45s cubic-bezier(.3,1.6,.5,1)}
+[data-ui="plain"] .avpick{max-height:none;overflow:visible}
+[data-ui="plain"] .avpick button{border-color:transparent}
+[data-ui="plain"] .avpick button.on{border-color:var(--pl-accent);box-shadow:0 0 0 3px var(--pl-accent-2)}
+[data-ui="plain"] .profav{border-color:#fff}
+
+@keyframes avPop{0%{opacity:0;transform:scale(.4) rotate(-12deg)}100%{opacity:1;transform:none}}
+@keyframes avSel{0%{transform:scale(.8)}60%{transform:scale(1.18) rotate(6deg)}100%{transform:scale(1)}}
+@keyframes avBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px) rotate(4deg)}}
+
+/* — Giao diện trắng: nền động nhẹ nhàng — */
+[data-ui="plain"] body{position:relative;isolation:isolate}
+[data-ui="plain"] body:before,[data-ui="plain"] body:after{content:"";position:fixed;z-index:-1;pointer-events:none;border-radius:50%;opacity:.7}
+[data-ui="plain"] body:before{width:46vmax;height:46vmax;left:-14vmax;top:-16vmax;background:radial-gradient(circle,#cfe0ff,rgba(207,224,255,0) 70%);animation:blobA 22s ease-in-out infinite alternate}
+[data-ui="plain"] body:after{width:42vmax;height:42vmax;right:-14vmax;bottom:-18vmax;background:radial-gradient(circle,#ffd9ec,rgba(255,217,236,0) 70%);animation:blobB 26s ease-in-out infinite alternate}
+@keyframes blobA{to{transform:translate(12vmax,10vmax) scale(1.15)}}
+@keyframes blobB{to{transform:translate(-10vmax,-8vmax) scale(1.2)}}
+
+/* — Tiêu đề trang: chữ chuyển màu — */
+[data-ui="plain"] .pagehead h1{background:linear-gradient(100deg,#1d4f9e,#2f6fd1 35%,#7c5cd6 60%,#2f6fd1 85%,#1d4f9e);background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gradSlide 7s linear infinite}
+@keyframes gradSlide{to{background-position:-220% center}}
+.pagehead p{animation:fadeUp .6s .1s both}
+.pagehead .orn{animation:fadeUp .6s .2s both}
+
+/* — Thẻ & khối: vào từng cái một, nổi lên khi rê chuột — */
+.stats .stat,.progrid>.procard,.chips>.chip,.homesec>.a22th{animation:fadeUp .55s cubic-bezier(.2,.7,.2,1) both}
+.stats .stat:nth-child(2),.progrid>:nth-child(2){animation-delay:.06s}
+.stats .stat:nth-child(3),.progrid>:nth-child(3){animation-delay:.12s}
+.stats .stat:nth-child(4),.progrid>:nth-child(4){animation-delay:.18s}
+.progrid>:nth-child(5){animation-delay:.24s}.progrid>:nth-child(6){animation-delay:.3s}
+.progrid>:nth-child(n+7){animation-delay:.36s}
+.chips>.chip:nth-child(2){animation-delay:.04s}.chips>.chip:nth-child(3){animation-delay:.08s}.chips>.chip:nth-child(4){animation-delay:.12s}
+.chips>.chip:nth-child(5){animation-delay:.16s}.chips>.chip:nth-child(n+6){animation-delay:.2s}
+.stat,.procard,.chip,.mnitem,.navbtn,.gbtn,.item{transition:transform .22s cubic-bezier(.3,1.4,.5,1),box-shadow .22s,background-color .2s,border-color .2s,filter .15s}
+.procard:hover,.procard:focus-visible{transform:translateY(-4px) scale(1.012)}
+.stat:hover{transform:translateY(-3px)}
+.chip:hover{transform:translateY(-2px)}
+.navbtn:hover,.mnitem:hover{transform:translateY(-2px)}
+.gbtn:active,.chip:active,.navbtn:active{transform:scale(.96)}
+[data-ui="plain"] .procard:hover{box-shadow:0 12px 28px rgba(47,111,209,.16)}
+[data-ui="plain"] .stat:hover{box-shadow:0 8px 20px rgba(47,111,209,.12)}
+.procard .prostep{transition:transform .3s cubic-bezier(.3,1.6,.5,1)}
+.procard:hover .prostep{transform:scale(1.18) rotate(-8deg)}
+
+/* — Nút chính: ánh sáng lướt qua — */
+[data-ui="plain"] .gbtn:not(.x):not(.dark){position:relative;overflow:hidden}
+[data-ui="plain"] .gbtn:not(.x):not(.dark):before{content:"";position:absolute;top:0;left:-70%;width:45%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-20deg);transition:left .6s}
+[data-ui="plain"] .gbtn:not(.x):not(.dark):hover:before{left:130%}
+
+/* — Thanh đầu trang — */
+.brand svg{transition:transform .5s cubic-bezier(.3,1.6,.5,1)}
+.brand:hover svg{transform:rotate(20deg) scale(1.12)}
+header.top{animation:slideDown .5s cubic-bezier(.2,.7,.2,1) both}
+.mainmenu{transform-origin:top}
+.mnitem{animation:fadeUp .35s both}
+.mnitem:nth-child(2){animation-delay:.04s}.mnitem:nth-child(3){animation-delay:.08s}.mnitem:nth-child(4){animation-delay:.12s}.mnitem:nth-child(n+5){animation-delay:.16s}
+
+/* — Hộp thoại: bật lên kiểu lò xo — */
+.modal{animation:fadeOnly .2s both}
+.modal>.dialog,.modal>.parch,.modal>.panel,.modal>form{animation:dialogIn .38s cubic-bezier(.3,1.4,.5,1) both}
+
+/* — Câu hỏi & đáp án — */
+.opt{transition:transform .2s cubic-bezier(.3,1.4,.5,1),box-shadow .2s,border-color .2s,background-color .2s}
+.opt.ok{animation:okPop .5s cubic-bezier(.3,1.6,.5,1)}
+[data-ui="plain"] .opt.ok{background:#e9f7ef;border-color:var(--ok);box-shadow:0 0 0 2px var(--ok),0 6px 18px rgba(46,139,87,.22)}
+[data-ui="plain"] .opt.bad{background:#fdeeee;border-color:var(--bad)}
+.bar i{transition:width .7s cubic-bezier(.2,.8,.2,1)}
+[data-ui="plain"] .bar i{background:linear-gradient(90deg,#2f6fd1,#6aa0ff,#2f6fd1);background-size:200% 100%;animation:barFlow 2.4s linear infinite}
+.qcard{animation:fadeUp .4s cubic-bezier(.2,.7,.2,1) both}
+
+/* — Bảng xếp hạng — */
+.rrow{animation:slideIn .45s cubic-bezier(.2,.7,.2,1) both}
+.rrow:nth-child(2){animation-delay:.03s}.rrow:nth-child(3){animation-delay:.06s}.rrow:nth-child(4){animation-delay:.09s}.rrow:nth-child(5){animation-delay:.12s}
+.rrow:nth-child(6){animation-delay:.15s}.rrow:nth-child(7){animation-delay:.18s}.rrow:nth-child(8){animation-delay:.21s}.rrow:nth-child(n+9){animation-delay:.24s}
+.rrow{transition:background-color .2s,transform .2s}
+.rrow:hover{transform:translateX(4px);background:rgba(47,111,209,.06)}
+.rrow.top1 .rk,.rrow.top2 .rk,.rrow.top3 .rk{display:inline-block;animation:medalBob 2.6s ease-in-out infinite}
+.rrow.top2 .rk{animation-delay:.3s}.rrow.top3 .rk{animation-delay:.6s}
+.rrow.me{animation:slideIn .45s cubic-bezier(.2,.7,.2,1) both,meGlow 2.2s ease-out .5s 2}
+.myprof{animation:fadeUp .5s both}
+
+/* — Chữ & số — */
+.qn,.stat b{animation:numPop .6s cubic-bezier(.3,1.6,.5,1) both}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes fadeOnly{from{opacity:0}to{opacity:1}}
+@keyframes slideDown{from{opacity:0;transform:translateY(-100%)}to{opacity:1;transform:none}}
+@keyframes slideIn{from{opacity:0;transform:translateX(-18px)}to{opacity:1;transform:none}}
+@keyframes dialogIn{from{opacity:0;transform:translateY(24px) scale(.9)}to{opacity:1;transform:none}}
+@keyframes okPop{0%{transform:scale(.96)}55%{transform:scale(1.04)}100%{transform:scale(1)}}
+@keyframes barFlow{to{background-position:-200% 0}}
+@keyframes medalBob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-3px) rotate(-6deg)}}
+@keyframes meGlow{0%{box-shadow:inset 0 0 0 0 rgba(47,111,209,.0)}30%{box-shadow:inset 0 0 0 999px rgba(47,111,209,.12)}100%{box-shadow:inset 0 0 0 999px rgba(47,111,209,0)}}
+@keyframes numPop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
+
+@media (prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation-duration:.001ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+}
+
+/* — Bảng xếp hạng ở giao diện trắng: chữ dễ đọc — */
+[data-ui="plain"] .rrow .nm em{background:var(--pl-accent);color:#fff}
+[data-ui="plain"] .rrow .sc small,[data-ui="plain"] .rlempty,[data-ui="plain"] .rlhead small{color:var(--mute)}
+[data-ui="plain"] .rrow{border-bottom-color:var(--pl-line)}
+[data-ui="plain"] .rrow.me{background-color:var(--pl-accent-2)}
+[data-ui="plain"] .rlhead{border-bottom-color:var(--pl-line);color:var(--pl-accent)}
