@@ -8,14 +8,11 @@ import { useGame } from "@/components/Game";
 import { Ico } from "@/components/Icons";
 import { sfx } from "@/lib/sfx";
 import Avatar from "@/components/Avatar";
-import { startRainOnGesture, rainEnabled, setRain, onRain } from "@/lib/ambient";
 import { BackupItems } from "@/components/Backup";
 import { GROUPS, programsIn, TEYVAT, progressLabel } from "@/lib/programs";
 
 export default function Header() {
   const { S, toggleSound } = useGame();
-  const [rain, setRainState] = useState(true);
-  useEffect(() => { setRainState(rainEnabled()); startRainOnGesture(); return onRain(setRainState); }, []);
   const [open, setOpen] = useState(false);
   const path = usePathname();
   const panel = useRef(null), btn = useRef(null);
@@ -62,7 +59,6 @@ export default function Header() {
           title={ui === "plain" ? "Chuyển sang giao diện Teyvat (game)" : "Chuyển sang giao diện học tập cơ bản (không ảnh anime)"} aria-label="Đổi giao diện">
           <span aria-hidden="true">{ui === "plain" ? "🎮" : "📘"}</span><span className="lbl">{ui === "plain" ? "Giao diện game" : "Giao diện cơ bản"}</span>
         </button>
-        <button className={`navbtn rainbtn ${rain ? "on" : ""}`} onClick={() => { setRain(!rain); sfx.click(); }} title={rain ? "Tắt nhạc nền tiếng mưa" : "Bật nhạc nền tiếng mưa"} aria-label={rain ? "Tắt nhạc nền tiếng mưa" : "Bật nhạc nền tiếng mưa"} aria-pressed={rain}>{rain ? "🌧️" : "☁️"}</button>
         <button className="navbtn" onClick={toggleSound} title={S?.sound === false ? "Bật âm thanh" : "Tắt âm thanh"} aria-label={S?.sound === false ? "Bật âm thanh" : "Tắt âm thanh"}>{S?.sound === false ? "🔇" : "🔊"}</button>
       </div>
       {open && (

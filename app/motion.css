@@ -163,8 +163,3 @@ header.top{animation:slideDown .5s cubic-bezier(.2,.7,.2,1) both}
 /* chưa đăng nhập: mờ phần còn lại của trang */
 html[data-gate] header.top,html[data-gate] main.wrap{filter:blur(7px);user-select:none;pointer-events:none}
 html[data-gate] .modal{background:rgba(15,23,42,.62)}
-/* nút tiếng mưa */
-.rainbtn{transition:transform .2s,background-color .2s,box-shadow .2s}
-.rainbtn.on{box-shadow:0 0 0 2px rgba(47,111,209,.35)}
-.rainbtn.on span,.rainbtn.on{animation:rainSway 3s ease-in-out infinite}
-@keyframes rainSway{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.5px)}}
