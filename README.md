@@ -33,6 +33,20 @@ Tài khoản (tên đăng nhập + mật khẩu băm scrypt, khóa tạm sau 8 l
 
 Chạy thử trên máy không cần Supabase: `npm run dev` khi chưa có biến môi trường (dùng bộ nhớ tạm), hoặc `LB_MEMORY=1` để luôn dùng bộ nhớ tạm.
 
+## Bài nghe tạo sẵn
+
+Kịch bản đọc (hội thoại bài nghe, đề thi, danh sách từ…) được tạo sẵn bằng VOICEVOX để máy nào cũng nghe được, không phụ thuộc giọng tiếng Nhật của trình duyệt:
+
+```bash
+node --no-warnings scripts/gen-listen.mjs --dry                      # đếm kịch bản
+node --no-warnings scripts/gen-listen.mjs --out D:/listen --max-lines 350   # cần VOICEVOX Engine đang chạy; chạy lại sẽ tiếp tục
+```
+
+- Mỗi kịch bản một file mp3, mục lục `public/listen/index.json` (mã tính bằng `lib/listenKey.js`, dùng chung với trình duyệt).
+- File mp3 đưa lên GitHub Releases `voice-listen-1..n` (mỗi release ≤ 900 file); trang phát qua `/vv/<tag>/<file>` để được cache trên CDN.
+- Kịch bản nào chưa có file thì trang tự dùng giọng của trình duyệt (hoặc VOICEVOX online nếu máy không có giọng Nhật).
+- Đổi nội dung kịch bản hoặc cách phân giọng → chạy lại script để tạo phần mới (file cũ không dùng nữa).
+
 ## Deploy lên Vercel
 
 `vercel.json` đã khai báo framework là Next.js.

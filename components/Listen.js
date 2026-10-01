@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { A21_AUDIO, canPickDir } from "@/lib/audioLib";
 import { speakLines, stopSpeak, ttsAvailable } from "@/lib/tts";
 import { onVoiceStatus } from "@/lib/voicevox";
+import { findClip, warmClip } from "@/lib/listenClip";
 import { TSARITSA } from "@/lib/listenBosses";
 import { MCQ, FillQ } from "@/components/Battle";
 import { sfx } from "@/lib/sfx";
@@ -96,6 +97,9 @@ export function Player({ file, tts, autoPlay = true, onPlayed, lib = A21_AUDIO, 
     return () => off?.();
   }, [file, lib]);
   useEffect(() => onVoiceStatus((s) => setPrep(s.busy > 0)), []);
+  const [pre, setPre] = useState(null); // audio tạo sẵn của kịch bản này (nếu có)
+  useEffect(() => { let alive = true; if (tts?.length) findClip(tts).then((c) => alive && setPre(c)).catch(() => {}); return () => { alive = false; }; }, [tts]);
+  useEffect(() => { if (pre && autoPlay) warmClip(tts); }, [pre]); // eslint-disable-line react-hooks/exhaustive-deps
   const [playing, setPlaying] = useState(false);
   const [plays, setPlays] = useState(0);
   const audio = useRef(null);
@@ -122,13 +126,13 @@ export function Player({ file, tts, autoPlay = true, onPlayed, lib = A21_AUDIO, 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => () => { stopSpeak(); audio.current?.pause(); }, []);
-  const disabled = (mode === "tts" && !ttsAvailable()) || (!playing && plays >= maxPlays);
+  const disabled = (mode === "tts" && !ttsAvailable() && !pre) || (!playing && plays >= maxPlays);
   return (
-    <div className={`player ${playing ? "on" : ""}`}>
+    <div className={`player ${playing ? "on" : ""}`} onPointerEnter={() => pre && warmClip(tts)} onFocus={() => pre && warmClip(tts)}>
       <button className="playbtn" onClick={play} disabled={disabled} aria-label="Phát">{playing ? "❚❚" : "▶"}</button>
       <div className="pl-info">
         <b>{playing ? (prep ? "Đang chuẩn bị giọng đọc…" : "Đang phát…") : plays ? "Nghe lại" : "Bấm để nghe"}</b>
-        <span>{mode === "file" ? `Audio sách · ${file}` : !ttsAvailable() ? "Trình duyệt không hỗ trợ giọng đọc" : "Giọng đọc máy · lời thoại viết lại"}{maxPlays < 99 ? ` · còn ${Math.max(0, maxPlays - plays)} lượt nghe` : ""}</span>
+        <span>{mode === "file" ? `Audio sách · ${file}` : pre ? `Giọng đọc tạo sẵn · VOICEVOX:${pre.voices.join("・")}` : !ttsAvailable() ? "Trình duyệt không hỗ trợ giọng đọc" : "Giọng đọc máy · lời thoại viết lại"}{maxPlays < 99 ? ` · còn ${Math.max(0, maxPlays - plays)} lượt nghe` : ""}</span>
       </div>
       <div className="wave">{Array.from({ length: 14 }, (_, i) => <i key={i} style={{ animationDelay: `${i * 0.07}s` }} />)}</div>
     </div>

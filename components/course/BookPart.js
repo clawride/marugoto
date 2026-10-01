@@ -7,6 +7,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Player, AudioSetup } from "@/components/Listen";
 import { speakLines } from "@/lib/tts";
+import { scriptLines, wordLines, notesLines } from "@/lib/listenSources";
 import { shuffle } from "@/lib/data";
 import { sfx } from "@/lib/sfx";
 
@@ -205,7 +206,7 @@ function Script({ sc, lib, show }) {
         <b>{sc.title && !/^\d+$/.test(sc.title) ? sc.title : sc.no != null ? `Bài nghe ${sc.no}` : "Bài nghe"}{sc.audio ? ` · track ${sc.audio}` : ""}</b>
         <button className="chip sm" onClick={() => setOpen(!open)}>{open ? "Ẩn lời thoại" : "📜 Xem lời thoại"}</button>
       </div>
-      {sc.audio && <Player file={trackKey(sc.audio, prefix)} lib={lib} autoPlay={false} tts={sc.lines.map((l) => ({ t: l.kana || l.jp }))} />}
+      {sc.audio && <Player file={trackKey(sc.audio, prefix)} lib={lib} autoPlay={false} tts={scriptLines(sc)} />}
       {open && sc.note && <p className="bktask">💡 {sc.note}</p>}
       {open && <div className="bkdlg">{sc.lines.map((l, i) => (
         <div key={i} className="bkturn"><span className="bksp jpt">{l.sp}</span><Line {...l} show={show} /></div>
@@ -220,7 +221,6 @@ function Act({ A, lib, show }) {
   const prefix = useContext(Prefix);
   const tracks = tracksOf(A.audio);
   if (Array.isArray(A.words)) A = { ...A, words: { items: A.words } }; // Rikai: words là mảng từ
-  const wordTts = A.words?.items?.map((w) => ({ t: w.jp })) || [];
   // dạng bài tập bấm được: theo kind, hoặc đoán từ câu hỏi (bài đọc có câu ○/×, chọn ngày…)
   const it0 = A.items?.[0];
   const exKind = !it0 ? null : ["match", "fill", "choose", "order"].includes(A.kind) ? A.kind
@@ -253,7 +253,7 @@ function Act({ A, lib, show }) {
       ))}
       {A.fields?.length > 0 && <div className="bkfields">{A.fields.map((f, i) => <span key={i}><b className="jpt">{f.jp}</b>{show.ro && f.ro && <i> {f.ro}</i>}{show.vi && f.vi && <small> · {f.vi}</small>}：<u>　　　　</u></span>)}</div>}
       {tracks.length > 0 && !A.scripts?.length && (
-        <div className="bktracks">{tracks.map((t) => <Player key={t} file={trackKey(t, prefix)} lib={lib} autoPlay={false} tts={wordTts} />)}</div>
+        <div className="bktracks">{tracks.map((t) => <Player key={t} file={trackKey(t, prefix)} lib={lib} autoPlay={false} tts={wordLines(A)} />)}</div>
       )}
       {A.words && (
         <div className="bkwords">
@@ -281,7 +281,7 @@ function Act({ A, lib, show }) {
       {A.frame?.length > 0 && <div className="bkframes jpt">{A.frame.map((l, i) => <div key={i}>{l}</div>)}</div>}
       {A.model?.length > 0 && <div className="bkmodel">{A.model.map((m, i) => <Line key={i} {...m} show={show} />)}</div>}
       {A.text?.length > 0 && <div className="bktext">{A.text.map((t, i) => <Line key={i} {...t} show={show} />)}</div>}
-      {A.notesAudio && <Player file={trackKey(A.notesAudio, prefix)} lib={lib} autoPlay={false} tts={(A.notes || []).map((n) => ({ t: n.jp }))} />}
+      {A.notesAudio && <Player file={trackKey(A.notesAudio, prefix)} lib={lib} autoPlay={false} tts={notesLines(A)} />}
       {A.notes?.length > 0 && <div className="bknotes">{A.notes.map((n, i) => <div key={i} className="bknote"><Line {...n} show={{ ro: show.ro, vi: true }} /></div>)}</div>}
       {A.grammar?.length > 0 && <Grammar list={A.grammar} show={show} />}
       {exKind && <Exercise A={exKind === A.kind ? A : { ...A, kind: exKind }} show={show} />}

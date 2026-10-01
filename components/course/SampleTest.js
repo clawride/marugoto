@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useGame } from "@/components/Game";
 import { Player, AudioSetup } from "@/components/Listen";
 import { speakLines } from "@/lib/tts";
+import { sampleLines } from "@/lib/listenSources";
 import { sfx } from "@/lib/sfx";
 
 const say = (t) => speakLines([{ t }], { rate: 0.9 });
@@ -82,7 +83,7 @@ function Item({ it, v, set, done, show }) {
 }
 
 function Group({ g, v, setV, done, show, same }) {
-  const tts = (g.script || []).map((l) => ({ t: l.kana || l.jp }));
+  const tts = sampleLines(g);
   return (
     <div className="rtgroup">
       <div className="stgh"><span className="stno">問題例 {g.no}</span>{g.tag && <span className="bksub jpt">{g.tag}</span>}{g.part && <b className="jpt"> {g.part}</b>}</div>
