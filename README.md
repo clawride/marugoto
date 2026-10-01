@@ -22,12 +22,14 @@ Thiếu key thì trang tự dùng nguồn dự phòng (Wikimedia, Openverse, nek
 
 ## Bảng xếp hạng (hồ sơ nickname)
 
-Dùng Upstash Redis (miễn phí) qua Vercel Marketplace:
+Dùng Supabase (Postgres, miễn phí):
 
-1. Vercel → Project → **Storage** → **Create Database** → **Upstash for Redis** → Free → Connect vào project
-2. Vercel tự thêm `KV_REST_API_URL` và `KV_REST_API_TOKEN` → **Redeploy**
+1. Supabase → **SQL Editor** → dán và chạy `supabase/migrations/20261001000000_leaderboard.sql` (tạo bảng `profiles`, `scores` và 2 hàm)
+2. Vercel → Settings → Environment Variables: thêm `NEXT_PUBLIC_SUPABASE_URL` và `SUPABASE_SECRET_KEY` (Supabase → Project Settings → API Keys) → **Redeploy**
 
-Chạy thử trên máy không cần Redis: `npm run dev` (dùng bộ nhớ tạm), hoặc `LB_MEMORY=1 npm start` với bản build.
+Chỉ server đọc/ghi dữ liệu bằng secret key (RLS bật, không có policy cho anon). Dữ liệu cũ từ Upstash Redis chép sang bằng workflow **Migrate Upstash to Supabase** (`scripts/migrate-upstash.mjs`).
+
+Chạy thử trên máy không cần Supabase: `npm run dev` khi chưa có biến môi trường (dùng bộ nhớ tạm), hoặc `LB_MEMORY=1` để luôn dùng bộ nhớ tạm.
 
 ## Deploy lên Vercel
 
