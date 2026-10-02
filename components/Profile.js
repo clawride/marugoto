@@ -233,6 +233,7 @@ export function ProfileDialog({ mode = "gate", onClose, onSkip, back }) {
             <button type="submit" className="gbtn tri" disabled={busy}><span className="c" />{busy ? "Đang xử lý…" : edit ? "Lưu" : tab === "login" ? "Đăng nhập" : "Tạo tài khoản"}</button>
           </div>
           {!edit && <p className="hint reqnote">{back ? "Cần đăng nhập để xem bảng xếp hạng và cập nhật điểm, thứ hạng của bạn." : "Bạn vẫn học được khi chưa đăng nhập. Đăng nhập để lưu tiến độ, lên bảng xếp hạng và chat."}</p>}
+          {!edit && <p className="legalnote">Khi tạo tài khoản hoặc đăng nhập, bạn đồng ý với <Link href="/dieu-khoan" target="_blank">Điều khoản</Link> và <Link href="/chinh-sach" target="_blank">Chính sách quyền riêng tư</Link>.</p>}
 
           {edit && p0.username && (
             <div className="profacc">

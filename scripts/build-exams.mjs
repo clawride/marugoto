@@ -21,6 +21,8 @@ const EXPECT = {
   // N2/N1: 2 phần thi (言語知識・読解 · 聴解); 統合理解 3番 có 質問1/質問2 tính 2 câu
   N2: [72, 30], "N2-2010": [75, 32],
   "N1-2010": [70, 37],
+  // đề cũ (khuôn 2003–2009): 文字・語彙 / 聴解 / 読解・文法
+  "kyu-3級": [55, 26, 50], "kyu-2級": [65, 28, 57], "kyu-1級": [65, 30, 59],
 };
 const KINDS = ["jlpt", "kyu"], LEVELS = ["N1", "N2", "N3", "N4", "N5"], KYU = ["1級", "2級", "3級", "4級"];
 
@@ -34,7 +36,7 @@ function checkExam(X) {
   if (!Array.isArray(X.sections) || !X.sections.length) E.push(`thiếu "sections"`);
   const ids = new Set();
   if (X.era && !["2010", "2020"].includes(X.era)) E.push(`"era" phải là "2010" hoặc "2020"`);
-  const exp = !X.mini && X.kind === "jlpt" && EXPECT[X.era === "2010" ? `${X.level}-2010` : X.level];
+  const exp = !X.mini && (X.kind === "jlpt" ? EXPECT[X.era === "2010" ? `${X.level}-2010` : X.level] : EXPECT[`kyu-${X.level}`]);
   if (exp && Array.isArray(X.sections)) {
     const got = X.sections.map((S) => (S.parts || []).reduce((a, P) => a + (P.questions || []).length, 0));
     if (got.length !== exp.length || got.some((n, i) => n !== exp[i])) E.push(`đề ${X.level} đầy đủ phải có ${exp.join(" / ")} câu theo từng phần thi (đang có ${got.join(" / ") || 0})`);
