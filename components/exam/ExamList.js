@@ -7,6 +7,7 @@ import { EXAM_KINDS, EXAM_INDEX, kindById } from "@/lib/exams";
 import { sfx } from "@/lib/sfx";
 import { ReviewCards } from "@/components/exam/ReviewList";
 
+const ERA = { 2020: "Cấu trúc hiện hành (từ 12/2020)", 2010: "Cấu trúc 2010–2020 · nhiều câu hơn" };
 const LEVELS = { jlpt: ["N5", "N4", "N3", "N2", "N1"], kyu: ["4級", "3級", "2級", "1級"] };
 
 function ExamCard({ x, S }) {
@@ -18,6 +19,7 @@ function ExamCard({ x, S }) {
       <div>
         <b>{x.title}</b>
         {x.jp && <small className="jpt">{x.jp}</small>}
+        {x.era && <span className={`exera e${x.era}`}>{x.mini ? "Đề rút gọn" : ERA[x.era]}</span>}
         <p>{x.n} câu · {x.minutes ? `${x.minutes} phút` : "không giới hạn giờ"} · {x.sections.map((s) => s.jp).join(" / ")}</p>
         {x.source && <small>Nguồn: {x.source}</small>}
       </div>

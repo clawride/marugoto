@@ -13,7 +13,12 @@ const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace
 const SRC = path.join(ROOT, "data", "exams");
 const OUT = path.join(ROOT, "public", "exams");
 // số câu chuẩn từng phần thi (đề đầy đủ phải khớp; đề rút gọn khai "mini": true trong meta)
-const EXPECT = { N5: [21, 22, 24], N4: [28, 29, 28], N3: [35, 39, 28] };
+// era "2020" = cấu trúc hiện hành (từ 12/2020) · era "2010" = cấu trúc 2010–2020 (N4/N5 nhiều câu hơn)
+const EXPECT = {
+  N5: [21, 22, 24], "N5-2010": [35, 32, 24],
+  N4: [28, 29, 28], "N4-2010": [35, 35, 28],
+  N3: [35, 39, 28], "N3-2010": [35, 39, 28],
+};
 const KINDS = ["jlpt", "kyu"], LEVELS = ["N1", "N2", "N3", "N4", "N5"], KYU = ["1級", "2級", "3級", "4級"];
 
 function checkExam(X) {
@@ -25,7 +30,8 @@ function checkExam(X) {
   const groups = new Set((X.scoring?.groups || (X.kind === "kyu" ? [{ id: "moji" }, { id: "choukai" }, { id: "dokkai" }] : X.level >= "N4" ? [{ id: "gengo" }, { id: "choukai" }] : [{ id: "gengo" }, { id: "dokkai" }, { id: "choukai" }])).map((g) => g.id));
   if (!Array.isArray(X.sections) || !X.sections.length) E.push(`thiếu "sections"`);
   const ids = new Set();
-  const exp = !X.mini && X.kind === "jlpt" && EXPECT[X.level];
+  if (X.era && !["2010", "2020"].includes(X.era)) E.push(`"era" phải là "2010" hoặc "2020"`);
+  const exp = !X.mini && X.kind === "jlpt" && EXPECT[X.era === "2010" ? `${X.level}-2010` : X.level];
   if (exp && Array.isArray(X.sections)) {
     const got = X.sections.map((S) => (S.parts || []).reduce((a, P) => a + (P.questions || []).length, 0));
     if (got.length !== exp.length || got.some((n, i) => n !== exp[i])) E.push(`đề ${X.level} đầy đủ phải có ${exp.join(" / ")} câu theo từng phần thi (đang có ${got.join(" / ") || 0})`);
@@ -86,7 +92,7 @@ for (const f of entries) {
   if (CHECK) W.forEach((x) => console.log("  ! " + x));
   if (E.length) { bad += E.length; continue; }
   const n = X.sections.reduce((a, S) => a + S.parts.reduce((b, P) => b + P.questions.length, 0), 0);
-  index.push({ id: X.id, kind: X.kind, level: X.level || "", title: X.title, jp: X.jp || "", source: X.source || "", note: X.note || "", order: X.order ?? 0, n,
+  index.push({ id: X.id, kind: X.kind, level: X.level || "", era: X.era || (X.kind === "jlpt" ? "2020" : ""), mini: !!X.mini, title: X.title, jp: X.jp || "", source: X.source || "", note: X.note || "", order: X.order ?? 0, n,
     minutes: X.sections.reduce((a, S) => a + (S.minutes || 0), 0), sections: X.sections.map((S) => ({ jp: S.jp, minutes: S.minutes || 0, n: S.parts.reduce((b, P) => b + P.questions.length, 0) })) });
   if (!CHECK) fs.writeFileSync(path.join(OUT, `${X.id}.json`), JSON.stringify(X));
 }
