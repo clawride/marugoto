@@ -41,8 +41,10 @@ export function checkSentence(s, where, E, W) {
   if (joined !== s.jp) E.push(`${where}: nối từ ≠ câu\n      jp:   ${s.jp}\n      nối:  ${joined}`);
   let roAll = "";
   // trợ từ は trong では/には/とは… phải phiên âm "wa" (không phải "deha", "niha"…)
-  const BAD_WA = /\b(de|ni|to|e|kara|made|yori|no)ha\b/i;
+  const BAD_WA = /\b(de|ni|to|e|kara|made|yori|no|jitsu|konnichi|konban|mata|arui)ha\b/i;
   if (BAD_WA.test(s.ro || "")) W.push(`${where}: romaji "${(s.ro.match(BAD_WA) || [])[0]}" — trợ từ は đọc "wa"`);
+  // từ kết thúc bằng trợ từ は (実は, こんにちは, または, あるいは…) cũng đọc "wa"
+  s.words.forEach((t) => { if (t.ro && /..*は$/.test(t.w || "") && /ha$/i.test(t.ro.trim())) W.push(`${where} "${t.w}": romaji "${t.ro}" — は cuối từ đọc "wa"`); });
   s.words.forEach((t) => { if (t.ro && BAD_WA.test(t.ro) && /は/.test(t.w || "")) W.push(`${where} "${t.w}": romaji "${t.ro}" — trợ từ は đọc "wa"`); });
   s.words.forEach((t, i) => {
     const at = `${where}.words[${i}] "${t.w}"`;
