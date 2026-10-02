@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useGame } from "@/components/Game";
-import { bookById } from "@/lib/library";
+import { bookById, lessonName } from "@/lib/library";
 import { sfx } from "@/lib/sfx";
 
 export default function BookPage() {
@@ -35,11 +35,11 @@ export default function BookPage() {
       </section>
 
       <section className="homesec">
-        <h2 className="a22th"><span>15 bài hội thoại</span> <small>Theo tiến trình một dự án phần mềm</small></h2>
+        <h2 className="a22th"><span>{B.lessonsHead || `${B.lessons.length} bài`}</span> <small>{B.lessonsSub || ""}</small></h2>
         <div className="lblessons">
           {B.lessons.map((l) => (
             <Link key={l.n} href={`/thu-vien/${B.id}/${l.n}`} className={`panel lbles ${done[l.n] ? "done" : ""}`} onClick={() => sfx.page()}>
-              <span className="lblesn">第{l.n}課</span>
+              <span className="lblesn">{lessonName(B, l.n)}</span>
               <div>
                 <b className="jpt">{l.jp}</b>
                 <small>{l.vi}</small>

@@ -23,9 +23,9 @@ export default function LibraryHome() {
         {LIBRARY.map((b) => {
           const read = Object.keys(S?.lib?.[b.id] || {}).length;
           return (
-            <Link key={b.id} href={`/thu-vien/${b.id}`} className="panel lbbook" style={{ "--c": b.color }} onClick={() => sfx.page()}>
+            <Link key={b.id} href={`/thu-vien/${b.id}`} className="panel lbbook" style={{ "--c": b.color, "--cv1": b.cover?.c1, "--cv2": b.cover?.c2 }} onClick={() => sfx.page()}>
               <div className="lbcover" aria-hidden="true">
-                <b>IT</b><span className="jpt">の日本語</span><em>{b.level.split(" ")[0]}</em><small className="jpt">会話編</small>
+                <b>IT</b><span className="jpt">の日本語</span>{b.cover?.badge && <em>{b.cover.badge}</em>}{b.cover?.sub && <small className="jpt">{b.cover.sub}</small>}
               </div>
               <div className="lbbtxt">
                 <div className="lbblv">{b.level} · {b.lessons.length} bài</div>

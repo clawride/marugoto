@@ -1,0 +1,2918 @@
+{
+  "n": 10,
+  "scene": "Trong lúc phát triển SuperTrans, một màn hình đang làm dở bị Google tìm thấy và hiện trên kết quả tìm kiếm, vì khi debug có người đã mở cổng 80 của máy chủ ra internet. DKH tổ chức buổi họp báo cáo sự cố với KMS: trình bày diễn biến, nguyên nhân gốc, các biện pháp đã làm và biện pháp phòng tái diễn. Kuroda nhắc rằng nếu chuyện này lặp lại thì có thể phải xem lại hợp đồng; phía DKH chính thức xin lỗi.",
+  "people": [
+    {
+      "name": "斎藤",
+      "ro": "Saitoo",
+      "role": "PM phía khách hàng KMS, chủ trì buổi nghe báo cáo sự cố"
+    },
+    {
+      "name": "黒田",
+      "ro": "Kuroda",
+      "role": "Tổng phụ trách dự án, trưởng phòng IT của KMS; cảnh báo về hậu quả nếu sự cố tái diễn"
+    },
+    {
+      "name": "アン",
+      "ro": "An",
+      "role": "PM của DKH, trình bày diễn biến, nguyên nhân và biện pháp"
+    },
+    {
+      "name": "ガー",
+      "ro": "Gaa",
+      "role": "Người chịu trách nhiệm phát triển offshore của DKH, đại diện công ty xin lỗi chính thức"
+    }
+  ],
+  "goals": [
+    "Giải thích được ba yếu tố của bảo mật thông tin (機密性・完全性・可用性) và các biện pháp bảo mật cơ bản trong dự án phần mềm.",
+    "Hiểu điểm khác nhau về bảo mật giữa cloud và on-premise, và bố cục của một báo cáo sự cố.",
+    "Báo cáo sự cố bảo mật bằng tiếng Nhật: diễn biến, nguyên nhân, biện pháp và lời xin lỗi chính thức."
+  ],
+  "know": [
+    "Bảo mật thông tin thường được tóm lại bằng ba chữ CIA. 機密性 (Confidentiality): chỉ người được phép mới xem được dữ liệu. 完全性 (Integrity): dữ liệu không bị sửa, xóa trái phép hay sai lệch. 可用性 (Availability): người dùng hợp lệ dùng được hệ thống khi cần. Một sự cố có thể làm hỏng cả ba: ví dụ bị mã độc tống tiền vừa làm lộ dữ liệu, vừa mã hóa mất dữ liệu, vừa làm dừng dịch vụ. Khi viết tài liệu thiết kế hay trả lời khách, hãy nói rõ biện pháp của mình đang bảo vệ yếu tố nào.",
+    "Trong dự án offshore, biện pháp bảo mật gồm hai lớp. Lớp kỹ thuật: phần mềm diệt virus, xác thực hai bước, mã hóa dữ liệu khi lưu và khi truyền, phân quyền tối thiểu, ghi log và phân tích log, kiểm thử xâm nhập (pentest) trước khi phát hành. Lớp quản lý: quy định nội bộ theo chuẩn ISMS (ISO/IEC 27001), xét duyệt khi cấp quyền, đào tạo định kỳ, ký NDA, kiểm toán. Khách Nhật thường gửi bảng câu hỏi bảo mật (セキュリティチェックシート) trước khi ký hợp đồng và có thể đến kiểm tra văn phòng. Hậu quả của rò rỉ thông tin rất nặng: mất uy tín, phải bồi thường thiệt hại, mất hợp đồng, thậm chí công ty nhỏ có thể phá sản.",
+    "Với cloud, nhà cung cấp lo phần hạ tầng vật lý, còn cấu hình (mở cổng nào, bucket nào công khai, ai có quyền gì) vẫn là trách nhiệm của đội dự án — đây là nguồn sự cố phổ biến nhất. Vì vậy cần phân loại tài sản thông tin theo mức độ quan trọng, phân quyền theo vai trò, viết ứng dụng an toàn ngay từ đầu (chống SQL injection, XSS…), pentest định kỳ, và khi làm từ xa thì dùng VDI để dữ liệu không nằm trên máy cá nhân. Môi trường dev và staging cũng phải được bảo vệ như production: tối thiểu là giới hạn IP hoặc có xác thực.",
+    "Khi có sự cố, báo cáo cho khách thường theo bố cục cố định: 概要 (tóm tắt), 経緯 (diễn biến theo dòng thời gian), 原因 (nguyên nhân trực tiếp và nguyên nhân gốc), 実施済みの対策 (biện pháp đã làm), 再発防止策 (biện pháp phòng tái diễn). Nguyên nhân gốc không nên dừng ở 'người A làm sai' mà phải trả lời 'vì sao quy trình cho phép sai sót đó xảy ra mà không ai phát hiện'. Biện pháp phòng tái diễn nên là cơ chế (tự động kiểm tra, checklist, review chéo), không chỉ là 'sẽ chú ý hơn'."
+  ],
+  "terms": [
+    {
+      "w": "機密性・完全性・可用性",
+      "r": "きみつせい・かんぜんせい・かようせい",
+      "ro": "kimitsusei, kanzensei, kayoosei",
+      "en": "confidentiality, integrity, availability (CIA)",
+      "vi": "Ba yếu tố cốt lõi của bảo mật thông tin: giữ bí mật, giữ đúng và đủ, luôn dùng được. Ví dụ: mã hóa ổ đĩa bảo vệ 機密性, chữ ký số bảo vệ 完全性, máy chủ dự phòng bảo vệ 可用性."
+    },
+    {
+      "w": "脆弱性",
+      "r": "ぜいじゃくせい",
+      "ro": "zeijakusei",
+      "en": "vulnerability",
+      "vi": "Điểm yếu trong phần mềm hoặc cấu hình mà kẻ tấn công có thể lợi dụng. Ví dụ: thư viện cũ có lỗ hổng đã công bố, form nhập liệu không chống SQL injection."
+    },
+    {
+      "w": "ペネトレーションテスト",
+      "r": "",
+      "ro": "penetoreeshon tesuto",
+      "en": "penetration test",
+      "vi": "Kiểm thử xâm nhập: chuyên gia đóng vai kẻ tấn công để thử đột nhập hệ thống, từ đó tìm ra lỗ hổng trước khi phát hành. Thường làm trước khi go-live và định kỳ hằng năm."
+    },
+    {
+      "w": "インシデント",
+      "r": "",
+      "ro": "inshidento",
+      "en": "incident",
+      "vi": "Sự cố ảnh hưởng (hoặc có thể ảnh hưởng) tới an toàn thông tin hay hoạt động của dịch vụ: rò rỉ dữ liệu, truy cập trái phép, mất máy tính… Cần báo cáo ngay theo quy trình đã thống nhất với khách."
+    },
+    {
+      "w": "再発防止策",
+      "r": "さいはつぼうしさく",
+      "ro": "saihatsu booshisaku",
+      "en": "preventive measures",
+      "vi": "Biện pháp để sự cố tương tự không xảy ra lần nữa, nhắm vào nguyên nhân gốc. Khác với 暫定対応 (xử lý tạm thời) chỉ để dập sự cố trước mắt."
+    },
+    {
+      "w": "VDI",
+      "r": "",
+      "ro": "bui dii ai",
+      "en": "Virtual Desktop Infrastructure",
+      "vi": "Hạ tầng máy tính ảo: người dùng điều khiển một máy ảo đặt trên máy chủ công ty, dữ liệu không lưu xuống máy cá nhân. Hay dùng khi làm việc từ xa với dữ liệu của khách."
+    },
+    {
+      "w": "オンプレミス",
+      "r": "",
+      "ro": "onpuremisu",
+      "en": "on-premises",
+      "vi": "Hình thức tự đặt máy chủ và vận hành hệ thống trong cơ sở của công ty, đối lập với cloud. Tự kiểm soát toàn bộ nhưng cũng tự chịu toàn bộ trách nhiệm bảo mật vật lý và hạ tầng."
+    }
+  ],
+  "grammar": [
+    {
+      "no": 1,
+      "p": "チーム一同深く反省しております。",
+      "ro": "Chiimu ichidoo fukaku hansei shite orimasu.",
+      "vi": "Toàn thể đội chúng tôi xin nhận lỗi và kiểm điểm sâu sắc.",
+      "form": "(tên nhóm / công ty / dự án) + 一同 + 深く反省しております",
+      "use": "Câu xin lỗi chính thức khi đội mình gây ra sự cố cho khách: cho thấy cả nhóm cùng nhận trách nhiệm, không đổ lỗi cho một cá nhân.",
+      "notes": [
+        "一同 = toàn thể thành viên; hay gặp trong 社員一同, スタッフ一同, 開発チーム一同.",
+        "Thường đi cùng câu xin lỗi trực tiếp: ご迷惑をおかけし、誠に申し訳ございません。",
+        "反省しております nặng hơn すみませんでした rất nhiều; dùng cho lỗi nghiêm trọng và nên kèm ngay biện pháp cụ thể."
+      ],
+      "ex": [
+        {
+          "jp": "テスト環境に本番データを置いたまま公開してしまい、開発チーム一同深く反省しております。",
+          "ro": "Tesuto kankyoo ni honban deeta o oita mama kookai shite shimai, kaihatsu chiimu ichidoo fukaku hansei shite orimasu.",
+          "vi": "Chúng tôi đã để nguyên dữ liệu thật trên môi trường test rồi lỡ công khai ra ngoài; toàn thể đội phát triển xin kiểm điểm sâu sắc.",
+          "pt": "〜たまま = vẫn để nguyên trạng thái; 〜てしまい (thể nối của てしまう) chỉ việc đáng tiếc. Vế sau là câu xin lỗi chính thức với 一同 và おります (khiêm nhường ngữ).",
+          "words": [
+            {
+              "w": "テスト",
+              "ro": "tesuto",
+              "pos": "danh từ",
+              "vi": "kiểm thử (test)"
+            },
+            {
+              "w": "環境",
+              "r": "かんきょう",
+              "ro": "kankyoo",
+              "pos": "danh từ",
+              "vi": "môi trường"
+            },
+            {
+              "w": "に",
+              "ro": "ni",
+              "pos": "trợ từ",
+              "vi": "chỉ nơi chốn"
+            },
+            {
+              "w": "本番",
+              "r": "ほんばん",
+              "ro": "honban",
+              "pos": "danh từ",
+              "vi": "thật, production"
+            },
+            {
+              "w": "データ",
+              "ro": "deeta",
+              "pos": "danh từ",
+              "vi": "dữ liệu"
+            },
+            {
+              "w": "を",
+              "ro": "o",
+              "pos": "trợ từ",
+              "vi": "chỉ đối tượng"
+            },
+            {
+              "w": "置いた",
+              "r": "おいた",
+              "ro": "oita",
+              "pos": "động từ",
+              "base": "置く",
+              "vi": "đặt, để"
+            },
+            {
+              "w": "まま",
+              "ro": "mama",
+              "pos": "danh từ",
+              "vi": "vẫn giữ nguyên trạng thái"
+            },
+            {
+              "w": "公開して",
+              "r": "こうかいして",
+              "ro": "kookai shite",
+              "pos": "động từ",
+              "base": "公開する",
+              "vi": "công khai"
+            },
+            {
+              "w": "しまい",
+              "ro": "shimai",
+              "pos": "động từ",
+              "base": "しまう",
+              "vi": "lỡ (làm điều đáng tiếc), thể nối"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "開発",
+              "r": "かいはつ",
+              "ro": "kaihatsu",
+              "pos": "danh từ",
+              "vi": "phát triển"
+            },
+            {
+              "w": "チーム",
+              "ro": "chiimu",
+              "pos": "danh từ",
+              "vi": "đội, nhóm"
+            },
+            {
+              "w": "一同",
+              "r": "いちどう",
+              "ro": "ichidoo",
+              "pos": "danh từ",
+              "vi": "toàn thể"
+            },
+            {
+              "w": "深く",
+              "r": "ふかく",
+              "ro": "fukaku",
+              "pos": "phó từ",
+              "base": "深い",
+              "vi": "sâu sắc"
+            },
+            {
+              "w": "反省して",
+              "r": "はんせいして",
+              "ro": "hansei shite",
+              "pos": "động từ",
+              "base": "反省する",
+              "vi": "kiểm điểm, nhận lỗi"
+            },
+            {
+              "w": "おります",
+              "ro": "orimasu",
+              "pos": "động từ",
+              "base": "おる",
+              "vi": "(khiêm nhường ngữ 謙譲語 của います)"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        },
+        {
+          "jp": "パスワードが書かれたファイルを誤って共有したことについて、プロジェクトメンバー一同深く反省しております。",
+          "ro": "Pasuwaado ga kakareta fairu o ayamatte kyooyuu shita koto ni tsuite, purojekuto menbaa ichidoo fukaku hansei shite orimasu.",
+          "vi": "Về việc đã chia sẻ nhầm tệp có ghi mật khẩu, toàn thể thành viên dự án xin kiểm điểm sâu sắc.",
+          "pt": "〜ことについて nêu rõ lỗi mình đang xin lỗi; chủ ngữ プロジェクトメンバー一同 cho thấy cả dự án cùng nhận trách nhiệm.",
+          "words": [
+            {
+              "w": "パスワード",
+              "ro": "pasuwaado",
+              "pos": "danh từ",
+              "vi": "mật khẩu"
+            },
+            {
+              "w": "が",
+              "ro": "ga",
+              "pos": "trợ từ",
+              "vi": "chỉ chủ ngữ trong mệnh đề bổ nghĩa"
+            },
+            {
+              "w": "書かれた",
+              "r": "かかれた",
+              "ro": "kakareta",
+              "pos": "động từ",
+              "base": "書く",
+              "vi": "được viết (thể bị động)"
+            },
+            {
+              "w": "ファイル",
+              "ro": "fairu",
+              "pos": "danh từ",
+              "vi": "tệp (file)"
+            },
+            {
+              "w": "を",
+              "ro": "o",
+              "pos": "trợ từ",
+              "vi": "chỉ đối tượng"
+            },
+            {
+              "w": "誤って",
+              "r": "あやまって",
+              "ro": "ayamatte",
+              "pos": "phó từ",
+              "base": "誤る",
+              "vi": "do nhầm lẫn"
+            },
+            {
+              "w": "共有した",
+              "r": "きょうゆうした",
+              "ro": "kyooyuu shita",
+              "pos": "động từ",
+              "base": "共有する",
+              "vi": "đã chia sẻ"
+            },
+            {
+              "w": "こと",
+              "ro": "koto",
+              "pos": "danh từ",
+              "vi": "việc"
+            },
+            {
+              "w": "について",
+              "ro": "ni tsuite",
+              "pos": "trợ từ",
+              "vi": "về"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "プロジェクト",
+              "ro": "purojekuto",
+              "pos": "danh từ",
+              "vi": "dự án"
+            },
+            {
+              "w": "メンバー",
+              "ro": "menbaa",
+              "pos": "danh từ",
+              "vi": "thành viên"
+            },
+            {
+              "w": "一同",
+              "r": "いちどう",
+              "ro": "ichidoo",
+              "pos": "danh từ",
+              "vi": "toàn thể"
+            },
+            {
+              "w": "深く",
+              "r": "ふかく",
+              "ro": "fukaku",
+              "pos": "phó từ",
+              "base": "深い",
+              "vi": "sâu sắc"
+            },
+            {
+              "w": "反省して",
+              "r": "はんせいして",
+              "ro": "hansei shite",
+              "pos": "động từ",
+              "base": "反省する",
+              "vi": "kiểm điểm"
+            },
+            {
+              "w": "おります",
+              "ro": "orimasu",
+              "pos": "động từ",
+              "base": "おる",
+              "vi": "(khiêm nhường ngữ của います)"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "no": 2,
+      "p": "〇〇のもとに〇〇する",
+      "ro": "〇〇 no moto ni 〇〇 suru",
+      "vi": "Làm 〇〇 dưới (theo) 〇〇 — quy định, sự quản lý, sự đồng ý…",
+      "form": "Danh từ (規程・ルール・管理・承認・合意…) + のもとに / のもとで + động từ",
+      "use": "Nói một hành động được làm trong khuôn khổ một quy định, sự giám sát hay sự cho phép của ai đó. Văn phong trang trọng, hợp với báo cáo, biện pháp phòng tái diễn và hợp đồng.",
+      "notes": [
+        "もと có thể viết bằng chữ Hán 下 hoặc 元 (〜の下に, 〜の元に); trong tài liệu IT thường viết kana.",
+        "のもとで nhấn vào môi trường, hoàn cảnh; のもとに nhấn vào căn cứ, điều kiện. Trong hội thoại hai cách gần như thay được cho nhau."
+      ],
+      "ex": [
+        {
+          "jp": "今後は、社内のセキュリティ規程のもとに、すべてのサーバの設定を管理いたします。",
+          "ro": "Kongo wa, shanai no sekyuriti kitei no moto ni, subete no saaba no settei o kanri itashimasu.",
+          "vi": "Từ nay, chúng tôi sẽ quản lý cấu hình của tất cả máy chủ theo quy chế bảo mật của công ty.",
+          "pt": "セキュリティ規程のもとに = lấy quy chế làm căn cứ. 管理いたします là khiêm nhường ngữ, hợp khi trình bày biện pháp với khách.",
+          "words": [
+            {
+              "w": "今後",
+              "r": "こんご",
+              "ro": "kongo",
+              "pos": "danh từ",
+              "vi": "từ nay về sau"
+            },
+            {
+              "w": "は",
+              "ro": "wa",
+              "pos": "trợ từ",
+              "vi": "chủ đề"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "社内",
+              "r": "しゃない",
+              "ro": "shanai",
+              "pos": "danh từ",
+              "vi": "trong công ty"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "của"
+            },
+            {
+              "w": "セキュリティ",
+              "ro": "sekyuriti",
+              "pos": "danh từ",
+              "vi": "bảo mật (security)"
+            },
+            {
+              "w": "規程",
+              "r": "きてい",
+              "ro": "kitei",
+              "pos": "danh từ",
+              "vi": "quy chế, quy định"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "nối danh từ với もと"
+            },
+            {
+              "w": "もとに",
+              "ro": "moto ni",
+              "pos": "cụm cố định",
+              "vi": "dưới, dựa theo"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "すべて",
+              "ro": "subete",
+              "pos": "danh từ",
+              "vi": "tất cả"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "của"
+            },
+            {
+              "w": "サーバ",
+              "ro": "saaba",
+              "pos": "danh từ",
+              "vi": "máy chủ (server)"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "của"
+            },
+            {
+              "w": "設定",
+              "r": "せってい",
+              "ro": "settei",
+              "pos": "danh từ",
+              "vi": "cấu hình, cài đặt"
+            },
+            {
+              "w": "を",
+              "ro": "o",
+              "pos": "trợ từ",
+              "vi": "chỉ đối tượng"
+            },
+            {
+              "w": "管理いたします",
+              "r": "かんりいたします",
+              "ro": "kanri itashimasu",
+              "pos": "động từ",
+              "base": "管理する",
+              "vi": "quản lý (khiêm nhường ngữ 謙譲語 của 管理します)"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        },
+        {
+          "jp": "本番データへのアクセスは、責任者の承認のもとに行うことになっています。",
+          "ro": "Honban deeta e no akusesu wa, sekininsha no shoonin no moto ni okonau koto ni natte imasu.",
+          "vi": "Việc truy cập dữ liệu production được quy định là chỉ thực hiện khi có sự phê duyệt của người chịu trách nhiệm.",
+          "pt": "承認のもとに = trong điều kiện đã được phê duyệt. へのアクセス: へ + の để bổ nghĩa cho danh từ. 〜ことになっています nói về quy định đã có.",
+          "words": [
+            {
+              "w": "本番",
+              "r": "ほんばん",
+              "ro": "honban",
+              "pos": "danh từ",
+              "vi": "production, môi trường thật"
+            },
+            {
+              "w": "データ",
+              "ro": "deeta",
+              "pos": "danh từ",
+              "vi": "dữ liệu"
+            },
+            {
+              "w": "へ",
+              "ro": "e",
+              "pos": "trợ từ",
+              "vi": "hướng tới"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "của"
+            },
+            {
+              "w": "アクセス",
+              "ro": "akusesu",
+              "pos": "danh từ",
+              "vi": "truy cập"
+            },
+            {
+              "w": "は",
+              "ro": "wa",
+              "pos": "trợ từ",
+              "vi": "chủ đề"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "責任者",
+              "r": "せきにんしゃ",
+              "ro": "sekininsha",
+              "pos": "danh từ",
+              "vi": "người chịu trách nhiệm"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "của"
+            },
+            {
+              "w": "承認",
+              "r": "しょうにん",
+              "ro": "shoonin",
+              "pos": "danh từ",
+              "vi": "sự phê duyệt"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "nối danh từ với もと"
+            },
+            {
+              "w": "もとに",
+              "ro": "moto ni",
+              "pos": "cụm cố định",
+              "vi": "với điều kiện có, dưới"
+            },
+            {
+              "w": "行う",
+              "r": "おこなう",
+              "ro": "okonau",
+              "pos": "động từ",
+              "vi": "thực hiện"
+            },
+            {
+              "w": "ことになっています",
+              "ro": "koto ni natte imasu",
+              "pos": "cụm cố định",
+              "vi": "theo quy định là"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "no": 3,
+      "p": "〇〇は、〇〇が招いたことです。",
+      "ro": "〇〇 wa, 〇〇 ga maneita koto desu.",
+      "vi": "〇〇 là do 〇〇 gây ra.",
+      "form": "Kết quả xấu + は、+ nguyên nhân (danh từ / động từ + こと) + が招いたことです",
+      "use": "Thừa nhận nguyên nhân của một kết quả không tốt. Trong báo cáo sự cố, dùng để nhận phần trách nhiệm về phía mình một cách rõ ràng.",
+      "notes": [
+        "招く nghĩa gốc là 'mời', nhưng còn nghĩa 'dẫn đến, gây ra (kết quả xấu)': 誤解を招く, 混乱を招く, 事故を招く.",
+        "Biến thể: 〜が招いた結果です。 Khi nói về người khác nên tránh vì nghe như buộc tội."
+      ],
+      "ex": [
+        {
+          "jp": "今回の情報漏洩は、私たちの確認不足が招いたことです。",
+          "ro": "Konkai no joohoo rooei wa, watashitachi no kakunin busoku ga maneita koto desu.",
+          "vi": "Vụ rò rỉ thông tin lần này là do chúng tôi kiểm tra chưa kỹ gây ra.",
+          "pt": "Chủ đề là kết quả xấu (情報漏洩), chủ ngữ của 招いた là nguyên nhân (確認不足). Người nói tự nhận nguyên nhân thuộc về mình.",
+          "words": [
+            {
+              "w": "今回",
+              "r": "こんかい",
+              "ro": "konkai",
+              "pos": "danh từ",
+              "vi": "lần này"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "của"
+            },
+            {
+              "w": "情報漏洩",
+              "r": "じょうほうろうえい",
+              "ro": "joohoo rooei",
+              "pos": "danh từ",
+              "vi": "rò rỉ thông tin"
+            },
+            {
+              "w": "は",
+              "ro": "wa",
+              "pos": "trợ từ",
+              "vi": "chủ đề"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "私たち",
+              "r": "わたしたち",
+              "ro": "watashitachi",
+              "pos": "đại từ",
+              "vi": "chúng tôi"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "của"
+            },
+            {
+              "w": "確認不足",
+              "r": "かくにんぶそく",
+              "ro": "kakunin busoku",
+              "pos": "danh từ",
+              "vi": "sự thiếu kiểm tra"
+            },
+            {
+              "w": "が",
+              "ro": "ga",
+              "pos": "trợ từ",
+              "vi": "chỉ chủ ngữ"
+            },
+            {
+              "w": "招いた",
+              "r": "まねいた",
+              "ro": "maneita",
+              "pos": "động từ",
+              "base": "招く",
+              "vi": "đã gây ra"
+            },
+            {
+              "w": "こと",
+              "ro": "koto",
+              "pos": "danh từ",
+              "vi": "điều, việc"
+            },
+            {
+              "w": "です",
+              "ro": "desu",
+              "pos": "trợ động từ",
+              "vi": "là"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        },
+        {
+          "jp": "昨夜のサービス停止は、手順書を確認せずに作業した私の判断ミスが招いたことです。",
+          "ro": "Sakuya no saabisu teishi wa, tejunsho o kakunin sezu ni sagyoo shita watashi no handan misu ga maneita koto desu.",
+          "vi": "Việc dịch vụ ngừng hoạt động đêm qua là do tôi phán đoán sai, đã thao tác mà không kiểm tra tài liệu quy trình.",
+          "pt": "〜せずに là cách nói trang trọng của 〜しないで. Mệnh đề 手順書を確認せずに作業した bổ nghĩa cho 私, nêu cụ thể sai sót.",
+          "words": [
+            {
+              "w": "昨夜",
+              "r": "さくや",
+              "ro": "sakuya",
+              "pos": "danh từ",
+              "vi": "đêm qua"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "của"
+            },
+            {
+              "w": "サービス",
+              "ro": "saabisu",
+              "pos": "danh từ",
+              "vi": "dịch vụ"
+            },
+            {
+              "w": "停止",
+              "r": "ていし",
+              "ro": "teishi",
+              "pos": "danh từ",
+              "vi": "sự ngừng hoạt động"
+            },
+            {
+              "w": "は",
+              "ro": "wa",
+              "pos": "trợ từ",
+              "vi": "chủ đề"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "手順書",
+              "r": "てじゅんしょ",
+              "ro": "tejunsho",
+              "pos": "danh từ",
+              "vi": "tài liệu quy trình thao tác"
+            },
+            {
+              "w": "を",
+              "ro": "o",
+              "pos": "trợ từ",
+              "vi": "chỉ đối tượng"
+            },
+            {
+              "w": "確認せず",
+              "r": "かくにんせず",
+              "ro": "kakunin sezu",
+              "pos": "động từ",
+              "base": "確認する",
+              "vi": "không kiểm tra (văn viết của 確認しないで)"
+            },
+            {
+              "w": "に",
+              "ro": "ni",
+              "pos": "trợ từ",
+              "vi": "(せずに = mà không)"
+            },
+            {
+              "w": "作業した",
+              "r": "さぎょうした",
+              "ro": "sagyoo shita",
+              "pos": "động từ",
+              "base": "作業する",
+              "vi": "đã thao tác"
+            },
+            {
+              "w": "私",
+              "r": "わたし",
+              "ro": "watashi",
+              "pos": "đại từ",
+              "vi": "tôi"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "của"
+            },
+            {
+              "w": "判断",
+              "r": "はんだん",
+              "ro": "handan",
+              "pos": "danh từ",
+              "vi": "phán đoán"
+            },
+            {
+              "w": "ミス",
+              "ro": "misu",
+              "pos": "danh từ",
+              "vi": "sai sót"
+            },
+            {
+              "w": "が",
+              "ro": "ga",
+              "pos": "trợ từ",
+              "vi": "chỉ chủ ngữ"
+            },
+            {
+              "w": "招いた",
+              "r": "まねいた",
+              "ro": "maneita",
+              "pos": "động từ",
+              "base": "招く",
+              "vi": "đã gây ra"
+            },
+            {
+              "w": "こと",
+              "ro": "koto",
+              "pos": "danh từ",
+              "vi": "điều"
+            },
+            {
+              "w": "です",
+              "ro": "desu",
+              "pos": "trợ động từ",
+              "vi": "là"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "no": 4,
+      "p": "〇〇可能性もなきにしもあらずです。",
+      "ro": "〇〇 kanoosei mo naki ni shi mo arazu desu.",
+      "vi": "Không loại trừ khả năng 〇〇 (không phải là hoàn toàn không có khả năng 〇〇).",
+      "form": "Động từ thể thường / danh từ + の + 可能性もなきにしもあらず(です)",
+      "use": "Nói dè dặt rằng khả năng tuy nhỏ nhưng vẫn có. Hay dùng khi điều tra chưa xong, không muốn khẳng định nhưng cũng không dám phủ nhận hoàn toàn.",
+      "notes": [
+        "Cách nói gốc văn cổ, nghĩa như 〜ないわけではない; nghe trang trọng và hơi cứng.",
+        "Trong báo cáo sự cố nên nối với hành động: 〜可能性もなきにしもあらずですので、念のため〜いたします。"
+      ],
+      "ex": [
+        {
+          "jp": "古いライブラリを使い続けると、攻撃者に狙われる可能性もなきにしもあらずです。",
+          "ro": "Furui raiburari o tsukaitsuzukeru to, koogekisha ni nerawareru kanoosei mo naki ni shi mo arazu desu.",
+          "vi": "Nếu cứ tiếp tục dùng thư viện cũ, không loại trừ khả năng bị kẻ tấn công nhắm tới.",
+          "pt": "Vế trước と nêu điều kiện; 可能性もなきにしもあらず nói khả năng nhỏ nhưng có thật, dùng để thuyết phục khách cập nhật thư viện.",
+          "words": [
+            {
+              "w": "古い",
+              "r": "ふるい",
+              "ro": "furui",
+              "pos": "tính từ い",
+              "vi": "cũ"
+            },
+            {
+              "w": "ライブラリ",
+              "ro": "raiburari",
+              "pos": "danh từ",
+              "vi": "thư viện (library)"
+            },
+            {
+              "w": "を",
+              "ro": "o",
+              "pos": "trợ từ",
+              "vi": "chỉ đối tượng"
+            },
+            {
+              "w": "使い続ける",
+              "r": "つかいつづける",
+              "ro": "tsukaitsuzukeru",
+              "pos": "động từ",
+              "vi": "tiếp tục dùng"
+            },
+            {
+              "w": "と",
+              "ro": "to",
+              "pos": "trợ từ",
+              "vi": "hễ, nếu (điều kiện)"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "攻撃者",
+              "r": "こうげきしゃ",
+              "ro": "koogekisha",
+              "pos": "danh từ",
+              "vi": "kẻ tấn công"
+            },
+            {
+              "w": "に",
+              "ro": "ni",
+              "pos": "trợ từ",
+              "vi": "bởi (tác nhân của câu bị động)"
+            },
+            {
+              "w": "狙われる",
+              "r": "ねらわれる",
+              "ro": "nerawareru",
+              "pos": "động từ",
+              "base": "狙う",
+              "vi": "bị nhắm tới"
+            },
+            {
+              "w": "可能性",
+              "r": "かのうせい",
+              "ro": "kanoosei",
+              "pos": "danh từ",
+              "vi": "khả năng"
+            },
+            {
+              "w": "も",
+              "ro": "mo",
+              "pos": "trợ từ",
+              "vi": "cũng"
+            },
+            {
+              "w": "なきにしもあらず",
+              "ro": "naki ni shi mo arazu",
+              "pos": "cụm cố định",
+              "vi": "không phải là không có (văn cổ, trang trọng)"
+            },
+            {
+              "w": "です",
+              "ro": "desu",
+              "pos": "trợ động từ",
+              "vi": "là"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        },
+        {
+          "jp": "ログを見る限り問題はありませんが、データが改ざんされた可能性もなきにしもあらずです。",
+          "ro": "Rogu o miru kagiri mondai wa arimasen ga, deeta ga kaizan sareta kanoosei mo naki ni shi mo arazu desu.",
+          "vi": "Theo như log thì không có vấn đề gì, nhưng không loại trừ khả năng dữ liệu đã bị sửa trái phép.",
+          "pt": "〜限り = trong phạm vi (đã xem); vế sau dùng mẫu ④ để nói thận trọng, chuẩn bị cho việc điều tra thêm.",
+          "words": [
+            {
+              "w": "ログ",
+              "ro": "rogu",
+              "pos": "danh từ",
+              "vi": "log, nhật ký hệ thống"
+            },
+            {
+              "w": "を",
+              "ro": "o",
+              "pos": "trợ từ",
+              "vi": "chỉ đối tượng"
+            },
+            {
+              "w": "見る",
+              "r": "みる",
+              "ro": "miru",
+              "pos": "động từ",
+              "vi": "xem"
+            },
+            {
+              "w": "限り",
+              "r": "かぎり",
+              "ro": "kagiri",
+              "pos": "danh từ",
+              "vi": "theo như, trong phạm vi"
+            },
+            {
+              "w": "問題",
+              "r": "もんだい",
+              "ro": "mondai",
+              "pos": "danh từ",
+              "vi": "vấn đề"
+            },
+            {
+              "w": "は",
+              "ro": "wa",
+              "pos": "trợ từ",
+              "vi": "chủ đề (nhấn phủ định)"
+            },
+            {
+              "w": "ありません",
+              "ro": "arimasen",
+              "pos": "động từ",
+              "base": "ある",
+              "vi": "không có"
+            },
+            {
+              "w": "が",
+              "ro": "ga",
+              "pos": "trợ từ",
+              "vi": "nhưng"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "データ",
+              "ro": "deeta",
+              "pos": "danh từ",
+              "vi": "dữ liệu"
+            },
+            {
+              "w": "が",
+              "ro": "ga",
+              "pos": "trợ từ",
+              "vi": "chỉ chủ ngữ"
+            },
+            {
+              "w": "改ざんされた",
+              "r": "かいざんされた",
+              "ro": "kaizan sareta",
+              "pos": "động từ",
+              "base": "改ざんする",
+              "vi": "đã bị sửa trái phép (bị động)"
+            },
+            {
+              "w": "可能性",
+              "r": "かのうせい",
+              "ro": "kanoosei",
+              "pos": "danh từ",
+              "vi": "khả năng"
+            },
+            {
+              "w": "も",
+              "ro": "mo",
+              "pos": "trợ từ",
+              "vi": "cũng"
+            },
+            {
+              "w": "なきにしもあらず",
+              "ro": "naki ni shi mo arazu",
+              "pos": "cụm cố định",
+              "vi": "không loại trừ"
+            },
+            {
+              "w": "です",
+              "ro": "desu",
+              "pos": "trợ động từ",
+              "vi": "là"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "dialog": {
+    "title": "Báo cáo sự cố lộ màn hình quản trị",
+    "setting": "Phòng họp trực tuyến: phía công ty giao đồ ăn (anh Tanaka – PM, chị Mori – trưởng phòng IT) nghe đội offshore (Nam – PM, chị Phương – giám đốc) báo cáo việc màn hình quản trị của môi trường staging bị người ngoài truy cập được.",
+    "lines": [
+      {
+        "sp": "ナム",
+        "jp": "本日は、ステージング環境の管理画面が外部から見えていた件について、ご報告いたします。",
+        "ro": "Honjitsu wa, suteejingu kankyoo no kanri gamen ga gaibu kara miete ita ken ni tsuite, gohookoku itashimasu.",
+        "vi": "Hôm nay, chúng tôi xin báo cáo về việc màn hình quản trị của môi trường staging đã bị nhìn thấy từ bên ngoài.",
+        "pt": "Câu mở đầu báo cáo sự cố: nêu ngay chủ đề bằng 〜件について; ご報告いたします là khiêm nhường ngữ.",
+        "words": [
+          {
+            "w": "本日",
+            "r": "ほんじつ",
+            "ro": "honjitsu",
+            "pos": "danh từ",
+            "vi": "hôm nay (trang trọng)"
+          },
+          {
+            "w": "は",
+            "ro": "wa",
+            "pos": "trợ từ",
+            "vi": "chủ đề"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "ステージング",
+            "ro": "suteejingu",
+            "pos": "danh từ",
+            "vi": "staging (môi trường thử trước khi phát hành)"
+          },
+          {
+            "w": "環境",
+            "r": "かんきょう",
+            "ro": "kankyoo",
+            "pos": "danh từ",
+            "vi": "môi trường"
+          },
+          {
+            "w": "の",
+            "ro": "no",
+            "pos": "trợ từ",
+            "vi": "của"
+          },
+          {
+            "w": "管理画面",
+            "r": "かんりがめん",
+            "ro": "kanri gamen",
+            "pos": "danh từ",
+            "vi": "màn hình quản trị"
+          },
+          {
+            "w": "が",
+            "ro": "ga",
+            "pos": "trợ từ",
+            "vi": "chỉ chủ ngữ"
+          },
+          {
+            "w": "外部",
+            "r": "がいぶ",
+            "ro": "gaibu",
+            "pos": "danh từ",
+            "vi": "bên ngoài"
+          },
+          {
+            "w": "から",
+            "ro": "kara",
+            "pos": "trợ từ",
+            "vi": "từ"
+          },
+          {
+            "w": "見えていた",
+            "r": "みえていた",
+            "ro": "miete ita",
+            "pos": "động từ",
+            "base": "見える",
+            "vi": "đã nhìn thấy được"
+          },
+          {
+            "w": "件",
+            "r": "けん",
+            "ro": "ken",
+            "pos": "danh từ",
+            "vi": "vụ việc"
+          },
+          {
+            "w": "について",
+            "ro": "ni tsuite",
+            "pos": "trợ từ",
+            "vi": "về"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "ご報告いたします",
+            "r": "ごほうこくいたします",
+            "ro": "gohookoku itashimasu",
+            "pos": "động từ",
+            "base": "報告する",
+            "vi": "xin báo cáo (khiêm nhường ngữ 謙譲語 của 報告します)"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          }
+        ]
+      },
+      {
+        "sp": "田中",
+        "jp": "お願いします。まず、どのような経緯だったのか教えてください。",
+        "ro": "Onegai shimasu. Mazu, dono yoo na keii datta no ka oshiete kudasai.",
+        "vi": "Mời anh. Trước hết, hãy cho tôi biết sự việc đã diễn ra như thế nào.",
+        "pt": "経緯 là từ khóa của báo cáo sự cố: khách Nhật thường hỏi diễn biến theo thời gian trước tiên.",
+        "words": [
+          {
+            "w": "お願いします",
+            "r": "おねがいします",
+            "ro": "onegai shimasu",
+            "pos": "cụm chào hỏi",
+            "vi": "xin mời (anh bắt đầu)"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "まず",
+            "ro": "mazu",
+            "pos": "phó từ",
+            "vi": "trước hết"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "どのような",
+            "ro": "dono yoo na",
+            "pos": "cụm cố định",
+            "vi": "như thế nào"
+          },
+          {
+            "w": "経緯",
+            "r": "けいい",
+            "ro": "keii",
+            "pos": "danh từ",
+            "vi": "diễn biến, đầu đuôi sự việc"
+          },
+          {
+            "w": "だった",
+            "ro": "datta",
+            "pos": "trợ động từ",
+            "base": "だ",
+            "vi": "là (quá khứ)"
+          },
+          {
+            "w": "の",
+            "ro": "no",
+            "pos": "trợ từ",
+            "vi": "(danh từ hóa câu hỏi)"
+          },
+          {
+            "w": "か",
+            "ro": "ka",
+            "pos": "trợ từ",
+            "vi": "hay không (câu hỏi lồng)"
+          },
+          {
+            "w": "教えて",
+            "r": "おしえて",
+            "ro": "oshiete",
+            "pos": "động từ",
+            "base": "教える",
+            "vi": "cho biết"
+          },
+          {
+            "w": "ください",
+            "ro": "kudasai",
+            "pos": "động từ",
+            "base": "くださる",
+            "vi": "xin hãy"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          }
+        ]
+      },
+      {
+        "sp": "ナム",
+        "jp": "先週、決済機能をデバッグするために、一時的に認証を外したまま、元に戻すのを忘れていました。",
+        "ro": "Senshuu, kessai kinoo o debaggu suru tame ni, ichijiteki ni ninshoo o hazushita mama, moto ni modosu no o wasurete imashita.",
+        "vi": "Tuần trước, để debug chức năng thanh toán, chúng tôi đã tạm tắt xác thực rồi quên bật lại như cũ.",
+        "pt": "Nêu sự thật ngắn gọn, không vòng vo. 〜たまま chỉ trạng thái bị bỏ nguyên; 〜のを忘れる = quên làm việc gì.",
+        "words": [
+          {
+            "w": "先週",
+            "r": "せんしゅう",
+            "ro": "senshuu",
+            "pos": "danh từ",
+            "vi": "tuần trước"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "決済",
+            "r": "けっさい",
+            "ro": "kessai",
+            "pos": "danh từ",
+            "vi": "thanh toán"
+          },
+          {
+            "w": "機能",
+            "r": "きのう",
+            "ro": "kinoo",
+            "pos": "danh từ",
+            "vi": "chức năng"
+          },
+          {
+            "w": "を",
+            "ro": "o",
+            "pos": "trợ từ",
+            "vi": "chỉ đối tượng"
+          },
+          {
+            "w": "デバッグする",
+            "ro": "debaggu suru",
+            "pos": "động từ",
+            "vi": "gỡ lỗi (debug)"
+          },
+          {
+            "w": "ために",
+            "ro": "tame ni",
+            "pos": "danh từ",
+            "vi": "để"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "一時的に",
+            "r": "いちじてきに",
+            "ro": "ichijiteki ni",
+            "pos": "phó từ",
+            "base": "一時的",
+            "vi": "tạm thời"
+          },
+          {
+            "w": "認証",
+            "r": "にんしょう",
+            "ro": "ninshoo",
+            "pos": "danh từ",
+            "vi": "xác thực"
+          },
+          {
+            "w": "を",
+            "ro": "o",
+            "pos": "trợ từ",
+            "vi": "chỉ đối tượng"
+          },
+          {
+            "w": "外した",
+            "r": "はずした",
+            "ro": "hazushita",
+            "pos": "động từ",
+            "base": "外す",
+            "vi": "đã gỡ bỏ, tắt"
+          },
+          {
+            "w": "まま",
+            "ro": "mama",
+            "pos": "danh từ",
+            "vi": "vẫn để nguyên"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "元",
+            "r": "もと",
+            "ro": "moto",
+            "pos": "danh từ",
+            "vi": "trạng thái ban đầu"
+          },
+          {
+            "w": "に",
+            "ro": "ni",
+            "pos": "trợ từ",
+            "vi": "chỉ đích"
+          },
+          {
+            "w": "戻す",
+            "r": "もどす",
+            "ro": "modosu",
+            "pos": "động từ",
+            "vi": "đưa về"
+          },
+          {
+            "w": "の",
+            "ro": "no",
+            "pos": "trợ từ",
+            "vi": "danh từ hóa động từ"
+          },
+          {
+            "w": "を",
+            "ro": "o",
+            "pos": "trợ từ",
+            "vi": "chỉ đối tượng"
+          },
+          {
+            "w": "忘れていました",
+            "r": "わすれていました",
+            "ro": "wasurete imashita",
+            "pos": "động từ",
+            "base": "忘れる",
+            "vi": "đã quên"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          }
+        ]
+      },
+      {
+        "sp": "ナム",
+        "jp": "今回の件は、作業後の確認を省いたことが招いたことです。",
+        "ro": "Konkai no ken wa, sagyoogo no kakunin o habuita koto ga maneita koto desu.",
+        "vi": "Sự việc lần này là do chúng tôi đã bỏ qua bước kiểm tra sau khi làm việc.",
+        "pt": "Mẫu ③: nhận rõ nguyên nhân gốc thuộc về quy trình của đội mình (bỏ bước kiểm tra), không đổ cho cá nhân.",
+        "words": [
+          {
+            "w": "今回",
+            "r": "こんかい",
+            "ro": "konkai",
+            "pos": "danh từ",
+            "vi": "lần này"
+          },
+          {
+            "w": "の",
+            "ro": "no",
+            "pos": "trợ từ",
+            "vi": "của"
+          },
+          {
+            "w": "件",
+            "r": "けん",
+            "ro": "ken",
+            "pos": "danh từ",
+            "vi": "vụ việc"
+          },
+          {
+            "w": "は",
+            "ro": "wa",
+            "pos": "trợ từ",
+            "vi": "chủ đề"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "作業後",
+            "r": "さぎょうご",
+            "ro": "sagyoogo",
+            "pos": "danh từ",
+            "vi": "sau khi làm việc"
+          },
+          {
+            "w": "の",
+            "ro": "no",
+            "pos": "trợ từ",
+            "vi": "của"
+          },
+          {
+            "w": "確認",
+            "r": "かくにん",
+            "ro": "kakunin",
+            "pos": "danh từ",
+            "vi": "kiểm tra"
+          },
+          {
+            "w": "を",
+            "ro": "o",
+            "pos": "trợ từ",
+            "vi": "chỉ đối tượng"
+          },
+          {
+            "w": "省いた",
+            "r": "はぶいた",
+            "ro": "habuita",
+            "pos": "động từ",
+            "base": "省く",
+            "vi": "đã bỏ qua, lược bớt"
+          },
+          {
+            "w": "こと",
+            "ro": "koto",
+            "pos": "danh từ",
+            "vi": "việc"
+          },
+          {
+            "w": "が",
+            "ro": "ga",
+            "pos": "trợ từ",
+            "vi": "chỉ chủ ngữ"
+          },
+          {
+            "w": "招いた",
+            "r": "まねいた",
+            "ro": "maneita",
+            "pos": "động từ",
+            "base": "招く",
+            "vi": "đã gây ra"
+          },
+          {
+            "w": "こと",
+            "ro": "koto",
+            "pos": "danh từ",
+            "vi": "điều"
+          },
+          {
+            "w": "です",
+            "ro": "desu",
+            "pos": "trợ động từ",
+            "vi": "là"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          }
+        ]
+      },
+      {
+        "sp": "森",
+        "jp": "利用者の個人情報は含まれていましたか。",
+        "ro": "Riyoosha no kojin joohoo wa fukumarete imashita ka.",
+        "vi": "Có chứa thông tin cá nhân của người dùng không?",
+        "pt": "Câu hỏi quan trọng nhất của khách khi có sự cố: dữ liệu nào bị ảnh hưởng.",
+        "words": [
+          {
+            "w": "利用者",
+            "r": "りようしゃ",
+            "ro": "riyoosha",
+            "pos": "danh từ",
+            "vi": "người dùng"
+          },
+          {
+            "w": "の",
+            "ro": "no",
+            "pos": "trợ từ",
+            "vi": "của"
+          },
+          {
+            "w": "個人情報",
+            "r": "こじんじょうほう",
+            "ro": "kojin joohoo",
+            "pos": "danh từ",
+            "vi": "thông tin cá nhân"
+          },
+          {
+            "w": "は",
+            "ro": "wa",
+            "pos": "trợ từ",
+            "vi": "chủ đề"
+          },
+          {
+            "w": "含まれていました",
+            "r": "ふくまれていました",
+            "ro": "fukumarete imashita",
+            "pos": "động từ",
+            "base": "含まれる",
+            "vi": "đã có chứa, bao gồm"
+          },
+          {
+            "w": "か",
+            "ro": "ka",
+            "pos": "trợ từ",
+            "vi": "(câu hỏi)"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          }
+        ]
+      },
+      {
+        "sp": "ナム",
+        "jp": "テスト用のデータだけでしたが、アクセスログを解析した結果、外部から閲覧された可能性もなきにしもあらずです。",
+        "ro": "Tesuto yoo no deeta dake deshita ga, akusesu rogu o kaiseki shita kekka, gaibu kara etsuran sareta kanoosei mo naki ni shi mo arazu desu.",
+        "vi": "Chỉ có dữ liệu test thôi, nhưng sau khi phân tích access log, chúng tôi không loại trừ khả năng đã có người ngoài xem.",
+        "pt": "Mẫu ④: nói thật về khả năng xấu dù nhỏ, thay vì khẳng định 'không sao' khi chưa chắc chắn. 〜た結果 = sau khi làm … thì.",
+        "words": [
+          {
+            "w": "テスト",
+            "ro": "tesuto",
+            "pos": "danh từ",
+            "vi": "kiểm thử"
+          },
+          {
+            "w": "用",
+            "r": "よう",
+            "ro": "yoo",
+            "pos": "hậu tố",
+            "vi": "dùng cho"
+          },
+          {
+            "w": "の",
+            "ro": "no",
+            "pos": "trợ từ",
+            "vi": "của"
+          },
+          {
+            "w": "データ",
+            "ro": "deeta",
+            "pos": "danh từ",
+            "vi": "dữ liệu"
+          },
+          {
+            "w": "だけ",
+            "ro": "dake",
+            "pos": "trợ từ",
+            "vi": "chỉ"
+          },
+          {
+            "w": "でした",
+            "ro": "deshita",
+            "pos": "trợ động từ",
+            "base": "です",
+            "vi": "là (quá khứ)"
+          },
+          {
+            "w": "が",
+            "ro": "ga",
+            "pos": "trợ từ",
+            "vi": "nhưng"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "アクセスログ",
+            "ro": "akusesu rogu",
+            "pos": "danh từ",
+            "vi": "nhật ký truy cập (access log)"
+          },
+          {
+            "w": "を",
+            "ro": "o",
+            "pos": "trợ từ",
+            "vi": "chỉ đối tượng"
+          },
+          {
+            "w": "解析した",
+            "r": "かいせきした",
+            "ro": "kaiseki shita",
+            "pos": "động từ",
+            "base": "解析する",
+            "vi": "đã phân tích"
+          },
+          {
+            "w": "結果",
+            "r": "けっか",
+            "ro": "kekka",
+            "pos": "danh từ",
+            "vi": "kết quả"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "外部",
+            "r": "がいぶ",
+            "ro": "gaibu",
+            "pos": "danh từ",
+            "vi": "bên ngoài"
+          },
+          {
+            "w": "から",
+            "ro": "kara",
+            "pos": "trợ từ",
+            "vi": "từ"
+          },
+          {
+            "w": "閲覧された",
+            "r": "えつらんされた",
+            "ro": "etsuran sareta",
+            "pos": "động từ",
+            "base": "閲覧する",
+            "vi": "đã bị xem (bị động)"
+          },
+          {
+            "w": "可能性",
+            "r": "かのうせい",
+            "ro": "kanoosei",
+            "pos": "danh từ",
+            "vi": "khả năng"
+          },
+          {
+            "w": "も",
+            "ro": "mo",
+            "pos": "trợ từ",
+            "vi": "cũng"
+          },
+          {
+            "w": "なきにしもあらず",
+            "ro": "naki ni shi mo arazu",
+            "pos": "cụm cố định",
+            "vi": "không loại trừ"
+          },
+          {
+            "w": "です",
+            "ro": "desu",
+            "pos": "trợ động từ",
+            "vi": "là"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          }
+        ]
+      },
+      {
+        "sp": "ナム",
+        "jp": "今後は、新しい運用ルールのもとに、設定の変更は必ず二人で確認いたします。",
+        "ro": "Kongo wa, atarashii un'yoo ruuru no moto ni, settei no henkoo wa kanarazu futari de kakunin itashimasu.",
+        "vi": "Từ nay, theo quy tắc vận hành mới, mọi thay đổi cấu hình nhất định sẽ được hai người cùng kiểm tra.",
+        "pt": "Mẫu ②: biện pháp phòng tái diễn là một cơ chế (review chéo hai người), có căn cứ là quy tắc mới.",
+        "words": [
+          {
+            "w": "今後",
+            "r": "こんご",
+            "ro": "kongo",
+            "pos": "danh từ",
+            "vi": "từ nay về sau"
+          },
+          {
+            "w": "は",
+            "ro": "wa",
+            "pos": "trợ từ",
+            "vi": "chủ đề"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "新しい",
+            "r": "あたらしい",
+            "ro": "atarashii",
+            "pos": "tính từ い",
+            "vi": "mới"
+          },
+          {
+            "w": "運用",
+            "r": "うんよう",
+            "ro": "un'yoo",
+            "pos": "danh từ",
+            "vi": "vận hành"
+          },
+          {
+            "w": "ルール",
+            "ro": "ruuru",
+            "pos": "danh từ",
+            "vi": "quy tắc"
+          },
+          {
+            "w": "の",
+            "ro": "no",
+            "pos": "trợ từ",
+            "vi": "nối danh từ với もと"
+          },
+          {
+            "w": "もとに",
+            "ro": "moto ni",
+            "pos": "cụm cố định",
+            "vi": "dưới, theo"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "設定",
+            "r": "せってい",
+            "ro": "settei",
+            "pos": "danh từ",
+            "vi": "cấu hình"
+          },
+          {
+            "w": "の",
+            "ro": "no",
+            "pos": "trợ từ",
+            "vi": "của"
+          },
+          {
+            "w": "変更",
+            "r": "へんこう",
+            "ro": "henkoo",
+            "pos": "danh từ",
+            "vi": "thay đổi"
+          },
+          {
+            "w": "は",
+            "ro": "wa",
+            "pos": "trợ từ",
+            "vi": "chủ đề"
+          },
+          {
+            "w": "必ず",
+            "r": "かならず",
+            "ro": "kanarazu",
+            "pos": "phó từ",
+            "vi": "nhất định"
+          },
+          {
+            "w": "二人",
+            "r": "ふたり",
+            "ro": "futari",
+            "pos": "danh từ",
+            "vi": "hai người"
+          },
+          {
+            "w": "で",
+            "ro": "de",
+            "pos": "trợ từ",
+            "vi": "(số người cùng làm)"
+          },
+          {
+            "w": "確認いたします",
+            "r": "かくにんいたします",
+            "ro": "kakunin itashimasu",
+            "pos": "động từ",
+            "base": "確認する",
+            "vi": "kiểm tra (khiêm nhường ngữ)"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          }
+        ]
+      },
+      {
+        "sp": "森",
+        "jp": "同じことが二度と起きないよう、再発防止策を徹底してください。",
+        "ro": "Onaji koto ga nido to okinai yoo, saihatsu booshisaku o tettei shite kudasai.",
+        "vi": "Để chuyện tương tự không bao giờ xảy ra nữa, hãy thực hiện triệt để biện pháp phòng tái diễn.",
+        "pt": "二度と + phủ định = không bao giờ lần nữa. 〜ないよう(に) chỉ mục đích tránh điều xấu.",
+        "words": [
+          {
+            "w": "同じ",
+            "r": "おなじ",
+            "ro": "onaji",
+            "pos": "tính từ な",
+            "vi": "giống"
+          },
+          {
+            "w": "こと",
+            "ro": "koto",
+            "pos": "danh từ",
+            "vi": "việc"
+          },
+          {
+            "w": "が",
+            "ro": "ga",
+            "pos": "trợ từ",
+            "vi": "chỉ chủ ngữ"
+          },
+          {
+            "w": "二度と",
+            "r": "にどと",
+            "ro": "nido to",
+            "pos": "phó từ",
+            "vi": "(không) bao giờ lần nữa"
+          },
+          {
+            "w": "起きない",
+            "r": "おきない",
+            "ro": "okinai",
+            "pos": "động từ",
+            "base": "起きる",
+            "vi": "không xảy ra"
+          },
+          {
+            "w": "よう",
+            "ro": "yoo",
+            "pos": "danh từ",
+            "vi": "để (mục đích)"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "再発防止策",
+            "r": "さいはつぼうしさく",
+            "ro": "saihatsu booshisaku",
+            "pos": "danh từ",
+            "vi": "biện pháp phòng tái diễn"
+          },
+          {
+            "w": "を",
+            "ro": "o",
+            "pos": "trợ từ",
+            "vi": "chỉ đối tượng"
+          },
+          {
+            "w": "徹底して",
+            "r": "てっていして",
+            "ro": "tettei shite",
+            "pos": "động từ",
+            "base": "徹底する",
+            "vi": "thực hiện triệt để"
+          },
+          {
+            "w": "ください",
+            "ro": "kudasai",
+            "pos": "động từ",
+            "base": "くださる",
+            "vi": "xin hãy"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          }
+        ]
+      },
+      {
+        "sp": "フオン",
+        "jp": "多大なご迷惑をおかけし、誠に申し訳ございません。チーム一同深く反省しております。",
+        "ro": "Tadai na gomeiwaku o okake shi, makoto ni mooshiwake gozaimasen. Chiimu ichidoo fukaku hansei shite orimasu.",
+        "vi": "Chúng tôi đã gây phiền hà rất lớn, thành thật xin lỗi. Toàn thể đội xin kiểm điểm sâu sắc.",
+        "pt": "Mẫu ①: người có chức vụ cao nhất phía đội offshore nói lời xin lỗi chính thức ở cuối buổi.",
+        "words": [
+          {
+            "w": "多大な",
+            "r": "ただいな",
+            "ro": "tadai na",
+            "pos": "tính từ な",
+            "base": "多大",
+            "vi": "rất lớn"
+          },
+          {
+            "w": "ご迷惑",
+            "r": "ごめいわく",
+            "ro": "gomeiwaku",
+            "pos": "danh từ",
+            "vi": "sự phiền hà (gây cho người khác)"
+          },
+          {
+            "w": "を",
+            "ro": "o",
+            "pos": "trợ từ",
+            "vi": "chỉ đối tượng"
+          },
+          {
+            "w": "おかけし",
+            "ro": "okake shi",
+            "pos": "động từ",
+            "base": "おかけする",
+            "vi": "gây ra (khiêm nhường ngữ của かける), thể nối"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "誠に",
+            "r": "まことに",
+            "ro": "makoto ni",
+            "pos": "phó từ",
+            "vi": "thật sự"
+          },
+          {
+            "w": "申し訳ございません",
+            "r": "もうしわけございません",
+            "ro": "mooshiwake gozaimasen",
+            "pos": "cụm cố định",
+            "vi": "xin lỗi (rất trang trọng)"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "チーム",
+            "ro": "chiimu",
+            "pos": "danh từ",
+            "vi": "đội"
+          },
+          {
+            "w": "一同",
+            "r": "いちどう",
+            "ro": "ichidoo",
+            "pos": "danh từ",
+            "vi": "toàn thể"
+          },
+          {
+            "w": "深く",
+            "r": "ふかく",
+            "ro": "fukaku",
+            "pos": "phó từ",
+            "base": "深い",
+            "vi": "sâu sắc"
+          },
+          {
+            "w": "反省して",
+            "r": "はんせいして",
+            "ro": "hansei shite",
+            "pos": "động từ",
+            "base": "反省する",
+            "vi": "kiểm điểm"
+          },
+          {
+            "w": "おります",
+            "ro": "orimasu",
+            "pos": "động từ",
+            "base": "おる",
+            "vi": "(khiêm nhường ngữ của います)"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          }
+        ]
+      },
+      {
+        "sp": "田中",
+        "jp": "わかりました。再発防止策は、書面でも提出をお願いします。",
+        "ro": "Wakarimashita. Saihatsu booshisaku wa, shomen de mo teishutsu o onegai shimasu.",
+        "vi": "Tôi hiểu rồi. Biện pháp phòng tái diễn thì hãy nộp cả bằng văn bản nữa.",
+        "pt": "Khách Nhật thường muốn có báo cáo sự cố bằng văn bản để lưu và trình cấp trên.",
+        "words": [
+          {
+            "w": "わかりました",
+            "ro": "wakarimashita",
+            "pos": "động từ",
+            "base": "わかる",
+            "vi": "tôi hiểu rồi"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "再発防止策",
+            "r": "さいはつぼうしさく",
+            "ro": "saihatsu booshisaku",
+            "pos": "danh từ",
+            "vi": "biện pháp phòng tái diễn"
+          },
+          {
+            "w": "は",
+            "ro": "wa",
+            "pos": "trợ từ",
+            "vi": "chủ đề"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "書面",
+            "r": "しょめん",
+            "ro": "shomen",
+            "pos": "danh từ",
+            "vi": "văn bản"
+          },
+          {
+            "w": "で",
+            "ro": "de",
+            "pos": "trợ từ",
+            "vi": "bằng"
+          },
+          {
+            "w": "も",
+            "ro": "mo",
+            "pos": "trợ từ",
+            "vi": "cũng"
+          },
+          {
+            "w": "提出",
+            "r": "ていしゅつ",
+            "ro": "teishutsu",
+            "pos": "danh từ",
+            "vi": "việc nộp"
+          },
+          {
+            "w": "を",
+            "ro": "o",
+            "pos": "trợ từ",
+            "vi": "chỉ đối tượng"
+          },
+          {
+            "w": "お願いします",
+            "r": "おねがいします",
+            "ro": "onegai shimasu",
+            "pos": "cụm cố định",
+            "vi": "xin nhờ"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          }
+        ]
+      }
+    ]
+  },
+  "phrases": [
+    {
+      "h": "Khi báo cáo sự cố bảo mật (báo cáo đầu tiên)",
+      "items": [
+        {
+          "jp": "本日午前、テストサーバへの不正アクセスを検知しました。",
+          "ro": "Honjitsu gozen, tesuto saaba e no fusei akusesu o kenchi shimashita.",
+          "vi": "Sáng nay, chúng tôi đã phát hiện truy cập trái phép vào máy chủ test.",
+          "pt": "Câu đầu của báo cáo: thời điểm + sự việc. 検知 dùng khi hệ thống giám sát phát hiện.",
+          "words": [
+            {
+              "w": "本日",
+              "r": "ほんじつ",
+              "ro": "honjitsu",
+              "pos": "danh từ",
+              "vi": "hôm nay"
+            },
+            {
+              "w": "午前",
+              "r": "ごぜん",
+              "ro": "gozen",
+              "pos": "danh từ",
+              "vi": "buổi sáng"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "テスト",
+              "ro": "tesuto",
+              "pos": "danh từ",
+              "vi": "kiểm thử"
+            },
+            {
+              "w": "サーバ",
+              "ro": "saaba",
+              "pos": "danh từ",
+              "vi": "máy chủ"
+            },
+            {
+              "w": "へ",
+              "ro": "e",
+              "pos": "trợ từ",
+              "vi": "hướng tới"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "của"
+            },
+            {
+              "w": "不正",
+              "r": "ふせい",
+              "ro": "fusei",
+              "pos": "danh từ",
+              "vi": "trái phép"
+            },
+            {
+              "w": "アクセス",
+              "ro": "akusesu",
+              "pos": "danh từ",
+              "vi": "truy cập"
+            },
+            {
+              "w": "を",
+              "ro": "o",
+              "pos": "trợ từ",
+              "vi": "chỉ đối tượng"
+            },
+            {
+              "w": "検知しました",
+              "r": "けんちしました",
+              "ro": "kenchi shimashita",
+              "pos": "động từ",
+              "base": "検知する",
+              "vi": "đã phát hiện (bằng hệ thống)"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        },
+        {
+          "jp": "現時点で、情報が外部に漏れたという事実は確認されておりません。",
+          "ro": "Genjiten de, joohoo ga gaibu ni moreta to iu jijitsu wa kakunin sarete orimasen.",
+          "vi": "Tại thời điểm hiện tại, chưa xác nhận được việc thông tin bị rò rỉ ra ngoài.",
+          "pt": "現時点で giới hạn phạm vi phát biểu, tránh khẳng định quá sớm.",
+          "words": [
+            {
+              "w": "現時点",
+              "r": "げんじてん",
+              "ro": "genjiten",
+              "pos": "danh từ",
+              "vi": "thời điểm hiện tại"
+            },
+            {
+              "w": "で",
+              "ro": "de",
+              "pos": "trợ từ",
+              "vi": "tại"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "情報",
+              "r": "じょうほう",
+              "ro": "joohoo",
+              "pos": "danh từ",
+              "vi": "thông tin"
+            },
+            {
+              "w": "が",
+              "ro": "ga",
+              "pos": "trợ từ",
+              "vi": "chỉ chủ ngữ"
+            },
+            {
+              "w": "外部",
+              "r": "がいぶ",
+              "ro": "gaibu",
+              "pos": "danh từ",
+              "vi": "bên ngoài"
+            },
+            {
+              "w": "に",
+              "ro": "ni",
+              "pos": "trợ từ",
+              "vi": "ra"
+            },
+            {
+              "w": "漏れた",
+              "r": "もれた",
+              "ro": "moreta",
+              "pos": "động từ",
+              "base": "漏れる",
+              "vi": "đã bị rò rỉ"
+            },
+            {
+              "w": "という",
+              "ro": "to iu",
+              "pos": "cụm cố định",
+              "vi": "rằng (nội dung)"
+            },
+            {
+              "w": "事実",
+              "r": "じじつ",
+              "ro": "jijitsu",
+              "pos": "danh từ",
+              "vi": "sự thật"
+            },
+            {
+              "w": "は",
+              "ro": "wa",
+              "pos": "trợ từ",
+              "vi": "chủ đề"
+            },
+            {
+              "w": "確認されて",
+              "r": "かくにんされて",
+              "ro": "kakunin sarete",
+              "pos": "động từ",
+              "base": "確認する",
+              "vi": "được xác nhận"
+            },
+            {
+              "w": "おりません",
+              "ro": "orimasen",
+              "pos": "động từ",
+              "base": "おる",
+              "vi": "không (khiêm nhường ngữ của いません)"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        },
+        {
+          "jp": "原因と影響範囲は、現在調査中です。明日の正午までにご報告いたします。",
+          "ro": "Gen'in to eikyoo han'i wa, genzai choosachuu desu. Asu no shoogo made ni gohookoku itashimasu.",
+          "vi": "Nguyên nhân và phạm vi ảnh hưởng hiện đang được điều tra. Chúng tôi sẽ báo cáo trước 12 giờ trưa mai.",
+          "pt": "Luôn kèm thời hạn báo cáo tiếp theo; までに = hạn chót.",
+          "words": [
+            {
+              "w": "原因",
+              "r": "げんいん",
+              "ro": "gen'in",
+              "pos": "danh từ",
+              "vi": "nguyên nhân"
+            },
+            {
+              "w": "と",
+              "ro": "to",
+              "pos": "trợ từ",
+              "vi": "và"
+            },
+            {
+              "w": "影響範囲",
+              "r": "えいきょうはんい",
+              "ro": "eikyoo han'i",
+              "pos": "danh từ",
+              "vi": "phạm vi ảnh hưởng"
+            },
+            {
+              "w": "は",
+              "ro": "wa",
+              "pos": "trợ từ",
+              "vi": "chủ đề"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "現在",
+              "r": "げんざい",
+              "ro": "genzai",
+              "pos": "danh từ",
+              "vi": "hiện tại"
+            },
+            {
+              "w": "調査中",
+              "r": "ちょうさちゅう",
+              "ro": "choosachuu",
+              "pos": "danh từ",
+              "vi": "đang điều tra"
+            },
+            {
+              "w": "です",
+              "ro": "desu",
+              "pos": "trợ động từ",
+              "vi": "là"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "明日",
+              "r": "あす",
+              "ro": "asu",
+              "pos": "danh từ",
+              "vi": "ngày mai (trang trọng)"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "của"
+            },
+            {
+              "w": "正午",
+              "r": "しょうご",
+              "ro": "shoogo",
+              "pos": "danh từ",
+              "vi": "12 giờ trưa"
+            },
+            {
+              "w": "まで",
+              "ro": "made",
+              "pos": "trợ từ",
+              "vi": "cho đến"
+            },
+            {
+              "w": "に",
+              "ro": "ni",
+              "pos": "trợ từ",
+              "vi": "(hạn chót)"
+            },
+            {
+              "w": "ご報告いたします",
+              "r": "ごほうこくいたします",
+              "ro": "gohookoku itashimasu",
+              "pos": "động từ",
+              "base": "報告する",
+              "vi": "xin báo cáo"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "h": "Khi trình bày biện pháp đã làm và phòng tái diễn",
+      "items": [
+        {
+          "jp": "全サーバのポート設定を見直し、不要なポートはすべて閉じました。",
+          "ro": "Zen saaba no pooto settei o minaoshi, fuyoo na pooto wa subete tojimashita.",
+          "vi": "Chúng tôi đã rà soát cấu hình cổng của toàn bộ máy chủ và đóng hết các cổng không cần thiết.",
+          "pt": "Biện pháp đã làm (実施済みの対策) nói ở thì quá khứ, cụ thể.",
+          "words": [
+            {
+              "w": "全",
+              "r": "ぜん",
+              "ro": "zen",
+              "pos": "tiền tố",
+              "vi": "toàn bộ"
+            },
+            {
+              "w": "サーバ",
+              "ro": "saaba",
+              "pos": "danh từ",
+              "vi": "máy chủ"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "của"
+            },
+            {
+              "w": "ポート",
+              "ro": "pooto",
+              "pos": "danh từ",
+              "vi": "cổng (port)"
+            },
+            {
+              "w": "設定",
+              "r": "せってい",
+              "ro": "settei",
+              "pos": "danh từ",
+              "vi": "cấu hình"
+            },
+            {
+              "w": "を",
+              "ro": "o",
+              "pos": "trợ từ",
+              "vi": "chỉ đối tượng"
+            },
+            {
+              "w": "見直し",
+              "r": "みなおし",
+              "ro": "minaoshi",
+              "pos": "động từ",
+              "base": "見直す",
+              "vi": "rà soát lại (thể nối)"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "不要な",
+              "r": "ふような",
+              "ro": "fuyoo na",
+              "pos": "tính từ な",
+              "base": "不要",
+              "vi": "không cần thiết"
+            },
+            {
+              "w": "ポート",
+              "ro": "pooto",
+              "pos": "danh từ",
+              "vi": "cổng"
+            },
+            {
+              "w": "は",
+              "ro": "wa",
+              "pos": "trợ từ",
+              "vi": "chủ đề"
+            },
+            {
+              "w": "すべて",
+              "ro": "subete",
+              "pos": "phó từ",
+              "vi": "tất cả"
+            },
+            {
+              "w": "閉じました",
+              "r": "とじました",
+              "ro": "tojimashita",
+              "pos": "động từ",
+              "base": "閉じる",
+              "vi": "đã đóng"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        },
+        {
+          "jp": "今後、デバッグ作業は社内ネットワークの中だけで行います。",
+          "ro": "Kongo, debaggu sagyoo wa shanai nettowaaku no naka dake de okonaimasu.",
+          "vi": "Từ nay, việc debug chỉ thực hiện bên trong mạng nội bộ công ty.",
+          "pt": "Biện pháp phòng tái diễn nói ở thì hiện tại/tương lai, như một quy tắc.",
+          "words": [
+            {
+              "w": "今後",
+              "r": "こんご",
+              "ro": "kongo",
+              "pos": "danh từ",
+              "vi": "từ nay"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "デバッグ",
+              "ro": "debaggu",
+              "pos": "danh từ",
+              "vi": "gỡ lỗi"
+            },
+            {
+              "w": "作業",
+              "r": "さぎょう",
+              "ro": "sagyoo",
+              "pos": "danh từ",
+              "vi": "công việc"
+            },
+            {
+              "w": "は",
+              "ro": "wa",
+              "pos": "trợ từ",
+              "vi": "chủ đề"
+            },
+            {
+              "w": "社内",
+              "r": "しゃない",
+              "ro": "shanai",
+              "pos": "danh từ",
+              "vi": "nội bộ công ty"
+            },
+            {
+              "w": "ネットワーク",
+              "ro": "nettowaaku",
+              "pos": "danh từ",
+              "vi": "mạng"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "của"
+            },
+            {
+              "w": "中",
+              "r": "なか",
+              "ro": "naka",
+              "pos": "danh từ",
+              "vi": "bên trong"
+            },
+            {
+              "w": "だけ",
+              "ro": "dake",
+              "pos": "trợ từ",
+              "vi": "chỉ"
+            },
+            {
+              "w": "で",
+              "ro": "de",
+              "pos": "trợ từ",
+              "vi": "tại"
+            },
+            {
+              "w": "行います",
+              "r": "おこないます",
+              "ro": "okonaimasu",
+              "pos": "động từ",
+              "base": "行う",
+              "vi": "thực hiện"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        },
+        {
+          "jp": "全メンバーを対象に、情報セキュリティ研修を実施する予定です。",
+          "ro": "Zen menbaa o taishoo ni, joohoo sekyuriti kenshuu o jisshi suru yotei desu.",
+          "vi": "Chúng tôi dự định tổ chức đào tạo bảo mật thông tin cho toàn bộ thành viên.",
+          "pt": "〜を対象に = dành cho đối tượng …; 実施する là từ trang trọng của する/やる.",
+          "words": [
+            {
+              "w": "全",
+              "r": "ぜん",
+              "ro": "zen",
+              "pos": "tiền tố",
+              "vi": "toàn bộ"
+            },
+            {
+              "w": "メンバー",
+              "ro": "menbaa",
+              "pos": "danh từ",
+              "vi": "thành viên"
+            },
+            {
+              "w": "を",
+              "ro": "o",
+              "pos": "trợ từ",
+              "vi": "chỉ đối tượng"
+            },
+            {
+              "w": "対象",
+              "r": "たいしょう",
+              "ro": "taishoo",
+              "pos": "danh từ",
+              "vi": "đối tượng"
+            },
+            {
+              "w": "に",
+              "ro": "ni",
+              "pos": "trợ từ",
+              "vi": "(を対象に = dành cho)"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "情報",
+              "r": "じょうほう",
+              "ro": "joohoo",
+              "pos": "danh từ",
+              "vi": "thông tin"
+            },
+            {
+              "w": "セキュリティ",
+              "ro": "sekyuriti",
+              "pos": "danh từ",
+              "vi": "bảo mật"
+            },
+            {
+              "w": "研修",
+              "r": "けんしゅう",
+              "ro": "kenshuu",
+              "pos": "danh từ",
+              "vi": "khóa đào tạo"
+            },
+            {
+              "w": "を",
+              "ro": "o",
+              "pos": "trợ từ",
+              "vi": "chỉ đối tượng"
+            },
+            {
+              "w": "実施する",
+              "r": "じっしする",
+              "ro": "jisshi suru",
+              "pos": "động từ",
+              "vi": "tiến hành"
+            },
+            {
+              "w": "予定",
+              "r": "よてい",
+              "ro": "yotei",
+              "pos": "danh từ",
+              "vi": "dự định"
+            },
+            {
+              "w": "です",
+              "ro": "desu",
+              "pos": "trợ động từ",
+              "vi": "là"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "vocab": [
+    {
+      "w": "機密性",
+      "r": "きみつせい",
+      "ro": "kimitsusei",
+      "vi": "tính bảo mật (chỉ người được phép mới xem)",
+      "en": "confidentiality"
+    },
+    {
+      "w": "完全性",
+      "r": "かんぜんせい",
+      "ro": "kanzensei",
+      "vi": "tính toàn vẹn (dữ liệu không bị sửa sai)",
+      "en": "integrity"
+    },
+    {
+      "w": "可用性",
+      "r": "かようせい",
+      "ro": "kayoosei",
+      "vi": "tính sẵn sàng (dùng được khi cần)",
+      "en": "availability"
+    },
+    {
+      "w": "2段階認証",
+      "r": "にだんかいにんしょう",
+      "ro": "nidankai ninshoo",
+      "vi": "xác thực hai bước",
+      "en": "two-factor authentication"
+    },
+    {
+      "w": "暗号化",
+      "r": "あんごうか",
+      "ro": "angooka",
+      "vi": "mã hóa",
+      "en": "encryption"
+    },
+    {
+      "w": "情報漏洩",
+      "r": "じょうほうろうえい",
+      "ro": "joohoo rooei",
+      "vi": "rò rỉ thông tin",
+      "en": "data leak"
+    },
+    {
+      "w": "攻撃者",
+      "r": "こうげきしゃ",
+      "ro": "koogekisha",
+      "vi": "kẻ tấn công",
+      "en": "attacker"
+    },
+    {
+      "w": "厳重注意",
+      "r": "げんじゅうちゅうい",
+      "ro": "genjuu chuui",
+      "vi": "cảnh cáo nghiêm khắc"
+    },
+    {
+      "w": "ペネトレーションテスト",
+      "r": "",
+      "ro": "penetoreeshon tesuto",
+      "vi": "kiểm thử xâm nhập",
+      "en": "penetration test"
+    },
+    {
+      "w": "脆弱性",
+      "r": "ぜいじゃくせい",
+      "ro": "zeijakusei",
+      "vi": "lỗ hổng bảo mật",
+      "en": "vulnerability"
+    },
+    {
+      "w": "インシデント",
+      "r": "",
+      "ro": "inshidento",
+      "vi": "sự cố (bảo mật, vận hành)",
+      "en": "incident"
+    },
+    {
+      "w": "デバッグ",
+      "r": "",
+      "ro": "debaggu",
+      "vi": "gỡ lỗi",
+      "en": "debug"
+    },
+    {
+      "w": "不正アクセス",
+      "r": "ふせいアクセス",
+      "ro": "fusei akusesu",
+      "vi": "truy cập trái phép",
+      "en": "unauthorized access"
+    },
+    {
+      "w": "原因究明",
+      "r": "げんいんきゅうめい",
+      "ro": "gen'in kyuumei",
+      "vi": "làm rõ nguyên nhân"
+    },
+    {
+      "w": "再発防止策",
+      "r": "さいはつぼうしさく",
+      "ro": "saihatsu booshisaku",
+      "vi": "biện pháp phòng tái diễn",
+      "en": "preventive measures"
+    },
+    {
+      "w": "経緯",
+      "r": "けいい",
+      "ro": "keii",
+      "vi": "diễn biến, đầu đuôi sự việc"
+    },
+    {
+      "w": "掲載",
+      "r": "けいさい",
+      "ro": "keisai",
+      "vi": "đăng tải (lên web, tài liệu)"
+    },
+    {
+      "w": "根本原因",
+      "r": "こんぽんげんいん",
+      "ro": "konpon gen'in",
+      "vi": "nguyên nhân gốc rễ",
+      "en": "root cause"
+    },
+    {
+      "w": "遵守する",
+      "r": "じゅんしゅする",
+      "ro": "junshu suru",
+      "vi": "tuân thủ",
+      "en": "comply"
+    },
+    {
+      "w": "監査",
+      "r": "かんさ",
+      "ro": "kansa",
+      "vi": "kiểm toán, thanh tra",
+      "en": "audit"
+    },
+    {
+      "w": "ログ解析",
+      "r": "ログかいせき",
+      "ro": "rogu kaiseki",
+      "vi": "phân tích log",
+      "en": "log analysis"
+    },
+    {
+      "w": "脅威",
+      "r": "きょうい",
+      "ro": "kyooi",
+      "vi": "mối đe dọa",
+      "en": "threat"
+    },
+    {
+      "w": "オンプレミス",
+      "r": "",
+      "ro": "onpuremisu",
+      "vi": "tự đặt máy chủ tại cơ sở công ty",
+      "en": "on-premises"
+    },
+    {
+      "w": "クラウド",
+      "r": "",
+      "ro": "kuraudo",
+      "vi": "điện toán đám mây",
+      "en": "cloud"
+    },
+    {
+      "w": "ポート",
+      "r": "",
+      "ro": "pooto",
+      "vi": "cổng mạng",
+      "en": "port"
+    },
+    {
+      "w": "改ざん",
+      "r": "かいざん",
+      "ro": "kaizan",
+      "vi": "sửa đổi trái phép",
+      "en": "tampering"
+    },
+    {
+      "w": "権限付与",
+      "r": "けんげんふよ",
+      "ro": "kengen fuyo",
+      "vi": "cấp quyền",
+      "en": "permission grant"
+    },
+    {
+      "w": "営業秘密",
+      "r": "えいぎょうひみつ",
+      "ro": "eigyoo himitsu",
+      "vi": "bí mật kinh doanh",
+      "en": "trade secret"
+    },
+    {
+      "w": "損害賠償",
+      "r": "そんがいばいしょう",
+      "ro": "songai baishoo",
+      "vi": "bồi thường thiệt hại",
+      "en": "damages"
+    },
+    {
+      "w": "倒産",
+      "r": "とうさん",
+      "ro": "toosan",
+      "vi": "phá sản"
+    },
+    {
+      "w": "実施済",
+      "r": "じっしずみ",
+      "ro": "jisshizumi",
+      "vi": "đã thực hiện xong"
+    },
+    {
+      "w": "一同",
+      "r": "いちどう",
+      "ro": "ichidoo",
+      "vi": "toàn thể (mọi người trong nhóm)"
+    },
+    {
+      "w": "反省",
+      "r": "はんせい",
+      "ro": "hansei",
+      "vi": "tự kiểm điểm, nhận lỗi"
+    },
+    {
+      "w": "招く",
+      "r": "まねく",
+      "ro": "maneku",
+      "vi": "gây ra, dẫn đến (kết quả xấu); mời"
+    },
+    {
+      "w": "認証",
+      "r": "にんしょう",
+      "ro": "ninshoo",
+      "vi": "xác thực",
+      "en": "authentication"
+    },
+    {
+      "w": "閲覧",
+      "r": "えつらん",
+      "ro": "etsuran",
+      "vi": "xem, duyệt (tài liệu, trang web)"
+    },
+    {
+      "w": "個人情報",
+      "r": "こじんじょうほう",
+      "ro": "kojin joohoo",
+      "vi": "thông tin cá nhân",
+      "en": "personal information"
+    },
+    {
+      "w": "アクセス権限",
+      "r": "アクセスけんげん",
+      "ro": "akusesu kengen",
+      "vi": "quyền truy cập",
+      "en": "access right"
+    },
+    {
+      "w": "影響範囲",
+      "r": "えいきょうはんい",
+      "ro": "eikyoo han'i",
+      "vi": "phạm vi ảnh hưởng",
+      "en": "impact scope"
+    },
+    {
+      "w": "検知",
+      "r": "けんち",
+      "ro": "kenchi",
+      "vi": "phát hiện (bằng hệ thống giám sát)",
+      "en": "detection"
+    }
+  ],
+  "tips": [
+    "Khi có sự cố, khách Nhật coi trọng 第一報 (báo cáo đầu tiên) nhanh hơn là đầy đủ: báo ngay những gì đã biết, nói rõ điều gì chưa rõ và khi nào sẽ báo tiếp. Đợi điều tra xong mới báo thường bị xem là che giấu.",
+    "Nguyên nhân gốc trong báo cáo không nên dừng ở 'nhân viên A sơ suất'. Hãy chỉ ra vì sao quy trình để lọt sai sót đó, và biện pháp phòng tái diễn phải là cơ chế (tự động kiểm tra, checklist, review hai người) chứ không chỉ là 'sẽ chú ý hơn'.",
+    "Trong buổi xin lỗi chính thức, người có chức vụ cao hơn bên mình nên có mặt và nói lời xin lỗi. Tránh mở đầu bằng biện minh như 'でも' hay 'ただ'; hãy xin lỗi trước, rồi mới giải thích sự thật."
+  ],
+  "discuss": [
+    {
+      "jp": "あなたのチームでは、パスワードや個人情報をどのように管理していますか。",
+      "vi": "Ở đội của bạn, mật khẩu và thông tin cá nhân được quản lý như thế nào?"
+    },
+    {
+      "jp": "セキュリティ事故が起きたとき、お客様への第一報では何を伝えるべきだと思いますか。",
+      "vi": "Khi xảy ra sự cố bảo mật, bạn nghĩ báo cáo đầu tiên gửi khách hàng nên truyền đạt những gì?"
+    },
+    {
+      "jp": "リモートワークで情報漏洩を防ぐために、どんなルールが必要だと思いますか。",
+      "vi": "Theo bạn, cần những quy tắc nào để phòng rò rỉ thông tin khi làm việc từ xa?"
+    }
+  ]
+}

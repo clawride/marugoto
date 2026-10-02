@@ -124,3 +124,9 @@
 
 /* Sổ tay Genshin (từ vựng thêm có trong Genshin Impact) */
 [data-ui="plain"] a[href="/genshin-vocab"],[data-ui="plain"] a[href^="/topic/gi-"]{display:none!important}
+
+/* Thư viện sách: bìa sách giữ màu gốc (chữ trắng trên nền màu) */
+[data-ui="plain"] .lbcover{color:#fff;background:linear-gradient(135deg,var(--cv1,#3f9a58),var(--cv2,#2b7442))}
+[data-ui="plain"] .lbcover span,[data-ui="plain"] .lbcover small{color:#fff}
+[data-ui="plain"] .lbcover b{background:#d8453a;color:#fff}
+[data-ui="plain"] .lbcover em{background:#fff;color:#d8453a}

@@ -1,0 +1,2704 @@
+{
+  "n": 12,
+  "scene": "Họp định kỳ hằng tuần trong giai đoạn kiểm thử hệ thống (system test) của SuperTrans. Phía DKH cho biết công ty đã đạt chứng nhận CMMI mức 5, và sẽ dùng một công cụ mã nguồn mở để tự động hóa việc test giao diện trên nhiều trình duyệt, dự kiến giảm khoảng 20% công số và tự động hóa khoảng một phần ba số hạng mục test. Saitō hỏi thêm về việc có bản demo cho phía khách xem trước khi phát hành hay không.",
+  "people": [
+    {
+      "name": "斎藤",
+      "ro": "Saitoo",
+      "role": "PM phía khách hàng KMS, hỏi về kế hoạch test và bản demo"
+    },
+    {
+      "name": "アン",
+      "ro": "An",
+      "role": "PM của DKH, báo cáo tình hình và kế hoạch kiểm thử hệ thống"
+    },
+    {
+      "name": "ハー",
+      "ro": "Haa",
+      "role": "Tester, trưởng nhóm test của DKH, giải thích việc tự động hóa test"
+    }
+  ],
+  "goals": [
+    "Hiểu quy trình kiểm thử, các cấp test (単体・結合・システム・受け入れ) và mô hình chữ V.",
+    "Nắm thuật ngữ test cơ bản: test case, điều kiện tiền đề, kết quả mong đợi, test tải, test hồi quy, test tự động…",
+    "Trao đổi với khách bằng tiếng Nhật về kế hoạch test, tự động hóa test và bản demo."
+  ],
+  "know": [
+    "Test có hai cách làm: thủ công (手動テスト) và tự động (自動テスト). Test thủ công linh hoạt, hợp với kiểm tra giao diện, độ dễ dùng hay những chức năng thay đổi liên tục. Test tự động tốn công viết script lúc đầu nhưng chạy lại bao nhiêu lần cũng được, giảm công số và loại bỏ lỗi do người (ケアレスミス, ヒューマンエラー); rất hợp với test hồi quy (回帰テスト) chạy sau mỗi lần sửa code, test API, hay test trên nhiều trình duyệt. Thực tế không nên đặt mục tiêu tự động hóa 100%, mà chọn những hạng mục lặp lại nhiều và ổn định.",
+    "Theo cấp độ, có bốn mức test: 単体テスト (unit test – từng hàm, từng class, thường do lập trình viên tự làm), 結合テスト (integration test – kiểm tra các module ghép lại, giao tiếp giữa màn hình, API, DB), システムテスト / 総合テスト (system test – kiểm tra toàn hệ thống so với yêu cầu, gồm cả yêu cầu phi chức năng) và 受け入れテスト (acceptance test – khách hàng kiểm tra để nghiệm thu). Mô hình chữ V (V字モデル) ghép mỗi công đoạn phát triển với một cấp test: định nghĩa yêu cầu ↔ test nghiệm thu, thiết kế cơ bản ↔ system test, thiết kế chi tiết ↔ integration test, lập trình ↔ unit test.",
+    "Theo mục đích, ngoài test chức năng (機能性) còn có test cấu trúc (white-box), test độ dễ dùng (使い勝手), test hiệu năng (効率性) gồm test tải (負荷テスト) và test cực hạn (ストレステスト), test độ tin cậy và khả năng phục hồi (信頼性, 回復性), test tương thích (互換性: trình duyệt, hệ điều hành, phiên bản cũ). Kế hoạch test cần nói rõ phạm vi, môi trường, dữ liệu, tiêu chí bắt đầu và tiêu chí kết thúc (終了判定), ví dụ: tất cả case mức ưu tiên cao đều đạt và không còn bug nghiêm trọng.",
+    "Một test case tốt gồm: mục đích, điều kiện tiền đề (前提条件), các bước thực hiện (手順) và kết quả mong đợi (期待結果) viết đủ cụ thể để người khác chạy lại được và tự phán OK/NG. Với khách Nhật, cần chuẩn bị thêm bằng chứng test (テストエビデンス: ảnh chụp màn hình, log) và báo cáo bằng số liệu định lượng (定量的): số case đã chạy, tỉ lệ đạt, số bug theo mức độ. Các chứng nhận về quy trình như CMMI giúp khách tin vào năng lực quản lý chất lượng của đội offshore."
+  ],
+  "terms": [
+    {
+      "w": "単体・結合・システム・受け入れテスト",
+      "r": "たんたい・けつごう・システム・うけいれテスト",
+      "ro": "tantai, ketsugoo, shisutemu, ukeire tesuto",
+      "en": "unit / integration / system / acceptance test",
+      "vi": "Bốn cấp test từ nhỏ đến lớn: từng đơn vị code → các module ghép lại → toàn hệ thống so với yêu cầu → khách hàng kiểm tra để nghiệm thu. Ở Nhật, system test còn hay gọi là 総合テスト."
+    },
+    {
+      "w": "V字モデル",
+      "r": "ブイじモデル",
+      "ro": "bui ji moderu",
+      "en": "V-model",
+      "vi": "Mô hình phát triển ghép mỗi công đoạn thiết kế (nhánh trái chữ V) với một cấp test tương ứng (nhánh phải). Ví dụ: test nghiệm thu kiểm chứng tài liệu định nghĩa yêu cầu."
+    },
+    {
+      "w": "回帰テスト",
+      "r": "かいきテスト",
+      "ro": "kaiki tesuto",
+      "en": "regression test",
+      "vi": "Test lại các chức năng cũ sau khi sửa code để chắc rằng không phát sinh lỗi mới (デグレード). Là ứng viên số một để tự động hóa."
+    },
+    {
+      "w": "負荷テスト",
+      "r": "ふかテスト",
+      "ro": "fuka tesuto",
+      "en": "load test",
+      "vi": "Cho hệ thống chịu lượng truy cập hoặc dữ liệu như dự kiến lúc cao điểm để đo thời gian phản hồi và tài nguyên. Khác với ストレステスト là vượt quá giới hạn để xem hệ thống hỏng thế nào."
+    },
+    {
+      "w": "CMMI",
+      "r": "",
+      "ro": "shii emu emu ai",
+      "en": "Capability Maturity Model Integration",
+      "vi": "Mô hình đánh giá mức trưởng thành của quy trình phát triển, từ mức 1 đến mức 5. Mức 5 nghĩa là quy trình được đo lường định lượng và cải tiến liên tục; nhiều công ty offshore dùng để tạo niềm tin với khách."
+    },
+    {
+      "w": "オープンソース",
+      "r": "",
+      "ro": "oopun soosu",
+      "en": "open source",
+      "vi": "Phần mềm công khai mã nguồn, thường dùng miễn phí. Dùng công cụ test mã nguồn mở (như Selenium, Playwright) giúp tiết kiệm phí license, nhưng cần kiểm tra điều khoản license và khả năng hỗ trợ."
+    },
+    {
+      "w": "期待結果",
+      "r": "きたいけっか",
+      "ro": "kitai kekka",
+      "en": "expected result",
+      "vi": "Kết quả đúng mà hệ thống phải cho ra khi thực hiện các bước của test case. Viết cụ thể (thông báo nào, giá trị nào) để ai chạy cũng phán OK/NG như nhau."
+    }
+  ],
+  "grammar": [
+    {
+      "no": 1,
+      "p": "〇〇は、事前に〇〇してあります。",
+      "ro": "〇〇 wa, jizen ni 〇〇 shite arimasu.",
+      "vi": "〇〇 thì đã được 〇〇 sẵn từ trước.",
+      "form": "Danh từ (đồ vật, dữ liệu) + は、事前に + tha động từ thể て + あります",
+      "use": "Báo rằng việc chuẩn bị đã xong từ trước, để người nghe yên tâm. Nhấn vào trạng thái kết quả vẫn còn đến hiện tại.",
+      "notes": [
+        "〜てある đi với tha động từ (準備する、登録する、まとめる…); người làm thường được lược bỏ.",
+        "Lịch sự hơn: 〜しております / ご用意しております.",
+        "事前に = trước (khi bắt đầu việc chính), trang trọng hơn 前もって."
+      ],
+      "ex": [
+        {
+          "jp": "テスト用のアカウントは、事前に検証環境に登録してあります。",
+          "ro": "Tesuto yoo no akaunto wa, jizen ni kenshoo kankyoo ni tooroku shite arimasu.",
+          "vi": "Tài khoản dùng cho test đã được đăng ký sẵn vào môi trường kiểm chứng từ trước.",
+          "pt": "Chủ đề là vật được chuẩn bị (アカウント); 登録してあります cho biết việc đăng ký đã xong và tài khoản sẵn sàng dùng.",
+          "words": [
+            {
+              "w": "テスト",
+              "ro": "tesuto",
+              "pos": "danh từ",
+              "vi": "kiểm thử"
+            },
+            {
+              "w": "用",
+              "r": "よう",
+              "ro": "yoo",
+              "pos": "hậu tố",
+              "vi": "dùng cho"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "của"
+            },
+            {
+              "w": "アカウント",
+              "ro": "akaunto",
+              "pos": "danh từ",
+              "vi": "tài khoản"
+            },
+            {
+              "w": "は",
+              "ro": "wa",
+              "pos": "trợ từ",
+              "vi": "chủ đề"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "事前に",
+              "r": "じぜんに",
+              "ro": "jizen ni",
+              "pos": "phó từ",
+              "base": "事前",
+              "vi": "từ trước"
+            },
+            {
+              "w": "検証",
+              "r": "けんしょう",
+              "ro": "kenshoo",
+              "pos": "danh từ",
+              "vi": "kiểm chứng"
+            },
+            {
+              "w": "環境",
+              "r": "かんきょう",
+              "ro": "kankyoo",
+              "pos": "danh từ",
+              "vi": "môi trường"
+            },
+            {
+              "w": "に",
+              "ro": "ni",
+              "pos": "trợ từ",
+              "vi": "vào"
+            },
+            {
+              "w": "登録して",
+              "r": "とうろくして",
+              "ro": "tooroku shite",
+              "pos": "động từ",
+              "base": "登録する",
+              "vi": "đăng ký"
+            },
+            {
+              "w": "あります",
+              "ro": "arimasu",
+              "pos": "động từ",
+              "base": "ある",
+              "vi": "(〜てある: đã làm sẵn, trạng thái còn đó)"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        },
+        {
+          "jp": "ブラウザごとの確認項目は、事前にテスト仕様書にまとめてあります。",
+          "ro": "Burauza goto no kakunin koomoku wa, jizen ni tesuto shiyoosho ni matomete arimasu.",
+          "vi": "Các hạng mục kiểm tra cho từng trình duyệt đã được tổng hợp sẵn trong tài liệu đặc tả test.",
+          "pt": "〜ごと = cho từng …; まとめてあります: đã gom lại sẵn, người nghe có thể xem ngay.",
+          "words": [
+            {
+              "w": "ブラウザ",
+              "ro": "burauza",
+              "pos": "danh từ",
+              "vi": "trình duyệt"
+            },
+            {
+              "w": "ごと",
+              "ro": "goto",
+              "pos": "hậu tố",
+              "vi": "từng, mỗi"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "của"
+            },
+            {
+              "w": "確認",
+              "r": "かくにん",
+              "ro": "kakunin",
+              "pos": "danh từ",
+              "vi": "kiểm tra"
+            },
+            {
+              "w": "項目",
+              "r": "こうもく",
+              "ro": "koomoku",
+              "pos": "danh từ",
+              "vi": "hạng mục"
+            },
+            {
+              "w": "は",
+              "ro": "wa",
+              "pos": "trợ từ",
+              "vi": "chủ đề"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "事前に",
+              "r": "じぜんに",
+              "ro": "jizen ni",
+              "pos": "phó từ",
+              "base": "事前",
+              "vi": "từ trước"
+            },
+            {
+              "w": "テスト",
+              "ro": "tesuto",
+              "pos": "danh từ",
+              "vi": "kiểm thử"
+            },
+            {
+              "w": "仕様書",
+              "r": "しようしょ",
+              "ro": "shiyoosho",
+              "pos": "danh từ",
+              "vi": "tài liệu đặc tả"
+            },
+            {
+              "w": "に",
+              "ro": "ni",
+              "pos": "trợ từ",
+              "vi": "vào"
+            },
+            {
+              "w": "まとめて",
+              "ro": "matomete",
+              "pos": "động từ",
+              "base": "まとめる",
+              "vi": "tổng hợp"
+            },
+            {
+              "w": "あります",
+              "ro": "arimasu",
+              "pos": "động từ",
+              "base": "ある",
+              "vi": "(〜てある)"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "no": 2,
+      "p": "〇〇をもって〇〇。",
+      "ro": "〇〇 o motte 〇〇.",
+      "vi": "Lấy 〇〇 (làm căn cứ / phương tiện / mốc) để 〇〇.",
+      "form": "Danh từ + をもって + động từ (判定する・終了とする・報告する…)",
+      "use": "Văn phong trang trọng, dùng trong báo cáo và thông báo: chỉ căn cứ hoặc phương tiện ('dựa vào…, bằng…') hoặc mốc kết thúc ('tính đến hết…').",
+      "notes": [
+        "Nghĩa mốc thời gian: 本日をもって = tính đến hết hôm nay (hay dùng trong thông báo kết thúc).",
+        "Nghĩa phương tiện: 書面をもって = bằng văn bản; trong hội thoại thường ngày chỉ cần dùng 〜で.",
+        "Trang trọng hơn nữa: 〜をもちまして."
+      ],
+      "ex": [
+        {
+          "jp": "すべての試験項目が合格したことをもって、システムテストの完了とします。",
+          "ro": "Subete no shiken koomoku ga gookaku shita koto o motte, shisutemu tesuto no kanryoo to shimasu.",
+          "vi": "Chúng tôi coi việc tất cả hạng mục test đều đạt là căn cứ để kết thúc system test.",
+          "pt": "〜ことをもって = lấy việc … làm căn cứ; 〜とします = quyết định coi là. Cách viết tiêu chí kết thúc trong kế hoạch test.",
+          "words": [
+            {
+              "w": "すべて",
+              "ro": "subete",
+              "pos": "danh từ",
+              "vi": "tất cả"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "của"
+            },
+            {
+              "w": "試験",
+              "r": "しけん",
+              "ro": "shiken",
+              "pos": "danh từ",
+              "vi": "kiểm thử, thử nghiệm"
+            },
+            {
+              "w": "項目",
+              "r": "こうもく",
+              "ro": "koomoku",
+              "pos": "danh từ",
+              "vi": "hạng mục"
+            },
+            {
+              "w": "が",
+              "ro": "ga",
+              "pos": "trợ từ",
+              "vi": "chỉ chủ ngữ"
+            },
+            {
+              "w": "合格した",
+              "r": "ごうかくした",
+              "ro": "gookaku shita",
+              "pos": "động từ",
+              "base": "合格する",
+              "vi": "đã đạt"
+            },
+            {
+              "w": "こと",
+              "ro": "koto",
+              "pos": "danh từ",
+              "vi": "việc"
+            },
+            {
+              "w": "を",
+              "ro": "o",
+              "pos": "trợ từ",
+              "vi": "chỉ đối tượng"
+            },
+            {
+              "w": "もって",
+              "ro": "motte",
+              "pos": "động từ",
+              "base": "もつ",
+              "vi": "lấy làm căn cứ"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "システム",
+              "ro": "shisutemu",
+              "pos": "danh từ",
+              "vi": "hệ thống"
+            },
+            {
+              "w": "テスト",
+              "ro": "tesuto",
+              "pos": "danh từ",
+              "vi": "kiểm thử"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "của"
+            },
+            {
+              "w": "完了",
+              "r": "かんりょう",
+              "ro": "kanryoo",
+              "pos": "danh từ",
+              "vi": "hoàn thành"
+            },
+            {
+              "w": "と",
+              "ro": "to",
+              "pos": "trợ từ",
+              "vi": "(とする = coi là)"
+            },
+            {
+              "w": "します",
+              "ro": "shimasu",
+              "pos": "động từ",
+              "base": "する",
+              "vi": "coi là, quyết định là"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        },
+        {
+          "jp": "テストの結果は、本日中に書面をもってご報告いたします。",
+          "ro": "Tesuto no kekka wa, honjitsuchuu ni shomen o motte gohookoku itashimasu.",
+          "vi": "Kết quả test, chúng tôi xin báo cáo bằng văn bản trong hôm nay.",
+          "pt": "書面をもって = bằng văn bản (nghĩa phương tiện). Đi với ご報告いたします tạo văn phong rất trang trọng.",
+          "words": [
+            {
+              "w": "テスト",
+              "ro": "tesuto",
+              "pos": "danh từ",
+              "vi": "kiểm thử"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "của"
+            },
+            {
+              "w": "結果",
+              "r": "けっか",
+              "ro": "kekka",
+              "pos": "danh từ",
+              "vi": "kết quả"
+            },
+            {
+              "w": "は",
+              "ro": "wa",
+              "pos": "trợ từ",
+              "vi": "chủ đề"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "本日中",
+              "r": "ほんじつちゅう",
+              "ro": "honjitsuchuu",
+              "pos": "danh từ",
+              "vi": "trong hôm nay"
+            },
+            {
+              "w": "に",
+              "ro": "ni",
+              "pos": "trợ từ",
+              "vi": "chỉ thời hạn"
+            },
+            {
+              "w": "書面",
+              "r": "しょめん",
+              "ro": "shomen",
+              "pos": "danh từ",
+              "vi": "văn bản"
+            },
+            {
+              "w": "を",
+              "ro": "o",
+              "pos": "trợ từ",
+              "vi": "chỉ đối tượng"
+            },
+            {
+              "w": "もって",
+              "ro": "motte",
+              "pos": "động từ",
+              "base": "もつ",
+              "vi": "bằng (phương tiện)"
+            },
+            {
+              "w": "ご報告いたします",
+              "r": "ごほうこくいたします",
+              "ro": "gohookoku itashimasu",
+              "pos": "động từ",
+              "base": "報告する",
+              "vi": "xin báo cáo (khiêm nhường ngữ)"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "no": 3,
+      "p": "本題に入る前に少しお伺いしたいのですが、〇〇",
+      "ro": "Hondai ni hairu mae ni sukoshi oukagai shitai no desu ga, 〇〇",
+      "vi": "Trước khi vào nội dung chính, tôi xin phép hỏi một chút: 〇〇",
+      "form": "本題に入る前に + 少しお伺いしたいのですが、+ câu hỏi",
+      "use": "Mở đầu lịch sự khi muốn hỏi một chuyện bên lề (xác nhận việc trước đó, hỏi tình hình) trước khi vào chủ đề chính của buổi họp.",
+      "notes": [
+        "お伺いする là khiêm nhường ngữ của 聞く (hỏi); お伺いしたい rất hay dùng trong công việc, cũng có thể nói 伺いたい.",
+        "〜のですが dùng để dẫn dắt, làm mềm câu hỏi phía sau.",
+        "Khi quay lại chủ đề chính: では、本題に入らせていただきます。"
+      ],
+      "ex": [
+        {
+          "jp": "本題に入る前に少しお伺いしたいのですが、先日お送りしたテスト計画書はご覧いただけましたか。",
+          "ro": "Hondai ni hairu mae ni sukoshi oukagai shitai no desu ga, senjitsu ookuri shita tesuto keikakusho wa goran itadakemashita ka.",
+          "vi": "Trước khi vào nội dung chính, tôi xin hỏi một chút: anh/chị đã xem được bản kế hoạch test chúng tôi gửi hôm trước chưa ạ?",
+          "pt": "Câu hỏi bên lề về việc trước đó. お送りした (khiêm nhường) cho hành động của mình, ご覧いただけましたか (kính ngữ) cho hành động của khách.",
+          "words": [
+            {
+              "w": "本題",
+              "r": "ほんだい",
+              "ro": "hondai",
+              "pos": "danh từ",
+              "vi": "chủ đề chính"
+            },
+            {
+              "w": "に",
+              "ro": "ni",
+              "pos": "trợ từ",
+              "vi": "vào"
+            },
+            {
+              "w": "入る",
+              "r": "はいる",
+              "ro": "hairu",
+              "pos": "động từ",
+              "vi": "đi vào"
+            },
+            {
+              "w": "前に",
+              "r": "まえに",
+              "ro": "mae ni",
+              "pos": "danh từ",
+              "vi": "trước khi"
+            },
+            {
+              "w": "少し",
+              "r": "すこし",
+              "ro": "sukoshi",
+              "pos": "phó từ",
+              "vi": "một chút"
+            },
+            {
+              "w": "お伺いしたい",
+              "r": "おうかがいしたい",
+              "ro": "oukagai shitai",
+              "pos": "động từ",
+              "base": "お伺いする",
+              "vi": "muốn hỏi (khiêm nhường ngữ 謙譲語 của 聞きたい)"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "(giải thích)"
+            },
+            {
+              "w": "です",
+              "ro": "desu",
+              "pos": "trợ động từ",
+              "vi": "là"
+            },
+            {
+              "w": "が",
+              "ro": "ga",
+              "pos": "trợ từ",
+              "vi": "(dẫn dắt, làm mềm)"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "先日",
+              "r": "せんじつ",
+              "ro": "senjitsu",
+              "pos": "danh từ",
+              "vi": "hôm trước"
+            },
+            {
+              "w": "お送りした",
+              "r": "おおくりした",
+              "ro": "ookuri shita",
+              "pos": "động từ",
+              "base": "お送りする",
+              "vi": "đã gửi (khiêm nhường ngữ)"
+            },
+            {
+              "w": "テスト",
+              "ro": "tesuto",
+              "pos": "danh từ",
+              "vi": "kiểm thử"
+            },
+            {
+              "w": "計画書",
+              "r": "けいかくしょ",
+              "ro": "keikakusho",
+              "pos": "danh từ",
+              "vi": "bản kế hoạch"
+            },
+            {
+              "w": "は",
+              "ro": "wa",
+              "pos": "trợ từ",
+              "vi": "chủ đề"
+            },
+            {
+              "w": "ご覧いただけました",
+              "r": "ごらんいただけました",
+              "ro": "goran itadakemashita",
+              "pos": "động từ",
+              "base": "ご覧いただく",
+              "vi": "anh/chị đã xem giúp được (kính ngữ)"
+            },
+            {
+              "w": "か",
+              "ro": "ka",
+              "pos": "trợ từ",
+              "vi": "(câu hỏi)"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        },
+        {
+          "jp": "本題に入る前に少しお伺いしたいのですが、受け入れテストの担当者はもう決まりましたか。",
+          "ro": "Hondai ni hairu mae ni sukoshi oukagai shitai no desu ga, ukeire tesuto no tantoosha wa moo kimarimashita ka.",
+          "vi": "Trước khi vào nội dung chính, tôi xin hỏi một chút: người phụ trách test nghiệm thu đã được quyết định chưa ạ?",
+          "pt": "Đội offshore hỏi khách để chuẩn bị cho giai đoạn sau; mẫu câu giúp câu hỏi không làm lệch chương trình họp.",
+          "words": [
+            {
+              "w": "本題",
+              "r": "ほんだい",
+              "ro": "hondai",
+              "pos": "danh từ",
+              "vi": "chủ đề chính"
+            },
+            {
+              "w": "に",
+              "ro": "ni",
+              "pos": "trợ từ",
+              "vi": "vào"
+            },
+            {
+              "w": "入る",
+              "r": "はいる",
+              "ro": "hairu",
+              "pos": "động từ",
+              "vi": "đi vào"
+            },
+            {
+              "w": "前に",
+              "r": "まえに",
+              "ro": "mae ni",
+              "pos": "danh từ",
+              "vi": "trước khi"
+            },
+            {
+              "w": "少し",
+              "r": "すこし",
+              "ro": "sukoshi",
+              "pos": "phó từ",
+              "vi": "một chút"
+            },
+            {
+              "w": "お伺いしたい",
+              "r": "おうかがいしたい",
+              "ro": "oukagai shitai",
+              "pos": "động từ",
+              "base": "お伺いする",
+              "vi": "muốn hỏi (khiêm nhường ngữ)"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "(giải thích)"
+            },
+            {
+              "w": "です",
+              "ro": "desu",
+              "pos": "trợ động từ",
+              "vi": "là"
+            },
+            {
+              "w": "が",
+              "ro": "ga",
+              "pos": "trợ từ",
+              "vi": "(dẫn dắt)"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "受け入れ",
+              "r": "うけいれ",
+              "ro": "ukeire",
+              "pos": "danh từ",
+              "vi": "tiếp nhận, nghiệm thu"
+            },
+            {
+              "w": "テスト",
+              "ro": "tesuto",
+              "pos": "danh từ",
+              "vi": "kiểm thử"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "của"
+            },
+            {
+              "w": "担当者",
+              "r": "たんとうしゃ",
+              "ro": "tantoosha",
+              "pos": "danh từ",
+              "vi": "người phụ trách"
+            },
+            {
+              "w": "は",
+              "ro": "wa",
+              "pos": "trợ từ",
+              "vi": "chủ đề"
+            },
+            {
+              "w": "もう",
+              "ro": "moo",
+              "pos": "phó từ",
+              "vi": "đã"
+            },
+            {
+              "w": "決まりました",
+              "r": "きまりました",
+              "ro": "kimarimashita",
+              "pos": "động từ",
+              "base": "決まる",
+              "vi": "đã được quyết định"
+            },
+            {
+              "w": "か",
+              "ro": "ka",
+              "pos": "trợ từ",
+              "vi": "(câu hỏi)"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "dialog": {
+    "title": "Họp tuần về system test của app giao đồ ăn",
+    "setting": "Họp định kỳ trực tuyến: anh Tanaka (PM phía công ty giao đồ ăn) trao đổi với Nam (PM đội offshore) và chị Phương (trưởng nhóm test) về kế hoạch system test.",
+    "lines": [
+      {
+        "sp": "田中",
+        "jp": "本題に入る前に少しお伺いしたいのですが、結合テストで見つかった不具合は、もう直りましたか。",
+        "ro": "Hondai ni hairu mae ni sukoshi oukagai shitai no desu ga, ketsugoo tesuto de mitsukatta fuguai wa, moo naorimashita ka.",
+        "vi": "Trước khi vào nội dung chính, tôi xin hỏi một chút: các lỗi tìm thấy trong integration test đã được sửa chưa?",
+        "pt": "Mẫu ③: khách hỏi chuyện của giai đoạn trước trước khi bàn về system test.",
+        "words": [
+          {
+            "w": "本題",
+            "r": "ほんだい",
+            "ro": "hondai",
+            "pos": "danh từ",
+            "vi": "chủ đề chính"
+          },
+          {
+            "w": "に",
+            "ro": "ni",
+            "pos": "trợ từ",
+            "vi": "vào"
+          },
+          {
+            "w": "入る",
+            "r": "はいる",
+            "ro": "hairu",
+            "pos": "động từ",
+            "vi": "đi vào"
+          },
+          {
+            "w": "前に",
+            "r": "まえに",
+            "ro": "mae ni",
+            "pos": "danh từ",
+            "vi": "trước khi"
+          },
+          {
+            "w": "少し",
+            "r": "すこし",
+            "ro": "sukoshi",
+            "pos": "phó từ",
+            "vi": "một chút"
+          },
+          {
+            "w": "お伺いしたい",
+            "r": "おうかがいしたい",
+            "ro": "oukagai shitai",
+            "pos": "động từ",
+            "base": "お伺いする",
+            "vi": "muốn hỏi (khiêm nhường ngữ)"
+          },
+          {
+            "w": "の",
+            "ro": "no",
+            "pos": "trợ từ",
+            "vi": "(giải thích)"
+          },
+          {
+            "w": "です",
+            "ro": "desu",
+            "pos": "trợ động từ",
+            "vi": "là"
+          },
+          {
+            "w": "が",
+            "ro": "ga",
+            "pos": "trợ từ",
+            "vi": "(dẫn dắt)"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "結合",
+            "r": "けつごう",
+            "ro": "ketsugoo",
+            "pos": "danh từ",
+            "vi": "tích hợp"
+          },
+          {
+            "w": "テスト",
+            "ro": "tesuto",
+            "pos": "danh từ",
+            "vi": "kiểm thử"
+          },
+          {
+            "w": "で",
+            "ro": "de",
+            "pos": "trợ từ",
+            "vi": "trong"
+          },
+          {
+            "w": "見つかった",
+            "r": "みつかった",
+            "ro": "mitsukatta",
+            "pos": "động từ",
+            "base": "見つかる",
+            "vi": "được tìm thấy"
+          },
+          {
+            "w": "不具合",
+            "r": "ふぐあい",
+            "ro": "fuguai",
+            "pos": "danh từ",
+            "vi": "lỗi (bug)"
+          },
+          {
+            "w": "は",
+            "ro": "wa",
+            "pos": "trợ từ",
+            "vi": "chủ đề"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "もう",
+            "ro": "moo",
+            "pos": "phó từ",
+            "vi": "đã"
+          },
+          {
+            "w": "直りました",
+            "r": "なおりました",
+            "ro": "naorimashita",
+            "pos": "động từ",
+            "base": "直る",
+            "vi": "đã được sửa"
+          },
+          {
+            "w": "か",
+            "ro": "ka",
+            "pos": "trợ từ",
+            "vi": "(câu hỏi)"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          }
+        ]
+      },
+      {
+        "sp": "ナム",
+        "jp": "はい、すべて修正済みで、再テストも終わっております。",
+        "ro": "Hai, subete shuuseizumi de, sai tesuto mo owatte orimasu.",
+        "vi": "Vâng, tất cả đã được sửa, và việc test lại cũng đã xong.",
+        "pt": "〜済み = đã xong; 終わっております là cách nói khiêm nhường của 終わっています.",
+        "words": [
+          {
+            "w": "はい",
+            "ro": "hai",
+            "pos": "cụm chào hỏi",
+            "vi": "vâng"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "すべて",
+            "ro": "subete",
+            "pos": "phó từ",
+            "vi": "tất cả"
+          },
+          {
+            "w": "修正済み",
+            "r": "しゅうせいずみ",
+            "ro": "shuuseizumi",
+            "pos": "danh từ",
+            "vi": "đã sửa xong"
+          },
+          {
+            "w": "で",
+            "ro": "de",
+            "pos": "trợ động từ",
+            "base": "だ",
+            "vi": "là (thể nối)"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "再",
+            "r": "さい",
+            "ro": "sai",
+            "pos": "tiền tố",
+            "vi": "lại, tái"
+          },
+          {
+            "w": "テスト",
+            "ro": "tesuto",
+            "pos": "danh từ",
+            "vi": "kiểm thử"
+          },
+          {
+            "w": "も",
+            "ro": "mo",
+            "pos": "trợ từ",
+            "vi": "cũng"
+          },
+          {
+            "w": "終わって",
+            "r": "おわって",
+            "ro": "owatte",
+            "pos": "động từ",
+            "base": "終わる",
+            "vi": "kết thúc"
+          },
+          {
+            "w": "おります",
+            "ro": "orimasu",
+            "pos": "động từ",
+            "base": "おる",
+            "vi": "(khiêm nhường ngữ của います)"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          }
+        ]
+      },
+      {
+        "sp": "ナム",
+        "jp": "今週からシステムテストに着手します。詳しくは、テスト担当のフオンからご説明します。",
+        "ro": "Konshuu kara shisutemu tesuto ni chakushu shimasu. Kuwashiku wa, tesuto tantoo no Fuon kara gosetsumei shimasu.",
+        "vi": "Từ tuần này chúng tôi bắt đầu system test. Chi tiết xin để Phương, người phụ trách test, giải thích.",
+        "pt": "Giới thiệu người trong công ty mình với khách: không dùng さん (フオンから).",
+        "words": [
+          {
+            "w": "今週",
+            "r": "こんしゅう",
+            "ro": "konshuu",
+            "pos": "danh từ",
+            "vi": "tuần này"
+          },
+          {
+            "w": "から",
+            "ro": "kara",
+            "pos": "trợ từ",
+            "vi": "từ"
+          },
+          {
+            "w": "システム",
+            "ro": "shisutemu",
+            "pos": "danh từ",
+            "vi": "hệ thống"
+          },
+          {
+            "w": "テスト",
+            "ro": "tesuto",
+            "pos": "danh từ",
+            "vi": "kiểm thử"
+          },
+          {
+            "w": "に",
+            "ro": "ni",
+            "pos": "trợ từ",
+            "vi": "vào"
+          },
+          {
+            "w": "着手します",
+            "r": "ちゃくしゅします",
+            "ro": "chakushu shimasu",
+            "pos": "động từ",
+            "base": "着手する",
+            "vi": "bắt tay vào"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "詳しく",
+            "r": "くわしく",
+            "ro": "kuwashiku",
+            "pos": "phó từ",
+            "base": "詳しい",
+            "vi": "chi tiết"
+          },
+          {
+            "w": "は",
+            "ro": "wa",
+            "pos": "trợ từ",
+            "vi": "chủ đề"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "テスト",
+            "ro": "tesuto",
+            "pos": "danh từ",
+            "vi": "kiểm thử"
+          },
+          {
+            "w": "担当",
+            "r": "たんとう",
+            "ro": "tantoo",
+            "pos": "danh từ",
+            "vi": "phụ trách"
+          },
+          {
+            "w": "の",
+            "ro": "no",
+            "pos": "trợ từ",
+            "vi": "(đồng vị: người phụ trách test là…)"
+          },
+          {
+            "w": "フオン",
+            "ro": "Fuon",
+            "pos": "danh từ",
+            "vi": "Phương (tên người)"
+          },
+          {
+            "w": "から",
+            "ro": "kara",
+            "pos": "trợ từ",
+            "vi": "từ"
+          },
+          {
+            "w": "ご説明します",
+            "r": "ごせつめいします",
+            "ro": "gosetsumei shimasu",
+            "pos": "động từ",
+            "base": "説明する",
+            "vi": "xin giải thích (khiêm nhường ngữ)"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          }
+        ]
+      },
+      {
+        "sp": "フオン",
+        "jp": "今回は、決済処理の回帰テストを、オープンソースのツールで自動化する予定です。",
+        "ro": "Konkai wa, kessai shori no kaiki tesuto o, oopun soosu no tsuuru de jidooka suru yotei desu.",
+        "vi": "Lần này, chúng tôi dự định tự động hóa test hồi quy cho phần xử lý thanh toán bằng công cụ mã nguồn mở.",
+        "pt": "Nêu rõ phạm vi tự động hóa (回帰テスト của 決済処理) để khách không hiểu là tự động hóa toàn bộ.",
+        "words": [
+          {
+            "w": "今回",
+            "r": "こんかい",
+            "ro": "konkai",
+            "pos": "danh từ",
+            "vi": "lần này"
+          },
+          {
+            "w": "は",
+            "ro": "wa",
+            "pos": "trợ từ",
+            "vi": "chủ đề"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "決済",
+            "r": "けっさい",
+            "ro": "kessai",
+            "pos": "danh từ",
+            "vi": "thanh toán"
+          },
+          {
+            "w": "処理",
+            "r": "しょり",
+            "ro": "shori",
+            "pos": "danh từ",
+            "vi": "xử lý"
+          },
+          {
+            "w": "の",
+            "ro": "no",
+            "pos": "trợ từ",
+            "vi": "của"
+          },
+          {
+            "w": "回帰",
+            "r": "かいき",
+            "ro": "kaiki",
+            "pos": "danh từ",
+            "vi": "hồi quy"
+          },
+          {
+            "w": "テスト",
+            "ro": "tesuto",
+            "pos": "danh từ",
+            "vi": "kiểm thử"
+          },
+          {
+            "w": "を",
+            "ro": "o",
+            "pos": "trợ từ",
+            "vi": "chỉ đối tượng"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "オープンソース",
+            "ro": "oopun soosu",
+            "pos": "danh từ",
+            "vi": "mã nguồn mở"
+          },
+          {
+            "w": "の",
+            "ro": "no",
+            "pos": "trợ từ",
+            "vi": "của"
+          },
+          {
+            "w": "ツール",
+            "ro": "tsuuru",
+            "pos": "danh từ",
+            "vi": "công cụ"
+          },
+          {
+            "w": "で",
+            "ro": "de",
+            "pos": "trợ từ",
+            "vi": "bằng"
+          },
+          {
+            "w": "自動化する",
+            "r": "じどうかする",
+            "ro": "jidooka suru",
+            "pos": "động từ",
+            "vi": "tự động hóa"
+          },
+          {
+            "w": "予定",
+            "r": "よてい",
+            "ro": "yotei",
+            "pos": "danh từ",
+            "vi": "dự định"
+          },
+          {
+            "w": "です",
+            "ro": "desu",
+            "pos": "trợ động từ",
+            "vi": "là"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          }
+        ]
+      },
+      {
+        "sp": "田中",
+        "jp": "自動化すると、工数はどのくらい減りますか。",
+        "ro": "Jidooka suru to, koosuu wa dono kurai herimasu ka.",
+        "vi": "Nếu tự động hóa thì công số giảm được khoảng bao nhiêu?",
+        "pt": "Khách Nhật thường hỏi hiệu quả bằng con số.",
+        "words": [
+          {
+            "w": "自動化する",
+            "r": "じどうかする",
+            "ro": "jidooka suru",
+            "pos": "động từ",
+            "vi": "tự động hóa"
+          },
+          {
+            "w": "と",
+            "ro": "to",
+            "pos": "trợ từ",
+            "vi": "nếu, hễ"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "工数",
+            "r": "こうすう",
+            "ro": "koosuu",
+            "pos": "danh từ",
+            "vi": "công số (man-hour)"
+          },
+          {
+            "w": "は",
+            "ro": "wa",
+            "pos": "trợ từ",
+            "vi": "chủ đề"
+          },
+          {
+            "w": "どのくらい",
+            "ro": "dono kurai",
+            "pos": "phó từ",
+            "vi": "khoảng bao nhiêu"
+          },
+          {
+            "w": "減ります",
+            "r": "へります",
+            "ro": "herimasu",
+            "pos": "động từ",
+            "base": "減る",
+            "vi": "giảm"
+          },
+          {
+            "w": "か",
+            "ro": "ka",
+            "pos": "trợ từ",
+            "vi": "(câu hỏi)"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          }
+        ]
+      },
+      {
+        "sp": "フオン",
+        "jp": "試算では、テスト工数を三割ほど削減できる見込みです。",
+        "ro": "Shisan de wa, tesuto koosuu o sanwari hodo sakugen dekiru mikomi desu.",
+        "vi": "Theo ước tính, dự kiến có thể cắt giảm khoảng 30% công số test.",
+        "pt": "試算では〜見込みです: trả lời bằng số liệu nhưng vẫn thận trọng (là ước tính, chưa chắc chắn).",
+        "words": [
+          {
+            "w": "試算",
+            "r": "しさん",
+            "ro": "shisan",
+            "pos": "danh từ",
+            "vi": "tính thử, ước tính"
+          },
+          {
+            "w": "で",
+            "ro": "de",
+            "pos": "trợ từ",
+            "vi": "theo"
+          },
+          {
+            "w": "は",
+            "ro": "wa",
+            "pos": "trợ từ",
+            "vi": "chủ đề"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "テスト",
+            "ro": "tesuto",
+            "pos": "danh từ",
+            "vi": "kiểm thử"
+          },
+          {
+            "w": "工数",
+            "r": "こうすう",
+            "ro": "koosuu",
+            "pos": "danh từ",
+            "vi": "công số"
+          },
+          {
+            "w": "を",
+            "ro": "o",
+            "pos": "trợ từ",
+            "vi": "chỉ đối tượng"
+          },
+          {
+            "w": "三割",
+            "r": "さんわり",
+            "ro": "sanwari",
+            "pos": "danh từ",
+            "vi": "30%"
+          },
+          {
+            "w": "ほど",
+            "ro": "hodo",
+            "pos": "trợ từ",
+            "vi": "khoảng"
+          },
+          {
+            "w": "削減できる",
+            "r": "さくげんできる",
+            "ro": "sakugen dekiru",
+            "pos": "động từ",
+            "base": "削減する",
+            "vi": "có thể cắt giảm"
+          },
+          {
+            "w": "見込み",
+            "r": "みこみ",
+            "ro": "mikomi",
+            "pos": "danh từ",
+            "vi": "dự kiến, triển vọng"
+          },
+          {
+            "w": "です",
+            "ro": "desu",
+            "pos": "trợ động từ",
+            "vi": "là"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          }
+        ]
+      },
+      {
+        "sp": "フオン",
+        "jp": "テスト用の会員データとカード情報は、事前にダミーで用意してあります。",
+        "ro": "Tesuto yoo no kaiin deeta to kaado joohoo wa, jizen ni damii de yooi shite arimasu.",
+        "vi": "Dữ liệu hội viên và thông tin thẻ dùng cho test đã được chuẩn bị sẵn bằng dữ liệu giả.",
+        "pt": "Mẫu ①: trấn an khách rằng không dùng dữ liệu thật trong test.",
+        "words": [
+          {
+            "w": "テスト",
+            "ro": "tesuto",
+            "pos": "danh từ",
+            "vi": "kiểm thử"
+          },
+          {
+            "w": "用",
+            "r": "よう",
+            "ro": "yoo",
+            "pos": "hậu tố",
+            "vi": "dùng cho"
+          },
+          {
+            "w": "の",
+            "ro": "no",
+            "pos": "trợ từ",
+            "vi": "của"
+          },
+          {
+            "w": "会員",
+            "r": "かいいん",
+            "ro": "kaiin",
+            "pos": "danh từ",
+            "vi": "hội viên"
+          },
+          {
+            "w": "データ",
+            "ro": "deeta",
+            "pos": "danh từ",
+            "vi": "dữ liệu"
+          },
+          {
+            "w": "と",
+            "ro": "to",
+            "pos": "trợ từ",
+            "vi": "và"
+          },
+          {
+            "w": "カード",
+            "ro": "kaado",
+            "pos": "danh từ",
+            "vi": "thẻ"
+          },
+          {
+            "w": "情報",
+            "r": "じょうほう",
+            "ro": "joohoo",
+            "pos": "danh từ",
+            "vi": "thông tin"
+          },
+          {
+            "w": "は",
+            "ro": "wa",
+            "pos": "trợ từ",
+            "vi": "chủ đề"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "事前に",
+            "r": "じぜんに",
+            "ro": "jizen ni",
+            "pos": "phó từ",
+            "base": "事前",
+            "vi": "từ trước"
+          },
+          {
+            "w": "ダミー",
+            "ro": "damii",
+            "pos": "danh từ",
+            "vi": "dữ liệu giả (dummy)"
+          },
+          {
+            "w": "で",
+            "ro": "de",
+            "pos": "trợ từ",
+            "vi": "bằng"
+          },
+          {
+            "w": "用意して",
+            "r": "よういして",
+            "ro": "yooi shite",
+            "pos": "động từ",
+            "base": "用意する",
+            "vi": "chuẩn bị"
+          },
+          {
+            "w": "あります",
+            "ro": "arimasu",
+            "pos": "động từ",
+            "base": "ある",
+            "vi": "(〜てある: đã chuẩn bị sẵn)"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          }
+        ]
+      },
+      {
+        "sp": "田中",
+        "jp": "負荷テストはどうしますか。週末はアクセスが集中しますので。",
+        "ro": "Fuka tesuto wa doo shimasu ka. Shuumatsu wa akusesu ga shuuchuu shimasu node.",
+        "vi": "Còn test tải thì sao? Vì cuối tuần lượng truy cập dồn vào rất nhiều.",
+        "pt": "Câu kết thúc bằng ので: nêu lý do và để ngỏ, người nghe tự hiểu là cần quan tâm.",
+        "words": [
+          {
+            "w": "負荷",
+            "r": "ふか",
+            "ro": "fuka",
+            "pos": "danh từ",
+            "vi": "tải"
+          },
+          {
+            "w": "テスト",
+            "ro": "tesuto",
+            "pos": "danh từ",
+            "vi": "kiểm thử"
+          },
+          {
+            "w": "は",
+            "ro": "wa",
+            "pos": "trợ từ",
+            "vi": "chủ đề"
+          },
+          {
+            "w": "どう",
+            "ro": "doo",
+            "pos": "phó từ",
+            "vi": "thế nào"
+          },
+          {
+            "w": "します",
+            "ro": "shimasu",
+            "pos": "động từ",
+            "base": "する",
+            "vi": "làm"
+          },
+          {
+            "w": "か",
+            "ro": "ka",
+            "pos": "trợ từ",
+            "vi": "(câu hỏi)"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "週末",
+            "r": "しゅうまつ",
+            "ro": "shuumatsu",
+            "pos": "danh từ",
+            "vi": "cuối tuần"
+          },
+          {
+            "w": "は",
+            "ro": "wa",
+            "pos": "trợ từ",
+            "vi": "chủ đề"
+          },
+          {
+            "w": "アクセス",
+            "ro": "akusesu",
+            "pos": "danh từ",
+            "vi": "truy cập"
+          },
+          {
+            "w": "が",
+            "ro": "ga",
+            "pos": "trợ từ",
+            "vi": "chỉ chủ ngữ"
+          },
+          {
+            "w": "集中します",
+            "r": "しゅうちゅうします",
+            "ro": "shuuchuu shimasu",
+            "pos": "động từ",
+            "base": "集中する",
+            "vi": "tập trung"
+          },
+          {
+            "w": "ので",
+            "ro": "node",
+            "pos": "trợ từ",
+            "vi": "vì"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          }
+        ]
+      },
+      {
+        "sp": "ナム",
+        "jp": "来週実施し、目標の応答時間を満たしたことをもって合格と判定します。",
+        "ro": "Raishuu jisshi shi, mokuhyoo no ootoo jikan o mitashita koto o motte gookaku to hantei shimasu.",
+        "vi": "Chúng tôi sẽ tiến hành vào tuần sau, và coi là đạt khi đáp ứng được thời gian phản hồi mục tiêu.",
+        "pt": "Mẫu ②: nêu tiêu chí đạt (終了判定) rõ ràng bằng 〜ことをもって.",
+        "words": [
+          {
+            "w": "来週",
+            "r": "らいしゅう",
+            "ro": "raishuu",
+            "pos": "danh từ",
+            "vi": "tuần sau"
+          },
+          {
+            "w": "実施し",
+            "r": "じっしし",
+            "ro": "jisshi shi",
+            "pos": "động từ",
+            "base": "実施する",
+            "vi": "tiến hành (thể nối)"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "目標",
+            "r": "もくひょう",
+            "ro": "mokuhyoo",
+            "pos": "danh từ",
+            "vi": "mục tiêu"
+          },
+          {
+            "w": "の",
+            "ro": "no",
+            "pos": "trợ từ",
+            "vi": "của"
+          },
+          {
+            "w": "応答時間",
+            "r": "おうとうじかん",
+            "ro": "ootoo jikan",
+            "pos": "danh từ",
+            "vi": "thời gian phản hồi"
+          },
+          {
+            "w": "を",
+            "ro": "o",
+            "pos": "trợ từ",
+            "vi": "chỉ đối tượng"
+          },
+          {
+            "w": "満たした",
+            "r": "みたした",
+            "ro": "mitashita",
+            "pos": "động từ",
+            "base": "満たす",
+            "vi": "đã đáp ứng"
+          },
+          {
+            "w": "こと",
+            "ro": "koto",
+            "pos": "danh từ",
+            "vi": "việc"
+          },
+          {
+            "w": "を",
+            "ro": "o",
+            "pos": "trợ từ",
+            "vi": "chỉ đối tượng"
+          },
+          {
+            "w": "もって",
+            "ro": "motte",
+            "pos": "động từ",
+            "base": "もつ",
+            "vi": "lấy làm căn cứ"
+          },
+          {
+            "w": "合格",
+            "r": "ごうかく",
+            "ro": "gookaku",
+            "pos": "danh từ",
+            "vi": "đạt"
+          },
+          {
+            "w": "と",
+            "ro": "to",
+            "pos": "trợ từ",
+            "vi": "(とする = coi là)"
+          },
+          {
+            "w": "判定します",
+            "r": "はんていします",
+            "ro": "hantei shimasu",
+            "pos": "động từ",
+            "base": "判定する",
+            "vi": "phán định"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          }
+        ]
+      },
+      {
+        "sp": "田中",
+        "jp": "分かりました。リリース前に、社内の利用者にもデモ版を触ってもらいたいです。",
+        "ro": "Wakarimashita. Ririisu mae ni, shanai no riyoosha ni mo demo ban o sawatte moraitai desu.",
+        "vi": "Tôi hiểu rồi. Trước khi phát hành, tôi cũng muốn người dùng trong công ty dùng thử bản demo.",
+        "pt": "〜に〜てもらいたい: muốn nhờ ai đó làm việc gì.",
+        "words": [
+          {
+            "w": "分かりました",
+            "r": "わかりました",
+            "ro": "wakarimashita",
+            "pos": "động từ",
+            "base": "分かる",
+            "vi": "tôi hiểu rồi"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "リリース",
+            "ro": "ririisu",
+            "pos": "danh từ",
+            "vi": "phát hành"
+          },
+          {
+            "w": "前",
+            "r": "まえ",
+            "ro": "mae",
+            "pos": "danh từ",
+            "vi": "trước"
+          },
+          {
+            "w": "に",
+            "ro": "ni",
+            "pos": "trợ từ",
+            "vi": "chỉ thời điểm"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "社内",
+            "r": "しゃない",
+            "ro": "shanai",
+            "pos": "danh từ",
+            "vi": "trong công ty"
+          },
+          {
+            "w": "の",
+            "ro": "no",
+            "pos": "trợ từ",
+            "vi": "của"
+          },
+          {
+            "w": "利用者",
+            "r": "りようしゃ",
+            "ro": "riyoosha",
+            "pos": "danh từ",
+            "vi": "người dùng"
+          },
+          {
+            "w": "に",
+            "ro": "ni",
+            "pos": "trợ từ",
+            "vi": "(người được nhờ làm)"
+          },
+          {
+            "w": "も",
+            "ro": "mo",
+            "pos": "trợ từ",
+            "vi": "cũng"
+          },
+          {
+            "w": "デモ",
+            "ro": "demo",
+            "pos": "danh từ",
+            "vi": "demo"
+          },
+          {
+            "w": "版",
+            "r": "ばん",
+            "ro": "ban",
+            "pos": "hậu tố",
+            "vi": "phiên bản"
+          },
+          {
+            "w": "を",
+            "ro": "o",
+            "pos": "trợ từ",
+            "vi": "chỉ đối tượng"
+          },
+          {
+            "w": "触って",
+            "r": "さわって",
+            "ro": "sawatte",
+            "pos": "động từ",
+            "base": "触る",
+            "vi": "dùng thử, chạm vào"
+          },
+          {
+            "w": "もらいたい",
+            "ro": "moraitai",
+            "pos": "động từ",
+            "base": "もらう",
+            "vi": "muốn được (ai đó) làm cho"
+          },
+          {
+            "w": "です",
+            "ro": "desu",
+            "pos": "trợ động từ",
+            "vi": "là"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          }
+        ]
+      }
+    ]
+  },
+  "phrases": [
+    {
+      "h": "Khi giải thích kế hoạch test",
+      "items": [
+        {
+          "jp": "単体テストは各開発者が行い、結合テストからはテストチームが担当します。",
+          "ro": "Tantai tesuto wa kaku kaihatsusha ga okonai, ketsugoo tesuto kara wa tesuto chiimu ga tantoo shimasu.",
+          "vi": "Unit test do từng lập trình viên thực hiện, còn từ integration test trở đi do đội test phụ trách.",
+          "pt": "Phân chia vai trò theo cấp test; 行い là thể nối trang trọng (= 行って).",
+          "words": [
+            {
+              "w": "単体",
+              "r": "たんたい",
+              "ro": "tantai",
+              "pos": "danh từ",
+              "vi": "đơn vị"
+            },
+            {
+              "w": "テスト",
+              "ro": "tesuto",
+              "pos": "danh từ",
+              "vi": "kiểm thử"
+            },
+            {
+              "w": "は",
+              "ro": "wa",
+              "pos": "trợ từ",
+              "vi": "chủ đề"
+            },
+            {
+              "w": "各",
+              "r": "かく",
+              "ro": "kaku",
+              "pos": "tiền tố",
+              "vi": "mỗi"
+            },
+            {
+              "w": "開発者",
+              "r": "かいはつしゃ",
+              "ro": "kaihatsusha",
+              "pos": "danh từ",
+              "vi": "lập trình viên"
+            },
+            {
+              "w": "が",
+              "ro": "ga",
+              "pos": "trợ từ",
+              "vi": "chỉ chủ ngữ"
+            },
+            {
+              "w": "行い",
+              "r": "おこない",
+              "ro": "okonai",
+              "pos": "động từ",
+              "base": "行う",
+              "vi": "thực hiện (thể nối)"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "結合",
+              "r": "けつごう",
+              "ro": "ketsugoo",
+              "pos": "danh từ",
+              "vi": "tích hợp"
+            },
+            {
+              "w": "テスト",
+              "ro": "tesuto",
+              "pos": "danh từ",
+              "vi": "kiểm thử"
+            },
+            {
+              "w": "から",
+              "ro": "kara",
+              "pos": "trợ từ",
+              "vi": "từ"
+            },
+            {
+              "w": "は",
+              "ro": "wa",
+              "pos": "trợ từ",
+              "vi": "chủ đề"
+            },
+            {
+              "w": "テスト",
+              "ro": "tesuto",
+              "pos": "danh từ",
+              "vi": "kiểm thử"
+            },
+            {
+              "w": "チーム",
+              "ro": "chiimu",
+              "pos": "danh từ",
+              "vi": "đội"
+            },
+            {
+              "w": "が",
+              "ro": "ga",
+              "pos": "trợ từ",
+              "vi": "chỉ chủ ngữ"
+            },
+            {
+              "w": "担当します",
+              "r": "たんとうします",
+              "ro": "tantoo shimasu",
+              "pos": "động từ",
+              "base": "担当する",
+              "vi": "phụ trách"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        },
+        {
+          "jp": "テストケースごとに、前提条件と手順、期待結果を記載しています。",
+          "ro": "Tesuto keesu goto ni, zentei jooken to tejun, kitai kekka o kisai shite imasu.",
+          "vi": "Với mỗi test case, chúng tôi ghi điều kiện tiền đề, các bước và kết quả mong đợi.",
+          "pt": "Ba thành phần cốt lõi của một test case.",
+          "words": [
+            {
+              "w": "テスト",
+              "ro": "tesuto",
+              "pos": "danh từ",
+              "vi": "kiểm thử"
+            },
+            {
+              "w": "ケース",
+              "ro": "keesu",
+              "pos": "danh từ",
+              "vi": "trường hợp (case)"
+            },
+            {
+              "w": "ごと",
+              "ro": "goto",
+              "pos": "hậu tố",
+              "vi": "từng"
+            },
+            {
+              "w": "に",
+              "ro": "ni",
+              "pos": "trợ từ",
+              "vi": "(ごとに = cho mỗi)"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "前提条件",
+              "r": "ぜんていじょうけん",
+              "ro": "zentei jooken",
+              "pos": "danh từ",
+              "vi": "điều kiện tiền đề"
+            },
+            {
+              "w": "と",
+              "ro": "to",
+              "pos": "trợ từ",
+              "vi": "và"
+            },
+            {
+              "w": "手順",
+              "r": "てじゅん",
+              "ro": "tejun",
+              "pos": "danh từ",
+              "vi": "các bước"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "期待結果",
+              "r": "きたいけっか",
+              "ro": "kitai kekka",
+              "pos": "danh từ",
+              "vi": "kết quả mong đợi"
+            },
+            {
+              "w": "を",
+              "ro": "o",
+              "pos": "trợ từ",
+              "vi": "chỉ đối tượng"
+            },
+            {
+              "w": "記載して",
+              "r": "きさいして",
+              "ro": "kisai shite",
+              "pos": "động từ",
+              "base": "記載する",
+              "vi": "ghi"
+            },
+            {
+              "w": "います",
+              "ro": "imasu",
+              "pos": "động từ",
+              "base": "いる",
+              "vi": "(trạng thái)"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        },
+        {
+          "jp": "不具合の件数が基準値以下になった時点で、テストを終了します。",
+          "ro": "Fuguai no kensuu ga kijunchi ika ni natta jiten de, tesuto o shuuryoo shimasu.",
+          "vi": "Khi số lỗi giảm xuống không quá giá trị chuẩn, chúng tôi sẽ kết thúc test.",
+          "pt": "Nêu tiêu chí kết thúc test bằng số liệu (定量的).",
+          "words": [
+            {
+              "w": "不具合",
+              "r": "ふぐあい",
+              "ro": "fuguai",
+              "pos": "danh từ",
+              "vi": "lỗi"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "của"
+            },
+            {
+              "w": "件数",
+              "r": "けんすう",
+              "ro": "kensuu",
+              "pos": "danh từ",
+              "vi": "số lượng (vụ)"
+            },
+            {
+              "w": "が",
+              "ro": "ga",
+              "pos": "trợ từ",
+              "vi": "chỉ chủ ngữ"
+            },
+            {
+              "w": "基準値",
+              "r": "きじゅんち",
+              "ro": "kijunchi",
+              "pos": "danh từ",
+              "vi": "giá trị chuẩn"
+            },
+            {
+              "w": "以下",
+              "r": "いか",
+              "ro": "ika",
+              "pos": "danh từ",
+              "vi": "không quá, dưới"
+            },
+            {
+              "w": "に",
+              "ro": "ni",
+              "pos": "trợ từ",
+              "vi": "chỉ kết quả"
+            },
+            {
+              "w": "なった",
+              "ro": "natta",
+              "pos": "động từ",
+              "base": "なる",
+              "vi": "trở thành"
+            },
+            {
+              "w": "時点",
+              "r": "じてん",
+              "ro": "jiten",
+              "pos": "danh từ",
+              "vi": "thời điểm"
+            },
+            {
+              "w": "で",
+              "ro": "de",
+              "pos": "trợ từ",
+              "vi": "tại"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "テスト",
+              "ro": "tesuto",
+              "pos": "danh từ",
+              "vi": "kiểm thử"
+            },
+            {
+              "w": "を",
+              "ro": "o",
+              "pos": "trợ từ",
+              "vi": "chỉ đối tượng"
+            },
+            {
+              "w": "終了します",
+              "r": "しゅうりょうします",
+              "ro": "shuuryoo shimasu",
+              "pos": "động từ",
+              "base": "終了する",
+              "vi": "kết thúc"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "h": "Khi báo cáo tiến độ và kết quả test",
+      "items": [
+        {
+          "jp": "今日までに、予定の八割の試験項目を消化しました。",
+          "ro": "Kyoo made ni, yotei no hachiwari no shiken koomoku o shooka shimashita.",
+          "vi": "Tính đến hôm nay, chúng tôi đã chạy xong 80% số hạng mục test dự kiến.",
+          "pt": "消化する (nghĩa gốc: tiêu hóa) dùng cho việc hoàn thành khối lượng công việc theo kế hoạch.",
+          "words": [
+            {
+              "w": "今日",
+              "r": "きょう",
+              "ro": "kyoo",
+              "pos": "danh từ",
+              "vi": "hôm nay"
+            },
+            {
+              "w": "まで",
+              "ro": "made",
+              "pos": "trợ từ",
+              "vi": "đến"
+            },
+            {
+              "w": "に",
+              "ro": "ni",
+              "pos": "trợ từ",
+              "vi": "(までに = tính đến)"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "予定",
+              "r": "よてい",
+              "ro": "yotei",
+              "pos": "danh từ",
+              "vi": "dự kiến"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "của"
+            },
+            {
+              "w": "八割",
+              "r": "はちわり",
+              "ro": "hachiwari",
+              "pos": "danh từ",
+              "vi": "80%"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "của"
+            },
+            {
+              "w": "試験",
+              "r": "しけん",
+              "ro": "shiken",
+              "pos": "danh từ",
+              "vi": "kiểm thử"
+            },
+            {
+              "w": "項目",
+              "r": "こうもく",
+              "ro": "koomoku",
+              "pos": "danh từ",
+              "vi": "hạng mục"
+            },
+            {
+              "w": "を",
+              "ro": "o",
+              "pos": "trợ từ",
+              "vi": "chỉ đối tượng"
+            },
+            {
+              "w": "消化しました",
+              "r": "しょうかしました",
+              "ro": "shooka shimashita",
+              "pos": "động từ",
+              "base": "消化する",
+              "vi": "đã chạy xong (khối lượng công việc)"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        },
+        {
+          "jp": "一部のブラウザで、ボタンが表示されない不具合が見つかりました。",
+          "ro": "Ichibu no burauza de, botan ga hyooji sarenai fuguai ga mitsukarimashita.",
+          "vi": "Đã tìm thấy lỗi nút không hiển thị trên một số trình duyệt.",
+          "pt": "Mô tả bug: môi trường (ブラウザ) + hiện tượng (表示されない).",
+          "words": [
+            {
+              "w": "一部",
+              "r": "いちぶ",
+              "ro": "ichibu",
+              "pos": "danh từ",
+              "vi": "một phần"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "của"
+            },
+            {
+              "w": "ブラウザ",
+              "ro": "burauza",
+              "pos": "danh từ",
+              "vi": "trình duyệt"
+            },
+            {
+              "w": "で",
+              "ro": "de",
+              "pos": "trợ từ",
+              "vi": "trên"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "ボタン",
+              "ro": "botan",
+              "pos": "danh từ",
+              "vi": "nút"
+            },
+            {
+              "w": "が",
+              "ro": "ga",
+              "pos": "trợ từ",
+              "vi": "chỉ chủ ngữ"
+            },
+            {
+              "w": "表示されない",
+              "r": "ひょうじされない",
+              "ro": "hyooji sarenai",
+              "pos": "động từ",
+              "base": "表示する",
+              "vi": "không được hiển thị"
+            },
+            {
+              "w": "不具合",
+              "r": "ふぐあい",
+              "ro": "fuguai",
+              "pos": "danh từ",
+              "vi": "lỗi"
+            },
+            {
+              "w": "が",
+              "ro": "ga",
+              "pos": "trợ từ",
+              "vi": "chỉ chủ ngữ"
+            },
+            {
+              "w": "見つかりました",
+              "r": "みつかりました",
+              "ro": "mitsukarimashita",
+              "pos": "động từ",
+              "base": "見つかる",
+              "vi": "đã được tìm thấy"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        },
+        {
+          "jp": "原因を調べたうえで、明日再テストを行う予定です。",
+          "ro": "Gen'in o shirabeta ue de, ashita sai tesuto o okonau yotei desu.",
+          "vi": "Sau khi điều tra nguyên nhân, chúng tôi dự định test lại vào ngày mai.",
+          "pt": "〜たうえで = sau khi làm xong … (rồi mới làm việc tiếp theo).",
+          "words": [
+            {
+              "w": "原因",
+              "r": "げんいん",
+              "ro": "gen'in",
+              "pos": "danh từ",
+              "vi": "nguyên nhân"
+            },
+            {
+              "w": "を",
+              "ro": "o",
+              "pos": "trợ từ",
+              "vi": "chỉ đối tượng"
+            },
+            {
+              "w": "調べた",
+              "r": "しらべた",
+              "ro": "shirabeta",
+              "pos": "động từ",
+              "base": "調べる",
+              "vi": "đã điều tra"
+            },
+            {
+              "w": "うえで",
+              "ro": "ue de",
+              "pos": "cụm cố định",
+              "vi": "sau khi (làm xong việc đó)"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "明日",
+              "r": "あした",
+              "ro": "ashita",
+              "pos": "danh từ",
+              "vi": "ngày mai"
+            },
+            {
+              "w": "再",
+              "r": "さい",
+              "ro": "sai",
+              "pos": "tiền tố",
+              "vi": "lại, tái"
+            },
+            {
+              "w": "テスト",
+              "ro": "tesuto",
+              "pos": "danh từ",
+              "vi": "kiểm thử"
+            },
+            {
+              "w": "を",
+              "ro": "o",
+              "pos": "trợ từ",
+              "vi": "chỉ đối tượng"
+            },
+            {
+              "w": "行う",
+              "r": "おこなう",
+              "ro": "okonau",
+              "pos": "động từ",
+              "vi": "thực hiện"
+            },
+            {
+              "w": "予定",
+              "r": "よてい",
+              "ro": "yotei",
+              "pos": "danh từ",
+              "vi": "dự định"
+            },
+            {
+              "w": "です",
+              "ro": "desu",
+              "pos": "trợ động từ",
+              "vi": "là"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "vocab": [
+    {
+      "w": "単体テスト",
+      "r": "たんたいテスト",
+      "ro": "tantai tesuto",
+      "vi": "kiểm thử đơn vị",
+      "en": "unit test"
+    },
+    {
+      "w": "結合テスト",
+      "r": "けつごうテスト",
+      "ro": "ketsugoo tesuto",
+      "vi": "kiểm thử tích hợp",
+      "en": "integration test"
+    },
+    {
+      "w": "統合テスト",
+      "r": "とうごうテスト",
+      "ro": "toogoo tesuto",
+      "vi": "kiểm thử tích hợp (cách gọi khác)",
+      "en": "integration test"
+    },
+    {
+      "w": "総合テスト",
+      "r": "そうごうテスト",
+      "ro": "soogoo tesuto",
+      "vi": "kiểm thử tổng hợp, gần như system test",
+      "en": "system test"
+    },
+    {
+      "w": "受け入れテスト",
+      "r": "うけいれテスト",
+      "ro": "ukeire tesuto",
+      "vi": "kiểm thử nghiệm thu",
+      "en": "acceptance test"
+    },
+    {
+      "w": "回帰テスト",
+      "r": "かいきテスト",
+      "ro": "kaiki tesuto",
+      "vi": "kiểm thử hồi quy",
+      "en": "regression test"
+    },
+    {
+      "w": "使い勝手",
+      "r": "つかいがって",
+      "ro": "tsukaigatte",
+      "vi": "độ tiện dụng, dễ dùng",
+      "en": "usability"
+    },
+    {
+      "w": "手動テスト",
+      "r": "しゅどうテスト",
+      "ro": "shudoo tesuto",
+      "vi": "test thủ công",
+      "en": "manual test"
+    },
+    {
+      "w": "自動テスト",
+      "r": "じどうテスト",
+      "ro": "jidoo tesuto",
+      "vi": "test tự động",
+      "en": "automated test"
+    },
+    {
+      "w": "ケアレスミス",
+      "r": "",
+      "ro": "kearesu misu",
+      "vi": "lỗi do bất cẩn",
+      "en": "careless mistake"
+    },
+    {
+      "w": "ヒューマンエラー",
+      "r": "",
+      "ro": "hyuuman eraa",
+      "vi": "lỗi do con người",
+      "en": "human error"
+    },
+    {
+      "w": "負荷テスト",
+      "r": "ふかテスト",
+      "ro": "fuka tesuto",
+      "vi": "kiểm thử tải",
+      "en": "load test"
+    },
+    {
+      "w": "ストレステスト",
+      "r": "",
+      "ro": "sutoresu tesuto",
+      "vi": "kiểm thử vượt giới hạn tải",
+      "en": "stress test"
+    },
+    {
+      "w": "回復性",
+      "r": "かいふくせい",
+      "ro": "kaifukusei",
+      "vi": "khả năng phục hồi",
+      "en": "recoverability"
+    },
+    {
+      "w": "挿入",
+      "r": "そうにゅう",
+      "ro": "soonyuu",
+      "vi": "chèn (dữ liệu)",
+      "en": "insert"
+    },
+    {
+      "w": "照会する",
+      "r": "しょうかいする",
+      "ro": "shookai suru",
+      "vi": "tra cứu, truy vấn",
+      "en": "inquire"
+    },
+    {
+      "w": "網羅性",
+      "r": "もうらせい",
+      "ro": "moorasei",
+      "vi": "độ bao phủ",
+      "en": "coverage"
+    },
+    {
+      "w": "機能性",
+      "r": "きのうせい",
+      "ro": "kinoosei",
+      "vi": "tính chức năng",
+      "en": "functionality"
+    },
+    {
+      "w": "効率性",
+      "r": "こうりつせい",
+      "ro": "kooritsusei",
+      "vi": "tính hiệu quả (hiệu năng)",
+      "en": "efficiency"
+    },
+    {
+      "w": "信頼性",
+      "r": "しんらいせい",
+      "ro": "shinraisei",
+      "vi": "độ tin cậy",
+      "en": "reliability"
+    },
+    {
+      "w": "互換性",
+      "r": "ごかんせい",
+      "ro": "gokansei",
+      "vi": "tính tương thích",
+      "en": "compatibility"
+    },
+    {
+      "w": "期待結果",
+      "r": "きたいけっか",
+      "ro": "kitai kekka",
+      "vi": "kết quả mong đợi",
+      "en": "expected result"
+    },
+    {
+      "w": "前提条件",
+      "r": "ぜんていじょうけん",
+      "ro": "zentei jooken",
+      "vi": "điều kiện tiền đề",
+      "en": "precondition"
+    },
+    {
+      "w": "手順",
+      "r": "てじゅん",
+      "ro": "tejun",
+      "vi": "các bước thực hiện",
+      "en": "steps"
+    },
+    {
+      "w": "終了判定",
+      "r": "しゅうりょうはんてい",
+      "ro": "shuuryoo hantei",
+      "vi": "phán định kết thúc (test)",
+      "en": "exit criteria"
+    },
+    {
+      "w": "試験項目",
+      "r": "しけんこうもく",
+      "ro": "shiken koomoku",
+      "vi": "hạng mục kiểm thử",
+      "en": "test item"
+    },
+    {
+      "w": "削減",
+      "r": "さくげん",
+      "ro": "sakugen",
+      "vi": "cắt giảm",
+      "en": "reduction"
+    },
+    {
+      "w": "節減",
+      "r": "せつげん",
+      "ro": "setsugen",
+      "vi": "tiết giảm (chi phí, tài nguyên)",
+      "en": "saving"
+    },
+    {
+      "w": "テストシナリオ",
+      "r": "",
+      "ro": "tesuto shinario",
+      "vi": "kịch bản test",
+      "en": "test scenario"
+    },
+    {
+      "w": "テスト仕様書",
+      "r": "テストしようしょ",
+      "ro": "tesuto shiyoosho",
+      "vi": "tài liệu đặc tả test",
+      "en": "test specification"
+    },
+    {
+      "w": "絞る",
+      "r": "しぼる",
+      "ro": "shiboru",
+      "vi": "thu hẹp, khoanh vùng"
+    },
+    {
+      "w": "認定",
+      "r": "にんてい",
+      "ro": "nintei",
+      "vi": "chứng nhận",
+      "en": "certification"
+    },
+    {
+      "w": "未然に防ぐ",
+      "r": "みぜんにふせぐ",
+      "ro": "mizen ni fusegu",
+      "vi": "ngăn chặn từ trước khi xảy ra"
+    },
+    {
+      "w": "把握",
+      "r": "はあく",
+      "ro": "haaku",
+      "vi": "nắm bắt"
+    },
+    {
+      "w": "継続的",
+      "r": "けいぞくてき",
+      "ro": "keizokuteki",
+      "vi": "liên tục",
+      "en": "continuous"
+    },
+    {
+      "w": "着手",
+      "r": "ちゃくしゅ",
+      "ro": "chakushu",
+      "vi": "bắt tay vào làm"
+    },
+    {
+      "w": "定量的",
+      "r": "ていりょうてき",
+      "ro": "teiryooteki",
+      "vi": "định lượng",
+      "en": "quantitative"
+    },
+    {
+      "w": "ライセンス費",
+      "r": "ライセンスひ",
+      "ro": "raisensu hi",
+      "vi": "phí bản quyền (license)",
+      "en": "license fee"
+    },
+    {
+      "w": "本題",
+      "r": "ほんだい",
+      "ro": "hondai",
+      "vi": "chủ đề chính"
+    },
+    {
+      "w": "自社開発",
+      "r": "じしゃかいはつ",
+      "ro": "jisha kaihatsu",
+      "vi": "tự phát triển trong công ty",
+      "en": "in-house development"
+    },
+    {
+      "w": "オープンソース",
+      "r": "",
+      "ro": "oopun soosu",
+      "vi": "mã nguồn mở",
+      "en": "open source"
+    },
+    {
+      "w": "デモ版",
+      "r": "デモばん",
+      "ro": "demo ban",
+      "vi": "bản demo",
+      "en": "demo version"
+    },
+    {
+      "w": "事前",
+      "r": "じぜん",
+      "ro": "jizen",
+      "vi": "trước (khi làm việc chính)"
+    },
+    {
+      "w": "不具合",
+      "r": "ふぐあい",
+      "ro": "fuguai",
+      "vi": "lỗi, trục trặc",
+      "en": "bug, defect"
+    }
+  ],
+  "tips": [
+    "Khách Nhật rất coi trọng テストエビデンス (bằng chứng test: ảnh chụp màn hình, log, dữ liệu trước/sau). Hãy thống nhất ngay từ đầu định dạng, cách đặt tên file và mức độ chi tiết của evidence để tránh phải làm lại.",
+    "Khi đề xuất tự động hóa, hãy đưa con số định lượng (giảm bao nhiêu % công số, bao nhiêu hạng mục được tự động hóa) và nói rõ phần nào vẫn test thủ công, tránh để khách kỳ vọng 'test tự động thì không còn bug'.",
+    "Báo cáo tiến độ test bằng số liệu: số case đã chạy / tổng, số OK/NG, số bug theo mức độ nghiêm trọng. Khách Nhật quen đọc đường cong bug (バグ収束曲線) để đánh giá chất lượng đã ổn định hay chưa."
+  ],
+  "discuss": [
+    {
+      "jp": "あなたのプロジェクトでは、どのテストを自動化していますか。自動化しにくいテストは何ですか。",
+      "vi": "Trong dự án của bạn, những loại test nào đã được tự động hóa? Loại test nào khó tự động hóa?"
+    },
+    {
+      "jp": "良いテストケースを書くために、どんなことに気をつけていますか。",
+      "vi": "Để viết test case tốt, bạn chú ý những điều gì?"
+    },
+    {
+      "jp": "お客様が受け入れテストで不具合を見つけたとき、どのように対応すべきだと思いますか。",
+      "vi": "Khi khách hàng phát hiện lỗi trong test nghiệm thu, theo bạn nên xử lý như thế nào?"
+    }
+  ]
+}

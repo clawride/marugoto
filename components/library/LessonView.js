@@ -1,5 +1,5 @@
 "use client";
-// 📚 Một bài trong Thư viện sách: tình huống · 5 mẫu câu chính (giải thích + ví dụ) · hội thoại luyện đọc · cách nói tương tự · từ vựng · mẹo
+// 📚 Một bài trong Thư viện sách: tình huống · các mẫu câu chính (giải thích + ví dụ) · hội thoại luyện đọc · cách nói tương tự · từ vựng · mẹo
 // Dữ liệu: public/library/<sách>/<bài>.json (scripts/build-library.mjs)
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -7,7 +7,7 @@ import { useGame } from "@/components/Game";
 import GenshinVocabTable from "@/components/GenshinVocab";
 import Sentence, { ViewBar, say } from "@/components/library/Sentence";
 import { speakLines, stopSpeak } from "@/lib/tts";
-import { bookById, lessonUrl } from "@/lib/library";
+import { bookById, lessonUrl, lessonName } from "@/lib/library";
 import { sfx } from "@/lib/sfx";
 
 const OFFLINE = process.env.NEXT_PUBLIC_OFFLINE === "1";
@@ -62,7 +62,7 @@ export default function LessonView({ bookId, n }) {
     <>
       <Link href={`/thu-vien/${bookId}`} className="back" onClick={() => sfx.page()}>‹ {B.title}</Link>
       <div className="pagehead lbhead" style={{ marginTop: 10 }}>
-        <p style={{ letterSpacing: 2, margin: "0 0 6px" }}>第{n}課 · BÀI {n} · sách tr. {meta.page}–{meta.page + 9}</p>
+        <p style={{ letterSpacing: 2, margin: "0 0 6px" }}>{lessonName(B, n)} · BÀI {n} · sách tr. {meta.page}–{next ? next.page - 1 : meta.page + 10}</p>
         <h1 className="jpt">{meta.jp}</h1>
         <p className="lbro" style={{ margin: "6px 0 0" }}>{meta.ro}</p>
         <p>{meta.vi}</p>
@@ -72,8 +72,8 @@ export default function LessonView({ bookId, n }) {
       <div className="lbbar">
         <ViewBar />
         <nav className="lbjump" aria-label="Mục trong bài">
-          {[["tinh-huong", "🎬 Tình huống"], ["mau-cau", "📐 Mẫu câu"], ["hoi-thoai", "💬 Hội thoại"], ["cach-noi", "🗣 Cách nói"], ["tu-vung", "📝 Từ vựng"], ["meo", "💡 Mẹo"]]
-            .map(([id, t]) => <a key={id} href={`#${id}`}>{t}</a>)}
+          {[["tinh-huong", "🎬 Tình huống", 1], ["kien-thuc", "📖 Kiến thức", L?.know?.length], ["thuat-ngu", "🔑 Thuật ngữ", L?.terms?.length], ["mau-cau", "📐 Mẫu câu", 1], ["hoi-thoai", "💬 Hội thoại", L?.dialog?.lines?.length], ["cach-noi", "🗣 Cách nói", L?.phrases?.length], ["tu-vung", "📝 Từ vựng", 1], ["thao-luan", "🤔 Thảo luận", L?.discuss?.length], ["meo", "💡 Mẹo", L?.tips?.length]]
+            .filter((x) => !L || x[2]).map(([id, t]) => <a key={id} href={`#${id}`}>{t}</a>)}
         </nav>
       </div>
 
@@ -87,8 +87,30 @@ export default function LessonView({ bookId, n }) {
           {!!L.goals?.length && <><h3>🎯 Sau bài này bạn có thể</h3><ul>{L.goals.map((g, i) => <li key={i}>{g}</li>)}</ul></>}
         </section>
 
+        {!!L.know?.length && (
+          <section className="panel lbsec" id="kien-thuc">
+            <h2>📖 Kiến thức nền <small>chủ đề của bài đọc trong sách, giải thích ngắn</small></h2>
+            {L.know.map((p, i) => <p key={i}>{p}</p>)}
+          </section>
+        )}
+
+        {!!L.terms?.length && (
+          <section className="panel lbsec" id="thuat-ngu">
+            <h2>🔑 Thuật ngữ IT trọng tâm</h2>
+            <div className="lbterms">
+              {L.terms.map((t, i) => (
+                <div key={i} className="lbterm">
+                  <button className="lbcell jpt" onClick={() => say(t.r || t.w)} title="Bấm để nghe"><b>{t.w}</b></button>
+                  {t.r && t.r !== t.w && <span className="jpt lbwr"> {t.r}</span>} <i className="lbro">{t.ro}</i>{t.en && <em> · {t.en}</em>}
+                  <p>{t.vi}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
         <section className="lbsec2" id="mau-cau">
-          <h2 className="a22th"><span>📐 5 mẫu câu chính</span> <small>Mẫu gạch chân trong hội thoại của sách</small></h2>
+          <h2 className="a22th"><span>📐 {L.grammar.length} mẫu câu chính</span> <small>{B.patternsSub || "Mẫu câu trọng tâm của bài"}</small></h2>
           {L.grammar.map((g) => (
             <article key={g.no} className="panel lbgram">
               <div className="lbgp">
@@ -115,7 +137,7 @@ export default function LessonView({ bookId, n }) {
 
         {L.dialog?.lines?.length > 0 && (
           <section className="panel lbsec" id="hoi-thoai">
-            <h2>💬 Hội thoại luyện đọc <small>dùng lại cả 5 mẫu câu</small></h2>
+            <h2>💬 Hội thoại luyện đọc <small>dùng lại các mẫu câu của bài</small></h2>
             <Dialog d={L.dialog} />
           </section>
         )}
@@ -129,6 +151,13 @@ export default function LessonView({ bookId, n }) {
                 {p.items.map((s, j) => <Sentence key={j} s={s} />)}
               </div>
             ))}
+          </section>
+        )}
+
+        {!!L.discuss?.length && (
+          <section className="panel lbsec" id="thao-luan">
+            <h2>🤔 Câu hỏi thảo luận <small>tự trả lời bằng tiếng Nhật</small></h2>
+            <ol>{L.discuss.map((q, i) => <li key={i}>{typeof q === "string" ? q : <><span className="jpt">{q.jp}</span><br /><small className="lbvi">{q.vi}</small></>}</li>)}</ol>
           </section>
         )}
 

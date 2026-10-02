@@ -83,7 +83,8 @@ export async function checkLesson(file) {
     if (!Array.isArray(g.ex) || g.ex.length < 2) E.push(`${at}: cần ít nhất 2 câu ví dụ "ex"`);
     (g.ex || []).forEach((s, j) => checkSentence(s, `${at}.ex[${j}]`, E, W));
   });
-  if ((L.grammar || []).length !== 5) E.push(`grammar: cần đúng 5 mẫu (đang có ${(L.grammar || []).length})`);
+  const ng = (L.grammar || []).length;
+  if (ng < 3 || ng > 10) E.push(`grammar: cần 3–10 mẫu câu (đang có ${ng})`);
   if (!L.dialog?.lines?.length) E.push(`thiếu "dialog.lines"`);
   (L.dialog?.lines || []).forEach((s, i) => { if (!s.sp) E.push(`dialog.lines[${i}]: thiếu "sp"`); checkSentence(s, `dialog.lines[${i}]`, E, W); });
   (L.phrases || []).forEach((p, i) => { if (!p.h) E.push(`phrases[${i}]: thiếu "h"`); (p.items || []).forEach((s, j) => checkSentence(s, `phrases[${i}].items[${j}]`, E, W)); });

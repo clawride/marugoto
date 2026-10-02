@@ -1,0 +1,2884 @@
+{
+  "n": 15,
+  "scene": "Dự án SuperTrans đã nghiệm thu xong, KMS và DKH tổ chức buổi họp tổng kết dựa trên kết quả khảo sát mức độ hài lòng của khách hàng. Phía khách đánh giá cao việc BA giao tiếp tốt, DKH xử lý linh hoạt khi đổi đặc tả và đã tự động hóa kiểm thử. Đồng thời khách chỉ ra điểm cần cải thiện như tài liệu chưa nhất quán với nhau và còn lỗi chính tả. Hai bên cùng hướng tới hợp tác ở phase 2.",
+  "people": [
+    {
+      "name": "黒田",
+      "ro": "Kuroda",
+      "role": "Người phụ trách tổng thể dự án phía KMS (trưởng phòng IT), nhận xét chung"
+    },
+    {
+      "name": "斎藤",
+      "ro": "Saitoo",
+      "role": "PM phía khách hàng KMS, nêu điểm tốt và điểm cần cải thiện"
+    },
+    {
+      "name": "ガー",
+      "ro": "Gaa",
+      "role": "Người phụ trách phát triển offshore của DKH, cảm ơn và hứa cải thiện"
+    },
+    {
+      "name": "カイン",
+      "ro": "Kain",
+      "role": "BA của DKH, được khách khen về khả năng giao tiếp"
+    },
+    {
+      "name": "アン",
+      "ro": "An",
+      "role": "PM của DKH, tổng kết dự án và đề xuất cải tiến"
+    }
+  ],
+  "goals": [
+    "Hiểu khảo sát mức độ hài lòng của khách hàng (CSS): mục đích, thời điểm và cấu trúc.",
+    "Đọc được kết quả khảo sát và biến nó thành hành động cải tiến.",
+    "Tham gia được buổi họp nhìn lại dự án: cảm ơn, nhận góp ý, nói về rủi ro và hướng cải thiện."
+  ],
+  "know": [
+    "Khảo sát mức độ hài lòng của khách hàng (顧客満足度調査, CSS — Customer Satisfaction Survey) thường được gửi khi dự án kết thúc, sau khi nghiệm thu. Mục đích không chỉ là \"xin điểm\": nó giúp công ty đo xem mình đáp ứng kỳ vọng đến đâu, tìm ra điểm cần cải thiện cho dự án sau, và cũng là dịp để thắt chặt quan hệ, mở đường cho hợp đồng tiếp theo.",
+    "Một bảng CSS cho dự án offshore thường có ba nhóm câu hỏi. Thứ nhất là sản phẩm và dịch vụ: đánh giá tổng thể, chất lượng từng công đoạn (yêu cầu, thiết kế, lập trình, kiểm thử), cách quản lý thay đổi và quản lý dự án. Thứ hai là năng lực tiếng Nhật của cả đội: email, phiên dịch trong họp, dịch tài liệu, mức độ hiểu nghiệp vụ. Thứ ba là riêng BrSE / front SE: kỹ thuật, tiếng Nhật, khả năng giải quyết vấn đề. Mỗi mục thường chấm 1–5 sao, cuối có ô nhận xét tự do.",
+    "Phần đáng đọc nhất thường là ô nhận xét tự do. Khách Nhật hiếm khi chấm điểm quá thấp, nên một mục 3/5 kèm vài dòng góp ý nhẹ nhàng có thể là tín hiệu cần chú ý thật sự. Sau khảo sát, nên tổ chức họp nhìn lại (振り返り会議): tổng hợp điểm tốt để giữ, điểm chưa tốt kèm nguyên nhân và biện pháp, rồi áp dụng rộng (横展開) sang các dự án khác trong công ty.",
+    "Kinh nghiệm thực tế: những điểm khách Nhật hay góp ý ở dự án offshore là tài liệu không nhất quán (thiết kế, test, source mỗi nơi một kiểu), lỗi chính tả trong tài liệu tiếng Nhật, và báo cáo vấn đề chậm. Những điểm được khen thường là phản hồi nhanh, linh hoạt khi đổi đặc tả, và BrSE hiểu nghiệp vụ. Hãy biến kết quả khảo sát thành checklist cụ thể cho dự án tiếp theo."
+  ],
+  "terms": [
+    {
+      "w": "顧客満足度調査",
+      "r": "こきゃくまんぞくどちょうさ",
+      "ro": "kokyaku manzokudo choosa",
+      "en": "customer satisfaction survey (CSS)",
+      "vi": "Khảo sát mức độ hài lòng của khách, gửi khi kết thúc dự án. Kết quả dùng để cải tiến quy trình và làm cơ sở cho hợp đồng tiếp theo."
+    },
+    {
+      "w": "ブリッジSE",
+      "r": "",
+      "ro": "burijji esu ii",
+      "en": "bridge SE (BrSE)",
+      "vi": "Kỹ sư làm cầu nối giữa khách Nhật và đội phát triển ở nước ngoài: truyền đạt yêu cầu, giải thích kỹ thuật, quản lý giao tiếp. Cần cả kỹ thuật lẫn tiếng Nhật."
+    },
+    {
+      "w": "フロントSE",
+      "r": "",
+      "ro": "furonto esu ii",
+      "en": "front SE",
+      "vi": "Kỹ sư đứng \"tuyến đầu\", làm việc trực tiếp với khách (thường onsite): nghe yêu cầu, đề xuất giải pháp, xử lý vấn đề tại chỗ."
+    },
+    {
+      "w": "振り返り会議",
+      "r": "ふりかえりかいぎ",
+      "ro": "furikaeri kaigi",
+      "en": "retrospective meeting",
+      "vi": "Buổi họp nhìn lại sau khi kết thúc dự án hoặc một giai đoạn: điều gì làm tốt, điều gì chưa tốt, làm gì khác đi lần sau."
+    },
+    {
+      "w": "ノウハウ",
+      "r": "",
+      "ro": "nouhau",
+      "en": "know-how",
+      "vi": "Bí quyết, kinh nghiệm thực tế tích lũy được. Ví dụ: cách tự động hóa kiểm thử đa trình duyệt là ノウハウ có thể dùng lại ở dự án khác."
+    },
+    {
+      "w": "横展開",
+      "r": "よこてんかい",
+      "ro": "yoko tenkai",
+      "en": "horizontal deployment",
+      "vi": "Đem bài học hoặc cách sửa ở một chỗ áp dụng cho mọi chỗ, mọi nhóm tương tự. Ví dụ: chia sẻ checklist chống lỗi chính tả cho toàn công ty."
+    },
+    {
+      "w": "機械学習",
+      "r": "きかいがくしゅう",
+      "ro": "kikai gakushuu",
+      "en": "machine learning",
+      "vi": "Kỹ thuật để máy tự học quy luật từ dữ liệu. Ví dụ trong hệ thống dịch: gợi ý bản dịch từ bộ nhớ dịch có sẵn. ディープラーニング (học sâu) là một nhánh của nó."
+    }
+  ],
+  "grammar": [
+    {
+      "no": 1,
+      "p": "〇〇は招きませんでしたが、ともすると〇〇しかねません",
+      "ro": "〇〇 wa manekimasen deshita ga, tomosuru to 〇〇 shikanemasen",
+      "vi": "Lần này chưa dẫn đến 〇〇, nhưng hễ sơ suất là có thể 〇〇",
+      "form": "Danh từ (kết quả xấu: 遅延、混乱、大きな問題) + は招きませんでしたが、ともすると + động từ thể ます bỏ ます + かねません",
+      "use": "Dùng trong buổi nhìn lại dự án để chỉ ra một rủi ro một cách nhã nhặn: thừa nhận lần này may mắn chưa có hậu quả, nhưng nhấn mạnh nếu để vậy thì có thể gây chuyện lớn. Khách Nhật hay dùng khi góp ý điểm cần cải thiện.",
+      "notes": [
+        "招く = mời đến; nghĩa bóng là \"dẫn đến, gây ra\" (thường là kết quả xấu).",
+        "〜かねない / かねません = có nguy cơ xảy ra điều xấu; chỉ dùng cho kết quả tiêu cực. Đừng nhầm với 〜かねます (khó có thể làm, lời từ chối lịch sự).",
+        "ともすると (= ともすれば) = có xu hướng dễ xảy ra, hễ lơ là là…"
+      ],
+      "ex": [
+        {
+          "jp": "今回は大きな遅延は招きませんでしたが、ともすると納期に間に合わなくなりかねません。",
+          "ro": "Konkai wa ookina chien wa manekimasen deshita ga, tomosuru to nooki ni maniawanaku nari kanemasen.",
+          "vi": "Lần này chưa đến mức chậm trễ lớn, nhưng hễ sơ suất là có thể không kịp hạn giao hàng.",
+          "pt": "Vế đầu thừa nhận kết quả lần này; vế sau dùng ともすると〜かねません để cảnh báo rủi ro.",
+          "words": [
+            {
+              "w": "今回",
+              "r": "こんかい",
+              "ro": "konkai",
+              "pos": "danh từ",
+              "vi": "lần này"
+            },
+            {
+              "w": "は",
+              "ro": "wa",
+              "pos": "trợ từ",
+              "vi": "đánh dấu chủ đề"
+            },
+            {
+              "w": "大きな",
+              "r": "おおきな",
+              "ro": "ookina",
+              "pos": "tính từ な",
+              "vi": "lớn"
+            },
+            {
+              "w": "遅延",
+              "r": "ちえん",
+              "ro": "chien",
+              "pos": "danh từ",
+              "vi": "sự chậm trễ"
+            },
+            {
+              "w": "は",
+              "ro": "wa",
+              "pos": "trợ từ",
+              "vi": "nhấn mạnh (đối lập)"
+            },
+            {
+              "w": "招きません",
+              "r": "まねきません",
+              "ro": "manekimasen",
+              "pos": "động từ",
+              "base": "招く",
+              "vi": "không gây ra, không dẫn đến"
+            },
+            {
+              "w": "でした",
+              "ro": "deshita",
+              "pos": "trợ động từ",
+              "base": "です",
+              "vi": "(quá khứ lịch sự)"
+            },
+            {
+              "w": "が",
+              "ro": "ga",
+              "pos": "trợ từ",
+              "vi": "nhưng"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "ともすると",
+              "ro": "tomosuru to",
+              "pos": "phó từ",
+              "vi": "hễ sơ suất là, có khi"
+            },
+            {
+              "w": "納期",
+              "r": "のうき",
+              "ro": "nooki",
+              "pos": "danh từ",
+              "vi": "hạn giao hàng"
+            },
+            {
+              "w": "に",
+              "ro": "ni",
+              "pos": "trợ từ",
+              "vi": "kịp (đối tượng)"
+            },
+            {
+              "w": "間に合わなく",
+              "r": "まにあわなく",
+              "ro": "maniawanaku",
+              "pos": "động từ",
+              "base": "間に合う",
+              "vi": "không kịp (thể ない → なく)"
+            },
+            {
+              "w": "なり",
+              "ro": "nari",
+              "pos": "động từ",
+              "base": "なる",
+              "vi": "trở nên"
+            },
+            {
+              "w": "かねません",
+              "ro": "kanemasen",
+              "pos": "trợ động từ",
+              "base": "かねる",
+              "vi": "có thể (xảy ra điều xấu)"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        },
+        {
+          "jp": "幸い情報漏洩は招きませんでしたが、ともすると会社の信用を失いかねません。",
+          "ro": "Saiwai joohoo rooei wa manekimasen deshita ga, tomosuru to kaisha no shin'yoo o ushinai kanemasen.",
+          "vi": "May mắn là chưa gây ra rò rỉ thông tin, nhưng hễ sơ suất là có thể đánh mất uy tín của công ty.",
+          "pt": "幸い nhấn mạnh \"lần này may mắn\"; 失いかねません = có nguy cơ đánh mất.",
+          "words": [
+            {
+              "w": "幸い",
+              "r": "さいわい",
+              "ro": "saiwai",
+              "pos": "phó từ",
+              "vi": "may mắn là"
+            },
+            {
+              "w": "情報漏洩",
+              "r": "じょうほうろうえい",
+              "ro": "joohoo rooei",
+              "pos": "danh từ",
+              "vi": "rò rỉ thông tin"
+            },
+            {
+              "w": "は",
+              "ro": "wa",
+              "pos": "trợ từ",
+              "vi": "nhấn mạnh (đối lập)"
+            },
+            {
+              "w": "招きません",
+              "r": "まねきません",
+              "ro": "manekimasen",
+              "pos": "động từ",
+              "base": "招く",
+              "vi": "không gây ra, không dẫn đến"
+            },
+            {
+              "w": "でした",
+              "ro": "deshita",
+              "pos": "trợ động từ",
+              "base": "です",
+              "vi": "(quá khứ lịch sự)"
+            },
+            {
+              "w": "が",
+              "ro": "ga",
+              "pos": "trợ từ",
+              "vi": "nhưng"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "ともすると",
+              "ro": "tomosuru to",
+              "pos": "phó từ",
+              "vi": "hễ sơ suất là, có khi"
+            },
+            {
+              "w": "会社",
+              "r": "かいしゃ",
+              "ro": "kaisha",
+              "pos": "danh từ",
+              "vi": "công ty"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "của"
+            },
+            {
+              "w": "信用",
+              "r": "しんよう",
+              "ro": "shin'yoo",
+              "pos": "danh từ",
+              "vi": "uy tín, lòng tin"
+            },
+            {
+              "w": "を",
+              "ro": "o",
+              "pos": "trợ từ",
+              "vi": "chỉ đối tượng"
+            },
+            {
+              "w": "失い",
+              "r": "うしない",
+              "ro": "ushinai",
+              "pos": "động từ",
+              "base": "失う",
+              "vi": "đánh mất"
+            },
+            {
+              "w": "かねません",
+              "ro": "kanemasen",
+              "pos": "trợ động từ",
+              "base": "かねる",
+              "vi": "có thể (xảy ra điều xấu)"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "no": 2,
+      "p": "〇〇など、惜しみないご協力をくださり、ありがとうございました",
+      "ro": "〇〇 nado, oshiminai gokyooryoku o kudasari, arigatoo gozaimashita",
+      "vi": "Xin cảm ơn quý vị đã hợp tác hết lòng, chẳng hạn như 〇〇",
+      "form": "Việc cụ thể đối phương đã làm (danh từ / động từ thể thường) + など、惜しみないご協力をくださり、ありがとうございました",
+      "use": "Lời cảm ơn trang trọng khi kết thúc dự án hoặc trong buổi họp nhìn lại. Nêu một hai việc cụ thể khách đã giúp trước など để lời cảm ơn chân thành, không sáo rỗng.",
+      "notes": [
+        "惜しみない = không tiếc (công sức, thời gian), tức là hết lòng.",
+        "くださり là dạng nối của くださる (tôn kính ngữ của くれる); trang trọng hơn くださって.",
+        "Dùng ありがとうございました (quá khứ) vì việc hợp tác đã kết thúc; còn đang tiếp diễn thì dùng ありがとうございます."
+      ],
+      "ex": [
+        {
+          "jp": "早朝のリリース作業への立ち会いなど、惜しみないご協力をくださり、ありがとうございました。",
+          "ro": "Soochoo no ririisu sagyoo e no tachiai nado, oshiminai gokyooryoku o kudasari, arigatoo gozaimashita.",
+          "vi": "Xin cảm ơn quý vị đã hợp tác hết lòng, như việc có mặt cùng chúng tôi trong buổi phát hành lúc sáng sớm.",
+          "pt": "立ち会い = có mặt chứng kiến. Nêu việc cụ thể trước など giúp lời cảm ơn có sức nặng.",
+          "words": [
+            {
+              "w": "早朝",
+              "r": "そうちょう",
+              "ro": "soochoo",
+              "pos": "danh từ",
+              "vi": "sáng sớm"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "của"
+            },
+            {
+              "w": "リリース",
+              "ro": "ririisu",
+              "pos": "danh từ",
+              "vi": "phát hành (release)"
+            },
+            {
+              "w": "作業",
+              "r": "さぎょう",
+              "ro": "sagyoo",
+              "pos": "danh từ",
+              "vi": "công việc, thao tác"
+            },
+            {
+              "w": "へ",
+              "ro": "e",
+              "pos": "trợ từ",
+              "vi": "đến, cho"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "của"
+            },
+            {
+              "w": "立ち会い",
+              "r": "たちあい",
+              "ro": "tachiai",
+              "pos": "danh từ",
+              "vi": "có mặt chứng kiến"
+            },
+            {
+              "w": "など",
+              "ro": "nado",
+              "pos": "trợ từ",
+              "vi": "chẳng hạn như"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "惜しみない",
+              "r": "おしみない",
+              "ro": "oshiminai",
+              "pos": "tính từ い",
+              "vi": "không tiếc, hết lòng"
+            },
+            {
+              "w": "ご協力",
+              "r": "ごきょうりょく",
+              "ro": "gokyooryoku",
+              "pos": "danh từ",
+              "vi": "sự hợp tác (kính ngữ)"
+            },
+            {
+              "w": "を",
+              "ro": "o",
+              "pos": "trợ từ",
+              "vi": "chỉ đối tượng"
+            },
+            {
+              "w": "くださり",
+              "ro": "kudasari",
+              "pos": "động từ",
+              "base": "くださる",
+              "vi": "(quý vị) đã làm cho — tôn kính ngữ 尊敬語 của くれる"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "ありがとうございました",
+              "ro": "arigatoo gozaimashita",
+              "pos": "cụm chào hỏi",
+              "vi": "xin cảm ơn (việc đã qua)"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        },
+        {
+          "jp": "テストデータのご準備や仕様の早期確認など、惜しみないご協力をくださり、ありがとうございました。",
+          "ro": "Tesuto deeta no gojunbi ya shiyoo no sooki kakunin nado, oshiminai gokyooryoku o kudasari, arigatoo gozaimashita.",
+          "vi": "Xin cảm ơn quý vị đã hợp tác hết lòng, như chuẩn bị dữ liệu kiểm thử và xác nhận đặc tả sớm.",
+          "pt": "や〜など liệt kê vài ví dụ tiêu biểu; ご準備 thêm ご để tôn trọng việc của khách.",
+          "words": [
+            {
+              "w": "テスト",
+              "ro": "tesuto",
+              "pos": "danh từ",
+              "vi": "kiểm thử (test)"
+            },
+            {
+              "w": "データ",
+              "ro": "deeta",
+              "pos": "danh từ",
+              "vi": "dữ liệu"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "của"
+            },
+            {
+              "w": "ご準備",
+              "r": "ごじゅんび",
+              "ro": "gojunbi",
+              "pos": "danh từ",
+              "vi": "sự chuẩn bị (kính ngữ)"
+            },
+            {
+              "w": "や",
+              "ro": "ya",
+              "pos": "trợ từ",
+              "vi": "và (liệt kê ví dụ)"
+            },
+            {
+              "w": "仕様",
+              "r": "しよう",
+              "ro": "shiyoo",
+              "pos": "danh từ",
+              "vi": "đặc tả"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "của"
+            },
+            {
+              "w": "早期",
+              "r": "そうき",
+              "ro": "sooki",
+              "pos": "danh từ",
+              "vi": "sớm, giai đoạn sớm"
+            },
+            {
+              "w": "確認",
+              "r": "かくにん",
+              "ro": "kakunin",
+              "pos": "danh từ",
+              "vi": "xác nhận"
+            },
+            {
+              "w": "など",
+              "ro": "nado",
+              "pos": "trợ từ",
+              "vi": "chẳng hạn như"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "惜しみない",
+              "r": "おしみない",
+              "ro": "oshiminai",
+              "pos": "tính từ い",
+              "vi": "không tiếc, hết lòng"
+            },
+            {
+              "w": "ご協力",
+              "r": "ごきょうりょく",
+              "ro": "gokyooryoku",
+              "pos": "danh từ",
+              "vi": "sự hợp tác (kính ngữ)"
+            },
+            {
+              "w": "を",
+              "ro": "o",
+              "pos": "trợ từ",
+              "vi": "chỉ đối tượng"
+            },
+            {
+              "w": "くださり",
+              "ro": "kudasari",
+              "pos": "động từ",
+              "base": "くださる",
+              "vi": "(quý vị) đã làm cho — tôn kính ngữ 尊敬語 của くれる"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "ありがとうございました",
+              "ro": "arigatoo gozaimashita",
+              "pos": "cụm chào hỏi",
+              "vi": "xin cảm ơn (việc đã qua)"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "no": 3,
+      "p": "臨機応変に〇〇",
+      "ro": "rinki oohen ni 〇〇",
+      "vi": "〇〇 một cách linh hoạt theo tình huống",
+      "form": "臨機応変に + động từ (対応する、判断する、変更する); 臨機応変な + danh từ (対応、判断)",
+      "use": "Dùng để khen hoặc yêu cầu cách xử lý linh hoạt khi có thay đổi bất ngờ (đổi đặc tả, sự cố, lịch thay đổi). Rất hay xuất hiện trong lời đánh giá của khách và trong khảo sát hài lòng.",
+      "notes": [
+        "臨機応変 là thành ngữ 4 chữ: 臨機 = gặp thời cơ, 応変 = ứng biến.",
+        "Dùng như tính từ な: 臨機応変な対応, 臨機応変に対応する.",
+        "Trong công ty Nhật, linh hoạt vẫn phải kèm báo cáo: 臨機応変に対応し、事後に報告する."
+      ],
+      "ex": [
+        {
+          "jp": "急な仕様変更にも、臨機応変に対応していただきました。",
+          "ro": "Kyuu na shiyoo henkoo ni mo, rinki oohen ni taioo shite itadakimashita.",
+          "vi": "Cả những lần thay đổi đặc tả gấp, quý công ty cũng đã xử lý rất linh hoạt cho chúng tôi.",
+          "pt": "〜にも = \"cả với\"; 対応していただきました = được đối phương xử lý giúp (khiêm nhường).",
+          "words": [
+            {
+              "w": "急な",
+              "r": "きゅうな",
+              "ro": "kyuu na",
+              "pos": "tính từ な",
+              "vi": "gấp, đột ngột"
+            },
+            {
+              "w": "仕様変更",
+              "r": "しようへんこう",
+              "ro": "shiyoo henkoo",
+              "pos": "danh từ",
+              "vi": "thay đổi đặc tả"
+            },
+            {
+              "w": "に",
+              "ro": "ni",
+              "pos": "trợ từ",
+              "vi": "với (đối tượng)"
+            },
+            {
+              "w": "も",
+              "ro": "mo",
+              "pos": "trợ từ",
+              "vi": "cũng, cả"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "臨機応変",
+              "r": "りんきおうへん",
+              "ro": "rinki oohen",
+              "pos": "tính từ な",
+              "vi": "linh hoạt tùy tình huống"
+            },
+            {
+              "w": "に",
+              "ro": "ni",
+              "pos": "trợ từ",
+              "vi": "(biến thành trạng từ) một cách"
+            },
+            {
+              "w": "対応して",
+              "r": "たいおうして",
+              "ro": "taioo shite",
+              "pos": "động từ",
+              "base": "対応する",
+              "vi": "xử lý, đáp ứng"
+            },
+            {
+              "w": "いただきました",
+              "ro": "itadakimashita",
+              "pos": "động từ",
+              "base": "いただく",
+              "vi": "đã được (làm cho) — khiêm nhường ngữ 謙譲語 của もらった"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        },
+        {
+          "jp": "障害が起きたときは、手順書だけに頼らず、臨機応変に判断してください。",
+          "ro": "Shoogai ga okita toki wa, tejunsho dake ni tayorazu, rinki oohen ni handan shite kudasai.",
+          "vi": "Khi xảy ra sự cố, đừng chỉ dựa vào tài liệu quy trình, hãy phán đoán linh hoạt theo tình huống.",
+          "pt": "頼らず = 頼らないで (văn viết). Câu chỉ dẫn cho nhóm vận hành.",
+          "words": [
+            {
+              "w": "障害",
+              "r": "しょうがい",
+              "ro": "shoogai",
+              "pos": "danh từ",
+              "vi": "sự cố (hệ thống)"
+            },
+            {
+              "w": "が",
+              "ro": "ga",
+              "pos": "trợ từ",
+              "vi": "chỉ chủ ngữ"
+            },
+            {
+              "w": "起きた",
+              "r": "おきた",
+              "ro": "okita",
+              "pos": "động từ",
+              "base": "起きる",
+              "vi": "xảy ra"
+            },
+            {
+              "w": "とき",
+              "ro": "toki",
+              "pos": "danh từ",
+              "vi": "khi"
+            },
+            {
+              "w": "は",
+              "ro": "wa",
+              "pos": "trợ từ",
+              "vi": "đánh dấu chủ đề"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "手順書",
+              "r": "てじゅんしょ",
+              "ro": "tejunsho",
+              "pos": "danh từ",
+              "vi": "tài liệu quy trình"
+            },
+            {
+              "w": "だけ",
+              "ro": "dake",
+              "pos": "trợ từ",
+              "vi": "chỉ"
+            },
+            {
+              "w": "に",
+              "ro": "ni",
+              "pos": "trợ từ",
+              "vi": "vào (đối tượng dựa vào)"
+            },
+            {
+              "w": "頼らず",
+              "r": "たよらず",
+              "ro": "tayorazu",
+              "pos": "động từ",
+              "base": "頼る",
+              "vi": "không dựa (= 頼らないで)"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "臨機応変",
+              "r": "りんきおうへん",
+              "ro": "rinki oohen",
+              "pos": "tính từ な",
+              "vi": "linh hoạt tùy tình huống"
+            },
+            {
+              "w": "に",
+              "ro": "ni",
+              "pos": "trợ từ",
+              "vi": "(biến thành trạng từ) một cách"
+            },
+            {
+              "w": "判断して",
+              "r": "はんだんして",
+              "ro": "handan shite",
+              "pos": "động từ",
+              "base": "判断する",
+              "vi": "phán đoán"
+            },
+            {
+              "w": "ください",
+              "ro": "kudasai",
+              "pos": "động từ",
+              "base": "くださる",
+              "vi": "xin hãy"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "no": 4,
+      "p": "〇〇は／が〇〇に値する",
+      "ro": "〇〇 wa/ga 〇〇 ni atai suru",
+      "vi": "〇〇 đáng để 〇〇 / xứng đáng được 〇〇",
+      "form": "Danh từ + は／が + danh từ (評価、検討、注目、称賛) / động từ thể từ điển + に値する",
+      "use": "Dùng để đánh giá trang trọng: một việc, một kết quả hay một đề xuất xứng đáng được khen, được xem xét. Hay gặp trong nhận xét của khách và trong báo cáo tổng kết.",
+      "notes": [
+        "値する đọc là あたいする. Đi với danh từ mang nghĩa tích cực: 評価に値する, 検討に値する, 一読に値する.",
+        "Phủ định: 〜に値しない (không đáng) — nghĩa khá nặng, cẩn thận khi dùng với người khác.",
+        "Văn nói nhẹ hơn: 〜する価値がある."
+      ],
+      "ex": [
+        {
+          "jp": "自動テストで工数を三割削減した取り組みは、評価に値します。",
+          "ro": "Jidoo tesuto de koosuu o sanwari sakugen shita torikumi wa, hyooka ni atai shimasu.",
+          "vi": "Nỗ lực giảm 30% công số nhờ kiểm thử tự động rất đáng được đánh giá cao.",
+          "pt": "取り組みは、評価に値します = khen một sáng kiến cụ thể một cách trang trọng.",
+          "words": [
+            {
+              "w": "自動",
+              "r": "じどう",
+              "ro": "jidoo",
+              "pos": "danh từ",
+              "vi": "tự động"
+            },
+            {
+              "w": "テスト",
+              "ro": "tesuto",
+              "pos": "danh từ",
+              "vi": "kiểm thử (test)"
+            },
+            {
+              "w": "で",
+              "ro": "de",
+              "pos": "trợ từ",
+              "vi": "bằng"
+            },
+            {
+              "w": "工数",
+              "r": "こうすう",
+              "ro": "koosuu",
+              "pos": "danh từ",
+              "vi": "công số"
+            },
+            {
+              "w": "を",
+              "ro": "o",
+              "pos": "trợ từ",
+              "vi": "chỉ đối tượng"
+            },
+            {
+              "w": "三割",
+              "r": "さんわり",
+              "ro": "sanwari",
+              "pos": "danh từ",
+              "vi": "30%"
+            },
+            {
+              "w": "削減した",
+              "r": "さくげんした",
+              "ro": "sakugen shita",
+              "pos": "động từ",
+              "base": "削減する",
+              "vi": "đã cắt giảm"
+            },
+            {
+              "w": "取り組み",
+              "r": "とりくみ",
+              "ro": "torikumi",
+              "pos": "danh từ",
+              "vi": "nỗ lực, sáng kiến"
+            },
+            {
+              "w": "は",
+              "ro": "wa",
+              "pos": "trợ từ",
+              "vi": "đánh dấu chủ đề"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "評価",
+              "r": "ひょうか",
+              "ro": "hyooka",
+              "pos": "danh từ",
+              "vi": "đánh giá (cao)"
+            },
+            {
+              "w": "に",
+              "ro": "ni",
+              "pos": "trợ từ",
+              "vi": "(đối tượng của 値する)"
+            },
+            {
+              "w": "値します",
+              "r": "あたいします",
+              "ro": "atai shimasu",
+              "pos": "động từ",
+              "base": "値する",
+              "vi": "đáng, xứng đáng"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        },
+        {
+          "jp": "この改善案は、次の案件でも検討に値すると思います。",
+          "ro": "Kono kaizen'an wa, tsugi no anken demo kentoo ni atai suru to omoimasu.",
+          "vi": "Tôi nghĩ phương án cải tiến này đáng để xem xét cho cả dự án tiếp theo.",
+          "pt": "検討に値する = đáng để cân nhắc; と思います làm nhận định mềm hơn.",
+          "words": [
+            {
+              "w": "この",
+              "ro": "kono",
+              "pos": "đại từ",
+              "vi": "này"
+            },
+            {
+              "w": "改善案",
+              "r": "かいぜんあん",
+              "ro": "kaizen'an",
+              "pos": "danh từ",
+              "vi": "phương án cải tiến"
+            },
+            {
+              "w": "は",
+              "ro": "wa",
+              "pos": "trợ từ",
+              "vi": "đánh dấu chủ đề"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "次",
+              "r": "つぎ",
+              "ro": "tsugi",
+              "pos": "danh từ",
+              "vi": "tiếp theo"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "của"
+            },
+            {
+              "w": "案件",
+              "r": "あんけん",
+              "ro": "anken",
+              "pos": "danh từ",
+              "vi": "dự án, vụ việc"
+            },
+            {
+              "w": "でも",
+              "ro": "demo",
+              "pos": "trợ từ",
+              "vi": "cũng (ở)"
+            },
+            {
+              "w": "検討",
+              "r": "けんとう",
+              "ro": "kentoo",
+              "pos": "danh từ",
+              "vi": "xem xét"
+            },
+            {
+              "w": "に",
+              "ro": "ni",
+              "pos": "trợ từ",
+              "vi": "(đối tượng của 値する)"
+            },
+            {
+              "w": "値する",
+              "r": "あたいする",
+              "ro": "atai suru",
+              "pos": "động từ",
+              "vi": "đáng"
+            },
+            {
+              "w": "と",
+              "ro": "to",
+              "pos": "trợ từ",
+              "vi": "trích dẫn nội dung nghĩ"
+            },
+            {
+              "w": "思います",
+              "r": "おもいます",
+              "ro": "omoimasu",
+              "pos": "động từ",
+              "base": "思う",
+              "vi": "nghĩ"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "dialog": {
+    "title": "Họp nhìn lại dự án hệ thống đặt lịch khám",
+    "setting": "Sau khi nghiệm thu hệ thống đặt lịch khám, giám đốc Nakamura và PM Kobayashi (phía bệnh viện) họp nhìn lại với anh Long (quản lý offshore) và anh Dũng (BrSE) dựa trên kết quả khảo sát.",
+    "lines": [
+      {
+        "sp": "ロン",
+        "jp": "本日はお忙しい中、振り返り会議にご出席くださり、ありがとうございます。",
+        "ro": "Honjitsu wa oisogashii naka, furikaeri kaigi ni goshusseki kudasari, arigatoo gozaimasu.",
+        "vi": "Hôm nay dù bận rộn, xin cảm ơn quý vị đã tham dự buổi họp nhìn lại dự án.",
+        "pt": "Lời mở đầu trang trọng: お忙しい中 + ご出席くださり.",
+        "words": [
+          {
+            "w": "本日",
+            "r": "ほんじつ",
+            "ro": "honjitsu",
+            "pos": "danh từ",
+            "vi": "hôm nay (trang trọng)"
+          },
+          {
+            "w": "は",
+            "ro": "wa",
+            "pos": "trợ từ",
+            "vi": "đánh dấu chủ đề"
+          },
+          {
+            "w": "お忙しい",
+            "r": "おいそがしい",
+            "ro": "oisogashii",
+            "pos": "tính từ い",
+            "base": "忙しい",
+            "vi": "bận rộn (kính ngữ)"
+          },
+          {
+            "w": "中",
+            "r": "なか",
+            "ro": "naka",
+            "pos": "danh từ",
+            "vi": "trong lúc"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "振り返り会議",
+            "r": "ふりかえりかいぎ",
+            "ro": "furikaeri kaigi",
+            "pos": "danh từ",
+            "vi": "họp nhìn lại (retrospective)"
+          },
+          {
+            "w": "に",
+            "ro": "ni",
+            "pos": "trợ từ",
+            "vi": "vào (đích)"
+          },
+          {
+            "w": "ご出席",
+            "r": "ごしゅっせき",
+            "ro": "goshusseki",
+            "pos": "danh từ",
+            "vi": "sự tham dự (kính ngữ)"
+          },
+          {
+            "w": "くださり",
+            "ro": "kudasari",
+            "pos": "động từ",
+            "base": "くださる",
+            "vi": "(quý vị) đã làm cho — tôn kính ngữ 尊敬語 của くれる"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "ありがとうございます",
+            "ro": "arigatoo gozaimasu",
+            "pos": "cụm chào hỏi",
+            "vi": "xin cảm ơn"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          }
+        ]
+      },
+      {
+        "sp": "ロン",
+        "jp": "アンケートでは、予約システムの品質について高い評価をいただきました。",
+        "ro": "Ankeeto de wa, yoyaku shisutemu no hinshitsu ni tsuite takai hyooka o itadakimashita.",
+        "vi": "Trong bảng khảo sát, chúng tôi đã nhận được đánh giá cao về chất lượng hệ thống đặt lịch khám.",
+        "pt": "評価をいただきました = nhận được đánh giá (khiêm nhường).",
+        "words": [
+          {
+            "w": "アンケート",
+            "ro": "ankeeto",
+            "pos": "danh từ",
+            "vi": "bảng khảo sát"
+          },
+          {
+            "w": "で",
+            "ro": "de",
+            "pos": "trợ từ",
+            "vi": "trong"
+          },
+          {
+            "w": "は",
+            "ro": "wa",
+            "pos": "trợ từ",
+            "vi": "đánh dấu chủ đề"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "予約",
+            "r": "よやく",
+            "ro": "yoyaku",
+            "pos": "danh từ",
+            "vi": "đặt lịch"
+          },
+          {
+            "w": "システム",
+            "ro": "shisutemu",
+            "pos": "danh từ",
+            "vi": "hệ thống"
+          },
+          {
+            "w": "の",
+            "ro": "no",
+            "pos": "trợ từ",
+            "vi": "của"
+          },
+          {
+            "w": "品質",
+            "r": "ひんしつ",
+            "ro": "hinshitsu",
+            "pos": "danh từ",
+            "vi": "chất lượng"
+          },
+          {
+            "w": "について",
+            "ro": "ni tsuite",
+            "pos": "trợ từ",
+            "vi": "về"
+          },
+          {
+            "w": "高い",
+            "r": "たかい",
+            "ro": "takai",
+            "pos": "tính từ い",
+            "vi": "cao"
+          },
+          {
+            "w": "評価",
+            "r": "ひょうか",
+            "ro": "hyooka",
+            "pos": "danh từ",
+            "vi": "đánh giá (cao)"
+          },
+          {
+            "w": "を",
+            "ro": "o",
+            "pos": "trợ từ",
+            "vi": "chỉ đối tượng"
+          },
+          {
+            "w": "いただきました",
+            "ro": "itadakimashita",
+            "pos": "động từ",
+            "base": "いただく",
+            "vi": "đã nhận được — khiêm nhường ngữ 謙譲語 của もらった"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          }
+        ]
+      },
+      {
+        "sp": "中村",
+        "jp": "ええ。特に、ズンさんが現場の要望を丁寧に汲み取ってくれた点は、高く評価するに値します。",
+        "ro": "Ee. Toku ni, Zun-san ga genba no yooboo o teinei ni kumitotte kureta ten wa, takaku hyooka suru ni atai shimasu.",
+        "vi": "Vâng. Đặc biệt, việc anh Dũng đã nắm bắt chu đáo mong muốn của những người làm việc thực tế rất đáng được đánh giá cao.",
+        "pt": "Mẫu ④: 高く評価するに値します (động từ thể từ điển + に値する).",
+        "words": [
+          {
+            "w": "ええ",
+            "ro": "ee",
+            "pos": "cụm chào hỏi",
+            "vi": "vâng"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "特に",
+            "r": "とくに",
+            "ro": "toku ni",
+            "pos": "phó từ",
+            "vi": "đặc biệt"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "ズン",
+            "ro": "Zun",
+            "pos": "danh từ",
+            "vi": "Dũng (tên người)"
+          },
+          {
+            "w": "さん",
+            "ro": "san",
+            "pos": "hậu tố",
+            "vi": "anh/chị"
+          },
+          {
+            "w": "が",
+            "ro": "ga",
+            "pos": "trợ từ",
+            "vi": "chỉ chủ ngữ"
+          },
+          {
+            "w": "現場",
+            "r": "げんば",
+            "ro": "genba",
+            "pos": "danh từ",
+            "vi": "nơi làm việc thực tế (bệnh viện)"
+          },
+          {
+            "w": "の",
+            "ro": "no",
+            "pos": "trợ từ",
+            "vi": "của"
+          },
+          {
+            "w": "要望",
+            "r": "ようぼう",
+            "ro": "yooboo",
+            "pos": "danh từ",
+            "vi": "mong muốn, yêu cầu"
+          },
+          {
+            "w": "を",
+            "ro": "o",
+            "pos": "trợ từ",
+            "vi": "chỉ đối tượng"
+          },
+          {
+            "w": "丁寧に",
+            "r": "ていねいに",
+            "ro": "teinei ni",
+            "pos": "phó từ",
+            "vi": "cẩn thận, chu đáo"
+          },
+          {
+            "w": "汲み取って",
+            "r": "くみとって",
+            "ro": "kumitotte",
+            "pos": "động từ",
+            "base": "汲み取る",
+            "vi": "nắm bắt (tâm tư, ý muốn)"
+          },
+          {
+            "w": "くれた",
+            "ro": "kureta",
+            "pos": "động từ",
+            "base": "くれる",
+            "vi": "đã làm cho (chúng tôi)"
+          },
+          {
+            "w": "点",
+            "r": "てん",
+            "ro": "ten",
+            "pos": "danh từ",
+            "vi": "điểm"
+          },
+          {
+            "w": "は",
+            "ro": "wa",
+            "pos": "trợ từ",
+            "vi": "đánh dấu chủ đề"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "高く",
+            "r": "たかく",
+            "ro": "takaku",
+            "pos": "phó từ",
+            "base": "高い",
+            "vi": "cao"
+          },
+          {
+            "w": "評価する",
+            "r": "ひょうかする",
+            "ro": "hyooka suru",
+            "pos": "động từ",
+            "vi": "đánh giá"
+          },
+          {
+            "w": "に",
+            "ro": "ni",
+            "pos": "trợ từ",
+            "vi": "(đối tượng của 値する)"
+          },
+          {
+            "w": "値します",
+            "r": "あたいします",
+            "ro": "atai shimasu",
+            "pos": "động từ",
+            "base": "値する",
+            "vi": "đáng, xứng đáng"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          }
+        ]
+      },
+      {
+        "sp": "ズン",
+        "jp": "ありがとうございます。看護師の皆様にも、ヒアリングの時間を取っていただくなど、惜しみないご協力をくださり、ありがとうございました。",
+        "ro": "Arigatoo gozaimasu. Kangoshi no minasama ni mo, hiaringu no jikan o totte itadaku nado, oshiminai gokyooryoku o kudasari, arigatoo gozaimashita.",
+        "vi": "Cảm ơn anh. Xin cảm ơn quý bệnh viện đã hợp tác hết lòng, như việc các y tá cũng đã dành thời gian cho buổi phỏng vấn lấy yêu cầu.",
+        "pt": "Mẫu ②: nêu việc cụ thể (時間を取っていただく) trước など.",
+        "words": [
+          {
+            "w": "ありがとうございます",
+            "ro": "arigatoo gozaimasu",
+            "pos": "cụm chào hỏi",
+            "vi": "xin cảm ơn"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "看護師",
+            "r": "かんごし",
+            "ro": "kangoshi",
+            "pos": "danh từ",
+            "vi": "y tá"
+          },
+          {
+            "w": "の",
+            "ro": "no",
+            "pos": "trợ từ",
+            "vi": "của"
+          },
+          {
+            "w": "皆様",
+            "r": "みなさま",
+            "ro": "minasama",
+            "pos": "danh từ",
+            "vi": "quý vị (kính ngữ)"
+          },
+          {
+            "w": "にも",
+            "ro": "ni mo",
+            "pos": "trợ từ",
+            "vi": "cả (đối với)"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "ヒアリング",
+            "ro": "hiaringu",
+            "pos": "danh từ",
+            "vi": "phỏng vấn lấy yêu cầu (hearing)"
+          },
+          {
+            "w": "の",
+            "ro": "no",
+            "pos": "trợ từ",
+            "vi": "của"
+          },
+          {
+            "w": "時間",
+            "r": "じかん",
+            "ro": "jikan",
+            "pos": "danh từ",
+            "vi": "thời gian"
+          },
+          {
+            "w": "を",
+            "ro": "o",
+            "pos": "trợ từ",
+            "vi": "chỉ đối tượng"
+          },
+          {
+            "w": "取って",
+            "r": "とって",
+            "ro": "totte",
+            "pos": "động từ",
+            "base": "取る",
+            "vi": "dành ra"
+          },
+          {
+            "w": "いただく",
+            "ro": "itadaku",
+            "pos": "động từ",
+            "vi": "được (làm cho) — khiêm nhường ngữ 謙譲語 của もらう"
+          },
+          {
+            "w": "など",
+            "ro": "nado",
+            "pos": "trợ từ",
+            "vi": "chẳng hạn như"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "惜しみない",
+            "r": "おしみない",
+            "ro": "oshiminai",
+            "pos": "tính từ い",
+            "vi": "không tiếc, hết lòng"
+          },
+          {
+            "w": "ご協力",
+            "r": "ごきょうりょく",
+            "ro": "gokyooryoku",
+            "pos": "danh từ",
+            "vi": "sự hợp tác (kính ngữ)"
+          },
+          {
+            "w": "を",
+            "ro": "o",
+            "pos": "trợ từ",
+            "vi": "chỉ đối tượng"
+          },
+          {
+            "w": "くださり",
+            "ro": "kudasari",
+            "pos": "động từ",
+            "base": "くださる",
+            "vi": "(quý vị) đã làm cho — tôn kính ngữ 尊敬語 của くれる"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "ありがとうございました",
+            "ro": "arigatoo gozaimashita",
+            "pos": "cụm chào hỏi",
+            "vi": "xin cảm ơn (việc đã qua)"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          }
+        ]
+      },
+      {
+        "sp": "小林",
+        "jp": "開発途中の画面変更にも、臨機応変に対応していただき、助かりました。",
+        "ro": "Kaihatsu tochuu no gamen henkoo ni mo, rinki oohen ni taioo shite itadaki, tasukarimashita.",
+        "vi": "Cả những thay đổi màn hình giữa chừng, quý công ty cũng đã xử lý linh hoạt, chúng tôi đỡ được rất nhiều.",
+        "pt": "Mẫu ③: 臨機応変に対応していただき. いただき là dạng nối của いただく.",
+        "words": [
+          {
+            "w": "開発",
+            "r": "かいはつ",
+            "ro": "kaihatsu",
+            "pos": "danh từ",
+            "vi": "phát triển"
+          },
+          {
+            "w": "途中",
+            "r": "とちゅう",
+            "ro": "tochuu",
+            "pos": "danh từ",
+            "vi": "giữa chừng"
+          },
+          {
+            "w": "の",
+            "ro": "no",
+            "pos": "trợ từ",
+            "vi": "của"
+          },
+          {
+            "w": "画面",
+            "r": "がめん",
+            "ro": "gamen",
+            "pos": "danh từ",
+            "vi": "màn hình"
+          },
+          {
+            "w": "変更",
+            "r": "へんこう",
+            "ro": "henkoo",
+            "pos": "danh từ",
+            "vi": "thay đổi"
+          },
+          {
+            "w": "にも",
+            "ro": "ni mo",
+            "pos": "trợ từ",
+            "vi": "cả (đối với)"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "臨機応変",
+            "r": "りんきおうへん",
+            "ro": "rinki oohen",
+            "pos": "tính từ な",
+            "vi": "linh hoạt tùy tình huống"
+          },
+          {
+            "w": "に",
+            "ro": "ni",
+            "pos": "trợ từ",
+            "vi": "(biến thành trạng từ) một cách"
+          },
+          {
+            "w": "対応して",
+            "r": "たいおうして",
+            "ro": "taioo shite",
+            "pos": "động từ",
+            "base": "対応する",
+            "vi": "xử lý, đáp ứng"
+          },
+          {
+            "w": "いただき",
+            "ro": "itadaki",
+            "pos": "động từ",
+            "base": "いただく",
+            "vi": "được (làm cho) (và)"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "助かりました",
+            "r": "たすかりました",
+            "ro": "tasukarimashita",
+            "pos": "động từ",
+            "base": "助かる",
+            "vi": "đã đỡ được nhiều"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          }
+        ]
+      },
+      {
+        "sp": "小林",
+        "jp": "一方で、設計書とテスト仕様書の記述が食い違っている箇所が時折ありました。",
+        "ro": "Ippoo de, sekkeisho to tesuto shiyoosho no kijutsu ga kuichigatte iru kasho ga tokiori arimashita.",
+        "vi": "Mặt khác, thỉnh thoảng có chỗ mô tả trong tài liệu thiết kế và đặc tả kiểm thử không khớp nhau.",
+        "pt": "一方で chuyển sang điểm cần cải thiện; 時折 = thỉnh thoảng, giảm nhẹ mức độ.",
+        "words": [
+          {
+            "w": "一方で",
+            "r": "いっぽうで",
+            "ro": "ippoo de",
+            "pos": "liên từ",
+            "vi": "mặt khác"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "設計書",
+            "r": "せっけいしょ",
+            "ro": "sekkeisho",
+            "pos": "danh từ",
+            "vi": "tài liệu thiết kế"
+          },
+          {
+            "w": "と",
+            "ro": "to",
+            "pos": "trợ từ",
+            "vi": "và"
+          },
+          {
+            "w": "テスト仕様書",
+            "r": "てすとしようしょ",
+            "ro": "tesuto shiyoosho",
+            "pos": "danh từ",
+            "vi": "đặc tả kiểm thử"
+          },
+          {
+            "w": "の",
+            "ro": "no",
+            "pos": "trợ từ",
+            "vi": "của"
+          },
+          {
+            "w": "記述",
+            "r": "きじゅつ",
+            "ro": "kijutsu",
+            "pos": "danh từ",
+            "vi": "nội dung mô tả"
+          },
+          {
+            "w": "が",
+            "ro": "ga",
+            "pos": "trợ từ",
+            "vi": "chỉ chủ ngữ"
+          },
+          {
+            "w": "食い違っている",
+            "r": "くいちがっている",
+            "ro": "kuichigatte iru",
+            "pos": "động từ",
+            "base": "食い違う",
+            "vi": "đang không khớp, mâu thuẫn"
+          },
+          {
+            "w": "箇所",
+            "r": "かしょ",
+            "ro": "kasho",
+            "pos": "danh từ",
+            "vi": "chỗ, vị trí"
+          },
+          {
+            "w": "が",
+            "ro": "ga",
+            "pos": "trợ từ",
+            "vi": "chỉ chủ ngữ"
+          },
+          {
+            "w": "時折",
+            "r": "ときおり",
+            "ro": "tokiori",
+            "pos": "phó từ",
+            "vi": "thỉnh thoảng"
+          },
+          {
+            "w": "ありました",
+            "ro": "arimashita",
+            "pos": "động từ",
+            "base": "ある",
+            "vi": "đã có"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          }
+        ]
+      },
+      {
+        "sp": "中村",
+        "jp": "今回は大きな問題は招きませんでしたが、ともすると医療現場の混乱を引き起こしかねません。",
+        "ro": "Konkai wa ookina mondai wa manekimasen deshita ga, tomosuru to iryoo genba no konran o hikiokoshi kanemasen.",
+        "vi": "Lần này chưa gây ra vấn đề lớn, nhưng hễ sơ suất là có thể gây hỗn loạn ở nơi khám chữa bệnh.",
+        "pt": "Mẫu ①: 問題は招きませんでしたが、ともすると〜引き起こしかねません.",
+        "words": [
+          {
+            "w": "今回",
+            "r": "こんかい",
+            "ro": "konkai",
+            "pos": "danh từ",
+            "vi": "lần này"
+          },
+          {
+            "w": "は",
+            "ro": "wa",
+            "pos": "trợ từ",
+            "vi": "đánh dấu chủ đề"
+          },
+          {
+            "w": "大きな",
+            "r": "おおきな",
+            "ro": "ookina",
+            "pos": "tính từ な",
+            "vi": "lớn"
+          },
+          {
+            "w": "問題",
+            "r": "もんだい",
+            "ro": "mondai",
+            "pos": "danh từ",
+            "vi": "vấn đề"
+          },
+          {
+            "w": "は",
+            "ro": "wa",
+            "pos": "trợ từ",
+            "vi": "nhấn mạnh (đối lập)"
+          },
+          {
+            "w": "招きません",
+            "r": "まねきません",
+            "ro": "manekimasen",
+            "pos": "động từ",
+            "base": "招く",
+            "vi": "không gây ra, không dẫn đến"
+          },
+          {
+            "w": "でした",
+            "ro": "deshita",
+            "pos": "trợ động từ",
+            "base": "です",
+            "vi": "(quá khứ lịch sự)"
+          },
+          {
+            "w": "が",
+            "ro": "ga",
+            "pos": "trợ từ",
+            "vi": "nhưng"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "ともすると",
+            "ro": "tomosuru to",
+            "pos": "phó từ",
+            "vi": "hễ sơ suất là, có khi"
+          },
+          {
+            "w": "医療",
+            "r": "いりょう",
+            "ro": "iryoo",
+            "pos": "danh từ",
+            "vi": "y tế"
+          },
+          {
+            "w": "現場",
+            "r": "げんば",
+            "ro": "genba",
+            "pos": "danh từ",
+            "vi": "nơi làm việc thực tế (bệnh viện)"
+          },
+          {
+            "w": "の",
+            "ro": "no",
+            "pos": "trợ từ",
+            "vi": "của"
+          },
+          {
+            "w": "混乱",
+            "r": "こんらん",
+            "ro": "konran",
+            "pos": "danh từ",
+            "vi": "sự hỗn loạn"
+          },
+          {
+            "w": "を",
+            "ro": "o",
+            "pos": "trợ từ",
+            "vi": "chỉ đối tượng"
+          },
+          {
+            "w": "引き起こし",
+            "r": "ひきおこし",
+            "ro": "hikiokoshi",
+            "pos": "động từ",
+            "base": "引き起こす",
+            "vi": "gây ra"
+          },
+          {
+            "w": "かねません",
+            "ro": "kanemasen",
+            "pos": "trợ động từ",
+            "base": "かねる",
+            "vi": "có thể (xảy ra điều xấu)"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          }
+        ]
+      },
+      {
+        "sp": "ロン",
+        "jp": "ご指摘のとおりです。今後は文書間の整合性チェックを工程に盛り込みます。",
+        "ro": "Goshiteki no toori desu. Kongo wa bunsho kan no seigoosei chekku o kootei ni morikomimasu.",
+        "vi": "Đúng như anh chỉ ra. Từ nay chúng tôi sẽ đưa bước kiểm tra tính nhất quán giữa các tài liệu vào quy trình.",
+        "pt": "ご指摘のとおりです = nhận góp ý thẳng thắn; 盛り込みます = đưa vào (kế hoạch, quy trình).",
+        "words": [
+          {
+            "w": "ご指摘",
+            "r": "ごしてき",
+            "ro": "goshiteki",
+            "pos": "danh từ",
+            "vi": "sự chỉ ra (kính ngữ)"
+          },
+          {
+            "w": "の",
+            "ro": "no",
+            "pos": "trợ từ",
+            "vi": "của"
+          },
+          {
+            "w": "とおり",
+            "ro": "toori",
+            "pos": "danh từ",
+            "vi": "đúng như"
+          },
+          {
+            "w": "です",
+            "ro": "desu",
+            "pos": "trợ động từ",
+            "vi": "là (lịch sự)"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "今後",
+            "r": "こんご",
+            "ro": "kongo",
+            "pos": "danh từ",
+            "vi": "từ nay về sau"
+          },
+          {
+            "w": "は",
+            "ro": "wa",
+            "pos": "trợ từ",
+            "vi": "đánh dấu chủ đề"
+          },
+          {
+            "w": "文書",
+            "r": "ぶんしょ",
+            "ro": "bunsho",
+            "pos": "danh từ",
+            "vi": "tài liệu, văn bản"
+          },
+          {
+            "w": "間",
+            "r": "かん",
+            "ro": "kan",
+            "pos": "hậu tố",
+            "vi": "giữa"
+          },
+          {
+            "w": "の",
+            "ro": "no",
+            "pos": "trợ từ",
+            "vi": "của"
+          },
+          {
+            "w": "整合性",
+            "r": "せいごうせい",
+            "ro": "seigoosei",
+            "pos": "danh từ",
+            "vi": "tính nhất quán"
+          },
+          {
+            "w": "チェック",
+            "ro": "chekku",
+            "pos": "danh từ",
+            "vi": "kiểm tra"
+          },
+          {
+            "w": "を",
+            "ro": "o",
+            "pos": "trợ từ",
+            "vi": "chỉ đối tượng"
+          },
+          {
+            "w": "工程",
+            "r": "こうてい",
+            "ro": "kootei",
+            "pos": "danh từ",
+            "vi": "công đoạn, quy trình"
+          },
+          {
+            "w": "に",
+            "ro": "ni",
+            "pos": "trợ từ",
+            "vi": "vào"
+          },
+          {
+            "w": "盛り込みます",
+            "r": "もりこみます",
+            "ro": "morikomimasu",
+            "pos": "động từ",
+            "base": "盛り込む",
+            "vi": "đưa vào, lồng vào"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          }
+        ]
+      },
+      {
+        "sp": "中村",
+        "jp": "お願いします。フェーズ2でも、ぜひ御社にお願いしたいと考えています。",
+        "ro": "Onegai shimasu. Feezu tsuu demo, zehi onsha ni onegai shitai to kangaete imasu.",
+        "vi": "Nhờ anh nhé. Ở phase 2, chúng tôi cũng rất mong được tiếp tục giao cho quý công ty.",
+        "pt": "御社 = quý công ty (văn nói). Đây là lời hứa hẹn hợp tác tiếp, là kết quả tốt nhất của buổi nhìn lại.",
+        "words": [
+          {
+            "w": "お願いします",
+            "r": "おねがいします",
+            "ro": "onegai shimasu",
+            "pos": "cụm chào hỏi",
+            "vi": "nhờ anh/chị"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "フェーズ2",
+            "ro": "feezu tsuu",
+            "pos": "danh từ",
+            "vi": "giai đoạn 2 (phase 2)"
+          },
+          {
+            "w": "でも",
+            "ro": "demo",
+            "pos": "trợ từ",
+            "vi": "cũng (ở)"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "ぜひ",
+            "ro": "zehi",
+            "pos": "phó từ",
+            "vi": "nhất định, rất mong"
+          },
+          {
+            "w": "御社",
+            "r": "おんしゃ",
+            "ro": "onsha",
+            "pos": "danh từ",
+            "vi": "quý công ty"
+          },
+          {
+            "w": "に",
+            "ro": "ni",
+            "pos": "trợ từ",
+            "vi": "cho (đối tượng nhờ)"
+          },
+          {
+            "w": "お願いしたい",
+            "r": "おねがいしたい",
+            "ro": "onegai shitai",
+            "pos": "động từ",
+            "base": "お願いする",
+            "vi": "muốn nhờ"
+          },
+          {
+            "w": "と",
+            "ro": "to",
+            "pos": "trợ từ",
+            "vi": "trích dẫn nội dung nghĩ"
+          },
+          {
+            "w": "考えています",
+            "r": "かんがえています",
+            "ro": "kangaete imasu",
+            "pos": "động từ",
+            "base": "考える",
+            "vi": "đang nghĩ"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          }
+        ]
+      },
+      {
+        "sp": "ロン",
+        "jp": "光栄です。今回得た知見をチーム内で横展開し、さらに品質を高めてまいります。",
+        "ro": "Kooei desu. Konkai eta chiken o chiimu nai de yoko tenkai shi, sarani hinshitsu o takamete mairimasu.",
+        "vi": "Thật vinh dự. Chúng tôi sẽ chia sẻ kiến thức thu được lần này trong toàn nhóm và tiếp tục nâng cao chất lượng hơn nữa.",
+        "pt": "横展開 = áp dụng bài học cho các chỗ/nhóm khác. 〜てまいります = sẽ tiếp tục làm (khiêm nhường).",
+        "words": [
+          {
+            "w": "光栄",
+            "r": "こうえい",
+            "ro": "kooei",
+            "pos": "danh từ",
+            "vi": "vinh dự"
+          },
+          {
+            "w": "です",
+            "ro": "desu",
+            "pos": "trợ động từ",
+            "vi": "là (lịch sự)"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "今回",
+            "r": "こんかい",
+            "ro": "konkai",
+            "pos": "danh từ",
+            "vi": "lần này"
+          },
+          {
+            "w": "得た",
+            "r": "えた",
+            "ro": "eta",
+            "pos": "động từ",
+            "base": "得る",
+            "vi": "đã thu được"
+          },
+          {
+            "w": "知見",
+            "r": "ちけん",
+            "ro": "chiken",
+            "pos": "danh từ",
+            "vi": "kiến thức, hiểu biết rút ra"
+          },
+          {
+            "w": "を",
+            "ro": "o",
+            "pos": "trợ từ",
+            "vi": "chỉ đối tượng"
+          },
+          {
+            "w": "チーム",
+            "ro": "chiimu",
+            "pos": "danh từ",
+            "vi": "nhóm (team)"
+          },
+          {
+            "w": "内",
+            "r": "ない",
+            "ro": "nai",
+            "pos": "hậu tố",
+            "vi": "trong"
+          },
+          {
+            "w": "で",
+            "ro": "de",
+            "pos": "trợ từ",
+            "vi": "tại"
+          },
+          {
+            "w": "横展開し",
+            "r": "よこてんかいし",
+            "ro": "yoko tenkai shi",
+            "pos": "động từ",
+            "base": "横展開する",
+            "vi": "áp dụng rộng sang chỗ tương tự (và)"
+          },
+          {
+            "w": "、",
+            "pos": "dấu câu"
+          },
+          {
+            "w": "さらに",
+            "ro": "sarani",
+            "pos": "phó từ",
+            "vi": "hơn nữa"
+          },
+          {
+            "w": "品質",
+            "r": "ひんしつ",
+            "ro": "hinshitsu",
+            "pos": "danh từ",
+            "vi": "chất lượng"
+          },
+          {
+            "w": "を",
+            "ro": "o",
+            "pos": "trợ từ",
+            "vi": "chỉ đối tượng"
+          },
+          {
+            "w": "高めて",
+            "r": "たかめて",
+            "ro": "takamete",
+            "pos": "động từ",
+            "base": "高める",
+            "vi": "nâng cao"
+          },
+          {
+            "w": "まいります",
+            "ro": "mairimasu",
+            "pos": "động từ",
+            "base": "まいる",
+            "vi": "(sẽ tiếp tục) — khiêm nhường ngữ 謙譲語 của いく"
+          },
+          {
+            "w": "。",
+            "pos": "dấu câu"
+          }
+        ]
+      }
+    ]
+  },
+  "phrases": [
+    {
+      "h": "Khi cảm ơn và nhìn lại điểm tốt",
+      "items": [
+        {
+          "jp": "長い期間、本当にお世話になりました。",
+          "ro": "Nagai kikan, hontoo ni osewa ni narimashita.",
+          "vi": "Trong suốt thời gian dài, chúng tôi thật sự đã được quý vị giúp đỡ rất nhiều.",
+          "pt": "お世話になりました = câu cảm ơn chuẩn khi kết thúc một mối quan hệ công việc.",
+          "words": [
+            {
+              "w": "長い",
+              "r": "ながい",
+              "ro": "nagai",
+              "pos": "tính từ い",
+              "vi": "dài"
+            },
+            {
+              "w": "期間",
+              "r": "きかん",
+              "ro": "kikan",
+              "pos": "danh từ",
+              "vi": "thời gian, giai đoạn"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "本当に",
+              "r": "ほんとうに",
+              "ro": "hontoo ni",
+              "pos": "phó từ",
+              "vi": "thật sự"
+            },
+            {
+              "w": "お世話になりました",
+              "r": "おせわになりました",
+              "ro": "osewa ni narimashita",
+              "pos": "cụm chào hỏi",
+              "vi": "đã được giúp đỡ nhiều"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        },
+        {
+          "jp": "お客様と対面で話せたことが、意思疎通の大きな助けになりました。",
+          "ro": "Okyakusama to taimen de hanaseta koto ga, ishi sotsuu no ookina tasuke ni narimashita.",
+          "vi": "Việc được nói chuyện trực tiếp với khách hàng đã giúp ích rất nhiều cho việc hiểu ý nhau.",
+          "pt": "意思疎通 = truyền đạt và hiểu ý nhau thông suốt; 助けになる = trở thành sự giúp đỡ.",
+          "words": [
+            {
+              "w": "お客様",
+              "r": "おきゃくさま",
+              "ro": "okyakusama",
+              "pos": "danh từ",
+              "vi": "khách hàng (kính ngữ)"
+            },
+            {
+              "w": "と",
+              "ro": "to",
+              "pos": "trợ từ",
+              "vi": "với"
+            },
+            {
+              "w": "対面",
+              "r": "たいめん",
+              "ro": "taimen",
+              "pos": "danh từ",
+              "vi": "gặp mặt trực tiếp"
+            },
+            {
+              "w": "で",
+              "ro": "de",
+              "pos": "trợ từ",
+              "vi": "bằng (hình thức)"
+            },
+            {
+              "w": "話せた",
+              "r": "はなせた",
+              "ro": "hanaseta",
+              "pos": "động từ",
+              "base": "話せる",
+              "vi": "đã nói chuyện được"
+            },
+            {
+              "w": "こと",
+              "ro": "koto",
+              "pos": "danh từ",
+              "vi": "việc"
+            },
+            {
+              "w": "が",
+              "ro": "ga",
+              "pos": "trợ từ",
+              "vi": "chỉ chủ ngữ"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "意思疎通",
+              "r": "いしそつう",
+              "ro": "ishi sotsuu",
+              "pos": "danh từ",
+              "vi": "sự hiểu ý nhau, giao tiếp thông suốt"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "của"
+            },
+            {
+              "w": "大きな",
+              "r": "おおきな",
+              "ro": "ookina",
+              "pos": "tính từ な",
+              "vi": "lớn"
+            },
+            {
+              "w": "助け",
+              "r": "たすけ",
+              "ro": "tasuke",
+              "pos": "danh từ",
+              "vi": "sự giúp đỡ"
+            },
+            {
+              "w": "に",
+              "ro": "ni",
+              "pos": "trợ từ",
+              "vi": "thành"
+            },
+            {
+              "w": "なりました",
+              "ro": "narimashita",
+              "pos": "động từ",
+              "base": "なる",
+              "vi": "đã trở thành"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        },
+        {
+          "jp": "このノウハウは、ほかのプロジェクトにも生かせると思います。",
+          "ro": "Kono nouhau wa, hoka no purojekuto ni mo ikaseru to omoimasu.",
+          "vi": "Tôi nghĩ bí quyết này có thể tận dụng cho cả các dự án khác.",
+          "pt": "ノウハウ = know-how; 生かせる = có thể tận dụng.",
+          "words": [
+            {
+              "w": "この",
+              "ro": "kono",
+              "pos": "đại từ",
+              "vi": "này"
+            },
+            {
+              "w": "ノウハウ",
+              "ro": "nouhau",
+              "pos": "danh từ",
+              "vi": "bí quyết, kinh nghiệm (know-how)"
+            },
+            {
+              "w": "は",
+              "ro": "wa",
+              "pos": "trợ từ",
+              "vi": "đánh dấu chủ đề"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "ほか",
+              "ro": "hoka",
+              "pos": "danh từ",
+              "vi": "khác"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "của"
+            },
+            {
+              "w": "プロジェクト",
+              "ro": "purojekuto",
+              "pos": "danh từ",
+              "vi": "dự án (project)"
+            },
+            {
+              "w": "にも",
+              "ro": "ni mo",
+              "pos": "trợ từ",
+              "vi": "cả (đối với)"
+            },
+            {
+              "w": "生かせる",
+              "r": "いかせる",
+              "ro": "ikaseru",
+              "pos": "động từ",
+              "base": "生かす",
+              "vi": "có thể tận dụng"
+            },
+            {
+              "w": "と",
+              "ro": "to",
+              "pos": "trợ từ",
+              "vi": "trích dẫn nội dung nghĩ"
+            },
+            {
+              "w": "思います",
+              "r": "おもいます",
+              "ro": "omoimasu",
+              "pos": "động từ",
+              "base": "思う",
+              "vi": "nghĩ"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "h": "Khi nêu điểm cần cải thiện",
+      "items": [
+        {
+          "jp": "誤字脱字が時折見られましたので、提出前のチェックを徹底いたします。",
+          "ro": "Goji datsuji ga tokiori miraremashita node, teishutsu mae no chekku o tettei itashimasu.",
+          "vi": "Thỉnh thoảng vẫn thấy lỗi chính tả, sót chữ, nên chúng tôi sẽ kiểm tra triệt để trước khi nộp.",
+          "pt": "Nhận lỗi kèm biện pháp cụ thể; 徹底いたします là khiêm nhường ngữ.",
+          "words": [
+            {
+              "w": "誤字脱字",
+              "r": "ごじだつじ",
+              "ro": "goji datsuji",
+              "pos": "danh từ",
+              "vi": "lỗi chính tả, sót chữ"
+            },
+            {
+              "w": "が",
+              "ro": "ga",
+              "pos": "trợ từ",
+              "vi": "chỉ chủ ngữ"
+            },
+            {
+              "w": "時折",
+              "r": "ときおり",
+              "ro": "tokiori",
+              "pos": "phó từ",
+              "vi": "thỉnh thoảng"
+            },
+            {
+              "w": "見られました",
+              "r": "みられました",
+              "ro": "miraremashita",
+              "pos": "động từ",
+              "base": "見られる",
+              "vi": "đã thấy có"
+            },
+            {
+              "w": "ので",
+              "ro": "node",
+              "pos": "trợ từ",
+              "vi": "vì"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "提出",
+              "r": "ていしゅつ",
+              "ro": "teishutsu",
+              "pos": "danh từ",
+              "vi": "nộp"
+            },
+            {
+              "w": "前",
+              "r": "まえ",
+              "ro": "mae",
+              "pos": "danh từ",
+              "vi": "trước"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "của"
+            },
+            {
+              "w": "チェック",
+              "ro": "chekku",
+              "pos": "danh từ",
+              "vi": "kiểm tra"
+            },
+            {
+              "w": "を",
+              "ro": "o",
+              "pos": "trợ từ",
+              "vi": "chỉ đối tượng"
+            },
+            {
+              "w": "徹底いたします",
+              "r": "てっていいたします",
+              "ro": "tettei itashimasu",
+              "pos": "động từ",
+              "base": "徹底いたす",
+              "vi": "làm triệt để — khiêm nhường ngữ 謙譲語 của 徹底する"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        },
+        {
+          "jp": "変更履歴が書かれていない資料が混在していました。",
+          "ro": "Henkoo rireki ga kakarete inai shiryoo ga konzai shite imashita.",
+          "vi": "Có lẫn lộn cả những tài liệu không ghi lịch sử thay đổi.",
+          "pt": "混在する = tồn tại lẫn lộn (cái đúng chuẩn và cái không).",
+          "words": [
+            {
+              "w": "変更履歴",
+              "r": "へんこうりれき",
+              "ro": "henkoo rireki",
+              "pos": "danh từ",
+              "vi": "lịch sử thay đổi"
+            },
+            {
+              "w": "が",
+              "ro": "ga",
+              "pos": "trợ từ",
+              "vi": "chỉ chủ ngữ"
+            },
+            {
+              "w": "書かれて",
+              "r": "かかれて",
+              "ro": "kakarete",
+              "pos": "động từ",
+              "base": "書かれる",
+              "vi": "được viết"
+            },
+            {
+              "w": "いない",
+              "ro": "inai",
+              "pos": "động từ",
+              "base": "いる",
+              "vi": "không (trạng thái)"
+            },
+            {
+              "w": "資料",
+              "r": "しりょう",
+              "ro": "shiryoo",
+              "pos": "danh từ",
+              "vi": "tài liệu"
+            },
+            {
+              "w": "が",
+              "ro": "ga",
+              "pos": "trợ từ",
+              "vi": "chỉ chủ ngữ"
+            },
+            {
+              "w": "混在して",
+              "r": "こんざいして",
+              "ro": "konzai shite",
+              "pos": "động từ",
+              "base": "混在する",
+              "vi": "lẫn lộn"
+            },
+            {
+              "w": "いました",
+              "ro": "imashita",
+              "pos": "động từ",
+              "base": "いる",
+              "vi": "(đã ở trạng thái)"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        },
+        {
+          "jp": "用語の不統一については、用語集を作って解消したいと考えています。",
+          "ro": "Yoogo no futooitsu ni tsuite wa, yoogoshuu o tsukutte kaishoo shitai to kangaete imasu.",
+          "vi": "Về việc thuật ngữ không thống nhất, chúng tôi muốn tạo bảng thuật ngữ để giải quyết.",
+          "pt": "〜については = về vấn đề …; 〜たいと考えています = đề xuất hướng xử lý một cách lịch sự.",
+          "words": [
+            {
+              "w": "用語",
+              "r": "ようご",
+              "ro": "yoogo",
+              "pos": "danh từ",
+              "vi": "thuật ngữ"
+            },
+            {
+              "w": "の",
+              "ro": "no",
+              "pos": "trợ từ",
+              "vi": "của"
+            },
+            {
+              "w": "不統一",
+              "r": "ふとういつ",
+              "ro": "futooitsu",
+              "pos": "danh từ",
+              "vi": "sự không thống nhất"
+            },
+            {
+              "w": "について",
+              "ro": "ni tsuite",
+              "pos": "trợ từ",
+              "vi": "về"
+            },
+            {
+              "w": "は",
+              "ro": "wa",
+              "pos": "trợ từ",
+              "vi": "đánh dấu chủ đề"
+            },
+            {
+              "w": "、",
+              "pos": "dấu câu"
+            },
+            {
+              "w": "用語集",
+              "r": "ようごしゅう",
+              "ro": "yoogoshuu",
+              "pos": "danh từ",
+              "vi": "bảng thuật ngữ"
+            },
+            {
+              "w": "を",
+              "ro": "o",
+              "pos": "trợ từ",
+              "vi": "chỉ đối tượng"
+            },
+            {
+              "w": "作って",
+              "r": "つくって",
+              "ro": "tsukutte",
+              "pos": "động từ",
+              "base": "作る",
+              "vi": "tạo ra"
+            },
+            {
+              "w": "解消したい",
+              "r": "かいしょうしたい",
+              "ro": "kaishoo shitai",
+              "pos": "động từ",
+              "base": "解消する",
+              "vi": "muốn giải quyết"
+            },
+            {
+              "w": "と",
+              "ro": "to",
+              "pos": "trợ từ",
+              "vi": "trích dẫn nội dung nghĩ"
+            },
+            {
+              "w": "考えています",
+              "r": "かんがえています",
+              "ro": "kangaete imasu",
+              "pos": "động từ",
+              "base": "考える",
+              "vi": "đang nghĩ"
+            },
+            {
+              "w": "。",
+              "pos": "dấu câu"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "vocab": [
+    {
+      "w": "満足度",
+      "r": "まんぞくど",
+      "ro": "manzokudo",
+      "vi": "mức độ hài lòng",
+      "en": "satisfaction"
+    },
+    {
+      "w": "顧客満足度調査",
+      "r": "こきゃくまんぞくどちょうさ",
+      "ro": "kokyaku manzokudo choosa",
+      "vi": "khảo sát mức độ hài lòng của khách hàng",
+      "en": "CSS"
+    },
+    {
+      "w": "成否",
+      "r": "せいひ",
+      "ro": "seihi",
+      "vi": "thành công hay thất bại"
+    },
+    {
+      "w": "時折",
+      "r": "ときおり",
+      "ro": "tokiori",
+      "vi": "thỉnh thoảng"
+    },
+    {
+      "w": "整合性",
+      "r": "せいごうせい",
+      "ro": "seigoosei",
+      "vi": "tính nhất quán",
+      "en": "consistency"
+    },
+    {
+      "w": "知見",
+      "r": "ちけん",
+      "ro": "chiken",
+      "vi": "kiến thức, hiểu biết rút ra từ kinh nghiệm",
+      "en": "insight"
+    },
+    {
+      "w": "持ち寄る",
+      "r": "もちよる",
+      "ro": "mochiyoru",
+      "vi": "mỗi người mang (ý kiến, tài liệu) đến góp"
+    },
+    {
+      "w": "拘束時間",
+      "r": "こうそくじかん",
+      "ro": "koosoku jikan",
+      "vi": "thời gian bị ràng buộc (phải có mặt)"
+    },
+    {
+      "w": "すり合わせ",
+      "r": "すりあわせ",
+      "ro": "suriawase",
+      "vi": "điều chỉnh cho khớp, thống nhất (ý kiến)",
+      "en": "alignment"
+    },
+    {
+      "w": "構築",
+      "r": "こうちく",
+      "ro": "koochiku",
+      "vi": "xây dựng (hệ thống)",
+      "en": "build"
+    },
+    {
+      "w": "意思疎通",
+      "r": "いしそつう",
+      "ro": "ishi sotsuu",
+      "vi": "hiểu ý nhau, giao tiếp thông suốt",
+      "en": "communication"
+    },
+    {
+      "w": "対面",
+      "r": "たいめん",
+      "ro": "taimen",
+      "vi": "gặp mặt trực tiếp",
+      "en": "face-to-face"
+    },
+    {
+      "w": "汲み取る",
+      "r": "くみとる",
+      "ro": "kumitoru",
+      "vi": "nắm bắt (ý muốn, tâm tư)"
+    },
+    {
+      "w": "心がける",
+      "r": "こころがける",
+      "ro": "kokorogakeru",
+      "vi": "luôn chú ý, cố gắng"
+    },
+    {
+      "w": "手法",
+      "r": "しゅほう",
+      "ro": "shuhoo",
+      "vi": "phương pháp",
+      "en": "method"
+    },
+    {
+      "w": "盛り込む",
+      "r": "もりこむ",
+      "ro": "morikomu",
+      "vi": "đưa vào, lồng vào"
+    },
+    {
+      "w": "リグレッションテスト",
+      "r": "",
+      "ro": "riguresshon tesuto",
+      "vi": "kiểm thử hồi quy",
+      "en": "regression test"
+    },
+    {
+      "w": "適宜",
+      "r": "てきぎ",
+      "ro": "tekigi",
+      "vi": "khi thích hợp, tùy lúc"
+    },
+    {
+      "w": "誤字脱字",
+      "r": "ごじだつじ",
+      "ro": "goji datsuji",
+      "vi": "lỗi chính tả, sót chữ",
+      "en": "typos"
+    },
+    {
+      "w": "真摯",
+      "r": "しんし",
+      "ro": "shinshi",
+      "vi": "nghiêm túc, chân thành"
+    },
+    {
+      "w": "進化",
+      "r": "しんか",
+      "ro": "shinka",
+      "vi": "tiến hóa, phát triển lên",
+      "en": "evolution"
+    },
+    {
+      "w": "フロントSE",
+      "r": "",
+      "ro": "furonto esu ii",
+      "vi": "kỹ sư làm việc trực tiếp với khách",
+      "en": "front SE"
+    },
+    {
+      "w": "ブリッジSE",
+      "r": "",
+      "ro": "burijji esu ii",
+      "vi": "kỹ sư cầu nối (BrSE)",
+      "en": "bridge SE"
+    },
+    {
+      "w": "ノウハウ",
+      "r": "",
+      "ro": "nouhau",
+      "vi": "bí quyết, kinh nghiệm",
+      "en": "know-how"
+    },
+    {
+      "w": "人工知能",
+      "r": "じんこうちのう",
+      "ro": "jinkoo chinoo",
+      "vi": "trí tuệ nhân tạo",
+      "en": "AI"
+    },
+    {
+      "w": "機械学習",
+      "r": "きかいがくしゅう",
+      "ro": "kikai gakushuu",
+      "vi": "học máy",
+      "en": "machine learning"
+    },
+    {
+      "w": "ディープラーニング",
+      "r": "",
+      "ro": "diipuraaningu",
+      "vi": "học sâu",
+      "en": "deep learning"
+    },
+    {
+      "w": "ビッグデータ",
+      "r": "",
+      "ro": "biggu deeta",
+      "vi": "dữ liệu lớn",
+      "en": "big data"
+    },
+    {
+      "w": "受入検収",
+      "r": "うけいれけんしゅう",
+      "ro": "ukeire kenshuu",
+      "vi": "nghiệm thu chấp nhận",
+      "en": "acceptance inspection"
+    },
+    {
+      "w": "通訳",
+      "r": "つうやく",
+      "ro": "tsuuyaku",
+      "vi": "phiên dịch (nói)",
+      "en": "interpreting"
+    },
+    {
+      "w": "納期",
+      "r": "のうき",
+      "ro": "nooki",
+      "vi": "hạn giao hàng",
+      "en": "deadline"
+    },
+    {
+      "w": "再発防止策",
+      "r": "さいはつぼうしさく",
+      "ro": "saihatsu booshisaku",
+      "vi": "biện pháp phòng tái diễn",
+      "en": "preventive measures"
+    },
+    {
+      "w": "振り返り会議",
+      "r": "ふりかえりかいぎ",
+      "ro": "furikaeri kaigi",
+      "vi": "họp nhìn lại",
+      "en": "retrospective"
+    },
+    {
+      "w": "臨機応変",
+      "r": "りんきおうへん",
+      "ro": "rinki oohen",
+      "vi": "linh hoạt tùy tình huống",
+      "en": "flexible"
+    },
+    {
+      "w": "工数削減",
+      "r": "こうすうさくげん",
+      "ro": "koosuu sakugen",
+      "vi": "giảm công số",
+      "en": "effort reduction"
+    },
+    {
+      "w": "横展開",
+      "r": "よこてんかい",
+      "ro": "yoko tenkai",
+      "vi": "áp dụng rộng sang chỗ tương tự",
+      "en": "horizontal deployment"
+    },
+    {
+      "w": "テストエビデンス",
+      "r": "",
+      "ro": "tesuto ebidensu",
+      "vi": "bằng chứng kiểm thử (ảnh chụp, log)",
+      "en": "test evidence"
+    },
+    {
+      "w": "変更履歴",
+      "r": "へんこうりれき",
+      "ro": "henkoo rireki",
+      "vi": "lịch sử thay đổi",
+      "en": "change history"
+    },
+    {
+      "w": "混在",
+      "r": "こんざい",
+      "ro": "konzai",
+      "vi": "lẫn lộn",
+      "en": "mixed"
+    },
+    {
+      "w": "不統一",
+      "r": "ふとういつ",
+      "ro": "futooitsu",
+      "vi": "không thống nhất",
+      "en": "inconsistency"
+    },
+    {
+      "w": "惜しみない",
+      "r": "おしみない",
+      "ro": "oshiminai",
+      "vi": "không tiếc, hết lòng"
+    },
+    {
+      "w": "値する",
+      "r": "あたいする",
+      "ro": "atai suru",
+      "vi": "đáng, xứng đáng"
+    },
+    {
+      "w": "招く",
+      "r": "まねく",
+      "ro": "maneku",
+      "vi": "dẫn đến, gây ra (kết quả xấu)"
+    },
+    {
+      "w": "ともすると",
+      "r": "",
+      "ro": "tomosuru to",
+      "vi": "hễ sơ suất là, có xu hướng dễ"
+    },
+    {
+      "w": "用語集",
+      "r": "ようごしゅう",
+      "ro": "yoogoshuu",
+      "vi": "bảng thuật ngữ",
+      "en": "glossary"
+    },
+    {
+      "w": "アンケート",
+      "r": "",
+      "ro": "ankeeto",
+      "vi": "bảng khảo sát",
+      "en": "questionnaire"
+    }
+  ],
+  "discuss": [
+    {
+      "jp": "お客様アンケートで「3」の評価が付いた項目があったら、どのように対応しますか。",
+      "vi": "Nếu trong khảo sát có mục bị chấm 3 điểm, bạn sẽ xử lý thế nào?"
+    },
+    {
+      "jp": "ブリッジSEに一番必要な力は何だと思いますか。理由も説明してください。",
+      "vi": "Theo bạn, năng lực quan trọng nhất của BrSE là gì? Hãy giải thích cả lý do."
+    },
+    {
+      "jp": "振り返り会議で出た改善点を、次のプロジェクトに確実に生かすにはどうすればいいですか。",
+      "vi": "Làm thế nào để chắc chắn các điểm cải thiện rút ra từ buổi nhìn lại được áp dụng vào dự án tiếp theo?"
+    }
+  ],
+  "tips": [
+    "Trong buổi nhìn lại, khi khách góp ý, đừng giải thích dài dòng hay biện minh. Trình tự tốt: cảm ơn góp ý (ご指摘ありがとうございます) → thừa nhận → nêu biện pháp cụ thể và thời điểm áp dụng.",
+    "Lời cảm ơn cuối dự án nên nêu việc cụ thể khách đã giúp (chuẩn bị dữ liệu, dành thời gian hearing, phản hồi Q&A nhanh…). Người Nhật đánh giá cao việc bạn nhớ và trân trọng những đóng góp nhỏ.",
+    "Khách Nhật hiếm khi chấm điểm thấp. Hãy đọc kỹ ô nhận xét tự do và cả những gì \"không được viết\"; nếu cần, xin một buổi hỏi thêm ngắn để hiểu rõ kỳ vọng trước khi bắt đầu phase tiếp theo."
+  ]
+}

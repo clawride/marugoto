@@ -1,0 +1,223 @@
+{
+  "id": "ky-hieu",
+  "jp": "記号一覧",
+  "vi": "Cách đọc ký hiệu",
+  "intro": "Cách người Nhật gọi tên các ký hiệu trong công sở và trong IT. Rất cần khi đọc code, đọc địa chỉ email, đường dẫn thư mục, số điện thoại qua điện thoại hoặc trong họp online. Một ký hiệu thường có nhiều tên; tên đứng đầu là tên hay dùng nhất.",
+  "blocks": [
+    {
+      "t": "table",
+      "h": "Dấu câu & khoảng trắng",
+      "head": ["Ký hiệu", "Cách gọi tiếng Nhật", "Cách đọc", "Tiếng Anh", "Ghi chú (vi)"],
+      "jp": [1, 2],
+      "rows": [
+        ["-", "ハイフン／マイナス", "ハイフン／マイナス", "hyphen / minus", "Trong email, URL đọc ハイフン. Trong số điện thoại thường đọc là の: 03-1234 → ゼロサン の いちにさんよん."],
+        ["␣", "スペース／空白", "スペース／くうはく", "space", "Có 半角スペース (nửa độ rộng) và 全角スペース (đủ độ rộng). Trong code nên dùng 半角."],
+        ["!", "エクスクラメーションマーク／びっくりマーク／感嘆符", "エクスクラメーションマーク／びっくりマーク／かんたんふ", "exclamation mark", "Trong code ! là phủ định; != đọc ノットイコール."],
+        ["#", "シャープ／ハッシュ／井げた", "シャープ／ハッシュ／いげた", "hash, number sign", "Trong IT hay gọi シャープ (dù ♯ nốt nhạc là ký hiệu khác). # trên mạng xã hội: ハッシュタグ."],
+        ["$", "ドル／ドルマーク", "ドル／ドルマーク", "dollar sign", "Biến trong PHP, shell: $name đọc ドルネーム."],
+        ["%", "パーセント", "パーセント", "percent", "Trong code còn là phép chia lấy dư (余り あまり)."],
+        ["&", "アンド／アンパサンド", "アンド／アンパサンド", "ampersand", "Q&A đọc キューアンドエー; && trong code đọc アンドアンド."],
+        ["*", "アスタリスク／こめ／ほし", "アスタリスク／こめ／ほし", "asterisk", "Gọi こめ vì giống chữ 米. Trong code là phép nhân; trên form thường đánh dấu mục bắt buộc (必須)."],
+        [",", "カンマ／コンマ", "カンマ／コンマ", "comma", "Dấu phẩy kiểu Âu, dùng trong code, CSV, số tiền (1,000)."],
+        ["、", "読点", "とうてん", "Japanese comma", "Dấu phẩy trong câu tiếng Nhật."],
+        [".", "ドット／ピリオド", "ドット／ピリオド", "dot / period", "Email, URL, tên file đọc ドット: index.html → インデックスドットエイチティーエムエル. Số thập phân đọc 点 (てん): 1.5 → いってんご."],
+        ["。", "句点", "くてん", "Japanese period", "Dấu chấm cuối câu tiếng Nhật."],
+        ["/", "スラッシュ", "スラッシュ", "slash", "Dùng trong URL, đường dẫn Linux, ngày tháng (10/2), và nghĩa “hoặc”. Trong code là phép chia."],
+        [":", "コロン", "コロン", "colon", "Giờ 10:30, URL https:// (エイチティーティーピーエスコロンスラッシュスラッシュ)."],
+        [";", "セミコロン", "セミコロン", "semicolon", "Dấu kết thúc câu lệnh trong Java, C, JavaScript."],
+        ["?", "クエスチョンマーク／はてな", "クエスチョンマーク／はてな", "question mark", "Trong URL, ? mở đầu phần tham số (クエリ)."],
+        ["@", "アットマーク", "アットマーク", "at sign", "Trong email luôn đọc アットマーク (hoặc ngắn là アット)."],
+        ["_", "アンダースコア／アンダーバー", "アンダースコア／アンダーバー", "underscore", "Hay gặp trong tên biến, tên file: user_id → ユーザーアンダーバーアイディー."],
+        ["`", "バッククォート", "バッククォート", "backquote, backtick", "Dùng trong Markdown, shell, JavaScript template."],
+        ["|", "パイプ／縦線", "パイプ／たてせん", "vertical bar, pipe", "|| trong code đọc オア. Trong lệnh Linux là pipe (パイプ)."],
+        ["~", "チルダ／波線／にょろ", "チルダ／なみせん／にょろ", "tilde", "~/ là thư mục home. Trong văn bản tiếng Nhật, 〜 nghĩa là “từ … đến”: 9時〜18時 đọc くじからじゅうはちじ."],
+        ["\\", "バックスラッシュ／円マーク", "バックスラッシュ／えんマーク", "backslash", "Trên Windows tiếng Nhật, \\ hiển thị thành ¥ nên hay gọi 円マーク. Dùng trong đường dẫn Windows và ký tự thoát (\\n)."],
+        ["^", "キャレット／ハット", "キャレット／ハット", "caret", "Trong code là XOR hoặc lũy thừa; trong regex là đầu dòng."],
+        ["・", "中黒／中点", "なかぐろ／なかてん", "middle dot", "Ngăn các từ katakana (ジョン・スミス) hoặc liệt kê: 設計・製造・テスト."],
+        ["…", "三点リーダー", "さんてんリーダー", "ellipsis", "Dấu ba chấm; trong tiếng Nhật thường viết hai lần: ……"],
+        ["※", "米印", "こめじるし", "reference mark", "Đặt trước ghi chú, lưu ý trong tài liệu, bảng biểu, email."],
+        ["〃", "同じく記号／ノノ字点", "おなじくきごう／ののじてん", "ditto mark", "Nghĩa là “giống như ở trên”, dùng trong bảng, danh sách."]
+      ]
+    },
+    {
+      "t": "table",
+      "h": "Các loại ngoặc",
+      "head": ["Ký hiệu", "Cách gọi tiếng Nhật", "Cách đọc", "Tiếng Anh", "Ghi chú (vi)"],
+      "jp": [1, 2],
+      "rows": [
+        ["( )", "丸括弧／かっこ／パーレン", "まるかっこ／かっこ／パーレン", "parentheses", "Mở ngoặc: かっこ (かっこひらき), đóng ngoặc: かっことじ. Trong code: gọi hàm, điều kiện."],
+        ["[ ]", "角括弧／大括弧／ブラケット", "かくかっこ／だいかっこ／ブラケット", "square brackets", "Chỉ số mảng: arr[0]."],
+        ["{ }", "中括弧／波括弧／ブレース", "ちゅうかっこ／なみかっこ／ブレース", "curly braces", "Khối lệnh trong Java, C; object trong JSON."],
+        ["< >", "山括弧／小なり・大なり", "やまかっこ／しょうなり・だいなり", "angle brackets", "Thẻ HTML: <div>; kiểu generic: List<String>."],
+        ["「 」", "かぎ括弧", "かぎかっこ", "Japanese quotation marks", "Trích lời; ghi tên màn hình, nút bấm: 「保存」ボタン (nút “Lưu”)."],
+        ["『 』", "二重かぎ括弧", "にじゅうかぎかっこ", "double Japanese quotation marks", "Tên sách, tên tài liệu; trích dẫn nằm trong 「」."],
+        ["【 】", "隅付き括弧", "すみつきかっこ", "lenticular brackets", "Hay dùng ở tiêu đề email: 【重要】 (quan trọng), 【至急】 (gấp), 【ご確認】."],
+        ["〔 〕", "亀甲括弧", "きっこうかっこ", "tortoise shell brackets", "Chú thích phụ, ít gặp hơn."],
+        ["〈 〉", "山括弧", "やまかっこ", "angle brackets (Japanese)", "Nhấn mạnh hoặc ghi tên mục trong văn bản tiếng Nhật."],
+        ["《 》", "二重山括弧", "にじゅうやまかっこ", "double angle brackets", "Nhấn mạnh mạnh hơn 〈〉, ít gặp."],
+        ["' ' / ‘ ’", "シングルクォーテーション／一重引用符", "シングルクォーテーション／いちじゅういんようふ", "single quotation marks", "Bao chuỗi ký tự trong SQL, JavaScript: 'abc'. Hay nói ngắn là シングルクォート."],
+        ["\" \" / “ ”", "ダブルクォーテーション／二重引用符", "ダブルクォーテーション／にじゅういんようふ", "double quotation marks", "Bao chuỗi trong Java, JSON: \"abc\". Hay nói ngắn là ダブルクォート."]
+      ]
+    },
+    {
+      "t": "table",
+      "h": "Ký hiệu toán học",
+      "head": ["Ký hiệu", "Cách gọi tiếng Nhật", "Cách đọc", "Tiếng Anh", "Ghi chú (vi)"],
+      "jp": [1, 2],
+      "rows": [
+        ["+", "プラス／足す", "プラス／たす", "plus", "1+2 → いちたすに."],
+        ["-", "マイナス／引く", "マイナス／ひく", "minus", "5-3 → ごひくさん."],
+        ["×", "掛ける／バツ", "かける／バツ", "multiplication sign", "2×3 → にかけるさん. Trong code dùng *. Đứng một mình × (バツ) còn nghĩa là “sai, không được”."],
+        ["÷", "割る", "わる", "division sign", "6÷2 → ろくわるに. Trong code dùng /."],
+        ["=", "イコール", "イコール", "equals sign", "Trong code = là gán (代入 だいにゅう), == mới là so sánh bằng."],
+        ["≠", "ノットイコール", "ノットイコール", "not equal", "Trong code viết != hoặc <>."],
+        ["<", "小なり", "しょうなり", "less than", "a < b: a小なりb, hoặc nói aはbより小さい."],
+        [">", "大なり", "だいなり", "greater than", "a > b: a大なりb, hoặc nói aはbより大きい."],
+        ["≦", "小なりイコール", "しょうなりイコール", "less than or equal to", "Trong code viết <=. Nghĩa là 以下 (いか): a ≦ 10 → aは10以下."],
+        ["≧", "大なりイコール", "だいなりイコール", "greater than or equal to", "Trong code viết >=. Nghĩa là 以上 (いじょう): a ≧ 10 → aは10以上."],
+        ["±", "プラスマイナス", "プラスマイナス", "plus-minus sign", "Sai số cho phép: ±5%."],
+        ["√", "ルート", "ルート", "square root", "√2 → ルートに."],
+        ["∞", "無限大", "むげんだい", "infinity", "Vô cực, không giới hạn."],
+        ["°", "度", "ど", "degree", "Góc: 90° → きゅうじゅうど."],
+        ["℃", "度／セ氏", "ど／せし", "degree Celsius", "25℃ → にじゅうごど. Dùng khi nói nhiệt độ phòng server, kiểm tra thân nhiệt."]
+      ]
+    },
+    {
+      "t": "table",
+      "h": "Hình & mũi tên",
+      "head": ["Ký hiệu", "Cách gọi tiếng Nhật", "Cách đọc", "Tiếng Anh", "Ghi chú (vi)"],
+      "jp": [1, 2],
+      "rows": [
+        ["■", "黒四角", "くろしかく", "black square", "Đầu mục trong tài liệu, slide."],
+        ["□", "白四角", "しろしかく", "white square", "Ô chưa đánh dấu trong checklist."],
+        ["▲", "黒三角", "くろさんかく", "black triangle", "Đầu mục; trong số liệu kế toán Nhật ▲ nghĩa là số âm (▲500 = -500)."],
+        ["△", "三角", "さんかく", "white triangle", "Trong bảng đánh giá: “tạm được, có điều kiện, một phần”."],
+        ["▼", "黒逆三角", "くろぎゃくさんかく", "black down-pointing triangle", "Nút mở danh sách xổ xuống (ドロップダウン); giảm."],
+        ["▽", "逆三角", "ぎゃくさんかく", "white down-pointing triangle", "Đầu mục, hoặc mở/đóng phần nội dung."],
+        ["◇", "ひし形", "ひしがた", "diamond", "Trong lưu đồ (フローチャート): ô điều kiện rẽ nhánh."],
+        ["○", "丸", "まる", "circle", "Đúng, được, có, đạt (OK). Trong bảng so sánh: có hỗ trợ."],
+        ["◎", "二重丸", "にじゅうまる", "double circle", "Rất tốt, tốt nhất, khuyến nghị."],
+        ["●", "黒丸", "くろまる", "black circle", "Đầu mục; trong bảng đôi khi giống ◎."],
+        ["↑", "上矢印", "うえやじるし", "up arrow", "Tăng; “xem ở trên”."],
+        ["→", "右矢印", "みぎやじるし", "right arrow", "Bước tiếp theo, thay đổi từ A thành B: 旧→新."],
+        ["↓", "下矢印", "したやじるし", "down arrow", "Giảm; “xem ở dưới”."],
+        ["←", "左矢印", "ひだりやじるし", "left arrow", "Quay lại; trong code giải thích là gán giá trị."],
+        ["⇒", "二重矢印／ならば", "にじゅうやじるし／ならば", "double right arrow", "“Dẫn đến, vì vậy”: 原因⇒対策 (nguyên nhân ⇒ biện pháp)."],
+        ["⇔", "両矢印／同値", "りょうやじるし／どうち", "left right double arrow", "Tương đương, đối ứng hai chiều; hoặc trao đổi giữa hai bên: KMS⇔DKH."],
+        ["☆", "白星", "しろぼし", "white star", "Sao rỗng trong đánh giá (chưa đạt)."],
+        ["★", "黒星", "くろぼし", "black star", "Đánh giá 1–5 sao (như phiếu khảo sát khách hàng); đánh dấu điểm quan trọng."],
+        ["〒", "郵便マーク", "ゆうびんマーク", "postal mark", "Đứng trước mã bưu chính: 〒100-0001."],
+        ["♪", "音符", "おんぷ", "music note", "Thể hiện vui vẻ trong tin nhắn thân mật; không dùng trong email công việc với khách."]
+      ]
+    },
+    {
+      "t": "text",
+      "h": "Mẹo khi đọc ký hiệu",
+      "p": [
+        "Đọc email, URL: đọc từng phần và nói rõ ký hiệu, chữ cái đọc kiểu Nhật (エー、ビー、シー…). Để tránh nhầm chữ, người Nhật hay thêm từ ví dụ: “Bはbookのビー”, “Dはdogのディー”. Sau khi đọc nên gửi lại bằng chat/email để xác nhận.",
+        "Đọc số: 0 đọc ゼロ hoặc れい; 4 thường đọc よん, 7 đọc なな, 9 đọc きゅう (tránh し, しち, く dễ nghe nhầm). Dấu - trong số điện thoại đọc の.",
+        "Trong bảng biểu tiếng Nhật: ○ = được/có, × = không được/không có, △ = một phần/có điều kiện, ◎ = rất tốt, − (gạch) = không áp dụng (該当なし). Dấu ※ dẫn tới chú thích bên dưới.",
+        "Phân biệt 全角 (đủ độ rộng: ＠, ＃, （）, Ａ) và 半角 (nửa độ rộng: @, #, (), A). Trong code, email, URL phải dùng 半角; lỗi dùng 全角 là lỗi hay bị chỉ ra khi review."
+      ]
+    },
+    {
+      "t": "sent",
+      "h": "Câu đọc ký hiệu khi làm việc",
+      "items": [
+        {
+          "jp": "私のメールアドレスは、tanaka_k@sakura-net.co.jpです。",
+          "ro": "Watashi no meeru adoresu wa, tanaka andaabaa kee attomaaku sakura haifun netto dotto shii oo dotto jee pii desu.",
+          "vi": "Địa chỉ email của tôi là tanaka_k@sakura-net.co.jp.",
+          "pt": "Khi nói, đọc địa chỉ là: タナカ・アンダーバー・ケー・アットマーク・サクラ・ハイフン・ネット・ドット・シーオー・ドット・ジェーピー. Cột ro của địa chỉ ghi đúng cách đọc này.",
+          "words": [
+            { "w": "私", "r": "わたし", "ro": "watashi", "pos": "đại từ", "vi": "tôi" },
+            { "w": "の", "ro": "no", "pos": "trợ từ", "vi": "của" },
+            { "w": "メールアドレス", "ro": "meeru adoresu", "pos": "danh từ", "vi": "địa chỉ email" },
+            { "w": "は", "ro": "wa", "pos": "trợ từ", "vi": "đánh dấu chủ đề" },
+            { "w": "、", "pos": "dấu câu" },
+            { "w": "tanaka_k@sakura-net.co.jp", "ro": "tanaka andaabaa kee attomaaku sakura haifun netto dotto shii oo dotto jee pii", "pos": "danh từ", "vi": "địa chỉ email (_ アンダーバー, @ アットマーク, - ハイフン, . ドット)" },
+            { "w": "です", "ro": "desu", "pos": "trợ động từ", "vi": "là (lịch sự)" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        },
+        {
+          "jp": "資料はD:\\project\\docsに保存してあります。",
+          "ro": "Shiryoo wa dii koron bakkusurasshu purojekuto bakkusurasshu dokkusu ni hozon shite arimasu.",
+          "vi": "Tài liệu đã được lưu sẵn ở D:\\project\\docs.",
+          "pt": "Đường dẫn đọc: ディー・コロン・バックスラッシュ・プロジェクト・バックスラッシュ・ドックス. Trên máy Windows tiếng Nhật \\ hiện thành ¥, nên nhiều người đọc là 円マーク. 〜てあります: đã làm sẵn.",
+          "words": [
+            { "w": "資料", "r": "しりょう", "ro": "shiryoo", "pos": "danh từ", "vi": "tài liệu" },
+            { "w": "は", "ro": "wa", "pos": "trợ từ", "vi": "đánh dấu chủ đề" },
+            { "w": "D:\\project\\docs", "ro": "dii koron bakkusurasshu purojekuto bakkusurasshu dokkusu", "pos": "danh từ", "vi": "đường dẫn thư mục (: コロン, \\ バックスラッシュ)" },
+            { "w": "に", "ro": "ni", "pos": "trợ từ", "vi": "chỉ nơi chốn" },
+            { "w": "保存して", "r": "ほぞんして", "ro": "hozon shite", "pos": "động từ", "base": "保存する", "vi": "lưu" },
+            { "w": "あります", "ro": "arimasu", "pos": "động từ", "base": "ある", "vi": "(đã) có sẵn — 〜てある" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        },
+        {
+          "jp": "「if a >= b」は「イフ・エー・大なりイコール・ビー」と読みます。",
+          "ro": "“if a >= b” wa “ifu ee dainari ikooru bii” to yomimasu.",
+          "vi": "“if a >= b” được đọc là “ifu ee dainari ikooru bii”.",
+          "pt": "A は B と読みます: A đọc là B. >= đọc 大なりイコール; khi giải thích ý nghĩa có thể nói 「aがb以上の場合」 (khi a lớn hơn hoặc bằng b).",
+          "words": [
+            { "w": "「", "pos": "dấu câu" },
+            { "w": "if a >= b", "ro": "if a >= b", "pos": "cụm cố định", "vi": "câu điều kiện: nếu a lớn hơn hoặc bằng b" },
+            { "w": "」", "pos": "dấu câu" },
+            { "w": "は", "ro": "wa", "pos": "trợ từ", "vi": "đánh dấu chủ đề" },
+            { "w": "「", "pos": "dấu câu" },
+            { "w": "イフ", "ro": "ifu", "pos": "danh từ", "vi": "if (nếu)" },
+            { "w": "・", "pos": "dấu câu" },
+            { "w": "エー", "ro": "ee", "pos": "danh từ", "vi": "chữ a" },
+            { "w": "・", "pos": "dấu câu" },
+            { "w": "大なりイコール", "r": "だいなりいこーる", "ro": "dainari ikooru", "pos": "danh từ", "vi": "lớn hơn hoặc bằng (>=)" },
+            { "w": "・", "pos": "dấu câu" },
+            { "w": "ビー", "ro": "bii", "pos": "danh từ", "vi": "chữ b" },
+            { "w": "」", "pos": "dấu câu" },
+            { "w": "と", "ro": "to", "pos": "trợ từ", "vi": "trích dẫn" },
+            { "w": "読みます", "r": "よみます", "ro": "yomimasu", "pos": "động từ", "base": "読む", "vi": "đọc" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        },
+        {
+          "jp": "※は「こめじるし」と読み、補足や注意を書くときに使います。",
+          "ro": "Komejirushi wa “komejirushi” to yomi, hosoku ya chuui o kaku toki ni tsukaimasu.",
+          "vi": "※ đọc là “komejirushi”, dùng khi viết phần bổ sung hoặc lưu ý.",
+          "pt": "読み là thể ます bỏ ます (連用形), dùng để nối hai vế trong văn viết, giống 読んで. 〜や〜: liệt kê vài ví dụ.",
+          "words": [
+            { "w": "※", "ro": "komejirushi", "pos": "danh từ", "vi": "dấu ※ (米印)" },
+            { "w": "は", "ro": "wa", "pos": "trợ từ", "vi": "đánh dấu chủ đề" },
+            { "w": "「", "pos": "dấu câu" },
+            { "w": "こめじるし", "ro": "komejirushi", "pos": "danh từ", "vi": "tên gọi của ※" },
+            { "w": "」", "pos": "dấu câu" },
+            { "w": "と", "ro": "to", "pos": "trợ từ", "vi": "trích dẫn" },
+            { "w": "読み", "r": "よみ", "ro": "yomi", "pos": "động từ", "base": "読む", "vi": "đọc, và (nối câu)" },
+            { "w": "、", "pos": "dấu câu" },
+            { "w": "補足", "r": "ほそく", "ro": "hosoku", "pos": "danh từ", "vi": "bổ sung" },
+            { "w": "や", "ro": "ya", "pos": "trợ từ", "vi": "và (liệt kê)" },
+            { "w": "注意", "r": "ちゅうい", "ro": "chuui", "pos": "danh từ", "vi": "lưu ý" },
+            { "w": "を", "ro": "o", "pos": "trợ từ", "vi": "chỉ đối tượng" },
+            { "w": "書く", "r": "かく", "ro": "kaku", "pos": "động từ", "vi": "viết" },
+            { "w": "とき", "ro": "toki", "pos": "danh từ", "vi": "khi" },
+            { "w": "に", "ro": "ni", "pos": "trợ từ", "vi": "chỉ thời điểm" },
+            { "w": "使います", "r": "つかいます", "ro": "tsukaimasu", "pos": "động từ", "base": "使う", "vi": "dùng" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        },
+        {
+          "jp": "電話番号は03-1234-5678です。",
+          "ro": "Denwa bangoo wa zero san no ichi ni san yon no go roku nana hachi desu.",
+          "vi": "Số điện thoại là 03-1234-5678.",
+          "pt": "Khi đọc số điện thoại, dấu - đọc là の, các chữ số đọc từng số một. 4 đọc よん, 7 đọc なな để tránh nghe nhầm.",
+          "words": [
+            { "w": "電話番号", "r": "でんわばんごう", "ro": "denwa bangoo", "pos": "danh từ", "vi": "số điện thoại" },
+            { "w": "は", "ro": "wa", "pos": "trợ từ", "vi": "đánh dấu chủ đề" },
+            { "w": "03-1234-5678", "ro": "zero san no ichi ni san yon no go roku nana hachi", "pos": "danh từ", "vi": "số điện thoại (- đọc là の)" },
+            { "w": "です", "ro": "desu", "pos": "trợ động từ", "vi": "là (lịch sự)" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        }
+      ]
+    }
+  ]
+}
