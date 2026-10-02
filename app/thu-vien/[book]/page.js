@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useGame } from "@/components/Game";
-import { bookById, lessonName } from "@/lib/library";
+import { bookById, lessonName, catById } from "@/lib/library";
 import { sfx } from "@/lib/sfx";
 
 export default function BookPage() {
@@ -14,7 +14,7 @@ export default function BookPage() {
   const done = S?.lib?.[B.id] || {};
   return (
     <>
-      <Link href="/thu-vien" className="back" onClick={() => sfx.page()}>‹ Thư viện sách</Link>
+      <Link href={`/thu-vien/${B.cat || "it"}`} className="back" onClick={() => sfx.page()}>‹ {catById(B.cat || "it")?.name || "Thư viện sách"}</Link>
       <div className="pagehead" style={{ marginTop: 10 }}>
         <p style={{ letterSpacing: 2, margin: "0 0 6px" }}>{B.level} · {B.sub}</p>
         <h1 className="jpt">{B.title}</h1>

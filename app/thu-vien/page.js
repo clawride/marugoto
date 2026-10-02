@@ -1,59 +1,52 @@
 "use client";
-// 📚 Thư viện sách: danh sách sách + công cụ Đọc & Phân tích
+// 📚 Thư viện sách: các khu sách (Tiếng Nhật IT, Tiếng Nhật Điều dưỡng…) + công cụ Đọc & Phân tích
 import Link from "next/link";
-import { useGame } from "@/components/Game";
-import { LIBRARY } from "@/lib/library";
+import Shelf from "@/components/library/Shelf";
+import { CATEGORIES } from "@/lib/library";
 import { sfx } from "@/lib/sfx";
 
 const OFFLINE = process.env.NEXT_PUBLIC_OFFLINE === "1";
 
 export default function LibraryHome() {
-  const { S } = useGame();
   return (
     <>
       <Link href="/" className="back" onClick={() => sfx.page()}>‹ Trang chủ</Link>
       <div className="pagehead" style={{ marginTop: 10 }}>
         <p style={{ letterSpacing: 3, margin: "0 0 6px" }}>図書館 · THƯ VIỆN SÁCH</p>
         <h1>📚 Thư Viện Sách</h1>
-        <p>Sổ tay đọc sách tiếng Nhật: mẫu câu, ví dụ có furigana, phiên âm Latinh, dịch tiếng Việt, tách từ và giải thích ngữ pháp</p>
+        <p>Sổ tay đọc sách tiếng Nhật chuyên ngành: mẫu câu, ví dụ có furigana, phiên âm Latinh, dịch tiếng Việt, tách từ và giải thích ngữ pháp</p>
         <div className="orn"><span /></div>
       </div>
 
-      <div className="lbshelf">
-        {LIBRARY.map((b) => {
-          const read = Object.keys(S?.lib?.[b.id] || {}).length;
-          return (
-            <Link key={b.id} href={`/thu-vien/${b.id}`} className="panel lbbook" style={{ "--c": b.color, "--cv1": b.cover?.c1, "--cv2": b.cover?.c2 }} onClick={() => sfx.page()}>
-              <div className="lbcover" aria-hidden="true">
-                <b>IT</b><span className="jpt">の日本語</span>{b.cover?.badge && <em>{b.cover.badge}</em>}{b.cover?.sub && <small className="jpt">{b.cover.sub}</small>}
-              </div>
-              <div className="lbbtxt">
-                <div className="lbblv">{b.level} · {b.lessons.length} bài</div>
-                <h3 className="jpt">{b.title}</h3>
-                <p className="lbbvi">{b.vi}</p>
-                <p>{b.desc}</p>
-                <small>{b.authors}</small>
-                <div className="bar"><i style={{ width: `${Math.round((read / b.lessons.length) * 100)}%` }} /></div>
-                <em className="lbbprog">{read ? `Đã học ${read}/${b.lessons.length} bài` : "Chưa bắt đầu"}</em>
-              </div>
-            </Link>
-          );
-        })}
-      </div>
+      <nav className="lbcats" aria-label="Các khu sách">
+        {CATEGORIES.map((c) => (
+          <Link key={c.id} href={`/thu-vien/${c.id}`} className="panel lbcat" style={{ "--c": c.color }} onClick={() => sfx.page()}>
+            <span aria-hidden="true">{c.ico}</span>
+            <div><b>{c.name}</b> <small className="jpt">{c.jp}</small><p>{c.desc}</p></div>
+          </Link>
+        ))}
+      </nav>
+
+      {CATEGORIES.map((c) => (
+        <section key={c.id} className="homesec lbcatsec" id={c.id} style={{ "--el": `rgb(${c.color})` }}>
+          <h2 className="a22th"><span>{c.ico} {c.name}</span> <small>{c.sub}</small> <Link href={`/thu-vien/${c.id}`} className="lbmorelink" onClick={() => sfx.page()}>Xem riêng khu này ›</Link></h2>
+          <Shelf cat={c.id} />
+        </section>
+      ))}
 
       {!OFFLINE && (
         <Link href="/thu-vien/phan-tich" className="panel lbtool" onClick={() => sfx.page()}>
           <span className="lbtoolico" aria-hidden="true">🔍</span>
           <div>
             <h3>Đọc &amp; Phân Tích <small className="jpt">文章分析</small></h3>
-            <p>Dán một đoạn tiếng Nhật bất kỳ (trong sách bạn đang đọc, email, tài liệu dự án…) → tự thêm furigana, phiên âm Latinh, dịch tiếng Việt, tách từ và giải thích ngữ pháp từng câu.</p>
+            <p>Dán một đoạn tiếng Nhật bất kỳ (trong sách bạn đang đọc, email, tài liệu, sổ ghi chép chăm sóc…) → tự thêm furigana, phiên âm Latinh, dịch tiếng Việt, tách từ và giải thích ngữ pháp từng câu.</p>
           </div>
         </Link>
       )}
 
       <p className="hint lbnote">
         Sổ tay do trang tự biên soạn để hỗ trợ người đang học bằng sách giấy: mẫu câu chính của từng bài kèm giải thích và ví dụ mới.
-        Trang không đăng lại hội thoại, bài tập hay bản dịch của sách — hãy dùng sách gốc (kèm audio qua mã QR) để học đầy đủ.
+        Trang không đăng lại nội dung, bài tập hay bản dịch của sách — hãy dùng sách gốc để học đầy đủ.
       </p>
     </>
   );

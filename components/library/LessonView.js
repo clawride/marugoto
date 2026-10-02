@@ -81,7 +81,7 @@ export default function LessonView({ bookId, n }) {
       {L === null && <p className="panel lbsec" style={{ textAlign: "center" }}>Không tải được bài này. Hãy kiểm tra mạng rồi tải lại trang.</p>}
       {L && <>
         <section className="panel lbsec" id="tinh-huong">
-          <h2>🎬 Tình huống trong sách</h2>
+          <h2>{B.sceneHead || "🎬 Tình huống trong sách"}</h2>
           <p>{L.scene}</p>
           {!!L.people?.length && <div className="lbpeople">{L.people.map((p, i) => <span key={i} className="lbperson"><b className="jpt">{p.name}</b> {p.ro && <i>{p.ro}</i>} — {p.role}</span>)}</div>}
           {!!L.goals?.length && <><h3>🎯 Sau bài này bạn có thể</h3><ul>{L.goals.map((g, i) => <li key={i}>{g}</li>)}</ul></>}
@@ -96,7 +96,7 @@ export default function LessonView({ bookId, n }) {
 
         {!!L.terms?.length && (
           <section className="panel lbsec" id="thuat-ngu">
-            <h2>🔑 Thuật ngữ IT trọng tâm</h2>
+            <h2>{B.termsHead || "🔑 Thuật ngữ IT trọng tâm"}</h2>
             <div className="lbterms">
               {L.terms.map((t, i) => (
                 <div key={i} className="lbterm">
@@ -168,7 +168,7 @@ export default function LessonView({ bookId, n }) {
 
         {!!L.tips?.length && (
           <section className="panel lbsec" id="meo">
-            <h2>💡 Mẹo công sở Nhật</h2>
+            <h2>{B.tipsHead || "💡 Mẹo công sở Nhật"}</h2>
             <ul>{L.tips.map((t, i) => <li key={i}>{t}</li>)}</ul>
           </section>
         )}

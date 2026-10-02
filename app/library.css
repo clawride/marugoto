@@ -147,3 +147,15 @@
 .lbterm p{margin:4px 0 0;font-size:14px}
 .lbsec ol{margin:6px 0;padding-left:22px}
 .lbsec ol li{margin:6px 0}
+
+/* các khu sách */
+.lbcats{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:6px}
+.lbcat{--c:211,188,142;display:flex;gap:12px;align-items:flex-start;padding:14px 16px;color:var(--cream2);border-color:rgba(var(--c),.6)!important;transition:transform .15s}
+.lbcat:hover{transform:translateY(-2px)}
+.lbcat>span{font-size:32px;line-height:1}
+.lbcat b{font-size:18px;color:var(--gold2)}
+.lbcat small{color:var(--gold);font-size:12px;margin-left:4px}
+.lbcat p{margin:4px 0 0;font-size:13px;line-height:1.5}
+.lbmorelink{margin-left:auto;font-size:13px;color:var(--gold);letter-spacing:0;text-transform:none}
+.lbmorelink:hover{text-decoration:underline}
+.lbcover b.long{width:auto;height:auto;border-radius:8px;padding:4px 8px;font-size:22px;font-family:var(--jp)}
