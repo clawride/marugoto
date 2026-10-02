@@ -478,3 +478,37 @@ button.mnitem{font:inherit;text-align:left;cursor:pointer;width:100%}
 .mngroup.teyvat .mnitem{grid-template-columns:30px 1fr}
 .mngroup.teyvat .mntxt small{display:none}
 @media(max-width:720px){.mngroup.teyvat .mnlist{grid-template-columns:repeat(2,1fr)}}
+
+/* ===== Trang chủ gọn (10/2026): bớt chữ, lưới dày hơn, điện thoại 2 cột ===== */
+.procard p{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+.grid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.tcard{padding:14px 16px}
+.tcard .vi{margin-bottom:8px}
+.homesec{margin:22px 0 8px}
+@media (max-width:520px){
+  .pagehead h1{font-size:24px}
+  .stats{gap:6px;margin-bottom:16px;flex-wrap:nowrap}
+  .stats .stat{min-width:0;flex:1;padding:8px 6px}
+  .stats .stat b{font-size:18px}
+  .stats .stat span{font-size:11px}
+  .homesec{margin:16px 0 6px}
+  .progrid{grid-template-columns:1fr 1fr;gap:8px}
+  .progrid.start,.progrid.teyvat{grid-template-columns:1fr 1fr}
+  .progrid>.procard:only-child{grid-column:1/-1}
+  .procard{flex-direction:column;gap:6px;padding:10px 11px}
+  .procard img{width:40px;height:40px}
+  .procard h3{font-size:15px}
+  .procard p,.procard .prohost{display:none}
+  .procard .prolv{font-size:12px}
+  .procard em{font-size:11.5px}
+  .procard .prostep{transform:scale(.85)}
+  .procard.mini{flex-direction:row}
+  .grid{grid-template-columns:1fr 1fr;gap:8px}
+  .tcard{padding:10px 11px}
+  .tcard .tchar{width:38px;height:38px;right:8px;top:8px}
+  .tcard .num{font-size:10px;letter-spacing:1.5px}
+  .tcard h3{font-size:17px;padding-right:0;margin:4px 0 0}
+  .tcard .vi{font-size:12.5px;padding-right:0;margin-bottom:6px}
+  .tcard .meta{flex-direction:column;gap:1px;font-size:11.5px}
+}

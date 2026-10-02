@@ -1,4 +1,49 @@
 /* ===== 📝 Luyện đề thi (JLPT / 級) ===== */
+/* — danh sách đề gọn: nút chọn cấp + lưới thẻ nhỏ — */
+.exlisthd p:last-of-type{max-width:640px;margin-left:auto;margin-right:auto}
+.exlvtabs{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 18px;margin:14px 0 16px}
+.exlvgrp{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.exlvlab{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mute);margin-right:2px}
+.exlvtabs button{display:inline-flex;align-items:baseline;gap:4px;padding:7px 14px;border-radius:99px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.04);color:var(--cream2);font:inherit;font-size:15px;font-weight:700;cursor:pointer;transition:background-color .15s,border-color .15s,transform .12s}
+.exlvtabs button small{font-size:11px;font-weight:500;opacity:.7}
+.exlvtabs button:hover{transform:translateY(-1px);border-color:rgba(255,255,255,.35)}
+.exlvtabs button.on{background:var(--gold);border-color:var(--gold);color:#14121c}
+.exgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.excard2{display:flex;flex-direction:column;gap:6px;padding:12px 14px;color:var(--cream2);transition:transform .15s,border-color .15s}
+.excard2:hover{transform:translateY(-2px)}
+.ectop{display:flex;align-items:center;gap:8px;min-width:0}
+.eclv{flex:none;padding:2px 8px;border-radius:7px;background:rgba(220,80,90,.18);color:#ff9aa2;font-weight:800;font-size:13px}
+.ectop b{font-size:17px;white-space:nowrap}
+.ecmuc{margin-left:auto;max-width:55%;overflow:hidden;text-overflow:ellipsis;padding:1px 8px;border-radius:99px;font-size:11.5px;background:rgba(255,215,130,.14);color:#ffd88a;white-space:nowrap}
+.ecmeta{font-size:13px;color:var(--mute)}
+.ecfoot{display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:11.5px}
+.ectag{color:var(--mute);opacity:.85}
+.ecst{white-space:nowrap;color:var(--mute)}
+.ecst.run{color:#8fb5e8}
+.ecst.done{color:#ffd88a}
+.ecst.pass{color:#7fd39a;font-weight:700}
+.exrevbar{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:14px;padding:10px 12px;border-radius:12px;border:1px dashed rgba(255,255,255,.2)}
+.exrevh{font-size:13px;font-weight:700;color:var(--gold);margin-right:4px}
+.exrevchip{display:inline-block;padding:5px 12px;border-radius:99px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);color:var(--cream2);font-size:13px;transition:background-color .15s,transform .12s}
+.exrevchip:hover{transform:translateY(-1px);background:rgba(255,255,255,.1)}
+.exrevchip.sub{opacity:.8}
+.exmore{text-align:center;margin:18px 0 6px;font-size:14px}
+.exmore a{color:var(--gold)}
+.exrevgroups{display:grid;gap:10px;margin-top:10px}
+.exrevgrp{display:flex;align-items:flex-start;gap:12px;padding:12px 14px}
+.exrevlv{flex:none;min-width:52px;text-align:center;padding:4px 8px;border-radius:8px;background:rgba(127,211,154,.16);color:#9fd8a8;font-weight:800;font-size:14px}
+.exrevitems{display:flex;flex-wrap:wrap;gap:6px}
+@media (max-width:520px){
+  .exgrid{grid-template-columns:1fr 1fr;gap:8px}
+  .excard2{padding:10px 11px;gap:4px}
+  .ectop{flex-wrap:wrap;gap:4px 6px}
+  .ectop b{font-size:15px}
+  .ecmuc{margin-left:0}
+  .ecfoot{flex-direction:column;align-items:flex-start;gap:1px}
+  .exlvtabs{gap:8px}
+  .exlvtabs button{padding:6px 11px;font-size:14px}
+  .exrevgrp{flex-direction:column;gap:8px}
+}
 .exlist{display:grid;gap:8px}
 .exgroup+.exgroup{margin-top:14px}
 .exlvh{margin:6px 0;font-size:15px;letter-spacing:2px;color:var(--gold)}

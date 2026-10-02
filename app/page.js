@@ -1,4 +1,5 @@
 "use client";
+import { Fragment } from "react";
 import Link from "next/link";
 import { useGame } from "@/components/Game";
 import { ELEM, starsFor } from "@/lib/data";
@@ -15,44 +16,11 @@ export default function Home() {
   const books = plain ? BOOKS.filter((b) => b.id !== "gi") : BOOKS; // giao diện cơ bản: ẩn Sổ tay Genshin
   const book = books.some((b) => b.id === S?.nbBook) ? S.nbBook : "a1";
   const B = books.find((b) => b.id === book) || books[0];
-  return (
-    <>
-      <div className="pagehead">
-        <h1>Sổ Tay Mạo Hiểm · Từ Vựng</h1>
-        <p>Học tiếng Nhật Marugoto A1 → B1-2 · chọn chương trình theo cấp độ, hoặc luyện từ vựng trong Sổ Tay bên dưới</p>
-        <div className="orn"><span /></div>
-      </div>
-      <div className="stats">
-        <div className="panel stat"><b>{NB_TOTAL.toLocaleString("vi-VN")}</b><span>Từ vựng</span></div>
-        <div className="panel stat"><b>{Object.keys(best).length}</b><span>Bài đã hoàn thành</span></div>
-        <div className="panel stat"><b>{(S?.total || 0).toLocaleString("vi-VN")}</b><span>Câu trả lời đúng</span></div>
-        {!plain && <div className="panel stat"><b>{(S?.wishes || 0).toLocaleString("vi-VN")}</b><span>Lần cầu nguyện</span></div>}
-      </div>
-      {/* ===== Lộ trình học: từ cấp thấp đến cấp cao ===== */}
-      {GROUPS.map((g) => (
-        <section key={g.id} className="homesec">
-          <h2 className="a22th"><span>{g.name}</span> <small>{(plain && g.plainSub) || g.sub}</small></h2>
-          <div className={`progrid ${g.id}`}>
-            {programsIn(g.id).filter((p) => !(plain && p.game)).map((p, i) => (
-              <Link key={p.id} href={p.href} className="panel procard" style={{ "--c": p.color }} onClick={() => sfx.page()}>
-                {g.id === "path" && <span className="prostep" aria-hidden="true">{i + 1}</span>}
-                {!plain && <img src={p.avatar} alt="" />}
-                <div className="protxt">
-                  <div className="prolv"><b>{p.ico} {p.lv}</b> <span className="jpt">{p.jp}</span></div>
-                  <h3>{p.name}</h3>
-                  <small className="prohost">Người dẫn: {p.host}</small>
-                  <p>{p.desc}</p>
-                  <em>{progressLabel(p, S) || "Chưa bắt đầu"}</em>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
-      ))}
 
-      {/* ===== Sổ tay từ vựng ===== */}
-      <section className="homesec" id="sotay">
-        <h2 className="a22th"><span>Sổ Tay Từ Vựng</span> <small>Luyện từ vựng từng sách theo Topic</small></h2>
+  // ===== Sổ tay từ vựng (đặt ngay sau Lộ trình Marugoto) =====
+  const notebook = (
+    <section className="homesec" id="sotay">
+      <h2 className="a22th"><span>Sổ Tay Từ Vựng</span> <small>Luyện từ vựng từng sách theo Topic</small></h2>
       <div className="chips nbbooks">
         {books.map((b) => <button key={b.id} className={`chip dk ${b.id === book ? "on" : ""}`} onClick={() => { update((s) => { s.nbBook = b.id; }); sfx.click(); }}>{b.ico} {b.name} <small>{bookTotal(b.id).toLocaleString("vi-VN")} từ</small></button>)}
       </div>
@@ -84,7 +52,47 @@ export default function Home() {
           );
         })}
       </div>
-      </section>
+    </section>
+  );
+
+  return (
+    <>
+      <div className="pagehead">
+        <h1>Sổ Tay Mạo Hiểm · Từ Vựng</h1>
+        <p>Học tiếng Nhật Marugoto A1 → B1-2 · chọn chương trình theo cấp độ, hoặc luyện từ vựng trong Sổ Tay bên dưới</p>
+        <div className="orn"><span /></div>
+      </div>
+      <div className="stats">
+        <div className="panel stat"><b>{NB_TOTAL.toLocaleString("vi-VN")}</b><span>Từ vựng</span></div>
+        <div className="panel stat"><b>{Object.keys(best).length}</b><span>Bài đã hoàn thành</span></div>
+        <div className="panel stat"><b>{(S?.total || 0).toLocaleString("vi-VN")}</b><span>Câu trả lời đúng</span></div>
+        {!plain && <div className="panel stat"><b>{(S?.wishes || 0).toLocaleString("vi-VN")}</b><span>Lần cầu nguyện</span></div>}
+      </div>
+      {/* ===== Lộ trình học: từ cấp thấp đến cấp cao; Sổ tay từ vựng chen ngay sau Lộ trình Marugoto ===== */}
+      {GROUPS.map((g) => (
+        <Fragment key={g.id}>
+          <section className="homesec">
+            <h2 className="a22th"><span>{g.name}</span> <small>{(plain && g.plainSub) || g.sub}</small></h2>
+            <div className={`progrid ${g.id}`}>
+              {programsIn(g.id).filter((p) => !(plain && p.game)).map((p, i) => (
+                <Link key={p.id} href={p.href} className="panel procard" style={{ "--c": p.color }} onClick={() => sfx.page()}>
+                  {g.id === "path" && <span className="prostep" aria-hidden="true">{i + 1}</span>}
+                  {!plain && <img src={p.avatar} alt="" />}
+                  <div className="protxt">
+                    <div className="prolv"><b>{p.ico} {p.lv}</b> <span className="jpt">{p.jp}</span></div>
+                    <h3>{p.name}</h3>
+                    <small className="prohost">Người dẫn: {p.host}</small>
+                    <p>{p.desc}</p>
+                    <em>{progressLabel(p, S) || "Chưa bắt đầu"}</em>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
+          {g.id === "path" && notebook}
+        </Fragment>
+      ))}
+      {!GROUPS.some((g) => g.id === "path") && notebook}
 
       {/* ===== Teyvat ===== */}
       <section className="homesec">
