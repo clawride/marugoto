@@ -19,5 +19,5 @@ export async function POST(req) {
   const token = crypto.randomUUID() + crypto.randomUUID();
   await store.addToken(a.id, await sha256(token));
   const head = await store.headSave(a.id);
-  return Response.json({ id: a.id, token, name: a.name, avatar: a.avatar, username: a.username, cloud: head ? { rev: head.rev, updatedAt: head.updatedAt } : null });
+  return Response.json({ id: a.id, token, name: a.name, avatar: a.avatar, username: a.username, ...(a.googleEmail ? { google: a.googleEmail } : {}), cloud: head ? { rev: head.rev, updatedAt: head.updatedAt } : null });
 }

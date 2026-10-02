@@ -52,7 +52,48 @@ function AvatarPicker({ value, onChange }) {
 }
 
 // Gắn thông tin hồ sơ mới vào state (đăng ký / đăng nhập thành công)
-const profileOf = (r) => ({ id: r.id, token: r.token, name: r.name, avatar: r.avatar, ...(r.username ? { username: r.username } : {}) });
+const profileOf = (r) => ({ id: r.id, token: r.token, name: r.name, avatar: r.avatar, ...(r.username ? { username: r.username } : {}), ...(r.google ? { google: r.google } : {}) });
+
+// ——— Đăng nhập bằng Google (Google Identity Services): bấm nút → chọn tài khoản Gmail đang có trong trình duyệt → xong ———
+const GOOGLE_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "";
+let gsiLoad = null;
+function loadGsi() {
+  if (typeof window === "undefined") return Promise.reject();
+  if (window.google?.accounts?.id) return Promise.resolve();
+  return (gsiLoad ||= new Promise((res, rej) => {
+    const s = document.createElement("script");
+    s.src = "https://accounts.google.com/gsi/client";
+    s.async = true;
+    s.onload = () => res();
+    s.onerror = () => { gsiLoad = null; rej(); };
+    document.head.appendChild(s);
+  }));
+}
+function GoogleButton({ onCredential, text = "continue_with" }) {
+  const box = useRef(null);
+  const cb = useRef(onCredential);
+  cb.current = onCredential;
+  const [fail, setFail] = useState(false);
+  useEffect(() => {
+    if (!GOOGLE_ID) return;
+    let dead = false;
+    loadGsi().then(() => {
+      if (dead || !box.current) return;
+      const id = window.google.accounts.id;
+      id.initialize({ client_id: GOOGLE_ID, callback: (r) => r?.credential && cb.current(r.credential), ux_mode: "popup", auto_select: false, cancel_on_tap_outside: true, use_fedcm_for_button: true });
+      box.current.innerHTML = "";
+      id.renderButton(box.current, { type: "standard", theme: "outline", size: "large", shape: "pill", text, logo_alignment: "left", locale: "vi", width: Math.max(220, Math.min(320, box.current.offsetWidth || 300)) });
+    }).catch(() => !dead && setFail(true));
+    return () => { dead = true; };
+  }, [text]);
+  if (!GOOGLE_ID) return null;
+  return (
+    <div className="gsiwrap">
+      <div ref={box} className="gsibtn" />
+      {fail && <div className="hint">Không tải được nút Google — kiểm tra mạng rồi mở lại hộp này</div>}
+    </div>
+  );
+}
 
 // Hộp đăng ký / đăng nhập (bắt buộc: mode "gate", không đóng được) và hộp sửa hồ sơ (mode "edit")
 // mode "gate": đăng ký/đăng nhập — onSkip có thì hiện nút "Để sau"; back có thì hiện nút quay về (trang bắt buộc đăng nhập)
@@ -123,6 +164,18 @@ export function ProfileDialog({ mode = "gate", onClose, onSkip, back }) {
     return r.ok ? done(r) : fail(r);
   };
 
+  // Google: đăng nhập / đăng ký một chạm (hồ sơ nickname cũ → gắn Google, giữ nguyên điểm); edit → liên kết Google vào tài khoản đang dùng
+  const google = async (credential) => {
+    setErr("");
+    setBusy(true);
+    const mine = (edit || legacy) && p0?.id ? { id: p0.id, token: p0.token } : {};
+    const r = await api("/api/auth/google", "POST", { credential, ...mine, ...(edit ? { link: true } : {}) });
+    setBusy(false);
+    if (!r.ok) return fail(r);
+    if (edit) { update((s) => { s.profile = { ...s.profile, google: r.google }; }); sfx.win(); return; }
+    done(r);
+  };
+
   const logout = () => {
     update((s) => { s.profile = null; s.profileSkip = true; s.syncSig = ""; });
     sfx.click(); onClose?.();
@@ -156,6 +209,12 @@ export function ProfileDialog({ mode = "gate", onClose, onSkip, back }) {
             </div>
           )}
           <hr />
+          {!edit && GOOGLE_ID && (
+            <>
+              <GoogleButton onCredential={google} text={tab === "login" ? "signin_with" : "continue_with"} />
+              <div className="orline"><span>hoặc dùng tên đăng nhập</span></div>
+            </>
+          )}
           {!edit && (
             <>
               <input className="nameinp acc" value={username} onChange={(e) => setUsername(e.target.value)} maxLength={20} placeholder="Tên đăng nhập" autoComplete="username" autoCapitalize="none" spellCheck={false} autoFocus />
@@ -179,6 +238,14 @@ export function ProfileDialog({ mode = "gate", onClose, onSkip, back }) {
             <div className="profacc">
               <hr />
               <div className="accrow"><span>Tài khoản</span><b>@{p0.username}</b></div>
+              {p0.google
+                ? <div className="accrow"><span>Google</span><b>{p0.google}</b></div>
+                : GOOGLE_ID && (
+                  <div className="accrow gsilink">
+                    <span className="hint">Liên kết Google để lần sau chỉ cần bấm một lần, không cần nhớ mật khẩu</span>
+                    <GoogleButton onCredential={google} text="continue_with" />
+                  </div>
+                )}
               <div className="accrow"><span className="hint">{cloudLabel}</span></div>
               <div className="btnrow">
                 <button type="button" className="gbtn sm x dark" onClick={syncNow}><span className="c" />Đồng bộ ngay</button>
