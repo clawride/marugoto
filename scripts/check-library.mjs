@@ -65,7 +65,7 @@ export function checkSentence(s, where, E, W) {
       if (/^(ha|wa)$/.test(roma(src)) && t.w === "は") exp = "wa";
       const got = canon(t.ro), want = canon(exp);
       // cụm có trợ từ は/を bên trong (ではない, を問わず…): chấp nhận "wa"/"o"
-      const loose = /[はを]/.test(src) ? canon(roma(src.replace(/は/g, "わ").replace(/を/g, "お"))) : want;
+      const loose = /[はをへ]/.test(src) ? canon(roma(src.replace(/は/g, "わ").replace(/を/g, "お").replace(/へ/g, "え"))) : want;
       if (got !== want && got !== loose && got !== want.replace(/ha$/, "wa").replace(/wo$/, "o")) W.push(`${at}: ro "${t.ro}" ≠ cách đọc "${src}" (${exp})`);
     }
     if (t.r && KANJI.test(t.w) && tokenizer) {
