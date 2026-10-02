@@ -9,6 +9,7 @@ import Sentence, { ViewBar, say } from "@/components/library/Sentence";
 import { speakLines, stopSpeak } from "@/lib/tts";
 import { allQuestions, gradeExam, scoringOf, fmtTime, CEFR_VI, kindById, JLPT } from "@/lib/exams";
 import { sfx } from "@/lib/sfx";
+import { examLevelOf } from "@/lib/boards";
 
 const KEY = (id) => `exam_run_${id}`;
 const load = (id) => { try { return JSON.parse(localStorage.getItem(KEY(id)) || "null"); } catch { return null; } };
@@ -116,7 +117,7 @@ function PassageView({ P, revealed }) {
 }
 
 export default function ExamPaper({ E }) {
-  const { update } = useGame();
+  const { S: G, update } = useGame();
   const Qs = useMemo(() => allQuestions(E), [E]);
   const [run, setRun] = useState(undefined); // undefined = đang đọc lưu trữ
   const runRef = useRef(null);
@@ -256,6 +257,12 @@ export default function ExamPaper({ E }) {
           {R.old && <p className="exold">Thang JLPT cũ {E.level}: <b>{R.old.total}/{R.old.max}</b> ({R.old.passed ? "đạt" : "chưa đạt"} mức đỗ {R.old.pass}) · {R.old.groups.map((g) => `${g.jp} ${g.score}/${g.max}`).join(" · ")}</p>}
           <div className="orn"><span /></div>
         </div>
+        {examLevelOf(E.id) && (
+          <p className="exrankln">
+            <Link href={`/rank?board=jl:${examLevelOf(E.id)}`} onClick={() => sfx.page()}>🏆 Xem bảng xếp hạng thi thử {E.kind === "kyu" ? `${E.level} (quy đổi)` : `JLPT ${E.level}`} ›</Link>
+            {!G?.profile?.username && <small> · Đăng nhập để điểm của bạn được ghi lên bảng</small>}
+          </p>
+        )}
         {R.passed && <div className="excertcta panel"><span>🎓</span><div><b>Chúc mừng bạn đã đỗ!</b><p>Bạn nhận được Giấy chứng nhận luyện thi (bố cục kiểu phiếu điểm JLPT) — tải về dạng ảnh PNG.</p></div><Link href={`/de-thi/chung-nhan/${E.id}`} className="gbtn tri" onClick={() => sfx.page()}><span className="c" />Xem giấy chứng nhận</Link></div>}
         <div className="exresgrid">
           <div className="panel excefr">

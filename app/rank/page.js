@@ -46,7 +46,7 @@ function useCountUp(target, ms = 900) {
 }
 function Score({ board, score }) {
   const overall = board === "overall";
-  const exam = /^(ex|x22|xb1|x01|x21|x12):/.test(board);
+  const exam = /^(ex|x22|xb1|x01|x21|x12|jl):/.test(board);
   const d = overall ? null : decode(score);
   const n = useCountUp(overall ? score : d.pct);
   if (overall) return <><b>{n.toLocaleString("vi-VN")}</b><small>điểm</small></>;
@@ -169,6 +169,12 @@ export default function RankPage() {
   const [go, setGo] = useState(false);
 
   const me = S?.profile?.id;
+  // /rank?board=jl:N3 → mở thẳng bảng đó (từ trang kết quả thi thử)
+  useEffect(() => {
+    const b = new URLSearchParams(location.search).get("board");
+    const g = b && BOARD_GROUPS.find((x) => x.boards.some((y) => y.id === b));
+    if (g) { setGroup(g.key); setBoard(b); }
+  }, []);
   useEffect(() => {
     let alive = true;
     setData(null); setGo(false);
