@@ -8386,15 +8386,44 @@
       {
        "sp": "女",
        "g": "f",
-       "jp": "2. おじゃまします。",
-       "ro": "Ni. Ojama shimasu.",
-       "vi": "2. Xin phép (cho tôi vào nhà).",
+       "jp": "2. おじゃましました。",
+       "ro": "Ni. Ojama shimashita.",
+       "vi": "2. Xin lỗi đã làm phiền (nói khi ra về).",
        "words": [
         {
          "w": "2",
          "ro": "ni",
          "pos": "danh từ",
          "vi": "(lựa chọn) số 2"
+        },
+        {
+         "w": ". ",
+         "pos": "dấu câu"
+        },
+        {
+         "w": "おじゃましました",
+         "ro": "ojama shimashita",
+         "pos": "cụm chào hỏi",
+         "vi": "xin lỗi đã làm phiền (nói khi ra về)"
+        },
+        {
+         "w": "。",
+         "pos": "dấu câu"
+        }
+       ]
+      },
+      {
+       "sp": "女",
+       "g": "f",
+       "jp": "3. おじゃまします。",
+       "ro": "San. Ojama shimasu.",
+       "vi": "3. Xin phép (cho tôi vào nhà).",
+       "words": [
+        {
+         "w": "3",
+         "ro": "san",
+         "pos": "danh từ",
+         "vi": "(lựa chọn) số 3"
         },
         {
          "w": ". ",
@@ -8415,15 +8444,15 @@
       {
        "sp": "女",
        "g": "f",
-       "jp": "3. いらっしゃい。",
-       "ro": "San. Irasshai.",
-       "vi": "3. Mời vào.",
+       "jp": "4. いらっしゃい。",
+       "ro": "Yon. Irasshai.",
+       "vi": "4. Mời vào.",
        "words": [
         {
-         "w": "3",
-         "ro": "san",
+         "w": "4",
+         "ro": "yon",
          "pos": "danh từ",
-         "vi": "(lựa chọn) số 3"
+         "vi": "(lựa chọn) số 4"
         },
         {
          "w": ". ",
@@ -8444,10 +8473,11 @@
      ],
      "choices": [
       "いってきます。",
+      "おじゃましました。",
       "おじゃまします。",
       "いらっしゃい。"
      ],
-     "answer": 1,
+     "answer": 2,
      "ex": {
       "s": {
        "jp": "おじゃまします。",
@@ -8466,13 +8496,19 @@
         }
        ]
       },
-      "vi": "Khi bước vào nhà người khác, người Nhật nói おじゃまします (xin phép làm phiền). いってきます là câu nói khi mình rời nhà mình để đi ra ngoài. いらっしゃい là câu của chủ nhà nói để đón khách, không phải câu của khách.",
+      "vi": "Khi bước vào nhà người khác, người Nhật nói おじゃまします (xin phép làm phiền) → 3. いってきます là câu nói khi mình rời nhà mình để đi ra ngoài (1). いらっしゃい là câu của chủ nhà nói để đón khách, không phải câu của khách (4). おじゃましました là câu nói khi ra về sau khi đã làm phiền xong, không dùng lúc mới bước vào (2).",
       "choices": [
        {
         "jp": "いってきます。",
         "r": "",
         "ro": "Ittekimasu.",
         "vi": "Tôi đi đây. – nói khi rời nhà mình"
+       },
+       {
+        "jp": "おじゃましました。",
+        "r": "",
+        "ro": "Ojama shimashita.",
+        "vi": "Tôi xin phép về (đã làm phiền rồi). – nói khi ra về"
        },
        {
         "jp": "おじゃまします。",
@@ -8585,15 +8621,69 @@
       {
        "sp": "男",
        "g": "m",
-       "jp": "1. 先生、ちょっといいですか。",
-       "ro": "Ichi. Sensei, chotto ii desu ka.",
-       "vi": "1. Thưa thầy, em làm phiền thầy một chút được không ạ?",
+       "jp": "1. 先生、ちょっとまってください。",
+       "ro": "Ichi. Sensei, chotto matte kudasai.",
+       "vi": "1. Thưa thầy, xin thầy chờ một chút.",
        "words": [
         {
          "w": "1",
          "ro": "ichi",
          "pos": "danh từ",
          "vi": "(lựa chọn) số 1"
+        },
+        {
+         "w": ". ",
+         "pos": "dấu câu"
+        },
+        {
+         "w": "先生",
+         "r": "せんせい",
+         "ro": "sensei",
+         "pos": "danh từ",
+         "vi": "thầy, cô giáo"
+        },
+        {
+         "w": "、",
+         "pos": "dấu câu"
+        },
+        {
+         "w": "ちょっと",
+         "ro": "chotto",
+         "pos": "phó từ",
+         "vi": "một chút, hơi"
+        },
+        {
+         "w": "まって",
+         "ro": "matte",
+         "pos": "động từ",
+         "base": "まつ",
+         "vi": "chờ (thể て)"
+        },
+        {
+         "w": "ください",
+         "ro": "kudasai",
+         "pos": "động từ",
+         "base": "くださる",
+         "vi": "hãy (làm giúp)"
+        },
+        {
+         "w": "。",
+         "pos": "dấu câu"
+        }
+       ]
+      },
+      {
+       "sp": "男",
+       "g": "m",
+       "jp": "2. 先生、ちょっといいですか。",
+       "ro": "Ni. Sensei, chotto ii desu ka.",
+       "vi": "2. Thưa thầy, em làm phiền thầy một chút được không ạ?",
+       "words": [
+        {
+         "w": "2",
+         "ro": "ni",
+         "pos": "danh từ",
+         "vi": "(lựa chọn) số 2"
         },
         {
          "w": ". ",
@@ -8643,15 +8733,15 @@
       {
        "sp": "男",
        "g": "m",
-       "jp": "2. 先生、ちょっとどうぞ。",
-       "ro": "Ni. Sensei, chotto doozo.",
-       "vi": "2. Thưa thầy, xin mời thầy một chút.",
+       "jp": "3. 先生、ちょっとどうぞ。",
+       "ro": "San. Sensei, chotto doozo.",
+       "vi": "3. Thưa thầy, xin mời thầy một chút.",
        "words": [
         {
-         "w": "2",
-         "ro": "ni",
+         "w": "3",
+         "ro": "san",
          "pos": "danh từ",
-         "vi": "(lựa chọn) số 2"
+         "vi": "(lựa chọn) số 3"
         },
         {
          "w": ". ",
@@ -8689,15 +8779,15 @@
       {
        "sp": "男",
        "g": "m",
-       "jp": "3. 先生、ちょっといかがですか。",
-       "ro": "San. Sensei, chotto ikaga desu ka.",
-       "vi": "3. Thưa thầy, thầy dùng một chút nhé?",
+       "jp": "4. 先生、ちょっといかがですか。",
+       "ro": "Yon. Sensei, chotto ikaga desu ka.",
+       "vi": "4. Thưa thầy, thầy dùng một chút nhé?",
        "words": [
         {
-         "w": "3",
-         "ro": "san",
+         "w": "4",
+         "ro": "yon",
          "pos": "danh từ",
-         "vi": "(lựa chọn) số 3"
+         "vi": "(lựa chọn) số 4"
         },
         {
          "w": ". ",
@@ -8746,11 +8836,12 @@
       }
      ],
      "choices": [
+      "先生、ちょっと　まって　ください。",
       "先生、ちょっと　いいですか。",
       "先生、ちょっと　どうぞ。",
       "先生、ちょっと　いかがですか。"
      ],
-     "answer": 0,
+     "answer": 1,
      "ex": {
       "s": {
        "jp": "先生、ちょっといいですか。",
@@ -8798,8 +8889,14 @@
         }
        ]
       },
-      "vi": "ちょっといいですか là cách hỏi 'bây giờ (em) làm phiền một chút được không?' trước khi hỏi chuyện / nhờ việc → 1. どうぞ là lời mời / đưa cho người khác. いかがですか là mời ai dùng gì (đồ ăn, đồ uống) – không dùng để xin hỏi.",
+      "vi": "ちょっといいですか là cách hỏi 'bây giờ (em) làm phiền một chút được không?' trước khi hỏi chuyện / nhờ việc → 2. どうぞ là lời mời / đưa cho người khác (3). いかがですか là mời ai dùng gì (đồ ăn, đồ uống) – không dùng để xin hỏi (4). ちょっと まって ください là bảo thầy chờ – thất lễ với thầy, và chưa xin phép được hỏi (1).",
       "choices": [
+       {
+        "jp": "先生、ちょっと　まって　ください。",
+        "r": "せんせい、ちょっと　まって　ください。",
+        "ro": "Sensei, chotto matte kudasai.",
+        "vi": "Thầy hãy chờ một chút. – bảo thầy chờ là thất lễ"
+       },
        {
         "jp": "先生、ちょっと　いいですか。",
         "r": "せんせい、ちょっと　いいですか。",
@@ -9004,15 +9101,64 @@
       {
        "sp": "女",
        "g": "f",
-       "jp": "2. まどがしまっていますね。",
-       "ro": "Ni. Mado ga shimatte imasu ne.",
-       "vi": "2. Cửa sổ đang đóng nhỉ.",
+       "jp": "2. まどをあけてください。",
+       "ro": "Ni. Mado o akete kudasai.",
+       "vi": "2. Hãy mở cửa sổ ra.",
        "words": [
         {
          "w": "2",
          "ro": "ni",
          "pos": "danh từ",
          "vi": "(lựa chọn) số 2"
+        },
+        {
+         "w": ". ",
+         "pos": "dấu câu"
+        },
+        {
+         "w": "まど",
+         "ro": "mado",
+         "pos": "danh từ",
+         "vi": "cửa sổ"
+        },
+        {
+         "w": "を",
+         "ro": "o",
+         "pos": "trợ từ",
+         "vi": "chỉ đối tượng"
+        },
+        {
+         "w": "あけて",
+         "ro": "akete",
+         "pos": "động từ",
+         "base": "あける",
+         "vi": "mở (thể て)"
+        },
+        {
+         "w": "ください",
+         "ro": "kudasai",
+         "pos": "động từ",
+         "base": "くださる",
+         "vi": "hãy (làm giúp)"
+        },
+        {
+         "w": "。",
+         "pos": "dấu câu"
+        }
+       ]
+      },
+      {
+       "sp": "女",
+       "g": "f",
+       "jp": "3. まどがしまっていますね。",
+       "ro": "San. Mado ga shimatte imasu ne.",
+       "vi": "3. Cửa sổ đang đóng nhỉ.",
+       "words": [
+        {
+         "w": "3",
+         "ro": "san",
+         "pos": "danh từ",
+         "vi": "(lựa chọn) số 3"
         },
         {
          "w": ". ",
@@ -9052,15 +9198,15 @@
       {
        "sp": "女",
        "g": "f",
-       "jp": "3. まどをしめてください。",
-       "ro": "San. Mado o shimete kudasai.",
-       "vi": "3. Bạn đóng cửa sổ giúp tôi với.",
+       "jp": "4. まどをしめてください。",
+       "ro": "Yon. Mado o shimete kudasai.",
+       "vi": "4. Bạn đóng cửa sổ giúp tôi với.",
        "words": [
         {
-         "w": "3",
-         "ro": "san",
+         "w": "4",
+         "ro": "yon",
          "pos": "danh từ",
-         "vi": "(lựa chọn) số 3"
+         "vi": "(lựa chọn) số 4"
         },
         {
          "w": ". ",
@@ -9101,10 +9247,11 @@
      ],
      "choices": [
       "まどを　しめましょうか。",
+      "まどを　あけて　ください。",
       "まどが　しまって　いますね。",
       "まどを　しめて　ください。"
      ],
-     "answer": 2,
+     "answer": 3,
      "ex": {
       "s": {
        "jp": "まどをしめてください。",
@@ -9143,13 +9290,19 @@
         }
        ]
       },
-      "vi": "Muốn nhờ người bạn ngồi gần cửa sổ đóng lại → dùng Vてください: まどをしめてください (3). しめましょうか là đề nghị 'để TÔI đóng nhé' – người nói tự làm, không phải nhờ bạn. まどがしまっています nghĩa là cửa sổ ĐANG ĐÓNG – ngược tình huống (cửa đang mở). Cặp động từ: しめる (đóng – tha động từ) / しまる (đóng – tự động từ).",
+      "vi": "Muốn nhờ người bạn ngồi gần cửa sổ đóng lại → dùng Vてください: まどをしめてください (4). しめましょうか là đề nghị 'để TÔI đóng nhé' – người nói tự làm, không phải nhờ bạn (1). まどがしまっています nghĩa là cửa sổ ĐANG ĐÓNG – ngược tình huống (cửa đang mở) (3). まどを あけて ください là nhờ MỞ cửa – ngược với điều cần làm (2). Cặp động từ: しめる (đóng – tha động từ) / しまる (đóng – tự động từ).",
       "choices": [
        {
         "jp": "まどを　しめましょうか。",
         "r": "",
         "ro": "Mado o shimemashoo ka.",
         "vi": "Để tôi đóng cửa sổ nhé? – lời đề nghị tự làm"
+       },
+       {
+        "jp": "まどを　あけて　ください。",
+        "r": "",
+        "ro": "Mado o akete kudasai.",
+        "vi": "Hãy mở cửa sổ ra. – ngược tình huống (cửa đang mở)"
        },
        {
         "jp": "まどが　しまって　いますね。",
@@ -9338,12 +9491,42 @@
          "pos": "dấu câu"
         }
        ]
+      },
+      {
+       "sp": "男",
+       "g": "m",
+       "jp": "4. おやすみなさい。",
+       "ro": "Yon. Oyasumi nasai.",
+       "vi": "4. Chúc ngủ ngon.",
+       "words": [
+        {
+         "w": "4",
+         "ro": "yon",
+         "pos": "danh từ",
+         "vi": "(lựa chọn) số 4"
+        },
+        {
+         "w": ". ",
+         "pos": "dấu câu"
+        },
+        {
+         "w": "おやすみなさい",
+         "ro": "oyasumi nasai",
+         "pos": "cụm chào hỏi",
+         "vi": "chúc ngủ ngon"
+        },
+        {
+         "w": "。",
+         "pos": "dấu câu"
+        }
+       ]
       }
      ],
      "choices": [
       "いただきます。",
       "ごちそうさまでした。",
-      "おかえりなさい。"
+      "おかえりなさい。",
+      "おやすみなさい。"
      ],
      "answer": 0,
      "ex": {
@@ -9364,7 +9547,7 @@
         }
        ]
       },
-      "vi": "Trước khi bắt đầu ăn, người Nhật nói いただきます → 1. ごちそうさまでした nói SAU khi ăn xong. おかえりなさい là câu chào người vừa về nhà, không liên quan bữa ăn.",
+      "vi": "Trước khi bắt đầu ăn, người Nhật nói いただきます → 1. ごちそうさまでした nói SAU khi ăn xong (2). おかえりなさい là câu chào người vừa về nhà, không liên quan bữa ăn (3). おやすみなさい là lời chào trước khi đi ngủ, không dùng khi bắt đầu ăn (4).",
       "choices": [
        {
         "jp": "いただきます。",
@@ -9383,6 +9566,12 @@
         "r": "",
         "ro": "Okaerinasai.",
         "vi": "Về rồi à. – chào người về nhà"
+       },
+       {
+        "jp": "おやすみなさい。",
+        "r": "",
+        "ro": "Oyasumi nasai.",
+        "vi": "Chúc ngủ ngon. – nói trước khi đi ngủ"
        }
       ]
      }
@@ -9535,15 +9724,64 @@
       {
        "sp": "女",
        "g": "f",
-       "jp": "2. えんぴつをかしてください。",
-       "ro": "Ni. Enpitsu o kashite kudasai.",
-       "vi": "2. Cho tôi mượn bút chì với.",
+       "jp": "2. えんぴつをかえしてください。",
+       "ro": "Ni. Enpitsu o kaeshite kudasai.",
+       "vi": "2. Hãy trả lại bút chì cho tôi.",
        "words": [
         {
          "w": "2",
          "ro": "ni",
          "pos": "danh từ",
          "vi": "(lựa chọn) số 2"
+        },
+        {
+         "w": ". ",
+         "pos": "dấu câu"
+        },
+        {
+         "w": "えんぴつ",
+         "ro": "enpitsu",
+         "pos": "danh từ",
+         "vi": "bút chì"
+        },
+        {
+         "w": "を",
+         "ro": "o",
+         "pos": "trợ từ",
+         "vi": "chỉ đối tượng"
+        },
+        {
+         "w": "かえして",
+         "ro": "kaeshite",
+         "pos": "động từ",
+         "base": "かえす",
+         "vi": "trả lại (thể て)"
+        },
+        {
+         "w": "ください",
+         "ro": "kudasai",
+         "pos": "động từ",
+         "base": "くださる",
+         "vi": "hãy (làm giúp)"
+        },
+        {
+         "w": "。",
+         "pos": "dấu câu"
+        }
+       ]
+      },
+      {
+       "sp": "女",
+       "g": "f",
+       "jp": "3. えんぴつをかしてください。",
+       "ro": "San. Enpitsu o kashite kudasai.",
+       "vi": "3. Cho tôi mượn bút chì với.",
+       "words": [
+        {
+         "w": "3",
+         "ro": "san",
+         "pos": "danh từ",
+         "vi": "(lựa chọn) số 3"
         },
         {
          "w": ". ",
@@ -9584,15 +9822,15 @@
       {
        "sp": "女",
        "g": "f",
-       "jp": "3. えんぴつをかりてください。",
-       "ro": "San. Enpitsu o karite kudasai.",
-       "vi": "3. Bạn hãy đi mượn bút chì đi.",
+       "jp": "4. えんぴつをかりてください。",
+       "ro": "Yon. Enpitsu o karite kudasai.",
+       "vi": "4. Bạn hãy đi mượn bút chì đi.",
        "words": [
         {
-         "w": "3",
-         "ro": "san",
+         "w": "4",
+         "ro": "yon",
          "pos": "danh từ",
-         "vi": "(lựa chọn) số 3"
+         "vi": "(lựa chọn) số 4"
         },
         {
          "w": ". ",
@@ -9633,10 +9871,11 @@
      ],
      "choices": [
       "えんぴつを　かしましょうか。",
+      "えんぴつを　かえして　ください。",
       "えんぴつを　かして　ください。",
       "えんぴつを　かりて　ください。"
      ],
-     "answer": 1,
+     "answer": 2,
      "ex": {
       "s": {
        "jp": "えんぴつをかしてください。",
@@ -9675,13 +9914,19 @@
         }
        ]
       },
-      "vi": "かす = cho (người khác) mượn, かりる = mượn (của người khác). Muốn bạn CHO MÌNH MƯỢN → nhờ bạn làm hành động かす: かしてください (2). かしましょうか là đề nghị 'để tôi cho bạn mượn' – ngược vai. かりてください là bảo người kia đi mượn – cũng ngược vai.",
+      "vi": "かす = cho (người khác) mượn, かりる = mượn (của người khác). Muốn bạn CHO MÌNH MƯỢN → nhờ bạn làm hành động かす: かしてください (3). かしましょうか là đề nghị 'để tôi cho bạn mượn' – ngược vai (1). かりてください là bảo người kia đi mượn – cũng ngược vai (4). かえしてください là bảo bạn TRẢ LẠI bút chì – nhưng mình chưa hề cho bạn mượn gì cả (2).",
       "choices": [
        {
         "jp": "えんぴつを　かしましょうか。",
         "r": "",
         "ro": "Enpitsu o kashimashoo ka.",
         "vi": "Để tôi cho bạn mượn bút chì nhé? – ngược vai"
+       },
+       {
+        "jp": "えんぴつを　かえして　ください。",
+        "r": "",
+        "ro": "Enpitsu o kaeshite kudasai.",
+        "vi": "Hãy trả bút chì lại cho tôi. – bút chì chưa hề cho mượn"
        },
        {
         "jp": "えんぴつを　かして　ください。",
@@ -9760,15 +10005,58 @@
       {
        "sp": "女",
        "g": "f",
-       "jp": "1. デパートで買いました。",
-       "ro": "Ichi. Depaato de kaimashita.",
-       "vi": "1. Tôi mua ở trung tâm thương mại.",
+       "jp": "1. 友だちにもらいました。",
+       "ro": "Ichi. Tomodachi ni moraimashita.",
+       "vi": "1. Tôi nhận được từ bạn.",
        "words": [
         {
          "w": "1",
          "ro": "ichi",
          "pos": "danh từ",
          "vi": "(lựa chọn) số 1"
+        },
+        {
+         "w": ". ",
+         "pos": "dấu câu"
+        },
+        {
+         "w": "友だち",
+         "r": "ともだち",
+         "ro": "tomodachi",
+         "pos": "danh từ",
+         "vi": "bạn bè"
+        },
+        {
+         "w": "に",
+         "ro": "ni",
+         "pos": "trợ từ",
+         "vi": "chỉ thời điểm, nơi đến, đối tượng"
+        },
+        {
+         "w": "もらいました",
+         "ro": "moraimashita",
+         "pos": "động từ",
+         "base": "もらう",
+         "vi": "đã nhận (được tặng)"
+        },
+        {
+         "w": "。",
+         "pos": "dấu câu"
+        }
+       ]
+      },
+      {
+       "sp": "女",
+       "g": "f",
+       "jp": "2. デパートで買いました。",
+       "ro": "Ni. Depaato de kaimashita.",
+       "vi": "2. Tôi mua ở trung tâm thương mại.",
+       "words": [
+        {
+         "w": "2",
+         "ro": "ni",
+         "pos": "danh từ",
+         "vi": "(lựa chọn) số 2"
         },
         {
          "w": ". ",
@@ -9803,15 +10091,15 @@
       {
        "sp": "女",
        "g": "f",
-       "jp": "2. きのう買いました。",
-       "ro": "Ni. Kinoo kaimashita.",
-       "vi": "2. Tôi mua hôm qua.",
+       "jp": "3. きのう買いました。",
+       "ro": "San. Kinoo kaimashita.",
+       "vi": "3. Tôi mua hôm qua.",
        "words": [
         {
-         "w": "2",
-         "ro": "ni",
+         "w": "3",
+         "ro": "san",
          "pos": "danh từ",
-         "vi": "(lựa chọn) số 2"
+         "vi": "(lựa chọn) số 3"
         },
         {
          "w": ". ",
@@ -9840,15 +10128,15 @@
       {
        "sp": "女",
        "g": "f",
-       "jp": "3. 三千円でした。",
-       "ro": "San. Sanzen en deshita.",
-       "vi": "3. 3000 yên.",
+       "jp": "4. 三千円でした。",
+       "ro": "Yon. Sanzen en deshita.",
+       "vi": "4. 3000 yên.",
        "words": [
         {
-         "w": "3",
-         "ro": "san",
+         "w": "4",
+         "ro": "yon",
          "pos": "danh từ",
-         "vi": "(lựa chọn) số 3"
+         "vi": "(lựa chọn) số 4"
         },
         {
          "w": ". ",
@@ -9876,11 +10164,12 @@
       }
      ],
      "choices": [
+      "友だちにもらいました。",
       "デパートで　買いました。",
       "きのう　買いました。",
       "三千円でした。"
      ],
-     "answer": 2,
+     "answer": 3,
      "ex": {
       "s": {
        "jp": "三千円でした。",
@@ -9907,8 +10196,14 @@
         }
        ]
       },
-      "vi": "いくら hỏi giá tiền → trả lời bằng số tiền: 三千円でした (さんぜんえん – chú ý ぜ đục) → 3. 1 trả lời 'ở đâu' (どこで), 2 trả lời 'khi nào' (いつ) – sai từ để hỏi.",
+      "vi": "いくら hỏi giá tiền → trả lời bằng số tiền: 三千円でした (さんぜんえん – chú ý ぜ đục) → 4. 2 trả lời 'ở đâu' (どこで), 3 trả lời 'khi nào' (いつ) – sai từ để hỏi. 友だちに もらいました (1) trả lời 'nhận từ ai' (だれに) – cũng không phải giá tiền.",
       "choices": [
+       {
+        "jp": "友だちにもらいました。",
+        "r": "ともだちにもらいました。",
+        "ro": "Tomodachi ni moraimashita.",
+        "vi": "Tôi nhận từ bạn. – trả lời 'ai cho' (だれ)"
+       },
        {
         "jp": "デパートで　買いました。",
         "r": "デパートで　かいました。",
@@ -9984,15 +10279,44 @@
       {
        "sp": "母",
        "g": "f",
-       "jp": "2. いってらっしゃい。",
-       "ro": "Ni. Itterasshai.",
-       "vi": "2. Con đi nhé.",
+       "jp": "2. ごちそうさまでした。",
+       "ro": "Ni. Gochisoosama deshita.",
+       "vi": "2. Cảm ơn vì bữa ăn.",
        "words": [
         {
          "w": "2",
          "ro": "ni",
          "pos": "danh từ",
          "vi": "(lựa chọn) số 2"
+        },
+        {
+         "w": ". ",
+         "pos": "dấu câu"
+        },
+        {
+         "w": "ごちそうさまでした",
+         "ro": "gochisoosama deshita",
+         "pos": "cụm chào hỏi",
+         "vi": "cảm ơn vì bữa ăn (nói sau khi ăn xong)"
+        },
+        {
+         "w": "。",
+         "pos": "dấu câu"
+        }
+       ]
+      },
+      {
+       "sp": "母",
+       "g": "f",
+       "jp": "3. いってらっしゃい。",
+       "ro": "San. Itterasshai.",
+       "vi": "3. Con đi nhé.",
+       "words": [
+        {
+         "w": "3",
+         "ro": "san",
+         "pos": "danh từ",
+         "vi": "(lựa chọn) số 3"
         },
         {
          "w": ". ",
@@ -10013,15 +10337,15 @@
       {
        "sp": "母",
        "g": "f",
-       "jp": "3. いってきます。",
-       "ro": "San. Ittekimasu.",
-       "vi": "3. Mẹ đi đây.",
+       "jp": "4. いってきます。",
+       "ro": "Yon. Ittekimasu.",
+       "vi": "4. Mẹ đi đây.",
        "words": [
         {
-         "w": "3",
-         "ro": "san",
+         "w": "4",
+         "ro": "yon",
          "pos": "danh từ",
-         "vi": "(lựa chọn) số 3"
+         "vi": "(lựa chọn) số 4"
         },
         {
          "w": ". ",
@@ -10042,6 +10366,7 @@
      ],
      "choices": [
       "おかえりなさい。",
+      "ごちそうさまでした。",
       "いってらっしゃい。",
       "いってきます。"
      ],
@@ -10064,13 +10389,19 @@
         }
        ]
       },
-      "vi": "Người về nhà nói ただいま, người ở nhà đáp おかえりなさい → 1. いってらっしゃい là tiễn người ra khỏi nhà; いってきます là câu của người sắp ra khỏi nhà. Hai cặp chào: いってきます ↔ いってらっしゃい, ただいま ↔ おかえりなさい.",
+      "vi": "Người về nhà nói ただいま, người ở nhà đáp おかえりなさい → 1. いってらっしゃい là tiễn người ra khỏi nhà (3); いってきます là câu của người sắp ra khỏi nhà (4). ごちそうさまでした là lời nói sau bữa ăn, không phải câu đón người về (2). Hai cặp chào: いってきます ↔ いってらっしゃい, ただいま ↔ おかえりなさい.",
       "choices": [
        {
         "jp": "おかえりなさい。",
         "r": "",
         "ro": "Okaerinasai.",
         "vi": "Con về rồi à. – đúng"
+       },
+       {
+        "jp": "ごちそうさまでした。",
+        "r": "",
+        "ro": "Gochisoosama deshita.",
+        "vi": "Cảm ơn vì bữa ăn. – nói sau khi ăn xong"
        },
        {
         "jp": "いってらっしゃい。",
@@ -10173,15 +10504,51 @@
       {
        "sp": "男",
        "g": "m",
-       "jp": "2. 金曜日です。",
-       "ro": "Ni. Kin'yoobi desu.",
-       "vi": "2. Thứ Sáu.",
+       "jp": "2. 三月です。",
+       "ro": "Ni. Sangatsu desu.",
+       "vi": "2. Tháng ba.",
        "words": [
         {
          "w": "2",
          "ro": "ni",
          "pos": "danh từ",
          "vi": "(lựa chọn) số 2"
+        },
+        {
+         "w": ". ",
+         "pos": "dấu câu"
+        },
+        {
+         "w": "三月",
+         "r": "さんがつ",
+         "ro": "sangatsu",
+         "pos": "danh từ",
+         "vi": "tháng ba"
+        },
+        {
+         "w": "です",
+         "ro": "desu",
+         "pos": "trợ động từ",
+         "vi": "là (lịch sự)"
+        },
+        {
+         "w": "。",
+         "pos": "dấu câu"
+        }
+       ]
+      },
+      {
+       "sp": "男",
+       "g": "m",
+       "jp": "3. 金曜日です。",
+       "ro": "San. Kin'yoobi desu.",
+       "vi": "3. Thứ Sáu.",
+       "words": [
+        {
+         "w": "3",
+         "ro": "san",
+         "pos": "danh từ",
+         "vi": "(lựa chọn) số 3"
         },
         {
          "w": ". ",
@@ -10209,15 +10576,15 @@
       {
        "sp": "男",
        "g": "m",
-       "jp": "3. あさってです。",
-       "ro": "San. Asatte desu.",
-       "vi": "3. Ngày kia.",
+       "jp": "4. あさってです。",
+       "ro": "Yon. Asatte desu.",
+       "vi": "4. Ngày kia.",
        "words": [
         {
-         "w": "3",
-         "ro": "san",
+         "w": "4",
+         "ro": "yon",
          "pos": "danh từ",
-         "vi": "(lựa chọn) số 3"
+         "vi": "(lựa chọn) số 4"
         },
         {
          "w": ". ",
@@ -10244,10 +10611,11 @@
      ],
      "choices": [
       "十日です。",
+      "三月です。",
       "金曜日です。",
       "あさってです。"
      ],
-     "answer": 1,
+     "answer": 2,
      "ex": {
       "s": {
        "jp": "金曜日です。",
@@ -10273,13 +10641,19 @@
         }
        ]
       },
-      "vi": "何曜日 hỏi thứ trong tuần → 金曜日です (2). 十日です trả lời câu 何日 (ngày mấy) – bẫy 何曜日 / 何日. あさって (ngày kia) không trả lời được câu hỏi về thứ.",
+      "vi": "何曜日 hỏi thứ trong tuần → 金曜日です (3). 十日です trả lời câu 何日 (ngày mấy) – bẫy 何曜日 / 何日 (1). あさって (ngày kia) không trả lời được câu hỏi về thứ (4). 三月です trả lời câu 何月 (tháng mấy) – cũng không phải thứ trong tuần (2).",
       "choices": [
        {
         "jp": "十日です。",
         "r": "とおかです。",
         "ro": "Tooka desu.",
         "vi": "Ngày mùng 10. – trả lời 何日"
+       },
+       {
+        "jp": "三月です。",
+        "r": "さんがつです。",
+        "ro": "Sangatsu desu.",
+        "vi": "Tháng ba. – trả lời 何月"
        },
        {
         "jp": "金曜日です。",
@@ -10396,15 +10770,55 @@
       {
        "sp": "男",
        "g": "m",
-       "jp": "2. ありがとうございます。でも、もうけっこうです。",
-       "ro": "Ni. Arigatoo gozaimasu. Demo, moo kekkoo desu.",
-       "vi": "2. Cảm ơn chị. Nhưng tôi đủ rồi ạ.",
+       "jp": "2. いいえ、いただきます。",
+       "ro": "Ni. Iie, itadakimasu.",
+       "vi": "2. Không, tôi xin nhận (ăn).",
        "words": [
         {
          "w": "2",
          "ro": "ni",
          "pos": "danh từ",
          "vi": "(lựa chọn) số 2"
+        },
+        {
+         "w": ". ",
+         "pos": "dấu câu"
+        },
+        {
+         "w": "いいえ",
+         "ro": "iie",
+         "pos": "cụm cố định",
+         "vi": "không"
+        },
+        {
+         "w": "、",
+         "pos": "dấu câu"
+        },
+        {
+         "w": "いただきます",
+         "ro": "itadakimasu",
+         "pos": "động từ",
+         "base": "いただく",
+         "vi": "xin nhận / xin phép dùng (khiêm nhường)"
+        },
+        {
+         "w": "。",
+         "pos": "dấu câu"
+        }
+       ]
+      },
+      {
+       "sp": "男",
+       "g": "m",
+       "jp": "3. ありがとうございます。でも、もうけっこうです。",
+       "ro": "San. Arigatoo gozaimasu. Demo, moo kekkoo desu.",
+       "vi": "3. Cảm ơn chị. Nhưng tôi đủ rồi ạ.",
+       "words": [
+        {
+         "w": "3",
+         "ro": "san",
+         "pos": "danh từ",
+         "vi": "(lựa chọn) số 3"
         },
         {
          "w": ". ",
@@ -10451,15 +10865,15 @@
       {
        "sp": "男",
        "g": "m",
-       "jp": "3. いいえ、どういたしまして。",
-       "ro": "San. Iie, dooitashimashite.",
-       "vi": "3. Không, không có gì.",
+       "jp": "4. いいえ、どういたしまして。",
+       "ro": "Yon. Iie, dooitashimashite.",
+       "vi": "4. Không, không có gì.",
        "words": [
         {
-         "w": "3",
-         "ro": "san",
+         "w": "4",
+         "ro": "yon",
          "pos": "danh từ",
-         "vi": "(lựa chọn) số 3"
+         "vi": "(lựa chọn) số 4"
         },
         {
          "w": ". ",
@@ -10490,10 +10904,11 @@
      ],
      "choices": [
       "はい、いただきました。",
+      "いいえ、いただきます。",
       "ありがとうございます。でも、もう　けっこうです。",
       "いいえ、どういたしまして。"
      ],
-     "answer": 1,
+     "answer": 2,
      "ex": {
       "s": {
        "jp": "ありがとうございます。でも、もうけっこうです。",
@@ -10538,13 +10953,19 @@
         }
        ]
       },
-      "vi": "〜はいかがですか là lời mời. Từ chối lịch sự: ありがとうございます。でも、もうけっこうです (2). いただきました là thì quá khứ 'đã nhận/đã ăn rồi' – không hợp để đáp lời mời ăn thêm. どういたしまして dùng để đáp lại lời cảm ơn, không phải lời mời.",
+      "vi": "〜はいかがですか là lời mời. Từ chối lịch sự: ありがとうございます。でも、もうけっこうです (3). いただきました là thì quá khứ 'đã nhận/đã ăn rồi' – không hợp để đáp lời mời ăn thêm (1). どういたしまして dùng để đáp lại lời cảm ơn, không phải lời mời (4). いいえ、いただきます tự mâu thuẫn: いいえ (không) nhưng lại いただきます (xin nhận ăn) (2).",
       "choices": [
        {
         "jp": "はい、いただきました。",
         "r": "",
         "ro": "Hai, itadakimashita.",
         "vi": "Vâng, tôi đã nhận rồi. – sai thì"
+       },
+       {
+        "jp": "いいえ、いただきます。",
+        "r": "",
+        "ro": "Iie, itadakimasu.",
+        "vi": "Không, tôi xin nhận. – いいえ mâu thuẫn với いただきます"
        },
        {
         "jp": "ありがとうございます。でも、もう　けっこうです。",
@@ -10698,15 +11119,62 @@
       {
        "sp": "女の学生",
        "g": "f",
-       "jp": "3. すみません、まだです。",
-       "ro": "San. Sumimasen, mada desu.",
-       "vi": "3. Em xin lỗi, em chưa nộp ạ.",
+       "jp": "3. はい、あした出します。",
+       "ro": "San. Hai, ashita dashimasu.",
+       "vi": "3. Vâng, ngày mai tôi sẽ nộp.",
        "words": [
         {
          "w": "3",
          "ro": "san",
          "pos": "danh từ",
          "vi": "(lựa chọn) số 3"
+        },
+        {
+         "w": ". ",
+         "pos": "dấu câu"
+        },
+        {
+         "w": "はい",
+         "ro": "hai",
+         "pos": "cụm cố định",
+         "vi": "vâng"
+        },
+        {
+         "w": "、",
+         "pos": "dấu câu"
+        },
+        {
+         "w": "あした",
+         "ro": "ashita",
+         "pos": "danh từ",
+         "vi": "ngày mai"
+        },
+        {
+         "w": "出します",
+         "r": "だします",
+         "ro": "dashimasu",
+         "pos": "động từ",
+         "base": "出す",
+         "vi": "nộp"
+        },
+        {
+         "w": "。",
+         "pos": "dấu câu"
+        }
+       ]
+      },
+      {
+       "sp": "女の学生",
+       "g": "f",
+       "jp": "4. すみません、まだです。",
+       "ro": "Yon. Sumimasen, mada desu.",
+       "vi": "4. Em xin lỗi, em chưa nộp ạ.",
+       "words": [
+        {
+         "w": "4",
+         "ro": "yon",
+         "pos": "danh từ",
+         "vi": "(lựa chọn) số 4"
         },
         {
          "w": ". ",
@@ -10744,9 +11212,10 @@
      "choices": [
       "はい、まだです。",
       "いいえ、出しました。",
+      "はい、あした　出します。",
       "すみません、まだです。"
      ],
-     "answer": 2,
+     "answer": 3,
      "ex": {
       "s": {
        "jp": "すみません、まだです。",
@@ -10781,7 +11250,7 @@
         }
        ]
       },
-      "vi": "もう〜ましたか hỏi 'đã … chưa?'. Đáp: はい、もう〜ました (rồi) hoặc いいえ、まだです (chưa). Lựa chọn 3 すみません、まだです tự nhiên khi chưa nộp bài cho thầy → đúng. 1 sai vì はい đi với まだ là mâu thuẫn; 2 sai vì いいえ đi với 出しました là mâu thuẫn.",
+      "vi": "もう〜ましたか hỏi 'đã … chưa?'. Đáp: はい、もう〜ました (rồi) hoặc いいえ、まだです (chưa). Lựa chọn すみません、まだです tự nhiên khi chưa nộp bài cho thầy → đúng (4). 1 sai vì はい đi với まだ là mâu thuẫn; 2 sai vì いいえ đi với 出しました là mâu thuẫn. はい、あした 出します (3) cũng sai: はい (đã nộp rồi) nhưng lại nói ngày mai mới nộp – hai vế mâu thuẫn.",
       "choices": [
        {
         "jp": "はい、まだです。",
@@ -10794,6 +11263,12 @@
         "r": "いいえ、だしました。",
         "ro": "Iie, dashimashita.",
         "vi": "Không, em đã nộp rồi. – いいえ mâu thuẫn"
+       },
+       {
+        "jp": "はい、あした　出します。",
+        "r": "はい、あした　だします。",
+        "ro": "Hai, ashita dashimasu.",
+        "vi": "Vâng, ngày mai tôi sẽ nộp. – はい (đã nộp) mâu thuẫn với ngày mai mới nộp"
        },
        {
         "jp": "すみません、まだです。",
@@ -10877,15 +11352,84 @@
       {
        "sp": "男",
        "g": "m",
-       "jp": "1. はい、あのぎんこうのとなりにありますよ。",
-       "ro": "Ichi. Hai, ano ginkoo no tonari ni arimasu yo.",
-       "vi": "1. Có, ở bên cạnh ngân hàng kia đấy.",
+       "jp": "1. はい、あのぎんこうはあしたやすみです。",
+       "ro": "Ichi. Hai, ano ginkoo wa ashita yasumi desu.",
+       "vi": "1. Vâng, ngân hàng kia ngày mai nghỉ.",
        "words": [
         {
          "w": "1",
          "ro": "ichi",
          "pos": "danh từ",
          "vi": "(lựa chọn) số 1"
+        },
+        {
+         "w": ". ",
+         "pos": "dấu câu"
+        },
+        {
+         "w": "はい",
+         "ro": "hai",
+         "pos": "cụm cố định",
+         "vi": "vâng"
+        },
+        {
+         "w": "、",
+         "pos": "dấu câu"
+        },
+        {
+         "w": "あの",
+         "ro": "ano",
+         "pos": "đại từ",
+         "vi": "…kia"
+        },
+        {
+         "w": "ぎんこう",
+         "ro": "ginkoo",
+         "pos": "danh từ",
+         "vi": "ngân hàng"
+        },
+        {
+         "w": "は",
+         "ro": "wa",
+         "pos": "trợ từ",
+         "vi": "đánh dấu chủ đề"
+        },
+        {
+         "w": "あした",
+         "ro": "ashita",
+         "pos": "danh từ",
+         "vi": "ngày mai"
+        },
+        {
+         "w": "やすみ",
+         "ro": "yasumi",
+         "pos": "danh từ",
+         "vi": "ngày nghỉ"
+        },
+        {
+         "w": "です",
+         "ro": "desu",
+         "pos": "trợ động từ",
+         "vi": "là (lịch sự)"
+        },
+        {
+         "w": "。",
+         "pos": "dấu câu"
+        }
+       ]
+      },
+      {
+       "sp": "男",
+       "g": "m",
+       "jp": "2. はい、あのぎんこうのとなりにありますよ。",
+       "ro": "Ni. Hai, ano ginkoo no tonari ni arimasu yo.",
+       "vi": "2. Có, ở bên cạnh ngân hàng kia đấy.",
+       "words": [
+        {
+         "w": "2",
+         "ro": "ni",
+         "pos": "danh từ",
+         "vi": "(lựa chọn) số 2"
         },
         {
          "w": ". ",
@@ -10953,15 +11497,15 @@
       {
        "sp": "男",
        "g": "m",
-       "jp": "2. はい、コンビニで買いました。",
-       "ro": "Ni. Hai, konbini de kaimashita.",
-       "vi": "2. Vâng, tôi đã mua ở cửa hàng tiện lợi.",
+       "jp": "3. はい、コンビニで買いました。",
+       "ro": "San. Hai, konbini de kaimashita.",
+       "vi": "3. Vâng, tôi đã mua ở cửa hàng tiện lợi.",
        "words": [
         {
-         "w": "2",
-         "ro": "ni",
+         "w": "3",
+         "ro": "san",
          "pos": "danh từ",
-         "vi": "(lựa chọn) số 2"
+         "vi": "(lựa chọn) số 3"
         },
         {
          "w": ". ",
@@ -11006,15 +11550,15 @@
       {
        "sp": "男",
        "g": "m",
-       "jp": "3. いいえ、コンビニへ行きません。",
-       "ro": "San. Iie, konbini e ikimasen.",
-       "vi": "3. Không, tôi không đi cửa hàng tiện lợi.",
+       "jp": "4. いいえ、コンビニへ行きません。",
+       "ro": "Yon. Iie, konbini e ikimasen.",
+       "vi": "4. Không, tôi không đi cửa hàng tiện lợi.",
        "words": [
         {
-         "w": "3",
-         "ro": "san",
+         "w": "4",
+         "ro": "yon",
          "pos": "danh từ",
-         "vi": "(lựa chọn) số 3"
+         "vi": "(lựa chọn) số 4"
         },
         {
          "w": ". ",
@@ -11058,11 +11602,12 @@
       }
      ],
      "choices": [
+      "はい、あのぎんこうは　あした　やすみです。",
       "はい、あの　ぎんこうの　となりに　ありますよ。",
       "はい、コンビニで　買いました。",
       "いいえ、コンビニへ　行きません。"
      ],
-     "answer": 0,
+     "answer": 1,
      "ex": {
       "s": {
        "jp": "はい、あのぎんこうのとなりにありますよ。",
@@ -11128,8 +11673,14 @@
         }
        ]
       },
-      "vi": "〜はありますか hỏi có hay không / ở đâu → đáp có và chỉ vị trí: あのぎんこうのとなりにありますよ (1). 2 nói chuyện đã mua gì – không trả lời câu hỏi. 3 nói về việc mình đi hay không – lạc đề.",
+      "vi": "〜はありますか hỏi có hay không / ở đâu → đáp có và chỉ vị trí: あのぎんこうのとなりにありますよ (2). 3 nói chuyện đã mua gì – không trả lời câu hỏi. 4 nói về việc mình đi hay không – lạc đề. はい、あの ぎんこうは あした やすみです (1) nói về ngày nghỉ của ngân hàng – cũng lạc đề, không nói gì về cửa hàng tiện lợi.",
       "choices": [
+       {
+        "jp": "はい、あのぎんこうは　あした　やすみです。",
+        "r": "",
+        "ro": "Hai, ano ginkoo wa ashita yasumi desu.",
+        "vi": "Vâng, ngân hàng kia ngày mai nghỉ. – lạc đề, không chỉ chỗ có cửa hàng tiện lợi"
+       },
        {
         "jp": "はい、あの　ぎんこうの　となりに　ありますよ。",
         "r": "",

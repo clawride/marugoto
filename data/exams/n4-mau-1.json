@@ -3255,15 +3255,61 @@
                 {
                   "sp": "男",
                   "g": "m",
-                  "jp": "2. はい、かしました。",
-                  "ro": "Ni. Hai, kashimashita.",
-                  "vi": "2. Vâng, tôi đã cho mượn rồi.",
+                  "jp": "2. はい、きのうかいました。",
+                  "ro": "Ni. Hai, kinoo kaimashita.",
+                  "vi": "2. Vâng, hôm qua tôi đã mua.",
                   "words": [
                     {
                       "w": "2",
                       "ro": "ni",
                       "pos": "danh từ",
                       "vi": "(lựa chọn) số 2"
+                    },
+                    {
+                      "w": ". ",
+                      "pos": "dấu câu"
+                    },
+                    {
+                      "w": "はい",
+                      "ro": "hai",
+                      "pos": "cụm cố định",
+                      "vi": "vâng, có"
+                    },
+                    {
+                      "w": "、",
+                      "pos": "dấu câu"
+                    },
+                    {
+                      "w": "きのう",
+                      "ro": "kinoo",
+                      "pos": "danh từ",
+                      "vi": "hôm qua"
+                    },
+                    {
+                      "w": "かいました",
+                      "ro": "kaimashita",
+                      "pos": "động từ",
+                      "base": "かう",
+                      "vi": "đã mua (買いました)"
+                    },
+                    {
+                      "w": "。",
+                      "pos": "dấu câu"
+                    }
+                  ]
+                },
+                {
+                  "sp": "男",
+                  "g": "m",
+                  "jp": "3. はい、かしました。",
+                  "ro": "San. Hai, kashimashita.",
+                  "vi": "3. Vâng, tôi đã cho mượn rồi.",
+                  "words": [
+                    {
+                      "w": "3",
+                      "ro": "san",
+                      "pos": "danh từ",
+                      "vi": "(lựa chọn) số 3"
                     },
                     {
                       "w": ". ",
@@ -3295,15 +3341,15 @@
                 {
                   "sp": "男",
                   "g": "m",
-                  "jp": "3. いいえ、かりません。",
-                  "ro": "San. Iie, karimasen.",
-                  "vi": "3. Không, tôi không mượn.",
+                  "jp": "4. いいえ、かりません。",
+                  "ro": "Yon. Iie, karimasen.",
+                  "vi": "4. Không, tôi không mượn.",
                   "words": [
                     {
-                      "w": "3",
-                      "ro": "san",
+                      "w": "4",
+                      "ro": "yon",
                       "pos": "danh từ",
-                      "vi": "(lựa chọn) số 3"
+                      "vi": "(lựa chọn) số 4"
                     },
                     {
                       "w": ". ",
@@ -3335,6 +3381,7 @@
               ],
               "choices": [
                 "はい、どうぞ。",
+                "はい、きのうかいました。",
                 "はい、かしました。",
                 "いいえ、かりません。"
               ],
@@ -3367,13 +3414,19 @@
                     }
                   ]
                 },
-                "vi": "…ても いいですか là câu xin phép ('tôi … được không?'). Đồng ý cho mượn thì đáp はい、どうぞ. はい、かしました (đã cho mượn) sai thì – việc cho mượn chưa xảy ra. いいえ、かりません là lời của người đi mượn chứ không phải người được hỏi.",
+                "vi": "…ても いいですか là câu xin phép ('tôi … được không?'). Đồng ý cho mượn thì đáp はい、どうぞ (1). 3 (đã cho mượn) sai thì – việc cho mượn chưa xảy ra. 4 là lời của người đi mượn chứ không phải người được hỏi. 「きのう かいました」nói về việc đã mua hôm qua, không trả lời việc xin mượn (2 sai).",
                 "choices": [
                   {
                     "jp": "はい、どうぞ。",
                     "r": "",
                     "ro": "Hai, doozo.",
                     "vi": "Vâng, xin mời. – đúng"
+                  },
+                  {
+                    "jp": "はい、きのうかいました。",
+                    "r": "",
+                    "ro": "Hai, kinoo kaimashita.",
+                    "vi": "Vâng, hôm qua tôi đã mua."
                   },
                   {
                     "jp": "はい、かしました。",
@@ -3491,15 +3544,44 @@
                 {
                   "sp": "女",
                   "g": "f",
-                  "jp": "2. おつかれさまでした。",
-                  "ro": "Ni. Otsukaresama deshita.",
-                  "vi": "2. Anh đã vất vả rồi.",
+                  "jp": "2. いただきます。",
+                  "ro": "Ni. Itadakimasu.",
+                  "vi": "2. Xin phép dùng bữa (nói trước khi ăn).",
                   "words": [
                     {
                       "w": "2",
                       "ro": "ni",
                       "pos": "danh từ",
                       "vi": "(lựa chọn) số 2"
+                    },
+                    {
+                      "w": ". ",
+                      "pos": "dấu câu"
+                    },
+                    {
+                      "w": "いただきます",
+                      "ro": "itadakimasu",
+                      "pos": "cụm chào hỏi",
+                      "vi": "xin phép dùng bữa (nói trước khi ăn)"
+                    },
+                    {
+                      "w": "。",
+                      "pos": "dấu câu"
+                    }
+                  ]
+                },
+                {
+                  "sp": "女",
+                  "g": "f",
+                  "jp": "3. おつかれさまでした。",
+                  "ro": "San. Otsukaresama deshita.",
+                  "vi": "3. Anh đã vất vả rồi.",
+                  "words": [
+                    {
+                      "w": "3",
+                      "ro": "san",
+                      "pos": "danh từ",
+                      "vi": "(lựa chọn) số 3"
                     },
                     {
                       "w": ". ",
@@ -3520,15 +3602,15 @@
                 {
                   "sp": "女",
                   "g": "f",
-                  "jp": "3. ただいま。",
-                  "ro": "San. Tadaima.",
-                  "vi": "3. Tôi về rồi đây.",
+                  "jp": "4. ただいま。",
+                  "ro": "Yon. Tadaima.",
+                  "vi": "4. Tôi về rồi đây.",
                   "words": [
                     {
-                      "w": "3",
-                      "ro": "san",
+                      "w": "4",
+                      "ro": "yon",
                       "pos": "danh từ",
-                      "vi": "(lựa chọn) số 3"
+                      "vi": "(lựa chọn) số 4"
                     },
                     {
                       "w": ". ",
@@ -3549,10 +3631,11 @@
               ],
               "choices": [
                 "いってらっしゃい。",
+                "いただきます。",
                 "おつかれさまでした。",
                 "ただいま。"
               ],
-              "answer": 1,
+              "answer": 2,
               "ex": {
                 "s": {
                   "jp": "おつかれさまでした。",
@@ -3571,13 +3654,19 @@
                     }
                   ]
                 },
-                "vi": "Đồng nghiệp chào về trước (お先にしつれいします) thì người ở lại đáp おつかれさまでした. いってらっしゃい dùng khi tiễn người đi ra ngoài rồi sẽ quay lại (đi công tác, đi gặp khách…), không dùng khi họ tan làm về nhà. ただいま là lời của chính người vừa về đến nơi.",
+                "vi": "Đồng nghiệp chào về trước (お先にしつれいします) thì người ở lại đáp おつかれさまでした (3). 1 dùng khi tiễn người đi ra ngoài rồi sẽ quay lại (đi công tác, đi gặp khách…), không dùng khi họ tan làm về nhà. 4 là lời của chính người vừa về đến nơi. 「いただきます」là câu nói trước khi ăn, không hợp tình huống này (2 sai).",
                 "choices": [
                   {
                     "jp": "いってらっしゃい。",
                     "r": "",
                     "ro": "Itterasshai.",
                     "vi": "Đi nhé (rồi quay lại)."
+                  },
+                  {
+                    "jp": "いただきます。",
+                    "r": "",
+                    "ro": "Itadakimasu.",
+                    "vi": "Xin phép dùng bữa (nói trước khi ăn)."
                   },
                   {
                     "jp": "おつかれさまでした。",
@@ -3710,15 +3799,58 @@
                 {
                   "sp": "男",
                   "g": "m",
-                  "jp": "2. 学校へ行きました。",
-                  "ro": "Ni. Gakkoo e ikimashita.",
-                  "vi": "2. Tôi đã đi đến trường.",
+                  "jp": "2. 十時におきました。",
+                  "ro": "Ni. Juuji ni okimashita.",
+                  "vi": "2. Tôi đã dậy lúc 10 giờ.",
                   "words": [
                     {
                       "w": "2",
                       "ro": "ni",
                       "pos": "danh từ",
                       "vi": "(lựa chọn) số 2"
+                    },
+                    {
+                      "w": ". ",
+                      "pos": "dấu câu"
+                    },
+                    {
+                      "w": "十時",
+                      "r": "じゅうじ",
+                      "ro": "juuji",
+                      "pos": "danh từ",
+                      "vi": "10 giờ"
+                    },
+                    {
+                      "w": "に",
+                      "ro": "ni",
+                      "pos": "trợ từ",
+                      "vi": "chỉ thời điểm, nơi đến, đối tượng"
+                    },
+                    {
+                      "w": "おきました",
+                      "ro": "okimashita",
+                      "pos": "động từ",
+                      "base": "おきる",
+                      "vi": "đã dậy"
+                    },
+                    {
+                      "w": "。",
+                      "pos": "dấu câu"
+                    }
+                  ]
+                },
+                {
+                  "sp": "男",
+                  "g": "m",
+                  "jp": "3. 学校へ行きました。",
+                  "ro": "San. Gakkoo e ikimashita.",
+                  "vi": "3. Tôi đã đi đến trường.",
+                  "words": [
+                    {
+                      "w": "3",
+                      "ro": "san",
+                      "pos": "danh từ",
+                      "vi": "(lựa chọn) số 3"
                     },
                     {
                       "w": ". ",
@@ -3754,15 +3886,15 @@
                 {
                   "sp": "男",
                   "g": "m",
-                  "jp": "3. ねつがあったんです。",
-                  "ro": "San. Netsu ga atta n desu.",
-                  "vi": "3. Vì tôi bị sốt.",
+                  "jp": "4. ねつがあったんです。",
+                  "ro": "Yon. Netsu ga atta n desu.",
+                  "vi": "4. Vì tôi bị sốt.",
                   "words": [
                     {
-                      "w": "3",
-                      "ro": "san",
+                      "w": "4",
+                      "ro": "yon",
                       "pos": "danh từ",
-                      "vi": "(lựa chọn) số 3"
+                      "vi": "(lựa chọn) số 4"
                     },
                     {
                       "w": ". ",
@@ -3802,10 +3934,11 @@
               ],
               "choices": [
                 "来週、休みます。",
+                "十時におきました。",
                 "学校へ　行きました。",
                 "ねつが　あったんです。"
               ],
-              "answer": 2,
+              "answer": 3,
               "ex": {
                 "s": {
                   "jp": "ねつがあったんです。",
@@ -3843,13 +3976,19 @@
                     }
                   ]
                 },
-                "vi": "どうして…んですか là hỏi lý do, nên trả lời bằng lý do với …んです: ねつが あったんです (vì tôi bị sốt). 来週、休みます nói chuyện tương lai, không trả lời câu 'tại sao'. 学校へ 行きました mâu thuẫn với việc hôm qua đã nghỉ học.",
+                "vi": "どうして…んですか là hỏi lý do, nên trả lời bằng lý do với …んです: ねつが あったんです (vì tôi bị sốt) (4). 1 nói chuyện tương lai, không trả lời câu 'tại sao'. 3 mâu thuẫn với việc hôm qua đã nghỉ học. 「十時に おきました」chỉ nói giờ thức dậy, không nêu lý do nghỉ (2 sai).",
                 "choices": [
                   {
                     "jp": "来週、休みます。",
                     "r": "らいしゅう、やすみます。",
                     "ro": "Raishuu, yasumimasu.",
                     "vi": "Tuần sau tôi sẽ nghỉ."
+                  },
+                  {
+                    "jp": "十時におきました。",
+                    "r": "じゅうじにおきました。",
+                    "ro": "Juuji ni okimashita.",
+                    "vi": "Tôi đã dậy lúc 10 giờ."
                   },
                   {
                     "jp": "学校へ　行きました。",
