@@ -12,6 +12,8 @@ const { checkSentence, checkExtra } = await import("./check-library.mjs");
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1")), "..");
 const SRC = path.join(ROOT, "data", "exams");
 const OUT = path.join(ROOT, "public", "exams");
+// số câu chuẩn từng phần thi (đề đầy đủ phải khớp; đề rút gọn khai "mini": true trong meta)
+const EXPECT = { N5: [21, 22, 24], N4: [28, 29, 28], N3: [35, 39, 28] };
 const KINDS = ["jlpt", "kyu"], LEVELS = ["N1", "N2", "N3", "N4", "N5"], KYU = ["1級", "2級", "3級", "4級"];
 
 function checkExam(X) {
@@ -23,6 +25,11 @@ function checkExam(X) {
   const groups = new Set((X.scoring?.groups || (X.kind === "kyu" ? [{ id: "moji" }, { id: "choukai" }, { id: "dokkai" }] : X.level >= "N4" ? [{ id: "gengo" }, { id: "choukai" }] : [{ id: "gengo" }, { id: "dokkai" }, { id: "choukai" }])).map((g) => g.id));
   if (!Array.isArray(X.sections) || !X.sections.length) E.push(`thiếu "sections"`);
   const ids = new Set();
+  const exp = !X.mini && X.kind === "jlpt" && EXPECT[X.level];
+  if (exp && Array.isArray(X.sections)) {
+    const got = X.sections.map((S) => (S.parts || []).reduce((a, P) => a + (P.questions || []).length, 0));
+    if (got.length !== exp.length || got.some((n, i) => n !== exp[i])) E.push(`đề ${X.level} đầy đủ phải có ${exp.join(" / ")} câu theo từng phần thi (đang có ${got.join(" / ") || 0})`);
+  }
   (X.sections || []).forEach((S, si) => {
     const at = `sections[${si}]`;
     if (!S.jp) E.push(`${at}: thiếu "jp"`);
@@ -67,7 +74,7 @@ for (const f of entries) {
   try {
     if (f.endsWith(".json")) X = readJson(path.join(SRC, f));
     else {
-      const dir = path.join(SRC, f), secs = fs.readdirSync(dir).filter((x) => /^sd+.json$/.test(x)).sort((a, b) => parseInt(a.slice(1)) - parseInt(b.slice(1)));
+      const dir = path.join(SRC, f), secs = fs.readdirSync(dir).filter((x) => /^s\d+\.json$/.test(x)).sort((a, b) => parseInt(a.slice(1)) - parseInt(b.slice(1)));
       X = readJson(path.join(dir, "meta.json"));
       X.sections = secs.map((x) => readJson(path.join(dir, x)));
       if (!X.id) X.id = f;

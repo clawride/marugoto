@@ -83,7 +83,9 @@ function QuestionCard({ Q, qid, no, ans, onAnswer, locked, real, played, onPlaye
       </div>
       {!!Q.audio?.length || Q.audioUrl ? <Listen Q={Q} qid={qid} real={real} played={played} onPlayed={onPlayed} /> : null}
       {Q.img && <img src={Q.img} alt="" className="exqimg" />}
-      {Q.q && <p className="exqtext jpt"><QText t={Q.q} /></p>}
+      {Q.q && (Q.audio?.length && !Q.hideChoices && !done && !review
+        ? <p className="exqhid">🎧 Câu hỏi được đọc trong bài nghe (như thi thật) — sẽ hiện sau khi bạn trả lời.</p>
+        : <p className="exqtext jpt"><QText t={Q.q} /></p>)}
       <div className="exchoices">
         {Q.choices.map((c, i) => (
           <button key={i} disabled={done || locked}
