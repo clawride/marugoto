@@ -32,7 +32,7 @@ async function kuro() {
 const kuroRead = (w) => tokenizer ? wanakana.toHiragana(tokenizer.tokenize(w).map((t) => (t.reading && t.reading !== "*" ? t.reading : t.surface_form)).join("")) : null;
 
 // kiểm tra một câu; where = "grammar[1].ex[0]"…
-function checkSentence(s, where, E, W) {
+export function checkSentence(s, where, E, W) {
   if (!s || typeof s !== "object") return E.push(`${where}: không phải object`);
   for (const k of ["jp", "ro", "vi"]) if (!s[k] || typeof s[k] !== "string") E.push(`${where}: thiếu "${k}"`);
   if (/〇|○/.test(s.jp || "")) E.push(`${where}: câu có 〇〇 — chỉ dùng câu hoàn chỉnh`);

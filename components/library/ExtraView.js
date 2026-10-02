@@ -8,7 +8,7 @@ import { useLibJson, meaning } from "@/components/library/LessonView";
 import { bookById } from "@/lib/library";
 import { sfx } from "@/lib/sfx";
 
-function Block({ b }) {
+export function Block({ b }) {
   if (b.t === "text") return (
     <section className="panel lbsec">
       {b.h && <h2>{b.h}</h2>}

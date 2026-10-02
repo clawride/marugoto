@@ -8,8 +8,9 @@
     "build": "next build",
     "start": "next start",
     "notebook": "node scripts/build-notebook.mjs",
-    "prebuild": "node scripts/build-notebook.mjs && node scripts/build-library.mjs",
-    "library": "node scripts/build-library.mjs"
+    "prebuild": "node scripts/build-notebook.mjs && node scripts/build-library.mjs && node scripts/build-exams.mjs",
+    "library": "node scripts/build-library.mjs",
+    "exams": "node scripts/build-exams.mjs"
   },
   "dependencies": {
     "@google/genai": "^2.25.0",

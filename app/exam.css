@@ -1,0 +1,81 @@
+/* ===== 📝 Luyện đề thi (JLPT / 級) ===== */
+.exlist{display:grid;gap:8px}
+.exgroup+.exgroup{margin-top:14px}
+.exlvh{margin:6px 0;font-size:15px;letter-spacing:2px;color:var(--gold)}
+.excard{display:flex;align-items:center;gap:14px;padding:12px 14px;color:var(--cream2);transition:transform .15s}
+.excard:hover{transform:translateX(3px)}
+.excard>div{flex:1;min-width:0}
+.excard b{display:block;font-size:16px}
+.excard small{display:block;color:var(--gold);font-size:12px}
+.excard p{margin:3px 0;font-size:13px;color:var(--mute)}
+.excard em{font-style:normal;font-size:12px;color:var(--gold);white-space:nowrap}
+.exlv{flex:none;display:grid;place-items:center;width:48px;height:48px;border-radius:10px;background:rgba(220,80,90,.18);color:#ff9aa2;font-weight:800;font-size:17px}
+.exempty{text-align:center;color:var(--mute)}
+.exstart{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.extab td,.extab th{vertical-align:middle}
+.extab tr.bad td{color:#ff9b8f}
+.exbetween{text-align:center}
+/* thanh trên khi đang thi */
+.exbar-top{position:sticky;top:58px;z-index:6;display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:8px 12px;margin:12px 0 8px;border-radius:8px;background:rgba(11,15,34,.9);backdrop-filter:blur(6px);border:1px solid rgba(211,188,142,.35)}
+.exbar-top>div{flex:1;min-width:160px}
+.exbar-top b{display:block;color:var(--gold2)}
+.exbar-top small{color:var(--mute);font-size:12px}
+.exprog{font-size:13px;color:var(--gold)}
+.extimer{font-variant-numeric:tabular-nums;font-weight:700;color:var(--cream2);font-size:16px}
+.extimer.low{color:#ff8a7a;animation:exblink 1s infinite}
+@keyframes exblink{50%{opacity:.5}}
+.exview{position:static;margin:4px 0 10px}
+.expart{margin:18px 0}
+.exparth{display:flex;align-items:baseline;gap:10px;margin:0 0 6px;font-size:20px;color:var(--gold2)}
+.exparth small{font-size:14px;color:var(--gold)}
+.exinstr{margin:0 0 4px;font-size:16px;line-height:1.7;color:var(--cream2)}
+.exinstrvi{margin:0 0 10px;font-size:13px;color:var(--mute)}
+.expassage{padding:14px 16px;margin:10px 0}
+.expassage h4{margin:0 0 6px;color:var(--gold2)}
+.exptext{font-size:17px;line-height:2;white-space:normal}
+/* câu hỏi */
+.exq{padding:12px 14px;margin:10px 0;border-left:4px solid transparent}
+.exq.right{border-left-color:#5fae63}
+.exq.wrong{border-left-color:#d0605a}
+.exqhead{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.exqno{display:inline-grid;place-items:center;min-width:30px;height:30px;padding:0 6px;border-radius:8px;background:rgba(211,188,142,.18);color:var(--gold2);font-weight:700}
+.exok{color:#7fd39a}
+.exbad{color:#ff8a7a}
+.exqtext{margin:6px 0 10px;font-size:19px;line-height:1.9;color:#fff}
+.exqtext u{text-decoration-thickness:2px;text-underline-offset:4px}
+.exqimg{max-width:100%;max-height:320px;border-radius:8px;margin:6px 0;background:#fff}
+.exchimg{max-height:110px;border-radius:6px;background:#fff}
+.exchoices{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px}
+.exch{display:flex;align-items:center;gap:10px;text-align:left;padding:9px 12px;border-radius:8px;border:1px solid rgba(211,188,142,.4);background:rgba(255,255,255,.04);color:var(--cream2);font-size:17px;line-height:1.5}
+.exch:not(:disabled):hover{background:rgba(211,188,142,.14);border-color:var(--gold)}
+.exch:disabled{cursor:default}
+.exch.ok{background:rgba(95,174,99,.25);border-color:#5fae63;color:#fff}
+.exch.bad{background:rgba(208,96,90,.25);border-color:#d0605a;color:#fff}
+.exchn{flex:none;display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;border:1px solid currentColor;font-size:13px;font-family:var(--serif)}
+.exhid{color:var(--mute);font-size:14px}
+.exlisten{margin:4px 0 8px;padding:8px 16px;border-radius:99px;border:1px solid #8fb5e8;background:rgba(143,181,232,.15);color:#cfe0ff;font-size:15px}
+.exlisten.on{background:#8fb5e8;color:#0b0f22}
+.exlisten:disabled{opacity:.55;cursor:default}
+/* lời giải */
+.exex{margin-top:10px;padding-top:8px;border-top:1px dashed rgba(211,188,142,.3)}
+.exex h5{margin:8px 0 2px;font-size:13px;letter-spacing:1px;color:var(--mute);text-transform:uppercase}
+.exvi{margin:8px 0;font-size:15px;line-height:1.65}
+.exsent,.exscript{margin-top:4px}
+.exscript p{margin:4px 0}
+.exchtab{width:100%;border-collapse:collapse;margin-top:8px;font-size:14px}
+.exchtab td{padding:5px 6px;border-top:1px solid rgba(211,188,142,.15);vertical-align:top}
+.exchtab tr.ok td{background:rgba(95,174,99,.14)}
+.exchtab td:first-child{width:24px;color:var(--gold)}
+/* kết quả */
+.expass{color:#7fd39a!important}
+.exfail{color:#ff9b8f!important}
+.exresgrid{display:grid;grid-template-columns:minmax(200px,260px) 1fr;gap:14px;margin:14px 0}
+.excefr{padding:16px;text-align:center;display:flex;flex-direction:column;justify-content:center}
+.excefr small{color:var(--mute);font-size:12px;letter-spacing:1px}
+.excefr b{font-size:56px;line-height:1.1;color:var(--gold2);margin:6px 0}
+.excefr p{margin:0;font-size:13px}
+.exbar{margin:0;min-width:80px}
+.exrevwhere{margin:14px 0 0;font-size:13px;color:var(--gold)}
+@media(max-width:640px){.exresgrid{grid-template-columns:1fr}.exbar-top{position:static}.exchoices{grid-template-columns:1fr}}
+.exold{font-size:14px;color:var(--gold)}
+.exrev .lbextra p{margin:4px 0 0;font-size:13px;color:var(--mute);line-height:1.5}
