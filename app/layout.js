@@ -11,6 +11,7 @@ import "./kana.css";
 import "./kanji.css";
 import "./vn.css";
 import "./book.css";
+import "./library.css";
 import "./plain.auto.css";
 import "./plain.css";
 import "./motion.css";

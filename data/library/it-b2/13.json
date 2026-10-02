@@ -1,0 +1,743 @@
+{
+  "n": 13,
+  "scene": "Đội phát triển ở Việt Nam đã bàn giao sản phẩm cho khách hàng. Sau đó hai bên họp online: phía DKH lần lượt trình bày những chức năng đã giao và nội dung release note. Cuối buổi, hai bên trao đổi về các hạn chế còn tồn tại (đã được thông báo từ lúc báo giá) và kế hoạch cho giai đoạn tiếp theo.",
+  "people": [
+    { "name": "小巻", "ro": "Komaki", "role": "PM phía khách hàng (công ty SES, Nhật)" },
+    { "name": "山本", "ro": "Yamamoto", "role": "Nhân viên IT của SES, năm thứ 3" },
+    { "name": "アン", "ro": "An", "role": "PM phía DKH (Việt Nam), người trình bày release note" },
+    { "name": "リー", "ro": "Rii", "role": "SE của DKH làm việc onsite tại Nhật" }
+  ],
+  "goals": [
+    "Giải thích nội dung bàn giao và release note theo trình tự, lịch sự.",
+    "Nói rõ giới hạn của hệ thống (tối đa bao nhiêu) và nguyên nhân của một hiện tượng.",
+    "Xin phép trả lời/gửi tài liệu sau khi chưa thể đáp ngay trong buổi họp.",
+    "Nêu một yêu cầu nhỏ với đối phương một cách khéo léo."
+  ],
+  "grammar": [
+    {
+      "no": 1,
+      "p": "1点だけお願いですが、〇〇。",
+      "ro": "Itten dake onegai desu ga, 〇〇.",
+      "vi": "Chỉ có một việc muốn nhờ: 〇〇.",
+      "form": "1点だけお願いですが、+ câu nhờ vả lịch sự (〜ていただけますか／〜ていただけないでしょうか／〜をお願いできますか)",
+      "use": "Dùng khi muốn nêu một yêu cầu nhỏ, cụ thể, thường ở cuối buổi họp hoặc sau khi đối phương trình bày xong. Báo trước \"chỉ một điểm thôi\" giúp người nghe không thấy bị làm phiền.",
+      "notes": [
+        "1点 đọc là いってん, nghĩa là \"một điểm, một việc\". Nếu có hai việc thì nói 2点 (にてん) お願いがあるのですが.",
+        "Sau ですが nên là câu nhờ lịch sự; với khách hàng tránh dùng てください trống không. Trang trọng hơn: 1点だけお願いがございます。",
+        "Mẫu tương tự: 1点だけ確認ですが、〜 (chỉ muốn xác nhận một điểm)."
+      ],
+      "ex": [
+        {
+          "jp": "1点だけお願いですが、検証用のアカウントを明日までにご用意いただけないでしょうか。",
+          "ro": "Itten dake onegai desu ga, kenshooyoo no akaunto o ashita made ni goyooi itadakenai deshoo ka.",
+          "vi": "Chỉ có một việc muốn nhờ: quý công ty có thể chuẩn bị giúp tài khoản dùng để kiểm tra trước ngày mai được không ạ?",
+          "pt": "Mở đầu bằng 1点だけお願いですが để báo trước, rồi nhờ bằng ご〜いただけないでしょうか — cách nhờ rất lịch sự (khiêm nhường ngữ + phủ định + でしょうか).",
+          "words": [
+            { "w": "1点", "r": "いってん", "ro": "itten", "pos": "danh từ", "vi": "một điểm, một việc" },
+            { "w": "だけ", "ro": "dake", "pos": "trợ từ", "vi": "chỉ" },
+            { "w": "お願い", "r": "おねがい", "ro": "onegai", "pos": "danh từ", "vi": "lời nhờ, yêu cầu" },
+            { "w": "です", "ro": "desu", "pos": "trợ động từ", "vi": "là (lịch sự 丁寧語)" },
+            { "w": "が", "ro": "ga", "pos": "trợ từ", "vi": "nhưng, mở đầu cho ý chính" },
+            { "w": "、", "pos": "dấu câu" },
+            { "w": "検証用", "r": "けんしょうよう", "ro": "kenshooyoo", "pos": "danh từ", "vi": "dùng để kiểm tra, xác minh" },
+            { "w": "の", "ro": "no", "pos": "trợ từ", "vi": "của, nối danh từ" },
+            { "w": "アカウント", "ro": "akaunto", "pos": "danh từ", "vi": "tài khoản (account)" },
+            { "w": "を", "ro": "o", "pos": "trợ từ", "vi": "chỉ đối tượng" },
+            { "w": "明日", "r": "あした", "ro": "ashita", "pos": "danh từ", "vi": "ngày mai" },
+            { "w": "までに", "ro": "made ni", "pos": "trợ từ", "vi": "trước (hạn chót)" },
+            { "w": "ご用意", "r": "ごようい", "ro": "goyooi", "pos": "danh từ", "vi": "việc chuẩn bị (có ご tôn trọng)" },
+            { "w": "いただけない", "ro": "itadakenai", "pos": "động từ", "base": "いただく", "vi": "không thể nhận được (khiêm nhường ngữ 謙譲語 của もらう, thể khả năng phủ định)" },
+            { "w": "でしょうか", "ro": "deshoo ka", "pos": "trợ động từ", "vi": "…được không ạ? (hỏi lịch sự)" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        },
+        {
+          "jp": "1点だけお願いですが、リリースノートに画面のキャプチャも追加していただけますか。",
+          "ro": "Itten dake onegai desu ga, ririisu nooto ni gamen no kyapucha mo tsuika shite itadakemasu ka.",
+          "vi": "Chỉ có một việc muốn nhờ: anh/chị có thể thêm cả ảnh chụp màn hình vào release note được không?",
+          "pt": "Phía khách nhờ đội phát triển. 〜ていただけますか là cách nhờ lịch sự thông dụng nhất trong công việc.",
+          "words": [
+            { "w": "1点", "r": "いってん", "ro": "itten", "pos": "danh từ", "vi": "một điểm, một việc" },
+            { "w": "だけ", "ro": "dake", "pos": "trợ từ", "vi": "chỉ" },
+            { "w": "お願い", "r": "おねがい", "ro": "onegai", "pos": "danh từ", "vi": "lời nhờ" },
+            { "w": "です", "ro": "desu", "pos": "trợ động từ", "vi": "là (lịch sự)" },
+            { "w": "が", "ro": "ga", "pos": "trợ từ", "vi": "nhưng, mở đầu ý chính" },
+            { "w": "、", "pos": "dấu câu" },
+            { "w": "リリースノート", "ro": "ririisu nooto", "pos": "danh từ", "vi": "ghi chú phát hành (release note)" },
+            { "w": "に", "ro": "ni", "pos": "trợ từ", "vi": "vào (chỗ thêm vào)" },
+            { "w": "画面", "r": "がめん", "ro": "gamen", "pos": "danh từ", "vi": "màn hình" },
+            { "w": "の", "ro": "no", "pos": "trợ từ", "vi": "của" },
+            { "w": "キャプチャ", "ro": "kyapucha", "pos": "danh từ", "vi": "ảnh chụp màn hình (capture)" },
+            { "w": "も", "ro": "mo", "pos": "trợ từ", "vi": "cũng, cả" },
+            { "w": "追加", "r": "ついか", "ro": "tsuika", "pos": "danh từ", "vi": "thêm vào" },
+            { "w": "して", "ro": "shite", "pos": "động từ", "base": "する", "vi": "làm (thể て)" },
+            { "w": "いただけます", "ro": "itadakemasu", "pos": "động từ", "base": "いただく", "vi": "có thể nhận được (khiêm nhường ngữ 謙譲語 của もらう, thể khả năng)" },
+            { "w": "か", "ro": "ka", "pos": "trợ từ", "vi": "câu hỏi" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        }
+      ]
+    },
+    {
+      "no": 2,
+      "p": "ご要望に応じて、〇〇ています。",
+      "ro": "Goyooboo ni oojite, 〇〇 te imasu.",
+      "vi": "Theo yêu cầu của quý vị, chúng tôi đã 〇〇 (và hiện đang ở trạng thái đó).",
+      "form": "ご要望に応じて、+ động từ thể て + います／おります",
+      "use": "Dùng khi báo cáo rằng một chức năng hay một điểm sửa đã được làm theo yêu cầu của khách. 〜ています ở đây chỉ kết quả còn lưu lại: \"đã làm xong và hiện đang như vậy\".",
+      "notes": [
+        "要望 (ようぼう) là mong muốn, yêu cầu; thêm ご để tôn trọng yêu cầu của khách. に応じて = đáp ứng theo, tùy theo.",
+        "Trang trọng hơn: 〜ております. Có thể thay bằng ご指摘に応じて (theo góp ý của quý vị).",
+        "Khác với 〜ようにしています mang nghĩa \"cố gắng làm thường xuyên\"; ở mẫu này là kết quả đã thực hiện."
+      ],
+      "ex": [
+        {
+          "jp": "ご要望に応じて、予約一覧をCSV形式で出力できるようにしています。",
+          "ro": "Goyooboo ni oojite, yoyaku ichiran o CSV keishiki de shutsuryoku dekiru yoo ni shite imasu.",
+          "vi": "Theo yêu cầu của quý vị, chúng tôi đã làm cho danh sách lịch hẹn có thể xuất ra dạng CSV.",
+          "pt": "〜できるようにしています: đã sửa để hệ thống \"có thể\" làm việc gì đó. Câu báo cáo kết quả, ngắn gọn và lịch sự.",
+          "words": [
+            { "w": "ご要望", "r": "ごようぼう", "ro": "goyooboo", "pos": "danh từ", "vi": "yêu cầu, mong muốn (của quý vị)" },
+            { "w": "に", "ro": "ni", "pos": "trợ từ", "vi": "chỉ đối tượng đáp ứng" },
+            { "w": "応じて", "r": "おうじて", "ro": "oojite", "pos": "động từ", "base": "応じる", "vi": "đáp ứng theo" },
+            { "w": "、", "pos": "dấu câu" },
+            { "w": "予約", "r": "よやく", "ro": "yoyaku", "pos": "danh từ", "vi": "lịch hẹn, đặt chỗ" },
+            { "w": "一覧", "r": "いちらん", "ro": "ichiran", "pos": "danh từ", "vi": "danh sách" },
+            { "w": "を", "ro": "o", "pos": "trợ từ", "vi": "chỉ đối tượng" },
+            { "w": "CSV", "ro": "CSV", "pos": "danh từ", "vi": "định dạng CSV" },
+            { "w": "形式", "r": "けいしき", "ro": "keishiki", "pos": "danh từ", "vi": "dạng, định dạng" },
+            { "w": "で", "ro": "de", "pos": "trợ từ", "vi": "bằng (cách thức)" },
+            { "w": "出力", "r": "しゅつりょく", "ro": "shutsuryoku", "pos": "danh từ", "vi": "xuất ra (output)" },
+            { "w": "できる", "ro": "dekiru", "pos": "động từ", "vi": "có thể" },
+            { "w": "ように", "ro": "yoo ni", "pos": "cụm cố định", "vi": "sao cho, để" },
+            { "w": "して", "ro": "shite", "pos": "động từ", "base": "する", "vi": "làm (thể て)" },
+            { "w": "います", "ro": "imasu", "pos": "động từ", "base": "いる", "vi": "đang ở trạng thái (kết quả)" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        },
+        {
+          "jp": "ご要望に応じて、通知メールの文面を日本語と英語の2種類用意しています。",
+          "ro": "Goyooboo ni oojite, tsuuchi meeru no bunmen o nihongo to eigo no nishurui yooi shite imasu.",
+          "vi": "Theo yêu cầu của quý vị, chúng tôi đã chuẩn bị nội dung email thông báo bằng 2 thứ tiếng: tiếng Nhật và tiếng Anh.",
+          "pt": "用意しています: đã chuẩn bị sẵn và hiện có. Dùng ご要望に応じて để nhấn mạnh đây là phần làm theo yêu cầu của khách.",
+          "words": [
+            { "w": "ご要望", "r": "ごようぼう", "ro": "goyooboo", "pos": "danh từ", "vi": "yêu cầu (của quý vị)" },
+            { "w": "に", "ro": "ni", "pos": "trợ từ", "vi": "chỉ đối tượng đáp ứng" },
+            { "w": "応じて", "r": "おうじて", "ro": "oojite", "pos": "động từ", "base": "応じる", "vi": "đáp ứng theo" },
+            { "w": "、", "pos": "dấu câu" },
+            { "w": "通知", "r": "つうち", "ro": "tsuuchi", "pos": "danh từ", "vi": "thông báo" },
+            { "w": "メール", "ro": "meeru", "pos": "danh từ", "vi": "email" },
+            { "w": "の", "ro": "no", "pos": "trợ từ", "vi": "của" },
+            { "w": "文面", "r": "ぶんめん", "ro": "bunmen", "pos": "danh từ", "vi": "nội dung câu chữ" },
+            { "w": "を", "ro": "o", "pos": "trợ từ", "vi": "chỉ đối tượng" },
+            { "w": "日本語", "r": "にほんご", "ro": "nihongo", "pos": "danh từ", "vi": "tiếng Nhật" },
+            { "w": "と", "ro": "to", "pos": "trợ từ", "vi": "và" },
+            { "w": "英語", "r": "えいご", "ro": "eigo", "pos": "danh từ", "vi": "tiếng Anh" },
+            { "w": "の", "ro": "no", "pos": "trợ từ", "vi": "gồm, là" },
+            { "w": "2種類", "r": "にしゅるい", "ro": "nishurui", "pos": "danh từ", "vi": "2 loại" },
+            { "w": "用意", "r": "ようい", "ro": "yooi", "pos": "danh từ", "vi": "chuẩn bị" },
+            { "w": "して", "ro": "shite", "pos": "động từ", "base": "する", "vi": "làm (thể て)" },
+            { "w": "います", "ro": "imasu", "pos": "động từ", "base": "いる", "vi": "đang ở trạng thái (kết quả)" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        }
+      ]
+    },
+    {
+      "no": 3,
+      "p": "〇〇ので、後ほど〇〇させてください。",
+      "ro": "〇〇 node, nochihodo 〇〇 sasete kudasai.",
+      "vi": "Vì 〇〇 nên xin cho phép tôi 〇〇 sau ạ.",
+      "form": "Câu nêu lý do (thể thường／です・ます) + ので、後ほど + danh động từ + させてください",
+      "use": "Dùng khi chưa thể trả lời hoặc xử lý ngay trong buổi họp, xin phép làm việc đó sau. Vừa nêu lý do vừa hứa rõ sẽ làm, nên tạo cảm giác có trách nhiệm.",
+      "notes": [
+        "後ほど (のちほど) lịch sự hơn あとで, rất hay dùng với khách hàng.",
+        "させてください = \"xin cho phép tôi làm\". Mềm hơn: させていただけますか; chắc chắn hơn: させていただきます.",
+        "Nên nói kèm cách liên lạc cụ thể: メールで, チャットで, 次回の定例会で."
+      ],
+      "ex": [
+        {
+          "jp": "手順の詳細は資料にまとめてありますので、後ほどメールで送付させてください。",
+          "ro": "Tejun no shoosai wa shiryoo ni matomete arimasu node, nochihodo meeru de soofu sasete kudasai.",
+          "vi": "Chi tiết các bước đã được tổng hợp sẵn trong tài liệu, nên xin phép tôi gửi qua email sau ạ.",
+          "pt": "まとめてあります: đã tổng hợp sẵn (trạng thái do có người chuẩn bị). Vế sau 後ほど〜させてください xin phép gửi sau.",
+          "words": [
+            { "w": "手順", "r": "てじゅん", "ro": "tejun", "pos": "danh từ", "vi": "các bước, quy trình" },
+            { "w": "の", "ro": "no", "pos": "trợ từ", "vi": "của" },
+            { "w": "詳細", "r": "しょうさい", "ro": "shoosai", "pos": "danh từ", "vi": "chi tiết" },
+            { "w": "は", "ro": "wa", "pos": "trợ từ", "vi": "đánh dấu chủ đề" },
+            { "w": "資料", "r": "しりょう", "ro": "shiryoo", "pos": "danh từ", "vi": "tài liệu" },
+            { "w": "に", "ro": "ni", "pos": "trợ từ", "vi": "vào (chỗ)" },
+            { "w": "まとめて", "ro": "matomete", "pos": "động từ", "base": "まとめる", "vi": "tổng hợp (thể て)" },
+            { "w": "あります", "ro": "arimasu", "pos": "động từ", "base": "ある", "vi": "đã được làm sẵn (〜てある)" },
+            { "w": "ので", "ro": "node", "pos": "trợ từ", "vi": "vì, nên" },
+            { "w": "、", "pos": "dấu câu" },
+            { "w": "後ほど", "r": "のちほど", "ro": "nochihodo", "pos": "phó từ", "vi": "lát nữa, sau (lịch sự)" },
+            { "w": "メール", "ro": "meeru", "pos": "danh từ", "vi": "email" },
+            { "w": "で", "ro": "de", "pos": "trợ từ", "vi": "bằng (phương tiện)" },
+            { "w": "送付", "r": "そうふ", "ro": "soofu", "pos": "danh từ", "vi": "gửi (tài liệu)" },
+            { "w": "させて", "ro": "sasete", "pos": "động từ", "base": "させる", "vi": "cho phép làm (thể sai khiến của する)" },
+            { "w": "ください", "ro": "kudasai", "pos": "động từ", "base": "くださる", "vi": "xin hãy" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        },
+        {
+          "jp": "その件は開発チームへの確認が必要ですので、後ほど回答させてください。",
+          "ro": "Sono ken wa kaihatsu chiimu e no kakunin ga hitsuyoo desu node, nochihodo kaitoo sasete kudasai.",
+          "vi": "Việc đó cần xác nhận với đội phát triển, nên xin phép tôi trả lời sau ạ.",
+          "pt": "Dùng khi bị hỏi điều chưa chắc chắn: không trả lời bừa mà nêu lý do (cần xác nhận) rồi hẹn trả lời sau.",
+          "words": [
+            { "w": "その", "ro": "sono", "pos": "đại từ", "vi": "đó" },
+            { "w": "件", "r": "けん", "ro": "ken", "pos": "danh từ", "vi": "việc, vấn đề" },
+            { "w": "は", "ro": "wa", "pos": "trợ từ", "vi": "đánh dấu chủ đề" },
+            { "w": "開発", "r": "かいはつ", "ro": "kaihatsu", "pos": "danh từ", "vi": "phát triển" },
+            { "w": "チーム", "ro": "chiimu", "pos": "danh từ", "vi": "đội, nhóm" },
+            { "w": "へ", "ro": "e", "pos": "trợ từ", "vi": "tới (hướng)" },
+            { "w": "の", "ro": "no", "pos": "trợ từ", "vi": "nối danh từ" },
+            { "w": "確認", "r": "かくにん", "ro": "kakunin", "pos": "danh từ", "vi": "xác nhận" },
+            { "w": "が", "ro": "ga", "pos": "trợ từ", "vi": "chỉ chủ ngữ" },
+            { "w": "必要", "r": "ひつよう", "ro": "hitsuyoo", "pos": "tính từ な", "vi": "cần thiết" },
+            { "w": "です", "ro": "desu", "pos": "trợ động từ", "vi": "là (lịch sự)" },
+            { "w": "ので", "ro": "node", "pos": "trợ từ", "vi": "vì, nên" },
+            { "w": "、", "pos": "dấu câu" },
+            { "w": "後ほど", "r": "のちほど", "ro": "nochihodo", "pos": "phó từ", "vi": "lát nữa, sau (lịch sự)" },
+            { "w": "回答", "r": "かいとう", "ro": "kaitoo", "pos": "danh từ", "vi": "trả lời" },
+            { "w": "させて", "ro": "sasete", "pos": "động từ", "base": "させる", "vi": "cho phép làm" },
+            { "w": "ください", "ro": "kudasai", "pos": "động từ", "base": "くださる", "vi": "xin hãy" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        }
+      ]
+    },
+    {
+      "no": 4,
+      "p": "〇〇できる〇〇は、〇〇までです。",
+      "ro": "〇〇 dekiru 〇〇 wa, 〇〇 made desu.",
+      "vi": "〇〇 có thể … tối đa là 〇〇.",
+      "form": "Động từ thể khả năng (〜できる／〜られる／〜える) + danh từ + は + số lượng／mốc + までです",
+      "use": "Dùng để nói rõ giới hạn tối đa (số lượng, dung lượng, thời gian…) của hệ thống, đặc biệt khi giải thích các hạn chế (制限事項) trong release note hay tài liệu hướng dẫn.",
+      "notes": [
+        "まで là giới hạn trên và bao gồm cả con số đó: 3件まで = tối đa 3 (3 vẫn được).",
+        "Cách nói mềm, trang trọng hơn: 〜までとなっております。 Muốn nhấn mạnh \"tối đa\": 最大〜まで.",
+        "Thể khả năng: 登録する→登録できる, 開く→開ける, 見る→見られる."
+      ],
+      "ex": [
+        {
+          "jp": "一度にアップロードできるファイルは、10MBまでです。",
+          "ro": "Ichido ni appuroodo dekiru fairu wa, juu megabaito made desu.",
+          "vi": "File có thể tải lên trong một lần tối đa là 10MB.",
+          "pt": "アップロードできる bổ nghĩa cho ファイル; は đưa ra chủ đề, 〜までです nói giới hạn trên.",
+          "words": [
+            { "w": "一度", "r": "いちど", "ro": "ichido", "pos": "danh từ", "vi": "một lần" },
+            { "w": "に", "ro": "ni", "pos": "trợ từ", "vi": "trong (mỗi lần)" },
+            { "w": "アップロード", "ro": "appuroodo", "pos": "danh từ", "vi": "tải lên (upload)" },
+            { "w": "できる", "ro": "dekiru", "pos": "động từ", "vi": "có thể" },
+            { "w": "ファイル", "ro": "fairu", "pos": "danh từ", "vi": "tệp, file" },
+            { "w": "は", "ro": "wa", "pos": "trợ từ", "vi": "đánh dấu chủ đề" },
+            { "w": "、", "pos": "dấu câu" },
+            { "w": "10MB", "ro": "juu megabaito", "pos": "danh từ", "vi": "10 megabyte" },
+            { "w": "まで", "ro": "made", "pos": "trợ từ", "vi": "đến (giới hạn tối đa)" },
+            { "w": "です", "ro": "desu", "pos": "trợ động từ", "vi": "là (lịch sự)" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        },
+        {
+          "jp": "同時にログインできる人数は、50人までです。",
+          "ro": "Dooji ni roguin dekiru ninzuu wa, gojuunin made desu.",
+          "vi": "Số người có thể đăng nhập cùng lúc tối đa là 50 người.",
+          "pt": "Câu giải thích giới hạn của bản dùng thử hoặc gói hợp đồng. Thay です bằng となっております nếu muốn trang trọng hơn.",
+          "words": [
+            { "w": "同時", "r": "どうじ", "ro": "dooji", "pos": "danh từ", "vi": "cùng lúc" },
+            { "w": "に", "ro": "ni", "pos": "trợ từ", "vi": "biến danh từ thành trạng từ" },
+            { "w": "ログイン", "ro": "roguin", "pos": "danh từ", "vi": "đăng nhập (login)" },
+            { "w": "できる", "ro": "dekiru", "pos": "động từ", "vi": "có thể" },
+            { "w": "人数", "r": "にんずう", "ro": "ninzuu", "pos": "danh từ", "vi": "số người" },
+            { "w": "は", "ro": "wa", "pos": "trợ từ", "vi": "đánh dấu chủ đề" },
+            { "w": "、", "pos": "dấu câu" },
+            { "w": "50人", "r": "ごじゅうにん", "ro": "gojuunin", "pos": "danh từ", "vi": "50 người" },
+            { "w": "まで", "ro": "made", "pos": "trợ từ", "vi": "đến (giới hạn tối đa)" },
+            { "w": "です", "ro": "desu", "pos": "trợ động từ", "vi": "là (lịch sự)" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        }
+      ]
+    },
+    {
+      "no": 5,
+      "p": "〇〇によるものです。",
+      "ro": "〇〇 ni yoru mono desu.",
+      "vi": "(Điều đó) là do 〇〇.",
+      "form": "Danh từ chỉ nguyên nhân + によるものです；câu thể thường + こと + によるものです",
+      "use": "Dùng khi giải thích nguyên nhân của một hiện tượng hay một lỗi một cách khách quan, trang trọng. Hay gặp trong báo cáo, release note và khi trả lời câu hỏi của khách.",
+      "notes": [
+        "Thường đi cùng cấu trúc 〜のは、〜によるものです (Việc ~ là do ~).",
+        "Khi chưa chắc chắn: 〜によるものと考えられます／〜によるものと思われます.",
+        "Nếu nguyên nhân là lỗi của phía mình, nên kèm lời xin lỗi (申し訳ございません) để không bị hiểu là đổ lỗi."
+      ],
+      "ex": [
+        {
+          "jp": "画面の表示が遅いのは、テスト環境の回線速度によるものです。",
+          "ro": "Gamen no hyooji ga osoi no wa, tesuto kankyoo no kaisen sokudo ni yoru mono desu.",
+          "vi": "Việc màn hình hiển thị chậm là do tốc độ đường truyền của môi trường kiểm thử.",
+          "pt": "〜のは biến vế trước thành chủ đề (\"việc ~\"), vế sau 〜によるものです nêu nguyên nhân.",
+          "words": [
+            { "w": "画面", "r": "がめん", "ro": "gamen", "pos": "danh từ", "vi": "màn hình" },
+            { "w": "の", "ro": "no", "pos": "trợ từ", "vi": "của" },
+            { "w": "表示", "r": "ひょうじ", "ro": "hyooji", "pos": "danh từ", "vi": "hiển thị" },
+            { "w": "が", "ro": "ga", "pos": "trợ từ", "vi": "chỉ chủ ngữ" },
+            { "w": "遅い", "r": "おそい", "ro": "osoi", "pos": "tính từ い", "vi": "chậm" },
+            { "w": "の", "ro": "no", "pos": "trợ từ", "vi": "danh từ hóa (việc ~)" },
+            { "w": "は", "ro": "wa", "pos": "trợ từ", "vi": "đánh dấu chủ đề" },
+            { "w": "、", "pos": "dấu câu" },
+            { "w": "テスト", "ro": "tesuto", "pos": "danh từ", "vi": "kiểm thử (test)" },
+            { "w": "環境", "r": "かんきょう", "ro": "kankyoo", "pos": "danh từ", "vi": "môi trường" },
+            { "w": "の", "ro": "no", "pos": "trợ từ", "vi": "của" },
+            { "w": "回線", "r": "かいせん", "ro": "kaisen", "pos": "danh từ", "vi": "đường truyền mạng" },
+            { "w": "速度", "r": "そくど", "ro": "sokudo", "pos": "danh từ", "vi": "tốc độ" },
+            { "w": "による", "ro": "ni yoru", "pos": "cụm cố định", "vi": "do, bởi" },
+            { "w": "もの", "ro": "mono", "pos": "danh từ", "vi": "điều, cái (danh từ hình thức)" },
+            { "w": "です", "ro": "desu", "pos": "trợ động từ", "vi": "là (lịch sự)" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        },
+        {
+          "jp": "動作が重くなるのは、推奨スペックを満たしていない端末を使用していることによるものです。",
+          "ro": "Doosa ga omoku naru no wa, suishoo supekku o mitashite inai tanmatsu o shiyoo shite iru koto ni yoru mono desu.",
+          "vi": "Việc hệ thống chạy nặng (chậm) là do đang dùng thiết bị không đáp ứng cấu hình khuyến nghị.",
+          "pt": "Khi nguyên nhân là cả một câu thì thêm こと trước によるものです. Câu trình bày khách quan, không trách người dùng.",
+          "words": [
+            { "w": "動作", "r": "どうさ", "ro": "doosa", "pos": "danh từ", "vi": "sự vận hành, hoạt động" },
+            { "w": "が", "ro": "ga", "pos": "trợ từ", "vi": "chỉ chủ ngữ" },
+            { "w": "重く", "r": "おもく", "ro": "omoku", "pos": "tính từ い", "base": "重い", "vi": "nặng, chậm (dạng く)" },
+            { "w": "なる", "ro": "naru", "pos": "động từ", "vi": "trở nên" },
+            { "w": "の", "ro": "no", "pos": "trợ từ", "vi": "danh từ hóa (việc ~)" },
+            { "w": "は", "ro": "wa", "pos": "trợ từ", "vi": "đánh dấu chủ đề" },
+            { "w": "、", "pos": "dấu câu" },
+            { "w": "推奨", "r": "すいしょう", "ro": "suishoo", "pos": "danh từ", "vi": "khuyến nghị" },
+            { "w": "スペック", "ro": "supekku", "pos": "danh từ", "vi": "cấu hình (spec)" },
+            { "w": "を", "ro": "o", "pos": "trợ từ", "vi": "chỉ đối tượng" },
+            { "w": "満たして", "r": "みたして", "ro": "mitashite", "pos": "động từ", "base": "満たす", "vi": "đáp ứng, thỏa mãn (thể て)" },
+            { "w": "いない", "ro": "inai", "pos": "động từ", "base": "いる", "vi": "không (đang ở trạng thái)" },
+            { "w": "端末", "r": "たんまつ", "ro": "tanmatsu", "pos": "danh từ", "vi": "thiết bị đầu cuối (máy tính, điện thoại…)" },
+            { "w": "を", "ro": "o", "pos": "trợ từ", "vi": "chỉ đối tượng" },
+            { "w": "使用", "r": "しよう", "ro": "shiyoo", "pos": "danh từ", "vi": "sử dụng" },
+            { "w": "して", "ro": "shite", "pos": "động từ", "base": "する", "vi": "làm (thể て)" },
+            { "w": "いる", "ro": "iru", "pos": "động từ", "vi": "đang" },
+            { "w": "こと", "ro": "koto", "pos": "danh từ", "vi": "việc (danh từ hóa)" },
+            { "w": "による", "ro": "ni yoru", "pos": "cụm cố định", "vi": "do, bởi" },
+            { "w": "もの", "ro": "mono", "pos": "danh từ", "vi": "điều (danh từ hình thức)" },
+            { "w": "です", "ro": "desu", "pos": "trợ động từ", "vi": "là (lịch sự)" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        }
+      ]
+    }
+  ],
+  "dialog": {
+    "title": "Giải thích release note của app đặt lịch khám",
+    "setting": "Họp online sau khi bàn giao app đặt lịch khám bệnh: ナム (PM phía Việt Nam) trình bày, 田中 (PM phía khách hàng, phòng khám さくらクリニック) nghe và hỏi.",
+    "lines": [
+      {
+        "sp": "ナム",
+        "jp": "昨日、納品物一式をお送りしましたので、本日はリリースノートに沿ってご説明いたします。",
+        "ro": "Sakujitsu, noohinbutsu isshiki o ookuri shimashita node, honjitsu wa ririisu nooto ni sotte gosetsumei itashimasu.",
+        "vi": "Hôm qua chúng tôi đã gửi trọn bộ sản phẩm bàn giao, nên hôm nay tôi xin giải thích theo release note.",
+        "pt": "昨日 đọc trang trọng là さくじつ. お送りしました và ご説明いたします là khiêm nhường ngữ, nói về hành động của phía mình.",
+        "words": [
+          { "w": "昨日", "r": "さくじつ", "ro": "sakujitsu", "pos": "danh từ", "vi": "hôm qua (cách đọc trang trọng)" },
+          { "w": "、", "pos": "dấu câu" },
+          { "w": "納品物", "r": "のうひんぶつ", "ro": "noohinbutsu", "pos": "danh từ", "vi": "sản phẩm bàn giao" },
+          { "w": "一式", "r": "いっしき", "ro": "isshiki", "pos": "danh từ", "vi": "trọn bộ" },
+          { "w": "を", "ro": "o", "pos": "trợ từ", "vi": "chỉ đối tượng" },
+          { "w": "お送りしました", "r": "おおくりしました", "ro": "ookuri shimashita", "pos": "động từ", "base": "お送りする", "vi": "đã gửi (khiêm nhường ngữ 謙譲語 của 送る)" },
+          { "w": "ので", "ro": "node", "pos": "trợ từ", "vi": "vì, nên" },
+          { "w": "、", "pos": "dấu câu" },
+          { "w": "本日", "r": "ほんじつ", "ro": "honjitsu", "pos": "danh từ", "vi": "hôm nay (trang trọng)" },
+          { "w": "は", "ro": "wa", "pos": "trợ từ", "vi": "đánh dấu chủ đề" },
+          { "w": "リリースノート", "ro": "ririisu nooto", "pos": "danh từ", "vi": "ghi chú phát hành (release note)" },
+          { "w": "に沿って", "r": "にそって", "ro": "ni sotte", "pos": "cụm cố định", "base": "に沿う", "vi": "theo, bám theo" },
+          { "w": "ご説明", "r": "ごせつめい", "ro": "gosetsumei", "pos": "danh từ", "vi": "sự giải thích (dạng khiêm nhường ご〜)" },
+          { "w": "いたします", "ro": "itashimasu", "pos": "động từ", "base": "いたす", "vi": "làm (khiêm nhường ngữ 謙譲語 của する)" },
+          { "w": "。", "pos": "dấu câu" }
+        ]
+      },
+      {
+        "sp": "ナム",
+        "jp": "ご要望に応じて、予約画面にキャンセル待ちの機能を追加しています。",
+        "ro": "Goyooboo ni oojite, yoyaku gamen ni kyanseru machi no kinoo o tsuika shite imasu.",
+        "vi": "Theo yêu cầu của quý vị, chúng tôi đã thêm chức năng \"đăng ký chờ khi có người hủy lịch\" vào màn hình đặt lịch.",
+        "pt": "Mẫu ②: báo cáo phần đã làm theo yêu cầu khách. 追加しています = đã thêm và hiện có trong bản bàn giao.",
+        "words": [
+          { "w": "ご要望", "r": "ごようぼう", "ro": "goyooboo", "pos": "danh từ", "vi": "yêu cầu (của quý vị)" },
+          { "w": "に", "ro": "ni", "pos": "trợ từ", "vi": "chỉ đối tượng đáp ứng" },
+          { "w": "応じて", "r": "おうじて", "ro": "oojite", "pos": "động từ", "base": "応じる", "vi": "đáp ứng theo" },
+          { "w": "、", "pos": "dấu câu" },
+          { "w": "予約", "r": "よやく", "ro": "yoyaku", "pos": "danh từ", "vi": "đặt lịch" },
+          { "w": "画面", "r": "がめん", "ro": "gamen", "pos": "danh từ", "vi": "màn hình" },
+          { "w": "に", "ro": "ni", "pos": "trợ từ", "vi": "vào (chỗ)" },
+          { "w": "キャンセル", "ro": "kyanseru", "pos": "danh từ", "vi": "hủy (cancel)" },
+          { "w": "待ち", "r": "まち", "ro": "machi", "pos": "danh từ", "base": "待つ", "vi": "sự chờ" },
+          { "w": "の", "ro": "no", "pos": "trợ từ", "vi": "của, nối danh từ" },
+          { "w": "機能", "r": "きのう", "ro": "kinoo", "pos": "danh từ", "vi": "chức năng" },
+          { "w": "を", "ro": "o", "pos": "trợ từ", "vi": "chỉ đối tượng" },
+          { "w": "追加", "r": "ついか", "ro": "tsuika", "pos": "danh từ", "vi": "thêm vào" },
+          { "w": "して", "ro": "shite", "pos": "động từ", "base": "する", "vi": "làm (thể て)" },
+          { "w": "います", "ro": "imasu", "pos": "động từ", "base": "いる", "vi": "đang ở trạng thái (kết quả)" },
+          { "w": "。", "pos": "dấu câu" }
+        ]
+      },
+      {
+        "sp": "田中",
+        "jp": "ありがとうございます。制限事項についても教えていただけますか。",
+        "ro": "Arigatoo gozaimasu. Seigen jikoo ni tsuite mo oshiete itadakemasu ka.",
+        "vi": "Cảm ơn anh. Anh có thể cho tôi biết cả về các hạn chế nữa được không?",
+        "pt": "Khách hỏi thêm về 制限事項 (những điều hệ thống chưa làm được, giới hạn). についても = \"cả về…\".",
+        "words": [
+          { "w": "ありがとうございます", "ro": "arigatoo gozaimasu", "pos": "cụm chào hỏi", "vi": "xin cảm ơn" },
+          { "w": "。", "pos": "dấu câu" },
+          { "w": "制限事項", "r": "せいげんじこう", "ro": "seigen jikoo", "pos": "danh từ", "vi": "các hạn chế, giới hạn" },
+          { "w": "について", "ro": "ni tsuite", "pos": "cụm cố định", "vi": "về" },
+          { "w": "も", "ro": "mo", "pos": "trợ từ", "vi": "cũng, cả" },
+          { "w": "教えて", "r": "おしえて", "ro": "oshiete", "pos": "động từ", "base": "教える", "vi": "cho biết (thể て)" },
+          { "w": "いただけます", "ro": "itadakemasu", "pos": "động từ", "base": "いただく", "vi": "có thể nhận được (khiêm nhường ngữ của もらう)" },
+          { "w": "か", "ro": "ka", "pos": "trợ từ", "vi": "câu hỏi" },
+          { "w": "。", "pos": "dấu câu" }
+        ]
+      },
+      {
+        "sp": "ナム",
+        "jp": "はい。お一人が同時に登録できる予約は、3件までです。",
+        "ro": "Hai. Ohitori ga dooji ni tooroku dekiru yoyaku wa, sanken made desu.",
+        "vi": "Vâng. Mỗi người có thể đăng ký cùng lúc tối đa 3 lịch hẹn.",
+        "pt": "Mẫu ④: thể khả năng 登録できる + danh từ 予約 + は + 3件までです để nói giới hạn tối đa.",
+        "words": [
+          { "w": "はい", "ro": "hai", "pos": "cụm chào hỏi", "vi": "vâng" },
+          { "w": "。", "pos": "dấu câu" },
+          { "w": "お一人", "r": "おひとり", "ro": "ohitori", "pos": "danh từ", "vi": "một người (lịch sự)" },
+          { "w": "が", "ro": "ga", "pos": "trợ từ", "vi": "chỉ chủ ngữ" },
+          { "w": "同時", "r": "どうじ", "ro": "dooji", "pos": "danh từ", "vi": "cùng lúc" },
+          { "w": "に", "ro": "ni", "pos": "trợ từ", "vi": "biến danh từ thành trạng từ" },
+          { "w": "登録", "r": "とうろく", "ro": "tooroku", "pos": "danh từ", "vi": "đăng ký" },
+          { "w": "できる", "ro": "dekiru", "pos": "động từ", "vi": "có thể" },
+          { "w": "予約", "r": "よやく", "ro": "yoyaku", "pos": "danh từ", "vi": "lịch hẹn" },
+          { "w": "は", "ro": "wa", "pos": "trợ từ", "vi": "đánh dấu chủ đề" },
+          { "w": "、", "pos": "dấu câu" },
+          { "w": "3件", "r": "さんけん", "ro": "sanken", "pos": "danh từ", "vi": "3 mục, 3 cái" },
+          { "w": "まで", "ro": "made", "pos": "trợ từ", "vi": "đến (giới hạn tối đa)" },
+          { "w": "です", "ro": "desu", "pos": "trợ động từ", "vi": "là (lịch sự)" },
+          { "w": "。", "pos": "dấu câu" }
+        ]
+      },
+      {
+        "sp": "田中",
+        "jp": "体験版を触ったとき、画面が少し重く感じたのですが、原因は何でしょうか。",
+        "ro": "Taikenban o sawatta toki, gamen ga sukoshi omoku kanjita no desu ga, gen'in wa nan deshoo ka.",
+        "vi": "Lúc dùng thử bản trial, tôi thấy màn hình hơi chậm, nguyên nhân là gì vậy?",
+        "pt": "〜のですが dùng để nêu tình huống rồi hỏi tiếp một cách mềm mại. 何でしょうか lịch sự hơn 何ですか.",
+        "words": [
+          { "w": "体験版", "r": "たいけんばん", "ro": "taikenban", "pos": "danh từ", "vi": "bản dùng thử (trial)" },
+          { "w": "を", "ro": "o", "pos": "trợ từ", "vi": "chỉ đối tượng" },
+          { "w": "触った", "r": "さわった", "ro": "sawatta", "pos": "động từ", "base": "触る", "vi": "đã dùng thử, đã chạm vào" },
+          { "w": "とき", "ro": "toki", "pos": "danh từ", "vi": "khi" },
+          { "w": "、", "pos": "dấu câu" },
+          { "w": "画面", "r": "がめん", "ro": "gamen", "pos": "danh từ", "vi": "màn hình" },
+          { "w": "が", "ro": "ga", "pos": "trợ từ", "vi": "chỉ chủ ngữ" },
+          { "w": "少し", "r": "すこし", "ro": "sukoshi", "pos": "phó từ", "vi": "hơi, một chút" },
+          { "w": "重く", "r": "おもく", "ro": "omoku", "pos": "tính từ い", "base": "重い", "vi": "nặng, chậm (dạng く)" },
+          { "w": "感じた", "r": "かんじた", "ro": "kanjita", "pos": "động từ", "base": "感じる", "vi": "đã cảm thấy" },
+          { "w": "の", "ro": "no", "pos": "trợ từ", "vi": "giải thích tình huống (のです)" },
+          { "w": "です", "ro": "desu", "pos": "trợ động từ", "vi": "là (lịch sự)" },
+          { "w": "が", "ro": "ga", "pos": "trợ từ", "vi": "nhưng, dẫn vào câu hỏi" },
+          { "w": "、", "pos": "dấu câu" },
+          { "w": "原因", "r": "げんいん", "ro": "gen'in", "pos": "danh từ", "vi": "nguyên nhân" },
+          { "w": "は", "ro": "wa", "pos": "trợ từ", "vi": "đánh dấu chủ đề" },
+          { "w": "何", "r": "なん", "ro": "nan", "pos": "đại từ", "vi": "cái gì" },
+          { "w": "でしょうか", "ro": "deshoo ka", "pos": "trợ động từ", "vi": "…vậy ạ? (hỏi lịch sự)" },
+          { "w": "。", "pos": "dấu câu" }
+        ]
+      },
+      {
+        "sp": "ナム",
+        "jp": "それは、体験版のサーバのスペックが低いことによるものです。",
+        "ro": "Sore wa, taikenban no saaba no supekku ga hikui koto ni yoru mono desu.",
+        "vi": "Điều đó là do cấu hình máy chủ của bản dùng thử thấp.",
+        "pt": "Mẫu ⑤: câu thể thường (スペックが低い) + こと + によるものです để nêu nguyên nhân một cách khách quan.",
+        "words": [
+          { "w": "それ", "ro": "sore", "pos": "đại từ", "vi": "điều đó" },
+          { "w": "は", "ro": "wa", "pos": "trợ từ", "vi": "đánh dấu chủ đề" },
+          { "w": "、", "pos": "dấu câu" },
+          { "w": "体験版", "r": "たいけんばん", "ro": "taikenban", "pos": "danh từ", "vi": "bản dùng thử" },
+          { "w": "の", "ro": "no", "pos": "trợ từ", "vi": "của" },
+          { "w": "サーバ", "ro": "saaba", "pos": "danh từ", "vi": "máy chủ (server)" },
+          { "w": "の", "ro": "no", "pos": "trợ từ", "vi": "của" },
+          { "w": "スペック", "ro": "supekku", "pos": "danh từ", "vi": "cấu hình (spec)" },
+          { "w": "が", "ro": "ga", "pos": "trợ từ", "vi": "chỉ chủ ngữ" },
+          { "w": "低い", "r": "ひくい", "ro": "hikui", "pos": "tính từ い", "vi": "thấp" },
+          { "w": "こと", "ro": "koto", "pos": "danh từ", "vi": "việc (danh từ hóa)" },
+          { "w": "による", "ro": "ni yoru", "pos": "cụm cố định", "vi": "do, bởi" },
+          { "w": "もの", "ro": "mono", "pos": "danh từ", "vi": "điều (danh từ hình thức)" },
+          { "w": "です", "ro": "desu", "pos": "trợ động từ", "vi": "là (lịch sự)" },
+          { "w": "。", "pos": "dấu câu" }
+        ]
+      },
+      {
+        "sp": "ナム",
+        "jp": "本番環境での測定結果は現在まとめておりますので、後ほどメールで共有させてください。",
+        "ro": "Honban kankyoo de no sokutei kekka wa genzai matomete orimasu node, nochihodo meeru de kyooyuu sasete kudasai.",
+        "vi": "Kết quả đo trên môi trường thật (production) chúng tôi đang tổng hợp, nên xin phép chia sẻ qua email sau ạ.",
+        "pt": "Mẫu ③: nêu lý do (đang tổng hợp) + ので + 後ほど〜させてください. まとめております là khiêm nhường của まとめています.",
+        "words": [
+          { "w": "本番", "r": "ほんばん", "ro": "honban", "pos": "danh từ", "vi": "thật, chính thức (production)" },
+          { "w": "環境", "r": "かんきょう", "ro": "kankyoo", "pos": "danh từ", "vi": "môi trường" },
+          { "w": "で", "ro": "de", "pos": "trợ từ", "vi": "tại, trên" },
+          { "w": "の", "ro": "no", "pos": "trợ từ", "vi": "nối danh từ" },
+          { "w": "測定", "r": "そくてい", "ro": "sokutei", "pos": "danh từ", "vi": "đo đạc" },
+          { "w": "結果", "r": "けっか", "ro": "kekka", "pos": "danh từ", "vi": "kết quả" },
+          { "w": "は", "ro": "wa", "pos": "trợ từ", "vi": "đánh dấu chủ đề" },
+          { "w": "現在", "r": "げんざい", "ro": "genzai", "pos": "danh từ", "vi": "hiện tại" },
+          { "w": "まとめて", "ro": "matomete", "pos": "động từ", "base": "まとめる", "vi": "tổng hợp (thể て)" },
+          { "w": "おります", "ro": "orimasu", "pos": "động từ", "base": "おる", "vi": "đang (khiêm nhường ngữ 謙譲語 của いる)" },
+          { "w": "ので", "ro": "node", "pos": "trợ từ", "vi": "vì, nên" },
+          { "w": "、", "pos": "dấu câu" },
+          { "w": "後ほど", "r": "のちほど", "ro": "nochihodo", "pos": "phó từ", "vi": "lát nữa, sau (lịch sự)" },
+          { "w": "メール", "ro": "meeru", "pos": "danh từ", "vi": "email" },
+          { "w": "で", "ro": "de", "pos": "trợ từ", "vi": "bằng (phương tiện)" },
+          { "w": "共有", "r": "きょうゆう", "ro": "kyooyuu", "pos": "danh từ", "vi": "chia sẻ" },
+          { "w": "させて", "ro": "sasete", "pos": "động từ", "base": "させる", "vi": "cho phép làm" },
+          { "w": "ください", "ro": "kudasai", "pos": "động từ", "base": "くださる", "vi": "xin hãy" },
+          { "w": "。", "pos": "dấu câu" }
+        ]
+      },
+      {
+        "sp": "田中",
+        "jp": "承知しました。1点だけお願いですが、次回のリリース日程も教えていただけますか。",
+        "ro": "Shoochi shimashita. Itten dake onegai desu ga, jikai no ririisu nittei mo oshiete itadakemasu ka.",
+        "vi": "Tôi hiểu rồi. Chỉ có một việc muốn nhờ: anh có thể cho tôi biết cả lịch phát hành lần tới được không?",
+        "pt": "Mẫu ①: báo trước \"chỉ một việc\" rồi nhờ bằng 〜ていただけますか.",
+        "words": [
+          { "w": "承知しました", "r": "しょうちしました", "ro": "shoochi shimashita", "pos": "động từ", "base": "承知する", "vi": "đã hiểu (khiêm nhường, lịch sự hơn わかりました)" },
+          { "w": "。", "pos": "dấu câu" },
+          { "w": "1点", "r": "いってん", "ro": "itten", "pos": "danh từ", "vi": "một điểm, một việc" },
+          { "w": "だけ", "ro": "dake", "pos": "trợ từ", "vi": "chỉ" },
+          { "w": "お願い", "r": "おねがい", "ro": "onegai", "pos": "danh từ", "vi": "lời nhờ" },
+          { "w": "です", "ro": "desu", "pos": "trợ động từ", "vi": "là (lịch sự)" },
+          { "w": "が", "ro": "ga", "pos": "trợ từ", "vi": "nhưng, mở đầu ý chính" },
+          { "w": "、", "pos": "dấu câu" },
+          { "w": "次回", "r": "じかい", "ro": "jikai", "pos": "danh từ", "vi": "lần tới" },
+          { "w": "の", "ro": "no", "pos": "trợ từ", "vi": "của" },
+          { "w": "リリース", "ro": "ririisu", "pos": "danh từ", "vi": "phát hành (release)" },
+          { "w": "日程", "r": "にってい", "ro": "nittei", "pos": "danh từ", "vi": "lịch trình, ngày" },
+          { "w": "も", "ro": "mo", "pos": "trợ từ", "vi": "cũng, cả" },
+          { "w": "教えて", "r": "おしえて", "ro": "oshiete", "pos": "động từ", "base": "教える", "vi": "cho biết (thể て)" },
+          { "w": "いただけます", "ro": "itadakemasu", "pos": "động từ", "base": "いただく", "vi": "có thể nhận được (khiêm nhường ngữ của もらう)" },
+          { "w": "か", "ro": "ka", "pos": "trợ từ", "vi": "câu hỏi" },
+          { "w": "。", "pos": "dấu câu" }
+        ]
+      },
+      {
+        "sp": "ナム",
+        "jp": "かしこまりました。日程が決まり次第、ご連絡いたします。",
+        "ro": "Kashikomarimashita. Nittei ga kimari shidai, gorenraku itashimasu.",
+        "vi": "Vâng, tôi rõ rồi. Ngay khi lịch được quyết định, tôi sẽ liên lạc với anh.",
+        "pt": "かしこまりました là cách nhận lời rất lịch sự với khách. 〜次第 (thể ます bỏ ます + 次第) = ngay sau khi ~.",
+        "words": [
+          { "w": "かしこまりました", "ro": "kashikomarimashita", "pos": "động từ", "base": "かしこまる", "vi": "vâng, tôi đã rõ (khiêm nhường, rất lịch sự)" },
+          { "w": "。", "pos": "dấu câu" },
+          { "w": "日程", "r": "にってい", "ro": "nittei", "pos": "danh từ", "vi": "lịch trình" },
+          { "w": "が", "ro": "ga", "pos": "trợ từ", "vi": "chỉ chủ ngữ" },
+          { "w": "決まり次第", "r": "きまりしだい", "ro": "kimari shidai", "pos": "cụm cố định", "base": "決まる", "vi": "ngay khi được quyết định" },
+          { "w": "、", "pos": "dấu câu" },
+          { "w": "ご連絡", "r": "ごれんらく", "ro": "gorenraku", "pos": "danh từ", "vi": "liên lạc (dạng khiêm nhường ご〜)" },
+          { "w": "いたします", "ro": "itashimasu", "pos": "động từ", "base": "いたす", "vi": "làm (khiêm nhường ngữ 謙譲語 của する)" },
+          { "w": "。", "pos": "dấu câu" }
+        ]
+      }
+    ]
+  },
+  "phrases": [
+    {
+      "h": "Khi trình bày bàn giao và release note",
+      "items": [
+        {
+          "jp": "本日は、納品物の内容と制限事項についてご説明いたします。",
+          "ro": "Honjitsu wa, noohinbutsu no naiyoo to seigen jikoo ni tsuite gosetsumei itashimasu.",
+          "vi": "Hôm nay tôi xin giải thích về nội dung sản phẩm bàn giao và các hạn chế.",
+          "pt": "Câu mở đầu buổi họp, nói trước nội dung sẽ trình bày. ご説明いたします là khiêm nhường ngữ.",
+          "words": [
+            { "w": "本日", "r": "ほんじつ", "ro": "honjitsu", "pos": "danh từ", "vi": "hôm nay (trang trọng)" },
+            { "w": "は", "ro": "wa", "pos": "trợ từ", "vi": "đánh dấu chủ đề" },
+            { "w": "、", "pos": "dấu câu" },
+            { "w": "納品物", "r": "のうひんぶつ", "ro": "noohinbutsu", "pos": "danh từ", "vi": "sản phẩm bàn giao" },
+            { "w": "の", "ro": "no", "pos": "trợ từ", "vi": "của" },
+            { "w": "内容", "r": "ないよう", "ro": "naiyoo", "pos": "danh từ", "vi": "nội dung" },
+            { "w": "と", "ro": "to", "pos": "trợ từ", "vi": "và" },
+            { "w": "制限事項", "r": "せいげんじこう", "ro": "seigen jikoo", "pos": "danh từ", "vi": "các hạn chế" },
+            { "w": "について", "ro": "ni tsuite", "pos": "cụm cố định", "vi": "về" },
+            { "w": "ご説明", "r": "ごせつめい", "ro": "gosetsumei", "pos": "danh từ", "vi": "sự giải thích (khiêm nhường ご〜)" },
+            { "w": "いたします", "ro": "itashimasu", "pos": "động từ", "base": "いたす", "vi": "làm (khiêm nhường ngữ của する)" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        },
+        {
+          "jp": "変更点の詳細は、リリースノートの3ページをご覧ください。",
+          "ro": "Henkooten no shoosai wa, ririisu nooto no san peeji o goran kudasai.",
+          "vi": "Chi tiết các điểm thay đổi, xin quý vị xem trang 3 của release note.",
+          "pt": "ご覧ください là tôn kính ngữ của 見てください, dùng khi mời khách xem tài liệu.",
+          "words": [
+            { "w": "変更点", "r": "へんこうてん", "ro": "henkooten", "pos": "danh từ", "vi": "điểm thay đổi" },
+            { "w": "の", "ro": "no", "pos": "trợ từ", "vi": "của" },
+            { "w": "詳細", "r": "しょうさい", "ro": "shoosai", "pos": "danh từ", "vi": "chi tiết" },
+            { "w": "は", "ro": "wa", "pos": "trợ từ", "vi": "đánh dấu chủ đề" },
+            { "w": "、", "pos": "dấu câu" },
+            { "w": "リリースノート", "ro": "ririisu nooto", "pos": "danh từ", "vi": "release note" },
+            { "w": "の", "ro": "no", "pos": "trợ từ", "vi": "của" },
+            { "w": "3ページ", "ro": "san peeji", "pos": "danh từ", "vi": "trang 3" },
+            { "w": "を", "ro": "o", "pos": "trợ từ", "vi": "chỉ đối tượng" },
+            { "w": "ご覧ください", "r": "ごらんください", "ro": "goran kudasai", "pos": "cụm cố định", "vi": "xin hãy xem (tôn kính ngữ 尊敬語 của 見てください)" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        },
+        {
+          "jp": "インストール手順書に沿って作業していただければ、問題なく動作します。",
+          "ro": "Insutooru tejunsho ni sotte sagyoo shite itadakereba, mondai naku doosa shimasu.",
+          "vi": "Nếu quý vị thao tác theo tài liệu hướng dẫn cài đặt thì hệ thống sẽ chạy bình thường, không có vấn đề gì.",
+          "pt": "〜ていただければ = \"nếu quý vị làm giúp ~\" (điều kiện lịch sự). 問題なく = không có vấn đề.",
+          "words": [
+            { "w": "インストール", "ro": "insutooru", "pos": "danh từ", "vi": "cài đặt (install)" },
+            { "w": "手順書", "r": "てじゅんしょ", "ro": "tejunsho", "pos": "danh từ", "vi": "tài liệu hướng dẫn các bước" },
+            { "w": "に沿って", "r": "にそって", "ro": "ni sotte", "pos": "cụm cố định", "base": "に沿う", "vi": "theo, bám theo" },
+            { "w": "作業", "r": "さぎょう", "ro": "sagyoo", "pos": "danh từ", "vi": "thao tác, công việc" },
+            { "w": "して", "ro": "shite", "pos": "động từ", "base": "する", "vi": "làm (thể て)" },
+            { "w": "いただければ", "ro": "itadakereba", "pos": "động từ", "base": "いただく", "vi": "nếu được (quý vị) làm cho (khiêm nhường ngữ, thể điều kiện)" },
+            { "w": "、", "pos": "dấu câu" },
+            { "w": "問題", "r": "もんだい", "ro": "mondai", "pos": "danh từ", "vi": "vấn đề" },
+            { "w": "なく", "ro": "naku", "pos": "tính từ い", "base": "ない", "vi": "không có (dạng く)" },
+            { "w": "動作します", "r": "どうさします", "ro": "doosa shimasu", "pos": "động từ", "base": "動作する", "vi": "vận hành, chạy" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        }
+      ]
+    },
+    {
+      "h": "Khi giải thích hạn chế và nguyên nhân",
+      "items": [
+        {
+          "jp": "見積りの段階でお伝えしたとおり、この機能は今回の対象外です。",
+          "ro": "Mitsumori no dankai de otsutae shita toori, kono kinoo wa konkai no taishoogai desu.",
+          "vi": "Như chúng tôi đã thông báo ở giai đoạn báo giá, chức năng này nằm ngoài phạm vi lần này.",
+          "pt": "Nhắc lại điều đã thống nhất từ trước bằng 〜とおり để tránh hiểu lầm. お伝えした là khiêm nhường ngữ của 伝えた.",
+          "words": [
+            { "w": "見積り", "r": "みつもり", "ro": "mitsumori", "pos": "danh từ", "vi": "báo giá, ước tính" },
+            { "w": "の", "ro": "no", "pos": "trợ từ", "vi": "của" },
+            { "w": "段階", "r": "だんかい", "ro": "dankai", "pos": "danh từ", "vi": "giai đoạn" },
+            { "w": "で", "ro": "de", "pos": "trợ từ", "vi": "tại (thời điểm)" },
+            { "w": "お伝えした", "r": "おつたえした", "ro": "otsutae shita", "pos": "động từ", "base": "お伝えする", "vi": "đã truyền đạt (khiêm nhường ngữ 謙譲語 của 伝える)" },
+            { "w": "とおり", "ro": "toori", "pos": "danh từ", "vi": "như, đúng như" },
+            { "w": "、", "pos": "dấu câu" },
+            { "w": "この", "ro": "kono", "pos": "đại từ", "vi": "này" },
+            { "w": "機能", "r": "きのう", "ro": "kinoo", "pos": "danh từ", "vi": "chức năng" },
+            { "w": "は", "ro": "wa", "pos": "trợ từ", "vi": "đánh dấu chủ đề" },
+            { "w": "今回", "r": "こんかい", "ro": "konkai", "pos": "danh từ", "vi": "lần này" },
+            { "w": "の", "ro": "no", "pos": "trợ từ", "vi": "của" },
+            { "w": "対象外", "r": "たいしょうがい", "ro": "taishoogai", "pos": "danh từ", "vi": "ngoài phạm vi" },
+            { "w": "です", "ro": "desu", "pos": "trợ động từ", "vi": "là (lịch sự)" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        },
+        {
+          "jp": "この現象は想定済みで、次のバージョンで改善する予定です。",
+          "ro": "Kono genshoo wa sooteizumi de, tsugi no baajon de kaizen suru yotei desu.",
+          "vi": "Hiện tượng này đã được lường trước, và chúng tôi dự định cải thiện trong phiên bản tiếp theo.",
+          "pt": "想定済み = đã dự liệu từ trước, giúp khách yên tâm rằng đây không phải lỗi bất ngờ.",
+          "words": [
+            { "w": "この", "ro": "kono", "pos": "đại từ", "vi": "này" },
+            { "w": "現象", "r": "げんしょう", "ro": "genshoo", "pos": "danh từ", "vi": "hiện tượng" },
+            { "w": "は", "ro": "wa", "pos": "trợ từ", "vi": "đánh dấu chủ đề" },
+            { "w": "想定済み", "r": "そうていずみ", "ro": "sooteizumi", "pos": "danh từ", "vi": "đã lường trước" },
+            { "w": "で", "ro": "de", "pos": "trợ động từ", "base": "だ", "vi": "là… và (nối câu)" },
+            { "w": "、", "pos": "dấu câu" },
+            { "w": "次", "r": "つぎ", "ro": "tsugi", "pos": "danh từ", "vi": "tiếp theo" },
+            { "w": "の", "ro": "no", "pos": "trợ từ", "vi": "của" },
+            { "w": "バージョン", "ro": "baajon", "pos": "danh từ", "vi": "phiên bản (version)" },
+            { "w": "で", "ro": "de", "pos": "trợ từ", "vi": "trong, ở" },
+            { "w": "改善する", "r": "かいぜんする", "ro": "kaizen suru", "pos": "động từ", "vi": "cải thiện" },
+            { "w": "予定", "r": "よてい", "ro": "yotei", "pos": "danh từ", "vi": "dự định" },
+            { "w": "です", "ro": "desu", "pos": "trợ động từ", "vi": "là (lịch sự)" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        },
+        {
+          "jp": "原因がわかり次第、改めてご報告いたします。",
+          "ro": "Gen'in ga wakari shidai, aratamete gohookoku itashimasu.",
+          "vi": "Ngay khi biết được nguyên nhân, chúng tôi sẽ báo cáo lại với quý vị.",
+          "pt": "Hứa báo cáo khi có kết quả. 改めて = một lần nữa, vào dịp khác.",
+          "words": [
+            { "w": "原因", "r": "げんいん", "ro": "gen'in", "pos": "danh từ", "vi": "nguyên nhân" },
+            { "w": "が", "ro": "ga", "pos": "trợ từ", "vi": "chỉ chủ ngữ" },
+            { "w": "わかり次第", "r": "わかりしだい", "ro": "wakari shidai", "pos": "cụm cố định", "base": "わかる", "vi": "ngay khi biết" },
+            { "w": "、", "pos": "dấu câu" },
+            { "w": "改めて", "r": "あらためて", "ro": "aratamete", "pos": "phó từ", "vi": "lại, một lần nữa" },
+            { "w": "ご報告", "r": "ごほうこく", "ro": "gohookoku", "pos": "danh từ", "vi": "báo cáo (khiêm nhường ご〜)" },
+            { "w": "いたします", "ro": "itashimasu", "pos": "động từ", "base": "いたす", "vi": "làm (khiêm nhường ngữ của する)" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        }
+      ]
+    }
+  ],
+  "vocab": [
+    { "w": "納品物", "r": "のうひんぶつ", "ro": "noohinbutsu", "vi": "sản phẩm bàn giao", "en": "deliverables" },
+    { "w": "一式", "r": "いっしき", "ro": "isshiki", "vi": "trọn bộ" },
+    { "w": "制限事項", "r": "せいげんじこう", "ro": "seigen jikoo", "vi": "các hạn chế, giới hạn đã biết", "en": "limitations" },
+    { "w": "見積り", "r": "みつもり", "ro": "mitsumori", "vi": "báo giá, ước tính", "en": "estimate" },
+    { "w": "昨日", "r": "さくじつ", "ro": "sakujitsu", "vi": "hôm qua (cách đọc trang trọng)" },
+    { "w": "記載内容", "r": "きさいないよう", "ro": "kisai naiyoo", "vi": "nội dung được ghi (trong tài liệu)" },
+    { "w": "〜に沿って", "r": "〜にそって", "ro": "~ni sotte", "vi": "theo, bám theo (tài liệu, kế hoạch)" },
+    { "w": "配置", "r": "はいち", "ro": "haichi", "vi": "bố trí, đặt (file, màn hình)", "en": "placement" },
+    { "w": "インストール手順書", "r": "インストールてじゅんしょ", "ro": "insutooru tejunsho", "vi": "tài liệu hướng dẫn cài đặt", "en": "installation guide" },
+    { "w": "手順", "r": "てじゅん", "ro": "tejun", "vi": "các bước, quy trình" },
+    { "w": "拝見する", "r": "はいけんする", "ro": "haiken suru", "vi": "xem (khiêm nhường ngữ của 見る)" },
+    { "w": "後略", "r": "こうりゃく", "ro": "kooryaku", "vi": "lược bỏ phần sau" },
+    { "w": "保存機能", "r": "ほぞんきのう", "ro": "hozon kinoo", "vi": "chức năng lưu", "en": "save function" },
+    { "w": "画像", "r": "がぞう", "ro": "gazoo", "vi": "hình ảnh", "en": "image" },
+    { "w": "再読み込み", "r": "さいよみこみ", "ro": "saiyomikomi", "vi": "tải lại", "en": "reload" },
+    { "w": "登録", "r": "とうろく", "ro": "tooroku", "vi": "đăng ký, lưu vào hệ thống", "en": "register" },
+    { "w": "最大", "r": "さいだい", "ro": "saidai", "vi": "tối đa", "en": "maximum" },
+    { "w": "端末", "r": "たんまつ", "ro": "tanmatsu", "vi": "thiết bị đầu cuối (PC, điện thoại…)", "en": "device" },
+    { "w": "実行", "r": "じっこう", "ro": "jikkoo", "vi": "thực thi, chạy", "en": "execute" },
+    { "w": "実行ファイル", "r": "じっこうファイル", "ro": "jikkoo fairu", "vi": "file thực thi", "en": "executable file" },
+    { "w": "動作が重い", "r": "どうさがおもい", "ro": "doosa ga omoi", "vi": "chạy nặng, chậm" },
+    { "w": "推奨", "r": "すいしょう", "ro": "suishoo", "vi": "khuyến nghị", "en": "recommended" },
+    { "w": "変更点", "r": "へんこうてん", "ro": "henkooten", "vi": "điểm thay đổi", "en": "changes" },
+    { "w": "補足", "r": "ほそく", "ro": "hosoku", "vi": "bổ sung (giải thích thêm)" },
+    { "w": "更新", "r": "こうしん", "ro": "kooshin", "vi": "cập nhật", "en": "update" },
+    { "w": "体験版", "r": "たいけんばん", "ro": "taikenban", "vi": "bản dùng thử", "en": "trial version" },
+    { "w": "人数", "r": "にんずう", "ro": "ninzuu", "vi": "số người" },
+    { "w": "容量", "r": "ようりょう", "ro": "yooryoo", "vi": "dung lượng", "en": "capacity" },
+    { "w": "変更要求管理", "r": "へんこうようきゅうかんり", "ro": "henkoo yookyuu kanri", "vi": "quản lý yêu cầu thay đổi", "en": "change request management" },
+    { "w": "テスト報告書", "r": "テストほうこくしょ", "ro": "tesuto hookokusho", "vi": "báo cáo kiểm thử", "en": "test report" },
+    { "w": "動画", "r": "どうが", "ro": "dooga", "vi": "video" },
+    { "w": "押下", "r": "おうか", "ro": "ooka", "vi": "nhấn (nút) — từ hay dùng trong tài liệu IT" },
+    { "w": "経過", "r": "けいか", "ro": "keika", "vi": "trôi qua (thời gian), diễn biến" },
+    { "w": "原因", "r": "げんいん", "ro": "gen'in", "vi": "nguyên nhân" },
+    { "w": "想定", "r": "そうてい", "ro": "sootei", "vi": "giả định, lường trước" },
+    { "w": "回線", "r": "かいせん", "ro": "kaisen", "vi": "đường truyền mạng" },
+    { "w": "認識", "r": "にんしき", "ro": "ninshiki", "vi": "nhận thức, cách hiểu" },
+    { "w": "要望", "r": "ようぼう", "ro": "yooboo", "vi": "yêu cầu, mong muốn" },
+    { "w": "応じる", "r": "おうじる", "ro": "oojiru", "vi": "đáp ứng, tùy theo" },
+    { "w": "後ほど", "r": "のちほど", "ro": "nochihodo", "vi": "lát nữa, sau (lịch sự)" },
+    { "w": "リリースノート", "r": "", "ro": "ririisu nooto", "vi": "ghi chú phát hành", "en": "release notes" },
+    { "w": "ソースコード", "r": "", "ro": "soosu koodo", "vi": "mã nguồn", "en": "source code" },
+    { "w": "ビルド", "r": "", "ro": "birudo", "vi": "build (biên dịch, đóng gói)", "en": "build" },
+    { "w": "ドキュメント", "r": "", "ro": "dokyumento", "vi": "tài liệu", "en": "document" },
+    { "w": "ハードウェア", "r": "", "ro": "haadowea", "vi": "phần cứng", "en": "hardware" },
+    { "w": "スペック", "r": "", "ro": "supekku", "vi": "cấu hình, thông số", "en": "spec" },
+    { "w": "アップロード", "r": "", "ro": "appuroodo", "vi": "tải lên", "en": "upload" },
+    { "w": "プロバイダ", "r": "", "ro": "purobaida", "vi": "nhà cung cấp dịch vụ (mạng)", "en": "provider" }
+  ],
+  "tips": [
+    "Khi bàn giao, người Nhật rất coi trọng việc nói trước các hạn chế (制限事項). Hãy nhắc lại rằng điều đó đã được thông báo từ lúc báo giá (見積りの段階でお伝えしたとおり) để tránh khách cảm thấy bị \"giấu\" lỗi.",
+    "Nếu chưa chắc câu trả lời, đừng đoán. Nói \"後ほど確認して回答させてください\" và hẹn rõ thời điểm, cách liên lạc — người Nhật đánh giá cao sự cẩn thận hơn là trả lời nhanh.",
+    "Trong tài liệu IT tiếng Nhật hay gặp từ trang trọng như 押下 (nhấn nút), 昨日 đọc là さくじつ, 本日 (ほんじつ). Khi nói chuyện với khách nên dùng các cách đọc này."
+  ]
+}

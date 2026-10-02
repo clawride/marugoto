@@ -36,6 +36,7 @@ const defaults = () => ({
   kana: {}, // Bảng chữ cái: { w: {chữ: điểm viết}, p: {"bài:phần": {pct, stars}} } // Marugoto A2-2: { p: {"bài:phần": {pct, stars}}, boss, ex }
   cons: {}, // cung mệnh đã kích hoạt: { "c:ID": 0..6 }
   bannerPick: null, // nhân vật 5★ sự kiện đang chọn
+  lib: {}, // Thư viện sách: { [sách]: { [bài]: thời điểm đánh dấu đã học } }
   boss: {}, // { [lesson]: { best: 0..3, cleared: bool, reward: "YYYY-MM-DD" } }
 });
 
