@@ -59,9 +59,20 @@ fs.mkdirSync(SRC, { recursive: true });
 if (!CHECK) { fs.rmSync(OUT, { recursive: true, force: true }); fs.mkdirSync(OUT, { recursive: true }); }
 const index = [];
 let bad = 0;
-for (const f of fs.readdirSync(SRC).filter((f) => f.endsWith(".json")).sort()) {
+// một đề = file <id>.json, hoặc thư mục <id>/ gồm meta.json + s1.json, s2.json… (mỗi file một phần thi — để nhiều người soạn song song)
+const readJson = (p) => JSON.parse(fs.readFileSync(p, "utf8").replace(/^﻿/, ""));
+const entries = fs.readdirSync(SRC).filter((f) => (f.endsWith(".json") || (fs.statSync(path.join(SRC, f)).isDirectory() && fs.existsSync(path.join(SRC, f, "meta.json")))) && !f.startsWith("_")).sort();
+for (const f of entries) {
   let X;
-  try { X = JSON.parse(fs.readFileSync(path.join(SRC, f), "utf8").replace(/^﻿/, "")); } catch (e) { bad++; console.error(`✗ ${f}: JSON hỏng — ${e.message}`); continue; }
+  try {
+    if (f.endsWith(".json")) X = readJson(path.join(SRC, f));
+    else {
+      const dir = path.join(SRC, f), secs = fs.readdirSync(dir).filter((x) => /^sd+.json$/.test(x)).sort((a, b) => parseInt(a.slice(1)) - parseInt(b.slice(1)));
+      X = readJson(path.join(dir, "meta.json"));
+      X.sections = secs.map((x) => readJson(path.join(dir, x)));
+      if (!X.id) X.id = f;
+    }
+  } catch (e) { bad++; console.error(`✗ ${f}: JSON hỏng — ${e.message}`); continue; }
   const { E, W } = checkExam(X);
   if (CHECK || E.length) console.log(`\n== ${f}: ${E.length} lỗi, ${W.length} cảnh báo`);
   E.forEach((x) => console.log("  ✗ " + x));

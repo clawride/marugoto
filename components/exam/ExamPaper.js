@@ -161,7 +161,21 @@ export default function ExamPaper({ E }) {
       const o = s.exam[E.id] || { best: 0, tries: 0 };
       o.tries++; o.best = Math.max(o.best, result.total);
       o.last = { t: run.finishedAt, total: result.total, passed: result.passed, cefr: result.cefr, right: result.right, count: result.count };
-      if (result.passed) o.passed = true;
+      if (result.passed) {
+        o.passed = true;
+        // giấy chứng nhận: giữ lần đỗ có điểm cao nhất
+        if (!o.cert || result.total > o.cert.total) {
+          const d = new Date(run.finishedAt), pad = (x) => String(x).padStart(2, "0");
+          o.cert = {
+            title: E.title, level: E.level, levelLabel: E.kind === "kyu" ? `JLPT cũ ${E.level} → quy đổi ${result.eq}` : `JLPT ${E.level}`,
+            eq: result.eq || "", date: `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()}`,
+            no: `TV-${(result.eq || E.level).replace("級", "K")}-${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}-${Math.random().toString(36).slice(2, 7).toUpperCase()}`,
+            total: result.total, max: result.max, pass: result.pass, cefr: result.cefr,
+            groups: result.groups.map((g) => ({ jp: g.jp, score: g.score, max: g.max })),
+            old: result.old ? { total: result.old.total, max: result.old.max } : null,
+          };
+        }
+      }
       s.exam[E.id] = o;
     });
     set((r) => { r.saved = true; return r; });
@@ -240,6 +254,7 @@ export default function ExamPaper({ E }) {
           {R.old && <p className="exold">Thang JLPT cũ {E.level}: <b>{R.old.total}/{R.old.max}</b> ({R.old.passed ? "đạt" : "chưa đạt"} mức đỗ {R.old.pass}) · {R.old.groups.map((g) => `${g.jp} ${g.score}/${g.max}`).join(" · ")}</p>}
           <div className="orn"><span /></div>
         </div>
+        {R.passed && <div className="excertcta panel"><span>🎓</span><div><b>Chúc mừng bạn đã đỗ!</b><p>Bạn nhận được Giấy chứng nhận luyện thi (bố cục kiểu phiếu điểm JLPT) — tải về dạng ảnh PNG.</p></div><Link href={`/de-thi/chung-nhan/${E.id}`} className="gbtn tri" onClick={() => sfx.page()}><span className="c" />Xem giấy chứng nhận</Link></div>}
         <div className="exresgrid">
           <div className="panel excefr">
             <small>Trình độ CEFR (khung châu Âu){R.eq ? ` · theo JLPT ${R.eq}` : ""}</small>
