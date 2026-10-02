@@ -47,7 +47,12 @@ function CertSvg({ c, name, svgRef }) {
         <g key={g.jp} transform={`translate(${x0 + i * colW} 770)`}>
           <rect width={colW - 10} height="150" fill="#fff" stroke="#1f3b6e" strokeWidth="1.5" />
           <rect width={colW - 10} height="58" fill="#e8eef8" stroke="#1f3b6e" strokeWidth="1.5" />
-          <text x={(colW - 10) / 2} y="36" textAnchor="middle" fontFamily={JP} fontSize={g.jp.length > 10 ? 15 : 19} fill="#14274a">{g.jp}</text>
+          {g.jp.length > 8 && g.jp.includes("（") ? (
+            <text x={(colW - 10) / 2} textAnchor="middle" fontFamily={JP} fill="#14274a">
+              <tspan x={(colW - 10) / 2} y="25" fontSize="19">{g.jp.slice(0, g.jp.indexOf("（"))}</tspan>
+              <tspan x={(colW - 10) / 2} y="48" fontSize="15">{g.jp.slice(g.jp.indexOf("（"))}</tspan>
+            </text>
+          ) : <text x={(colW - 10) / 2} y="36" textAnchor="middle" fontFamily={JP} fontSize={g.jp.length > 10 ? 15 : 19} fill="#14274a">{g.jp}</text>}
           <text x={(colW - 10) / 2} y="122" textAnchor="middle" fontFamily={SERIF} fontSize="44" fontWeight="700" fill="#14274a">{g.score}<tspan fontSize="22" fill="#6a7890">/{g.max}</tspan></text>
         </g>
       ))}
