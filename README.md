@@ -47,6 +47,14 @@ node --no-warnings scripts/gen-listen.mjs --out D:/listen --max-lines 350   # c�
 - Kịch bản nào chưa có file thì trang tự dùng giọng của trình duyệt (hoặc VOICEVOX online nếu máy không có giọng Nhật).
 - Đổi nội dung kịch bản hoặc cách phân giọng → chạy lại script để tạo phần mới (file cũ không dùng nữa).
 
+## Trang quản trị (ẩn)
+
+Đường dẫn `/quan-tri` — không có trong menu/sitemap, không được lập chỉ mục. Người không phải quản trị (kể cả khi đoán đúng đường dẫn) thấy trang 404; API `/api/admin` trả 404 cho mọi người khác.
+
+- Ai là quản trị: biến môi trường **`ADMIN_IDS`** (id hồ sơ, nên dùng) và/hoặc **`ADMIN_USERNAMES`** (tên đăng nhập), cách nhau bằng dấu phẩy. Đổi biến xong phải deploy lại.
+- Chức năng: thống kê; người dùng (tìm, đổi tên, khóa/mở khóa, mở khóa đăng nhập tạm, đặt lại mật khẩu, đăng xuất mọi thiết bị, xóa điểm, xóa tài khoản); bảng xếp hạng (xóa điểm, xóa cả bảng); phòng chat (xóa tin); cấu hình trang (banner, bảo trì, hệ số Nguyên Thạch ở Luyện đề thi, ẩn đề, đóng chat/đăng ký); nhật ký mọi thao tác.
+- Dữ liệu: `supabase/migrations/20261004000000_admin.sql` (cột profiles.banned, bảng site_settings, admin_log). Cấu hình công khai đọc qua `/api/site`.
+
 ## Deploy lên Vercel
 
 `vercel.json` đã khai báo framework là Next.js.
