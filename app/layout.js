@@ -20,6 +20,7 @@ import "./rank-fun.css";
 import "./chat.css";
 import { GameProvider } from "@/components/Game";
 import Header from "@/components/Header";
+import SiteGate from "@/components/SiteGate";
 import Sky from "@/components/Sky";
 import { SvgDefs } from "@/components/Icons";
 import { ProfileGate } from "@/components/Profile";
@@ -63,6 +64,7 @@ export default function RootLayout({ children }) {
         <Sky />
         <GameProvider>
           <Header />
+          <SiteGate />
           <main className="wrap"><PlainGate>{children}</PlainGate></main>
           <ProfileGate />
           <ChatBox />

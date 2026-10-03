@@ -1,5 +1,6 @@
 import { store, sha256 } from "@/lib/store";
 import { verifyPassword } from "@/lib/password";
+import { getSite, isAdminUser } from "@/lib/admin";
 
 const bad = (msg, status = 400) => Response.json({ error: msg }, { status });
 const WRONG = "Sai tên đăng nhập hoặc mật khẩu";
@@ -13,6 +14,9 @@ export async function POST(req) {
   if (!username || !password || password.length > 200) return bad(WRONG, 401);
   const a = await store.findAccount(username);
   if (!a?.passwordHash) { await verifyPassword(password, "scrypt$16384$8$1$AAAAAAAAAAAAAAAAAAAAAA==$AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="); return bad(WRONG, 401); } // giữ thời gian trả lời như nhau
+  if (a.banned) return bad("Tài khoản này đã bị khóa. Liên hệ quản trị viên nếu cần.", 403);
+  const site = await getSite();
+  if (site.maintenance.on && !isAdminUser(a)) return bad("Trang đang bảo trì, vui lòng quay lại sau", 503);
   if (a.lockedUntil > Date.now()) return bad(`Sai mật khẩu quá nhiều lần, thử lại sau ${Math.ceil((a.lockedUntil - Date.now()) / 60000)} phút`, 429);
   if (!(await verifyPassword(password, a.passwordHash))) { await store.noteLogin(a.id, false); return bad(WRONG, 401); }
   await store.noteLogin(a.id, true);

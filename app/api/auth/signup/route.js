@@ -1,3 +1,4 @@
+import { getSite } from "@/lib/admin";
 import GI from "@/data/genshin.json";
 import { store, sha256 } from "@/lib/store";
 import { hashPassword, checkPassword, USERNAME_RE, USERNAME_MSG } from "@/lib/password";
@@ -11,6 +12,7 @@ const cleanName = (n) => String(n || "").normalize("NFC").replace(/\s+/g, " ").t
 // Đăng ký tài khoản mới: { username, password, name?, avatar? } — tên hiển thị mặc định = username
 export async function POST(req) {
   if (!store) return bad("Chưa cấu hình máy chủ lưu tài khoản", 503);
+  if (!(await getSite()).signupEnabled) return bad("Hiện tại trang tạm đóng đăng ký tài khoản mới", 403);
   const body = await req.json().catch(() => ({}));
   const username = String(body.username || "").trim();
   if (!USERNAME_RE.test(username)) return bad(USERNAME_MSG);

@@ -1,3 +1,4 @@
+import { getSite } from "@/lib/admin";
 import { after } from "next/server";
 import { store, auth } from "@/lib/store";
 import { dayStartVN, cleanBody, CHAT_MAX } from "@/lib/chat";
@@ -42,6 +43,7 @@ export async function POST(req) {
   const b = await req.json().catch(() => ({}));
   const u = await auth(b.id, b.token);
   if (!u || !u.username) return bad("Cần đăng nhập để chat", 401);
+  if (!(await getSite()).chatEnabled) return bad("Phòng chat đang tạm đóng", 403);
   const body = cleanBody(b.body);
   if (!body) return bad("Tin nhắn trống");
   if ([...body].length > CHAT_MAX) return bad(`Tin nhắn tối đa ${CHAT_MAX} ký tự`);

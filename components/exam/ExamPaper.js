@@ -11,6 +11,7 @@ import { allQuestions, gradeExam, scoringOf, fmtTime, CEFR_VI, kindById, JLPT } 
 import { sfx } from "@/lib/sfx";
 import { examLevelOf } from "@/lib/boards";
 import { examRw } from "@/lib/rewards";
+import { useSite, useAdmin } from "@/lib/useSite";
 import { Ico } from "@/components/Icons";
 
 const KEY = (id) => `exam_run_${id}`;
@@ -121,6 +122,7 @@ function PassageView({ P, revealed }) {
 
 export default function ExamPaper({ E }) {
   const { S: G, update } = useGame();
+  const site = useSite(), isAdmin = useAdmin(G);
   const Qs = useMemo(() => allQuestions(E), [E]);
   const [run, setRun] = useState(undefined); // undefined = đang đọc lưu trữ
   const runRef = useRef(null);
@@ -162,7 +164,7 @@ export default function ExamPaper({ E }) {
   const result = useMemo(() => (run?.phase === "done" ? gradeExam(E, run.answers) : null), [run?.phase, run?.answers, E]);
   useEffect(() => {
     if (!result || run.saved) return;
-    const RW = examRw(E), bonus = { done: 0, pass: 0, great: 0 };
+    const RW = examRw(E, site.examMult), bonus = { done: 0, pass: 0, great: 0 };
     update((s) => {
       s.exam ||= {};
       const o = s.exam[E.id] || { best: 0, tries: 0 };
@@ -202,7 +204,7 @@ export default function ExamPaper({ E }) {
     (ok ? sfx.correct : sfx.wrong)();
     let gain = 0;
     if (ok) {
-      const RW = examRw(E);
+      const RW = examRw(E, site.examMult);
       update((s) => {
         s.exam ||= {};
         const o = (s.exam[E.id] ||= { best: 0, tries: 0 });
@@ -221,6 +223,8 @@ export default function ExamPaper({ E }) {
   const K = kindById(E.kind);
   const back = <Link href={`/de-thi/${E.kind}`} className="back" onClick={() => sfx.page()}>‹ {K?.name || "Luyện đề thi"}</Link>;
   if (run === undefined) return <p className="hint" style={{ textAlign: "center", marginTop: 40 }}>Đang mở đề…</p>;
+  // đề bị quản trị tạm ẩn (quản trị vẫn mở được để kiểm tra)
+  if (site.hiddenExams.includes(E.id) && isAdmin !== true) return <>{back}<div className="panel lbsec" style={{ marginTop: 16, textAlign: "center" }}><h2>🔒 Đề này đang tạm ẩn</h2><p>Đề đang được kiểm tra lại, bạn quay lại sau nhé. Hãy chọn đề khác trong danh sách.</p></div></>;
 
   // ——— giới thiệu ———
   if (!run) {
@@ -247,7 +251,7 @@ export default function ExamPaper({ E }) {
             {!!sc.cefr?.length && <li>Quy đổi CEFR (khung châu Âu) theo bảng chính thức của JLPT{sc.eq ? ` ${sc.eq}` : ""}: {sc.cefr.map(([m, c]) => `≥ ${m}/180 → ${c}`).join(" · ")}</li>}
           </ul>
           <h3>💎 Phần thưởng</h3>
-          {(() => { const W = examRw(E); return (
+          {(() => { const W = examRw(E, site.examMult); return (
             <ul>
               <li>Mỗi câu <b>trả lời đúng</b>: <b>+{W.first}</b> <Ico id="pgm" /> Nguyên Thạch (làm lại câu đã từng đúng: +{W.again}) và +1 vào <b>Điểm Mạo Hiểm</b>.</li>
               <li>Nộp hết đề lần đầu: <b>+{W.done}</b> · đỗ lần đầu: <b>+{W.pass}</b> · xuất sắc (từ 90% điểm): <b>+{W.great}</b>. Đỗ còn được cộng điểm xếp hạng, và điểm đề lên bảng <b>Thi thử JLPT</b>.</li>

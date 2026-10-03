@@ -4,6 +4,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useGame } from "@/components/Game";
+import { useSite, useAdmin } from "@/lib/useSite";
 import { EXAM_KINDS, EXAM_INDEX, kindById } from "@/lib/exams";
 import { sfx } from "@/lib/sfx";
 import { REVIEW_INDEX } from "@/components/exam/ReviewList";
@@ -58,7 +59,10 @@ function ReviewLinks({ lv, reviews }) {
 
 export default function ExamList({ kind }) {
   const { S } = useGame();
-  const [list, setList] = useState(undefined);
+  const [rawList, setList] = useState(undefined);
+  const site = useSite(), admin = useAdmin(S);
+  // đề bị quản trị tạm ẩn: người dùng thường không thấy (quản trị vẫn thấy để kiểm tra)
+  const list = useMemo(() => (Array.isArray(rawList) && admin !== true ? rawList.filter((x) => !site.hiddenExams.includes(x.id)) : rawList), [rawList, site, admin]);
   const [reviews, setReviews] = useState(null);
   const [lv, setLv] = useState("");
   useEffect(() => {

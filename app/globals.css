@@ -512,3 +512,10 @@ button.mnitem{font:inherit;text-align:left;cursor:pointer;width:100%}
   .tcard .vi{font-size:12.5px;padding-right:0;margin-bottom:6px}
   .tcard .meta{flex-direction:column;gap:1px;font-size:11.5px}
 }
+
+/* Thông báo toàn trang + màn hình bảo trì (trang quản trị điều khiển) */
+.sitebanner{position:relative;z-index:5;margin:8px auto 0;max-width:1100px;padding:9px 14px;border-radius:10px;font-size:14px;text-align:center;background:rgba(80,140,255,.16);border:1px solid rgba(80,140,255,.4)}
+.sitebanner.ok{background:rgba(70,190,110,.16);border-color:rgba(70,190,110,.45)}
+.sitebanner.warn{background:rgba(255,190,70,.18);border-color:rgba(255,190,70,.5)}
+.sitedown{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:20px;background:rgba(10,14,28,.96);color:#f3f0e6;text-align:center}
+.sitedown h1{margin:6px 0}.sitedown p{max-width:520px;opacity:.85}.sitedown .sdico{font-size:54px}

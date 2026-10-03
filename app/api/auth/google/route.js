@@ -1,3 +1,4 @@
+import { getSite } from "@/lib/admin";
 import { store, sha256, auth } from "@/lib/store";
 import { verifyGoogleCredential, GOOGLE_CLIENT_ID } from "@/lib/google";
 import { DEFAULT_ICON } from "@/lib/avatars";
@@ -44,6 +45,8 @@ export async function POST(req) {
   const found = await store.findGoogle(g.sub);
   // { link: true }: chỉ muốn gắn Google vào hồ sơ đang dùng — không tự chuyển sang hồ sơ khác
   if (body.link && found && found.id !== body.id) return bad("Tài khoản Google này đã gắn với một hồ sơ khác", 409);
+  if (found?.banned) return bad("Tài khoản này đã bị khóa. Liên hệ quản trị viên nếu cần.", 403);
+  if (!found && !body.link && !(await getSite()).signupEnabled) return bad("Hiện tại trang tạm đóng đăng ký tài khoản mới", 403);
   if (found) {
     const token = crypto.randomUUID() + crypto.randomUUID();
     await store.addToken(found.id, await sha256(token));
