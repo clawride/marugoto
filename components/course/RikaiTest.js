@@ -11,6 +11,7 @@ import { speakLines } from "@/lib/tts";
 import { shuffle } from "@/lib/data";
 import { toRomaji } from "@/lib/kana";
 import { sfx } from "@/lib/sfx";
+import { TEST_PER_CORRECT } from "@/lib/rewards";
 
 const say = (jp) => speakLines([{ t: jp }], { rate: 0.85 });
 const sayLines = (ls) => speakLines(ls.map((l) => ({ t: l.kana || l.jp })), { rate: 0.85 });
@@ -209,7 +210,7 @@ function Sheet({ groups, onResult, extra }) {
 }
 
 export default function RikaiTest({ course, n }) {
-  const { S, update } = useGame();
+  const { S, update, toast } = useGame();
   const book = course.books?.find((b) => b.key === "rikai") || course.books?.[0];
   const [T, setT] = useState(undefined);
   const [seed, setSeed] = useState(0);
@@ -224,7 +225,15 @@ export default function RikaiTest({ course, n }) {
   const save = (part, w) => (ok, total, wr) => {
     setWrong((o) => ({ ...o, [w]: wr }));
     const pct = Math.round((ok / total) * 100);
-    update((s) => { s[key] = s[key] || {}; const t = { ...(s[key].rtests?.[n] || {}) }; t[part] = Math.max(t[part] || 0, pct); s[key].rtests = { ...(s[key].rtests || {}), [n]: t }; });
+    let gain = 0;
+    update((s) => {
+      s[key] = s[key] || {}; const t = { ...(s[key].rtests?.[n] || {}) };
+      // Nguyên Thạch + điểm xếp hạng cho số câu đúng vượt kỷ lục cũ của phần này (làm lại không bị cộng trùng)
+      gain = Math.max(0, ok - Math.round(((t[part] || 0) / 100) * total));
+      if (gain) { s.primo += gain * TEST_PER_CORRECT; s.total = (s.total || 0) + gain; }
+      t[part] = Math.max(t[part] || 0, pct); s[key].rtests = { ...(s[key].rtests || {}), [n]: t };
+    });
+    if (gain) { sfx.primo(); toast(`+${gain * TEST_PER_CORRECT} Nguyên Thạch · ${gain} câu đúng mới`); }
   };
   const saku = S[key]?.sakubun || {};
   const saveSaku = (l, text) => update((s) => { s[key] = s[key] || {}; s[key].sakubun = { ...(s[key].sakubun || {}), [l]: text }; });

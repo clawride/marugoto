@@ -10,6 +10,7 @@ import { Player, AudioSetup } from "@/components/Listen";
 import { speakLines } from "@/lib/tts";
 import { sampleLines } from "@/lib/listenSources";
 import { sfx } from "@/lib/sfx";
+import { TEST_PER_CORRECT } from "@/lib/rewards";
 
 const say = (t) => speakLines([{ t }], { rate: 0.9 });
 const nrm = (s) => (s || "").replace(/[\s　。、．，.,！？!?「」]/g, "");
@@ -122,7 +123,7 @@ function Graded({ S: sec, show, onScore, best }) {
   const all = sec.groups.flatMap((g) => g.items.map((it, i) => [`${g.no}${g.part || ""}-${i}`, it]));
   const ok = all.filter(([id, it]) => isRight(it, v[id])).length;
   const pending = all.filter(([id, it]) => it.t === "free" && v[id]?.self == null).length;
-  useEffect(() => { if (done) onScore(Math.round((ok / all.length) * 100)); }, [done, ok]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { if (done) onScore(Math.round((ok / all.length) * 100), ok, all.length); }, [done, ok]); // eslint-disable-line react-hooks/exhaustive-deps
   const submit = () => { setDone(true); sfx.click(); };
   const redo = () => { setV((o) => Object.fromEntries(Object.entries(o).filter(([id, x]) => isRight(all.find((a) => a[0] === id)[1], x)))); setDone(false); };
   return (
@@ -171,7 +172,7 @@ function Prompts({ S: sec, show, notes, saveNote, n }) {
 }
 
 export default function SampleTest({ course, n }) {
-  const { S, update } = useGame();
+  const { S, update, toast } = useGame();
   const book = course.books?.[0];
   const [T, setT] = useState(undefined);
   const [kana, setKana] = useState(true);
@@ -183,7 +184,17 @@ export default function SampleTest({ course, n }) {
   const best = P.stest?.[n] || {};
   const notes = P.stnote || {};
   const lib = course.audio, show = { kana, vi, lib };
-  const saveScore = (key) => (pct) => update((s) => { const p = (s[course.store] = s[course.store] || {}); const t = { ...(p.stest?.[n] || {}) }; t[key] = Math.max(t[key] || 0, pct); p.stest = { ...(p.stest || {}), [n]: t }; });
+  const saveScore = (key) => (pct, ok, total) => {
+    let gain = 0;
+    update((s) => {
+      const p = (s[course.store] = s[course.store] || {}); const t = { ...(p.stest?.[n] || {}) };
+      // Nguyên Thạch + điểm xếp hạng cho số câu đúng vượt kỷ lục cũ của phần này (làm lại không bị cộng trùng)
+      gain = Math.max(0, (ok || 0) - Math.round(((t[key] || 0) / 100) * (total || 0)));
+      if (gain) { s.primo += gain * TEST_PER_CORRECT; s.total = (s.total || 0) + gain; }
+      t[key] = Math.max(t[key] || 0, pct); p.stest = { ...(p.stest || {}), [n]: t };
+    });
+    if (gain) { sfx.primo(); toast(`+${gain * TEST_PER_CORRECT} Nguyên Thạch · ${gain} câu đúng mới`); }
+  };
   const saveNote = (k, text) => update((s) => { const p = (s[course.store] = s[course.store] || {}); p.stnote = { ...(p.stnote || {}), [k]: text }; });
   return (
     <div className="bkwrap bktest">

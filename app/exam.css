@@ -136,3 +136,13 @@
 .exrankln{text-align:center;margin:10px 0 4px;font-size:14px}
 .exrankln a{color:var(--gold);font-weight:700}
 .exrankln small{color:var(--mute)}
+
+/* Nguyên Thạch ở Luyện đề thi: chip trên từng câu đúng + bảng thưởng ở trang kết quả */
+.exgem{display:inline-flex;align-items:center;gap:3px;margin-left:8px;padding:1px 8px;border-radius:99px;font-size:12px;font-weight:700;background:rgba(255,200,90,.16);color:#e6b34a;border:1px solid rgba(255,200,90,.35);animation:exgemin .5s ease-out}
+.exgem svg,.exgem img{width:14px;height:14px}
+@keyframes exgemin{from{transform:translateY(6px) scale(.8);opacity:0}to{transform:none;opacity:1}}
+.exrw{margin:12px 0;padding:14px 16px;border-color:rgba(255,200,90,.4)}
+.exrw>b{display:flex;align-items:center;gap:6px;font-size:16px;color:#e6b34a}
+.exrw ul{margin:8px 0 6px;padding-left:20px}
+.exrw li{margin:2px 0}
+.exrw small{display:block;opacity:.75}

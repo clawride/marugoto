@@ -10,6 +10,8 @@ import { speakLines, stopSpeak } from "@/lib/tts";
 import { allQuestions, gradeExam, scoringOf, fmtTime, CEFR_VI, kindById, JLPT } from "@/lib/exams";
 import { sfx } from "@/lib/sfx";
 import { examLevelOf } from "@/lib/boards";
+import { examRw } from "@/lib/rewards";
+import { Ico } from "@/components/Icons";
 
 const KEY = (id) => `exam_run_${id}`;
 const load = (id) => { try { return JSON.parse(localStorage.getItem(KEY(id)) || "null"); } catch { return null; } };
@@ -73,7 +75,7 @@ function Explain({ Q, open }) {
   );
 }
 
-function QuestionCard({ Q, qid, no, ans, onAnswer, locked, real, played, onPlayed, review }) {
+function QuestionCard({ Q, qid, no, ans, onAnswer, locked, real, played, onPlayed, review, gain }) {
   const done = ans != null;
   const showChoices = done || !Q.hideChoices;
   return (
@@ -81,6 +83,7 @@ function QuestionCard({ Q, qid, no, ans, onAnswer, locked, real, played, onPlaye
       <div className="exqhead">
         <span className="exqno">{no}</span>
         {done && <b className={ans === Q.answer ? "exok" : "exbad"}>{ans === Q.answer ? "✓ Đúng" : ans === -1 ? "✗ Bỏ trống" : "✗ Sai"}</b>}
+        {done && !!gain && <span className="exgem" title="Nguyên Thạch nhận được"><Ico id="pgm" /> +{gain}</span>}
       </div>
       {!!Q.audio?.length || Q.audioUrl ? <Listen Q={Q} qid={qid} real={real} played={played} onPlayed={onPlayed} /> : null}
       {Q.img && <img src={Q.img} alt="" className="exqimg" />}
@@ -159,10 +162,16 @@ export default function ExamPaper({ E }) {
   const result = useMemo(() => (run?.phase === "done" ? gradeExam(E, run.answers) : null), [run?.phase, run?.answers, E]);
   useEffect(() => {
     if (!result || run.saved) return;
+    const RW = examRw(E), bonus = { done: 0, pass: 0, great: 0 };
     update((s) => {
       s.exam ||= {};
       const o = s.exam[E.id] || { best: 0, tries: 0 };
       o.tries++; o.best = Math.max(o.best, result.total);
+      // thưởng một lần cho mỗi đề: nộp hết đề · đỗ lần đầu · xuất sắc (≥ 90% điểm) lần đầu
+      if (!o.doneRw) { o.doneRw = true; bonus.done = RW.done; }
+      if (result.passed && !o.passRw) { o.passRw = true; bonus.pass = RW.pass; }
+      if (result.passed && result.total >= 0.9 * result.max) { if (!o.greatRw) { o.greatRw = true; bonus.great = RW.great; } o.great = true; }
+      s.primo += bonus.done + bonus.pass + bonus.great;
       o.last = { t: run.finishedAt, total: result.total, passed: result.passed, cefr: result.cefr, right: result.right, count: result.count };
       if (result.passed) {
         o.passed = true;
@@ -181,11 +190,31 @@ export default function ExamPaper({ E }) {
       }
       s.exam[E.id] = o;
     });
-    set((r) => { r.saved = true; return r; });
+    set((r) => { r.saved = true; r.bonus = bonus; return r; });
+    if (bonus.done + bonus.pass + bonus.great > 0) setTimeout(() => sfx.primo(), 300);
   }, [result]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const start = (mode) => { sfx.open(); setRun(() => { const r = { mode, started: Date.now(), si: 0, phase: "sec", answers: {}, left: {}, played: {} }; runRef.current = r; save(E.id, r); return r; }); };
-  const answer = (qid, i) => { if (runRef.current?.answers[qid] != null) return; (i === Qs.find((x) => x.id === qid)?.Q.answer ? sfx.correct : sfx.wrong)(); set((r) => { if (r.answers[qid] == null) r.answers[qid] = i; return r; }); };
+  // trả lời: khóa đáp án; đúng → cộng Nguyên Thạch ngay (lần đầu đúng câu này nhiều hơn các lần sau) + 1 câu đúng vào điểm xếp hạng
+  const answer = (qid, i) => {
+    if (runRef.current?.answers[qid] != null) return;
+    const idx = Qs.findIndex((x) => x.id === qid), ok = i === Qs[idx]?.Q.answer;
+    (ok ? sfx.correct : sfx.wrong)();
+    let gain = 0;
+    if (ok) {
+      const RW = examRw(E);
+      update((s) => {
+        s.exam ||= {};
+        const o = (s.exam[E.id] ||= { best: 0, tries: 0 });
+        const rw = (o.rw || "").padEnd(Qs.length, "0");
+        gain = rw[idx] === "1" ? RW.again : RW.first;
+        o.rw = rw.slice(0, idx) + "1" + rw.slice(idx + 1);
+        s.primo += gain; s.total = (s.total || 0) + 1;
+      });
+      setTimeout(() => sfx.primo(), 200);
+    }
+    set((r) => { if (r.answers[qid] == null) { r.answers[qid] = i; if (gain) { r.gains = { ...(r.gains || {}), [qid]: gain }; r.earned = (r.earned || 0) + gain; } } return r; });
+  };
   const played = (qid) => set((r) => { r.played[qid] = true; return r; });
   const reset = () => { if (!confirm("Xóa bài làm hiện tại và làm lại từ đầu?")) return; stopSpeak(); save(E.id, null); runRef.current = null; setRun(null); };
 
@@ -217,6 +246,14 @@ export default function ExamPaper({ E }) {
             {sc.eq && <li>Sau đó <b>quy đổi sang JLPT mới {sc.eq}</b> (cấp tương đương chính thức): chấm lại theo thang {JLPT[sc.eq].groups.map((g) => `${g.jp} ${g.max}`).join(" · ")} (tổng 180, đỗ ≥ {JLPT[sc.eq].pass}, có điểm sàn).</li>}
             {!!sc.cefr?.length && <li>Quy đổi CEFR (khung châu Âu) theo bảng chính thức của JLPT{sc.eq ? ` ${sc.eq}` : ""}: {sc.cefr.map(([m, c]) => `≥ ${m}/180 → ${c}`).join(" · ")}</li>}
           </ul>
+          <h3>💎 Phần thưởng</h3>
+          {(() => { const W = examRw(E); return (
+            <ul>
+              <li>Mỗi câu <b>trả lời đúng</b>: <b>+{W.first}</b> <Ico id="pgm" /> Nguyên Thạch (làm lại câu đã từng đúng: +{W.again}) và +1 vào <b>Điểm Mạo Hiểm</b>.</li>
+              <li>Nộp hết đề lần đầu: <b>+{W.done}</b> · đỗ lần đầu: <b>+{W.pass}</b> · xuất sắc (từ 90% điểm): <b>+{W.great}</b>. Đỗ còn được cộng điểm xếp hạng, và điểm đề lên bảng <b>Thi thử JLPT</b>.</li>
+              <li>{E.kind === "kyu" ? "Đề cũ 級 khó và dài hơn" : "Đề JLPT"} nên thưởng nhiều hơn các bài luyện thường (đố vui: 10 Nguyên Thạch mỗi câu).</li>
+            </ul>
+          ); })()}
           <h3>📌 Lưu ý</h3>
           <ul>
             <li>Chọn đáp án là <b>chốt luôn</b>: đáp án đúng và lời giải (phiên âm Latinh, dịch, tách từ) hiện ngay, <b>không sửa được</b> cho đến hết bài.</li>
@@ -263,6 +300,22 @@ export default function ExamPaper({ E }) {
             {!G?.profile?.username && <small> · Đăng nhập để điểm của bạn được ghi lên bảng</small>}
           </p>
         )}
+        {(() => {
+          const b = run.bonus || {}, per = run.earned || 0, all = per + (b.done || 0) + (b.pass || 0) + (b.great || 0);
+          if (!all) return null;
+          return (
+            <div className="panel exrw">
+              <b><Ico id="pgm" /> +{all.toLocaleString("vi-VN")} Nguyên Thạch trong lượt làm này</b>
+              <ul>
+                {per > 0 && <li>Trả lời đúng: <b>+{per.toLocaleString("vi-VN")}</b></li>}
+                {b.done > 0 && <li>Hoàn thành đề lần đầu: <b>+{b.done}</b></li>}
+                {b.pass > 0 && <li>Đỗ lần đầu: <b>+{b.pass}</b></li>}
+                {b.great > 0 && <li>Xuất sắc (từ 90% điểm): <b>+{b.great}</b></li>}
+              </ul>
+              <small>Mỗi câu đúng cũng được cộng vào <b>Điểm Mạo Hiểm</b>; đỗ đề thi cộng thêm điểm xếp hạng. {E.kind === "kyu" ? "Đề cũ 級" : "Đề JLPT"} thưởng nhiều hơn các bài luyện thường.</small>
+            </div>
+          );
+        })()}
         {R.passed && <div className="excertcta panel"><span>🎓</span><div><b>Chúc mừng bạn đã đỗ!</b><p>Bạn nhận được Giấy chứng nhận luyện thi (bố cục kiểu phiếu điểm JLPT) — tải về dạng ảnh PNG.</p></div><Link href={`/de-thi/chung-nhan/${E.id}`} className="gbtn tri" onClick={() => sfx.page()}><span className="c" />Xem giấy chứng nhận</Link></div>}
         <div className="exresgrid">
           <div className="panel excefr">
@@ -328,7 +381,7 @@ export default function ExamPaper({ E }) {
             <PassageView P={P} revealed={allDone} />
             {pq.map((x) => { no++; return (
               <QuestionCard key={x.id} Q={x.Q} qid={x.id} no={x.Q.no ?? no} ans={run.answers[x.id]} onAnswer={answer}
-                real={real} played={!!run.played[x.id]} onPlayed={played} />
+                gain={run.gains?.[x.id]} real={real} played={!!run.played[x.id]} onPlayed={played} />
             ); })}
           </section>
         );
