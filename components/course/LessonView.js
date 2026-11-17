@@ -8,7 +8,8 @@ import QuestionSet from "@/components/QuestionSet";
 import { AudioSetup } from "@/components/Listen";
 import { Ico } from "@/components/Icons";
 import BookPart from "@/components/course/BookPart";
-import { PARTS, STAR_REWARD, readingOf, trackLabel, vocabQs, kanjiQs, grammarQs, fillQs, orderQs, listenQs } from "@/lib/course";
+import LenPicker from "@/components/course/LenPicker";
+import { PARTS, STAR_REWARD, readingOf, trackLabel, vocabQs, kanjiQs, kanjiVocab, grammarQs, fillQs, orderQs, listenQs } from "@/lib/course";
 import { starsFor, shuffle } from "@/lib/data";
 import { speakLines } from "@/lib/tts";
 import { sfx } from "@/lib/sfx";
@@ -66,10 +67,11 @@ function VocabView({ L }) {
     </div>
   );
 }
-function KanjiView({ L }) {
+function KanjiView({ L, kpool }) {
+  const list = kpool || L.kanji; // B1-2: hiện toàn bộ từ có chữ Hán của bài
   return (
     <div className="kgrid">
-      {L.kanji.map((k, i) => (
+      {list.map((k, i) => (
         <button key={i} className="panel kcard" onClick={() => speakLines([{ t: k.r }])}>
           <b className="jpt">{k.k}</b><span className="jpt">{k.r}</span><small>{k.vi}</small>
         </button>
@@ -161,14 +163,19 @@ export default function LessonView({ course, lesson }) {
   const bookTab = books.find((b) => b.key === tab);
   const [run, setRun] = useState(null);
   const [res, setRes] = useState(null);
+  const [klen, setKlen] = useState(10);
   const save = useSavePart(store, lesson);
   const counts = useMemo(() => L && Object.fromEntries(Object.entries(MAKE).map(([k, f]) => [k, f(L).length])), [L]);
+  // khóa có course.kanjiAll (B1-2): phần Kanji kiểm tra TOÀN BỘ từ vựng có chữ Hán của bài, chọn 10 · 20 · 30 · toàn bộ câu
+  const kpool = useMemo(() => (L && course.kanjiAll ? kanjiVocab(L.vocab) : null), [L, course.kanjiAll]);
+  const kn = kpool ? (klen && klen < kpool.length ? klen : kpool.length) : 0;
+  if (kpool && counts) counts.kanji = kn;
   if (!L) return <p style={{ marginTop: 40 }}>Không tìm thấy bài. <Link href={base}>{title}</Link></p>;
   if (!S) return null;
   const P = S[store]?.p || {};
   const lbl = (p) => course.partLabels?.[p.key] || p.label;
   const part = tabs.find((p) => p.key === tab);
-  const start = () => { setRes(null); setRun(MAKE[tab](L)); sfx.open(); window.scrollTo({ top: 0, behavior: "smooth" }); };
+  const start = () => { setRes(null); setRun(tab === "kanji" && kpool ? kanjiQs(L, kn, kpool).map((x) => ({ type: "mc", ...x })) : MAKE[tab](L)); sfx.open(); window.scrollTo({ top: 0, behavior: "smooth" }); };
   const View = VIEW[tab];
   const prev = C.lessonOf(lesson - 1), next = C.lessonOf(lesson + 1);
 
@@ -201,7 +208,8 @@ export default function LessonView({ course, lesson }) {
             <div><b>{part.ico} {lbl(part)}</b><span>{counts[tab]} câu · đúng ≥60% được 1 sao, ≥80% 2 sao, ≥95% 3 sao · mỗi sao mới +{STAR_REWARD} <Ico id="pgm" /></span></div>
             <button className="gbtn tri" onClick={start} disabled={!counts[tab]}><span className="c" />Bắt đầu kiểm tra</button>
           </div>
-          {View && <View L={L} course={course} />}
+          {tab === "kanji" && kpool && <LenPicker value={klen && klen < kpool.length ? klen : 0} onChange={setKlen} total={kpool.length} />}
+          {View && <View L={L} course={course} kpool={kpool} />}
         </>
       )}
 

@@ -9,8 +9,9 @@ import { FillQ } from "@/components/Battle";
 import ScriptPlayer from "@/components/ScriptPlayer";
 import { b1Topic } from "@/lib/b1";
 import { shuffle, pickRand, starsFor } from "@/lib/data";
-import { kanjiQs, STAR_REWARD } from "@/lib/course";
-import { sheetsOf } from "@/lib/kanjiSheets";
+import { kanjiQs, kanjiVocab, STAR_REWARD } from "@/lib/course";
+import VOCAB from "@/data/vocab.json";
+import LenPicker from "@/components/course/LenPicker";
 import { Stars } from "@/components/kanji/KanjiLesson";
 import { Ico } from "@/components/Icons";
 import { speakLines, stopSpeak, ttsAvailable } from "@/lib/tts";
@@ -79,12 +80,10 @@ function KanjiTab({ T }) {
   const { S, update } = useGame();
   const [run, setRun] = useState(null);
   const [res, setRes] = useState(null);
-  const pool = useMemo(() => {
-    const seen = new Set();
-    return sheetsOf("b1").filter((s) => s.t === T.topic).flatMap((s) => s.words)
-      .filter((w) => w.w && w.r && !seen.has(w.w) && seen.add(w.w))
-      .map((w) => ({ k: w.w, r: w.r, vi: w.vi, hv: w.hv }));
-  }, [T.topic]);
+  const [len, setLen] = useState(10);
+  // toàn bộ từ vựng có chữ Hán trong bảng 語彙表 của Topic (cùng nguồn với phần Từ vựng)
+  const pool = useMemo(() => kanjiVocab(VOCAB.filter((t) => t.n === T.topic).flatMap((t) => t.sections.flatMap((s) => s.words.map(([jp, kana, vi]) => ({ jp, kana, vi}))))), [T.topic]);
+  const nq = len && len < pool.length ? len : pool.length;
   const key = `${T.topic}:kanji`;
   const best = S?.b1?.p?.[key];
   const finish = (c, n) => {
@@ -99,7 +98,7 @@ function KanjiTab({ T }) {
     });
     setRes({ c, n, pct, stars, reward }); setRun(null); window.scrollTo({ top: 0, behavior: "smooth" });
   };
-  const start = () => { setRes(null); setRun(kanjiQs(null, 10, pool).map((x) => ({ type: "mc", ...x }))); sfx.open(); window.scrollTo({ top: 0, behavior: "smooth" }); };
+  const start = () => { setRes(null); setRun(kanjiQs(null, nq, pool).map((x) => ({ type: "mc", ...x }))); sfx.open(); window.scrollTo({ top: 0, behavior: "smooth" }); };
   if (run) return <CourseRun course={B11_BOOK_COURSE} qs={run} title="Chữ & Kanji" intro={KANJI_LINE} onFinish={finish} />;
   if (res) return (
     <div className="panel result">
@@ -115,20 +114,24 @@ function KanjiTab({ T }) {
     <>
       <ZhongliHost line={KANJI_LINE} />
       <div className="panel a22start">
-        <div><b>漢 Chữ & Kanji</b><span>{Math.min(10, pool.length)} câu đọc / chọn chữ Hán từ {pool.length} từ của Topic · đúng ≥60% được 1 sao, ≥80% 2 sao, ≥95% 3 sao · mỗi sao mới +{STAR_REWARD} <Ico id="pgm" />{best ? ` · tốt nhất ${best.pct}%` : ""}</span></div>
+        <div><b>漢 Chữ & Kanji</b><span>{nq} câu đọc / chọn chữ Hán, lấy từ {pool.length} từ có chữ Hán của Topic · đúng ≥60% được 1 sao, ≥80% 2 sao, ≥95% 3 sao · mỗi sao mới +{STAR_REWARD} <Ico id="pgm" />{best ? ` · tốt nhất ${best.pct}%` : ""}</span></div>
         <button className="gbtn tri" onClick={start} disabled={pool.length < 4}><span className="c" />Bắt đầu kiểm tra</button>
       </div>
+      <LenPicker value={len && len < pool.length ? len : 0} onChange={setLen} total={pool.length} />
       <Link href={`/kanji/b1/topic/${T.topic}`} className="panel kjtool" onClick={() => sfx.page()} style={{ display: "block", marginTop: 12 }}>
         <b>🈶 Kiểm tra tổng hợp · các chữ Hán của Topic {T.topic}</b>
         <span> Nghĩa, cách đọc, đặt câu, đoán chữ (tối đa 30 câu){S?.kanji?.p?.[`b1:t${T.topic}`] ? ` · tốt nhất ${S.kanji.p[`b1:t${T.topic}`].pct}%` : ""}</span>
       </Link>
-      <div className="kgrid">
-        {pool.map((k) => (
-          <button key={k.k} className="panel kcard" onClick={() => speakLines([{ t: k.r }])}>
-            <b className="jpt">{k.k}</b><span className="jpt">{k.r}</span><small>{k.hv ? `${k.hv} · ` : ""}{k.vi}</small>
-          </button>
-        ))}
-      </div>
+      <details className="panel" style={{ marginTop: 12, padding: "10px 14px" }}>
+        <summary style={{ cursor: "pointer" }}><b>Xem {pool.length} từ có chữ Hán của Topic</b></summary>
+        <div className="kgrid" style={{ marginTop: 10 }}>
+          {pool.map((k) => (
+            <button key={k.k} className="panel kcard" onClick={() => speakLines([{ t: k.r }])}>
+              <b className="jpt">{k.k}</b><span className="jpt">{k.r}</span><small>{k.vi}</small>
+            </button>
+          ))}
+        </div>
+      </details>
     </>
   );
 }
