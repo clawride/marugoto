@@ -29,6 +29,11 @@ for (const f of fs.readdirSync(path.join(root, "data")).filter((x) => /-lessons\
   for (const L of Array.isArray(a) ? a : a.lessons || []) for (const w of L.vocab || []) if (w && w.jp) add(w.jp, w.kana);
 }
 // phiếu kanji: words [{ w, r }]
+for (const book of ["mnn1", "mnn2"]) {
+  for (const file of fs.readdirSync(path.join(root, "data", book)).filter((f) => /^lesson-\d+\.json$/.test(f))) {
+    for (const v of rd(`data/${book}/${file}`).vocab || []) add(v.jp.replace(/\s/g, ""), v.kana.replace(/\s/g, ""));
+  }
+}
 for (const f of fs.readdirSync(path.join(root, "data")).filter((x) => /^kanji-sheets-.*\.json$/.test(x))) {
   for (const sh of rd(`data/${f}`).sheets || []) for (const w of sh.words || []) add(w.w, w.r);
 }

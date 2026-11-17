@@ -132,7 +132,7 @@ export const MN2_COURSE = {
 // Bài viết/luyện viết của sách được chuyển thành bài sắp xếp từ (phần "Sắp xếp câu") vì người học không gõ tiếng Nhật.
 export const MN1_COURSE = {
   store: "mn1", C: MN1, base: "/mn1", title: "Minna - Genshin Sơ cấp 1", study: true,
-  unit: "Bài", unitTag: (L) => `TOPIC ${L.topic} · 第${L.lesson}課`,
+  unit: "Bài", unitTag: (L) => L.lesson === 0 ? "はじめに · BÀI MỞ ĐẦU" : `TOPIC ${L.topic} · 第${L.lesson}課`,
   audio: NO_AUDIO, audioSetups: [],
   Host: AmberHost, Hero: AmberHero, lines: AMB, char: AMBER, hostName: "Amber",
   exam: MN1_EXAM,

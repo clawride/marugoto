@@ -30,9 +30,14 @@ export default function Header() {
   useEffect(() => {
     const el = rail.current;
     if (!el) return;
+    const measure = () => document.documentElement.style.setProperty("--header-height", `${el.getBoundingClientRect().height + 1}px`);
+    const resize = new ResizeObserver(measure);
+    resize.observe(el);
+    measure();
     const wheel = (e) => {
-      if (el.scrollWidth <= el.clientWidth || Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
-      el.scrollLeft += e.deltaY; e.preventDefault();
+      if (e.ctrlKey || el.scrollWidth <= el.clientWidth || Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+      const next = Math.max(0, Math.min(el.scrollWidth - el.clientWidth, el.scrollLeft + e.deltaY));
+      if (next !== el.scrollLeft) { el.scrollLeft = next; e.preventDefault(); }
     };
     let sx = 0, sl = 0, dragging = false, moved = false;
     const down = (e) => { if (e.pointerType !== "mouse" || e.button !== 0 || el.scrollWidth <= el.clientWidth) return; dragging = true; moved = false; sx = e.clientX; sl = el.scrollLeft; };
@@ -44,7 +49,7 @@ export default function Header() {
     window.addEventListener("pointermove", move);
     window.addEventListener("pointerup", up);
     el.addEventListener("click", click, true);
-    return () => { el.removeEventListener("wheel", wheel); el.removeEventListener("pointerdown", down); window.removeEventListener("pointermove", move); window.removeEventListener("pointerup", up); el.removeEventListener("click", click, true); };
+    return () => { resize.disconnect(); el.removeEventListener("wheel", wheel); el.removeEventListener("pointerdown", down); window.removeEventListener("pointermove", move); window.removeEventListener("pointerup", up); el.removeEventListener("click", click, true); };
   }, []);
 
   useEffect(() => { setOpen(false); }, [path]);
@@ -70,7 +75,7 @@ export default function Header() {
   return (
     <header className="top">
       <div className="in" ref={rail}>
-        <Link href="/" className="brand" onClick={() => sfx.page()}>
+        <Link href="/" className="brand" aria-label="Trang chủ · Sổ Tay Teyvat" onClick={() => sfx.page()}>
           <svg><use href="#emb" /></svg>
           <div><b>Sổ Tay Từ Vựng Teyvat</b><small>MARUGOTO A1 · B1</small></div>
         </Link>
@@ -79,7 +84,7 @@ export default function Header() {
           <div className="curr hide-sm" title="Mối Duyên Vương Vấn / Mối Duyên Tương Ngộ"><Ico id="fateI" />{n(S?.fates.i)} <Ico id="fateA" />{n(S?.fates.a)}</div>
         </>}
         <span className="topgap" />
-        <button ref={btn} className={`navbtn menubtn ${open ? "on" : ""}`} aria-expanded={open} aria-controls="mainmenu" onClick={() => { setOpen((v) => !v); sfx.click(); }}>
+        <button ref={btn} className={`navbtn menubtn ${open ? "on" : ""}`} aria-label={open ? "Đóng menu" : "Mở menu"} aria-expanded={open} aria-controls="mainmenu" onClick={() => { setOpen((v) => !v); sfx.click(); }}>
           <span aria-hidden="true">{open ? "✕" : "☰"}</span><span className="lbl">Menu</span>
         </button>
         {isAdmin === true && <Link href="/quan-tri" className={`navbtn ${path.startsWith("/quan-tri") ? "on" : ""}`} onClick={() => sfx.page()} title="Trang quản trị" aria-label="Trang quản trị"><span aria-hidden="true">⚙️</span><span className="lbl">Quản trị</span></Link>}

@@ -18,6 +18,7 @@ import "./plain.css";
 import "./motion.css";
 import "./rank-fun.css";
 import "./chat.css";
+import "./learning.css";
 import { GameProvider } from "@/components/Game";
 import Header from "@/components/Header";
 import SiteGate from "@/components/SiteGate";

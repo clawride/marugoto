@@ -14,6 +14,8 @@ import { starsFor, shuffle } from "@/lib/data";
 import { speakLines } from "@/lib/tts";
 import { sfx } from "@/lib/sfx";
 import Rom from "@/components/Rom";
+import LessonTabs from "@/components/course/LessonTabs";
+import StudyContents from "@/components/course/StudyContents";
 
 const Stars = ({ n = 0 }) => <span className="a22stars">{[0, 1, 2].map((i) => <i key={i} className={i < n ? "on" : ""}>★</i>)}</span>;
 
@@ -51,19 +53,22 @@ function Result({ course, res, onAgain, onBack }) {
 }
 
 // ===== nội dung xem trước của từng phần =====
-function VocabView({ L }) {
+function VocabView({ L, showMeaning = true, showRomaji = false }) {
   const [f, setF] = useState("");
-  const list = L.vocab.filter((v) => !f || v.jp.includes(f) || v.kana?.includes(f) || v.vi.toLowerCase().includes(f.toLowerCase()));
+  const normalize = (s) => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d");
+  const list = L.vocab.filter((v) => !f || [v.jp, v.kana, v.vi, ...(v.usage || [])].some((s) => s && normalize(s).includes(normalize(f))));
   return (
     <div className="panel a22list">
-      <div className="a22tools"><input className="nameinp" placeholder="Tìm từ…" value={f} onChange={(e) => setF(e.target.value)} /><span>{L.vocab.length} từ</span></div>
+      <div className="a22tools"><label className="vocab-search"><span>Tìm từ trong bài</span><input type="search" className="nameinp" placeholder="Nhập tiếng Nhật hoặc nghĩa tiếng Việt…" value={f} onChange={(e) => setF(e.target.value)} /></label><span aria-live="polite">{list.length}/{L.vocab.length} từ</span></div>
       <div className="vtable">
         {list.map((v, i) => (
-          <div key={i} className="vrow">
-            <button className="spk" onClick={() => speakLines([{ t: v.kana || v.jp }])} aria-label="Nghe">🔊</button>
-            <b className="jpt">{v.jp}</b><span className="jpt kana">{readingOf(v)}</span><span className="vi">{v.vi}</span><small>{v.type}</small>
+          <div key={i} className="vrow vocab-row">
+            <button className="spk" onClick={() => speakLines([{ t: v.kana || v.jp }])} aria-label={`Nghe ${v.jp}`}>🔊</button>
+            <div className="vocab-word"><b className="jpt">{v.jp}</b>{readingOf(v) && <span className="jpt kana">{readingOf(v)}</span>}{v.usage?.map((u) => <span key={u} className="vocab-usage jpt">{u}</span>)}{showRomaji && <Rom text={v.kana || v.jp} />}</div>
+            {showMeaning && <span className="vi">{v.vi}</span>}<small className="vocab-type">{v.type}</small>
           </div>
         ))}
+        {!list.length && <p role="status" className="hint">Chưa tìm thấy từ phù hợp. Thử cách đọc kana hoặc một phần nghĩa tiếng Việt.</p>}
       </div>
     </div>
   );
@@ -151,21 +156,24 @@ function useShow(key, def = true) {
   useEffect(() => { try { const s = localStorage.getItem(key); if (s != null) setV(s === "1"); } catch {} }, [key]);
   return [v, (x) => { setV(x); try { localStorage.setItem(key, x ? "1" : "0"); } catch {} }];
 }
-function StudyView({ L }) {
+function StudyView({ L, onPractice }) {
   const say = (t) => speakLines([{ t }], { rate: 0.85 });
   const [ro, setRo] = useShow("st_ro", true);
   const [vi, setVi] = useShow("st_vi", true);
   const R = ({ text }) => (ro ? <Rom text={text} /> : null);
+  const prefix = `study-${L.lesson}`;
   return (
-    <div className="studyview">
+    <div className="study-layout">
+      <StudyContents lesson={L} prefix={prefix} />
+      <div className="studyview">
       <div className="panel bkopts stopts">
         <label><input type="checkbox" checked={ro} onChange={(e) => setRo(e.target.checked)} /> Hiện phiên âm Latinh (romaji)</label>
         <label><input type="checkbox" checked={vi} onChange={(e) => setVi(e.target.checked)} /> Hiện nghĩa tiếng Việt của câu</label>
       </div>
-      <section className="panel stsec">
+      <section className="panel stsec" id={`${prefix}-grammar`} data-study-anchor>
         <h2>📐 文型・例文 <small>Mẫu câu và ví dụ</small></h2>
         {L.grammar.map((g, i) => (
-          <div key={i} className="stgram">
+          <div key={i} className="stgram" id={`${prefix}-grammar-${i}`} data-study-anchor>
             <div className="stpat"><b className="jpt">{g.point}</b><span>{g.vi}</span></div>
             <p>{g.explain}</p>
             <R text={`${g.point || ""} ${g.explain || ""}`} />
@@ -176,10 +184,22 @@ function StudyView({ L }) {
         ))}
       </section>
 
-      <section className="panel stsec">
+      {!!L.reference?.length && <section className="panel stsec" id={`${prefix}-reference`} data-study-anchor>
+        <h2>🗂 Bảng ghi nhớ</h2>
+        {L.reference.map((table, i) => <div className="study-reference" key={i}>
+          <h3>{table.title}</h3>
+          <div className="reference-scroll" role="region" tabIndex={0} aria-label={table.title}>
+            <table><caption className="sr-only">{table.title}</caption><thead><tr>{table.columns.map((c) => <th key={c} scope="col">{c}</th>)}</tr></thead>
+              <tbody>{table.rows.map((row, j) => <tr key={j}>{row.map((cell, k) => <td key={k}><span>{cell}</span>{ro && /[ぁ-ヿ一-鿿]/.test(cell) && <R text={cell} />}</td>)}</tr>)}</tbody>
+            </table>
+          </div>{table.note && <p className="study-note">{table.note}</p>}
+        </div>)}
+      </section>}
+
+      <section className="panel stsec" id={`${prefix}-dialogue`} data-study-anchor>
         <h2>💬 会話 <small>Hội thoại · bấm 🔊 để nghe</small></h2>
         {L.listening.map((it, i) => (
-          <div key={i} className="stdlg">
+          <div key={i} className="stdlg" id={`${prefix}-dialogue-${i}`} data-study-anchor>
             <div className="stdh"><b>{it.title}</b><button className="chip sm" onClick={() => speakLines(it.tts, { rate: 0.85 })}>▶ Nghe cả hội thoại</button></div>
             <p className="lsit">🎬 {it.situation}</p>
             <div className="stlines">
@@ -192,7 +212,7 @@ function StudyView({ L }) {
       </section>
 
       {L.reading?.map((RD, i) => (
-        <section key={i} className="panel stsec">
+        <section key={i} className="panel stsec" id={`${prefix}-reading-${i}`} data-study-anchor>
           <h2>📖 Bài đọc <small>{RD.title}</small></h2>
           <div className="parch stread"><div className="rtext jpt">{RD.text.split("\n").filter(Boolean).map((p, k) => <p key={k}>{p}</p>)}</div></div>
           {ro && <R text={RD.text} />}
@@ -200,11 +220,18 @@ function StudyView({ L }) {
         </section>
       ))}
 
-      <section className="panel stsec">
+      <section className="panel stsec" id={`${prefix}-vocab`} data-study-anchor>
         <h2>🈶 Từ vựng <small>{L.vocab.length} từ</small></h2>
-        <VocabView L={L} />
+        <VocabView L={L} showMeaning={vi} showRomaji={ro} />
+      </section>
+      <section className="panel stsec study-practice" id={`${prefix}-practice`} data-study-anchor>
+        <h2>🧩 Luyện sắp xếp câu <small>{L.order.length} câu mẫu</small></h2>
+        <p>Đọc nghĩa rồi thử tự ghép các cụm từ. Mở câu mẫu để đối chiếu hoặc vào phần luyện tập để làm bài lấy sao.</p>
+        {L.order.map((q, i) => <details key={i}><summary>Câu {i + 1}{vi ? ` · ${q.vi}` : " · Xem câu mẫu"}</summary><p className="jpt">{q.chunks.join(" ")}</p><R text={q.chunks.join(" ")} /></details>)}
+        <button type="button" className="gbtn tri" onClick={onPractice}>Luyện sắp xếp câu</button>
       </section>
       <p className="hint" style={{ textAlign: "center" }}>Học xong thì chọn từng phần phía trên (Từ vựng, Nghe, Kanji, Điền từ, Sắp xếp câu…) để làm kiểm tra lấy sao.</p>
+      </div>
     </div>
   );
 }
@@ -260,16 +287,10 @@ export default function LessonView({ course, lesson }) {
         <p>{L.titleVi}</p>
         {L.cando?.length > 0 && <ul className="cando">{L.cando.map((c, i) => <li key={i}>{c}</li>)}</ul>}
       </div>
-      <div className="chips a22tabs">
-        {tabs.map((p) => (
-          <button key={p.key} className={`chip dk ${tab === p.key ? "on" : ""}`} onClick={() => { setTab(p.key); setRun(null); setRes(null); sfx.click(); }}>
-            <span className="pi">{p.ico}</span>{lbl(p)}<Stars n={P[`${lesson}:${p.key}`]?.stars} />
-          </button>
-        ))}
-      </div>
+      <LessonTabs tabs={tabs} active={tab} label={lbl} record={P} lesson={lesson} onChange={(key) => { setTab(key); setRun(null); setRes(null); sfx.click(); }} />
 
       {bookTab && !run && !res ? <BookPart key={`${bookTab.key}-${lesson}`} course={course} book={bookTab} lesson={lesson} stars={<Stars n={P[`${lesson}:${bookTab.key}`]?.stars} />} onQuiz={(qs) => { setRes(null); setRun(qs); window.scrollTo({ top: 0, behavior: "smooth" }); }} />
-      : tab === "study" ? <><Host line={lines.hub?.[0]} /><StudyView L={L} /></>
+      : tab === "study" ? <><Host line={lines.hub?.[0]} /><StudyView L={L} onPractice={() => { setTab("order"); setRun(null); setRes(null); window.scrollTo({ top: 0, behavior: "smooth" }); }} /></>
       : tab === "read" ? <ReadingPart key={lesson} L={L} save={save} course={course} /> : res ? (
         <Result course={course} res={res} onAgain={bookTab ? () => { setRes(null); setRun(null); } : start} onBack={() => { setRes(null); setRun(null); }} />
       ) : run ? (

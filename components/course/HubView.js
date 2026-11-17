@@ -18,6 +18,9 @@ export default function HubView({ course }) {
   return (
     <div className={`th-${store}`}>
       <Hero />
+      {C.intro && <Link href={`${base}/0`} className="panel course-intro" onClick={() => sfx.page()}>
+        <span aria-hidden="true">🌱</span><div><b>Bắt đầu từ đây · Bài mở đầu</b><p>{C.intro.titleVi}</p><small>{C.intro.vocab.length} từ và câu giao tiếp · có luyện tập, nghe và kiểm tra</small></div><span aria-hidden="true">›</span>
+      </Link>}
       {course.extra?.length > 0 && (
         <div className="kjtools">
           {course.extra.map((x) => <Link key={x.href} href={x.href} className="panel kjtool" onClick={() => sfx.page()}><b>{x.title}</b><span>{x.sub}</span></Link>)}
