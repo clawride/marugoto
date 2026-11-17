@@ -1,0 +1,113 @@
+{
+  "id": "a22-1",
+  "book": "a22",
+  "topics": [1, 2, 3],
+  "sections": [
+    {
+      "title": "Trợ từ",
+      "sub": "Chọn trợ từ đúng cho mỗi chỗ trống",
+      "items": [
+        {
+          "type": "passage",
+          "text": "A）あそこ（①） いる 人は だれですか。\nB）あの めがね（②） かけている 人ですか。\nA）いいえ、ぼうしを かぶって、ジーンズを はいている 人です。\nB）ああ、田中さんです。田中さんは せ（③） 高くて、とても やさしい 人ですよ。\nA）そうですか。じゃ、あとで しょうかいして ください。\nB）ええ。田中さんは マンガ（④） 好きだから、きっと 話が 合いますよ。",
+          "vi": "A: Người đang ở đằng kia là ai vậy?\nB: Người đang đeo kính kia à?\nA: Không, người đội mũ, mặc quần jean ấy.\nB: À, anh Tanaka đấy. Anh Tanaka cao, và rất hiền.\nA: Vậy à. Thế lát nữa giới thiệu cho tôi nhé.\nB: Ừ. Anh Tanaka thích manga nên chắc chắn hai người sẽ hợp chuyện đấy.",
+          "blanks": [
+            { "opts": ["は", "に", "で", "を"], "a": 1, "explain": "Nơi tồn tại của người/vật: [nơi] に いる. あそこに いる 人 = người đang ở đằng kia." },
+            { "opts": ["が", "で", "を", "に"], "a": 2, "explain": "めがねを かけます (đeo kính) – tân ngữ dùng を. Vている + N: めがねを かけている 人." },
+            { "opts": ["を", "が", "に", "で"], "a": 1, "explain": "Mẫu N1は N2が イA: 田中さんは せが 高い (anh Tanaka thì dáng cao)." },
+            { "opts": ["で", "を", "に", "が"], "a": 3, "explain": "Đối tượng của 好き dùng が: マンガが 好きです." }
+          ]
+        },
+        {
+          "type": "passage",
+          "text": "店員）いらっしゃいませ。ご注文は お決まりですか。\nリン）私は 肉（①） 食べられないんですが、何か おすすめは ありますか。\n店員）野菜（②） 料理なら、この てんぷらが 人気ですよ。\nリン）じゃ、それ（③） します。それから、ウーロン茶を 2つ ください。\n店員）てんぷらは しょうゆを かけないで、しお（④） 食べて ください。\nリン）はい。わあ、おいしそう！ いただきます。",
+          "vi": "Nhân viên: Xin mời quý khách. Quý khách đã chọn món chưa ạ?\nLinh: Tôi không ăn được thịt, có món nào gợi ý không ạ?\nNhân viên: Nếu là món rau thì món tempura này được ưa chuộng lắm ạ.\nLinh: Vậy tôi chọn món đó. Thêm 2 trà ô long nữa.\nNhân viên: Tempura thì đừng rưới xì dầu, hãy chấm muối mà ăn ạ.\nLinh: Vâng. Ôi, trông ngon quá! Mời mọi người.",
+          "blanks": [
+            { "opts": ["が", "に", "で", "へ"], "a": 0, "explain": "Với động từ khả năng (食べられる), đối tượng thường dùng が: 肉が 食べられない." },
+            { "opts": ["が", "を", "の", "に"], "a": 2, "explain": "N の N: 野菜の 料理 (món rau). Mẫu N1なら、N2が いいです." },
+            { "opts": ["を", "に", "が", "で"], "a": 1, "explain": "Chọn món: N に します → それに します (tôi chọn cái đó)." },
+            { "opts": ["を", "に", "が", "で"], "a": 3, "explain": "で chỉ phương tiện/cách thức: しおで 食べる (ăn với muối). Mẫu V1-ないで V2: しょうゆを かけないで 食べる." }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Từ để hỏi",
+      "sub": "Chọn từ để hỏi phù hợp",
+      "items": [
+        { "type": "fill", "q": "A）「ひとりっこ」って（　） 意味ですか。\nB）きょうだいが いない 人の ことです。", "opts": ["どう", "どれ", "どういう", "いくつ"], "a": 2, "vi": "A: \"Hitorikko\" nghĩa là gì vậy?\nB: Là người không có anh chị em.", "explain": "Hỏi nghĩa của từ: 〜って どういう 意味ですか. ～って = というのは." },
+        { "type": "fill", "q": "A）田中さんは（　） 人ですか。\nB）あそこで わらっている、せが 高い 人です。", "opts": ["どの", "どれ", "どこ", "どう"], "a": 0, "vi": "A: Anh Tanaka là người nào?\nB: Là người cao đang cười ở đằng kia.", "explain": "Hỏi 'người nào' trong nhiều người: どの + N (どの 人). どれ không đứng trước danh từ." },
+        { "type": "fill", "q": "A）この そうめんは（　） 食べますか。\nB）この たれに つけて 食べます。", "opts": ["いつ", "だれと", "どうやって", "どこで"], "a": 2, "vi": "A: Món somen này ăn như thế nào?\nB: Chấm vào nước chấm này rồi ăn.", "explain": "B trả lời về cách ăn nên hỏi bằng どうやって (bằng cách nào)." },
+        { "type": "fill", "q": "A）沖縄では（　）が できますか。\nB）ダイビングや ドライブが できますよ。", "opts": ["どこ", "何", "いつ", "だれ"], "a": 1, "vi": "A: Ở Okinawa có thể làm gì?\nB: Có thể lặn biển, lái xe dạo chơi đấy.", "explain": "Hỏi hoạt động: 何が できますか (có thể làm gì)." },
+        { "type": "fill", "q": "A）沖縄旅行は（　） でしたか。\nB）海が きれいで、とても よかったです。", "opts": ["いくら", "どこ", "いつ", "どう"], "a": 3, "vi": "A: Chuyến du lịch Okinawa thế nào?\nB: Biển đẹp, rất tuyệt.", "explain": "Hỏi cảm nhận/ấn tượng: N は どうでしたか." }
+      ]
+    },
+    {
+      "title": "Chia động từ",
+      "sub": "Chọn dạng đúng của động từ",
+      "items": [
+        { "type": "fill", "q": "わたしは 3年前から 東京に（　） います。", "opts": ["住む", "住んで", "住み", "住んだ"], "a": 1, "vi": "Tôi sống ở Tokyo từ 3 năm trước.", "explain": "Trạng thái kéo dài: V-て います → 住んで います." },
+        { "type": "fill", "q": "これは 母が（　） ケーキです。どうぞ。", "opts": ["作って", "作り", "作った", "作ら"], "a": 2, "vi": "Đây là bánh mẹ tôi đã làm. Mời bạn.", "explain": "Thể thường bổ nghĩa cho danh từ: 母が 作った ケーキ (bánh mẹ đã làm)." },
+        { "type": "fill", "q": "この 店では、くつを（　）から 入って ください。", "opts": ["ぬぐ", "ぬいだ", "ぬがない", "ぬいで"], "a": 3, "vi": "Ở quán này, hãy cởi giày rồi mới vào.", "explain": "V1-てから、V2 (làm V1 xong rồi V2): ぬいでから 入る." },
+        { "type": "fill", "q": "おさしみは しょうゆを（　） 食べても おいしいですよ。", "opts": ["つけないで", "つけなくて", "つけない", "つけなかった"], "a": 0, "vi": "Sashimi không chấm xì dầu mà ăn cũng ngon đấy.", "explain": "V1-ないで V2: làm V2 mà không làm V1 (cách thức) → つけないで 食べる." },
+        { "type": "fill", "q": "レストランの 中で たばこを（　） いけません。", "opts": ["すうと", "すっては", "すって", "すわないで"], "a": 1, "vi": "Không được hút thuốc trong nhà hàng.", "explain": "Cấm đoán: V-ては いけません → すっては いけません." },
+        { "type": "fill", "q": "沖縄は 日ざしが 強いですから、ぼうしを（　） ほうが いいですよ。", "opts": ["持っていって", "持っていった", "持っていき", "持っていかない"], "a": 1, "vi": "Ở Okinawa nắng gắt nên bạn nên mang theo mũ đấy.", "explain": "Khuyên nên làm: V-た ほうが いいです → 持っていった ほうが いい. (持っていかない ほうが trái với lý do nắng gắt.)" },
+        { "type": "fill", "q": "ふねに（　） とき、少し ゆれて こわかったです。", "opts": ["乗り", "乗って", "乗っている", "乗ろう"], "a": 2, "vi": "Lúc đang đi trên thuyền, thuyền hơi lắc nên tôi sợ.", "explain": "V-ている とき: khi đang trong trạng thái làm gì → 乗っている とき (khi đang đi thuyền)." },
+        { "type": "fill", "q": "この すいぞくかんでは、イルカの ショーが（　）。", "opts": ["見ます", "見せます", "見させます", "見られます"], "a": 3, "vi": "Ở thủy cung này có thể xem show cá heo.", "explain": "Thể khả năng: N が V-(ら)れます. 見る (nhóm 2) → 見られます." }
+      ]
+    },
+    {
+      "title": "Tính từ",
+      "sub": "Chọn dạng đúng của tính từ",
+      "items": [
+        { "type": "fill", "q": "A）わあ、この ケーキ、（　） ですね。\nB）ええ、早く 食べて みましょう。", "opts": ["おいしく", "おいしかった", "おいしそう", "おいしくて"], "a": 2, "vi": "A: Ôi, cái bánh này trông ngon nhỉ.\nB: Ừ, ăn thử nhanh đi.", "explain": "Chưa ăn, nhìn thấy → イA bỏ い + そうです: おいしそうです (trông có vẻ ngon)." },
+        { "type": "fill", "q": "こうえんで 子どもたちが（　） あそんで います。", "opts": ["楽しい", "楽しそうな", "楽しそう", "楽しそうに"], "a": 3, "vi": "Bọn trẻ đang chơi một cách vui vẻ ở công viên.", "explain": "Bổ nghĩa cho động từ: 〜そうに + V → 楽しそうに あそぶ." },
+        { "type": "fill", "q": "かみが（　） 女の人が 私の 姉です。", "opts": ["長く", "長い", "長くて", "長さ"], "a": 1, "vi": "Người phụ nữ tóc dài là chị gái tôi.", "explain": "Mẫu N2が イA-い + N1: かみが 長い 女の人." },
+        { "type": "fill", "q": "この 店は（　） おいしいので、いつも こんで います。", "opts": ["安くて", "安い", "安く", "安かった"], "a": 0, "vi": "Quán này rẻ và ngon nên lúc nào cũng đông.", "explain": "Nối hai tính từ: イA bỏ い + くて → 安くて おいしい." },
+        { "type": "fill", "q": "沖縄の 海は 本当に（　） です。", "opts": ["きれいな", "きれいに", "きれい", "きれいで"], "a": 2, "vi": "Biển Okinawa thật sự rất đẹp.", "explain": "ナA đứng cuối câu trước です giữ nguyên: きれいです (không có な)." },
+        { "type": "fill", "q": "ガイドさんは とても（　） 人で、いろいろ 教えて くれました。", "opts": ["しんせつに", "しんせつ", "しんせつな", "しんせつだ"], "a": 2, "vi": "Hướng dẫn viên là người rất tốt bụng, đã chỉ cho tôi nhiều thứ.", "explain": "ナA bổ nghĩa cho danh từ: ナA-な + N → しんせつな 人." }
+      ]
+    },
+    {
+      "title": "Cuối câu trong hội thoại",
+      "sub": "Chọn cách nói phù hợp cho chỗ trống",
+      "items": [
+        { "type": "fill", "q": "A）この 料理、肉が 入って いますか。\nB）いいえ、入って いませんよ。\nA）よかった。私、ベジタリアン（　）。", "opts": ["だそうです", "なんです", "なので", "でしょう"], "a": 1, "vi": "A: Món này có thịt không?\nB: Không, không có đâu.\nA: May quá. Tôi là người ăn chay mà.", "explain": "Giải thích lý do của bản thân: N + なんです (〜んです). だそうです là truyền đạt lại; なので không kết thúc câu." },
+        { "type": "fill", "q": "A）6月に 沖縄に 行きたいんですが…。\nB）6月は つゆで 雨が 多いですから、（　）。", "opts": ["行った ほうが いいですよ", "行っても いいですよ", "行かない ほうが いいですよ", "行っては いけません"], "a": 2, "vi": "A: Tôi muốn đi Okinawa vào tháng 6...\nB: Tháng 6 là mùa mưa, mưa nhiều nên tốt hơn là đừng đi.", "explain": "Khuyên không nên làm: V-ない ほうが いいです. 行っては いけません là cấm, quá mạnh và không hợp." },
+        { "type": "fill", "q": "A）もう 食べても いいですか。\nB）いいえ、（　）。あと 5分 待って ください。", "opts": ["もう 食べました", "まだです", "はい、どうぞ", "もう いいです"], "a": 1, "vi": "A: Ăn được chưa?\nB: Chưa. Chờ thêm 5 phút nữa nhé.", "explain": "もう V-ても いいですか → trả lời phủ định: いいえ、まだです." },
+        { "type": "fill", "q": "A）すみません、ここで しゃしんを とっても いいですか。\nB）すみません、ここでは（　）。", "opts": ["とっては いけません", "とっても いいです", "とった ほうが いいです", "とりましょう"], "a": 0, "vi": "A: Xin lỗi, tôi chụp ảnh ở đây được không?\nB: Xin lỗi, ở đây không được chụp.", "explain": "Đáp lại lời xin phép bằng cấm đoán: V-ては いけません. すみません cho thấy câu trả lời là từ chối." },
+        { "type": "fill", "q": "A）飲み物は 何に しますか。\nB）そうですね…。じゃ、ビール（　）。", "opts": ["が します", "を なります", "に なります", "に します"], "a": 3, "vi": "A: Đồ uống bạn chọn gì?\nB: Để xem... Vậy tôi chọn bia.", "explain": "Quyết định chọn: N に します → ビールに します." },
+        { "type": "fill", "q": "A）沖縄で ダイビングを して みたいんですが、（　）。\nB）それなら、この ツアーは いかがですか。", "opts": ["どこが いいですか", "どこへ 行きましたか", "だれと 行きますか", "何を しましたか"], "a": 0, "vi": "A: Tôi muốn thử lặn biển ở Okinawa, chỗ nào thì tốt?\nB: Nếu vậy thì tour này thế nào ạ?", "explain": "Mẫu V-てみたいんですが、〜は どうですか／どこが いいですか: xin lời khuyên. B đáp それなら〜は いかがですか." }
+      ]
+    },
+    {
+      "title": "Xếp câu",
+      "sub": "Sắp xếp các cụm từ thành câu đúng",
+      "items": [
+        { "type": "order", "chunks": ["田中さんは", "せが", "高くて", "やさしい", "人です。"], "vi": "Anh Tanaka là người cao và hiền." },
+        { "type": "order", "chunks": ["さしみは", "しょうゆを", "つけてから", "食べて", "ください。"], "vi": "Sashimi thì hãy chấm xì dầu rồi ăn." },
+        { "type": "order", "chunks": ["沖縄は", "海が", "きれいだし", "食べ物も", "おいしいです。"], "vi": "Okinawa biển thì đẹp, đồ ăn cũng ngon." },
+        { "type": "order", "chunks": ["わたしの", "しゅみは", "日本の", "アニメを", "見る", "ことです。"], "vi": "Sở thích của tôi là xem anime Nhật Bản." }
+      ]
+    },
+    {
+      "title": "Đọc hiểu",
+      "sub": "Đọc rồi chọn ◯ nếu đúng, × nếu sai",
+      "items": [
+        {
+          "type": "read",
+          "title": "件名：沖縄旅行の 写真",
+          "text": "リンさん\nこんにちは。先週、家族と 沖縄へ 行って きました。\n1日目は ひこうきが おくれて、ホテルに 着いたのは 夜の 10時でした。\n2日目は ダイビングを しました。はじめてだったので、少し こわかったですが、インストラクターの 人が しんせつに 教えて くれました。\n海の 中で 魚が たくさん 見られて、とても 楽しかったです。\n3日目は すいぞくかんに 行きました。イルカの ショーを 見て、子どもたちは 大よろこびでした。\n沖縄の 料理も おいしかったです。「ゴーヤチャンプルー」と いう 料理が いちばん 好きです。\n日ざしが とても 強いので、リンさんも 行く ときは、ぼうしと サングラスを 持っていった ほうが いいですよ。\n写真を おくりますね。\nさくら",
+          "vi": "Linh thân mến,\nChào bạn. Tuần trước mình đã đi Okinawa cùng gia đình về.\nNgày thứ nhất máy bay bị trễ, đến khách sạn lúc 10 giờ tối.\nNgày thứ hai mình đi lặn biển. Vì là lần đầu nên hơi sợ, nhưng người hướng dẫn đã dạy rất tận tình.\nỞ dưới biển có thể nhìn thấy rất nhiều cá, rất vui.\nNgày thứ ba mình đi thủy cung. Xem show cá heo, bọn trẻ vui mừng lắm.\nĐồ ăn Okinawa cũng ngon. Mình thích nhất món tên là \"Goya champuru\".\nNắng rất gắt nên khi Linh đi thì nên mang theo mũ và kính râm nhé.\nMình gửi ảnh nhé.\nSakura",
+          "statements": [
+            { "s": "さくらさんは ひとりで 沖縄へ 行きました。", "a": false, "vi": "Sakura đã đi Okinawa một mình.", "explain": "Trong thư: 家族と 沖縄へ 行って きました (đi cùng gia đình)." },
+            { "s": "1日目は ホテルに おそく 着きました。", "a": true, "vi": "Ngày thứ nhất đến khách sạn muộn.", "explain": "ひこうきが おくれて、ホテルに 着いたのは 夜の 10時でした." },
+            { "s": "さくらさんは 前にも ダイビングを した ことが あります。", "a": false, "vi": "Sakura đã từng lặn biển trước đây.", "explain": "はじめてだったので、少し こわかった → đây là lần đầu." },
+            { "s": "すいぞくかんで イルカの ショーが 見られました。", "a": true, "vi": "Ở thủy cung đã xem được show cá heo.", "explain": "3日目は すいぞくかんに 行きました。イルカの ショーを 見て…" },
+            { "s": "さくらさんは リンさんに、ぼうしを 持っていった ほうが いいと 言って います。", "a": true, "vi": "Sakura khuyên Linh nên mang theo mũ.", "explain": "ぼうしと サングラスを 持っていった ほうが いいですよ." }
+          ]
+        }
+      ]
+    }
+  ]
+}
