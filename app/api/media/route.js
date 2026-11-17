@@ -92,6 +92,8 @@ export async function GET(req) {
       const more = await Promise.all([wiki(kw), openverse(kw), commons(kw)]);
       items = items.concat(...more);
     }
+    // Ảnh có tiêu đề/mô tả chứa từ khóa lên trước; ảnh không liên quan (tiêu đề không khớp từ nào) xuống cuối
+    items = rerank(items, kw);
   } else {
     query = type === "anime" ? `anime ${gloss}` : gloss;
     items = rerank(await giphy(query), gloss);

@@ -323,12 +323,52 @@ export default function BookPart({ course, book: bk, lesson, stars, onQuiz }) {
   const show = { ro, vi, kana };
   const lib = book.lib || course.audio; // A2-1: mỗi sách một thư mục audio riêng
   const hasKana = useMemo(() => JSON.stringify(B || {}).includes('"kana":'), [B]);
+  // Mục lục bên trái: chỉ mở sẵn phần đầu, các phần chưa tới thì đóng để trang không quá dài
+  const [openS, setOpenS] = useState(() => new Set([0]));
+  const [cur, setCur] = useState("bk-head");
+  const [tocOpen, setTocOpen] = useState(false);
+  useEffect(() => { setOpenS(new Set([0])); setCur("bk-head"); }, [lesson, book.key]);
+  useEffect(() => {
+    if (!B || typeof IntersectionObserver === "undefined") return;
+    const els = [...document.querySelectorAll(".bkwrap [data-toc]")];
+    const io = new IntersectionObserver((ents) => {
+      const v = ents.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+      if (v) setCur(v.target.id);
+    }, { rootMargin: "-90px 0px -65% 0px" });
+    els.forEach((e) => io.observe(e));
+    return () => io.disconnect();
+  }, [B, openS]);
+  const toggle = (k) => setOpenS((s) => { const n = new Set(s); n.has(k) ? n.delete(k) : n.add(k); return n; });
+  const goTo = (id, k) => {
+    if (k != null) setOpenS((s) => new Set(s).add(k));
+    setTocOpen(false); setCur(id);
+    setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" }), 40);
+  };
   if (B === undefined) return <p className="hint">Đang tải bài học…</p>;
   if (!B) return <p className="panel hint">Bài này chưa có phần học theo sách {book.short}.</p>;
   return (
     <Prefix.Provider value={(typeof book.prefix === "function" ? book.prefix(lesson) : book.prefix) || "sa"}>
+    <div className="bklayout">
+    <aside className={`bktoc ${tocOpen ? "open" : ""}`} aria-label="Mục lục bài học">
+      <button type="button" className="bktocbtn" aria-expanded={tocOpen} onClick={() => setTocOpen((v) => !v)}>📑 Mục lục <span aria-hidden="true">{tocOpen ? "▴" : "▾"}</span></button>
+      <div className="bktoclist">
+        <div className="bktoctools">
+          <button type="button" onClick={() => setOpenS(new Set([...B.sections.map((_, i) => i), ...(B.culture ? ["c"] : [])]))}>Mở hết</button>
+          <button type="button" onClick={() => setOpenS(new Set())}>Đóng hết</button>
+        </div>
+        <a href="#bk-head" className={cur === "bk-head" ? "on" : ""} onClick={(e) => { e.preventDefault(); goTo("bk-head"); }}>🏠 Đầu bài</a>
+        {B.sections.map((S, si) => (
+          <a key={si} href={`#bk-${si}`} className={`${cur === `bk-${si}` ? "on" : ""} ${openS.has(si) ? "" : "shut"}`} onClick={(e) => { e.preventDefault(); goTo(`bk-${si}`, si); }}>
+            <span className="bkno">{CIRCLED[S.no] || S.no}</span>
+            <span className="t"><span className="jpt">{S.title.jp}</span>{S.title.vi && <small>{S.title.vi}</small>}</span>
+          </a>
+        ))}
+        {B.culture && <a href="#bk-c" className={`${cur === "bk-c" ? "on" : ""} ${openS.has("c") ? "" : "shut"}`} onClick={(e) => { e.preventDefault(); goTo("bk-c", "c"); }}><span className="bkno">🌏</span><span className="t"><span className="jpt">{B.culture.title?.jp || "せいかつと ぶんか"}</span>{B.culture.title?.vi && <small>{B.culture.title.vi}</small>}</span></a>}
+        <a href="#bk-quiz" className={cur === "bk-quiz" ? "on" : ""} onClick={(e) => { e.preventDefault(); goTo("bk-quiz"); }}>✍️ Kiểm tra dịch câu</a>
+      </div>
+    </aside>
     <div className="bkwrap">
-      <div className="panel bkhead">
+      <div className="panel bkhead" id="bk-head" data-toc>
         <div className="bkbook">{book.ico || "📖"} {book.name} · だい{B.lesson}か{B.page ? ` · sách tr.${B.page}` : ""}</div>
         <h2 className="jpt">{B.title.jp}</h2>
         {B.title.kana && <div className="bkkana jpt">{B.title.kana}</div>}
@@ -344,14 +384,15 @@ export default function BookPart({ course, book: bk, lesson, stars, onQuiz }) {
       </div>
       {lib.pickFolder ? <AudioSetup lib={lib} folder={book.folder || course.folder} /> : <p className="hint">🔊 Khóa này chưa có audio sách: bài nghe dùng giọng đọc tiếng Nhật của trình duyệt với lời thoại chép từ sách.</p>}
       {B.sections.map((S, si) => (
-        <section key={si} className="panel bksec">
-          <h3><span className="bkno">{CIRCLED[S.no] || S.no}</span> <span className="jpt">{S.title.jp}</span>{S.title.ro && <small className="bkro">{S.title.ro}</small>}<small className="bkvi">{S.title.vi}</small>{S.part && <span className="bkcando bkpart2 jpt" title={S.part.vi || ""}>{typeof S.part === "string" ? S.part : S.part.jp}</span>}{S.page && <em className="bkpage">tr.{S.page}</em>}</h3>
-          {S.acts.map((A, i) => <Act key={i} A={A} lib={lib} show={show} />)}
+        <section key={si} id={`bk-${si}`} data-toc className={`panel bksec ${openS.has(si) ? "" : "shut"}`}>
+          <h3 role="button" tabIndex={0} aria-expanded={openS.has(si)} className="bkfold" onClick={() => toggle(si)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(si); } }}><span className="bkchev" aria-hidden="true">{openS.has(si) ? "▾" : "▸"}</span><span className="bkno">{CIRCLED[S.no] || S.no}</span> <span className="jpt">{S.title.jp}</span>{S.title.ro && <small className="bkro">{S.title.ro}</small>}<small className="bkvi">{S.title.vi}</small>{S.part && <span className="bkcando bkpart2 jpt" title={S.part.vi || ""}>{typeof S.part === "string" ? S.part : S.part.jp}</span>}{S.page && <em className="bkpage">tr.{S.page}</em>}</h3>
+          {openS.has(si) && S.acts.map((A, i) => <Act key={i} A={A} lib={lib} show={show} />)}
         </section>
       ))}
       {B.culture && (
-        <section className="panel bksec bkculture">
-          <h3>🌏 <span className="jpt">{B.culture.title?.jp || "せいかつと ぶんか"}</span><small className="bkvi">{B.culture.title?.vi}</small></h3>
+        <section id="bk-c" data-toc className={`panel bksec bkculture ${openS.has("c") ? "" : "shut"}`}>
+          <h3 role="button" tabIndex={0} aria-expanded={openS.has("c")} className="bkfold" onClick={() => toggle("c")} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle("c"); } }}><span className="bkchev" aria-hidden="true">{openS.has("c") ? "▾" : "▸"}</span>🌏 <span className="jpt">{B.culture.title?.jp || "せいかつと ぶんか"}</span><small className="bkvi">{B.culture.title?.vi}</small></h3>
+          {openS.has("c") && <>
           {B.culture.intro && <p className="bktask">{typeof B.culture.intro === "string" ? B.culture.intro : <><span className="jpt">{B.culture.intro.jp}</span>{B.culture.intro.vi && <> — {B.culture.intro.vi}</>}</>}</p>}
           {(B.culture.ask || B.culture.q) && <Line {...(B.culture.ask || B.culture.q)} show={show} />}
           {B.culture.lines?.length > 0 && <div className="bkdlg">{B.culture.lines.map((l, i) => <div key={i} className="bkturn"><span className="bksp jpt">{l.sp}</span><Line {...l} sp={undefined} show={show} /></div>)}</div>}
@@ -362,9 +403,10 @@ export default function BookPart({ course, book: bk, lesson, stars, onQuiz }) {
           {B.culture.items?.length > 0 && <ol>{B.culture.items.map((it, i) => <li key={i}>{it.jp && <span className="jpt">{it.jp} </span>}{it.kana && show.kana !== false && <small className="bkkana jpt">{it.kana}</small>}{it.vi}</li>)}</ol>}
           {B.culture.pics?.length > 0 && <ul className="bkpics">{B.culture.pics.map((p, i) => <li key={i}>🖼 {p}</li>)}</ul>}
           {B.culture.questions?.map((q, i) => <p key={i} className="bktask">💬 {q.jp && <span className="jpt">{q.jp} </span>}{q.vi}</p>)}
+          </>}
         </section>
       )}
-      <div className="panel bkquiz">
+      <div className="panel bkquiz" id="bk-quiz" data-toc>
         <div><b>✍️ Kiểm tra dịch câu</b><span>{Math.min(12, B.quiz?.length || 0)} câu lấy từ bài vừa học trong sách {book.short}: chọn nghĩa tiếng Việt, chọn câu tiếng Nhật, xếp lại câu · đúng ≥60% được 1 sao, ≥80% 2 sao, ≥95% 3 sao</span></div>
         {stars}
         <button className="gbtn tri" onClick={() => { sfx.open(); onQuiz(bookQs(B)); }} disabled={!B.quiz?.length}><span className="c" />Bắt đầu kiểm tra</button>
@@ -380,6 +422,7 @@ export default function BookPart({ course, book: bk, lesson, stars, onQuiz }) {
           <div><b>📒 <span className="jpt">学習記録シート</span> · Topic {B.topic || B.lesson}</b><span>Tự đánh giá 5 Can-do của Topic này (★ まだ難しかった → ★★★ 十分にできた), ghi わたしだけのフレーズ và nhật ký trải nghiệm tiếng Nhật{book.kirokuPages ? ` (sách tr.${book.kirokuPages})` : ""}</span></div>
         </Link>
       )}
+    </div>
     </div>
     </Prefix.Provider>
   );

@@ -27,7 +27,8 @@ header.top .in{max-width:1040px;margin:0 auto;padding:9px 16px;display:flex;alig
 .brand svg{width:34px;height:34px;flex:none}
 .brand>div{min-width:0}
 .brand b{display:block;font-size:17px;letter-spacing:.5px;color:var(--gold2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.brand small{display:block;font-size:11px;color:var(--gold);opacity:.8;letter-spacing:1.5px}
+.brand small{display:block;font-size:11px;color:var(--gold);opacity:.8;letter-spacing:1.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand{overflow:hidden}
 .curr{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.35);border:1px solid rgba(211,188,142,.35);border-radius:99px;padding:5px 11px 5px 7px;font-weight:600;color:var(--cream);font-variant-numeric:tabular-nums;font-size:14px;white-space:nowrap}
 .curr svg,.curr img.ic{width:20px;height:20px}
 .navbtn{background:rgba(236,229,216,.08);border:1px solid rgba(211,188,142,.4);color:var(--gold2);border-radius:99px;padding:7px 13px;font-size:14px;display:flex;align-items:center;gap:6px;white-space:nowrap}
@@ -428,8 +429,10 @@ footer{text-align:center;color:var(--mute);font-size:12px;margin-top:40px;line-h
 
 .nbbooks{justify-content:center;margin-top:18px}
 .nbbooks .chip small{opacity:.7;margin-left:4px;font-size:11px}
-header.top .brand,header.top .curr,header.top .profchip{flex-shrink:0}
-@media(max-width:640px){header.top .brand div{display:none}header.top .in{gap:8px;padding:9px 12px}}
+header.top .curr,header.top .profchip{flex-shrink:0}
+header.top .brand{flex:1 1 0;min-width:120px}
+@media(max-width:1000px){header.top .navbtn.uibtn .lbl,header.top .profchip .lbl{display:none}header.top .curr.hide-sm{display:none}}
+@media(max-width:640px){header.top .brand{min-width:0}header.top .brand div{display:none}header.top .in{gap:8px;padding:9px 12px}}
 
 /* ===== Menu điều hướng (nút ☰ Menu) ===== */
 header.top .topgap{flex:1}

@@ -18,12 +18,20 @@ export default function QuizPage() {
   return <Suspense fallback={null}><Quiz /></Suspense>;
 }
 
+// Từ katakana (ソファ → "Ghế sofa") có nghĩa chứa luôn từ tiếng Anh → nếu 3 đáp án nhiễu toàn tiếng Việt thì chỉ cần nhìn "chữ Latin" là đoán ra.
+// Vì vậy với từ katakana, đáp án nhiễu cũng lấy từ các từ katakana khác để cả 4 lựa chọn trông giống nhau.
+const KATA = /^[゠-ヿー・～〜]+$/;
 function makeOptions(item) {
-  const near = meaningsNear(item.t);
   const bad = new Set([item.m.trim().toLowerCase()]);
   const opts = [];
   const tryAdd = (m) => { const k = m.trim().toLowerCase(); if (opts.length < 3 && !bad.has(k)) { bad.add(k); opts.push(m); } };
-  shuffle(near.same).forEach(tryAdd);
+  if (KATA.test(item.w)) {
+    const k = meaningsNear(item.t, (w) => KATA.test(w));
+    shuffle(k.same).forEach(tryAdd);
+    if (opts.length < 3) shuffle(k.book).forEach(tryAdd);
+  }
+  const near = meaningsNear(item.t);
+  if (opts.length < 3) shuffle(near.same).forEach(tryAdd);
   if (opts.length < 3) shuffle(near.book).forEach(tryAdd);
   const all = shuffle([...opts, item.m]);
   return { all, ans: all.indexOf(item.m) };
