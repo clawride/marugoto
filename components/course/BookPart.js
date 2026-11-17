@@ -42,6 +42,16 @@ const tracksOf = (a = []) => {
   return a;
 };
 
+// Mục lục chi tiết: mỗi hoạt động của một Part → nhãn ngắn; bài có audio (A.audio) được đánh dấu 🎧 kèm số track để tìm nhanh bài nghe
+const isListen = (A) => tracksOf(A.audio).length > 0 || A.kind === "listen" || A.kind === "listen-say";
+function actTocLabel(A) {
+  const no = [A.n > 0 ? A.n : "", A.sub].filter((x) => x !== "" && x != null).join(" ");
+  const tr = tracksOf(A.audio);
+  const trk = tr.length ? `track ${tr[0]}${tr.length > 1 ? `–${tr.at(-1)}` : ""}` : "";
+  const what = (KIND[A.kind] || KIND.other)[2] || (A.ask?.jp || "").replace(/（\s*）/g, "…").slice(0, 14);
+  return { no, trk, what: what || (A.ask?.jp || "").slice(0, 14) || "Hoạt động" };
+}
+
 function useBook(book, lesson) {
   const [B, setB] = useState(undefined);
   useEffect(() => {
@@ -215,7 +225,7 @@ function Script({ sc, lib, show }) {
   );
 }
 
-function Act({ A, lib, show }) {
+function Act({ A, lib, show, id }) {
   const [ico, jpName, viName] = KIND[A.kind] || KIND.other;
   const [ans, setAns] = useState(false);
   const prefix = useContext(Prefix);
@@ -226,7 +236,7 @@ function Act({ A, lib, show }) {
   const exKind = !it0 ? null : ["match", "fill", "choose", "order"].includes(A.kind) ? A.kind
     : it0.chunks ? "order" : it0.blanks ? "fill" : it0.opts ? "choose" : A.choices && it0.a ? "match" : null;
   return (
-    <div className={`bkact k-${A.kind}`}>
+    <div className={`bkact k-${A.kind}`} id={id} data-toc={id ? "1" : undefined}>
       <div className="bkacth">
         {(A.n > 0 || (typeof A.n === "string" && A.n)) && <span className="bkn">{A.n}</span>}{(A.sub || A.part) && <span className="bksub">{A.sub || A.part}</span>}
         <span className="bkico" title={viName}>{ico}</span>
@@ -327,7 +337,8 @@ export default function BookPart({ course, book: bk, lesson, stars, onQuiz }) {
   const [openS, setOpenS] = useState(() => new Set([0]));
   const [cur, setCur] = useState("bk-head");
   const [tocOpen, setTocOpen] = useState(false);
-  useEffect(() => { setOpenS(new Set([0])); setCur("bk-head"); }, [lesson, book.key]);
+  const [onlyListen, setOnlyListen] = useState(false); // mục lục chỉ liệt kê các bài nghe
+  useEffect(() => { setOpenS(new Set([0])); setCur("bk-head"); setOnlyListen(false); }, [lesson, book.key]);
   useEffect(() => {
     if (!B || typeof IntersectionObserver === "undefined") return;
     const els = [...document.querySelectorAll(".bkwrap [data-toc]")];
@@ -338,11 +349,20 @@ export default function BookPart({ course, book: bk, lesson, stars, onQuiz }) {
     els.forEach((e) => io.observe(e));
     return () => io.disconnect();
   }, [B, openS]);
+  // mục lục dài (có mục con) → tự cuộn trong khung mục lục để mục đang xem luôn thấy được (chỉ ảnh hưởng khung, không cuộn trang)
+  useEffect(() => {
+    const el = document.querySelector(".bktoc .bktocacts a.on") || document.querySelector(".bktoc a.on");
+    const box = el?.closest(".bktoc");
+    if (!el || !box || box.scrollHeight <= box.clientHeight) return;
+    const r = el.getBoundingClientRect(), b = box.getBoundingClientRect();
+    if (r.top < b.top + 40 || r.bottom > b.bottom - 20) box.scrollTop += r.top - b.top - b.height / 3;
+  }, [cur]);
   const toggle = (k) => setOpenS((s) => { const n = new Set(s); n.has(k) ? n.delete(k) : n.add(k); return n; });
   const goTo = (id, k) => {
     if (k != null) setOpenS((s) => new Set(s).add(k));
     setTocOpen(false); setCur(id);
-    setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" }), 40);
+    // phần đang đóng cần thời gian vẽ nội dung trước khi cuộn tới hoạt động bên trong
+    setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" }), k != null && !openS.has(k) ? 120 : 40);
   };
   if (B === undefined) return <p className="hint">Đang tải bài học…</p>;
   if (!B) return <p className="panel hint">Bài này chưa có phần học theo sách {book.short}.</p>;
@@ -356,13 +376,34 @@ export default function BookPart({ course, book: bk, lesson, stars, onQuiz }) {
           <button type="button" onClick={() => setOpenS(new Set([...B.sections.map((_, i) => i), ...(B.culture ? ["c"] : [])]))}>Mở hết</button>
           <button type="button" onClick={() => setOpenS(new Set())}>Đóng hết</button>
         </div>
+        <button type="button" className={`bklisten ${onlyListen ? "on" : ""}`} aria-pressed={onlyListen} onClick={() => setOnlyListen((v) => !v)}>🎧 Chỉ hiện bài nghe ({B.sections.reduce((a, S) => a + S.acts.filter(isListen).length, 0)})</button>
         <a href="#bk-head" className={cur === "bk-head" ? "on" : ""} onClick={(e) => { e.preventDefault(); goTo("bk-head"); }}>🏠 Đầu bài</a>
-        {B.sections.map((S, si) => (
-          <a key={si} href={`#bk-${si}`} className={`${cur === `bk-${si}` ? "on" : ""} ${openS.has(si) ? "" : "shut"}`} onClick={(e) => { e.preventDefault(); goTo(`bk-${si}`, si); }}>
-            <span className="bkno">{CIRCLED[S.no] || S.no}</span>
-            <span className="t"><span className="jpt">{S.title.jp}</span>{S.title.vi && <small>{S.title.vi}</small>}</span>
-          </a>
-        ))}
+        {B.sections.map((S, si) => {
+          const acts = S.acts.map((A, ai) => ({ A, ai, L: isListen(A) })).filter((x) => !onlyListen || x.L);
+          if (onlyListen && !acts.length) return null;
+          const inSec = cur === `bk-${si}` || cur.startsWith(`bk-${si}-`);
+          return (
+            <div key={si} className="bktocsec">
+              <a href={`#bk-${si}`} className={`${inSec ? "on" : ""} ${openS.has(si) || onlyListen ? "" : "shut"}`} onClick={(e) => { e.preventDefault(); goTo(`bk-${si}`, si); }}>
+                <span className="bkno">{CIRCLED[S.no] || S.no}</span>
+                <span className="t"><span className="jpt">{S.title.jp}</span>{S.title.vi && <small>{S.title.vi}</small>}</span>
+              </a>
+              {(openS.has(si) || onlyListen) && acts.length > 0 && (
+                <div className="bktocacts">
+                  {acts.map(({ A, ai, L }) => {
+                    const lb = actTocLabel(A), id = `bk-${si}-${ai}`;
+                    return (
+                      <a key={ai} href={`#${id}`} className={`${cur === id ? "on" : ""} ${L ? "ls" : ""}`} onClick={(e) => { e.preventDefault(); goTo(id, si); }}>
+                        <span className="ai" aria-hidden="true">{L ? "🎧" : "·"}</span>
+                        <span className="t">{lb.no && <b>{lb.no}</b>} {lb.what}{lb.trk && <small>{lb.trk}</small>}</span>
+                      </a>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          );
+        })}
         {B.culture && <a href="#bk-c" className={`${cur === "bk-c" ? "on" : ""} ${openS.has("c") ? "" : "shut"}`} onClick={(e) => { e.preventDefault(); goTo("bk-c", "c"); }}><span className="bkno">🌏</span><span className="t"><span className="jpt">{B.culture.title?.jp || "せいかつと ぶんか"}</span>{B.culture.title?.vi && <small>{B.culture.title.vi}</small>}</span></a>}
         <a href="#bk-quiz" className={cur === "bk-quiz" ? "on" : ""} onClick={(e) => { e.preventDefault(); goTo("bk-quiz"); }}>✍️ Kiểm tra dịch câu</a>
       </div>
@@ -384,9 +425,9 @@ export default function BookPart({ course, book: bk, lesson, stars, onQuiz }) {
       </div>
       {lib.pickFolder ? <AudioSetup lib={lib} folder={book.folder || course.folder} /> : <p className="hint">🔊 Khóa này chưa có audio sách: bài nghe dùng giọng đọc tiếng Nhật của trình duyệt với lời thoại chép từ sách.</p>}
       {B.sections.map((S, si) => (
-        <section key={si} id={`bk-${si}`} data-toc className={`panel bksec ${openS.has(si) ? "" : "shut"}`}>
-          <h3 role="button" tabIndex={0} aria-expanded={openS.has(si)} className="bkfold" onClick={() => toggle(si)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(si); } }}><span className="bkchev" aria-hidden="true">{openS.has(si) ? "▾" : "▸"}</span><span className="bkno">{CIRCLED[S.no] || S.no}</span> <span className="jpt">{S.title.jp}</span>{S.title.ro && <small className="bkro">{S.title.ro}</small>}<small className="bkvi">{S.title.vi}</small>{S.part && <span className="bkcando bkpart2 jpt" title={S.part.vi || ""}>{typeof S.part === "string" ? S.part : S.part.jp}</span>}{S.page && <em className="bkpage">tr.{S.page}</em>}</h3>
-          {openS.has(si) && S.acts.map((A, i) => <Act key={i} A={A} lib={lib} show={show} />)}
+        <section key={si} id={`bk-${si}`} className={`panel bksec ${openS.has(si) ? "" : "shut"}`}>
+          <h3 id={`bk-${si}-h`} data-toc role="button" tabIndex={0} aria-expanded={openS.has(si)} className="bkfold" onClick={() => toggle(si)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(si); } }}><span className="bkchev" aria-hidden="true">{openS.has(si) ? "▾" : "▸"}</span><span className="bkno">{CIRCLED[S.no] || S.no}</span> <span className="jpt">{S.title.jp}</span>{S.title.ro && <small className="bkro">{S.title.ro}</small>}<small className="bkvi">{S.title.vi}</small>{S.part && <span className="bkcando bkpart2 jpt" title={S.part.vi || ""}>{typeof S.part === "string" ? S.part : S.part.jp}</span>}{S.page && <em className="bkpage">tr.{S.page}</em>}</h3>
+          {openS.has(si) && S.acts.map((A, i) => <Act key={i} A={A} id={`bk-${si}-${i}`} lib={lib} show={show} />)}
         </section>
       ))}
       {B.culture && (
