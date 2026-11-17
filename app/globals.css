@@ -528,3 +528,9 @@ button.mnitem{font:inherit;text-align:left;cursor:pointer;width:100%}
 .rom b{font-weight:600;margin-right:2px}
 .rom i{font-style:italic;letter-spacing:.2px}
 .rom em{font-style:normal;opacity:.5}
+
+/* Thanh nút trên cùng: cuộn ngang khi không đủ chỗ (lăn chuột / kéo / vuốt), ẩn thanh cuộn */
+header.top .in{overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+header.top .in::-webkit-scrollbar{display:none}
+header.top .in.dragging{cursor:grabbing;user-select:none}
+header.top .in>*:not(.brand):not(.topgap){flex-shrink:0;white-space:nowrap}

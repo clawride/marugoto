@@ -25,6 +25,28 @@ export default function Header() {
   const n = (v) => (v ?? 0).toLocaleString("vi-VN");
   const isOn = (href) => (href === "/" ? path === "/" : path === href || path?.startsWith(href + "/"));
 
+  // Thanh nút trên cùng cuộn ngang được khi bị khuất: lăn chuột, kéo chuột hoặc vuốt cảm ứng
+  const rail = useRef(null);
+  useEffect(() => {
+    const el = rail.current;
+    if (!el) return;
+    const wheel = (e) => {
+      if (el.scrollWidth <= el.clientWidth || Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+      el.scrollLeft += e.deltaY; e.preventDefault();
+    };
+    let sx = 0, sl = 0, dragging = false, moved = false;
+    const down = (e) => { if (e.pointerType !== "mouse" || e.button !== 0 || el.scrollWidth <= el.clientWidth) return; dragging = true; moved = false; sx = e.clientX; sl = el.scrollLeft; };
+    const move = (e) => { if (!dragging) return; const dx = e.clientX - sx; if (Math.abs(dx) > 5) moved = true; if (moved) { el.scrollLeft = sl - dx; el.classList.add("dragging"); } };
+    const up = () => { dragging = false; el.classList.remove("dragging"); };
+    const click = (e) => { if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; } }; // kéo xong không bấm nhầm nút
+    el.addEventListener("wheel", wheel, { passive: false });
+    el.addEventListener("pointerdown", down);
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", up);
+    el.addEventListener("click", click, true);
+    return () => { el.removeEventListener("wheel", wheel); el.removeEventListener("pointerdown", down); window.removeEventListener("pointermove", move); window.removeEventListener("pointerup", up); el.removeEventListener("click", click, true); };
+  }, []);
+
   useEffect(() => { setOpen(false); }, [path]);
   useEffect(() => {
     if (!open) return;
@@ -47,7 +69,7 @@ export default function Header() {
 
   return (
     <header className="top">
-      <div className="in">
+      <div className="in" ref={rail}>
         <Link href="/" className="brand" onClick={() => sfx.page()}>
           <svg><use href="#emb" /></svg>
           <div><b>Sổ Tay Từ Vựng Teyvat</b><small>MARUGOTO A1 · B1</small></div>
