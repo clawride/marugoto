@@ -135,7 +135,7 @@ export const B12_EXAM = {
   cert: { course: "Marugoto 中級2 (B1-2)", signer: "Mavuika", signerTitle: "Giám khảo · Hỏa Thần Natlan", seal: ["烈火", "炎神"], emblem: "pyro", tint: "#ffc09a", emblemColor: "#a8321a", cornerColor: "#e0602a", sealColor: "#b3261e", filePrefix: "chung-chi-B1-2", line: "đã hoàn thành kỳ khảo hạch năng lực tiếng Nhật kiểu JLPT của khóa Marugoto B1-2 với kết quả:" },
 };
 
-// Minna no Nihongo Sơ cấp 2 (bài 26–50): không có audio sách → phần nghe dùng giọng máy
+// Minna - Genshin Sơ cấp 2 (bài 26–50): không có audio sách → phần nghe dùng giọng máy
 export const MN2_EXAM = {
   store: "mn2",
   sections: EXAM_SECTIONS,
@@ -143,11 +143,11 @@ export const MN2_EXAM = {
   pass: { total: 95, section: 19, excellent: 150, max: 180 },
   reward: { pass: 1000, excellent: 500 },
   certId: courseCertId("mn2"),
-  home: "/mn2", homeLabel: "Minna no Nihongo Sơ cấp 2", homeShort: "Về Minna 2",
+  home: "/mn2", homeLabel: "Minna - Genshin Sơ cấp 2", homeShort: "Về Minna-Genshin",
   certHref: (n) => `/mn2/cert/${n}`, examHref: (n) => `/mn2/exam/${n}`,
   Host: GanyuHost, lines: GY, hostName: "Ganyu",
   rows: [["言語知識", "10 câu từ vựng + 8 câu kanji + 12 câu điền từ"], ["読解", "3 bài đọc · câu hỏi đọc hiểu"], ["聴解", "6 bài nghe hội thoại (giọng máy) · mỗi bài nghe tối đa 2 lần"]],
   langHint: COURSE_LANG_HINT,
   renderListen: courseListen(NO_AUDIO),
-  cert: { course: "みんなの日本語 初級2", signer: "Ganyu", signerTitle: "Giám khảo · Thư ký Liên Nguyệt Các", seal: ["麒麟", "甘雨"], emblem: "cryo", tint: "#cfe8ff", emblemColor: "#1f5f9a", cornerColor: "#5aa6e0", sealColor: "#1f5f9a", filePrefix: "chung-chi-Minna2", line: "đã hoàn thành kỳ khảo hạch năng lực tiếng Nhật kiểu JLPT của khóa Minna no Nihongo Sơ cấp 2 với kết quả:" },
+  cert: { course: "Minna - Genshin 初級2", signer: "Ganyu", signerTitle: "Giám khảo · Thư ký Liên Nguyệt Các", seal: ["麒麟", "甘雨"], emblem: "cryo", tint: "#cfe8ff", emblemColor: "#1f5f9a", cornerColor: "#5aa6e0", sealColor: "#1f5f9a", filePrefix: "chung-chi-Minna2", line: "đã hoàn thành kỳ khảo hạch năng lực tiếng Nhật kiểu JLPT của khóa Minna - Genshin Sơ cấp 2 với kết quả:" },
 };

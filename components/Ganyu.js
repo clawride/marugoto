@@ -6,7 +6,7 @@ export const GANYU = CHARS.find((c) => c.en === "Ganyu");
 
 export const GY = {
   hub: [
-    "Xin chào, ta là Ganyu. Từ đây ta sẽ đồng hành cùng ngươi qua các bài Minna no Nihongo Sơ cấp 2.",
+    "Xin chào, ta là Ganyu. Từ đây ta sẽ đồng hành cùng ngươi qua các bài Minna - Genshin Sơ cấp 2.",
     "Học từng bước một, như hoa Cát Tường nở trên sườn núi tuyết. Mỗi bài học là một cánh hoa mới.",
     "Năm Topic, mỗi Topic năm bài. Cứ đi đều, ngươi sẽ tới đích thôi.",
   ],
@@ -40,8 +40,8 @@ export function GanyuHero({ line }) {
     <div className="zlhero gyhero">
       {GANYU && <img src={charSplash(GANYU)} alt="" />}
       <div className="zlcopy">
-        <div className="tag">LIÊN NGUYỆT CÁC · みんなの日本語</div>
-        <h1>Minna no Nihongo · Sơ cấp 2</h1>
+        <div className="tag">LIÊN NGUYỆT CÁC · MINNA - GENSHIN</div>
+        <h1>Minna - Genshin · Sơ cấp 2</h1>
         <p className="t2">Người dẫn: Ganyu · Thư ký Liên Nguyệt Các</p>
         <p>“{line || pickRand(GY.hub)}”</p>
       </div>
