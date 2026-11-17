@@ -17,7 +17,7 @@ export default function Home() {
   const book = books.some((b) => b.id === S?.nbBook) ? S.nbBook : "a1";
   const B = books.find((b) => b.id === book) || books[0];
 
-  // ===== Sổ tay từ vựng (đặt ngay sau Lộ trình Marugoto) =====
+  // ===== Sổ tay từ vựng (đặt ngay sau Lộ trình Marugoto & Lộ trình Minna - Genshin) =====
   const notebook = (
     <section className="homesec" id="sotay">
       <h2 className="a22th"><span>Sổ Tay Từ Vựng</span> <small>Luyện từ vựng từng sách theo Topic</small></h2>
@@ -76,7 +76,7 @@ export default function Home() {
             <div className={`progrid ${g.id}`}>
               {programsIn(g.id).filter((p) => !(plain && p.game)).map((p, i) => (
                 <Link key={p.id} href={p.href} className="panel procard" style={{ "--c": p.color }} onClick={() => sfx.page()}>
-                  {g.id === "path" && <span className="prostep" aria-hidden="true">{i + 1}</span>}
+                  {(g.id === "path" || g.id === "minna") && <span className="prostep" aria-hidden="true">{i + 1}</span>}
                   {!plain && <img src={p.avatar} alt="" />}
                   <div className="protxt">
                     <div className="prolv"><b>{p.ico} {p.lv}</b> <span className="jpt">{p.jp}</span></div>
@@ -89,7 +89,7 @@ export default function Home() {
               ))}
             </div>
           </section>
-          {g.id === "path" && notebook}
+          {g.id === (GROUPS.some((x) => x.id === "minna") ? "minna" : "path") && notebook}
         </Fragment>
       ))}
       {!GROUPS.some((g) => g.id === "path") && notebook}
