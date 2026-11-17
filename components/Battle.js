@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ELEM, shuffle } from "@/lib/data";
 import { CHARS, charIcon, elemIcon } from "@/lib/genshin";
 import { sfx } from "@/lib/sfx";
+import Rom from "@/components/Rom";
 
 export function useBattle(boss, total, { exclude = [] } = {}) {
   const party = useMemo(() => shuffle(CHARS.filter((c) => !exclude.includes(c.en))).slice(0, 4), []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -95,7 +96,7 @@ export function MCQ({ q, onScore, onNext, top }) {
           </button>
         ))}
       </div>
-      {pick !== null && <>{q.explain && <div className="bexp">{pick === q.answer ? "✦ Chính xác! " : "✕ "}{q.explain}</div>}{q.after}<NextBtn onNext={onNext} /></>}
+      {pick !== null && <>{q.explain && <div className="bexp">{pick === q.answer ? "✦ Chính xác! " : "✕ "}{q.explain}</div>}<Rom text={`${q.explain || ""} ${q.answer || ""}`} />{q.after}<NextBtn onNext={onNext} /></>}
     </div>
   );
 }
@@ -113,7 +114,7 @@ export function FillQ({ q, onScore, onNext, top }) {
       <div className="chipsopt">
         {q.opts.map((o) => <button key={o} className={`chipo ${pick === null ? "" : o === q.answer ? "ok" : o === pick ? "bad" : "dim"}`} disabled={pick !== null} onClick={() => choose(o)}>{o}</button>)}
       </div>
-      {pick !== null && <><div className="bexp">{ok ? "✦ Chính xác! " : `✕ Đáp án: ${q.answer}. `}{q.explain}</div>{q.after}<NextBtn onNext={onNext} /></>}
+      {pick !== null && <><div className="bexp">{ok ? "✦ Chính xác! " : `✕ Đáp án: ${q.answer}. `}{q.explain}</div><Rom text={`${q.explain || ""} ${q.answer || ""}`} />{q.after}<NextBtn onNext={onNext} /></>}
     </div>
   );
 }

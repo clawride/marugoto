@@ -13,6 +13,7 @@ import { PARTS, STAR_REWARD, readingOf, trackLabel, vocabQs, kanjiQs, kanjiVocab
 import { starsFor, shuffle } from "@/lib/data";
 import { speakLines } from "@/lib/tts";
 import { sfx } from "@/lib/sfx";
+import Rom from "@/components/Rom";
 
 const Stars = ({ n = 0 }) => <span className="a22stars">{[0, 1, 2].map((i) => <i key={i} className={i < n ? "on" : ""}>★</i>)}</span>;
 
@@ -89,6 +90,7 @@ function GrammarView({ L }) {
           {open === i && (
             <div className="gbody">
               <p>{g.explain}</p>
+              <Rom text={`${g.point || ""} ${g.explain || ""}`} />
               {g.examples.map((e, j) => (
                 <div key={j} className="gex"><button className="spk" onClick={() => speakLines([{ t: e.jp }])}>🔊</button><div><span className="jpt">{e.jp}</span><small>{e.vi}</small></div></div>
               ))}

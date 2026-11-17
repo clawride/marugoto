@@ -11,6 +11,7 @@ import { LESSONS, lessonOf, itemsOf, charsUpTo, KANA_INFO, KANA_STROKES, ROMAJI,
 import { starsFor, shuffle, pickRand } from "@/lib/data";
 import { speakLines } from "@/lib/tts";
 import { sfx } from "@/lib/sfx";
+import Rom from "@/components/Rom";
 
 const STAR_REWARD = 20;
 const Stars = ({ n = 0 }) => <span className="a22stars">{[0, 1, 2].map((i) => <i key={i} className={i < n ? "on" : ""}>★</i>)}</span>;
@@ -180,7 +181,7 @@ function RuleTab({ L }) {
       <KleeHost line={KL.rule} />
       <div className="panel krule">
         <h3>{R.title}</h3>
-        <p>{R.explain}</p>
+        <p>{R.explain}</p><Rom text={R.explain} />
         {R.points?.length > 0 && <ul>{R.points.map((p, i) => <li key={i}>{p}</li>)}</ul>}
         {R.examples?.length > 0 && <div className="kex">{R.examples.map((e, i) => <button key={i} className="chip" onClick={() => say(e.w)}><span className="jpt">{e.w}</span> · {e.vi} 🔊</button>)}</div>}
       </div>

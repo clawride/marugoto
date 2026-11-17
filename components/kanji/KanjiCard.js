@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { KIDX, COMPS, compName, compLabel, learnedFor, kunParts, toHira, levelOf } from "@/lib/kanjiProg";
 import { speakLines } from "@/lib/tts";
+import Rom from "@/components/Rom";
 
 const say = (t) => speakLines([{ t }], { rate: 0.85 });
 const POS = { left: "bên trái", right: "bên phải", top: "phía trên", bottom: "phía dưới", tare: "bao trên-trái", nyo: "bao dưới-trái", kamae: "bao ngoài", nyoc: "bao dưới-trái" };
@@ -59,11 +60,12 @@ export default function KanjiCard({ E, compact = false }) {
             ))}
           </div>
           <p>{E.explain}</p>
+          <Rom text={E.explain} />
         </div>
       )}
-      {!E.comps?.length && <div className="kjsec"><h4>🧩 Cấu tạo</h4><p>{E.explain}</p></div>}
+      {!E.comps?.length && <div className="kjsec"><h4>🧩 Cấu tạo</h4><p>{E.explain}</p><Rom text={E.explain} /></div>}
 
-      <div className="kjsec memo"><h4>🧠 Mẹo nhớ</h4><p>{E.mnemonic}</p></div>
+      <div className="kjsec memo"><h4>🧠 Mẹo nhớ</h4><p>{E.mnemonic}</p><Rom text={E.mnemonic} /></div>
       <div className="kjsec tip">
         <h4>💡 Mẹo đọc</h4>
         <p>{E.tip}</p>

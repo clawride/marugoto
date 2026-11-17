@@ -19,6 +19,7 @@ import { sfx } from "@/lib/sfx";
 import BookPart from "@/components/course/BookPart";
 import CourseRun from "@/components/course/CourseRun";
 import { B11_BOOK_COURSE } from "@/components/courses";
+import Rom from "@/components/Rom";
 
 const TABS = [["book", "📖 Học theo sách 中級1"], ["kanji", "漢 Chữ & Kanji"], ["grammar", "📐 Ngữ pháp"], ["reading", "📖 Đọc dài"], ["listening", "🎧 Nghe"]];
 
@@ -191,6 +192,7 @@ function GrammarTab({ T }) {
             {open === i && (
               <div className="gbody">
                 <p>{g.explain}</p>
+                <Rom text={`${g.point || ""} ${g.explain || ""}`} />
                 {g.examples.map((e, j) => (
                   <div key={j} className="gex">
                     {ttsAvailable() && <button className="iconbtn" onClick={() => speakLines([{ sp: "A", t: e.jp }])} title="Nghe">🔊</button>}

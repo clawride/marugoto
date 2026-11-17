@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { sfx } from "@/lib/sfx";
+import Rom from "@/components/Rom";
 
 // Bộ câu hỏi trắc nghiệm làm cùng lúc, nộp một lần (dùng cho bài đọc, bài nghe và đề thi)
 // questions: [{q, opts, a, explain?}]; answers/setAnswers có thể điều khiển từ bên ngoài
@@ -29,6 +30,7 @@ export default function QuestionSet({ questions, onSubmit, submitted: sub, answe
             ))}
           </div>
           {submitted && (q.explain || q.hint) && <div className="qexp">{answers[i] === q.a ? "✦ " : "✕ "}{q.explain || q.hint}</div>}
+          {submitted && <Rom text={`${q.explain || q.hint || ""} ${q.opts?.[q.a] ?? ""}`} />}
         </div>
       ))}
       {!hideSubmit && !submitted && (

@@ -14,6 +14,7 @@ import { KLEVELS, KIDX, PARTS, SCORED, levelOf, lessonOf, lessonKey, loadLevel, 
 import { starsFor, pickRand } from "@/lib/data";
 import { speakLines } from "@/lib/tts";
 import { sfx } from "@/lib/sfx";
+import Rom from "@/components/Rom";
 
 export const STAR_REWARD = 20;
 export const Stars = ({ n = 0 }) => <span className="a22stars">{[0, 1, 2].map((i) => <i key={i} className={i < n ? "on" : ""}>★</i>)}</span>;
@@ -116,7 +117,7 @@ function WriteTab({ list, strokes, skey }) {
           <div className="kbig jpt">{E.k}</div>
           <div className="krom">{E.vi}</div>
           <div className="kmeta">{E.sc} nét{best[E.k] ? <> · điểm viết tốt nhất <b>{best[E.k]}</b></> : null}</div>
-          <p><b>🧩</b> {E.explain}</p>
+          <p><b>🧩</b> {E.explain}</p><Rom text={E.explain} />
           <p><b>✒️ Viết đẹp:</b> viết từ trên xuống dưới, từ trái sang phải; nét ngang trước nét sổ; bộ bên trái viết hẹp hơn để nhường chỗ cho phần bên phải. Giữ chữ cân trong ô, dùng đường chữ thập làm mốc.</p>
         </div>
         <div className="panel kpadwrap">

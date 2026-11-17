@@ -10,6 +10,7 @@ import { speakLines } from "@/lib/tts";
 import { scriptLines, wordLines, notesLines } from "@/lib/listenSources";
 import { shuffle } from "@/lib/data";
 import { sfx } from "@/lib/sfx";
+import Rom from "@/components/Rom";
 
 const KIND = {
   "listen-say": ["👂→👄", "きいて いいましょう", "Nghe rồi nói theo"],
@@ -181,6 +182,7 @@ function Grammar({ list, show }) {
           <div className="bkgpat jpt">{g.pattern}</div>
           <div className="bkgvi">{g.vi}</div>
           <p>{g.explain}</p>
+          <Rom text={`${g.pattern || ""} ${g.explain || ""}`} />
           {g.examples?.map((e, j) => <Line key={j} {...e} show={show} />)}
         </div>
       ))}
