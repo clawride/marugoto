@@ -1,0 +1,855 @@
+{
+  "n": 1,
+  "scene": "Tập thuật ngữ tr. 7–11 (１―１ 病院に関すること). Phần này liệt kê các loại cơ sở y tế (bệnh viện đa khoa, bệnh viện đại học, phòng khám…) và hơn 40 khoa khám; các quầy, phòng và khu vực trong bệnh viện từ quầy tiếp đón, phòng chờ, phòng xét nghiệm đến khu nội trú, ICU; các trang thiết bị, dụng cụ y tế; và tên gọi các nhân viên y tế từ bác sĩ, điều dưỡng, dược sĩ đến chuyên viên phục hồi chức năng. Hộ lý bệnh viện (看護助手) gặp các từ này mỗi ngày: khi đưa bệnh nhân đi xét nghiệm, chỉ đường cho người nhà, lấy dụng cụ theo lời điều dưỡng hay báo cáo cho đúng người.",
+  "people": [],
+  "goals": [
+    "Đọc và hiểu tên các khoa, các phòng, quầy và khu vực trong bệnh viện Nhật để đưa bệnh nhân đến đúng nơi.",
+    "Gọi đúng tên các trang thiết bị, dụng cụ thường dùng và các chức danh nhân viên y tế (主治医, 看護師, 薬剤師, PT/OT/ST…).",
+    "Nói được câu chỉ đường, dẫn đường, mời chờ, hỏi giấy tờ và báo cho điều dưỡng lời bệnh nhân nói."
+  ],
+  "know": [
+    "Hệ thống khám chữa bệnh ở Nhật chia theo quy mô: 診療所 / クリニック là cơ sở khám dưới 20 giường (nhiều nơi không có giường), 病院 từ 20 giường trở lên; 総合病院, 大学病院 là bệnh viện lớn nhiều khoa. Người dân thường khám trước ở phòng khám gần nhà với bác sĩ quen (かかりつけ医); khi cần xét nghiệm, điều trị chuyên sâu thì bác sĩ viết giấy giới thiệu (紹介状) chuyển lên bệnh viện lớn. Đến bệnh viện lớn mà không có giấy giới thiệu thường phải trả thêm một khoản phí riêng.",
+    "Luồng khám ngoại trú (外来) điển hình: lần đầu đến quầy 初診受付, đưa thẻ bảo hiểm (保険証), điền phiếu hỏi bệnh (問診票) và nhận thẻ khám bệnh (診察券); lần sau dùng máy 再来受付機. Sau đó chờ ở phòng chờ (待合室), được gọi vào chỗ chờ trước phòng khám (中待合), vào phòng khám (診察室), đi xét nghiệm nếu cần (採血室, X線検査室…), rồi thanh toán ở 会計窓口 hoặc máy 自動精算機 và mang đơn thuốc ra nhà thuốc ngoài (院外薬局).",
+    "Khu nội trú (病棟) chia theo khoa, mỗi tầng có phòng trực điều dưỡng (ナースステーション) ở giữa và các phòng bệnh (病室) xung quanh. Bệnh nhân nặng nằm ở ICU (集中治療室), HCU (dưới mức ICU một bậc), CCU (bệnh tim mạch vành), trẻ sơ sinh ở NICU. Ngoài ra có phòng ăn (食堂), phòng sinh hoạt chung – gặp người nhà (面会室 / デイルーム), phòng chuẩn bị đồ ăn (配膳室) — những nơi hộ lý làm việc nhiều nhất khi phát cơm, đưa bệnh nhân đi lại.",
+    "Hộ lý bệnh viện (看護助手) làm việc dưới sự chỉ đạo của điều dưỡng (看護師): thay ga giường, hỗ trợ ăn, bài tiết, tắm rửa, đưa bệnh nhân đi xét nghiệm, chuẩn bị và lau rửa dụng cụ, vận chuyển bệnh phẩm, giấy tờ. Hộ lý không được làm hành vi y tế (医療行為) như tiêm, chỉnh tốc độ truyền dịch, tự cho thuốc. Khi bệnh nhân than đau, khó chịu, việc của hộ lý là báo ngay cho điều dưỡng, nói rõ ai, ở phòng nào, nói gì.",
+    "Trong bệnh viện có nhiều nghề: bác sĩ điều trị chính (主治医 / 担当医), bác sĩ trực (当直医), điều dưỡng (看護師) và điều dưỡng trung cấp (准看護師), dược sĩ (薬剤師), kỹ thuật viên xét nghiệm (臨床検査技師), kỹ thuật viên X-quang (診療放射線技師), chuyên viên phục hồi chức năng PT – OT – ST, chuyên viên dinh dưỡng (栄養士), nhân viên công tác xã hội (医療ソーシャルワーカー). Bác sĩ thường được gọi là 先生, còn điều dưỡng và nhân viên khác thì gọi bằng họ + さん."
+  ],
+  "terms": [
+    { "w": "外来", "r": "がいらい", "ro": "gairai", "en": "outpatient (department)", "vi": "Khám ngoại trú, khu khám ngoại trú — bệnh nhân đến khám rồi về trong ngày. Ví dụ: 外来の患者さん (bệnh nhân ngoại trú); 救急外来 (khám cấp cứu)." },
+    { "w": "病棟", "r": "びょうとう", "ro": "byootoo", "en": "ward", "vi": "Khu nội trú, nơi bệnh nhân nằm viện. Ví dụ: 内科病棟 (khu nội trú khoa nội) — nơi hộ lý bệnh viện làm việc chủ yếu." },
+    { "w": "病室", "r": "びょうしつ", "ro": "byooshitsu", "en": "patient room", "vi": "Phòng bệnh. Phòng thường được gọi bằng số: 305号室. Gõ cửa, xưng tên trước khi vào như vào nhà người khác." },
+    { "w": "ナースステーション", "r": "", "ro": "naasu suteeshon", "en": "nurses' station", "vi": "Phòng (quầy) trực điều dưỡng ở mỗi tầng nội trú. Hộ lý nhận việc, báo cáo và lấy dụng cụ ở đây." },
+    { "w": "主治医", "r": "しゅじい", "ro": "shujii", "en": "attending physician", "vi": "Bác sĩ điều trị chính, chịu trách nhiệm về bệnh nhân. Khi bệnh nhân hỏi về bệnh, thuốc → trả lời: 主治医の先生に聞いてみますね." },
+    { "w": "看護師", "r": "かんごし", "ro": "kangoshi", "en": "nurse", "vi": "Điều dưỡng (có bằng quốc gia). Hộ lý làm việc theo chỉ đạo của điều dưỡng và báo cáo mọi thay đổi của bệnh nhân cho họ." },
+    { "w": "看護助手", "r": "かんごじょしゅ", "ro": "kango joshu", "en": "nursing assistant", "vi": "Trợ lý điều dưỡng — hộ lý bệnh viện. Hỗ trợ sinh hoạt, vận chuyển bệnh nhân, chuẩn bị dụng cụ; không làm hành vi y tế." },
+    { "w": "診察券", "r": "しんさつけん", "ro": "shinsatsuken", "en": "patient registration card", "vi": "Thẻ khám bệnh của từng bệnh viện, dùng mỗi lần đến khám, cùng với thẻ bảo hiểm (保険証)." },
+    { "w": "問診票", "r": "もんしんひょう", "ro": "monshinhyoo", "en": "medical questionnaire", "vi": "Phiếu hỏi bệnh điền trước khi khám: triệu chứng, tiền sử bệnh, dị ứng, thuốc đang uống. Người già khó viết có thể cần người giúp đọc." },
+    { "w": "車椅子", "r": "くるまいす", "ro": "kurumaisu", "en": "wheelchair", "vi": "Xe lăn. Luôn khóa phanh khi bệnh nhân lên xuống xe, báo trước mỗi khi bắt đầu đẩy hay rẽ." },
+    { "w": "ストレッチャー", "r": "", "ro": "sutorecchaa", "en": "stretcher", "vi": "Cáng có bánh xe, dùng đưa bệnh nhân không ngồi được đi xét nghiệm, đi mổ. Thường cần 2 người trở lên để chuyển bệnh nhân." }
+  ],
+  "grammar": [
+    {
+      "no": 1,
+      "p": "〇〇は、〇〇階にあります。",
+      "ro": "〇〇 wa, 〇〇-kai ni arimasu.",
+      "vi": "〇〇 ở tầng 〇〇.",
+      "form": "Nơi chốn + は、+ số tầng + 階にあります （hỏi: 〇〇はどこにありますか）",
+      "use": "Chỉ đường trong bệnh viện cho bệnh nhân, người nhà khi họ hỏi phòng khám, phòng xét nghiệm, quầy thanh toán, cửa hàng… Hộ lý đi lại khắp bệnh viện nên thường xuyên được hỏi đường.",
+      "notes": [
+        "Tầng: 一階 (いっかい), 二階 (にかい), 三階 (さんがい), 地下一階 (ちかいっかい: tầng hầm 1). Chú ý cách đọc biến âm của 1, 3, 6, 8, 10 tầng.",
+        "Lịch sự hơn: 〇〇は、二階でございます. Nếu tiện đường, nên dẫn đi luôn (mẫu ②) thay vì chỉ nói.",
+        "Người hỏi: 〇〇はどこにありますか。 hoặc ngắn hơn: 〇〇はどこですか。"
+      ],
+      "ex": [
+        {
+          "jp": "採血室は、一階にあります。",
+          "ro": "Saiketsushitsu wa, ikkai ni arimasu.",
+          "vi": "Phòng lấy máu ở tầng 1 ạ.",
+          "pt": "一階 đọc là いっかい (biến âm). Bệnh nhân ngoại trú hay hỏi phòng lấy máu vì phải xét nghiệm trước khi khám.",
+          "words": [
+            { "w": "採血室", "r": "さいけつしつ", "ro": "saiketsushitsu", "pos": "danh từ", "vi": "phòng lấy máu xét nghiệm" },
+            { "w": "は", "ro": "wa", "pos": "trợ từ", "vi": "đánh dấu chủ đề" },
+            { "w": "、", "pos": "dấu câu" },
+            { "w": "一階", "r": "いっかい", "ro": "ikkai", "pos": "danh từ", "vi": "tầng 1" },
+            { "w": "に", "ro": "ni", "pos": "trợ từ", "vi": "ở (chỉ nơi tồn tại)" },
+            { "w": "あります", "ro": "arimasu", "pos": "động từ", "base": "ある", "vi": "có, ở (đồ vật, nơi chốn)" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        },
+        {
+          "jp": "X線検査室は、地下一階にあります。",
+          "ro": "Ekkususen kensashitsu wa, chikaikkai ni arimasu.",
+          "vi": "Phòng chụp X-quang ở tầng hầm 1 ạ.",
+          "pt": "Phòng chụp X-quang, CT, MRI thường ở tầng 1 hoặc tầng hầm vì máy rất nặng.",
+          "words": [
+            { "w": "X線検査室", "r": "えっくすせんけんさしつ", "ro": "ekkususen kensashitsu", "pos": "danh từ", "vi": "phòng chụp X-quang" },
+            { "w": "は", "ro": "wa", "pos": "trợ từ", "vi": "đánh dấu chủ đề" },
+            { "w": "、", "pos": "dấu câu" },
+            { "w": "地下一階", "r": "ちかいっかい", "ro": "chikaikkai", "pos": "danh từ", "vi": "tầng hầm 1" },
+            { "w": "に", "ro": "ni", "pos": "trợ từ", "vi": "ở (chỉ nơi tồn tại)" },
+            { "w": "あります", "ro": "arimasu", "pos": "động từ", "base": "ある", "vi": "có, ở (đồ vật, nơi chốn)" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        },
+        {
+          "jp": "売店はどこにありますか。",
+          "ro": "Baiten wa doko ni arimasu ka.",
+          "vi": "Quầy bán hàng ở đâu vậy?",
+          "pt": "Câu bệnh nhân, người nhà hay hỏi. Trả lời bằng mẫu này, kèm chỉ tay hoặc dẫn đi.",
+          "words": [
+            { "w": "売店", "r": "ばいてん", "ro": "baiten", "pos": "danh từ", "vi": "quầy bán hàng trong bệnh viện" },
+            { "w": "は", "ro": "wa", "pos": "trợ từ", "vi": "đánh dấu chủ đề" },
+            { "w": "どこ", "ro": "doko", "pos": "đại từ", "vi": "ở đâu" },
+            { "w": "に", "ro": "ni", "pos": "trợ từ", "vi": "ở (chỉ nơi tồn tại)" },
+            { "w": "あります", "ro": "arimasu", "pos": "động từ", "base": "ある", "vi": "có, ở" },
+            { "w": "か", "ro": "ka", "pos": "trợ từ", "vi": "trợ từ nghi vấn" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        }
+      ]
+    },
+    {
+      "no": 2,
+      "p": "〇〇までご案内します。",
+      "ro": "〇〇 made goannai shimasu.",
+      "vi": "Tôi xin dẫn ông / bà đến 〇〇.",
+      "form": "Nơi chốn + まで + ご案内します （khiêm nhường ngữ của 案内する）; đưa người: お連れします",
+      "use": "Dẫn bệnh nhân, người nhà đến phòng khám, phòng xét nghiệm, phòng bệnh. Hộ lý bệnh viện (看護助手) thường đưa bệnh nhân nội trú đi xét nghiệm bằng xe lăn hoặc cáng.",
+      "notes": [
+        "ご案内します = tôi dẫn đường (khiêm nhường, dùng với bệnh nhân, khách). Với đồng nghiệp chỉ cần 案内します.",
+        "お連れします = tôi đưa (ai đó) đi — dùng khi đẩy xe lăn, dìu bệnh nhân.",
+        "Đi chậm theo tốc độ của bệnh nhân, đi phía trước chéo một chút và thỉnh thoảng quay lại nhìn."
+      ],
+      "ex": [
+        {
+          "jp": "検査室までご案内します。",
+          "ro": "Kensashitsu made goannai shimasu.",
+          "vi": "Tôi xin dẫn ông / bà đến phòng xét nghiệm.",
+          "pt": "Câu cố định, rất hay dùng. ご案内 + します = khiêm nhường ngữ.",
+          "words": [
+            { "w": "検査室", "r": "けんさしつ", "ro": "kensashitsu", "pos": "danh từ", "vi": "phòng kiểm tra, xét nghiệm" },
+            { "w": "まで", "ro": "made", "pos": "trợ từ", "vi": "đến (tận nơi)" },
+            { "w": "ご案内", "r": "ごあんない", "ro": "goannai", "pos": "danh từ", "vi": "sự hướng dẫn, dẫn đường (ご: khiêm nhường)" },
+            { "w": "します", "ro": "shimasu", "pos": "động từ", "base": "する", "vi": "làm" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        },
+        {
+          "jp": "車椅子で放射線科までお連れしますね。",
+          "ro": "Kurumaisu de hooshasenka made otsure shimasu ne.",
+          "vi": "Cháu sẽ đưa ông / bà đến khoa chẩn đoán hình ảnh bằng xe lăn nhé.",
+          "pt": "車椅子で = bằng xe lăn (で chỉ phương tiện). Nói trước khi đẩy xe để bệnh nhân yên tâm.",
+          "words": [
+            { "w": "車椅子", "r": "くるまいす", "ro": "kurumaisu", "pos": "danh từ", "vi": "xe lăn" },
+            { "w": "で", "ro": "de", "pos": "trợ từ", "vi": "bằng (phương tiện)" },
+            { "w": "放射線科", "r": "ほうしゃせんか", "ro": "hooshasenka", "pos": "danh từ", "vi": "khoa chẩn đoán hình ảnh" },
+            { "w": "まで", "ro": "made", "pos": "trợ từ", "vi": "đến (tận nơi)" },
+            { "w": "お連れします", "r": "おつれします", "ro": "otsure shimasu", "pos": "động từ", "base": "連れる", "vi": "đưa (ai) đi (khiêm nhường ngữ)" },
+            { "w": "ね", "ro": "ne", "pos": "trợ từ", "vi": "nhé, nhỉ (làm câu mềm, tìm đồng cảm)" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        }
+      ]
+    },
+    {
+      "no": 3,
+      "p": "〇〇をお持ちですか。",
+      "ro": "〇〇 o omochi desu ka.",
+      "vi": "Ông / bà có mang theo 〇〇 không ạ?",
+      "form": "Danh từ + を + お持ちですか （tôn kính ngữ của 持っていますか）",
+      "use": "Hỏi bệnh nhân có mang theo giấy tờ, đồ cần thiết không: thẻ bảo hiểm, thẻ khám bệnh, giấy giới thiệu, thuốc đang uống, sổ tay thuốc (お薬手帳)… khi tiếp đón hoặc khi nhập viện.",
+      "notes": [
+        "お持ちですか lịch sự hơn 持っていますか. Trả lời: はい、あります / いいえ、持っていません.",
+        "Khi nhập viện hay hỏi thêm: お薬手帳をお持ちですか (có mang sổ tay thuốc không).",
+        "Nếu bệnh nhân quên đồ, không trách mà nói: 大丈夫ですよ。受付に確認しますね."
+      ],
+      "ex": [
+        {
+          "jp": "保険証と診察券をお持ちですか。",
+          "ro": "Hokenshoo to shinsatsuken o omochi desu ka.",
+          "vi": "Ông / bà có mang theo thẻ bảo hiểm và thẻ khám bệnh không ạ?",
+          "pt": "Hai thứ cần cho mọi lần khám ngoại trú. と nối hai danh từ.",
+          "words": [
+            { "w": "保険証", "r": "ほけんしょう", "ro": "hokenshoo", "pos": "danh từ", "vi": "thẻ bảo hiểm y tế" },
+            { "w": "と", "ro": "to", "pos": "trợ từ", "vi": "và" },
+            { "w": "診察券", "r": "しんさつけん", "ro": "shinsatsuken", "pos": "danh từ", "vi": "thẻ khám bệnh" },
+            { "w": "を", "ro": "o", "pos": "trợ từ", "vi": "chỉ đối tượng" },
+            { "w": "お持ち", "r": "おもち", "ro": "omochi", "pos": "danh từ", "base": "持つ", "vi": "sự mang theo (tôn kính ngữ)" },
+            { "w": "です", "ro": "desu", "pos": "trợ động từ", "vi": "là (lịch sự)" },
+            { "w": "か", "ro": "ka", "pos": "trợ từ", "vi": "trợ từ nghi vấn" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        },
+        {
+          "jp": "紹介状をお持ちですか。",
+          "ro": "Shookaijoo o omochi desu ka.",
+          "vi": "Ông / bà có mang theo giấy giới thiệu không ạ?",
+          "pt": "Bệnh viện lớn thường yêu cầu 紹介状 của phòng khám; không có thì phải trả thêm phí.",
+          "words": [
+            { "w": "紹介状", "r": "しょうかいじょう", "ro": "shookaijoo", "pos": "danh từ", "vi": "giấy giới thiệu (chuyển viện)" },
+            { "w": "を", "ro": "o", "pos": "trợ từ", "vi": "chỉ đối tượng" },
+            { "w": "お持ち", "r": "おもち", "ro": "omochi", "pos": "danh từ", "base": "持つ", "vi": "sự mang theo (tôn kính ngữ)" },
+            { "w": "です", "ro": "desu", "pos": "trợ động từ", "vi": "là (lịch sự)" },
+            { "w": "か", "ro": "ka", "pos": "trợ từ", "vi": "trợ từ nghi vấn" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        }
+      ]
+    },
+    {
+      "no": 4,
+      "p": "〇〇でお待ちください。",
+      "ro": "〇〇 de omachi kudasai.",
+      "vi": "Xin ông / bà vui lòng chờ ở 〇〇.",
+      "form": "Nơi chốn + で + お待ちください （tôn kính ngữ của 待ってください）",
+      "use": "Mời bệnh nhân, người nhà ngồi chờ ở phòng chờ, chỗ chờ trước phòng khám (中待合), trước phòng xét nghiệm; hoặc nhờ họ chờ một lát khi mình đi gọi điều dưỡng.",
+      "notes": [
+        "少々お待ちください = xin chờ một lát. Nên nói rõ chờ bao lâu nếu biết: 5分ほどお待ちください.",
+        "名前を呼ばれるまで = cho đến khi được gọi tên. Ở Nhật, bệnh nhân thường được gọi bằng tên hoặc số thứ tự.",
+        "Với người già, chỉ ghế cụ thể và đỡ họ ngồi xuống; kiểm tra phanh xe lăn đã khóa chưa."
+      ],
+      "ex": [
+        {
+          "jp": "こちらで少々お待ちください。",
+          "ro": "Kochira de shooshoo omachi kudasai.",
+          "vi": "Xin ông / bà vui lòng chờ ở đây một lát.",
+          "pt": "こちら lịch sự hơn ここ. Câu dùng khi mình đi gọi điều dưỡng hoặc chuẩn bị phòng.",
+          "words": [
+            { "w": "こちら", "ro": "kochira", "pos": "đại từ", "vi": "phía này, chỗ này (lịch sự)" },
+            { "w": "で", "ro": "de", "pos": "trợ từ", "vi": "ở (nơi diễn ra hành động)" },
+            { "w": "少々", "r": "しょうしょう", "ro": "shooshoo", "pos": "phó từ", "vi": "một lát" },
+            { "w": "お待ち", "r": "おまち", "ro": "omachi", "pos": "danh từ", "base": "待つ", "vi": "sự chờ đợi (tôn kính ngữ)" },
+            { "w": "ください", "ro": "kudasai", "pos": "động từ", "base": "くださる", "vi": "hãy (nhờ lịch sự)" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        },
+        {
+          "jp": "名前を呼ばれるまで、中待合でお待ちください。",
+          "ro": "Namae o yobareru made, nakamachiai de omachi kudasai.",
+          "vi": "Xin ông / bà chờ ở chỗ chờ trước phòng khám cho đến khi được gọi tên.",
+          "pt": "呼ばれる là thể bị động của 呼ぶ. まで sau động từ = cho đến khi.",
+          "words": [
+            { "w": "名前", "r": "なまえ", "ro": "namae", "pos": "danh từ", "vi": "tên" },
+            { "w": "を", "ro": "o", "pos": "trợ từ", "vi": "chỉ đối tượng" },
+            { "w": "呼ばれる", "r": "よばれる", "ro": "yobareru", "pos": "động từ", "base": "呼ぶ", "vi": "được gọi (thể bị động)" },
+            { "w": "まで", "ro": "made", "pos": "trợ từ", "vi": "cho đến khi" },
+            { "w": "、", "pos": "dấu câu" },
+            { "w": "中待合", "r": "なかまちあい", "ro": "nakamachiai", "pos": "danh từ", "vi": "chỗ chờ trước phòng khám" },
+            { "w": "で", "ro": "de", "pos": "trợ từ", "vi": "ở (nơi diễn ra hành động)" },
+            { "w": "お待ち", "r": "おまち", "ro": "omachi", "pos": "danh từ", "base": "待つ", "vi": "sự chờ đợi (tôn kính ngữ)" },
+            { "w": "ください", "ro": "kudasai", "pos": "động từ", "base": "くださる", "vi": "hãy (nhờ lịch sự)" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        }
+      ]
+    },
+    {
+      "no": 5,
+      "p": "〇〇さんが、〇〇と言っています。",
+      "ro": "〇〇-san ga, 〇〇 to itte imasu.",
+      "vi": "Ông / bà 〇〇 nói là 〇〇.",
+      "form": "Người + が、+ lời nói (thể thường) + と言っています",
+      "use": "Báo cho điều dưỡng điều bệnh nhân đã nói (đau, muốn đi vệ sinh, muốn gặp bác sĩ…). Hộ lý không tự chẩn đoán hay tự xử lý; truyền đạt đúng nguyên văn lời bệnh nhân là việc rất quan trọng.",
+      "notes": [
+        "Nói số phòng + tên trước để điều dưỡng biết ngay là ai: 305号室の山田さんが….",
+        "Giữ nguyên lời bệnh nhân ở thể thường trước と: 頭が痛い, トイレに行きたい.",
+        "Nếu thấy điều khác thường (mặt tái, thở gấp) thì báo thêm điều mình thấy: 顔色が悪いです."
+      ],
+      "ex": [
+        {
+          "jp": "305号室の山田さんが、頭が痛いと言っています。",
+          "ro": "Sanbyakugo-gooshitsu no Yamada-san ga, atama ga itai to itte imasu.",
+          "vi": "Ông Yamada phòng 305 nói là bị đau đầu ạ.",
+          "pt": "号室 = phòng số. 頭が痛い giữ nguyên ở thể thường rồi thêm と言っています.",
+          "words": [
+            { "w": "305号室", "r": "さんびゃくごごうしつ", "ro": "sanbyakugo-gooshitsu", "pos": "danh từ", "vi": "phòng số 305" },
+            { "w": "の", "ro": "no", "pos": "trợ từ", "vi": "của" },
+            { "w": "山田", "r": "やまだ", "ro": "Yamada", "pos": "danh từ", "vi": "Yamada (họ người)" },
+            { "w": "さん", "ro": "san", "pos": "hậu tố", "vi": "ông / bà / anh / chị (gọi lịch sự)" },
+            { "w": "が", "ro": "ga", "pos": "trợ từ", "vi": "chỉ chủ ngữ" },
+            { "w": "、", "pos": "dấu câu" },
+            { "w": "頭", "r": "あたま", "ro": "atama", "pos": "danh từ", "vi": "đầu" },
+            { "w": "が", "ro": "ga", "pos": "trợ từ", "vi": "chỉ chủ ngữ" },
+            { "w": "痛い", "r": "いたい", "ro": "itai", "pos": "tính từ い", "vi": "đau" },
+            { "w": "と", "ro": "to", "pos": "trợ từ", "vi": "rằng (trích dẫn lời nói)" },
+            { "w": "言って", "r": "いって", "ro": "itte", "pos": "động từ", "base": "言う", "vi": "nói" },
+            { "w": "います", "ro": "imasu", "pos": "trợ động từ", "base": "いる", "vi": "đang (〜ている)" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        },
+        {
+          "jp": "田中さんが、トイレに行きたいと言っています。",
+          "ro": "Tanaka-san ga, toire ni ikitai to itte imasu.",
+          "vi": "Bà Tanaka nói là muốn đi vệ sinh ạ.",
+          "pt": "Dùng khi bệnh nhân cần điều dưỡng hỗ trợ (ví dụ đang truyền dịch, phải nằm yên).",
+          "words": [
+            { "w": "田中", "r": "たなか", "ro": "Tanaka", "pos": "danh từ", "vi": "Tanaka (họ người)" },
+            { "w": "さん", "ro": "san", "pos": "hậu tố", "vi": "ông / bà / anh / chị (gọi lịch sự)" },
+            { "w": "が", "ro": "ga", "pos": "trợ từ", "vi": "chỉ chủ ngữ" },
+            { "w": "、", "pos": "dấu câu" },
+            { "w": "トイレ", "ro": "toire", "pos": "danh từ", "vi": "nhà vệ sinh" },
+            { "w": "に", "ro": "ni", "pos": "trợ từ", "vi": "đến, vào (chỉ đích)" },
+            { "w": "行きたい", "r": "いきたい", "ro": "ikitai", "pos": "động từ", "base": "行く", "vi": "muốn đi" },
+            { "w": "と", "ro": "to", "pos": "trợ từ", "vi": "rằng (trích dẫn lời nói)" },
+            { "w": "言って", "r": "いって", "ro": "itte", "pos": "động từ", "base": "言う", "vi": "nói" },
+            { "w": "います", "ro": "imasu", "pos": "trợ động từ", "base": "いる", "vi": "đang (〜ている)" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        }
+      ]
+    }
+  ],
+  "dialog": {
+    "title": "Đưa bệnh nhân đi chụp X-quang",
+    "setting": "Khu nội trú khoa nội (内科病棟) của một bệnh viện đa khoa, buổi sáng. Điều dưỡng Satō nhờ hộ lý Nguyễn (看護助手) đưa ông Yamada (78 tuổi, đang điều trị viêm phổi, đi còn loạng choạng) xuống phòng chụp X-quang ở tầng hầm.",
+    "lines": [
+      {
+        "sp": "看護師（佐藤）",
+        "jp": "グエンさん、山田さんをX線検査室までお願いします。",
+        "ro": "Guen-san, Yamada-san o ekkususen kensashitsu made onegai shimasu.",
+        "vi": "Chị Nguyễn ơi, nhờ chị đưa ông Yamada xuống phòng chụp X-quang nhé.",
+        "pt": "〇〇まで + お願いします: nhờ đưa ai đó đến đâu. Câu điều dưỡng giao việc hằng ngày.",
+        "words": [
+          { "w": "グエン", "ro": "Guen", "pos": "danh từ", "vi": "Nguyễn (tên người)" },
+          { "w": "さん", "ro": "san", "pos": "hậu tố", "vi": "ông / bà / anh / chị (gọi lịch sự)" },
+          { "w": "、", "pos": "dấu câu" },
+          { "w": "山田", "r": "やまだ", "ro": "Yamada", "pos": "danh từ", "vi": "Yamada (họ người)" },
+          { "w": "さん", "ro": "san", "pos": "hậu tố", "vi": "ông / bà / anh / chị (gọi lịch sự)" },
+          { "w": "を", "ro": "o", "pos": "trợ từ", "vi": "chỉ đối tượng" },
+          { "w": "X線検査室", "r": "えっくすせんけんさしつ", "ro": "ekkususen kensashitsu", "pos": "danh từ", "vi": "phòng chụp X-quang" },
+          { "w": "まで", "ro": "made", "pos": "trợ từ", "vi": "đến (tận nơi)" },
+          { "w": "お願いします", "r": "おねがいします", "ro": "onegai shimasu", "pos": "động từ", "base": "お願いする", "vi": "xin nhờ, làm ơn" },
+          { "w": "。", "pos": "dấu câu" }
+        ]
+      },
+      {
+        "sp": "グエン",
+        "jp": "はい、わかりました。車椅子で行きますか。",
+        "ro": "Hai, wakarimashita. Kurumaisu de ikimasu ka.",
+        "vi": "Vâng ạ. Đi bằng xe lăn phải không ạ?",
+        "pt": "Hỏi lại cách di chuyển (đi bộ, xe lăn, cáng) trước khi đưa bệnh nhân đi.",
+        "words": [
+          { "w": "はい", "ro": "hai", "pos": "cụm cố định", "vi": "vâng, dạ" },
+          { "w": "、", "pos": "dấu câu" },
+          { "w": "わかりました", "ro": "wakarimashita", "pos": "động từ", "base": "わかる", "vi": "vâng, tôi hiểu rồi" },
+          { "w": "。", "pos": "dấu câu" },
+          { "w": "車椅子", "r": "くるまいす", "ro": "kurumaisu", "pos": "danh từ", "vi": "xe lăn" },
+          { "w": "で", "ro": "de", "pos": "trợ từ", "vi": "bằng (phương tiện)" },
+          { "w": "行きます", "r": "いきます", "ro": "ikimasu", "pos": "động từ", "base": "行く", "vi": "đi" },
+          { "w": "か", "ro": "ka", "pos": "trợ từ", "vi": "trợ từ nghi vấn" },
+          { "w": "。", "pos": "dấu câu" }
+        ]
+      },
+      {
+        "sp": "看護師（佐藤）",
+        "jp": "ええ、まだふらつくので、車椅子でお願いします。",
+        "ro": "Ee, mada furatsuku node, kurumaisu de onegai shimasu.",
+        "vi": "Ừ, ông ấy vẫn còn loạng choạng nên đi xe lăn nhé.",
+        "pt": "ふらつく là từ trong bảng triệu chứng: đi không vững, dễ ngã.",
+        "words": [
+          { "w": "ええ", "ro": "ee", "pos": "cụm cố định", "vi": "ừ, vâng" },
+          { "w": "、", "pos": "dấu câu" },
+          { "w": "まだ", "ro": "mada", "pos": "phó từ", "vi": "vẫn còn" },
+          { "w": "ふらつく", "ro": "furatsuku", "pos": "động từ", "vi": "loạng choạng" },
+          { "w": "ので", "ro": "node", "pos": "trợ từ", "vi": "vì (nêu lý do, nhẹ nhàng)" },
+          { "w": "、", "pos": "dấu câu" },
+          { "w": "車椅子", "r": "くるまいす", "ro": "kurumaisu", "pos": "danh từ", "vi": "xe lăn" },
+          { "w": "で", "ro": "de", "pos": "trợ từ", "vi": "bằng (phương tiện)" },
+          { "w": "お願いします", "r": "おねがいします", "ro": "onegai shimasu", "pos": "động từ", "base": "お願いする", "vi": "xin nhờ, làm ơn" },
+          { "w": "。", "pos": "dấu câu" }
+        ]
+      },
+      {
+        "sp": "グエン",
+        "jp": "山田さん、グエンです。今からX線検査室までご案内しますね。",
+        "ro": "Yamada-san, Guen desu. Ima kara ekkususen kensashitsu made goannai shimasu ne.",
+        "vi": "Ông Yamada ơi, cháu là Nguyễn ạ. Bây giờ cháu dẫn ông xuống phòng chụp X-quang nhé.",
+        "pt": "Mẫu ②. Xưng tên rồi nói rõ đi đâu, để làm gì.",
+        "words": [
+          { "w": "山田", "r": "やまだ", "ro": "Yamada", "pos": "danh từ", "vi": "Yamada (họ người)" },
+          { "w": "さん", "ro": "san", "pos": "hậu tố", "vi": "ông / bà / anh / chị (gọi lịch sự)" },
+          { "w": "、", "pos": "dấu câu" },
+          { "w": "グエン", "ro": "Guen", "pos": "danh từ", "vi": "Nguyễn (tên người)" },
+          { "w": "です", "ro": "desu", "pos": "trợ động từ", "vi": "là (lịch sự)" },
+          { "w": "。", "pos": "dấu câu" },
+          { "w": "今", "r": "いま", "ro": "ima", "pos": "danh từ", "vi": "bây giờ" },
+          { "w": "から", "ro": "kara", "pos": "trợ từ", "vi": "từ (今から: từ bây giờ)" },
+          { "w": "X線検査室", "r": "えっくすせんけんさしつ", "ro": "ekkususen kensashitsu", "pos": "danh từ", "vi": "phòng chụp X-quang" },
+          { "w": "まで", "ro": "made", "pos": "trợ từ", "vi": "đến (tận nơi)" },
+          { "w": "ご案内", "r": "ごあんない", "ro": "goannai", "pos": "danh từ", "vi": "sự hướng dẫn, dẫn đường (ご: khiêm nhường)" },
+          { "w": "します", "ro": "shimasu", "pos": "động từ", "base": "する", "vi": "làm" },
+          { "w": "ね", "ro": "ne", "pos": "trợ từ", "vi": "nhé, nhỉ (làm câu mềm, tìm đồng cảm)" },
+          { "w": "。", "pos": "dấu câu" }
+        ]
+      },
+      {
+        "sp": "山田様",
+        "jp": "レントゲンか。どこにあるの？",
+        "ro": "Rentogen ka. Doko ni aru no?",
+        "vi": "Chụp X-quang à. Ở đâu thế?",
+        "pt": "Người bệnh thường nói レントゲン thay cho X線検査. の？ cuối câu: hỏi thân mật.",
+        "words": [
+          { "w": "レントゲン", "ro": "rentogen", "pos": "danh từ", "vi": "chụp X-quang (Röntgen)" },
+          { "w": "か", "ro": "ka", "pos": "trợ từ", "vi": "trợ từ nghi vấn" },
+          { "w": "。", "pos": "dấu câu" },
+          { "w": "どこ", "ro": "doko", "pos": "đại từ", "vi": "ở đâu" },
+          { "w": "に", "ro": "ni", "pos": "trợ từ", "vi": "ở (chỉ nơi tồn tại)" },
+          { "w": "ある", "ro": "aru", "pos": "động từ", "vi": "có, ở" },
+          { "w": "の", "ro": "no", "pos": "trợ từ", "vi": "(hỏi thân mật, muốn biết lý do, thông tin)" },
+          { "w": "？", "pos": "dấu câu" }
+        ]
+      },
+      {
+        "sp": "グエン",
+        "jp": "地下一階にあります。では、車椅子に移りましょうか。",
+        "ro": "Chikaikkai ni arimasu. Dewa, kurumaisu ni utsurimashoo ka.",
+        "vi": "Ở tầng hầm 1 ạ. Vậy mình chuyển sang xe lăn nhé ông.",
+        "pt": "Mẫu ①. 移る = chuyển chỗ (từ giường sang xe lăn). Nhớ khóa phanh xe lăn trước.",
+        "words": [
+          { "w": "地下一階", "r": "ちかいっかい", "ro": "chikaikkai", "pos": "danh từ", "vi": "tầng hầm 1" },
+          { "w": "に", "ro": "ni", "pos": "trợ từ", "vi": "ở (chỉ nơi tồn tại)" },
+          { "w": "あります", "ro": "arimasu", "pos": "động từ", "base": "ある", "vi": "có, ở (đồ vật, nơi chốn)" },
+          { "w": "。", "pos": "dấu câu" },
+          { "w": "では", "ro": "dewa", "pos": "liên từ", "vi": "vậy thì" },
+          { "w": "、", "pos": "dấu câu" },
+          { "w": "車椅子", "r": "くるまいす", "ro": "kurumaisu", "pos": "danh từ", "vi": "xe lăn" },
+          { "w": "に", "ro": "ni", "pos": "trợ từ", "vi": "đến, vào (chỉ đích)" },
+          { "w": "移りましょう", "r": "うつりましょう", "ro": "utsurimashoo", "pos": "động từ", "base": "移る", "vi": "(mình) chuyển sang nhé" },
+          { "w": "か", "ro": "ka", "pos": "trợ từ", "vi": "trợ từ nghi vấn" },
+          { "w": "。", "pos": "dấu câu" }
+        ]
+      },
+      {
+        "sp": "グエン",
+        "jp": "着きました。ここで少し待ちますね。寒くないですか。",
+        "ro": "Tsukimashita. Koko de sukoshi machimasu ne. Samuku nai desu ka.",
+        "vi": "Đến rồi ạ. Mình chờ ở đây một chút nhé. Ông có lạnh không ạ?",
+        "pt": "Hành lang khu xét nghiệm thường lạnh; người già mặc áo bệnh viện mỏng nên hỏi 寒くないですか.",
+        "words": [
+          { "w": "着きました", "r": "つきました", "ro": "tsukimashita", "pos": "động từ", "base": "着く", "vi": "đã đến nơi" },
+          { "w": "。", "pos": "dấu câu" },
+          { "w": "ここ", "ro": "koko", "pos": "đại từ", "vi": "chỗ này" },
+          { "w": "で", "ro": "de", "pos": "trợ từ", "vi": "ở (nơi diễn ra hành động)" },
+          { "w": "少し", "r": "すこし", "ro": "sukoshi", "pos": "phó từ", "vi": "một chút" },
+          { "w": "待ちます", "r": "まちます", "ro": "machimasu", "pos": "động từ", "base": "待つ", "vi": "chờ" },
+          { "w": "ね", "ro": "ne", "pos": "trợ từ", "vi": "nhé, nhỉ (làm câu mềm, tìm đồng cảm)" },
+          { "w": "。", "pos": "dấu câu" },
+          { "w": "寒く", "r": "さむく", "ro": "samuku", "pos": "tính từ い", "base": "寒い", "vi": "lạnh" },
+          { "w": "ないです", "ro": "nai desu", "pos": "trợ động từ", "base": "ない", "vi": "không (phủ định, lịch sự)" },
+          { "w": "か", "ro": "ka", "pos": "trợ từ", "vi": "trợ từ nghi vấn" },
+          { "w": "。", "pos": "dấu câu" }
+        ]
+      },
+      {
+        "sp": "山田様",
+        "jp": "ちょっと寒いね。それに、頭が少し痛いんだ。",
+        "ro": "Chotto samui ne. Soreni, atama ga sukoshi itai n da.",
+        "vi": "Hơi lạnh đấy. Với lại đầu ông hơi đau.",
+        "pt": "〜んだ: văn nói, giải thích tình trạng của mình. Đây là thông tin phải báo điều dưỡng.",
+        "words": [
+          { "w": "ちょっと", "ro": "chotto", "pos": "phó từ", "vi": "hơi, một chút" },
+          { "w": "寒い", "r": "さむい", "ro": "samui", "pos": "tính từ い", "vi": "lạnh" },
+          { "w": "ね", "ro": "ne", "pos": "trợ từ", "vi": "nhé, nhỉ (làm câu mềm, tìm đồng cảm)" },
+          { "w": "。", "pos": "dấu câu" },
+          { "w": "それに", "ro": "soreni", "pos": "liên từ", "vi": "thêm nữa, hơn nữa" },
+          { "w": "、", "pos": "dấu câu" },
+          { "w": "頭", "r": "あたま", "ro": "atama", "pos": "danh từ", "vi": "đầu" },
+          { "w": "が", "ro": "ga", "pos": "trợ từ", "vi": "chỉ chủ ngữ" },
+          { "w": "少し", "r": "すこし", "ro": "sukoshi", "pos": "phó từ", "vi": "một chút" },
+          { "w": "痛い", "r": "いたい", "ro": "itai", "pos": "tính từ い", "vi": "đau" },
+          { "w": "んだ", "ro": "n da", "pos": "trợ động từ", "vi": "(giải thích tình trạng)" },
+          { "w": "。", "pos": "dấu câu" }
+        ]
+      },
+      {
+        "sp": "グエン",
+        "jp": "そうですか。ブランケットを持ってきますね。看護師さんにも伝えます。",
+        "ro": "Soo desu ka. Buranketto o motte kimasu ne. Kangoshi-san ni mo tsutaemasu.",
+        "vi": "Vậy ạ. Cháu mang chăn đến nhé. Cháu cũng sẽ báo cho điều dưỡng.",
+        "pt": "持ってきます = mang đến. Hộ lý không tự cho thuốc giảm đau mà báo điều dưỡng.",
+        "words": [
+          { "w": "そう", "ro": "soo", "pos": "phó từ", "vi": "như vậy" },
+          { "w": "です", "ro": "desu", "pos": "trợ động từ", "vi": "là (lịch sự)" },
+          { "w": "か", "ro": "ka", "pos": "trợ từ", "vi": "trợ từ nghi vấn" },
+          { "w": "。", "pos": "dấu câu" },
+          { "w": "ブランケット", "ro": "buranketto", "pos": "danh từ", "vi": "chăn mỏng (blanket)" },
+          { "w": "を", "ro": "o", "pos": "trợ từ", "vi": "chỉ đối tượng" },
+          { "w": "持って", "r": "もって", "ro": "motte", "pos": "động từ", "base": "持つ", "vi": "cầm, mang" },
+          { "w": "きます", "ro": "kimasu", "pos": "động từ", "base": "くる", "vi": "(đi rồi) đến — 〜てくる" },
+          { "w": "ね", "ro": "ne", "pos": "trợ từ", "vi": "nhé, nhỉ (làm câu mềm, tìm đồng cảm)" },
+          { "w": "。", "pos": "dấu câu" },
+          { "w": "看護師", "r": "かんごし", "ro": "kangoshi", "pos": "danh từ", "vi": "điều dưỡng" },
+          { "w": "さん", "ro": "san", "pos": "hậu tố", "vi": "ông / bà / anh / chị (gọi lịch sự)" },
+          { "w": "に", "ro": "ni", "pos": "trợ từ", "vi": "với (đối tượng nhận)" },
+          { "w": "も", "ro": "mo", "pos": "trợ từ", "vi": "cũng" },
+          { "w": "伝えます", "r": "つたえます", "ro": "tsutaemasu", "pos": "động từ", "base": "伝える", "vi": "truyền đạt, báo lại" },
+          { "w": "。", "pos": "dấu câu" }
+        ]
+      },
+      {
+        "sp": "グエン",
+        "jp": "佐藤さん、山田さんが、少し頭が痛いと言っています。",
+        "ro": "Satoo-san, Yamada-san ga, sukoshi atama ga itai to itte imasu.",
+        "vi": "Chị Satō ơi, ông Yamada nói là hơi đau đầu ạ.",
+        "pt": "Mẫu ⑤. Quay lại khu nội trú, báo ngay nguyên văn lời bệnh nhân.",
+        "words": [
+          { "w": "佐藤", "r": "さとう", "ro": "Satoo", "pos": "danh từ", "vi": "Satō (họ người)" },
+          { "w": "さん", "ro": "san", "pos": "hậu tố", "vi": "ông / bà / anh / chị (gọi lịch sự)" },
+          { "w": "、", "pos": "dấu câu" },
+          { "w": "山田", "r": "やまだ", "ro": "Yamada", "pos": "danh từ", "vi": "Yamada (họ người)" },
+          { "w": "さん", "ro": "san", "pos": "hậu tố", "vi": "ông / bà / anh / chị (gọi lịch sự)" },
+          { "w": "が", "ro": "ga", "pos": "trợ từ", "vi": "chỉ chủ ngữ" },
+          { "w": "、", "pos": "dấu câu" },
+          { "w": "少し", "r": "すこし", "ro": "sukoshi", "pos": "phó từ", "vi": "một chút" },
+          { "w": "頭", "r": "あたま", "ro": "atama", "pos": "danh từ", "vi": "đầu" },
+          { "w": "が", "ro": "ga", "pos": "trợ từ", "vi": "chỉ chủ ngữ" },
+          { "w": "痛い", "r": "いたい", "ro": "itai", "pos": "tính từ い", "vi": "đau" },
+          { "w": "と", "ro": "to", "pos": "trợ từ", "vi": "rằng (trích dẫn lời nói)" },
+          { "w": "言って", "r": "いって", "ro": "itte", "pos": "động từ", "base": "言う", "vi": "nói" },
+          { "w": "います", "ro": "imasu", "pos": "trợ động từ", "base": "いる", "vi": "đang (〜ている)" },
+          { "w": "。", "pos": "dấu câu" }
+        ]
+      },
+      {
+        "sp": "看護師（佐藤）",
+        "jp": "わかりました。すぐ血圧を測りに行きます。ありがとう。",
+        "ro": "Wakarimashita. Sugu ketsuatsu o hakari ni ikimasu. Arigatoo.",
+        "vi": "Chị hiểu rồi. Chị sẽ đi đo huyết áp ngay. Cảm ơn em.",
+        "pt": "Vます bỏ ます + に行く = đi để làm gì. Đau đầu ở người già có thể do huyết áp, nên điều dưỡng kiểm tra.",
+        "words": [
+          { "w": "わかりました", "ro": "wakarimashita", "pos": "động từ", "base": "わかる", "vi": "vâng, tôi hiểu rồi" },
+          { "w": "。", "pos": "dấu câu" },
+          { "w": "すぐ", "ro": "sugu", "pos": "phó từ", "vi": "ngay" },
+          { "w": "血圧", "r": "けつあつ", "ro": "ketsuatsu", "pos": "danh từ", "vi": "huyết áp" },
+          { "w": "を", "ro": "o", "pos": "trợ từ", "vi": "chỉ đối tượng" },
+          { "w": "測り", "r": "はかり", "ro": "hakari", "pos": "động từ", "base": "測る", "vi": "đo" },
+          { "w": "に", "ro": "ni", "pos": "trợ từ", "vi": "để (chỉ mục đích)" },
+          { "w": "行きます", "r": "いきます", "ro": "ikimasu", "pos": "động từ", "base": "行く", "vi": "đi" },
+          { "w": "。", "pos": "dấu câu" },
+          { "w": "ありがとう", "ro": "arigatoo", "pos": "cụm chào hỏi", "vi": "cảm ơn" },
+          { "w": "。", "pos": "dấu câu" }
+        ]
+      }
+    ]
+  },
+  "phrases": [
+    {
+      "h": "Hướng dẫn bệnh nhân, người nhà trong bệnh viện",
+      "items": [
+        {
+          "jp": "受付はあちらです。",
+          "ro": "Uketsuke wa achira desu.",
+          "vi": "Quầy tiếp đón ở phía kia ạ.",
+          "pt": "Vừa nói vừa chỉ bằng cả bàn tay (không chỉ bằng một ngón).",
+          "words": [
+            { "w": "受付", "r": "うけつけ", "ro": "uketsuke", "pos": "danh từ", "vi": "quầy tiếp đón" },
+            { "w": "は", "ro": "wa", "pos": "trợ từ", "vi": "đánh dấu chủ đề" },
+            { "w": "あちら", "ro": "achira", "pos": "đại từ", "vi": "phía kia (lịch sự)" },
+            { "w": "です", "ro": "desu", "pos": "trợ động từ", "vi": "là (lịch sự)" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        },
+        {
+          "jp": "エレベーターで二階へ行きましょう。",
+          "ro": "Erebeetaa de nikai e ikimashoo.",
+          "vi": "Mình đi thang máy lên tầng 2 nhé.",
+          "pt": "Với bệnh nhân xe lăn: vào thang máy bằng cách lùi vào để khi ra đi thẳng được.",
+          "words": [
+            { "w": "エレベーター", "ro": "erebeetaa", "pos": "danh từ", "vi": "thang máy" },
+            { "w": "で", "ro": "de", "pos": "trợ từ", "vi": "bằng (phương tiện)" },
+            { "w": "二階", "r": "にかい", "ro": "nikai", "pos": "danh từ", "vi": "tầng 2" },
+            { "w": "へ", "ro": "e", "pos": "trợ từ", "vi": "về phía, đến" },
+            { "w": "行きましょう", "r": "いきましょう", "ro": "ikimashoo", "pos": "động từ", "base": "行く", "vi": "(chúng ta) cùng đi nhé" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        },
+        {
+          "jp": "お会計は、自動精算機でできます。",
+          "ro": "Okaikei wa, jidooseisanki de dekimasu.",
+          "vi": "Việc thanh toán có thể làm ở máy thanh toán tự động ạ.",
+          "pt": "Nhiều bệnh viện dùng máy tự động; người già hay lúng túng, có thể hỗ trợ nếu được phép.",
+          "words": [
+            { "w": "お会計", "r": "おかいけい", "ro": "okaikei", "pos": "danh từ", "vi": "việc thanh toán (お: lịch sự)" },
+            { "w": "は", "ro": "wa", "pos": "trợ từ", "vi": "đánh dấu chủ đề" },
+            { "w": "、", "pos": "dấu câu" },
+            { "w": "自動精算機", "r": "じどうせいさんき", "ro": "jidooseisanki", "pos": "danh từ", "vi": "máy thanh toán tự động" },
+            { "w": "で", "ro": "de", "pos": "trợ từ", "vi": "ở (nơi diễn ra hành động)" },
+            { "w": "できます", "ro": "dekimasu", "pos": "động từ", "base": "できる", "vi": "có thể (làm được)" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        },
+        {
+          "jp": "お薬は、院外薬局でもらってください。",
+          "ro": "Okusuri wa, ingaiyakkyoku de moratte kudasai.",
+          "vi": "Thuốc thì ông / bà nhận ở nhà thuốc ngoài bệnh viện ạ.",
+          "pt": "Mang đơn thuốc (処方箋) đến 院外薬局 để nhận thuốc.",
+          "words": [
+            { "w": "お薬", "r": "おくすり", "ro": "okusuri", "pos": "danh từ", "vi": "thuốc (お: lịch sự)" },
+            { "w": "は", "ro": "wa", "pos": "trợ từ", "vi": "đánh dấu chủ đề" },
+            { "w": "、", "pos": "dấu câu" },
+            { "w": "院外薬局", "r": "いんがいやっきょく", "ro": "ingaiyakkyoku", "pos": "danh từ", "vi": "nhà thuốc ngoài bệnh viện" },
+            { "w": "で", "ro": "de", "pos": "trợ từ", "vi": "ở (nơi diễn ra hành động)" },
+            { "w": "もらって", "ro": "moratte", "pos": "động từ", "base": "もらう", "vi": "nhận" },
+            { "w": "ください", "ro": "kudasai", "pos": "động từ", "base": "くださる", "vi": "hãy (nhờ lịch sự)" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        }
+      ]
+    },
+    {
+      "h": "Chuẩn bị dụng cụ, nhận việc từ điều dưỡng",
+      "items": [
+        {
+          "jp": "体温計と血圧計を持ってきました。",
+          "ro": "Taionkei to ketsuatsukei o motte kimashita.",
+          "vi": "Tôi đã mang nhiệt kế và máy đo huyết áp đến rồi ạ.",
+          "pt": "持ってきました = đã mang đến. Báo khi đưa dụng cụ cho điều dưỡng.",
+          "words": [
+            { "w": "体温計", "r": "たいおんけい", "ro": "taionkei", "pos": "danh từ", "vi": "nhiệt kế" },
+            { "w": "と", "ro": "to", "pos": "trợ từ", "vi": "và" },
+            { "w": "血圧計", "r": "けつあつけい", "ro": "ketsuatsukei", "pos": "danh từ", "vi": "máy đo huyết áp" },
+            { "w": "を", "ro": "o", "pos": "trợ từ", "vi": "chỉ đối tượng" },
+            { "w": "持って", "r": "もって", "ro": "motte", "pos": "động từ", "base": "持つ", "vi": "cầm, mang" },
+            { "w": "きました", "ro": "kimashita", "pos": "động từ", "base": "くる", "vi": "đã (mang) đến — 〜てきた" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        },
+        {
+          "jp": "ストレッチャーはどこにありますか。",
+          "ro": "Sutoretchaa wa doko ni arimasu ka.",
+          "vi": "Cáng có bánh xe để ở đâu ạ?",
+          "pt": "Nhớ trước vị trí các dụng cụ: xe lăn, cáng, cây truyền dịch, máy AED.",
+          "words": [
+            { "w": "ストレッチャー", "ro": "sutoretchaa", "pos": "danh từ", "vi": "cáng có bánh xe" },
+            { "w": "は", "ro": "wa", "pos": "trợ từ", "vi": "đánh dấu chủ đề" },
+            { "w": "どこ", "ro": "doko", "pos": "đại từ", "vi": "ở đâu" },
+            { "w": "に", "ro": "ni", "pos": "trợ từ", "vi": "ở (chỉ nơi tồn tại)" },
+            { "w": "あります", "ro": "arimasu", "pos": "động từ", "base": "ある", "vi": "có, ở" },
+            { "w": "か", "ro": "ka", "pos": "trợ từ", "vi": "trợ từ nghi vấn" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        },
+        {
+          "jp": "点滴スタンドも一緒に運びますか。",
+          "ro": "Tenteki sutando mo isshoni hakobimasu ka.",
+          "vi": "Có mang theo cả cây treo dịch truyền không ạ?",
+          "pt": "Bệnh nhân đang truyền dịch: hỏi điều dưỡng trước, không tự tháo hay chỉnh tốc độ giọt.",
+          "words": [
+            { "w": "点滴", "r": "てんてき", "ro": "tenteki", "pos": "danh từ", "vi": "truyền dịch" },
+            { "w": "スタンド", "ro": "sutando", "pos": "danh từ", "vi": "cây (giá) treo" },
+            { "w": "も", "ro": "mo", "pos": "trợ từ", "vi": "cũng" },
+            { "w": "一緒に", "r": "いっしょに", "ro": "isshoni", "pos": "phó từ", "vi": "cùng nhau, cùng với" },
+            { "w": "運びます", "r": "はこびます", "ro": "hakobimasu", "pos": "động từ", "base": "運ぶ", "vi": "vận chuyển, mang" },
+            { "w": "か", "ro": "ka", "pos": "trợ từ", "vi": "trợ từ nghi vấn" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        },
+        {
+          "jp": "ナースコールボタンは、手の届くところに置きますね。",
+          "ro": "Naasukoorubotan wa, te no todoku tokoro ni okimasu ne.",
+          "vi": "Cháu để nút gọi y tá ở chỗ tay ông / bà với tới nhé.",
+          "pt": "Luôn làm việc này trước khi rời phòng bệnh. 手の届くところ = chỗ tay với tới.",
+          "words": [
+            { "w": "ナースコールボタン", "ro": "naasukoorubotan", "pos": "danh từ", "vi": "nút bấm chuông gọi y tá" },
+            { "w": "は", "ro": "wa", "pos": "trợ từ", "vi": "đánh dấu chủ đề" },
+            { "w": "、", "pos": "dấu câu" },
+            { "w": "手", "r": "て", "ro": "te", "pos": "danh từ", "vi": "tay" },
+            { "w": "の", "ro": "no", "pos": "trợ từ", "vi": "của" },
+            { "w": "届く", "r": "とどく", "ro": "todoku", "pos": "động từ", "vi": "với tới" },
+            { "w": "ところ", "ro": "tokoro", "pos": "danh từ", "vi": "chỗ" },
+            { "w": "に", "ro": "ni", "pos": "trợ từ", "vi": "vào (chỗ đặt)" },
+            { "w": "置きます", "r": "おきます", "ro": "okimasu", "pos": "động từ", "base": "置く", "vi": "đặt, để" },
+            { "w": "ね", "ro": "ne", "pos": "trợ từ", "vi": "nhé, nhỉ (làm câu mềm, tìm đồng cảm)" },
+            { "w": "。", "pos": "dấu câu" }
+          ]
+        }
+      ]
+    }
+  ],
+  "vocab": [
+    { "w": "医療機関", "r": "いりょうきかん", "ro": "iryoo kikan", "vi": "cơ sở y tế", "en": "medical institution" },
+    { "w": "診療科目", "r": "しんりょうかもく", "ro": "shinryoo kamoku", "vi": "các khoa khám (chuyên khoa)", "en": "clinical department" },
+    { "w": "総合病院", "r": "そうごうびょういん", "ro": "soogoo byooin", "vi": "bệnh viện đa khoa", "en": "general hospital" },
+    { "w": "大学病院", "r": "だいがくびょういん", "ro": "daigaku byooin", "vi": "bệnh viện trường đại học y", "en": "university hospital" },
+    { "w": "専門病院", "r": "せんもんびょういん", "ro": "senmon byooin", "vi": "bệnh viện chuyên khoa", "en": "specialized hospital" },
+    { "w": "個人病院", "r": "こじんびょういん", "ro": "kojin byooin", "vi": "bệnh viện tư nhân", "en": "private hospital" },
+    { "w": "診療所", "r": "しんりょうじょ", "ro": "shinryoojo", "vi": "cơ sở khám bệnh, phòng khám", "en": "clinic" },
+    { "w": "クリニック", "ro": "kurinikku", "vi": "phòng khám bệnh", "en": "clinic" },
+    { "w": "助産院", "r": "じょさんいん", "ro": "josan'in", "vi": "nhà hộ sinh (nhà bảo sanh)", "en": "maternity home" },
+    { "w": "外来", "r": "がいらい", "ro": "gairai", "vi": "ngoại trú; khu khám ngoại trú", "en": "outpatient" },
+    { "w": "内科", "r": "ないか", "ro": "naika", "vi": "nội khoa", "en": "internal medicine" },
+    { "w": "血液内科", "r": "けつえきないか", "ro": "ketsueki naika", "vi": "khoa huyết học", "en": "hematology" },
+    { "w": "循環器科", "r": "じゅんかんきか", "ro": "junkankika", "vi": "khoa tim mạch", "en": "cardiology" },
+    { "w": "呼吸器科", "r": "こきゅうきか", "ro": "kokyuukika", "vi": "khoa hô hấp", "en": "respiratory medicine" },
+    { "w": "消化器科", "r": "しょうかきか", "ro": "shookakika", "vi": "khoa tiêu hóa", "en": "gastroenterology" },
+    { "w": "内分泌科", "r": "ないぶんぴつか", "ro": "naibunpitsuka", "vi": "khoa nội tiết", "en": "endocrinology" },
+    { "w": "神経内科", "r": "しんけいないか", "ro": "shinkei naika", "vi": "khoa nội thần kinh", "en": "neurology" },
+    { "w": "心療内科", "r": "しんりょうないか", "ro": "shinryoo naika", "vi": "khoa tâm thể (nội khoa tâm lý)", "en": "psychosomatic medicine" },
+    { "w": "小児科", "r": "しょうにか", "ro": "shoonika", "vi": "khoa nhi", "en": "pediatrics" },
+    { "w": "外科", "r": "げか", "ro": "geka", "vi": "ngoại khoa", "en": "surgery" },
+    { "w": "心臓血管外科", "r": "しんぞうけっかんげか", "ro": "shinzoo kekkan geka", "vi": "khoa phẫu thuật tim mạch", "en": "cardiovascular surgery" },
+    { "w": "呼吸器外科", "r": "こきゅうきげか", "ro": "kokyuuki geka", "vi": "khoa ngoại hô hấp", "en": "thoracic surgery" },
+    { "w": "乳腺外科", "r": "にゅうせんげか", "ro": "nyuusen geka", "vi": "khoa ngoại tuyến vú", "en": "breast surgery" },
+    { "w": "脳神経外科", "r": "のうしんけいげか", "ro": "nooshinkei geka", "vi": "khoa ngoại thần kinh", "en": "neurosurgery" },
+    { "w": "整形外科", "r": "せいけいげか", "ro": "seikei geka", "vi": "khoa ngoại chỉnh hình", "en": "orthopedics" },
+    { "w": "形成外科", "r": "けいせいげか", "ro": "keisei geka", "vi": "khoa phẫu thuật tạo hình", "en": "plastic surgery" },
+    { "w": "美容外科", "r": "びようげか", "ro": "biyoo geka", "vi": "khoa phẫu thuật thẩm mỹ", "en": "cosmetic surgery" },
+    { "w": "産婦人科", "r": "さんふじんか", "ro": "sanfujinka", "vi": "khoa sản và phụ khoa", "en": "obstetrics and gynecology" },
+    { "w": "泌尿器科", "r": "ひにょうきか", "ro": "hinyookika", "vi": "khoa tiết niệu", "en": "urology" },
+    { "w": "肛門科", "r": "こうもんか", "ro": "koomonka", "vi": "khoa hậu môn trực tràng", "en": "proctology" },
+    { "w": "皮膚科", "r": "ひふか", "ro": "hifuka", "vi": "khoa da liễu", "en": "dermatology" },
+    { "w": "眼科", "r": "がんか", "ro": "ganka", "vi": "khoa mắt", "en": "ophthalmology" },
+    { "w": "耳鼻咽喉科", "r": "じびいんこうか", "ro": "jibi inkooka", "vi": "khoa tai – mũi – họng", "en": "otolaryngology (ENT)" },
+    { "w": "歯科", "r": "しか", "ro": "shika", "vi": "khoa nha", "en": "dentistry" },
+    { "w": "口腔外科", "r": "こうくうげか", "ro": "kookuu geka", "vi": "khoa phẫu thuật răng miệng", "en": "oral surgery" },
+    { "w": "矯正歯科", "r": "きょうせいしか", "ro": "kyoosei shika", "vi": "khoa chỉnh nha", "en": "orthodontics" },
+    { "w": "リハビリテーション科", "r": "りはびりてーしょんか", "ro": "rihabiriteeshonka", "vi": "khoa phục hồi chức năng", "en": "rehabilitation department" },
+    { "w": "麻酔科", "r": "ますいか", "ro": "masuika", "vi": "khoa gây mê", "en": "anesthesiology" },
+    { "w": "ペインクリニック科", "r": "ぺいんくりにっくか", "ro": "pein kurinikku-ka", "vi": "khoa khám đau", "en": "pain clinic" },
+    { "w": "痛み外来", "r": "いたみがいらい", "ro": "itami gairai", "vi": "phòng khám đau", "en": "pain clinic" },
+    { "w": "いびき外来", "r": "いびきがいらい", "ro": "ibiki gairai", "vi": "phòng khám bệnh ngáy ngủ", "en": "snoring clinic" },
+    { "w": "精神科", "r": "せいしんか", "ro": "seishinka", "vi": "khoa tâm thần", "en": "psychiatry" },
+    { "w": "漢方外来", "r": "かんぽうがいらい", "ro": "kanpoo gairai", "vi": "phòng khám đông y", "en": "Kampo medicine clinic" },
+    { "w": "内視鏡科", "r": "ないしきょうか", "ro": "naishikyooka", "vi": "khoa nội soi", "en": "endoscopy department" },
+    { "w": "放射線科", "r": "ほうしゃせんか", "ro": "hooshasenka", "vi": "khoa chẩn đoán hình ảnh (khoa X-quang)", "en": "radiology" },
+    { "w": "感染症科", "r": "かんせんしょうか", "ro": "kansenshooka", "vi": "khoa bệnh truyền nhiễm", "en": "infectious diseases" },
+    { "w": "設備", "r": "せつび", "ro": "setsubi", "vi": "thiết bị, cơ sở vật chất", "en": "facilities" },
+    { "w": "関連用語", "r": "かんれんようご", "ro": "kanren yoogo", "vi": "thuật ngữ liên quan", "en": "related terms" },
+    { "w": "総合受付", "r": "そうごううけつけ", "ro": "soogoo uketsuke", "vi": "quầy tiếp đón chung", "en": "general reception" },
+    { "w": "初診受付", "r": "しょしんうけつけ", "ro": "shoshin uketsuke", "vi": "quầy nhận bệnh nhân khám lần đầu", "en": "first-visit reception" },
+    { "w": "保険証", "r": "ほけんしょう", "ro": "hokenshoo", "vi": "thẻ bảo hiểm y tế", "en": "health insurance card" },
+    { "w": "診察券", "r": "しんさつけん", "ro": "shinsatsuken", "vi": "thẻ khám bệnh", "en": "patient registration card" },
+    { "w": "紹介状", "r": "しょうかいじょう", "ro": "shookaijoo", "vi": "giấy giới thiệu (chuyển viện)", "en": "referral letter" },
+    { "w": "診察申込書", "r": "しんさつもうしこみしょ", "ro": "shinsatsu mooshikomisho", "vi": "mẫu đăng ký khám bệnh", "en": "registration form" },
+    { "w": "問診票", "r": "もんしんひょう", "ro": "monshinhyoo", "vi": "phiếu hỏi bệnh (phiếu chẩn bệnh)", "en": "medical questionnaire" },
+    { "w": "カルテ", "ro": "karute", "vi": "hồ sơ bệnh án", "en": "medical record" },
+    { "w": "再診受付", "r": "さいしんうけつけ", "ro": "saishin uketsuke", "vi": "quầy nhận bệnh nhân tái khám", "en": "return-visit reception" },
+    { "w": "再来受付機", "r": "さいらいうけつけき", "ro": "sairai uketsukeki", "vi": "máy nhận bệnh nhân tái khám", "en": "return-visit check-in machine" },
+    { "w": "予約", "r": "よやく", "ro": "yoyaku", "vi": "đặt lịch hẹn", "en": "appointment" },
+    { "w": "会計窓口", "r": "かいけいまどぐち", "ro": "kaikei madoguchi", "vi": "quầy thanh toán tiền", "en": "cashier" },
+    { "w": "自動精算機", "r": "じどうせいさんき", "ro": "jidoo seisanki", "vi": "máy thanh toán tự động", "en": "automatic payment machine" },
+    { "w": "院外薬局", "r": "いんがいやっきょく", "ro": "ingai yakkyoku", "vi": "nhà thuốc ngoài bệnh viện", "en": "outside pharmacy" },
+    { "w": "院内薬局", "r": "いんないやっきょく", "ro": "innai yakkyoku", "vi": "nhà thuốc trong bệnh viện", "en": "hospital pharmacy" },
+    { "w": "入退院受付", "r": "にゅうたいいんうけつけ", "ro": "nyuutaiin uketsuke", "vi": "quầy làm thủ tục nhập và xuất viện", "en": "admission and discharge desk" },
+    { "w": "待合室", "r": "まちあいしつ", "ro": "machiaishitsu", "vi": "phòng chờ", "en": "waiting room" },
+    { "w": "中待合", "r": "なかまちあい", "ro": "nakamachiai", "vi": "phòng chờ của khoa (chỗ chờ ngay trước phòng khám)", "en": "inner waiting area" },
+    { "w": "診察室", "r": "しんさつしつ", "ro": "shinsatsushitsu", "vi": "phòng khám bệnh", "en": "consultation room" },
+    { "w": "診察台", "r": "しんさつだい", "ro": "shinsatsudai", "vi": "bàn (giường) khám bệnh", "en": "examination table" },
+    { "w": "内診台", "r": "ないしんだい", "ro": "naishindai", "vi": "bàn khám phụ khoa", "en": "gynecological examination chair" },
+    { "w": "処置室", "r": "しょちしつ", "ro": "shochishitsu", "vi": "phòng điều trị (làm thủ thuật)", "en": "treatment room" },
+    { "w": "検査室", "r": "けんさしつ", "ro": "kensashitsu", "vi": "phòng kiểm tra, phòng cận lâm sàng", "en": "examination room" },
+    { "w": "X線検査室", "r": "えっくすせんけんさしつ", "ro": "ekkususen kensashitsu", "vi": "phòng chụp X-quang", "en": "X-ray room" },
+    { "w": "CTスキャン検査室", "r": "しーてぃーすきゃんけんさしつ", "ro": "shiitii sukyan kensashitsu", "vi": "phòng chụp CT", "en": "CT scan room" },
+    { "w": "MRI検査室", "r": "えむあーるあいけんさしつ", "ro": "emu aaru ai kensashitsu", "vi": "phòng chụp MRI", "en": "MRI room" },
+    { "w": "内視鏡検査室", "r": "ないしきょうけんさしつ", "ro": "naishikyoo kensashitsu", "vi": "phòng nội soi", "en": "endoscopy room" },
+    { "w": "超音波検査室", "r": "ちょうおんぱけんさしつ", "ro": "chooonpa kensashitsu", "vi": "phòng siêu âm", "en": "ultrasound room" },
+    { "w": "検体検査室", "r": "けんたいけんさしつ", "ro": "kentai kensashitsu", "vi": "phòng xét nghiệm mẫu bệnh phẩm", "en": "specimen laboratory" },
+    { "w": "生理検査室", "r": "せいりけんさしつ", "ro": "seiri kensashitsu", "vi": "phòng thăm dò chức năng (điện tim, chức năng hô hấp…)", "en": "physiological testing room" },
+    { "w": "病理検査室", "r": "びょうりけんさしつ", "ro": "byoori kensashitsu", "vi": "phòng xét nghiệm giải phẫu bệnh", "en": "pathology laboratory" },
+    { "w": "採血室", "r": "さいけつしつ", "ro": "saiketsushitsu", "vi": "phòng lấy máu xét nghiệm", "en": "blood collection room" },
+    { "w": "尿検査室", "r": "にょうけんさしつ", "ro": "nyoo kensashitsu", "vi": "phòng xét nghiệm nước tiểu", "en": "urinalysis room" },
+    { "w": "手術室", "r": "しゅじゅつしつ", "ro": "shujutsushitsu", "vi": "phòng mổ", "en": "operating room" },
+    { "w": "手術台", "r": "しゅじゅつだい", "ro": "shujutsudai", "vi": "bàn mổ", "en": "operating table" },
+    { "w": "陣痛室", "r": "じんつうしつ", "ro": "jintsuushitsu", "vi": "phòng chờ sinh", "en": "labor room" },
+    { "w": "分娩室", "r": "ぶんべんしつ", "ro": "bunbenshitsu", "vi": "phòng sinh", "en": "delivery room" },
+    { "w": "救急外来", "r": "きゅうきゅうがいらい", "ro": "kyuukyuu gairai", "vi": "khoa (khám) cấp cứu", "en": "emergency outpatient department" },
+    { "w": "病棟", "r": "びょうとう", "ro": "byootoo", "vi": "khu nội trú (tòa nhà bệnh nhân nội trú)", "en": "ward" },
+    { "w": "ナースステーション", "ro": "naasu suteeshon", "vi": "phòng trực điều dưỡng", "en": "nurses' station" },
+    { "w": "病室", "r": "びょうしつ", "ro": "byooshitsu", "vi": "phòng bệnh nhân", "en": "patient room" },
+    { "w": "隔離病棟", "r": "かくりびょうとう", "ro": "kakuri byootoo", "vi": "khu cách ly", "en": "isolation ward" },
+    { "w": "減圧室", "r": "げんあつしつ", "ro": "gen'atsushitsu", "vi": "phòng giảm áp", "en": "decompression room" },
+    { "w": "ICU", "r": "あいしーゆー", "ro": "aishiiyuu", "vi": "đơn vị hồi sức tích cực (ICU)", "en": "intensive care unit" },
+    { "w": "集中治療室", "r": "しゅうちゅうちりょうしつ", "ro": "shuuchuu chiryooshitsu", "vi": "phòng hồi sức tích cực", "en": "intensive care unit" },
+    { "w": "HCU", "r": "えいちしーゆー", "ro": "eichishiiyuu", "vi": "đơn vị chăm sóc cao độ (HCU)", "en": "high care unit" },
+    { "w": "準集中治療室", "r": "じゅんしゅうちゅうちりょうしつ", "ro": "junshuuchuu chiryooshitsu", "vi": "phòng chăm sóc cao độ (dưới mức ICU)", "en": "high care unit" },
+    { "w": "CCU", "r": "しーしーゆー", "ro": "shiishiiyuu", "vi": "đơn vị chăm sóc mạch vành (CCU)", "en": "coronary care unit" },
+    { "w": "冠疾患集中治療室", "r": "かんしっかんしゅうちゅうちりょうしつ", "ro": "kanshikkan shuuchuu chiryooshitsu", "vi": "phòng hồi sức bệnh mạch vành", "en": "coronary care unit" },
+    { "w": "授乳室", "r": "じゅにゅうしつ", "ro": "junyuushitsu", "vi": "phòng cho con bú", "en": "nursing room" },
+    { "w": "新生児室", "r": "しんせいじしつ", "ro": "shinseijishitsu", "vi": "phòng trẻ sơ sinh", "en": "newborn nursery" },
+    { "w": "NICU", "r": "えぬあいしーゆー", "ro": "enuaishiiyuu", "vi": "đơn vị hồi sức tích cực sơ sinh (NICU)", "en": "neonatal intensive care unit" },
+    { "w": "新生児集中治療室", "r": "しんせいじしゅうちゅうちりょうしつ", "ro": "shinseiji shuuchuu chiryooshitsu", "vi": "phòng hồi sức tích cực trẻ sơ sinh", "en": "neonatal intensive care unit" },
+    { "w": "面会室", "r": "めんかいしつ", "ro": "menkaishitsu", "vi": "phòng gặp mặt (thăm bệnh)", "en": "visiting room" },
+    { "w": "デイルーム", "ro": "dei ruumu", "vi": "phòng sinh hoạt chung, phòng gặp mặt", "en": "day room" },
+    { "w": "配膳室", "r": "はいぜんしつ", "ro": "haizenshitsu", "vi": "phòng chuẩn bị, để thức ăn", "en": "pantry" },
+    { "w": "医療福祉相談室", "r": "いりょうふくしそうだんしつ", "ro": "iryoo fukushi soodanshitsu", "vi": "phòng tư vấn phúc lợi y tế", "en": "medical social service office" },
+    { "w": "栄養指導室", "r": "えいようしどうしつ", "ro": "eiyoo shidooshitsu", "vi": "phòng tư vấn dinh dưỡng", "en": "nutrition counseling room" },
+    { "w": "食堂", "r": "しょくどう", "ro": "shokudoo", "vi": "phòng ăn", "en": "dining room" },
+    { "w": "売店", "r": "ばいてん", "ro": "baiten", "vi": "quầy bán hàng (cửa hàng) trong bệnh viện", "en": "hospital shop" },
+    { "w": "救命救急センター", "r": "きゅうめいきゅうきゅうせんたー", "ro": "kyuumei kyuukyuu sentaa", "vi": "trung tâm cấp cứu", "en": "emergency and critical care center" },
+    { "w": "霊安室", "r": "れいあんしつ", "ro": "reianshitsu", "vi": "nhà xác", "en": "mortuary" },
+    { "w": "機材", "r": "きざい", "ro": "kizai", "vi": "trang thiết bị", "en": "equipment" },
+    { "w": "器具", "r": "きぐ", "ro": "kigu", "vi": "dụng cụ", "en": "instruments" },
+    { "w": "車椅子", "r": "くるまいす", "ro": "kurumaisu", "vi": "xe lăn", "en": "wheelchair" },
+    { "w": "ストレッチャー", "ro": "sutorecchaa", "vi": "cáng có bánh xe", "en": "stretcher" },
+    { "w": "担架", "r": "たんか", "ro": "tanka", "vi": "băng ca, cáng", "en": "stretcher" },
+    { "w": "聴診器", "r": "ちょうしんき", "ro": "chooshinki", "vi": "ống nghe", "en": "stethoscope" },
+    { "w": "体温計", "r": "たいおんけい", "ro": "taionkei", "vi": "nhiệt kế", "en": "thermometer" },
+    { "w": "血圧計", "r": "けつあつけい", "ro": "ketsuatsukei", "vi": "máy đo huyết áp", "en": "blood pressure monitor" },
+    { "w": "カフ", "ro": "kafu", "vi": "băng quấn (của máy đo huyết áp)", "en": "cuff" },
+    { "w": "腕帯", "r": "わんたい", "ro": "wantai", "vi": "băng quấn tay (đo huyết áp)", "en": "cuff" },
+    { "w": "体重計", "r": "たいじゅうけい", "ro": "taijuukei", "vi": "cân (đo trọng lượng cơ thể)", "en": "weight scale" },
+    { "w": "身長計", "r": "しんちょうけい", "ro": "shinchookei", "vi": "thước đo chiều cao", "en": "height meter" },
+    { "w": "点滴スタンド", "r": "てんてきすたんど", "ro": "tenteki sutando", "vi": "cây treo dịch truyền", "en": "IV stand" },
+    { "w": "ナースコールボタン", "ro": "naasu kooru botan", "vi": "nút bấm chuông gọi y tá", "en": "nurse call button" },
+    { "w": "ピンセット", "ro": "pinsetto", "vi": "nhíp", "en": "tweezers" },
+    { "w": "ガーゼ", "ro": "gaaze", "vi": "gạc", "en": "gauze" },
+    { "w": "包帯", "r": "ほうたい", "ro": "hootai", "vi": "băng cuộn", "en": "bandage" },
+    { "w": "脱脂綿", "r": "だっしめん", "ro": "dasshimen", "vi": "bông gòn", "en": "absorbent cotton" },
+    { "w": "絆創膏", "r": "ばんそうこう", "ro": "bansookoo", "vi": "băng dán cá nhân", "en": "adhesive plaster" },
+    { "w": "綿棒", "r": "めんぼう", "ro": "menboo", "vi": "tăm bông", "en": "cotton swab" },
+    { "w": "注射器", "r": "ちゅうしゃき", "ro": "chuushaki", "vi": "ống tiêm", "en": "syringe" },
+    { "w": "注射針", "r": "ちゅうしゃばり", "ro": "chuushabari", "vi": "kim tiêm", "en": "injection needle" },
+    { "w": "メス", "ro": "mesu", "vi": "dao phẫu thuật", "en": "scalpel" },
+    { "w": "アルコール", "ro": "arukooru", "vi": "cồn", "en": "alcohol" },
+    { "w": "消毒薬", "r": "しょうどくやく", "ro": "shoodokuyaku", "vi": "thuốc khử trùng", "en": "disinfectant" },
+    { "w": "人工心肺装置", "r": "じんこうしんぱいそうち", "ro": "jinkoo shinpai soochi", "vi": "máy tim phổi nhân tạo", "en": "heart-lung machine" },
+    { "w": "自動体外式除細動器", "r": "じどうたいがいしきじょさいどうき", "ro": "jidoo taigaishiki josaidooki", "vi": "máy khử rung tim tự động (AED)", "en": "automated external defibrillator" },
+    { "w": "AED", "r": "えーいーでぃー", "ro": "eeiidii", "vi": "máy khử rung tim tự động", "en": "AED" },
+    { "w": "医療関係者", "r": "いりょうかんけいしゃ", "ro": "iryoo kankeisha", "vi": "nhân viên liên quan về y tế", "en": "medical personnel" },
+    { "w": "主治医", "r": "しゅじい", "ro": "shujii", "vi": "bác sĩ điều trị chính", "en": "attending physician" },
+    { "w": "担当医", "r": "たんとうい", "ro": "tantooi", "vi": "bác sĩ phụ trách", "en": "doctor in charge" },
+    { "w": "日直医", "r": "にっちょくい", "ro": "nitchokui", "vi": "bác sĩ trực ngày (ngày nghỉ, ngày lễ)", "en": "doctor on day duty" },
+    { "w": "当直医", "r": "とうちょくい", "ro": "toochokui", "vi": "bác sĩ trực (ngoài giờ, ban đêm)", "en": "doctor on night duty" },
+    { "w": "かかりつけ医", "r": "かかりつけい", "ro": "kakaritsuke i", "vi": "bác sĩ gia đình (bác sĩ quen thường khám)", "en": "family doctor" },
+    { "w": "往診医", "r": "おうしんい", "ro": "ooshin'i", "vi": "bác sĩ đến khám tại nhà", "en": "home-visit doctor" },
+    { "w": "訪問医", "r": "ほうもんい", "ro": "hoomon'i", "vi": "bác sĩ đến khám tại nhà", "en": "visiting doctor" },
+    { "w": "医師", "r": "いし", "ro": "ishi", "vi": "bác sĩ", "en": "doctor" },
+    { "w": "医学博士", "r": "いがくはくし", "ro": "igaku hakushi", "vi": "tiến sĩ y khoa", "en": "Doctor of Medical Science" },
+    { "w": "教授", "r": "きょうじゅ", "ro": "kyooju", "vi": "giáo sư", "en": "professor" },
+    { "w": "准教授", "r": "じゅんきょうじゅ", "ro": "junkyooju", "vi": "phó giáo sư", "en": "associate professor" },
+    { "w": "助教授", "r": "じょきょうじゅ", "ro": "jokyooju", "vi": "trợ lý giáo sư", "en": "assistant professor" },
+    { "w": "講師", "r": "こうし", "ro": "kooshi", "vi": "giảng viên", "en": "lecturer" },
+    { "w": "助手", "r": "じょしゅ", "ro": "joshu", "vi": "trợ giảng; phụ tá nghiên cứu", "en": "assistant" },
+    { "w": "専門医", "r": "せんもんい", "ro": "senmon'i", "vi": "bác sĩ chuyên khoa", "en": "specialist" },
+    { "w": "開業医", "r": "かいぎょうい", "ro": "kaigyooi", "vi": "bác sĩ mở phòng khám riêng", "en": "private practitioner" },
+    { "w": "研修医", "r": "けんしゅうい", "ro": "kenshuui", "vi": "bác sĩ thực tập (nội trú)", "en": "resident" },
+    { "w": "医学生", "r": "いがくせい", "ro": "igakusei", "vi": "sinh viên y khoa", "en": "medical student" },
+    { "w": "看護師", "r": "かんごし", "ro": "kangoshi", "vi": "điều dưỡng viên", "en": "nurse" },
+    { "w": "准看護師", "r": "じゅんかんごし", "ro": "junkangoshi", "vi": "điều dưỡng viên trung cấp", "en": "licensed practical nurse" },
+    { "w": "看護学生", "r": "かんごがくせい", "ro": "kango gakusei", "vi": "sinh viên ngành điều dưỡng", "en": "nursing student" },
+    { "w": "看護助手", "r": "かんごじょしゅ", "ro": "kango joshu", "vi": "trợ lý điều dưỡng (hộ lý bệnh viện)", "en": "nursing assistant" },
+    { "w": "訪問看護師", "r": "ほうもんかんごし", "ro": "hoomon kangoshi", "vi": "điều dưỡng chăm sóc tại nhà", "en": "visiting nurse" },
+    { "w": "助産師", "r": "じょさんし", "ro": "josanshi", "vi": "nữ hộ sinh", "en": "midwife" },
+    { "w": "保健師", "r": "ほけんし", "ro": "hokenshi", "vi": "điều dưỡng y tế cộng đồng", "en": "public health nurse" },
+    { "w": "薬剤師", "r": "やくざいし", "ro": "yakuzaishi", "vi": "dược sĩ", "en": "pharmacist" },
+    { "w": "臨床検査技師", "r": "りんしょうけんさぎし", "ro": "rinshoo kensa gishi", "vi": "kỹ thuật viên xét nghiệm lâm sàng", "en": "clinical laboratory technician" },
+    { "w": "臨床工学技士", "r": "りんしょうこうがくぎし", "ro": "rinshoo koogaku gishi", "vi": "kỹ sư lâm sàng (vận hành máy y tế)", "en": "clinical engineer" },
+    { "w": "臨床心理士", "r": "りんしょうしんりし", "ro": "rinshoo shinrishi", "vi": "chuyên viên tâm lý lâm sàng", "en": "clinical psychologist" },
+    { "w": "診療放射線技師", "r": "しんりょうほうしゃせんぎし", "ro": "shinryoo hooshasen gishi", "vi": "kỹ thuật viên chẩn đoán hình ảnh", "en": "radiological technologist" },
+    { "w": "理学療法士", "r": "りがくりょうほうし", "ro": "rigaku ryoohooshi", "vi": "chuyên viên vật lý trị liệu (PT)", "en": "physical therapist" },
+    { "w": "作業療法士", "r": "さぎょうりょうほうし", "ro": "sagyoo ryoohooshi", "vi": "chuyên viên hoạt động trị liệu (OT)", "en": "occupational therapist" },
+    { "w": "言語聴覚士", "r": "げんごちょうかくし", "ro": "gengo chookakushi", "vi": "chuyên viên âm ngữ trị liệu (ST)", "en": "speech-language-hearing therapist" },
+    { "w": "歯科衛生士", "r": "しかえいせいし", "ro": "shika eiseishi", "vi": "nhân viên vệ sinh răng miệng (phụ tá nha khoa)", "en": "dental hygienist" },
+    { "w": "歯科技工士", "r": "しかぎこうし", "ro": "shika gikooshi", "vi": "kỹ thuật viên nha khoa", "en": "dental technician" },
+    { "w": "医療ソーシャルワーカー", "r": "いりょうそーしゃるわーかー", "ro": "iryoo soosharu waakaa", "vi": "nhân viên công tác xã hội y tế", "en": "medical social worker" },
+    { "w": "精神科ソーシャルワーカー", "r": "せいしんかそーしゃるわーかー", "ro": "seishinka soosharu waakaa", "vi": "nhân viên công tác xã hội về tâm thần", "en": "psychiatric social worker" },
+    { "w": "カウンセラー", "ro": "kaunseraa", "vi": "tham vấn viên", "en": "counselor" },
+    { "w": "鍼灸師", "r": "しんきゅうし", "ro": "shinkyuushi", "vi": "người làm châm cứu", "en": "acupuncturist" },
+    { "w": "救急救命士", "r": "きゅうきゅうきゅうめいし", "ro": "kyuukyuu kyuumeishi", "vi": "nhân viên cấp cứu (paramedic)", "en": "paramedic" },
+    { "w": "介護福祉士", "r": "かいごふくしし", "ro": "kaigo fukushishi", "vi": "hộ lý, nhân viên chăm sóc (có chứng chỉ quốc gia)", "en": "certified care worker" },
+    { "w": "病院事務職員", "r": "びょういんじむしょくいん", "ro": "byooin jimu shokuin", "vi": "nhân viên văn phòng bệnh viện", "en": "hospital clerk" },
+    { "w": "栄養士", "r": "えいようし", "ro": "eiyooshi", "vi": "chuyên viên dinh dưỡng", "en": "dietitian" },
+    { "w": "調理師", "r": "ちょうりし", "ro": "choorishi", "vi": "đầu bếp có giấy phép", "en": "licensed cook" }
+  ],
+  "tips": [
+    "Thuộc sơ đồ bệnh viện nơi mình làm: phòng xét nghiệm, X-quang, CT, quầy thanh toán, cửa hàng ở tầng nào. Bệnh nhân và người nhà sẽ hỏi hộ lý rất nhiều vì thấy mặc đồng phục.",
+    "Khi đưa bệnh nhân đi xét nghiệm, kiểm tra 3 thứ trước khi đi: đúng người (hỏi tên, xem vòng tay tên), đúng nơi, đúng giờ. Mang theo phiếu chỉ định nếu điều dưỡng đưa.",
+    "Ở Nhật bác sĩ được gọi là 先生, kể cả khi nói với bệnh nhân: 先生が来ますよ. Không gọi bác sĩ bằng tên + さん.",
+    "Bệnh nhân hỏi về bệnh, kết quả xét nghiệm, thuốc: hộ lý không tự trả lời. Nói: 看護師に聞いてみますね (để cháu hỏi điều dưỡng) rồi báo lại cho điều dưỡng.",
+    "Trước khi rời phòng bệnh luôn để nút gọi y tá (ナースコール) ở chỗ tay bệnh nhân với tới và hạ thấp giường nếu điều dưỡng dặn — đề phòng ngã."
+  ],
+  "discuss": [
+    {
+      "jp": "あなたの国の病院と日本の病院は、どんなところが違いますか。",
+      "vi": "Bệnh viện ở nước bạn và bệnh viện Nhật khác nhau ở những điểm nào?"
+    },
+    {
+      "jp": "看護助手ができる仕事と、できない仕事は何ですか。",
+      "vi": "Những việc hộ lý bệnh viện được làm và không được làm là gì?"
+    },
+    {
+      "jp": "患者さんに道を聞かれたら、どのように案内しますか。",
+      "vi": "Khi bệnh nhân hỏi đường, bạn sẽ hướng dẫn họ như thế nào?"
+    }
+  ]
+}
