@@ -237,9 +237,9 @@ export default function LessonView({ course, lesson }) {
   const kpool = useMemo(() => (L && course.kanjiAll ? kanjiVocab(L.vocab) : null), [L, course.kanjiAll]);
   const kn = kpool ? (klen && klen < kpool.length ? klen : kpool.length) : 0;
   if (kpool && counts) counts.kanji = kn;
-  // khóa có course.study (Minna): phần Từ vựng chọn 10 · 20 · 30 · toàn bộ từ của bài
+  // phần Từ vựng của mọi khóa: chọn 10 · 20 · 30 · toàn bộ từ của bài
   const [vlen, setVlen] = useState(10);
-  const vtotal = useMemo(() => (L && course.study ? new Set(L.vocab.map((v) => v.jp)).size : 0), [L, course.study]);
+  const vtotal = useMemo(() => (L ? new Set(L.vocab.map((v) => v.jp)).size : 0), [L]);
   const vn = vtotal ? (vlen && vlen < vtotal ? vlen : vtotal) : 0;
   if (vtotal && counts) counts.vocab = vn;
   if (!L) return <p style={{ marginTop: 40 }}>Không tìm thấy bài. <Link href={base}>{title}</Link></p>;
