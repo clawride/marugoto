@@ -92,8 +92,7 @@ export const A21_COURSE = {
 };
 
 export const B12_COURSE = {
-  store: "b12", C: B12, base: "/b12", title: "Marugoto B1-2", kanjiLv: "b12", // kanjiLv: hiện thẻ "Kiểm tra Kanji" cho từng Topic
-  unit: "Bài", unitTag: (L) => `TOPIC ${L.topic} · ${L.topicTitle} · ${L.lesson % 2 ? "準備・PART 1–2" : "PART 3–5"}`,
+  store: "b12", C: B12, base: "/b12", title: "Marugoto B1-2",  unit: "Bài", unitTag: (L) => `TOPIC ${L.topic} · ${L.topicTitle} · ${L.lesson % 2 ? "準備・PART 1–2" : "PART 3–5"}`,
   audio: NO_AUDIO, audioSetups: [],
   Host: MavuikaHost, Hero: MavuikaHero, lines: MV, char: MAVUIKA, hostName: "Mavuika",
   exam: B12_EXAM,

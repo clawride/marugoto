@@ -8,18 +8,23 @@ import QuestionSet from "@/components/QuestionSet";
 import { FillQ } from "@/components/Battle";
 import ScriptPlayer from "@/components/ScriptPlayer";
 import { b1Topic } from "@/lib/b1";
-import { shuffle, pickRand } from "@/lib/data";
+import { shuffle, pickRand, starsFor } from "@/lib/data";
+import { kanjiQs, STAR_REWARD } from "@/lib/course";
+import { sheetsOf } from "@/lib/kanjiSheets";
+import { Stars } from "@/components/kanji/KanjiLesson";
+import { Ico } from "@/components/Icons";
 import { speakLines, stopSpeak, ttsAvailable } from "@/lib/tts";
 import { sfx } from "@/lib/sfx";
 import BookPart from "@/components/course/BookPart";
 import CourseRun from "@/components/course/CourseRun";
 import { B11_BOOK_COURSE } from "@/components/courses";
 
-const TABS = [["book", "📖 Học theo sách 中級1"], ["grammar", "📐 Ngữ pháp"], ["reading", "📖 Đọc dài"], ["listening", "🎧 Nghe"]];
+const TABS = [["book", "📖 Học theo sách 中級1"], ["kanji", "漢 Chữ & Kanji"], ["grammar", "📐 Ngữ pháp"], ["reading", "📖 Đọc dài"], ["listening", "🎧 Nghe"]];
 
 export default function B1Topic() {
   const { t } = useParams();
   const T = b1Topic(+t);
+  const { S } = useGame();
   const [tab, setTab] = useState("book");
   useEffect(() => () => stopSpeak(), []);
   if (!T) return <p style={{ marginTop: 40 }}>Không tìm thấy Topic. <Link href="/b1">Học Viện B1-1</Link></p>;
@@ -33,9 +38,10 @@ export default function B1Topic() {
         <div className="orn"><span /></div>
       </div>
       <div className="chips rtabs" style={{ justifyContent: "center" }}>
-        {TABS.map(([k, l]) => <button key={k} className={`chip dk ${tab === k ? "on" : ""}`} onClick={() => { setTab(k); stopSpeak(); sfx.click(); }}>{l}</button>)}
+        {TABS.map(([k, l]) => <button key={k} className={`chip dk ${tab === k ? "on" : ""}`} onClick={() => { setTab(k); stopSpeak(); sfx.click(); }}>{l}{k === "kanji" && <Stars n={S?.b1?.p?.[`${T.topic}:kanji`]?.stars} />}</button>)}
       </div>
       {tab === "book" && <BookTab T={T} />}
+      {tab === "kanji" && <KanjiTab T={T} />}
       {tab === "grammar" && <GrammarTab T={T} />}
       {tab === "reading" && <ReadingTab T={T} />}
       {tab === "listening" && <ListeningTab T={T} />}
@@ -65,6 +71,66 @@ function BookTab({ T }) {
     </div>
   );
   return <BookPart course={C} book={book} lesson={T.topic} stars={best != null ? <span className="bkbest">Tốt nhất: {best}% {"★".repeat(stars(best))}</span> : null} onQuiz={(qs) => { setRes(null); setRun(qs); window.scrollTo({ top: 0, behavior: "smooth" }); }} />;
+}
+
+// 漢 Chữ & Kanji: giống phần "Chữ & Kanji" của A1 → A2-2 — danh sách từ có chữ Hán của Topic (lấy từ phiếu luyện viết 中級1) + 10 câu đọc / viết, tính sao (S.b1.p["<Topic>:kanji"])
+const KANJI_LINE = "Chữ Hán như từng viên đá nền — nhớ chắc cách đọc và mặt chữ thì từ vựng mới vững. Thử sức nào.";
+function KanjiTab({ T }) {
+  const { S, update } = useGame();
+  const [run, setRun] = useState(null);
+  const [res, setRes] = useState(null);
+  const pool = useMemo(() => {
+    const seen = new Set();
+    return sheetsOf("b1").filter((s) => s.t === T.topic).flatMap((s) => s.words)
+      .filter((w) => w.w && w.r && !seen.has(w.w) && seen.add(w.w))
+      .map((w) => ({ k: w.w, r: w.r, vi: w.vi, hv: w.hv }));
+  }, [T.topic]);
+  const key = `${T.topic}:kanji`;
+  const best = S?.b1?.p?.[key];
+  const finish = (c, n) => {
+    const pct = Math.round((c / n) * 100), stars = starsFor(pct);
+    let reward = 0;
+    update((s) => {
+      s.b1 = s.b1 || {}; s.b1.p = s.b1.p || {};
+      const r = s.b1.p[key] || { pct: 0, stars: 0, total: 0 };
+      if (stars > r.stars) { reward = (stars - r.stars) * STAR_REWARD; s.primo += reward; r.stars = stars; }
+      if (pct > r.pct || (pct === r.pct && n > r.total)) { r.pct = pct; r.total = n; }
+      s.b1.p[key] = r;
+    });
+    setRes({ c, n, pct, stars, reward }); setRun(null); window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+  const start = () => { setRes(null); setRun(kanjiQs(null, 10, pool).map((x) => ({ type: "mc", ...x }))); sfx.open(); window.scrollTo({ top: 0, behavior: "smooth" }); };
+  if (run) return <CourseRun course={B11_BOOK_COURSE} qs={run} title="Chữ & Kanji" intro={KANJI_LINE} onFinish={finish} />;
+  if (res) return (
+    <div className="panel result">
+      <ZhongliHost line={res.stars >= 2 ? ZL.ok[1] : res.stars === 1 ? ZL.ok[2] : ZL.bad[1]} />
+      <h2>Kết quả</h2>
+      <div className="bigstars">{[0, 1, 2].map((i) => <span key={i} className={i < res.stars ? "on" : ""} style={{ animationDelay: `${0.2 + i * 0.25}s` }}>★</span>)}</div>
+      <div className="score">{res.c}<small> / {res.n}</small> <small>({res.pct}%)</small></div>
+      {res.reward > 0 && <div className="rew"><Ico id="pgm" /> +{res.reward} Nguyên Thạch (sao mới)</div>}
+      <div className="btnrow"><button className="gbtn x dark" onClick={() => setRes(null)}><span className="c" />Về bài học</button><button className="gbtn tri" onClick={start}><span className="c" />Làm lại</button></div>
+    </div>
+  );
+  return (
+    <>
+      <ZhongliHost line={KANJI_LINE} />
+      <div className="panel a22start">
+        <div><b>漢 Chữ & Kanji</b><span>{Math.min(10, pool.length)} câu đọc / chọn chữ Hán từ {pool.length} từ của Topic · đúng ≥60% được 1 sao, ≥80% 2 sao, ≥95% 3 sao · mỗi sao mới +{STAR_REWARD} <Ico id="pgm" />{best ? ` · tốt nhất ${best.pct}%` : ""}</span></div>
+        <button className="gbtn tri" onClick={start} disabled={pool.length < 4}><span className="c" />Bắt đầu kiểm tra</button>
+      </div>
+      <Link href={`/kanji/b1/topic/${T.topic}`} className="panel kjtool" onClick={() => sfx.page()} style={{ display: "block", marginTop: 12 }}>
+        <b>🈶 Kiểm tra tổng hợp · các chữ Hán của Topic {T.topic}</b>
+        <span> Nghĩa, cách đọc, đặt câu, đoán chữ (tối đa 30 câu){S?.kanji?.p?.[`b1:t${T.topic}`] ? ` · tốt nhất ${S.kanji.p[`b1:t${T.topic}`].pct}%` : ""}</span>
+      </Link>
+      <div className="kgrid">
+        {pool.map((k) => (
+          <button key={k.k} className="panel kcard" onClick={() => speakLines([{ t: k.r }])}>
+            <b className="jpt">{k.k}</b><span className="jpt">{k.r}</span><small>{k.hv ? `${k.hv} · ` : ""}{k.vi}</small>
+          </button>
+        ))}
+      </div>
+    </>
+  );
 }
 
 function GrammarTab({ T }) {
