@@ -119,7 +119,7 @@ export const B11_BOOK_COURSE = {
 // Minna - Genshin Sơ cấp 2 (bài 26–50, bản tiếng Nhật): 5 Topic × 5 bài, 7 phần mỗi bài. Không có audio → nghe bằng giọng máy.
 // Bài viết/luyện viết của sách được chuyển thành bài sắp xếp từ (phần "Sắp xếp câu") vì người học không gõ tiếng Nhật.
 export const MN2_COURSE = {
-  store: "mn2", C: MN2, base: "/mn2", title: "Minna - Genshin Sơ cấp 2",
+  store: "mn2", C: MN2, base: "/mn2", title: "Minna - Genshin Sơ cấp 2", study: true,
   unit: "Bài", unitTag: (L) => `TOPIC ${L.topic} · 第${L.lesson}課`,
   audio: NO_AUDIO, audioSetups: [],
   Host: GanyuHost, Hero: GanyuHero, lines: GY, char: GANYU, hostName: "Ganyu",
@@ -131,7 +131,7 @@ export const MN2_COURSE = {
 // Minna - Genshin Sơ cấp 1 (bài 1–25, bản tiếng Nhật): 5 Topic × 5 bài, 7 phần mỗi bài. Không có audio → nghe bằng giọng máy.
 // Bài viết/luyện viết của sách được chuyển thành bài sắp xếp từ (phần "Sắp xếp câu") vì người học không gõ tiếng Nhật.
 export const MN1_COURSE = {
-  store: "mn1", C: MN1, base: "/mn1", title: "Minna - Genshin Sơ cấp 1",
+  store: "mn1", C: MN1, base: "/mn1", title: "Minna - Genshin Sơ cấp 1", study: true,
   unit: "Bài", unitTag: (L) => `TOPIC ${L.topic} · 第${L.lesson}課`,
   audio: NO_AUDIO, audioSetups: [],
   Host: AmberHost, Hero: AmberHero, lines: AMB, char: AMBER, hostName: "Amber",

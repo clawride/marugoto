@@ -288,3 +288,20 @@ h3.bkfold .bkchev{font-size:14px;color:var(--gold);width:14px;flex:none}
 .bkact{scroll-margin-top:84px}
 [data-ui="plain"] .bklisten{color:var(--pl-text);border-color:var(--pl-line)}
 [data-ui="plain"] .bklisten.on{background:rgba(0,0,0,.06);color:var(--pl-accent);border-color:var(--pl-accent)}
+
+/* 📘 Nội dung bài (components/course/LessonView.js · StudyView) */
+.studyview{display:flex;flex-direction:column;gap:14px;margin-top:12px}
+.stsec{padding:14px 16px}
+.stsec>h2{margin:0 0 10px;font-size:20px;color:var(--cream2)}
+.stsec>h2 small{font-size:13px;opacity:.75;margin-left:8px}
+.stgram{padding:10px 0;border-top:1px solid rgba(211,188,142,.2)}
+.stgram:first-of-type{border-top:0}
+.stpat{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:baseline;font-size:17px}
+.stpat span{opacity:.8;font-size:14px}
+.stdlg{padding:10px 0;border-top:1px solid rgba(211,188,142,.2)}
+.stdlg:first-of-type{border-top:0}
+.stdh{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.stlines{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+.stline{display:flex;gap:8px;align-items:flex-start}
+.stsp{flex:none;min-width:24px;text-align:center;color:var(--gold)}
+[data-ui="plain"] .stsp{color:var(--pl-accent)}

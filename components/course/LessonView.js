@@ -144,6 +144,57 @@ function ReadingPart({ L, save, course }) {
   );
 }
 
+// 📘 Nội dung bài (khóa có course.study): đọc trước khi làm kiểm tra — mẫu câu kèm giải thích & ví dụ, hội thoại có nút nghe, bài đọc, từ vựng
+function StudyView({ L }) {
+  const say = (t) => speakLines([{ t }], { rate: 0.85 });
+  return (
+    <div className="studyview">
+      <section className="panel stsec">
+        <h2>📐 文型・例文 <small>Mẫu câu và ví dụ</small></h2>
+        {L.grammar.map((g, i) => (
+          <div key={i} className="stgram">
+            <div className="stpat"><b className="jpt">{g.point}</b><span>{g.vi}</span></div>
+            <p>{g.explain}</p>
+            <Rom text={`${g.point || ""} ${g.explain || ""}`} />
+            {g.examples.map((e, j) => (
+              <div key={j} className="gex"><button className="spk" onClick={() => say(e.jp)} aria-label="Nghe">🔊</button><div><span className="jpt">{e.jp}</span><small>{e.vi}</small><Rom text={e.jp} /></div></div>
+            ))}
+          </div>
+        ))}
+      </section>
+
+      <section className="panel stsec">
+        <h2>💬 会話 <small>Hội thoại · bấm 🔊 để nghe</small></h2>
+        {L.listening.map((it, i) => (
+          <div key={i} className="stdlg">
+            <div className="stdh"><b>{it.title}</b><button className="chip sm" onClick={() => speakLines(it.tts, { rate: 0.85 })}>▶ Nghe cả hội thoại</button></div>
+            <p className="lsit">🎬 {it.situation}</p>
+            <div className="stlines">
+              {it.tts.map((l, k) => (
+                <div key={k} className="stline"><b className="stsp">{l.sp}</b><button className="spk" onClick={() => say(l.t)} aria-label="Nghe">🔊</button><div><span className="jpt">{l.t}</span><Rom text={l.t} /></div></div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </section>
+
+      {L.reading?.map((R, i) => (
+        <section key={i} className="panel stsec">
+          <h2>📖 Bài đọc <small>{R.title}</small></h2>
+          <div className="rtext jpt">{R.text.split("\n").filter(Boolean).map((p, k) => <p key={k}>{p}</p>)}</div>
+          {R.glossary?.length > 0 && <div className="glist2">{R.glossary.map((g, k) => <span key={k}><b className="jpt">{g.jp}</b> <i className="jpt">{g.r}</i> — {g.vi}</span>)}</div>}
+        </section>
+      ))}
+
+      <section className="panel stsec">
+        <h2>🈶 Từ vựng <small>{L.vocab.length} từ</small></h2>
+        <VocabView L={L} />
+      </section>
+      <p className="hint" style={{ textAlign: "center" }}>Học xong thì chọn từng phần phía trên (Từ vựng, Nghe, Kanji, Điền từ, Sắp xếp câu…) để làm kiểm tra lấy sao.</p>
+    </div>
+  );
+}
+
 const MAKE = {
   vocab: (L) => vocabQs(L).map((x) => ({ type: "mc", ...x })),
   kanji: (L) => kanjiQs(L).map((x) => ({ type: "mc", ...x })),
@@ -160,8 +211,8 @@ export default function LessonView({ course, lesson }) {
   const { S } = useGame();
   // khóa có sách (A1 かつどう): thẻ đầu tiên "📖 Học theo sách", mở sẵn khi vào bài
   const books = course.books || (course.book ? [{ key: "book", ico: "📖", ...course.book }] : []);
-  const tabs = [...books.map((b) => ({ key: b.key, label: `Học theo sách ${b.short}`, ico: b.ico })), ...PARTS];
-  const [tab, setTab] = useState(books[0]?.key || "vocab");
+  const tabs = [...(course.study ? [{ key: "study", label: "Nội dung bài", ico: "📘" }] : []), ...books.map((b) => ({ key: b.key, label: `Học theo sách ${b.short}`, ico: b.ico })), ...PARTS];
+  const [tab, setTab] = useState(course.study ? "study" : books[0]?.key || "vocab");
   const bookTab = books.find((b) => b.key === tab);
   const [run, setRun] = useState(null);
   const [res, setRes] = useState(null);
@@ -199,6 +250,7 @@ export default function LessonView({ course, lesson }) {
       </div>
 
       {bookTab && !run && !res ? <BookPart key={`${bookTab.key}-${lesson}`} course={course} book={bookTab} lesson={lesson} stars={<Stars n={P[`${lesson}:${bookTab.key}`]?.stars} />} onQuiz={(qs) => { setRes(null); setRun(qs); window.scrollTo({ top: 0, behavior: "smooth" }); }} />
+      : tab === "study" ? <><Host line={lines.hub?.[0]} /><StudyView L={L} /></>
       : tab === "read" ? <ReadingPart key={lesson} L={L} save={save} course={course} /> : res ? (
         <Result course={course} res={res} onAgain={bookTab ? () => { setRes(null); setRun(null); } : start} onBack={() => { setRes(null); setRun(null); }} />
       ) : run ? (
