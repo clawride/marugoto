@@ -171,7 +171,7 @@ function StudyView({ L }) {
             <p className="lsit">🎬 {it.situation}</p>
             <div className="stlines">
               {it.tts.map((l, k) => (
-                <div key={k} className="stline"><b className="stsp">{l.sp}</b><button className="spk" onClick={() => say(l.t)} aria-label="Nghe">🔊</button><div><span className="jpt">{l.t}</span><Rom text={l.t} /></div></div>
+                <div key={k} className="stline"><b className="stsp">{l.sp}</b><button className="spk" onClick={() => say(l.t)} aria-label="Nghe">🔊</button><div><span className="jpt">{l.t}</span>{l.vi && <small className="stvi">{l.vi}</small>}<Rom text={l.t} /></div></div>
               ))}
             </div>
           </div>

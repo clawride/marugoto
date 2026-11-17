@@ -10,63 +10,423 @@
   "Rủ ai đó cùng làm gì bằng ～ませんか và đáp lại, hẹn giờ gặp bằng ～ましょう"
  ],
  "vocab": [
-  {"jp": "食べます", "kana": "たべます", "vi": "Ăn", "type": "Động từ", "src": "K"},
-  {"jp": "飲みます", "kana": "のみます", "vi": "Uống", "type": "Động từ", "src": "K"},
-  {"jp": "吸います", "kana": "すいます", "vi": "Hút (thuốc)", "type": "Động từ", "src": "K"},
-  {"jp": "見ます", "kana": "みます", "vi": "Xem, nhìn", "type": "Động từ", "src": "K"},
-  {"jp": "聞きます", "kana": "ききます", "vi": "Nghe", "type": "Động từ", "src": "K"},
-  {"jp": "読みます", "kana": "よみます", "vi": "Đọc", "type": "Động từ", "src": "K"},
-  {"jp": "書きます", "kana": "かきます", "vi": "Viết, vẽ", "type": "Động từ", "src": "K"},
-  {"jp": "買います", "kana": "かいます", "vi": "Mua", "type": "Động từ", "src": "K"},
-  {"jp": "撮ります", "kana": "とります", "vi": "Chụp (ảnh)", "type": "Động từ", "src": "K"},
-  {"jp": "します", "kana": "します", "vi": "Làm, chơi (thể thao, trò chơi)", "type": "Động từ", "src": "K"},
-  {"jp": "会います", "kana": "あいます", "vi": "Gặp (bạn bè)", "type": "Động từ", "src": "K"},
-  {"jp": "ごはん", "kana": "ごはん", "vi": "Cơm, bữa ăn", "type": "Danh từ", "src": "K"},
-  {"jp": "朝ごはん", "kana": "あさごはん", "vi": "Bữa sáng", "type": "Danh từ", "src": "K"},
-  {"jp": "昼ごはん", "kana": "ひるごはん", "vi": "Bữa trưa", "type": "Danh từ", "src": "K"},
-  {"jp": "晩ごはん", "kana": "ばんごはん", "vi": "Bữa tối", "type": "Danh từ", "src": "K"},
-  {"jp": "パン", "kana": "ぱん", "vi": "Bánh mì", "type": "Danh từ", "src": "K"},
-  {"jp": "卵", "kana": "たまご", "vi": "Trứng", "type": "Danh từ", "src": "K"},
-  {"jp": "肉", "kana": "にく", "vi": "Thịt", "type": "Danh từ", "src": "K"},
-  {"jp": "魚", "kana": "さかな", "vi": "Cá", "type": "Danh từ", "src": "K"},
-  {"jp": "野菜", "kana": "やさい", "vi": "Rau", "type": "Danh từ", "src": "K"},
-  {"jp": "果物", "kana": "くだもの", "vi": "Trái cây", "type": "Danh từ", "src": "K"},
-  {"jp": "水", "kana": "みず", "vi": "Nước (lạnh)", "type": "Danh từ", "src": "K"},
-  {"jp": "お茶", "kana": "おちゃ", "vi": "Trà", "type": "Danh từ", "src": "K"},
-  {"jp": "紅茶", "kana": "こうちゃ", "vi": "Hồng trà", "type": "Danh từ", "src": "K"},
-  {"jp": "牛乳", "kana": "ぎゅうにゅう", "vi": "Sữa bò", "type": "Danh từ", "src": "K"},
-  {"jp": "ジュース", "kana": "じゅーす", "vi": "Nước ép, nước ngọt", "type": "Danh từ", "src": "K"},
-  {"jp": "お酒", "kana": "おさけ", "vi": "Rượu", "type": "Danh từ", "src": "K"},
-  {"jp": "映画", "kana": "えいが", "vi": "Phim, điện ảnh", "type": "Danh từ", "src": "K"},
-  {"jp": "手紙", "kana": "てがみ", "vi": "Thư", "type": "Danh từ", "src": "K"},
-  {"jp": "写真", "kana": "しゃしん", "vi": "Ảnh", "type": "Danh từ", "src": "K"},
-  {"jp": "店", "kana": "みせ", "vi": "Cửa hàng, tiệm", "type": "Danh từ", "src": "K"},
-  {"jp": "庭", "kana": "にわ", "vi": "Vườn, sân", "type": "Danh từ", "src": "K"},
-  {"jp": "宿題", "kana": "しゅくだい", "vi": "Bài tập về nhà", "type": "Danh từ", "src": "K"},
-  {"jp": "テニス", "kana": "てにす", "vi": "Quần vợt", "type": "Danh từ", "src": "K"},
-  {"jp": "サッカー", "kana": "さっかー", "vi": "Bóng đá", "type": "Danh từ", "src": "K"},
-  {"jp": "お花見", "kana": "おはなみ", "vi": "Ngắm hoa anh đào", "type": "Danh từ", "src": "K"},
-  {"jp": "何も", "kana": "なにも", "vi": "Không ～ gì cả (đi với phủ định)", "type": "Cụm từ", "src": "K"},
-  {"jp": "いっしょに", "kana": "いっしょに", "vi": "Cùng nhau", "type": "Phó từ", "src": "K"},
-  {"jp": "ちょっと", "kana": "ちょっと", "vi": "Một chút", "type": "Phó từ", "src": "K"},
-  {"jp": "いつも", "kana": "いつも", "vi": "Luôn luôn, lúc nào cũng", "type": "Phó từ", "src": "K"},
-  {"jp": "時々", "kana": "ときどき", "vi": "Thỉnh thoảng", "type": "Phó từ", "src": "K"},
-  {"jp": "それから", "kana": "それから", "vi": "Sau đó, rồi thì", "type": "Liên từ", "src": "K"},
-  {"jp": "ええ", "kana": "ええ", "vi": "Vâng, ừ", "type": "Cụm từ", "src": "K"},
-  {"jp": "毎朝", "kana": "まいあさ", "vi": "Mỗi sáng", "type": "Danh từ", "src": "K"},
-  {"jp": "今晩", "kana": "こんばん", "vi": "Tối nay", "type": "Danh từ", "src": "K"}
+  {
+   "jp": "食べます",
+   "kana": "たべます",
+   "vi": "Ăn",
+   "type": "Động từ",
+   "src": "K"
+  },
+  {
+   "jp": "飲みます",
+   "kana": "のみます",
+   "vi": "Uống",
+   "type": "Động từ",
+   "src": "K"
+  },
+  {
+   "jp": "吸います",
+   "kana": "すいます",
+   "vi": "Hút (thuốc)",
+   "type": "Động từ",
+   "src": "K"
+  },
+  {
+   "jp": "見ます",
+   "kana": "みます",
+   "vi": "Xem, nhìn",
+   "type": "Động từ",
+   "src": "K"
+  },
+  {
+   "jp": "聞きます",
+   "kana": "ききます",
+   "vi": "Nghe",
+   "type": "Động từ",
+   "src": "K"
+  },
+  {
+   "jp": "読みます",
+   "kana": "よみます",
+   "vi": "Đọc",
+   "type": "Động từ",
+   "src": "K"
+  },
+  {
+   "jp": "書きます",
+   "kana": "かきます",
+   "vi": "Viết, vẽ",
+   "type": "Động từ",
+   "src": "K"
+  },
+  {
+   "jp": "買います",
+   "kana": "かいます",
+   "vi": "Mua",
+   "type": "Động từ",
+   "src": "K"
+  },
+  {
+   "jp": "撮ります",
+   "kana": "とります",
+   "vi": "Chụp (ảnh)",
+   "type": "Động từ",
+   "src": "K"
+  },
+  {
+   "jp": "します",
+   "kana": "します",
+   "vi": "Làm, chơi (thể thao, trò chơi)",
+   "type": "Động từ",
+   "src": "K"
+  },
+  {
+   "jp": "会います",
+   "kana": "あいます",
+   "vi": "Gặp (bạn bè)",
+   "type": "Động từ",
+   "src": "K"
+  },
+  {
+   "jp": "ごはん",
+   "kana": "ごはん",
+   "vi": "Cơm, bữa ăn",
+   "type": "Danh từ",
+   "src": "K"
+  },
+  {
+   "jp": "朝ごはん",
+   "kana": "あさごはん",
+   "vi": "Bữa sáng",
+   "type": "Danh từ",
+   "src": "K"
+  },
+  {
+   "jp": "昼ごはん",
+   "kana": "ひるごはん",
+   "vi": "Bữa trưa",
+   "type": "Danh từ",
+   "src": "K"
+  },
+  {
+   "jp": "晩ごはん",
+   "kana": "ばんごはん",
+   "vi": "Bữa tối",
+   "type": "Danh từ",
+   "src": "K"
+  },
+  {
+   "jp": "パン",
+   "kana": "ぱん",
+   "vi": "Bánh mì",
+   "type": "Danh từ",
+   "src": "K"
+  },
+  {
+   "jp": "卵",
+   "kana": "たまご",
+   "vi": "Trứng",
+   "type": "Danh từ",
+   "src": "K"
+  },
+  {
+   "jp": "肉",
+   "kana": "にく",
+   "vi": "Thịt",
+   "type": "Danh từ",
+   "src": "K"
+  },
+  {
+   "jp": "魚",
+   "kana": "さかな",
+   "vi": "Cá",
+   "type": "Danh từ",
+   "src": "K"
+  },
+  {
+   "jp": "野菜",
+   "kana": "やさい",
+   "vi": "Rau",
+   "type": "Danh từ",
+   "src": "K"
+  },
+  {
+   "jp": "果物",
+   "kana": "くだもの",
+   "vi": "Trái cây",
+   "type": "Danh từ",
+   "src": "K"
+  },
+  {
+   "jp": "水",
+   "kana": "みず",
+   "vi": "Nước (lạnh)",
+   "type": "Danh từ",
+   "src": "K"
+  },
+  {
+   "jp": "お茶",
+   "kana": "おちゃ",
+   "vi": "Trà",
+   "type": "Danh từ",
+   "src": "K"
+  },
+  {
+   "jp": "紅茶",
+   "kana": "こうちゃ",
+   "vi": "Hồng trà",
+   "type": "Danh từ",
+   "src": "K"
+  },
+  {
+   "jp": "牛乳",
+   "kana": "ぎゅうにゅう",
+   "vi": "Sữa bò",
+   "type": "Danh từ",
+   "src": "K"
+  },
+  {
+   "jp": "ジュース",
+   "kana": "じゅーす",
+   "vi": "Nước ép, nước ngọt",
+   "type": "Danh từ",
+   "src": "K"
+  },
+  {
+   "jp": "お酒",
+   "kana": "おさけ",
+   "vi": "Rượu",
+   "type": "Danh từ",
+   "src": "K"
+  },
+  {
+   "jp": "映画",
+   "kana": "えいが",
+   "vi": "Phim, điện ảnh",
+   "type": "Danh từ",
+   "src": "K"
+  },
+  {
+   "jp": "手紙",
+   "kana": "てがみ",
+   "vi": "Thư",
+   "type": "Danh từ",
+   "src": "K"
+  },
+  {
+   "jp": "写真",
+   "kana": "しゃしん",
+   "vi": "Ảnh",
+   "type": "Danh từ",
+   "src": "K"
+  },
+  {
+   "jp": "店",
+   "kana": "みせ",
+   "vi": "Cửa hàng, tiệm",
+   "type": "Danh từ",
+   "src": "K"
+  },
+  {
+   "jp": "庭",
+   "kana": "にわ",
+   "vi": "Vườn, sân",
+   "type": "Danh từ",
+   "src": "K"
+  },
+  {
+   "jp": "宿題",
+   "kana": "しゅくだい",
+   "vi": "Bài tập về nhà",
+   "type": "Danh từ",
+   "src": "K"
+  },
+  {
+   "jp": "テニス",
+   "kana": "てにす",
+   "vi": "Quần vợt",
+   "type": "Danh từ",
+   "src": "K"
+  },
+  {
+   "jp": "サッカー",
+   "kana": "さっかー",
+   "vi": "Bóng đá",
+   "type": "Danh từ",
+   "src": "K"
+  },
+  {
+   "jp": "お花見",
+   "kana": "おはなみ",
+   "vi": "Ngắm hoa anh đào",
+   "type": "Danh từ",
+   "src": "K"
+  },
+  {
+   "jp": "何も",
+   "kana": "なにも",
+   "vi": "Không ～ gì cả (đi với phủ định)",
+   "type": "Cụm từ",
+   "src": "K"
+  },
+  {
+   "jp": "いっしょに",
+   "kana": "いっしょに",
+   "vi": "Cùng nhau",
+   "type": "Phó từ",
+   "src": "K"
+  },
+  {
+   "jp": "ちょっと",
+   "kana": "ちょっと",
+   "vi": "Một chút",
+   "type": "Phó từ",
+   "src": "K"
+  },
+  {
+   "jp": "いつも",
+   "kana": "いつも",
+   "vi": "Luôn luôn, lúc nào cũng",
+   "type": "Phó từ",
+   "src": "K"
+  },
+  {
+   "jp": "時々",
+   "kana": "ときどき",
+   "vi": "Thỉnh thoảng",
+   "type": "Phó từ",
+   "src": "K"
+  },
+  {
+   "jp": "それから",
+   "kana": "それから",
+   "vi": "Sau đó, rồi thì",
+   "type": "Liên từ",
+   "src": "K"
+  },
+  {
+   "jp": "ええ",
+   "kana": "ええ",
+   "vi": "Vâng, ừ",
+   "type": "Cụm từ",
+   "src": "K"
+  },
+  {
+   "jp": "毎朝",
+   "kana": "まいあさ",
+   "vi": "Mỗi sáng",
+   "type": "Danh từ",
+   "src": "K"
+  },
+  {
+   "jp": "今晩",
+   "kana": "こんばん",
+   "vi": "Tối nay",
+   "type": "Danh từ",
+   "src": "K"
+  }
  ],
  "kanji": [
-  {"k": "映画", "r": "えいが", "vi": "phim", "wr": ["えいか", "えがい", "へいが"]},
-  {"k": "手紙", "r": "てがみ", "vi": "thư", "wr": ["てかみ", "しがみ", "てがめ"]},
-  {"k": "写真", "r": "しゃしん", "vi": "ảnh", "wr": ["しゃじん", "しゃっしん", "さしん"]},
-  {"k": "宿題", "r": "しゅくだい", "vi": "bài tập về nhà", "wr": ["しゅくたい", "しゅくてい", "すくだい"]},
-  {"k": "果物", "r": "くだもの", "vi": "trái cây", "wr": ["かもの", "かぶつ", "くたもの"]},
-  {"k": "野菜", "r": "やさい", "vi": "rau", "wr": ["やざい", "のさい", "やせい"]},
-  {"k": "牛乳", "r": "ぎゅうにゅう", "vi": "sữa bò", "wr": ["きゅうにゅう", "ぎゅにゅう", "ぎゅうにゅ"]},
-  {"k": "毎朝", "r": "まいあさ", "vi": "mỗi sáng", "wr": ["まいちょう", "めいあさ", "まいさ"]},
-  {"k": "紅茶", "r": "こうちゃ", "vi": "hồng trà", "wr": ["こちゃ", "ごうちゃ", "こうじゃ"]},
-  {"k": "時々", "r": "ときどき", "vi": "thỉnh thoảng", "wr": ["ときとき", "どきどき", "しじ"]}
+  {
+   "k": "映画",
+   "r": "えいが",
+   "vi": "phim",
+   "wr": [
+    "えいか",
+    "えがい",
+    "へいが"
+   ]
+  },
+  {
+   "k": "手紙",
+   "r": "てがみ",
+   "vi": "thư",
+   "wr": [
+    "てかみ",
+    "しがみ",
+    "てがめ"
+   ]
+  },
+  {
+   "k": "写真",
+   "r": "しゃしん",
+   "vi": "ảnh",
+   "wr": [
+    "しゃじん",
+    "しゃっしん",
+    "さしん"
+   ]
+  },
+  {
+   "k": "宿題",
+   "r": "しゅくだい",
+   "vi": "bài tập về nhà",
+   "wr": [
+    "しゅくたい",
+    "しゅくてい",
+    "すくだい"
+   ]
+  },
+  {
+   "k": "果物",
+   "r": "くだもの",
+   "vi": "trái cây",
+   "wr": [
+    "かもの",
+    "かぶつ",
+    "くたもの"
+   ]
+  },
+  {
+   "k": "野菜",
+   "r": "やさい",
+   "vi": "rau",
+   "wr": [
+    "やざい",
+    "のさい",
+    "やせい"
+   ]
+  },
+  {
+   "k": "牛乳",
+   "r": "ぎゅうにゅう",
+   "vi": "sữa bò",
+   "wr": [
+    "きゅうにゅう",
+    "ぎゅにゅう",
+    "ぎゅうにゅ"
+   ]
+  },
+  {
+   "k": "毎朝",
+   "r": "まいあさ",
+   "vi": "mỗi sáng",
+   "wr": [
+    "まいちょう",
+    "めいあさ",
+    "まいさ"
+   ]
+  },
+  {
+   "k": "紅茶",
+   "r": "こうちゃ",
+   "vi": "hồng trà",
+   "wr": [
+    "こちゃ",
+    "ごうちゃ",
+    "こうじゃ"
+   ]
+  },
+  {
+   "k": "時々",
+   "r": "ときどき",
+   "vi": "thỉnh thoảng",
+   "wr": [
+    "ときとき",
+    "どきどき",
+    "しじ"
+   ]
+  }
  ],
  "grammar": [
   {
@@ -74,9 +434,18 @@
    "vi": "Làm gì đó với N (tân ngữ trực tiếp)",
    "explain": "Trợ từ 「を」 đứng sau danh từ là đối tượng của hành động, đặt ngay trước động từ: N を 食べます／飲みます／読みます／買います… Hỏi tân ngữ dùng 「何を V ますか」. Riêng 「します」 ghép với danh từ chỉ môn thể thao, trò chơi hay sự kiện: テニスを します、お花見を します. Thể ます diễn tả thói quen hoặc việc ở tương lai (食べます), thể ました là quá khứ (食べました).",
    "examples": [
-    {"jp": "ジンさんは 毎朝 パンを 食べます。", "vi": "Jean ăn bánh mì mỗi sáng."},
-    {"jp": "ガイアさんは お酒を 飲みません。", "vi": "Kaeya không uống rượu."},
-    {"jp": "クレーさんは 何を 読みますか。", "vi": "Klee đọc gì vậy?"}
+    {
+     "jp": "ジンさんは 毎朝 パンを 食べます。",
+     "vi": "Jean ăn bánh mì mỗi sáng."
+    },
+    {
+     "jp": "ガイアさんは お酒を 飲みません。",
+     "vi": "Kaeya không uống rượu."
+    },
+    {
+     "jp": "クレーさんは 何を 読みますか。",
+     "vi": "Klee đọc gì vậy?"
+    }
    ]
   },
   {
@@ -84,9 +453,18 @@
    "vi": "Làm gì ở đâu",
    "explain": "Trợ từ 「で」 sau danh từ chỉ nơi chốn cho biết nơi diễn ra hành động: 駅で 新聞を 買います. Hỏi nơi chốn dùng 「どこで V ますか」. Cần phân biệt: 「へ」 chỉ hướng di chuyển với 行きます／来ます／帰ります, còn 「で」 chỉ nơi hành động diễn ra với các động từ khác như 買います、食べます、会います.",
    "examples": [
-    {"jp": "モナさんは 庭で 写真を 撮りました。", "vi": "Mona đã chụp ảnh ở trong vườn."},
-    {"jp": "どこで その 本を 買いましたか。", "vi": "Bạn đã mua cuốn sách đó ở đâu?"},
-    {"jp": "あした 駅で 会いましょう。", "vi": "Ngày mai mình gặp nhau ở nhà ga nhé."}
+    {
+     "jp": "モナさんは 庭で 写真を 撮りました。",
+     "vi": "Mona đã chụp ảnh ở trong vườn."
+    },
+    {
+     "jp": "どこで その 本を 買いましたか。",
+     "vi": "Bạn đã mua cuốn sách đó ở đâu?"
+    },
+    {
+     "jp": "あした 駅で 会いましょう。",
+     "vi": "Ngày mai mình gặp nhau ở nhà ga nhé."
+    }
    ]
   },
   {
@@ -94,9 +472,18 @@
    "vi": "Cùng ～ không?／Cùng ～ nhé",
    "explain": "「V ませんか」 là cách rủ người nghe cùng làm một việc một cách lịch sự: いっしょに 映画を 見ませんか. Đồng ý: 「ええ、いいですね」 hoặc 「V ましょう」; từ chối nhẹ nhàng: 「すみません、ちょっと……」. 「V ましょう」 còn dùng khi chính người nói chủ động đề nghị hoặc hẹn giờ giấc, địa điểm: 10時に 駅で 会いましょう. Phân biệt: ～ませんか là mời, ～ましょう là đề nghị hoặc trả lời đồng ý.",
    "examples": [
-    {"jp": "ベネットさん、いっしょに テニスを しませんか。", "vi": "Bennett, cùng chơi quần vợt không?"},
-    {"jp": "ええ、いいですね。しましょう。", "vi": "Vâng, hay đấy. Cùng chơi nhé."},
-    {"jp": "ちょっと 休みましょう。", "vi": "Chúng ta nghỉ một chút nhé."}
+    {
+     "jp": "ベネットさん、いっしょに テニスを しませんか。",
+     "vi": "Bennett, cùng chơi quần vợt không?"
+    },
+    {
+     "jp": "ええ、いいですね。しましょう。",
+     "vi": "Vâng, hay đấy. Cùng chơi nhé."
+    },
+    {
+     "jp": "ちょっと 休みましょう。",
+     "vi": "Chúng ta nghỉ một chút nhé."
+    }
    ]
   },
   {
@@ -104,35 +491,238 @@
    "vi": "Không ～ gì cả／Đã làm gì?",
    "explain": "Từ nghi vấn 何 có thể đi với 「を」 để hỏi: 何を しましたか. Khi muốn nói 「không ～ gì cả」, dùng 「何も」 và động từ phải ở dạng phủ định: 何も 食べませんでした (quá khứ), 何も 飲みません (hiện tại). Tương tự 「どこも 行きません」 nghĩa là không đi đâu cả. Câu trả lời cho 「何を」 là tân ngữ + を + V; nếu muốn nối thêm việc khác thì dùng 「それから」.",
    "examples": [
-    {"jp": "きのう 何を しましたか。", "vi": "Hôm qua bạn đã làm gì?"},
-    {"jp": "本を 読みました。それから、手紙を 書きました。", "vi": "Tôi đã đọc sách. Sau đó, tôi viết thư."},
-    {"jp": "けさは 何も 食べませんでした。", "vi": "Sáng nay tôi đã không ăn gì cả."}
+    {
+     "jp": "きのう 何を しましたか。",
+     "vi": "Hôm qua bạn đã làm gì?"
+    },
+    {
+     "jp": "本を 読みました。それから、手紙を 書きました。",
+     "vi": "Tôi đã đọc sách. Sau đó, tôi viết thư."
+    },
+    {
+     "jp": "けさは 何も 食べませんでした。",
+     "vi": "Sáng nay tôi đã không ăn gì cả."
+    }
    ]
   }
  ],
  "fill": [
-  {"q": "ベネットさんは 毎朝 パン（　）食べます。", "opts": ["を", "で", "へ", "が"], "a": 0, "vi": "Bennett ăn bánh mì mỗi sáng.", "hint": "Tân ngữ của 食べます dùng を."},
-  {"q": "駅（　）新聞を 買います。", "opts": ["で", "を", "へ", "と"], "a": 0, "vi": "Tôi mua báo ở nhà ga.", "hint": "Nơi diễn ra hành động mua dùng で."},
-  {"q": "あした 10時に 駅で 会い（　）。", "opts": ["ましょう", "ません", "ました", "ませんでした"], "a": 0, "vi": "Ngày mai 10 giờ mình gặp nhau ở nhà ga nhé.", "hint": "Hẹn giờ, địa điểm nên dùng ～ましょう."},
-  {"q": "きのうは 何も 食べ（　）。", "opts": ["ませんでした", "ません", "ました", "ましょう"], "a": 0, "vi": "Hôm qua tôi không ăn gì cả.", "hint": "何も + phủ định; きのう nên là quá khứ."},
-  {"q": "どこ（　）その かばんを 買いましたか。", "opts": ["で", "を", "に", "が"], "a": 0, "vi": "Bạn đã mua cái túi đó ở đâu?", "hint": "どこで: hỏi nơi diễn ra hành động."},
-  {"q": "毎朝 何（　）食べますか。", "opts": ["を", "で", "に", "も"], "a": 0, "vi": "Mỗi sáng bạn ăn gì?", "hint": "Hỏi tân ngữ: 何を. 何も chỉ dùng với phủ định."},
-  {"q": "土曜日 友達（　）映画を 見ました。", "opts": ["と", "を", "で", "へ"], "a": 0, "vi": "Thứ Bảy tôi đã xem phim cùng bạn.", "hint": "と: cùng với ai."},
-  {"q": "わたしは 毎晩 テレビを（　）。", "opts": ["見ます", "食べます", "読みます", "書きます"], "a": 0, "vi": "Tối nào tôi cũng xem tivi.", "hint": "テレビ đi với 見ます."},
-  {"q": "A：日曜日 何を しましたか。B：本を 読みました。（　）、ビデオを 見ました。", "opts": ["それから", "いつも", "ちょっと", "ときどき"], "a": 0, "vi": "A: Chủ nhật bạn làm gì? B: Tôi đọc sách. Sau đó tôi xem video.", "hint": "それから: nối hành động tiếp theo."},
-  {"q": "日曜日は どこ（　）行きません。うちで 休みます。", "opts": ["も", "を", "で", "が"], "a": 0, "vi": "Chủ nhật tôi không đi đâu cả. Tôi nghỉ ở nhà.", "hint": "どこも + phủ định: không đi đâu cả."},
-  {"q": "A：いっしょに 神戸へ 行きませんか。B：ええ、（　）。", "opts": ["いいですね", "行きません", "わかりません", "いいえ"], "a": 0, "vi": "A: Cùng đi Kobe không? B: Vâng, hay đấy.", "hint": "Đồng ý lời mời: ええ、いいですね."},
-  {"q": "リサさんは 紅茶を（　）。", "opts": ["飲みます", "読みます", "聞きます", "撮ります"], "a": 0, "vi": "Lisa uống hồng trà.", "hint": "紅茶 đi với 飲みます."}
+  {
+   "q": "ベネットさんは 毎朝 パン（　）食べます。",
+   "opts": [
+    "を",
+    "で",
+    "へ",
+    "が"
+   ],
+   "a": 0,
+   "vi": "Bennett ăn bánh mì mỗi sáng.",
+   "hint": "Tân ngữ của 食べます dùng を."
+  },
+  {
+   "q": "駅（　）新聞を 買います。",
+   "opts": [
+    "で",
+    "を",
+    "へ",
+    "と"
+   ],
+   "a": 0,
+   "vi": "Tôi mua báo ở nhà ga.",
+   "hint": "Nơi diễn ra hành động mua dùng で."
+  },
+  {
+   "q": "あした 10時に 駅で 会い（　）。",
+   "opts": [
+    "ましょう",
+    "ません",
+    "ました",
+    "ませんでした"
+   ],
+   "a": 0,
+   "vi": "Ngày mai 10 giờ mình gặp nhau ở nhà ga nhé.",
+   "hint": "Hẹn giờ, địa điểm nên dùng ～ましょう."
+  },
+  {
+   "q": "きのうは 何も 食べ（　）。",
+   "opts": [
+    "ませんでした",
+    "ません",
+    "ました",
+    "ましょう"
+   ],
+   "a": 0,
+   "vi": "Hôm qua tôi không ăn gì cả.",
+   "hint": "何も + phủ định; きのう nên là quá khứ."
+  },
+  {
+   "q": "どこ（　）その かばんを 買いましたか。",
+   "opts": [
+    "で",
+    "を",
+    "に",
+    "が"
+   ],
+   "a": 0,
+   "vi": "Bạn đã mua cái túi đó ở đâu?",
+   "hint": "どこで: hỏi nơi diễn ra hành động."
+  },
+  {
+   "q": "毎朝 何（　）食べますか。",
+   "opts": [
+    "を",
+    "で",
+    "に",
+    "も"
+   ],
+   "a": 0,
+   "vi": "Mỗi sáng bạn ăn gì?",
+   "hint": "Hỏi tân ngữ: 何を. 何も chỉ dùng với phủ định."
+  },
+  {
+   "q": "土曜日 友達（　）映画を 見ました。",
+   "opts": [
+    "と",
+    "を",
+    "で",
+    "へ"
+   ],
+   "a": 0,
+   "vi": "Thứ Bảy tôi đã xem phim cùng bạn.",
+   "hint": "と: cùng với ai."
+  },
+  {
+   "q": "わたしは 毎晩 テレビを（　）。",
+   "opts": [
+    "見ます",
+    "食べます",
+    "読みます",
+    "書きます"
+   ],
+   "a": 0,
+   "vi": "Tối nào tôi cũng xem tivi.",
+   "hint": "テレビ đi với 見ます."
+  },
+  {
+   "q": "A：日曜日 何を しましたか。B：本を 読みました。（　）、ビデオを 見ました。",
+   "opts": [
+    "それから",
+    "いつも",
+    "ちょっと",
+    "ときどき"
+   ],
+   "a": 0,
+   "vi": "A: Chủ nhật bạn làm gì? B: Tôi đọc sách. Sau đó tôi xem video.",
+   "hint": "それから: nối hành động tiếp theo."
+  },
+  {
+   "q": "日曜日は どこ（　）行きません。うちで 休みます。",
+   "opts": [
+    "も",
+    "を",
+    "で",
+    "が"
+   ],
+   "a": 0,
+   "vi": "Chủ nhật tôi không đi đâu cả. Tôi nghỉ ở nhà.",
+   "hint": "どこも + phủ định: không đi đâu cả."
+  },
+  {
+   "q": "A：いっしょに 神戸へ 行きませんか。B：ええ、（　）。",
+   "opts": [
+    "いいですね",
+    "行きません",
+    "わかりません",
+    "いいえ"
+   ],
+   "a": 0,
+   "vi": "A: Cùng đi Kobe không? B: Vâng, hay đấy.",
+   "hint": "Đồng ý lời mời: ええ、いいですね."
+  },
+  {
+   "q": "リサさんは 紅茶を（　）。",
+   "opts": [
+    "飲みます",
+    "読みます",
+    "聞きます",
+    "撮ります"
+   ],
+   "a": 0,
+   "vi": "Lisa uống hồng trà.",
+   "hint": "紅茶 đi với 飲みます."
+  }
  ],
  "order": [
-  {"chunks": ["ジンさんは", "毎朝", "パンと", "卵を", "食べます"], "vi": "Jean ăn bánh mì và trứng mỗi sáng."},
-  {"chunks": ["モナさんは", "図書館で", "本を", "読みます"], "vi": "Mona đọc sách ở thư viện."},
-  {"chunks": ["いっしょに", "映画を", "見ませんか"], "vi": "Cùng xem phim không?"},
-  {"chunks": ["あした", "10時に", "駅で", "会いましょう"], "vi": "Ngày mai 10 giờ mình gặp nhau ở nhà ga nhé."},
-  {"chunks": ["きのうは", "何も", "食べませんでした"], "vi": "Hôm qua tôi không ăn gì cả."},
-  {"chunks": ["ディルックさんは", "日曜日", "どこも", "行きません"], "vi": "Chủ nhật Diluc không đi đâu cả."},
-  {"chunks": ["リサさんは", "庭で", "写真を", "撮りました"], "vi": "Lisa đã chụp ảnh trong vườn."},
-  {"chunks": ["土曜日", "何を", "しましたか"], "vi": "Thứ Bảy bạn đã làm gì?"}
+  {
+   "chunks": [
+    "ジンさんは",
+    "毎朝",
+    "パンと",
+    "卵を",
+    "食べます"
+   ],
+   "vi": "Jean ăn bánh mì và trứng mỗi sáng."
+  },
+  {
+   "chunks": [
+    "モナさんは",
+    "図書館で",
+    "本を",
+    "読みます"
+   ],
+   "vi": "Mona đọc sách ở thư viện."
+  },
+  {
+   "chunks": [
+    "いっしょに",
+    "映画を",
+    "見ませんか"
+   ],
+   "vi": "Cùng xem phim không?"
+  },
+  {
+   "chunks": [
+    "あした",
+    "10時に",
+    "駅で",
+    "会いましょう"
+   ],
+   "vi": "Ngày mai 10 giờ mình gặp nhau ở nhà ga nhé."
+  },
+  {
+   "chunks": [
+    "きのうは",
+    "何も",
+    "食べませんでした"
+   ],
+   "vi": "Hôm qua tôi không ăn gì cả."
+  },
+  {
+   "chunks": [
+    "ディルックさんは",
+    "日曜日",
+    "どこも",
+    "行きません"
+   ],
+   "vi": "Chủ nhật Diluc không đi đâu cả."
+  },
+  {
+   "chunks": [
+    "リサさんは",
+    "庭で",
+    "写真を",
+    "撮りました"
+   ],
+   "vi": "Lisa đã chụp ảnh trong vườn."
+  },
+  {
+   "chunks": [
+    "土曜日",
+    "何を",
+    "しましたか"
+   ],
+   "vi": "Thứ Bảy bạn đã làm gì?"
+  }
  ],
  "reading": [
   {
@@ -140,16 +730,66 @@
    "genre": "日記",
    "text": "きのうは 土曜日でした。クレーさんは 朝 庭で 写真を 撮りました。それから、ジンさんと いっしょに 昼ごはんを 食べました。魚と 野菜を 食べました。ジュースを 飲みました。\n午後は 図書館へ 行きました。図書館で 本を 読みました。晩ごはんは 食べませんでした。\nきょうは 日曜日です。クレーさんは どこも 行きません。うちで 休みます。あした、ジンさんと いっしょに 映画を 見ます。",
    "glossary": [
-    {"jp": "庭", "r": "にわ", "vi": "vườn, sân"},
-    {"jp": "写真", "r": "しゃしん", "vi": "ảnh"},
-    {"jp": "午後", "r": "ごご", "vi": "buổi chiều"},
-    {"jp": "図書館", "r": "としょかん", "vi": "thư viện"},
-    {"jp": "晩ごはん", "r": "ばんごはん", "vi": "bữa tối"}
+    {
+     "jp": "庭",
+     "r": "にわ",
+     "vi": "vườn, sân"
+    },
+    {
+     "jp": "写真",
+     "r": "しゃしん",
+     "vi": "ảnh"
+    },
+    {
+     "jp": "午後",
+     "r": "ごご",
+     "vi": "buổi chiều"
+    },
+    {
+     "jp": "図書館",
+     "r": "としょかん",
+     "vi": "thư viện"
+    },
+    {
+     "jp": "晩ごはん",
+     "r": "ばんごはん",
+     "vi": "bữa tối"
+    }
    ],
    "questions": [
-    {"q": "Klee đã chụp ảnh ở đâu?", "opts": ["Trong vườn", "Ở thư viện", "Ở nhà ga", "Ở nhà ăn"], "a": 0, "explain": "Câu 朝 庭で 写真を 撮りました cho biết Klee chụp ảnh trong vườn."},
-    {"q": "Bữa trưa Klee đã ăn gì?", "opts": ["Cá và rau", "Bánh mì và trứng", "Thịt và cơm", "Chỉ uống nước ép"], "a": 0, "explain": "Bài viết 魚と 野菜を 食べました."},
-    {"q": "Hôm nay (Chủ nhật) Klee làm gì?", "opts": ["Nghỉ ở nhà", "Đi thư viện", "Xem phim với Jean", "Chơi quần vợt"], "a": 0, "explain": "きょうは どこも 行きません。うちで 休みます. Xem phim là việc của ngày mai."}
+    {
+     "q": "Klee đã chụp ảnh ở đâu?",
+     "opts": [
+      "Trong vườn",
+      "Ở thư viện",
+      "Ở nhà ga",
+      "Ở nhà ăn"
+     ],
+     "a": 0,
+     "explain": "Câu 朝 庭で 写真を 撮りました cho biết Klee chụp ảnh trong vườn."
+    },
+    {
+     "q": "Bữa trưa Klee đã ăn gì?",
+     "opts": [
+      "Cá và rau",
+      "Bánh mì và trứng",
+      "Thịt và cơm",
+      "Chỉ uống nước ép"
+     ],
+     "a": 0,
+     "explain": "Bài viết 魚と 野菜を 食べました."
+    },
+    {
+     "q": "Hôm nay (Chủ nhật) Klee làm gì?",
+     "opts": [
+      "Nghỉ ở nhà",
+      "Đi thư viện",
+      "Xem phim với Jean",
+      "Chơi quần vợt"
+     ],
+     "a": 0,
+     "explain": "きょうは どこも 行きません。うちで 休みます. Xem phim là việc của ngày mai."
+    }
    ]
   }
  ],
@@ -160,16 +800,66 @@
    "title": "Rủ đi xem phim",
    "situation": "Anh Albedo rủ chị Amber đi xem phim vào ngày mai.",
    "questions": [
-    {"q": "Anh Albedo rủ chị Amber làm gì?", "opts": ["Xem phim", "Chơi quần vợt", "Ăn trưa", "Chụp ảnh"], "a": 0, "explain": "Anh nói いっしょに 映画を 見ませんか."},
-    {"q": "Hai người hẹn gặp nhau ở đâu, lúc mấy giờ?", "opts": ["2 giờ ở nhà ga", "2 giờ ở thư viện", "7 giờ ở nhà ga", "7 giờ ở cửa hàng"], "a": 0, "explain": "2時に 駅で 会いましょう."}
+    {
+     "q": "Anh Albedo rủ chị Amber làm gì?",
+     "opts": [
+      "Xem phim",
+      "Chơi quần vợt",
+      "Ăn trưa",
+      "Chụp ảnh"
+     ],
+     "a": 0,
+     "explain": "Anh nói いっしょに 映画を 見ませんか."
+    },
+    {
+     "q": "Hai người hẹn gặp nhau ở đâu, lúc mấy giờ?",
+     "opts": [
+      "2 giờ ở nhà ga",
+      "2 giờ ở thư viện",
+      "7 giờ ở nhà ga",
+      "7 giờ ở cửa hàng"
+     ],
+     "a": 0,
+     "explain": "2時に 駅で 会いましょう."
+    }
    ],
    "tts": [
-    {"sp": "A", "g": "m", "t": "アンバーさん、あしたは 休みですか。"},
-    {"sp": "B", "g": "f", "t": "はい、休みです。"},
-    {"sp": "A", "g": "m", "t": "いっしょに 映画を 見ませんか。"},
-    {"sp": "B", "g": "f", "t": "いいですね。何時に 会いますか。"},
-    {"sp": "A", "g": "m", "t": "2時に 駅で 会いましょう。"},
-    {"sp": "B", "g": "f", "t": "わかりました。"}
+    {
+     "sp": "A",
+     "g": "m",
+     "t": "アンバーさん、あしたは 休みですか。",
+     "vi": "Amber ơi, ngày mai bạn nghỉ phải không?"
+    },
+    {
+     "sp": "B",
+     "g": "f",
+     "t": "はい、休みです。",
+     "vi": "Vâng, tôi nghỉ."
+    },
+    {
+     "sp": "A",
+     "g": "m",
+     "t": "いっしょに 映画を 見ませんか。",
+     "vi": "Chúng ta cùng đi xem phim nhé?"
+    },
+    {
+     "sp": "B",
+     "g": "f",
+     "t": "いいですね。何時に 会いますか。",
+     "vi": "Hay quá. Mấy giờ chúng ta gặp nhau?"
+    },
+    {
+     "sp": "A",
+     "g": "m",
+     "t": "2時に 駅で 会いましょう。",
+     "vi": "Gặp nhau lúc 2 giờ ở nhà ga nhé."
+    },
+    {
+     "sp": "B",
+     "g": "f",
+     "t": "わかりました。",
+     "vi": "Tôi hiểu rồi."
+    }
    ]
   },
   {
@@ -178,16 +868,66 @@
    "title": "Chủ nhật đã làm gì",
    "situation": "Chị Keqing hỏi anh Zhongli về chủ nhật vừa rồi.",
    "questions": [
-    {"q": "Ông Zhongli đã làm gì trong vườn?", "opts": ["Uống trà", "Chơi quần vợt", "Chụp ảnh", "Viết thư"], "a": 0, "explain": "Ông nói 庭で お茶を 飲みました."},
-    {"q": "Chị Keqing đã làm gì vào chủ nhật?", "opts": ["Chơi quần vợt với bạn", "Đọc sách ở nhà", "Xem phim", "Nghỉ ở nhà"], "a": 0, "explain": "Chị nói 友達と テニスを しました."}
+    {
+     "q": "Ông Zhongli đã làm gì trong vườn?",
+     "opts": [
+      "Uống trà",
+      "Chơi quần vợt",
+      "Chụp ảnh",
+      "Viết thư"
+     ],
+     "a": 0,
+     "explain": "Ông nói 庭で お茶を 飲みました."
+    },
+    {
+     "q": "Chị Keqing đã làm gì vào chủ nhật?",
+     "opts": [
+      "Chơi quần vợt với bạn",
+      "Đọc sách ở nhà",
+      "Xem phim",
+      "Nghỉ ở nhà"
+     ],
+     "a": 0,
+     "explain": "Chị nói 友達と テニスを しました."
+    }
    ],
    "tts": [
-    {"sp": "A", "g": "f", "t": "鍾離さん、日曜日 何を しましたか。"},
-    {"sp": "B", "g": "m", "t": "庭で お茶を 飲みました。それから、本を 読みました。"},
-    {"sp": "A", "g": "f", "t": "いいですね。"},
-    {"sp": "B", "g": "m", "t": "刻晴さんは 何を しましたか。"},
-    {"sp": "A", "g": "f", "t": "わたしは 友達と テニスを しました。"},
-    {"sp": "B", "g": "m", "t": "そうですか。"}
+    {
+     "sp": "A",
+     "g": "f",
+     "t": "鍾離さん、日曜日 何を しましたか。",
+     "vi": "Zhongli, Chủ nhật bạn đã làm gì?"
+    },
+    {
+     "sp": "B",
+     "g": "m",
+     "t": "庭で お茶を 飲みました。それから、本を 読みました。",
+     "vi": "Tôi uống trà trong vườn. Sau đó tôi đọc sách."
+    },
+    {
+     "sp": "A",
+     "g": "f",
+     "t": "いいですね。",
+     "vi": "Nghe hay quá."
+    },
+    {
+     "sp": "B",
+     "g": "m",
+     "t": "刻晴さんは 何を しましたか。",
+     "vi": "Keqing thì đã làm gì?"
+    },
+    {
+     "sp": "A",
+     "g": "f",
+     "t": "わたしは 友達と テニスを しました。",
+     "vi": "Tôi đã chơi tennis với bạn bè."
+    },
+    {
+     "sp": "B",
+     "g": "m",
+     "t": "そうですか。",
+     "vi": "Vậy à."
+    }
    ]
   },
   {
@@ -196,16 +936,66 @@
    "title": "Bữa sáng của mỗi người",
    "situation": "Anh Kaveh và chị Xiangling nói chuyện về bữa sáng.",
    "questions": [
-    {"q": "Mỗi sáng anh Kaveh uống gì?", "opts": ["Hồng trà", "Trà xanh", "Sữa bò", "Nước ép"], "a": 0, "explain": "Anh nói 紅茶を 飲みます."},
-    {"q": "Chị Xiangling ăn gì vào bữa sáng?", "opts": ["Cơm và cá", "Bánh mì và trứng", "Chỉ ăn trái cây", "Không ăn gì cả"], "a": 0, "explain": "Chị nói ごはんと 魚を 食べます."}
+    {
+     "q": "Mỗi sáng anh Kaveh uống gì?",
+     "opts": [
+      "Hồng trà",
+      "Trà xanh",
+      "Sữa bò",
+      "Nước ép"
+     ],
+     "a": 0,
+     "explain": "Anh nói 紅茶を 飲みます."
+    },
+    {
+     "q": "Chị Xiangling ăn gì vào bữa sáng?",
+     "opts": [
+      "Cơm và cá",
+      "Bánh mì và trứng",
+      "Chỉ ăn trái cây",
+      "Không ăn gì cả"
+     ],
+     "a": 0,
+     "explain": "Chị nói ごはんと 魚を 食べます."
+    }
    ],
    "tts": [
-    {"sp": "A", "g": "f", "t": "カーヴェさん、毎朝 何を 食べますか。"},
-    {"sp": "B", "g": "m", "t": "パンと 卵を 食べます。"},
-    {"sp": "A", "g": "f", "t": "何を 飲みますか。"},
-    {"sp": "B", "g": "m", "t": "紅茶を 飲みます。香菱さんは？"},
-    {"sp": "A", "g": "f", "t": "わたしは ごはんと 魚を 食べます。それから、お茶を 飲みます。"},
-    {"sp": "B", "g": "m", "t": "そうですか。"}
+    {
+     "sp": "A",
+     "g": "f",
+     "t": "カーヴェさん、毎朝 何を 食べますか。",
+     "vi": "Kaveh, mỗi sáng bạn ăn gì?"
+    },
+    {
+     "sp": "B",
+     "g": "m",
+     "t": "パンと 卵を 食べます。",
+     "vi": "Tôi ăn bánh mì và trứng."
+    },
+    {
+     "sp": "A",
+     "g": "f",
+     "t": "何を 飲みますか。",
+     "vi": "Bạn uống gì?"
+    },
+    {
+     "sp": "B",
+     "g": "m",
+     "t": "紅茶を 飲みます。香菱さんは？",
+     "vi": "Tôi uống trà đen. Còn Xiangling thì sao?"
+    },
+    {
+     "sp": "A",
+     "g": "f",
+     "t": "わたしは ごはんと 魚を 食べます。それから、お茶を 飲みます。",
+     "vi": "Tôi ăn cơm và cá. Sau đó tôi uống trà."
+    },
+    {
+     "sp": "B",
+     "g": "m",
+     "t": "そうですか。",
+     "vi": "Vậy à."
+    }
    ]
   },
   {
@@ -214,17 +1004,72 @@
    "title": "Mua nước ép ở đâu",
    "situation": "Chị Lisa hỏi anh Venti đã mua nước ép ở đâu rồi cả hai hẹn nhau đi.",
    "questions": [
-    {"q": "Anh Venti đã mua nước ép ở đâu?", "opts": ["Ở cửa hàng gần nhà ga", "Ở siêu thị lớn", "Ở thư viện", "Ở nhà ăn"], "a": 0, "explain": "Anh nói 駅の 店で 買いました."},
-    {"q": "Tối nay hai người hẹn gặp lúc mấy giờ?", "opts": ["7 giờ", "6 giờ", "8 giờ", "9 giờ"], "a": 0, "explain": "Anh nói 7時に 店で 会いましょう."}
+    {
+     "q": "Anh Venti đã mua nước ép ở đâu?",
+     "opts": [
+      "Ở cửa hàng gần nhà ga",
+      "Ở siêu thị lớn",
+      "Ở thư viện",
+      "Ở nhà ăn"
+     ],
+     "a": 0,
+     "explain": "Anh nói 駅の 店で 買いました."
+    },
+    {
+     "q": "Tối nay hai người hẹn gặp lúc mấy giờ?",
+     "opts": [
+      "7 giờ",
+      "6 giờ",
+      "8 giờ",
+      "9 giờ"
+     ],
+     "a": 0,
+     "explain": "Anh nói 7時に 店で 会いましょう."
+    }
    ],
    "tts": [
-    {"sp": "A", "g": "f", "t": "ウェンティさん、その ジュースは どこで 買いましたか。"},
-    {"sp": "B", "g": "m", "t": "駅の 店で 買いました。"},
-    {"sp": "A", "g": "f", "t": "いつも あの 店で 買いますか。"},
-    {"sp": "B", "g": "m", "t": "いいえ、時々です。リサさんも 今晩 いっしょに 行きませんか。"},
-    {"sp": "A", "g": "f", "t": "ええ、いいですね。"},
-    {"sp": "B", "g": "m", "t": "じゃ、7時に 店で 会いましょう。"},
-    {"sp": "A", "g": "f", "t": "わかりました。"}
+    {
+     "sp": "A",
+     "g": "f",
+     "t": "ウェンティさん、その ジュースは どこで 買いましたか。",
+     "vi": "Venti, nước ép đó bạn mua ở đâu vậy?"
+    },
+    {
+     "sp": "B",
+     "g": "m",
+     "t": "駅の 店で 買いました。",
+     "vi": "Tôi mua ở cửa hàng ngoài nhà ga."
+    },
+    {
+     "sp": "A",
+     "g": "f",
+     "t": "いつも あの 店で 買いますか。",
+     "vi": "Bạn luôn mua ở cửa hàng đó à?"
+    },
+    {
+     "sp": "B",
+     "g": "m",
+     "t": "いいえ、時々です。リサさんも 今晩 いっしょに 行きませんか。",
+     "vi": "Không, thỉnh thoảng thôi. Lisa, tối nay bạn cũng cùng đi nhé?"
+    },
+    {
+     "sp": "A",
+     "g": "f",
+     "t": "ええ、いいですね。",
+     "vi": "Vâng, hay quá."
+    },
+    {
+     "sp": "B",
+     "g": "m",
+     "t": "じゃ、7時に 店で 会いましょう。",
+     "vi": "Vậy 7 giờ gặp nhau ở cửa hàng nhé."
+    },
+    {
+     "sp": "A",
+     "g": "f",
+     "t": "わかりました。",
+     "vi": "Tôi hiểu rồi."
+    }
    ]
   }
  ]
