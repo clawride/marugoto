@@ -7,6 +7,7 @@ import { VentiHost, VT } from "@/components/Venti";
 import { RaidenHost, RD } from "@/components/Raiden";
 import { MavuikaHost, MV } from "@/components/Mavuika";
 import { GanyuHost, GY } from "@/components/Ganyu";
+import { AmberHost, AMB } from "@/components/Amber";
 import ScriptPlayer from "@/components/ScriptPlayer";
 import { Player, AudioSetup } from "@/components/Listen";
 import { A22_AUDIO, AB1_AUDIO, A1_AUDIO, A21_AUDIO, A21R_AUDIO, A21C_AUDIO, NO_AUDIO } from "@/lib/audioLib";
@@ -18,6 +19,7 @@ import { A1C } from "@/lib/a1";
 import { A21C } from "@/lib/a21";
 import { B12 } from "@/lib/b12";
 import { MN2 } from "@/lib/mn2";
+import { MN1 } from "@/lib/mn1";
 
 export const B1_EXAM = {
   store: "b1",
@@ -150,4 +152,21 @@ export const MN2_EXAM = {
   langHint: COURSE_LANG_HINT,
   renderListen: courseListen(NO_AUDIO),
   cert: { course: "Minna - Genshin 初級2", signer: "Ganyu", signerTitle: "Giám khảo · Thư ký Liên Nguyệt Các", seal: ["麒麟", "甘雨"], emblem: "cryo", tint: "#cfe8ff", emblemColor: "#1f5f9a", cornerColor: "#5aa6e0", sealColor: "#1f5f9a", filePrefix: "chung-chi-Minna2", line: "đã hoàn thành kỳ khảo hạch năng lực tiếng Nhật kiểu JLPT của khóa Minna - Genshin Sơ cấp 2 với kết quả:" },
+};
+
+// Minna - Genshin Sơ cấp 1 (bài 1–25): không có audio sách → phần nghe dùng giọng máy
+export const MN1_EXAM = {
+  store: "mn1",
+  sections: EXAM_SECTIONS,
+  build: MN1.buildExam,
+  pass: { total: 95, section: 19, excellent: 150, max: 180 },
+  reward: { pass: 800, excellent: 400 },
+  certId: courseCertId("mn1"),
+  home: "/mn1", homeLabel: "Minna - Genshin Sơ cấp 1", homeShort: "Về Minna-Genshin 1",
+  certHref: (n) => `/mn1/cert/${n}`, examHref: (n) => `/mn1/exam/${n}`,
+  Host: AmberHost, lines: AMB, hostName: "Amber",
+  rows: [["言語知識", "10 câu từ vựng + 8 câu kanji + 12 câu điền từ"], ["読解", "3 bài đọc · câu hỏi đọc hiểu"], ["聴解", "6 bài nghe hội thoại (giọng máy) · mỗi bài nghe tối đa 2 lần"]],
+  langHint: COURSE_LANG_HINT,
+  renderListen: courseListen(NO_AUDIO),
+  cert: { course: "Minna - Genshin 初級1", signer: "Amber", signerTitle: "Giám khảo · Kỵ Sĩ Tiên Phong", seal: ["西風", "安柏"], emblem: "pyro", tint: "#ffd2b8", emblemColor: "#b3361a", cornerColor: "#e0602a", sealColor: "#b3261e", filePrefix: "chung-chi-Minna1", line: "đã hoàn thành kỳ khảo hạch năng lực tiếng Nhật kiểu JLPT của khóa Minna - Genshin Sơ cấp 1 với kết quả:" },
 };

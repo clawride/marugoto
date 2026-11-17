@@ -7,7 +7,8 @@ import { VentiHost, VentiHero, VT, VENTI } from "@/components/Venti";
 import { RaidenHost, RaidenHero, RD, RAIDEN } from "@/components/Raiden";
 import { MavuikaHost, MavuikaHero, MV, MAVUIKA } from "@/components/Mavuika";
 import { GanyuHost, GanyuHero, GY, GANYU } from "@/components/Ganyu";
-import { A22_EXAM, AB1_EXAM, A1_EXAM, A21_EXAM, B12_EXAM, MN2_EXAM } from "@/components/examConfigs";
+import { AmberHost, AmberHero, AMB, AMBER } from "@/components/Amber";
+import { A22_EXAM, AB1_EXAM, A1_EXAM, A21_EXAM, B12_EXAM, MN2_EXAM, MN1_EXAM } from "@/components/examConfigs";
 import { B11_AUDIO, A22_AUDIO, AB1_AUDIO, A1_AUDIO, A21_AUDIO, A21R_AUDIO, A21C_AUDIO, NO_AUDIO } from "@/lib/audioLib";
 import { A22 } from "@/lib/a22";
 import { AB1 } from "@/lib/ab1";
@@ -15,6 +16,7 @@ import { A1C } from "@/lib/a1";
 import { A21C } from "@/lib/a21";
 import { B12 } from "@/lib/b12";
 import { MN2 } from "@/lib/mn2";
+import { MN1 } from "@/lib/mn1";
 
 // lối vào Phiếu luyện viết Kanji của cấp (hiện ở trang tổng khóa học)
 const sheetLink = (lv, name) => [{ href: `/kanji/phieu?lv=${lv}`, title: `📝 Phiếu luyện viết Kanji ${name}`, sub: "Phiếu theo Topic như phiếu giấy của lớp: tô chữ mờ, viết vào ô kẻ, viết cách đọc & chữ Hán phần gạch chân — có chấm điểm, in được" }];
@@ -122,6 +124,18 @@ export const MN2_COURSE = {
   audio: NO_AUDIO, audioSetups: [],
   Host: GanyuHost, Hero: GanyuHero, lines: GY, char: GANYU, hostName: "Ganyu",
   exam: MN2_EXAM,
+  books: [],
+  extra: [],
+};
+
+// Minna - Genshin Sơ cấp 1 (bài 1–25, bản tiếng Nhật): 5 Topic × 5 bài, 7 phần mỗi bài. Không có audio → nghe bằng giọng máy.
+// Bài viết/luyện viết của sách được chuyển thành bài sắp xếp từ (phần "Sắp xếp câu") vì người học không gõ tiếng Nhật.
+export const MN1_COURSE = {
+  store: "mn1", C: MN1, base: "/mn1", title: "Minna - Genshin Sơ cấp 1",
+  unit: "Bài", unitTag: (L) => `TOPIC ${L.topic} · 第${L.lesson}課`,
+  audio: NO_AUDIO, audioSetups: [],
+  Host: AmberHost, Hero: AmberHero, lines: AMB, char: AMBER, hostName: "Amber",
+  exam: MN1_EXAM,
   books: [],
   extra: [],
 };
