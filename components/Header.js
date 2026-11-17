@@ -12,7 +12,6 @@ import { ProfileDialog } from "@/components/Profile";
 import { BackupItems } from "@/components/Backup";
 import { GROUPS, programsIn, TEYVAT, progressLabel } from "@/lib/programs";
 import { useAdmin } from "@/lib/useSite";
-import UiIcon from "@/components/ui/UiIcon";
 
 const OFFLINE = process.env.NEXT_PUBLIC_OFFLINE === "1"; // bản offline: không có tài khoản / phòng chat
 
@@ -77,37 +76,29 @@ export default function Header() {
     <header className="top">
       <div className="in" ref={rail}>
         <Link href="/" className="brand" aria-label="Trang chủ · Sổ Tay Teyvat" onClick={() => sfx.page()}>
-          <span className="brand-mark" aria-hidden="true">学</span>
-          <div><b>Sổ Tay Teyvat</b><small>HỌC TIẾNG NHẬT MỖI NGÀY</small></div>
+          <svg><use href="#emb" /></svg>
+          <div><b>Sổ Tay Từ Vựng Teyvat</b><small>MARUGOTO A1 · B1</small></div>
         </Link>
-        <nav className="desktop-links" aria-label="Điều hướng nhanh"><Link href="/#khoahoc">Khóa học</Link><Link href="/kanji" aria-current={isOn("/kanji") ? "page" : undefined}>Kanji</Link><Link href="/de-thi" aria-current={isOn("/de-thi") ? "page" : undefined}>Luyện thi</Link></nav>
         {ui !== "plain" && <>
           <div className="curr" title="Nguyên Thạch"><Ico id="pgm" />{n(S?.primo)}</div>
           <div className="curr hide-sm" title="Mối Duyên Vương Vấn / Mối Duyên Tương Ngộ"><Ico id="fateI" />{n(S?.fates.i)} <Ico id="fateA" />{n(S?.fates.a)}</div>
         </>}
         <span className="topgap" />
         <button ref={btn} className={`navbtn menubtn ${open ? "on" : ""}`} aria-label={open ? "Đóng menu" : "Mở menu"} aria-expanded={open} aria-controls="mainmenu" onClick={() => { setOpen((v) => !v); sfx.click(); }}>
-          <UiIcon name={open ? "close" : "menu"} /><span className="lbl">Menu</span>
+          <span aria-hidden="true">{open ? "✕" : "☰"}</span><span className="lbl">Menu</span>
         </button>
         {isAdmin === true && <Link href="/quan-tri" className={`navbtn ${path.startsWith("/quan-tri") ? "on" : ""}`} onClick={() => sfx.page()} title="Trang quản trị" aria-label="Trang quản trị"><span aria-hidden="true">⚙️</span><span className="lbl">Quản trị</span></Link>}
-        <Link href="/rank" className={`navbtn rankbtn ${path === "/rank" ? "on" : ""}`} onClick={() => sfx.page()} title="Bảng xếp hạng" aria-label="Bảng xếp hạng"><UiIcon name="trophy" /><span className="lbl">Xếp hạng</span></Link>
-        {!OFFLINE && <button type="button" className="navbtn profchip" onClick={() => { setProfOpen(true); sfx.open?.(); }} title="Hồ sơ của bạn" aria-label="Hồ sơ của bạn">{S?.profile ? <Avatar avatar={S.profile.avatar} name={S.profile.name} size={24} /> : <UiIcon name="user" />}<span className="lbl">{S?.profile?.name || "Hồ sơ"}</span></button>}
+        <Link href="/rank" className={`navbtn rankbtn ${path === "/rank" ? "on" : ""}`} onClick={() => sfx.page()} title="Bảng xếp hạng"><span aria-hidden="true">🏆</span><span className="lbl">Xếp hạng</span></Link>
+        {!OFFLINE && <button type="button" className="navbtn profchip" onClick={() => { setProfOpen(true); sfx.open?.(); }} title="Hồ sơ của bạn" aria-label="Hồ sơ của bạn">{S?.profile ? <Avatar avatar={S.profile.avatar} name={S.profile.name} size={24} /> : <span aria-hidden="true">👤</span>}<span className="lbl">{S?.profile?.name || "Hồ sơ"}</span></button>}
         <button className="navbtn uibtn" onClick={() => { setUITheme(ui === "plain" ? "game" : "plain"); sfx.click(); }}
           title={ui === "plain" ? "Chuyển sang giao diện Teyvat (game)" : "Chuyển sang giao diện học tập cơ bản (không ảnh anime)"} aria-label="Đổi giao diện">
-          <UiIcon name={ui === "plain" ? "moon" : "sun"} /><span className="lbl">{ui === "plain" ? "Giao diện game" : "Giao diện cơ bản"}</span>
+          <span aria-hidden="true">{ui === "plain" ? "🎮" : "📘"}</span><span className="lbl">{ui === "plain" ? "Giao diện game" : "Giao diện cơ bản"}</span>
         </button>
-        <button className="navbtn soundbtn" onClick={toggleSound} title={S?.sound === false ? "Bật âm thanh" : "Tắt âm thanh"} aria-label={S?.sound === false ? "Bật âm thanh" : "Tắt âm thanh"}><UiIcon name={S?.sound === false ? "mute" : "sound"} /></button>
+        <button className="navbtn" onClick={toggleSound} title={S?.sound === false ? "Bật âm thanh" : "Tắt âm thanh"} aria-label={S?.sound === false ? "Bật âm thanh" : "Tắt âm thanh"}>{S?.sound === false ? "🔇" : "🔊"}</button>
       </div>
       {open && (
         <nav id="mainmenu" ref={panel} className="mainmenu" aria-label="Điều hướng">
           <div className="mnwrap">
-            <div className="menu-heading"><div><b>Bạn muốn khám phá gì?</b><span>Khóa học, công cụ và thành quả của bạn</span></div><button type="button" className="ui-icon-button" aria-label="Đóng bảng điều hướng" onClick={() => { setOpen(false); btn.current?.focus(); }}><UiIcon name="close" /></button></div>
-            <div className="menu-settings">
-              {!OFFLINE && <button type="button" className="ui-secondary" onClick={() => { setOpen(false); setProfOpen(true); }}><UiIcon name="user" size={18} />Hồ sơ của bạn</button>}
-              <button type="button" className="ui-secondary" onClick={toggleSound}><UiIcon name={S?.sound === false ? "mute" : "sound"} size={18} />{S?.sound === false ? "Bật âm thanh" : "Tắt âm thanh"}</button>
-              {ui !== "plain" && <span className="menu-balance"><Ico id="pgm" /> {n(S?.primo)} Nguyên Thạch</span>}
-            </div>
-            <Link href="/#khoahoc" className="mnitem wide" onClick={() => setOpen(false)}><span className="mnico"><UiIcon name="grid" /></span><span className="mntxt"><b>Tất cả khóa học</b><small>Marugoto & Minna - Genshin</small></span></Link>
             <Link href="/#sotay" className={`mnitem wide ${path === "/" ? "on" : ""}`} onClick={() => { sfx.page(); setOpen(false); }}>
               <span className="mnico" aria-hidden="true">📒</span>
               <span className="mntxt"><b>Sổ Tay Từ Vựng</b><small>Trang chủ · từ vựng mọi sách theo Topic</small></span>

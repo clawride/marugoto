@@ -249,10 +249,6 @@ const VIEW = { vocab: VocabView, kanji: KanjiView, grammar: GrammarView, listen:
 export default function LessonView({ course, lesson }) {
   const { C, store, base, title, unit, Host, lines } = course;
   const L = C.lessonOf(lesson);
-  useEffect(() => {
-    if (!L) return;
-    try { localStorage.setItem("teyvat_recent_lesson", JSON.stringify({ href: `${base}/${lesson}`, title: `${unit} ${lesson} · ${L.titleVi}`, course: title })); } catch {}
-  }, [base, lesson, title, unit, L]);
   const { S } = useGame();
   // khóa có sách (A1 かつどう): thẻ đầu tiên "📖 Học theo sách", mở sẵn khi vào bài
   const books = course.books || (course.book ? [{ key: "book", ico: "📖", ...course.book }] : []);
@@ -283,7 +279,7 @@ export default function LessonView({ course, lesson }) {
   const prev = C.lessonOf(lesson - 1), next = C.lessonOf(lesson + 1);
 
   return (
-    <div className={`lesson-page th-${store}`}>
+    <div className={`th-${store}`}>
       <Link href={base} className="back">‹ {title}</Link>
       <div className="pagehead a22head">
         <div className="tag">{course.unitTag(L)}</div>

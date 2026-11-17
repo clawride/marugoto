@@ -19,7 +19,6 @@ import "./motion.css";
 import "./rank-fun.css";
 import "./chat.css";
 import "./learning.css";
-import "./academy.css";
 import { GameProvider } from "@/components/Game";
 import Header from "@/components/Header";
 import SiteGate from "@/components/SiteGate";
@@ -62,13 +61,12 @@ export default function RootLayout({ children }) {
         )}
       </head>
       <body>
-        <a href="#main-content" className="skip-link">Đến nội dung chính</a>
         <SvgDefs />
         <Sky />
         <GameProvider>
           <Header />
           <SiteGate />
-          <main id="main-content" tabIndex={-1} className="wrap"><PlainGate>{children}</PlainGate></main>
+          <main className="wrap"><PlainGate>{children}</PlainGate></main>
           <ProfileGate />
           <ChatBox />
         </GameProvider>
