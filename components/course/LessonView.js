@@ -1,6 +1,6 @@
 "use client";
 // Trang một bài của khóa học: 7 phần (từ vựng, nghe, kanji, đọc, ngữ pháp, điền từ, sắp xếp câu)
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useGame } from "@/components/Game";
 import CourseRun from "@/components/course/CourseRun";
@@ -145,19 +145,32 @@ function ReadingPart({ L, save, course }) {
 }
 
 // 📘 Nội dung bài (khóa có course.study): đọc trước khi làm kiểm tra — mẫu câu kèm giải thích & ví dụ, hội thoại có nút nghe, bài đọc, từ vựng
+// bật/tắt hiển thị, nhớ lựa chọn trong trình duyệt
+function useShow(key, def = true) {
+  const [v, setV] = useState(def);
+  useEffect(() => { try { const s = localStorage.getItem(key); if (s != null) setV(s === "1"); } catch {} }, [key]);
+  return [v, (x) => { setV(x); try { localStorage.setItem(key, x ? "1" : "0"); } catch {} }];
+}
 function StudyView({ L }) {
   const say = (t) => speakLines([{ t }], { rate: 0.85 });
+  const [ro, setRo] = useShow("st_ro", true);
+  const [vi, setVi] = useShow("st_vi", true);
+  const R = ({ text }) => (ro ? <Rom text={text} /> : null);
   return (
     <div className="studyview">
+      <div className="panel bkopts stopts">
+        <label><input type="checkbox" checked={ro} onChange={(e) => setRo(e.target.checked)} /> Hiện phiên âm Latinh (romaji)</label>
+        <label><input type="checkbox" checked={vi} onChange={(e) => setVi(e.target.checked)} /> Hiện nghĩa tiếng Việt của câu</label>
+      </div>
       <section className="panel stsec">
         <h2>📐 文型・例文 <small>Mẫu câu và ví dụ</small></h2>
         {L.grammar.map((g, i) => (
           <div key={i} className="stgram">
             <div className="stpat"><b className="jpt">{g.point}</b><span>{g.vi}</span></div>
             <p>{g.explain}</p>
-            <Rom text={`${g.point || ""} ${g.explain || ""}`} />
+            <R text={`${g.point || ""} ${g.explain || ""}`} />
             {g.examples.map((e, j) => (
-              <div key={j} className="gex"><button className="spk" onClick={() => say(e.jp)} aria-label="Nghe">🔊</button><div><span className="jpt">{e.jp}</span><small>{e.vi}</small><Rom text={e.jp} /></div></div>
+              <div key={j} className="gex"><button className="spk" onClick={() => say(e.jp)} aria-label="Nghe">🔊</button><div><span className="jpt">{e.jp}</span>{vi && <small>{e.vi}</small>}<R text={e.jp} /></div></div>
             ))}
           </div>
         ))}
@@ -171,18 +184,19 @@ function StudyView({ L }) {
             <p className="lsit">🎬 {it.situation}</p>
             <div className="stlines">
               {it.tts.map((l, k) => (
-                <div key={k} className="stline"><b className="stsp">{l.sp}</b><button className="spk" onClick={() => say(l.t)} aria-label="Nghe">🔊</button><div><span className="jpt">{l.t}</span>{l.vi && <small className="stvi">{l.vi}</small>}<Rom text={l.t} /></div></div>
+                <div key={k} className="stline"><b className="stsp">{l.sp}</b><button className="spk" onClick={() => say(l.t)} aria-label="Nghe">🔊</button><div><span className="jpt">{l.t}</span>{vi && l.vi && <small className="stvi">{l.vi}</small>}<R text={l.t} /></div></div>
               ))}
             </div>
           </div>
         ))}
       </section>
 
-      {L.reading?.map((R, i) => (
+      {L.reading?.map((RD, i) => (
         <section key={i} className="panel stsec">
-          <h2>📖 Bài đọc <small>{R.title}</small></h2>
-          <div className="rtext jpt">{R.text.split("\n").filter(Boolean).map((p, k) => <p key={k}>{p}</p>)}</div>
-          {R.glossary?.length > 0 && <div className="glist2">{R.glossary.map((g, k) => <span key={k}><b className="jpt">{g.jp}</b> <i className="jpt">{g.r}</i> — {g.vi}</span>)}</div>}
+          <h2>📖 Bài đọc <small>{RD.title}</small></h2>
+          <div className="parch stread"><div className="rtext jpt">{RD.text.split("\n").filter(Boolean).map((p, k) => <p key={k}>{p}</p>)}</div></div>
+          {ro && <R text={RD.text} />}
+          {RD.glossary?.length > 0 && <div className="glist2">{RD.glossary.map((g, k) => <span key={k}><b className="jpt">{g.jp}</b> <i className="jpt">{g.r}</i>{vi && <> — {g.vi}</>}</span>)}</div>}
         </section>
       ))}
 
