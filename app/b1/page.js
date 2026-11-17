@@ -5,6 +5,7 @@ import { ZhongliHero } from "@/components/Zhongli";
 import { B1_TOPICS, EXAMS, MAX } from "@/lib/b1";
 import { TOPIC_EL, ELEM } from "@/lib/data";
 import { sfx } from "@/lib/sfx";
+import { Stars } from "@/components/kanji/KanjiLesson";
 
 export default function B1Hub() {
   const { S } = useGame();
@@ -47,6 +48,17 @@ export default function B1Hub() {
                       <span>🎧 Nghe {ls}/{T.listening.length}</span>
                     </div>
                     <div className="b1gp">{T.grammar.length} điểm ngữ pháp</div>
+                  </Link>
+                );
+              })}
+            </div>
+            <div className="kjtools">
+              {ex.topics.filter((t) => B1_TOPICS.some((x) => x.topic === t)).map((t) => {
+                const r = S.kanji?.p?.[`b1:t${t}`];
+                return (
+                  <Link key={t} href={`/kanji/b1/topic/${t}`} className="panel kjtool" onClick={() => sfx.page()}>
+                    <b>🈶 Kiểm tra Kanji · Topic {t} <Stars n={r?.stars || 0} /></b>
+                    <span>{r ? `Tốt nhất ${r.pct}% · ` : ""}Nghĩa, cách đọc, đặt câu, đoán chữ — chỉ các chữ Hán của Topic {t}</span>
                   </Link>
                 );
               })}

@@ -5,6 +5,7 @@ import { useGame } from "@/components/Game";
 import { PARTS, EXAM_SECTIONS, bossIconUrl } from "@/lib/course";
 import { TOPIC_EL, ELEM } from "@/lib/data";
 import { sfx } from "@/lib/sfx";
+import { Stars } from "@/components/kanji/KanjiLesson";
 
 export default function HubView({ course }) {
   const { C, store, base, unit, Hero, exam } = course;
@@ -59,6 +60,17 @@ export default function HubView({ course }) {
                 </Link>
               )}
             </div>
+            {course.kanjiLv && (() => {
+              const r = S.kanji?.p?.[`${course.kanjiLv}:t${T.topic}`];
+              return (
+                <div className="kjtools">
+                  <Link href={`/kanji/${course.kanjiLv}/topic/${T.topic}`} className="panel kjtool" onClick={() => sfx.page()}>
+                    <b>🈶 Kiểm tra Kanji · Topic {T.topic} <Stars n={r?.stars || 0} /></b>
+                    <span>{r ? `Tốt nhất ${r.pct}% · ` : ""}Nghĩa, cách đọc, đặt câu, đoán chữ — chỉ các chữ Hán của Topic {T.topic}</span>
+                  </Link>
+                </div>
+              );
+            })()}
             {ex && (
               <Link href={exam.examHref(ex.n)} className={`panel b1exam a22exam ${er?.passed ? "passed" : ""}`} onClick={() => sfx.open()}>
                 <div className="seal">{er?.excellent ? "優" : er?.passed ? "合" : "試"}</div>
