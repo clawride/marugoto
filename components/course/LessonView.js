@@ -237,12 +237,17 @@ export default function LessonView({ course, lesson }) {
   const kpool = useMemo(() => (L && course.kanjiAll ? kanjiVocab(L.vocab) : null), [L, course.kanjiAll]);
   const kn = kpool ? (klen && klen < kpool.length ? klen : kpool.length) : 0;
   if (kpool && counts) counts.kanji = kn;
+  // khóa có course.study (Minna): phần Từ vựng chọn 10 · 20 · 30 · toàn bộ từ của bài
+  const [vlen, setVlen] = useState(10);
+  const vtotal = useMemo(() => (L && course.study ? new Set(L.vocab.map((v) => v.jp)).size : 0), [L, course.study]);
+  const vn = vtotal ? (vlen && vlen < vtotal ? vlen : vtotal) : 0;
+  if (vtotal && counts) counts.vocab = vn;
   if (!L) return <p style={{ marginTop: 40 }}>Không tìm thấy bài. <Link href={base}>{title}</Link></p>;
   if (!S) return null;
   const P = S[store]?.p || {};
   const lbl = (p) => course.partLabels?.[p.key] || p.label;
   const part = tabs.find((p) => p.key === tab);
-  const start = () => { setRes(null); setRun(tab === "kanji" && kpool ? kanjiQs(L, kn, kpool).map((x) => ({ type: "mc", ...x })) : MAKE[tab](L)); sfx.open(); window.scrollTo({ top: 0, behavior: "smooth" }); };
+  const start = () => { setRes(null); setRun(tab === "kanji" && kpool ? kanjiQs(L, kn, kpool).map((x) => ({ type: "mc", ...x })) : tab === "vocab" && vtotal ? vocabQs(L, vn).map((x) => ({ type: "mc", ...x })) : MAKE[tab](L)); sfx.open(); window.scrollTo({ top: 0, behavior: "smooth" }); };
   const View = VIEW[tab];
   const prev = C.lessonOf(lesson - 1), next = C.lessonOf(lesson + 1);
 
@@ -276,6 +281,7 @@ export default function LessonView({ course, lesson }) {
             <div><b>{part.ico} {lbl(part)}</b><span>{counts[tab]} câu · đúng ≥60% được 1 sao, ≥80% 2 sao, ≥95% 3 sao · mỗi sao mới +{STAR_REWARD} <Ico id="pgm" /></span></div>
             <button className="gbtn tri" onClick={start} disabled={!counts[tab]}><span className="c" />Bắt đầu kiểm tra</button>
           </div>
+          {tab === "vocab" && vtotal > 0 && <LenPicker value={vlen && vlen < vtotal ? vlen : 0} onChange={setVlen} total={vtotal} />}
           {tab === "kanji" && kpool && <LenPicker value={klen && klen < kpool.length ? klen : 0} onChange={setKlen} total={kpool.length} />}
           {View && <View L={L} course={course} kpool={kpool} />}
         </>
