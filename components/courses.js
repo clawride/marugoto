@@ -7,8 +7,9 @@ import { VentiHost, VentiHero, VT, VENTI } from "@/components/Venti";
 import { RaidenHost, RaidenHero, RD, RAIDEN } from "@/components/Raiden";
 import { MavuikaHost, MavuikaHero, MV, MAVUIKA } from "@/components/Mavuika";
 import { GanyuHost, GanyuHero, GY, GANYU } from "@/components/Ganyu";
+import { NeuvilletteHost, NeuvilletteHero, NV, NEUVILLETTE } from "@/components/Neuvillette";
 import { AmberHost, AmberHero, AMB, AMBER } from "@/components/Amber";
-import { A22_EXAM, AB1_EXAM, A1_EXAM, A21_EXAM, B12_EXAM, MN2_EXAM, MN1_EXAM } from "@/components/examConfigs";
+import { A22_EXAM, AB1_EXAM, A1_EXAM, A21_EXAM, B12_EXAM, MN2_EXAM, MN1_EXAM, MNC2_EXAM } from "@/components/examConfigs";
 import { B11_AUDIO, A22_AUDIO, AB1_AUDIO, A1_AUDIO, A21_AUDIO, A21R_AUDIO, A21C_AUDIO, NO_AUDIO } from "@/lib/audioLib";
 import { A22 } from "@/lib/a22";
 import { AB1 } from "@/lib/ab1";
@@ -16,6 +17,7 @@ import { A1C } from "@/lib/a1";
 import { A21C } from "@/lib/a21";
 import { B12 } from "@/lib/b12";
 import { MN2 } from "@/lib/mn2";
+import { MNC2 } from "@/lib/mnc2";
 import { MN1 } from "@/lib/mn1";
 
 // lối vào Phiếu luyện viết Kanji của cấp (hiện ở trang tổng khóa học)
@@ -125,6 +127,18 @@ export const MN2_COURSE = {
   Host: GanyuHost, Hero: GanyuHero, lines: GY, char: GANYU, hostName: "Ganyu",
   exam: MN2_EXAM,
   books: [],
+  extra: [],
+};
+
+// Minna - Genshin Trung cấp 2 (みんなの日本語 中級II, bài 13–24): 3 Topic × 4 bài, 7 phần mỗi bài + "Học theo sách" dựng lại đủ
+// 読む・書く / 話す・聞く / 文法・練習 / 問題 của từng bài (nội dung viết mới theo sách). Không có audio → giọng máy.
+export const MNC2_COURSE = {
+  store: "mnc2", C: MNC2, base: "/mnc2", title: "Minna - Genshin Trung cấp 2", study: true,
+  unit: "Bài", unitTag: (L) => `TOPIC ${L.topic} · 第${L.lesson}課`,
+  audio: NO_AUDIO, audioSetups: [],
+  Host: NeuvilletteHost, Hero: NeuvilletteHero, lines: NV, char: NEUVILLETTE, hostName: "Neuvillette",
+  exam: MNC2_EXAM,
+  books: [{ key: "book", ico: "📖", short: "中級II", name: "Sách みんなの日本語 中級II 本冊", url: (n) => `/book/mnc2/${n}.json`, prefix: "#", dir: "mnc2", audioNote: " (lời thoại viết mới theo tình huống của sách)" }],
   extra: [],
 };
 

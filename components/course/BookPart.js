@@ -425,7 +425,7 @@ export default function BookPart({ course, book: bk, lesson, stars, onQuiz }) {
           <label><input type="checkbox" checked={vi} onChange={(e) => setVi(e.target.checked)} /> Hiện nghĩa tiếng Việt</label>
         </div>
       </div>
-      {lib.pickFolder ? <AudioSetup lib={lib} folder={book.folder || course.folder} /> : <p className="hint">🔊 Khóa này chưa có audio sách: bài nghe dùng giọng đọc tiếng Nhật của trình duyệt với lời thoại chép từ sách.</p>}
+      {lib.pickFolder ? <AudioSetup lib={lib} folder={book.folder || course.folder} /> : <p className="hint">🔊 Khóa này chưa có audio sách: bài nghe dùng giọng đọc tiếng Nhật của trình duyệt{book.audioNote || " với lời thoại chép từ sách"}.</p>}
       {B.sections.map((S, si) => (
         <section key={si} id={`bk-${si}`} className={`panel bksec ${openS.has(si) ? "" : "shut"}`}>
           <h3 id={`bk-${si}-h`} data-toc role="button" tabIndex={0} aria-expanded={openS.has(si)} className="bkfold" onClick={() => toggle(si)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(si); } }}><span className="bkchev" aria-hidden="true">{openS.has(si) ? "▾" : "▸"}</span><span className="bkno">{CIRCLED[S.no] || S.no}</span> <span className="jpt">{S.title.jp}</span>{S.title.ro && <small className="bkro">{S.title.ro}</small>}<small className="bkvi">{S.title.vi}</small>{S.part && <span className="bkcando bkpart2 jpt" title={S.part.vi || ""}>{typeof S.part === "string" ? S.part : S.part.jp}</span>}{S.page && <em className="bkpage">tr.{S.page}</em>}</h3>

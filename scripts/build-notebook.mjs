@@ -12,13 +12,14 @@ for (const [id, file] of Object.entries(BOOKS)) {
   }));
 }
 // Minna - Genshin: mỗi bài một file data/mnnX/lesson-<n>.json; K = từ chính của bài, L = từ bổ sung
-const MINNA = { mn1: "mnn1", mn2: "mnn2" };
-const MSRC = { K: "M", L: "X" };
+const MINNA = { mn1: "mnn1", mn2: "mnn2", mnc2: "mnnc2" };
+// mã nguồn từ: sơ cấp K = từ chính, L = từ bổ sung · trung cấp 2: R = 読む・書く, K = 話す・聞く, G = 文法・練習
+const MSRC = { mn1: { K: "M", L: "X" }, mn2: { K: "M", L: "X" }, mnc2: { R: "YK", K: "HK", G: "BG" } };
 for (const [id, dir] of Object.entries(MINNA)) {
   const files = readdirSync(new URL(`../data/${dir}/`, import.meta.url)).filter((f) => /^lesson-\d+\.json$/.test(f));
   out[id] = files.map((f) => read(`${dir}/${f.slice(0, -5)}`)).sort((a, b) => a.lesson - b.lesson).map((L) => ({
     lesson: L.lesson, topic: L.topic, topicTitle: L.topicTitle, topicVi: L.topicVi, title: L.title, titleVi: L.titleVi,
-    vocab: L.vocab.map((v) => [v.jp, v.kana && v.kana !== v.jp ? v.kana : "", v.vi, MSRC[v.src] || v.src || "M"]),
+    vocab: L.vocab.map((v) => [v.jp, v.kana && v.kana !== v.jp ? v.kana : "", v.vi, MSRC[id][v.src] || v.src || "M"]),
   }));
 }
 writeFileSync(new URL("../data/notebook.json", import.meta.url), JSON.stringify(out));

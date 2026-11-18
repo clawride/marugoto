@@ -164,6 +164,15 @@ function splitTopic(L) {
   ];
 }
 
+// Minna 中級II: mỗi bài một file data/book/mnc2/<bài>.json → gộp thành data/book/mnc2-katsudou.json
+{
+  const dir = path.join(SRC, "mnc2");
+  if (fs.existsSync(dir)) {
+    const lessons = fs.readdirSync(dir).filter((f) => /^\d+\.json$/.test(f)).map((f) => JSON.parse(fs.readFileSync(path.join(dir, f), "utf8"))).sort((a, b) => a.lesson - b.lesson);
+    fs.writeFileSync(path.join(SRC, "mnc2-katsudou.json"), JSON.stringify({ lessons }));
+  }
+}
+
 for (const f of fs.readdirSync(SRC).filter((f) => f.endsWith(".json"))) {
   // a1-katsudou.json → public/book/a1/ (kèm buổi kiểm tra) · a1-rikai.json → public/book/a1-rikai/
   const main = f.endsWith("-katsudou.json");
