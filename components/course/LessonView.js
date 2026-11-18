@@ -11,7 +11,8 @@ import BookPart from "@/components/course/BookPart";
 import LenPicker from "@/components/course/LenPicker";
 import { PARTS, STAR_REWARD, readingOf, trackLabel, vocabQs, kanjiQs, kanjiVocab, grammarQs, fillQs, orderQs, listenQs } from "@/lib/course";
 import { starsFor, shuffle } from "@/lib/data";
-import { speakLines } from "@/lib/tts";
+import { speakLines, stopSpeak } from "@/lib/tts";
+import { splitSents } from "@/lib/readingSplit";
 import { sfx } from "@/lib/sfx";
 import Rom from "@/components/Rom";
 import LessonTabs from "@/components/course/LessonTabs";
@@ -153,9 +154,55 @@ function ReadingPart({ L, save, course }) {
 // bật/tắt hiển thị, nhớ lựa chọn trong trình duyệt
 function useShow(key, def = true) {
   const [v, setV] = useState(def);
-  useEffect(() => { try { const s = localStorage.getItem(key); if (s != null) setV(s === "1"); } catch {} }, [key]);
-  return [v, (x) => { setV(x); try { localStorage.setItem(key, x ? "1" : "0"); } catch {} }];
+  useEffect(() => {
+    try { const s = localStorage.getItem(key); if (s != null) setV(s === "1"); } catch {}
+    const on = (e) => e.detail.key === key && setV(e.detail.v); // các khối cùng một lựa chọn (vd. nhiều bài đọc) đổi theo nhau
+    window.addEventListener("study-show", on);
+    return () => window.removeEventListener("study-show", on);
+  }, [key]);
+  return [v, (x) => { setV(x); try { localStorage.setItem(key, x ? "1" : "0"); } catch {} window.dispatchEvent(new CustomEvent("study-show", { detail: { key, v: x } })); }];
 }
+// Bài đọc từng câu: 🔊 · câu tiếng Nhật · romaji (mặc định TẮT để tự đọc trước) · nghĩa tiếng Việt; nghe cả bài, tô sáng câu đang đọc
+function ReadingStudy({ RD, id }) {
+  const [ro, setRo] = useShow("st_read_ro", false);
+  const [vi, setVi] = useShow("st_read_vi", true);
+  const [cur, setCur] = useState(-1);
+  const [playing, setPlaying] = useState(false);
+  const sents = useMemo(() => (RD.lines?.length ? RD.lines : splitSents(RD.text)), [RD]);
+  const paras = useMemo(() => { const m = []; sents.forEach((x, i) => { (m[x.p] ||= []).push({ ...x, i }); }); return m.filter(Boolean); }, [sents]);
+  useEffect(() => () => stopSpeak(), []);
+  const playAll = async () => {
+    if (playing) { stopSpeak(); setPlaying(false); setCur(-1); return; }
+    setPlaying(true);
+    await speakLines(sents.map((x) => ({ sp: "N", g: "f", t: x.jp })), { rate: 0.9, onLine: setCur });
+    setPlaying(false); setCur(-1);
+  };
+  const one = (x) => { setPlaying(false); setCur(x.i); speakLines([{ sp: "N", g: "f", t: x.jp }], { rate: 0.85 }).then(() => setCur(-1)); };
+  return (
+    <section className="panel stsec" id={id} data-study-anchor>
+      <h2>📖 Bài đọc <small>{RD.title}</small></h2>
+      <div className="rdtools">
+        <button type="button" className="chip" onClick={playAll}>{playing ? "■ Dừng" : "▶ Nghe cả bài"}</button>
+        <label><input type="checkbox" checked={ro} onChange={(e) => setRo(e.target.checked)} /> Phiên âm Latinh</label>
+        <label><input type="checkbox" checked={vi} onChange={(e) => setVi(e.target.checked)} /> Nghĩa tiếng Việt</label>
+      </div>
+      <div className="parch stread rdsents">
+        {paras.map((P, k) => (
+          <div key={k} className="rdpara">
+            {P.map((x) => (
+              <div key={x.i} className={`rdsent ${cur === x.i ? "cur" : ""}`}>
+                <button className="spk" onClick={() => one(x)} aria-label="Nghe câu này">🔊</button>
+                <div><span className="jpt">{x.jp}</span>{ro && <Rom text={x.jp} />}{vi && x.vi && <small className="rdvi">{x.vi}</small>}</div>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+      {RD.glossary?.length > 0 && <div className="glist2">{RD.glossary.map((g, k) => <span key={k}><b className="jpt">{g.jp}</b> <i className="jpt">{g.r}</i>{vi && <> — {g.vi}</>}</span>)}</div>}
+    </section>
+  );
+}
+
 function StudyView({ L, onPractice }) {
   const say = (t) => speakLines([{ t }], { rate: 0.85 });
   const [ro, setRo] = useShow("st_ro", true);
@@ -211,13 +258,7 @@ function StudyView({ L, onPractice }) {
         ))}
       </section>
 
-      {L.reading?.map((RD, i) => (
-        <section key={i} className="panel stsec" id={`${prefix}-reading-${i}`} data-study-anchor>
-          <h2>📖 Bài đọc <small>{RD.title}</small></h2>
-          <div className="parch stread"><div className="rtext jpt">{RD.text.split("\n").filter(Boolean).map((p, k) => <div key={k}><p>{p}</p><R text={p} /></div>)}</div></div>
-          {RD.glossary?.length > 0 && <div className="glist2">{RD.glossary.map((g, k) => <span key={k}><b className="jpt">{g.jp}</b> <i className="jpt">{g.r}</i>{vi && <> — {g.vi}</>}</span>)}</div>}
-        </section>
-      ))}
+      {L.reading?.map((RD, i) => <ReadingStudy key={i} RD={RD} id={`${prefix}-reading-${i}`} />)}
 
       <section className="panel stsec" id={`${prefix}-vocab`} data-study-anchor>
         <h2>🈶 Từ vựng <small>{L.vocab.length} từ</small></h2>

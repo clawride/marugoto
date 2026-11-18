@@ -10,6 +10,7 @@ import path from "node:path";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import { SHARDS, shardOf, segmentsOf, isMostlyJapanese } from "../lib/romajiKey.js";
+import { splitSents } from "../lib/readingSplit.js";
 
 const require = createRequire(import.meta.url);
 const { init, furi } = require("./lib/furi.cjs");
@@ -32,7 +33,7 @@ const sentences = new Set(); // chuỗi là câu tiếng Nhật trọn vẹn (gi
 const visit = (x) => {
   if (typeof x === "string") {
     if (!JP.test(x)) return;
-    if (isMostlyJapanese(x)) { want.add(x.trim()); sentences.add(x.trim()); for (const line of x.split("\n")) if (JP.test(line)) { want.add(line.trim()); sentences.add(line.trim()); } }
+    if (isMostlyJapanese(x)) { want.add(x.trim()); sentences.add(x.trim()); for (const line of x.split("\n")) if (JP.test(line)) { want.add(line.trim()); sentences.add(line.trim()); } if (/[。！？]/.test(x)) for (const { jp } of splitSents(x)) { want.add(jp); sentences.add(jp); } }
     for (const seg of segmentsOf(x)) want.add(seg);
   } else if (Array.isArray(x)) x.forEach(visit);
   else if (x && typeof x === "object") Object.values(x).forEach(visit);

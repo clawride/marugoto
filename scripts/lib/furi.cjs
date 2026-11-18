@@ -137,7 +137,7 @@ function furi(text, opt = {}) {
   }
   ro = ro.replace(/\s{2,}/g, " ").replace(/\s+([,.!?)])/g, "$1").replace(/([,.!?])(?=[A-Za-z])/g, "$1 ").replace(/' /g, (m, off, str) => (str.slice(0, off).split("'").length % 2 === 0 ? "'" : m)).trim();
   if (!opt.noCap) ro = ro.replace(/^(["'(]?)([a-z])/, (m, q, c) => q + c.toUpperCase()).replace(/((?<!\.)[.!?] ["'(]?)([a-z])/g, (m, q, c) => q + c.toUpperCase());
-  ro = ro.replace(/\btoiu\b/g, "to iu").replace(/\btte(e|i)u\b/g, "tte iu").replace(/\bdooiu\b/g, "doo iu").replace(/\bnitotte\b/g, "ni totte").replace(/\bnitsuite\b/g, "ni tsuite").replace(/\b([Nn])i(yotte|yoru|yori|yoreba|taishite|taisuru|kanshite|kansuru|mukete|oite|okeru|shitagatte|kawatte|kurabete|tomonatte|watatte|wataru|motozuite|kakete|totte)\b/g, "$1i $2").replace(/\b([Tt])okoroga\b/g, "$1okoro ga").replace(/\b([Nn])anto\b/g, "$1an to").replace(/\b([Hh])ontooha\b/g, "$1ontoo wa");
+  ro = ro.replace(/\btoiu\b/g, "to iu").replace(/\btte(e|i)u\b/g, "tte iu").replace(/\bdooiu\b/g, "doo iu").replace(/\bnitotte\b/g, "ni totte").replace(/\bnitsuite\b/g, "ni tsuite").replace(/\b([Nn])i(yotte|yoru|yori|yoreba|taishite|taisuru|kanshite|kansuru|mukete|oite|okeru|shitagatte|kawatte|kurabete|tomonatte|watatte|wataru|motozuite|kakete|totte|matsuwaru|tomonau)\b/g, "$1i $2").replace(/\b([Ii])gaito\b/g, "$1gai to").replace(/\b([Tt])okoroga\b/g, "$1okoro ga").replace(/\b([Nn])anto\b/g, "$1an to").replace(/\b([Hh])ontooha\b/g, "$1ontoo wa");
   return { kana, ro, unknown };
 }
 module.exports = { init, furi, MISSED };

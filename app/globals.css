@@ -535,3 +535,14 @@ header.top .in{overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-ov
 header.top .in::-webkit-scrollbar{display:none}
 header.top .in.dragging{cursor:grabbing;user-select:none}
 header.top .in>*:not(.brand):not(.topgap){flex-shrink:0;white-space:nowrap}
+/* Bài đọc từng câu (khóa Minna) */
+.rdtools{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;margin:0 0 10px}
+.rdtools label{display:flex;gap:6px;align-items:center;font-size:14px;cursor:pointer}
+.rdsents{display:grid;gap:14px}
+.rdpara{display:grid;gap:4px;padding-bottom:10px;border-bottom:1px dashed rgba(160,130,70,.3)}
+.rdpara:last-child{border-bottom:0}
+.rdsent{display:flex;gap:8px;align-items:flex-start;padding:4px 6px;border-radius:6px;transition:background .2s}
+.rdsent.cur{background:rgba(255,205,90,.22)}
+.rdsent .jpt{font-size:18px;line-height:1.8}
+.rdsent .rdvi{display:block;color:#6b5a3a;font-size:14px;line-height:1.5}
+.rdsent .rom-line{margin:0}
