@@ -196,12 +196,12 @@ function useOpt(key, def) {
   return [v, (x) => { setV(x); try { localStorage.setItem(key, x ? "1" : "0"); } catch {} }];
 }
 
-const Line = ({ jp, kana, ro: r, vi, show, slot, sp }) => (
+const Line = ({ jp, kana, ro: r, vi, show, slot, sp, emo }) => (
   <div className="bkline">
     {sp && <span className="bksp jpt">{sp}</span>}
     <button className="bkspk" onClick={() => say(kana || jp)} aria-label="Nghe">🔊</button>
     <div>
-      <span className="jpt bkjp">{slot ? jp.split(slot).flatMap((p, i, a) => (i < a.length - 1 ? [p, <mark key={i}>{slot}</mark>] : [p])) : jp}</span>
+      <span className="jpt bkjp">{slot ? jp.split(slot).flatMap((p, i, a) => (i < a.length - 1 ? [p, <mark key={i}>{slot}</mark>] : [p])) : jp}</span>{emo && <span className="bkemo"> {emo}</span>}
       {show.kana !== false && kana && <small className="bkkana jpt">{kana}</small>}
       {show.ro && r && <small className="bkro">{r}</small>}
       {show.vi && vi && <small className="bkvi">{vi}</small>}
