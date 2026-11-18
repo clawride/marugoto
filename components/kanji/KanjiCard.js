@@ -85,7 +85,7 @@ export default function KanjiCard({ E, compact = false }) {
       {!compact && E.ex?.length > 0 && (
         <div className="kjsec"><h4>✏️ Câu ví dụ</h4>
           {E.ex.map((e, i) => (
-            <p key={i} className="kjex"><button className="spk" onClick={() => say(e.jp)}>🔊</button> <span className="jpt">{e.jp.split(e.w).flatMap((p, j, a) => (j < a.length - 1 ? [p, <b key={j}>{e.w}</b>] : [p]))}</span><br /><small>{e.vi}</small></p>
+            <div key={i} className="kjex"><button className="spk" onClick={() => say(e.jp)}>🔊</button> <span className="jpt">{e.jp.split(e.w).flatMap((p, j, a) => (j < a.length - 1 ? [p, <b key={j}>{e.w}</b>] : [p]))}</span><Rom text={e.jp} /><small>{e.vi}</small></div>
           ))}
         </div>
       )}

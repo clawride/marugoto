@@ -1,4 +1,5 @@
 "use client";
+import Rom from "@/components/Rom";
 // 📚 Một bài trong Thư viện sách: tình huống · các mẫu câu chính (giải thích + ví dụ) · hội thoại luyện đọc · cách nói tương tự · từ vựng · mẹo
 // Dữ liệu: public/library/<sách>/<bài>.json (scripts/build-library.mjs)
 import { useEffect, useState } from "react";
@@ -157,7 +158,7 @@ export default function LessonView({ bookId, n }) {
         {!!L.discuss?.length && (
           <section className="panel lbsec" id="thao-luan">
             <h2>🤔 Câu hỏi thảo luận <small>tự trả lời bằng tiếng Nhật</small></h2>
-            <ol>{L.discuss.map((q, i) => <li key={i}>{typeof q === "string" ? q : <><span className="jpt">{q.jp}</span><br /><small className="lbvi">{q.vi}</small></>}</li>)}</ol>
+            <ol>{L.discuss.map((q, i) => <li key={i}>{typeof q === "string" ? q : <><span className="jpt">{q.jp}</span><Rom text={q.jp} /><small className="lbvi">{q.vi}</small></>}</li>)}</ol>
           </section>
         )}
 

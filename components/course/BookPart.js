@@ -298,7 +298,7 @@ function Act({ A, lib, show, id }) {
       {A.grammar?.length > 0 && <Grammar list={A.grammar} show={show} />}
       {exKind && <Exercise A={exKind === A.kind ? A : { ...A, kind: exKind }} show={show} />}
       {A.scripts?.map((sc, i) => <Script key={i} sc={sc} lib={lib} show={show} />)}
-      {A.questions?.map((q, i) => <p key={i} className="bktask">💬 <span className="jpt">{q.jp}</span>{show.vi && q.vi && <> — {q.vi}</>}</p>)}
+      {A.questions?.map((q, i) => <p key={i} className="bktask">💬 <span className="jpt">{q.jp}</span>{show.ro && (q.ro ? <small className="bkro">{q.ro}</small> : <Rom text={q.jp} />)}{show.vi && q.vi && <small className="bkvi">{q.vi}</small>}</p>)}
       {(A.answer || A.model?.some((m) => m.fill)) && (
         <div className="bkanswer">
           <button className="chip sm" onClick={() => setAns(!ans)}>{ans ? "Ẩn đáp án" : "✔ Xem đáp án"}</button>
@@ -416,7 +416,7 @@ export default function BookPart({ course, book: bk, lesson, stars, onQuiz }) {
         <h2 className="jpt">{B.title.jp}</h2>
         {B.title.kana && <div className="bkkana jpt">{B.title.kana}</div>}
         <p>{B.title.ro && <i>{B.title.ro}</i>} {B.title.vi}</p>
-        {B.cando?.length > 0 && <ul className="bkcandos">{B.cando.map((c, i) => <li key={i}><span className="bkcando">{c.n ? `Can-do ${c.n}` : "Mục tiêu"}</span> <span className="jpt">{c.jp}</span> — {c.vi}</li>)}</ul>}
+        {B.cando?.length > 0 && <ul className="bkcandos">{B.cando.map((c, i) => <li key={i}><span className="bkcando">{c.n ? `Can-do ${c.n}` : "Mục tiêu"}</span> <span className="jpt">{c.jp}</span>{c.ro && <small className="bkro">{c.ro}</small>} — {c.vi}</li>)}</ul>}
         {B.before?.length > 0 && <div className="bkbefore"><b className="jpt">べんきょうする まえに</b> <small>Trước khi học</small>{B.before.map((q, i) => <Line key={i} {...q} show={show} />)}</div>}
         {B.notes?.length > 0 && <div className="bkbefore bkbasic"><b className="jpt">きほんぶん</b> <small>Câu cơ bản của bài</small>{B.notes.map((q, i) => <Line key={i} {...q} show={show} />)}</div>}
         <div className="bkopts">

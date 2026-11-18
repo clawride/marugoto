@@ -196,7 +196,7 @@ function GrammarTab({ T }) {
                 {g.examples.map((e, j) => (
                   <div key={j} className="gex">
                     {ttsAvailable() && <button className="iconbtn" onClick={() => speakLines([{ sp: "A", t: e.jp }])} title="Nghe">🔊</button>}
-                    <div><span className="jpt">{e.jp}</span><small>{e.vi}</small></div>
+                    <div><span className="jpt">{e.jp}</span><Rom text={e.jp} /><small>{e.vi}</small></div>
                   </div>
                 ))}
               </div>

@@ -114,7 +114,7 @@ export function FillQ({ q, onScore, onNext, top }) {
       <div className="chipsopt">
         {q.opts.map((o) => <button key={o} className={`chipo ${pick === null ? "" : o === q.answer ? "ok" : o === pick ? "bad" : "dim"}`} disabled={pick !== null} onClick={() => choose(o)}>{o}</button>)}
       </div>
-      {pick !== null && <><div className="bexp">{ok ? "✦ Chính xác! " : `✕ Đáp án: ${q.answer}. `}{q.explain}</div><Rom text={`${q.explain || ""} ${q.answer || ""}`} />{q.after}<NextBtn onNext={onNext} /></>}
+      {pick !== null && <><div className="bexp">{ok ? "✦ Chính xác! " : `✕ Đáp án: ${q.answer}. `}{q.explain}</div><Rom text={q.q.replace(BLANK_RE, q.answer)} />{q.after}<NextBtn onNext={onNext} /></>}
     </div>
   );
 }

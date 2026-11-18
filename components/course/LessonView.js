@@ -97,7 +97,7 @@ function GrammarView({ L }) {
               <p>{g.explain}</p>
               <Rom text={`${g.point || ""} ${g.explain || ""}`} />
               {g.examples.map((e, j) => (
-                <div key={j} className="gex"><button className="spk" onClick={() => speakLines([{ t: e.jp }])}>🔊</button><div><span className="jpt">{e.jp}</span><small>{e.vi}</small></div></div>
+                <div key={j} className="gex"><button className="spk" onClick={() => speakLines([{ t: e.jp }])}>🔊</button><div><span className="jpt">{e.jp}</span><Rom text={e.jp} /><small>{e.vi}</small></div></div>
               ))}
             </div>
           )}
@@ -178,7 +178,7 @@ function StudyView({ L, onPractice }) {
             <p>{g.explain}</p>
             <R text={`${g.point || ""} ${g.explain || ""}`} />
             {g.examples.map((e, j) => (
-              <div key={j} className="gex"><button className="spk" onClick={() => say(e.jp)} aria-label="Nghe">🔊</button><div><span className="jpt">{e.jp}</span>{vi && <small>{e.vi}</small>}<R text={e.jp} /></div></div>
+              <div key={j} className="gex"><button className="spk" onClick={() => say(e.jp)} aria-label="Nghe">🔊</button><div><span className="jpt">{e.jp}</span><R text={e.jp} />{vi && <small>{e.vi}</small>}</div></div>
             ))}
           </div>
         ))}
@@ -204,7 +204,7 @@ function StudyView({ L, onPractice }) {
             <p className="lsit">🎬 {it.situation}</p>
             <div className="stlines">
               {it.tts.map((l, k) => (
-                <div key={k} className="stline"><b className="stsp">{l.sp}</b><button className="spk" onClick={() => say(l.t)} aria-label="Nghe">🔊</button><div><span className="jpt">{l.t}</span>{vi && l.vi && <small className="stvi">{l.vi}</small>}<R text={l.t} /></div></div>
+                <div key={k} className="stline"><b className="stsp">{l.sp}</b><button className="spk" onClick={() => say(l.t)} aria-label="Nghe">🔊</button><div><span className="jpt">{l.t}</span><R text={l.t} />{vi && l.vi && <small className="stvi">{l.vi}</small>}</div></div>
               ))}
             </div>
           </div>
@@ -214,8 +214,7 @@ function StudyView({ L, onPractice }) {
       {L.reading?.map((RD, i) => (
         <section key={i} className="panel stsec" id={`${prefix}-reading-${i}`} data-study-anchor>
           <h2>📖 Bài đọc <small>{RD.title}</small></h2>
-          <div className="parch stread"><div className="rtext jpt">{RD.text.split("\n").filter(Boolean).map((p, k) => <p key={k}>{p}</p>)}</div></div>
-          {ro && <R text={RD.text} />}
+          <div className="parch stread"><div className="rtext jpt">{RD.text.split("\n").filter(Boolean).map((p, k) => <div key={k}><p>{p}</p><R text={p} /></div>)}</div></div>
           {RD.glossary?.length > 0 && <div className="glist2">{RD.glossary.map((g, k) => <span key={k}><b className="jpt">{g.jp}</b> <i className="jpt">{g.r}</i>{vi && <> — {g.vi}</>}</span>)}</div>}
         </section>
       ))}
