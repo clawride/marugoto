@@ -298,7 +298,7 @@ function Act({ A, lib, show, id }) {
       {A.grammar?.length > 0 && <Grammar list={A.grammar} show={show} />}
       {exKind && <Exercise A={exKind === A.kind ? A : { ...A, kind: exKind }} show={show} />}
       {A.scripts?.map((sc, i) => <Script key={i} sc={sc} lib={lib} show={show} />)}
-      {A.questions?.map((q, i) => <p key={i} className="bktask">💬 <span className="jpt">{q.jp}</span>{show.ro && (q.ro ? <small className="bkro">{q.ro}</small> : <Rom text={q.jp} />)}{show.vi && q.vi && <small className="bkvi">{q.vi}</small>}</p>)}
+      {A.questions?.map((q, i) => <div key={i} className="bktask">💬 <span className="jpt">{q.jp}</span>{show.ro && (q.ro ? <small className="bkro">{q.ro}</small> : <Rom text={q.jp} />)}{show.vi && q.vi && <small className="bkvi">{q.vi}</small>}</div>)}
       {(A.answer || A.model?.some((m) => m.fill)) && (
         <div className="bkanswer">
           <button className="chip sm" onClick={() => setAns(!ans)}>{ans ? "Ẩn đáp án" : "✔ Xem đáp án"}</button>

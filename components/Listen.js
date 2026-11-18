@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { A21_AUDIO, canPickDir } from "@/lib/audioLib";
-import { speakLines, stopSpeak, ttsAvailable } from "@/lib/tts";
+import { speakLines, stopSpeak, ttsAvailable, hasNaturalVoice, naturalVoices } from "@/lib/tts";
 import { onVoiceStatus } from "@/lib/voicevox";
 import { findClip, warmClip } from "@/lib/listenClip";
 import { TSARITSA } from "@/lib/listenBosses";
@@ -132,7 +132,7 @@ export function Player({ file, tts, autoPlay = true, onPlayed, lib = A21_AUDIO, 
       <button className="playbtn" onClick={play} disabled={disabled} aria-label="Phát">{playing ? "❚❚" : "▶"}</button>
       <div className="pl-info">
         <b>{playing ? (prep ? "Đang chuẩn bị giọng đọc…" : "Đang phát…") : plays ? "Nghe lại" : "Bấm để nghe"}</b>
-        <span>{mode === "file" ? `Audio sách · ${file}` : pre ? `Giọng đọc tạo sẵn · VOICEVOX:${pre.voices.join("・")}` : !ttsAvailable() ? "Trình duyệt không hỗ trợ giọng đọc" : "Giọng đọc máy · lời thoại viết lại"}{maxPlays < 99 ? ` · còn ${Math.max(0, maxPlays - plays)} lượt nghe` : ""}</span>
+        <span>{mode === "file" ? `Audio sách · ${file}` : pre ? `Giọng đọc tạo sẵn · VOICEVOX:${pre.voices.join("・")}` : !ttsAvailable() ? "Trình duyệt không hỗ trợ giọng đọc" : hasNaturalVoice() ? `Giọng Natural · ${[...new Set(naturalVoices().map((v) => v.name.replace(/^Microsoft\s+/, "").replace(/\s*Online.*$|\s*\(.*$|\s*-.*$/, "")))].slice(0, 4).join("・")}` : "Giọng đọc máy · mở bằng Microsoft Edge để nghe giọng Natural mượt hơn"}{maxPlays < 99 ? ` · còn ${Math.max(0, maxPlays - plays)} lượt nghe` : ""}</span>
       </div>
       <div className="wave">{Array.from({ length: 14 }, (_, i) => <i key={i} style={{ animationDelay: `${i * 0.07}s` }} />)}</div>
     </div>
