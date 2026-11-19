@@ -51,6 +51,33 @@
 .ttlaunch .txt small{font:800 clamp(14px,2.4vw,28px) "Be Vietnam Pro",sans-serif;color:#ffe9b0;letter-spacing:.3em;text-shadow:0 0 8px #000}
 @keyframes ttlaunch{0%,75%{opacity:1}100%{opacity:0;visibility:hidden}}
 @media (prefers-reduced-motion:reduce){.ttlaunch{display:none}}
+/* màn vào trận hoành tráng: vệt tốc độ, sét đánh, hai dải màu xé chéo, VS đập xuống, sóng xung kích, chớp trắng */
+.ttlaunch{animation:ttlaunch 2.3s ease-in forwards}
+@keyframes ttlaunch{0%,82%{opacity:1}100%{opacity:0;visibility:hidden}}
+.ttlaunch .speed{position:absolute;inset:-20%;background:repeating-linear-gradient(100deg,transparent 0 40px,rgba(255,255,255,.07) 40px 43px,transparent 43px 90px);animation:ttspeed .25s linear infinite}
+@keyframes ttspeed{to{transform:translateX(-90px)}}
+.ttlaunch .band2{position:absolute;left:-10%;right:-10%;top:30%;height:40%;transform:skewY(-6deg);background:linear-gradient(90deg,transparent,#1f4fae 20%,#0b1d4a 70%,transparent);clip-path:polygon(0 0,52% 0,46% 100%,0 100%);box-shadow:0 0 60px #5aa2ff;animation:arband .35s cubic-bezier(.2,.9,.3,1) .05s both}
+.ttlaunch .band{clip-path:polygon(54% 0,100% 0,100% 100%,48% 100%);background:linear-gradient(90deg,transparent,#8a1a3a 30%,#3a0a2a 80%,transparent)}
+.ttlaunch .me{position:absolute;left:7%;top:40%;display:grid;gap:4px;animation:arskill .6s cubic-bezier(.2,1.3,.4,1) .15s both}
+.ttlaunch .me small{font:800 clamp(11px,1.6vw,18px) "Be Vietnam Pro",sans-serif;letter-spacing:.3em;color:#9cc8ff;text-transform:uppercase}
+.ttlaunch .me b{font:900 clamp(30px,6vw,76px)/1 "Be Vietnam Pro",sans-serif;color:#fff;text-shadow:0 0 24px #5aa2ff,0 4px 3px #000;max-width:40vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ttlaunch .vs{position:absolute;left:50%;top:50%;translate:-50% -50%;font:900 clamp(70px,16vw,220px)/1 "Cinzel",serif;color:#fff;-webkit-text-stroke:4px #6a2000;
+  background:linear-gradient(180deg,#fff,#ffe27a 45%,#ff6a2a);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 30px rgba(255,150,60,.95));animation:ttvs .6s cubic-bezier(.2,1.7,.4,1) .7s both}
+@keyframes ttvs{0%{opacity:0;transform:scale(5) rotate(-20deg)}60%{opacity:1;transform:scale(.85) rotate(4deg)}100%{transform:none}}
+.ttlaunch .shock{position:absolute;left:50%;top:50%;width:30vmin;aspect-ratio:1;translate:-50% -50%;border-radius:50%;border:6px solid rgba(255,220,140,.9);opacity:0;animation:ttshock .7s ease-out .95s}
+.ttlaunch .shock.s2{border-color:rgba(160,120,255,.8);animation-delay:1.08s}
+@keyframes ttshock{0%{opacity:1;transform:scale(.2)}100%{opacity:0;transform:scale(4)}}
+.ttlaunch .bolt{position:absolute;top:-5%;width:14px;height:70%;background:linear-gradient(#fff,#c79cff);filter:drop-shadow(0 0 12px #c79cff) drop-shadow(0 0 30px #fff);opacity:0;
+  clip-path:polygon(40% 0,100% 0,60% 40%,90% 40%,20% 100%,45% 55%,10% 55%)}
+.ttlaunch .bolt.b1{left:30%;width:90px;animation:ttbolt .5s steps(2) .5s}
+.ttlaunch .bolt.b2{left:64%;width:70px;animation:ttbolt .45s steps(2) .85s}
+@keyframes ttbolt{0%,100%{opacity:0}30%,70%{opacity:1}}
+.ttlaunch .flash{position:absolute;inset:0;background:#fff;opacity:0;animation:arflash .5s ease-out .95s}
+.ttlaunch .txt{left:auto;right:6%;top:auto;bottom:8%;text-align:right;animation-delay:.4s}
+.ttlaunch .txt b{font-size:clamp(46px,9vw,120px)}
+.ttlaunch{animation:ttlaunch 2.3s ease-in forwards,ttquake .5s ease-out .95s}
+@keyframes ttquake{20%{translate:12px -6px}40%{translate:-12px 6px}60%{translate:8px 4px}80%{translate:-4px -2px}}
+@media (max-width:720px){.ttlaunch img{right:-6%;height:55%;top:20%}.ttlaunch .me{top:16%}.ttlaunch .me b{max-width:80vw}}
 
 /* thu phục thẻ thưởng: thẻ bay vút lên, nhân vật bật ra, các thẻ còn lại chìm xuống */
 .tt .ttreveal.claiming .ttrv{animation:none}

@@ -151,7 +151,7 @@ function CardGame({ S, toast, update }) {
 
   // ——— trận đang đấu ———
   if (P.match && P.match.mode !== DUEL_MODE) return <div className="tt">{head}<p className="hint">Phiên bản trận đấu đã thay đổi. Tải lại trang để tiếp tục.</p><button className="gbtn tri" onClick={() => location.reload()}>Tải lại</button></div>;
-  const launchFx = launching != null && OPPONENTS[launching] && <LaunchFx op={OPPONENTS[launching]} />;
+  const launchFx = launching != null && OPPONENTS[launching] && <LaunchFx op={OPPONENTS[launching]} me={profile?.name} stage={launching + 1} />;
   if (P.match) return <>{launchFx}<Arena key={P.match.id} m0={P.match} byId={byId} profile={profile} leaving={busy}
     advisor={mode === "advisor" && !P.match.rules.open ? { cost: HINT_COST, primo: S.primo || 0, pay: () => update((s) => { if ((s.primo || 0) < HINT_COST) return false; s.primo -= HINT_COST; return true; }) } : null}
     onDone={(j) => { setP(j); if (j.lost) setLostNote({ id: j.lost, why: "Thua trận" }); }}
@@ -183,7 +183,7 @@ function CardGame({ S, toast, update }) {
     // Màn chào đối thủ che thời gian chờ máy chủ chia bài
     unlockVoice(); // chạm "Đấu" mở khóa âm thanh cho giọng nhân vật (iPhone/Android)
     setLaunching(op.i); sfx.whoosh(); setTimeout(() => sfx.boom(), 350);
-    setTimeout(() => setLaunching(null), 1500);
+    setTimeout(() => setLaunching(null), 2300); setTimeout(() => sfx.boom(), 900); setTimeout(() => sfx.cast(), 150);
     run("start", { op: op.i, rules: r, deck: myDeck, mode: DUEL_MODE, level: levelOf(op) }, () => { setSelectedDeck(null); sfx.open(); });
   };
   return (
@@ -237,12 +237,16 @@ function CardGame({ S, toast, update }) {
 }
 
 // Màn chào trước trận: đối thủ lướt vào, chữ 対戦 đóng dấu
-function LaunchFx({ op }) {
+function LaunchFx({ op, me, stage }) {
   return (
     <div className="ttlaunch" aria-hidden="true">
-      <div className="band" />
+      <div className="speed" /><div className="bolt b1" /><div className="bolt b2" />
+      <div className="band" /><div className="band2" />
       <img src={opponentArt(op.char.en)} alt="" />
-      <div className="txt"><b lang="ja">対戦</b><small>VS {op.char.vi}</small></div>
+      <div className="me"><small>Người thách đấu</small><b>{me || "Bạn"}</b></div>
+      <div className="vs">VS</div><div className="shock" /><div className="shock s2" />
+      <div className="txt"><small>Ải {stage}</small><b lang="ja">対戦</b><small>{op.char.vi}</small></div>
+      <div className="flash" />
     </div>
   );
 }
