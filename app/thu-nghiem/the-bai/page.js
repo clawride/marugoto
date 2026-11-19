@@ -14,6 +14,7 @@ import { sfx } from "@/lib/sfx";
 import { Card } from "./Card";
 import { api } from "./api";
 import Arena from "./Arena";
+import StageMap from "./StageMap";
 import "./cards.css";
 import "./arena.css";
 import "./arena-fp.css";
@@ -227,22 +228,8 @@ function CardGame({ S, toast, update }) {
           </div>
           <h2 className="a22th"><span>3 · Luật thêm</span> <small>bật / tắt</small></h2>
           <div className="ttrules">{RULES.filter(([k]) => k !== "open").map(([k, n, d]) => <label key={k} className={`panel ttrule ${rules[k] ? "on" : ""}`}><input type="checkbox" checked={rules[k]} onChange={(e) => setRules((r) => ({ ...r, [k]: e.target.checked }))} /><b>{n}</b><small>{d}</small></label>)}</div>
-          <h2 className="a22th"><span>4 · Chọn đối thủ</span> <small>thắng người trước để mở người sau</small></h2>
-          <div className="ttops">
-            {OPPONENTS.map((op) => {
-              const open = unlocked(op), od = opponentDecks[op.i];
-              return (
-                <div key={op.i} className={`panel ttop ${open ? "" : "locked"}`}>
-                  <img className="ttav bust" src={opponentArt(op.char.en)} onError={(e) => { e.currentTarget.src = charIcon(op.char); }} alt={op.char.vi} loading="lazy" decoding="async" />
-                  <div className="ttopi">
-                    <b>{op.char.vi}</b> <small>Thẻ hạng {op.band[0]}–{op.band[1]} · <span className={`ttlvtag lv${levelOf(op)}`}>{LEVELS[levelOf(op)][0]} · {LEVELS[levelOf(op)][1]}</span>{beat[op.i] ? ` · đã thắng ${beat[op.i]} lần` : ""}</small>
-                    <div className="ttminis">{od.map((c) => <span key={c.id} className={`ttrk r-${c.rank}`} title={`${c.name} · hạng ${c.rank}`}>{c.rank}</span>)}</div>
-                  </div>
-                  <button className="gbtn tri" disabled={busy || !open || myDeck.length < 5} onClick={() => start(op)}><span className="c" />{open ? "Đấu" : "🔒"}</button>
-                </div>
-              );
-            })}
-          </div>
+          <h2 className="a22th"><span>4 · Bản đồ các ải</span> <small>qua ải này mới mở ải tiếp theo</small></h2>
+          <StageMap ops={OPPONENTS} beat={beat} decks={opponentDecks} levelOf={levelOf} busy={busy} canStart={myDeck.length === 5} onStart={start} />
         </>
       )}
     </div>
