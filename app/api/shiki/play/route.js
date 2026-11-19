@@ -7,10 +7,12 @@
 //   start  { op, rules }        → bắt đầu trận với đối thủ op (đã mở khóa)
 //   move   { hand, cell }       → đặt thẻ thứ hand trên tay vào ô cell; máy chủ đi tiếp nước của đối thủ
 //   claim  { card }             → thắng xong chọn 1 thẻ của đối thủ
-//   forfeit                     → bỏ trận (tính thua)
+//   forfeit                     → bỏ trận (tính thua, bị lấy 1 lá ngẫu nhiên)
+// Luật phạt: THUA trận → mất 1 lá hạng cao nhất trong Hộp bài · BỎ trận → mất 1 lá ngẫu nhiên · hòa không mất.
+// Không lấy lá nếu Hộp bài sẽ còn dưới 5 loại thẻ (để luôn đủ bộ bài đấu tiếp).
 import { store, auth } from "@/lib/store";
 import { normalizeShiki } from "@/lib/shikihime";
-import { buildDeck, drawCards, OPPONENTS, oppDeck, makeBoard, place, aiMove, score } from "@/lib/shikiCards";
+import { buildDeck, drawCards, OPPONENTS, oppDeck, makeBoard, place, aiMove, score, power, rankIdx } from "@/lib/shikiCards";
 
 export const dynamic = "force-dynamic";
 const H = { headers: { "Cache-Control": "no-store" } };
@@ -23,6 +25,28 @@ async function load(uid) {
   return { box: d.box || {}, starter: d.starter || null, deck: d.deck || [], beat: d.beat || {}, rec: d.rec || { w: 0, l: 0, d: 0 }, match: d.match || null, pending: d.pending || null };
 }
 const save = (uid, d) => store.setKV(keyOf(uid), d);
+// Lấy 1 lá khỏi Hộp bài theo cách chọn ("best" = hạng cao nhất, mạnh nhất · "random") → id thẻ bị lấy, hoặc null nếu được bảo vệ
+const MIN_KINDS = 5;
+function takeCard(d, byId, how) {
+  const kinds = Object.keys(d.box).filter((id) => d.box[id] > 0 && byId[id]);
+  // chỉ được lấy lá còn thừa (trùng) hoặc khi hộp vẫn còn ≥ MIN_KINDS loại sau khi lấy
+  const ok = kinds.filter((id) => d.box[id] > 1 || kinds.length > MIN_KINDS);
+  if (!ok.length) return null;
+  let id;
+  if (how === "best") id = ok.sort((a, b) => rankIdx(byId[b].rank) - rankIdx(byId[a].rank) || power(byId[b]) - power(byId[a]))[0];
+  else { const pool = ok.flatMap((x) => Array(d.box[x]).fill(x)); id = pool[Math.floor(Math.random() * pool.length)]; }
+  d.box[id]--;
+  if (d.box[id] <= 0) {
+    delete d.box[id];
+    // lá bị lấy đang trong bộ bài → bù lá mạnh nhất còn lại để bộ bài vẫn đủ 5
+    if (d.deck.includes(id)) {
+      d.deck = d.deck.filter((x) => x !== id);
+      const fill = Object.keys(d.box).filter((x) => d.box[x] > 0 && byId[x] && !d.deck.includes(x)).sort((p, q) => rankIdx(byId[q].rank) - rankIdx(byId[p].rank) || power(byId[q]) - power(byId[p]))[0];
+      if (fill) d.deck.push(fill);
+    }
+  }
+  return id;
+}
 
 // trận đang đấu → dạng gửi cho trình duyệt (ẩn bài trên tay đối thủ nếu không bật luật Lật bài)
 function view(m) {
@@ -103,17 +127,18 @@ export async function POST(req) {
       const op = OPPONENTS[m.op];
       const steps = [step(m, byId, "me", hi, ci)];
       if (m.cells.some((c) => !c)) steps.push(aiStep(m, byId, op.ai));
-      let result = null;
+      let result = null, lost = null;
       if (m.cells.every(Boolean)) {
         const sc = score(m.cells, m.hands);
         result = sc.me > sc.foe ? "w" : sc.me < sc.foe ? "l" : "d";
         d.rec[result]++;
         if (result === "w") { d.beat[op.i] = (d.beat[op.i] || 0) + 1; d.pending = { op: op.i, cards: m.foeAll }; }
+        if (result === "l") lost = takeCard(d, byId, "best");
         d.last = { match: view(m), result, score: sc };
         d.match = null;
       }
       await save(u.id, d);
-      return pub(d, { steps, result, final: result ? d.last.match : undefined, score: result ? d.last.score : undefined });
+      return pub(d, { steps, result, lost, final: result ? d.last.match : undefined, score: result ? d.last.score : undefined });
     }
 
     case "claim": {
@@ -126,8 +151,9 @@ export async function POST(req) {
     }
 
     case "forfeit": {
-      if (d.match) { d.rec.l++; d.match = null; await save(u.id, d); }
-      return pub(d);
+      let lost = null;
+      if (d.match) { d.rec.l++; d.match = null; lost = takeCard(d, byId, "random"); await save(u.id, d); }
+      return pub(d, { lost });
     }
     default: return bad("Thao tác không hợp lệ");
   }

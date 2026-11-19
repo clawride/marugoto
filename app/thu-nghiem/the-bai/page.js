@@ -42,6 +42,7 @@ export default function CardGamePage() {
   const [rules, setRules] = useState({ open: true, same: false, plus: false, combo: false, elemental: false });
   const [reveal, setReveal] = useState(null);
   const [live, setLive] = useState(null); // { steps, first } của lệnh start
+  const [lostNote, setLostNote] = useState(null); // { id, why } lá vừa bị lấy
   const profile = S?.profile;
   useEffect(() => { try { const r = JSON.parse(localStorage.getItem(LS) || "null"); if (r) setRules(r); } catch {} }, []);
   useEffect(() => { if (profile?.id) api(profile, "state").then(setP).catch((e) => setErr(e.message)); }, [profile?.id]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -52,7 +53,7 @@ export default function CardGamePage() {
     catch (e) { setErr(e.message); toast(e.message); } finally { setBusy(false); }
   };
 
-  const head = <><Link href="/thu-nghiem" className="back">‹ Khu Thử Nghiệm</Link><div className="pagehead"><h1>🎴 Đấu thẻ Shikihime</h1><p>Đặt thẻ lên bàn 3×3: cạnh của bạn lớn hơn cạnh kề của thẻ đối thủ thì lật thẻ đó. Đầy bàn, ai giữ nhiều thẻ hơn thắng.</p></div></>;
+  const head = <><Link href="/thu-nghiem" className="back">‹ Khu Thử Nghiệm</Link><div className="pagehead"><h1>🎴 Đấu thẻ Shikihime</h1><p>Đặt thẻ lên bàn 3×3: cạnh của bạn lớn hơn cạnh kề của thẻ đối thủ thì lật thẻ đó. Đầy bàn, ai giữ nhiều thẻ hơn thắng.</p><p className="ttwarn">⚖️ Thắng: chọn lấy 1 thẻ của đối thủ · Thua: mất 1 lá <b>hạng cao nhất</b> trong Hộp bài · Bỏ trận: mất 1 lá <b>ngẫu nhiên</b> · Hòa: không mất gì. (Hộp bài luôn được giữ tối thiểu 5 loại thẻ.)</p></div></>;
   if (!profile?.id) return <div className="tt">{head}<p className="hint" style={{ textAlign: "center" }}>🔒 Cần đăng nhập để chơi — Hộp bài và kết quả các trận được lưu trên máy chủ theo tài khoản.</p></div>;
   if (!P || !cfg) return <div className="tt">{head}<p className="hint" style={{ textAlign: "center" }}>{err || "Đang tải…"}</p></div>;
 
@@ -86,7 +87,7 @@ export default function CardGamePage() {
   }
 
   // ——— trận đang đấu ———
-  if (P.match) return <Match key={P.match.op + "-" + P.rec.w + P.rec.l + P.rec.d} m0={P.match} live={live} byId={byId} profile={profile} onDone={(j) => { setLive(null); setP(j); }} onForfeit={() => { setLive(null); run("forfeit"); }} />;
+  if (P.match) return <Match key={P.match.op + "-" + P.rec.w + P.rec.l + P.rec.d} m0={P.match} live={live} byId={byId} profile={profile} onDone={(j) => { setLive(null); setP(j); if (j.lost) setLostNote({ id: j.lost, why: "Thua trận" }); }} onForfeit={() => { setLive(null); run("forfeit", {}, (j) => j.lost && setLostNote({ id: j.lost, why: "Bỏ trận" })); }} />;
 
   const box = P.box, beat = P.beat, rec = P.rec;
   const owned = deck.filter((c) => box[c.id] > 0).sort((a, b) => rankIdx(b.rank) - rankIdx(a.rank) || power(b) - power(a));
@@ -96,6 +97,7 @@ export default function CardGamePage() {
   const start = (op) => { try { localStorage.setItem(LS, JSON.stringify(rules)); } catch {} run("start", { op: op.i, rules }, (j) => { sfx.open(); setLive({ steps: j.steps || [], first: j.first }); }); };
   return (
     <div className="tt">{head}
+      {lostNote && byId[lostNote.id] && <div className="panel ttlost"><Card c={byId[lostNote.id]} owner="foe" small /><div><b>{lostNote.why}: bạn bị lấy mất 1 lá</b><p>{byId[lostNote.id].name} · {byId[lostNote.id].ro} · hạng {byId[lostNote.id].rank}{P.box[lostNote.id] ? ` (còn ${P.box[lostNote.id]} lá)` : " (đã hết lá này)"}</p><button className="chip dk" onClick={() => setLostNote(null)}>Đã hiểu</button></div></div>}
       <div className="ttrec">Hộp bài: <b>{owned.length}</b>/{deck.length} loại · {rec.w} thắng · {rec.d} hòa · {rec.l} thua</div>
       <div className="chips" style={{ justifyContent: "center" }}>{[["duel", "⚔️ Đấu bài"], ["box", "🗃️ Hộp bài"], ["odds", "🎲 Hạng thẻ"]].map(([k, l]) => <button key={k} className={`chip dk ${tab === k ? "on" : ""}`} onClick={() => setTab(k)}>{l}</button>)}</div>
       {tab === "odds" && <OddsTable deck={deck} />}
@@ -205,7 +207,7 @@ function Match({ m0, live, byId, profile, onDone, onForfeit }) {
 
   return (
     <div className="tt">
-      <button className="back" onClick={() => { if (end) onDone(end.data); else if (confirm("Bỏ trận? Trận này sẽ tính là thua.")) onForfeit(); }}>‹ {end ? "Về danh sách" : "Bỏ trận"}</button>
+      <button className="back" onClick={() => { if (end) onDone(end.data); else if (confirm("Bỏ trận? Trận này tính là thua và bạn sẽ bị lấy mất 1 lá NGẪU NHIÊN trong Hộp bài.")) onForfeit(); }}>‹ {end ? "Về danh sách" : "Bỏ trận"}</button>
       <div className="ttvs"><img src={charIcon(op.char)} alt="" /><div><b>{op.char.vi}</b><small>“{op.line}”</small></div></div>
       <div className="ttscore"><span className="me">🟦 Bạn <b>{sc.me}</b></span><span className="ttmsg">{end ? "" : turn === "me" ? (sel != null ? "Chọn ô trống để đặt thẻ" : "Chọn một thẻ trên tay") : `${op.char.vi} đang đi…`}</span><span className="foe"><b>{sc.foe}</b> {op.char.vi} 🟥</span></div>
       <div className="tttable">
@@ -226,6 +228,7 @@ function Match({ m0, live, byId, profile, onDone, onForfeit }) {
         <div className="panel result">
           <h2>{end.result === "w" ? "🏆 Bạn thắng!" : end.result === "l" ? "💀 Bạn thua…" : "🤝 Hòa!"}</h2>
           <div className="score">{end.score.me}<small> : {end.score.foe}</small></div>
+          {end.result === "l" && (end.data.lost ? <div className="ttlost in"><Card c={byId[end.data.lost]} owner="foe" small /><p>Bạn bị lấy mất lá hạng cao nhất: <b>{byId[end.data.lost]?.name}</b> (hạng {byId[end.data.lost]?.rank})</p></div> : <p className="hint">Hộp bài đang ở mức tối thiểu 5 loại thẻ nên không bị lấy lá nào.</p>)}
           <div className="btnrow"><button className="gbtn tri" onClick={() => onDone(end.data)}><span className="c" />{end.result === "w" ? `🎁 Chọn 1 thẻ của ${op.char.vi}` : "Về danh sách đối thủ"}</button></div>
         </div>
       )}
