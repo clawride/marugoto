@@ -2,7 +2,8 @@
 // Quản trị · Khu thử nghiệm: thiết lập chỉ số thẻ Shikihime (HP MP STR INT DEF AGI, class, nguyên tố) và chỉ số vũ khí trong túi đồ.
 // Lưu vào site_settings["shiki"] qua /api/admin (setShiki). Ô để trống = dùng chỉ số mặc định.
 import { useEffect, useMemo, useState } from "react";
-import { SHIKI_CARDS, STATS, STAT_VI, CLASSES, ELEMENTS, defaultStats, WEAPON_STATS, defaultWeapon, weaponClass } from "@/lib/shikihime";
+import { SHIKI_CARDS, STATS, STAT_VI, CLASSES, ELEMENTS, RANKS, defaultStats, WEAPON_STATS, defaultWeapon, weaponClass } from "@/lib/shikihime";
+import { buildDeck } from "@/lib/shikiCards";
 import { WEAPONS, WTYPE_VI, weaponIcon } from "@/lib/genshin";
 import { ELEM } from "@/lib/data";
 
@@ -18,6 +19,7 @@ export default function Shiki({ call, say }) {
   const setCard = (id, k, v) => setCfg((c) => ({ ...c, cards: { ...c.cards, [id]: { ...(c.cards[id] || {}), [k]: v } } }));
   const setWeap = (id, k, v) => setCfg((c) => ({ ...c, weapons: { ...c.weapons, [id]: { ...(c.weapons[id] || {}), [k]: v } } }));
   const weapons = useMemo(() => WEAPONS.filter((w) => !q || `${w.vi} ${w.en}`.toLowerCase().includes(q.toLowerCase())).sort((a, b) => b.rank - a.rank || a.wt - b.wt), [q]);
+  const autoRank = useMemo(() => Object.fromEntries(buildDeck({ cards: Object.fromEntries(Object.entries(cfg?.cards || {}).map(([id, x]) => [id, { ...x, rank: undefined }])) }).map((c) => [c.id, c.rank])), [cfg]);
   if (!cfg) return <p className="hint">Đang tải…</p>;
 
   const save = async () => {
@@ -43,13 +45,14 @@ export default function Shiki({ call, say }) {
       {view === "cards" && (
         <div className="admscroll">
           <table className="admtbl shikitbl">
-            <thead><tr><th>Thẻ</th><th>Class</th><th>Nguyên tố</th>{STATS.map((s) => <th key={s}>{STAT_VI[s]}</th>)}<th /></tr></thead>
+            <thead><tr><th>Thẻ</th><th>Hạng</th><th>Class</th><th>Nguyên tố</th>{STATS.map((s) => <th key={s}>{STAT_VI[s]}</th>)}<th /></tr></thead>
             <tbody>
               {SHIKI_CARDS.map((c) => {
                 const o = cfg.cards[c.id] || {}, d = defaultStats(c);
                 return (
                   <tr key={c.id}>
                     <td className="shikiname"><img src={c.img} alt="" loading="lazy" referrerPolicy="no-referrer" /><div><b className="jpt">{c.name}</b><small>{c.ro} · {c.he} · bậc {c.tier}</small></div></td>
+                    <td><select value={o.rank || ""} onChange={(e) => setCard(c.id, "rank", e.target.value || undefined)}><option value="">Tự động ({autoRank[c.id]})</option>{RANKS.map((r) => <option key={r} value={r}>{r}</option>)}</select></td>
                     <td><select value={o.cls || c.cls} onChange={(e) => setCard(c.id, "cls", e.target.value)}>{Object.entries(CLASSES).map(([k, x]) => <option key={k} value={k}>{x.ico} {x.vi}</option>)}</select></td>
                     <td><select value={o.el || c.el} onChange={(e) => setCard(c.id, "el", e.target.value)}>{ELEMENTS.map((el) => <option key={el} value={el}>{ELEM[el]?.vi || el}</option>)}</select></td>
                     {STATS.map((s) => <td key={s}><input type="number" min="0" className="shikinum" value={o[s] ?? ""} placeholder={d[s]} onChange={(e) => setCard(c.id, s, e.target.value)} /></td>)}

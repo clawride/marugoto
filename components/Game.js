@@ -43,6 +43,7 @@ const defaults = () => ({
   exam: {}, // Luyện đề thi: { [đề]: { best, tries, passed, last: { t, total, passed, cefr, right, count } } }
   lib: {}, // Thư viện sách: { [sách]: { [bài]: thời điểm đánh dấu đã học } }
   boss: {}, // { [lesson]: { best: 0..3, cleared: bool, reward: "YYYY-MM-DD" } }
+  shiki: {}, // Đấu thẻ Shikihime: { box: {id: số lá}, starter: [ids rút khởi đầu], deck: [5 id], beat: {đối thủ: số lần thắng}, rec: {w,l,d} }
 });
 
 const Ctx = createContext(null);
