@@ -15,6 +15,7 @@ import { Card } from "./Card";
 import { api } from "./api";
 import Arena from "./Arena";
 import StageMap from "./StageMap";
+import DrawCine from "./DrawCine";
 import "./cards.css";
 import "./arena.css";
 import "./arena-fp.css";
@@ -62,6 +63,8 @@ function CardGame({ S, toast, update }) {
   const [shufPick, setShufPick] = useState(null); // 5 lá vừa rút trong màn xáo bài
   const [rules, setRules] = useState({ open: true, same: false, plus: false, combo: false, elemental: false });
   const [reveal, setReveal] = useState(null);
+  const [revealKind, setRevealKind] = useState("starter"); // "starter" | "draw"
+  const [cine, setCine] = useState(null); // { ids: thẻ S/SR vừa rút, i } — màn hiệu ứng hoành tráng
   const [lostNote, setLostNote] = useState(null); // { id, why } lá vừa bị lấy
   const [traded, setTraded] = useState(null); // { got, pay } vừa đổi bài
   const showOpponents = Boolean(cfg && P?.starter && !P.match && !P.pending && !reveal && !traded && tab === "duel");
@@ -92,10 +95,19 @@ function CardGame({ S, toast, update }) {
   if (!P || !cfg) return <div className="tt">{head}<p className="hint" style={{ textAlign: "center" }}>{err || "Đang tải…"}</p></div>;
 
   // ——— rút khởi đầu ———
+  const showCine = (ids) => {
+    const top = ids.filter((id) => byId[id]?.rank === "SR").concat(ids.filter((id) => byId[id]?.rank === "S"));
+    if (top.length) setCine({ ids: top, i: 0 });
+  };
+  if (reveal && cine && byId[cine.ids[cine.i]]) return (
+    <div className="tt">
+      <DrawCine card={byId[cine.ids[cine.i]]} index={cine.i} total={cine.ids.length} onNext={() => setCine((c) => (c && c.i + 1 < c.ids.length ? { ...c, i: c.i + 1 } : null))} />
+    </div>
+  );
   if (reveal) return (
     <div className="tt">
-      <div className="pagehead"><h1>{reveal.length === 1 ? "🎴 Thẻ mới!" : "🎴 Bộ bài khởi đầu"}</h1><p>{reveal.length === 1 ? "Thẻ vừa rút đã vào Hộp bài của bạn." : "Các thẻ này đã vào Hộp bài của bạn."}</p></div>
-      <div className="ttreveal">{reveal.map((id, i) => <div key={id} className="ttrv" style={{ animationDelay: `${i * 0.35}s` }}><Card c={byId[id]} owner="me" named /></div>)}</div>
+      <div className="pagehead"><h1>{revealKind === "draw" ? (reveal.length === 1 ? "🎴 Thẻ mới!" : `🎴 ${reveal.length} thẻ mới!`) : "🎴 Bộ bài khởi đầu"}</h1><p>{revealKind === "draw" ? "Các thẻ vừa rút đã vào Hộp bài của bạn." : "Các thẻ này đã vào Hộp bài của bạn."}</p></div>
+      <div className="ttreveal">{reveal.map((id, i) => <div key={i} className={`ttrv hot-${byId[id]?.rank}`} style={{ animationDelay: `${i * Math.min(0.35, 4 / reveal.length)}s` }}><Card c={byId[id]} owner="me" named /></div>)}</div>
       <div className="btnrow"><button className="gbtn tri" onClick={() => setReveal(null)}><span className="c" />Bắt đầu đấu bài</button></div>
     </div>
   );
@@ -103,7 +115,7 @@ function CardGame({ S, toast, update }) {
     <div className="tt">{head}
       <p style={{ textAlign: "center" }}>Mỗi tài khoản được rút <b>1 lần</b> 5 thẻ khởi đầu (5 thẻ khác nhau). Thẻ càng tốt càng hiếm. Sau đó đấu với các nhân vật Genshin — thắng thì được chọn lấy 1 thẻ của họ.</p>
       <OddsTable deck={deck} />
-      <div className="btnrow"><button className="gbtn tri" disabled={busy} onClick={() => run("starter", {}, (j) => { sfx.open(); setReveal(j.drawn); })}><span className="c" />🎴 Rút 5 thẻ khởi đầu</button></div>
+      <div className="btnrow"><button className="gbtn tri" disabled={busy} onClick={() => run("starter", {}, (j) => { sfx.open(); setRevealKind("starter"); setReveal(j.drawn); })}><span className="c" />🎴 Rút 5 thẻ khởi đầu</button></div>
     </div>
   );
 
@@ -189,7 +201,7 @@ function CardGame({ S, toast, update }) {
   return (
     <div className="tt">{head}{launchFx}
       {lostNote && byId[lostNote.id] && <div className="panel ttlost"><Card c={byId[lostNote.id]} owner="foe" small /><div><b>{lostNote.why}: bạn bị lấy mất 1 lá</b><p>{byId[lostNote.id].name} · {byId[lostNote.id].ro} · hạng {byId[lostNote.id].rank}{P.box[lostNote.id] ? ` (còn ${P.box[lostNote.id]} lá)` : " (đã hết lá này)"}</p><button className="chip dk" onClick={() => setLostNote(null)}>Đã hiểu</button></div></div>}
-      {P.draws > 0 && <div className="panel ttdraws"><span>🎟️ Bạn có <b>{P.draws}</b> lượt rút thẻ</span><button className="gbtn tri" disabled={busy} onClick={() => run("draw", {}, (j) => { sfx.reveal(4); setReveal(j.drawn); })}><span className="c" />🎴 Rút 1 thẻ</button></div>}
+      {P.draws > 0 && <div className="panel ttdraws"><span>🎟️ Bạn có <b>{P.draws}</b> lượt rút thẻ</span><button className="gbtn tri" disabled={busy} onClick={() => run("draw", {}, (j) => { sfx.reveal(4); setRevealKind("draw"); setReveal(j.drawn); showCine(j.drawn); })}><span className="c" />🎴 Rút 1 thẻ</button>{P.draws > 1 && <button className="gbtn tri" disabled={busy} onClick={() => run("draw", { all: true }, (j) => { sfx.meteor(5); setRevealKind("draw"); setReveal(j.drawn); showCine(j.drawn); })}><span className="c" />✨ Rút tất cả ({P.draws})</button>}</div>}
       <div className="ttrec">Hộp bài: <b>{owned.length}</b>/{deck.length} loại · {rec.w} thắng · {rec.d} hòa · {rec.l} thua</div>
       <div className="chips" style={{ justifyContent: "center" }}>{[["duel", "⚔️ Đấu bài"], ["box", "🗃️ Hộp bài"], ["odds", "🎲 Hạng thẻ"]].map(([k, l]) => <button key={k} className={`chip dk ${tab === k ? "on" : ""}`} onClick={() => setTab(k)}>{l}</button>)}</div>
       {tab === "odds" && <OddsTable deck={deck} />}

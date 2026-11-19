@@ -1,0 +1,51 @@
+/* 🌠 Màn rút được thẻ S / SR */
+.ttcine{position:fixed;inset:0;z-index:3500;overflow:hidden;cursor:pointer;display:grid;place-items:center;--gold:#ffd36b;
+  background:radial-gradient(ellipse at 50% 40%,#1c0f3e,#07040f 70%);animation:arfade .3s ease-out}
+.ttcine .sky{position:absolute;inset:0;background:radial-gradient(1.5px 1.5px at 20% 30%,#fff,transparent),radial-gradient(1px 1px at 70% 20%,#fff,transparent),radial-gradient(1.5px 1.5px at 40% 70%,#fff,transparent),radial-gradient(1px 1px at 85% 60%,#fff,transparent),radial-gradient(1px 1px at 10% 85%,#fff,transparent),radial-gradient(1.5px 1.5px at 55% 45%,#fff,transparent);opacity:.7}
+/* sao băng lao từ góc trên xuống giữa */
+.ttcine .streak{position:absolute;left:50%;top:50%;width:70vmax;height:6px;border-radius:6px;transform-origin:100% 50%;translate:-100% -50%;rotate:-35deg;
+  background:linear-gradient(90deg,transparent,rgba(255,230,160,.4) 40%,#fff);box-shadow:0 0 30px 8px var(--gold);animation:cstreak 1.15s cubic-bezier(.6,0,.9,.4) both}
+.ttcine.sr .streak{background:linear-gradient(90deg,transparent,#ff9ad5 30%,#ffe17a 55%,#8af5c8 75%,#fff);box-shadow:0 0 34px 10px #d39bff}
+@keyframes cstreak{0%{transform:translateX(-80vmax) scaleX(.3);opacity:0}15%{opacity:1}90%{transform:translateX(0) scaleX(1);opacity:1}100%{transform:translateX(0) scaleX(0);opacity:0}}
+.ttcine .flash{position:absolute;inset:0;background:#fff;opacity:0;animation:arflash .9s ease-out 1.1s}
+/* tia sáng xoay */
+.ttcine .rays{position:absolute;left:50%;top:46%;width:180vmax;aspect-ratio:1;translate:-50% -50%;opacity:0;
+  background:repeating-conic-gradient(rgba(255,215,110,.55) 0 5deg,transparent 5deg 15deg);-webkit-mask-image:radial-gradient(circle,#000 5%,transparent 45%);mask-image:radial-gradient(circle,#000 5%,transparent 45%);
+  animation:cfade .5s ease-out 1.15s forwards,arrays 12s linear 1.15s infinite}
+.ttcine .rays.r2{animation:cfade .5s ease-out 1.25s forwards,crev 18s linear 1.15s infinite;background:repeating-conic-gradient(from 7deg,rgba(255,255,255,.25) 0 2deg,transparent 2deg 15deg)}
+.ttcine.sr .rays{background:repeating-conic-gradient(#ff9ad5aa 0 5deg,transparent 5deg 10deg,#ffe17aaa 10deg 15deg,transparent 15deg 20deg,#8af5c8aa 20deg 25deg,transparent 25deg 30deg,#8ab8ffaa 30deg 35deg,transparent 35deg 40deg,#d39bffaa 40deg 45deg,transparent 45deg 50deg)}
+@keyframes cfade{to{opacity:1}}
+@keyframes crev{to{transform:translate(-50%,-50%) rotate(-360deg)}}
+/* vòng sóng */
+.ttcine .ring{position:absolute;left:50%;top:46%;width:30vmin;aspect-ratio:1;translate:-50% -50%;border-radius:50%;border:5px solid var(--gold);opacity:0;animation:cring 1.1s ease-out 1.15s}
+.ttcine .ring.k2{animation-delay:1.35s;border-color:#fff}.ttcine .ring.k3{animation-delay:1.55s}
+.ttcine.sr .ring{border-color:#d39bff}.ttcine.sr .ring.k3{border-color:#8af5c8}
+@keyframes cring{0%{opacity:1;transform:scale(.2)}100%{opacity:0;transform:scale(4)}}
+/* tia lửa bắn ra liên tục */
+.ttcine .sparks{position:absolute;left:50%;top:46%;width:0;height:0}
+.ttcine .sparks i{position:absolute;width:9px;height:9px;margin:-4.5px;border-radius:50%;background:#fff;box-shadow:0 0 12px 4px var(--gold);opacity:0;animation:cspark var(--d) ease-out calc(1.2s + var(--d) * .3) infinite}
+.ttcine.sr .sparks i:nth-child(3n){box-shadow:0 0 12px 4px #ff9ad5}.ttcine.sr .sparks i:nth-child(3n+1){box-shadow:0 0 12px 4px #8af5c8}.ttcine.sr .sparks i:nth-child(3n+2){box-shadow:0 0 12px 4px #8ab8ff}
+@keyframes cspark{0%{opacity:1;transform:rotate(var(--a)) translateX(4vmin) scale(1.3)}100%{opacity:0;transform:rotate(var(--a)) translateX(var(--r)) scale(.2)}}
+/* thẻ + chữ */
+.ttcine .stage{position:relative;display:grid;justify-items:center;gap:1.4vmin;z-index:2}
+.ttcine .cardwrap{width:min(40vmin,280px);perspective:1000px;animation:ccard 1s cubic-bezier(.2,1.2,.3,1) 1.2s both,cfloat 3s ease-in-out 2.3s infinite}
+.tt .ttcine .cardwrap .ttcard{border-width:3px;box-shadow:0 0 40px var(--gold),0 0 90px rgba(255,200,90,.6)}
+.tt .ttcine.sr .cardwrap .ttcard{box-shadow:0 0 40px #d39bff,0 0 90px #ff9ad5,0 0 140px rgba(138,245,200,.5)}
+.tt .ttcine .cardwrap .ttportrait{animation:arcast 1.2s cubic-bezier(.2,1.4,.4,1) 2s both}
+@keyframes ccard{0%{opacity:0;transform:scale(.1) rotateY(900deg) rotateZ(-30deg)}70%{opacity:1;transform:scale(1.15) rotateY(0) rotateZ(4deg)}100%{transform:none}}
+@keyframes cfloat{50%{transform:translateY(-1.6vmin) rotate(-1deg)}}
+.ttcine .rank{display:flex;gap:.5vmin;margin-top:-6vmin}
+.ttcine .rank span{display:inline-block;font:900 clamp(60px,15vmin,150px)/1 "Cinzel",serif;-webkit-text-stroke:3px #4a2a00;
+  background:linear-gradient(180deg,#fff,#ffe27a 45%,#d98a12);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 20px rgba(255,200,80,.95));animation:arletter .7s cubic-bezier(.2,1.6,.4,1) calc(1.7s + var(--i) * .15s) both}
+.ttcine.sr .rank span{-webkit-text-stroke-color:#2a0b3d;background:linear-gradient(90deg,#ff9ad5,#ffe17a,#8af5c8,#8ab8ff,#d39bff,#ff9ad5) 0 0/300% 100%;-webkit-background-clip:text;background-clip:text;
+  filter:drop-shadow(0 0 24px rgba(211,155,255,.95));animation:arletter .7s cubic-bezier(.2,1.6,.4,1) calc(1.7s + var(--i) * .15s) both,ttrainbow 3s linear infinite}
+.ttcine .title{display:grid;justify-items:center;gap:.6vmin;font:900 clamp(18px,3.6vmin,34px) "Be Vietnam Pro",sans-serif;letter-spacing:.2em;color:#fff3c4;text-shadow:0 0 16px rgba(255,200,90,.9),0 3px 3px #000;animation:arskill .7s cubic-bezier(.2,1.3,.4,1) 2s both}
+.ttcine.sr .title{color:#fff;text-shadow:0 0 16px #d39bff,0 0 30px #ff9ad5,0 3px 3px #000}
+.ttcine .title small{font:600 clamp(12px,2vmin,17px) "Noto Serif JP","Be Vietnam Pro",serif;letter-spacing:.05em;opacity:.9}
+.ttcine .hint{position:absolute;bottom:4vmin;left:0;right:0;text-align:center;font-size:13px;color:#f5ead0;opacity:0;animation:cfade .5s ease-out 2.6s forwards}
+@media (prefers-reduced-motion:reduce){.ttcine .streak,.ttcine .sparks,.ttcine .rays{display:none}}
+/* trong lưới kết quả: thẻ S / SR phát sáng */
+.tt .ttrv.hot-S .ttcard{box-shadow:0 0 18px #ffd36b,0 0 40px rgba(255,200,90,.6)}
+.tt .ttrv.hot-SR .ttcard{box-shadow:0 0 18px #d39bff,0 0 40px #ff9ad5,0 0 70px rgba(138,245,200,.45);animation:ttsrpulse 1.6s ease-in-out infinite}
+@keyframes ttsrpulse{50%{box-shadow:0 0 28px #ff9ad5,0 0 60px #8af5c8,0 0 90px rgba(211,155,255,.6)}}

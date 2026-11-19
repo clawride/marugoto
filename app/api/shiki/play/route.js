@@ -138,11 +138,12 @@ async function handleAction(req, timed) {
     // lượt rút thẻ do quản trị tặng: mỗi lượt rút 1 lá theo tỉ lệ hạng
     case "draw": {
       if (!(d.draws > 0)) return bad("Bạn không còn lượt rút thẻ");
-      const [got] = drawCards(deck, 1);
-      d.box[got.id] = (d.box[got.id] || 0) + 1;
-      d.draws--;
+      // all = rút hết số lượt đang có (tối đa 200 lá một lần); mỗi lá rút độc lập nên có thể trùng
+      const times = b.all ? Math.min(200, d.draws) : 1, drawn = [];
+      for (let k = 0; k < times; k++) { const [got] = drawCards(deck, 1); d.box[got.id] = (d.box[got.id] || 0) + 1; drawn.push(got.id); }
+      d.draws -= times;
       await save();
-      return pub(d, { drawn: [got.id] });
+      return pub(d, { drawn });
     }
 
     case "deck": {
