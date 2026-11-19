@@ -12,8 +12,8 @@
 // Không lấy lá nếu Hộp bài sẽ còn dưới 5 loại thẻ (để luôn đủ bộ bài đấu tiếp).
 import { store, auth } from "@/lib/store";
 import { getShikiConfig } from "@/lib/shikiConfig";
-import { drawCards, OPPONENTS, oppDeck, makeBoard, place, aiMove, score, power, rankIdx } from "@/lib/shikiCards";
-import { DUEL_MODE, replayDuel, duelResult, autoLevel } from "@/lib/shikiDuel";
+import { drawCards, OPPONENTS, oppDeck, stageDeck, makeBoard, place, aiMove, score, power, rankIdx } from "@/lib/shikiCards";
+import { DUEL_MODE, replayDuel, duelResult, stageLevel } from "@/lib/shikiDuel";
 import { RANKS } from "@/lib/shikihime";
 
 export const dynamic = "force-dynamic";
@@ -63,7 +63,7 @@ function view(m) {
   }
   return { op: m.op, rules: m.rules, els: m.els, cells: m.cells, turn: m.turn, hands: { me: m.hands.me, foe: m.rules.open ? m.hands.foe : m.hands.foe.length } };
 }
-const pub = (d, extra = {}) => Response.json({ box: d.box, starter: d.starter, deck: d.deck, beat: d.beat, rec: d.rec, pending: d.pending, match: view(d.match), ...extra }, H);
+const pub = (d, extra = {}) => Response.json({ draws: d.draws || 0, box: d.box, starter: d.starter, deck: d.deck, beat: d.beat, rec: d.rec, pending: d.pending, match: view(d.match), ...extra }, H);
 
 // Áp dụng một nước đi trên trạng thái trận (id thẻ) → bước để hiển thị
 function step(m, byId, who, handIdx, cell) {
@@ -123,7 +123,7 @@ async function handleAction(req, timed) {
     return pub(d);
   }
   if (b.action === "finish" && !d.match && d.receipt && d.receipt.id === b.matchId) return pub(d, d.receipt);
-  const { deck, byId } = await timed("config", getShikiConfig);
+  const { cfg, deck, byId } = await timed("config", getShikiConfig);
 
   switch (b.action) {
     case "starter": {
@@ -133,6 +133,16 @@ async function handleAction(req, timed) {
       d.starter = got.map((c) => c.id); d.deck = d.starter.slice();
       await save();
       return pub(d, { drawn: d.starter });
+    }
+
+    // lượt rút thẻ do quản trị tặng: mỗi lượt rút 1 lá theo tỉ lệ hạng
+    case "draw": {
+      if (!(d.draws > 0)) return bad("Bạn không còn lượt rút thẻ");
+      const [got] = drawCards(deck, 1);
+      d.box[got.id] = (d.box[got.id] || 0) + 1;
+      d.draws--;
+      await save();
+      return pub(d, { drawn: [got.id] });
     }
 
     case "deck": {
@@ -158,10 +168,10 @@ async function handleAction(req, timed) {
       if (new Set(mine).size !== 5) return bad("Cần đủ 5 thẻ trong bộ bài");
       const rules = Object.fromEntries(RULE_KEYS.map((k) => [k, b.rules?.[k] === true]));
       const bd = makeBoard(rules);
-      const m = { op: op.i, rules, els: bd.els, cells: bd.cells, hands: { me: mine.slice(), foe: oppDeck(op, deck).map((c) => c.id) }, turn: Math.random() < 0.5 ? "me" : "foe" };
+      const m = { op: op.i, rules, els: bd.els, cells: bd.cells, hands: { me: mine.slice(), foe: stageDeck(op, deck, cfg).map((c) => c.id) }, turn: Math.random() < 0.5 ? "me" : "foe" };
       m.foeAll = m.hands.foe.slice();
       // độ khó máy: người chơi chọn 1–4, không chọn thì tăng dần theo thứ tự đối thủ
-      m.level = [1, 2, 3, 4].includes(Number(b.level)) ? Number(b.level) : autoLevel(op.i);
+      m.level = [1, 2, 3, 4].includes(Number(b.level)) ? Number(b.level) : stageLevel(op, cfg);
       const steps = [];
       if (local) enableLocal(m, byId);
       else if (m.turn === "foe") steps.push(aiStep(m, byId, op.ai));

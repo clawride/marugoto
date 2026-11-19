@@ -125,6 +125,29 @@ export async function POST(req) {
       return ok({ shiki: v });
     }
 
+    // ——— Đấu thẻ: lượt rút thẻ của người chơi (nhập tên đăng nhập hoặc id hồ sơ) ———
+    case "shikiPlayer":
+    case "shikiGrant": {
+      const who = String(b.who || "").trim();
+      if (!who) return bad("Nhập tên đăng nhập hoặc id người chơi");
+      const acc = await store.findAccount(who.toLowerCase());
+      const uid = acc?.id || (/^[A-Za-z0-9_-]{8,40}$/.test(who) ? who : null);
+      if (!uid) return bad("Không tìm thấy người chơi");
+      const key = "shiki:" + uid;
+      for (let attempt = 0; attempt < 3; attempt++) {
+        const prev = await store.getKV(key);
+        const d = { box: {}, draws: 0, rec: { w: 0, l: 0, d: 0 }, ...(prev ? structuredClone(prev) : {}) };
+        const info = () => ok({ player: { id: uid, name: acc?.name || acc?.username || null, draws: d.draws || 0, kinds: Object.keys(d.box || {}).length, starter: !!d.starter, rec: d.rec } });
+        if (b.action === "shikiPlayer") return info();
+        const n = Math.round(Number(b.n));
+        if (!Number.isFinite(n) || n === 0 || Math.abs(n) > 1000) return bad("Số lượt phải từ -1000 đến 1000 (khác 0)");
+        d.draws = Math.max(0, (d.draws || 0) + n);
+        d.rev = crypto.randomUUID();
+        if (await store.replaceKV(key, d, prev)) { await log("shiki-grant", uid, { n, draws: d.draws }); return info(); }
+      }
+      return bad("Người chơi đang thao tác, hãy thử lại", 409);
+    }
+
     case "logs": return ok({ logs: await store.adminLogs(100) });
     default: return bad("Thao tác không hợp lệ");
   }

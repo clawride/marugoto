@@ -6,8 +6,8 @@ import { useGame } from "@/components/Game";
 import { charIcon } from "@/lib/genshin";
 import { ELEM } from "@/lib/data";
 import { RANKS, RANK_VI } from "@/lib/shikihime";
-import { buildDeck, power, RANK_ODDS, OPPONENTS, oppDeck, rankIdx } from "@/lib/shikiCards";
-import { DUEL_MODE, LEVELS, autoLevel } from "@/lib/shikiDuel";
+import { buildDeck, power, RANK_ODDS, OPPONENTS, stageDeck, rankIdx } from "@/lib/shikiCards";
+import { DUEL_MODE, LEVELS, stageLevel } from "@/lib/shikiDuel";
 import { opponentArt } from "@/lib/shikiDialogue";
 import { unlockVoice } from "@/lib/shikiVoice";
 import { sfx } from "@/lib/sfx";
@@ -65,7 +65,7 @@ function CardGame({ S, toast, update }) {
   const [lostNote, setLostNote] = useState(null); // { id, why } lá vừa bị lấy
   const [traded, setTraded] = useState(null); // { got, pay } vừa đổi bài
   const showOpponents = Boolean(cfg && P?.starter && !P.match && !P.pending && !reveal && !traded && tab === "duel");
-  const opponentDecks = useMemo(() => showOpponents ? OPPONENTS.map((op) => oppDeck(op, deck)) : [], [showOpponents, deck]);
+  const opponentDecks = useMemo(() => showOpponents ? OPPONENTS.map((op) => stageDeck(op, deck, cfg)) : [], [showOpponents, deck, cfg]);
   const [mode, setMode] = useState("hidden"); // mặc định: Úp bài
   const [level, setLevel] = useState("auto"); // "auto" = tăng dần theo đối thủ · 1–4 = cố định
   const [claiming, setClaiming] = useState(null); // id thẻ thưởng đang thu phục
@@ -94,7 +94,7 @@ function CardGame({ S, toast, update }) {
   // ——— rút khởi đầu ———
   if (reveal) return (
     <div className="tt">
-      <div className="pagehead"><h1>🎴 Bộ bài khởi đầu</h1><p>Các thẻ này đã vào Hộp bài của bạn.</p></div>
+      <div className="pagehead"><h1>{reveal.length === 1 ? "🎴 Thẻ mới!" : "🎴 Bộ bài khởi đầu"}</h1><p>{reveal.length === 1 ? "Thẻ vừa rút đã vào Hộp bài của bạn." : "Các thẻ này đã vào Hộp bài của bạn."}</p></div>
       <div className="ttreveal">{reveal.map((id, i) => <div key={id} className="ttrv" style={{ animationDelay: `${i * 0.35}s` }}><Card c={byId[id]} owner="me" named /></div>)}</div>
       <div className="btnrow"><button className="gbtn tri" onClick={() => setReveal(null)}><span className="c" />Bắt đầu đấu bài</button></div>
     </div>
@@ -176,7 +176,7 @@ function CardGame({ S, toast, update }) {
     setTimeout(() => { setPoolOrder(ids); setDeck(ids.slice(0, 5)); setShuffling(false); setShufPick(null); }, 3700);
   };
   const toggle = (c, i) => { if (busy || shuffling) return; setDeck(i >= 0 ? myDeck.filter((x) => x !== c.id) : myDeck.length < 5 ? [...myDeck, c.id] : myDeck); i >= 0 ? sfx.click() : sfx.deal(); };
-  const levelOf = (op) => (level === "auto" ? autoLevel(op.i) : level);
+  const levelOf = (op) => (level === "auto" ? stageLevel(op, cfg) : level);
   const start = (op) => {
     const r = { ...rules, open: mode === "open" };
     try { localStorage.setItem(LS, JSON.stringify(r)); localStorage.setItem(LS_MODE, mode); localStorage.setItem("shiki_tt_level", String(level)); } catch {}
@@ -184,11 +184,12 @@ function CardGame({ S, toast, update }) {
     unlockVoice(); // chạm "Đấu" mở khóa âm thanh cho giọng nhân vật (iPhone/Android)
     setLaunching(op.i); sfx.whoosh(); setTimeout(() => sfx.boom(), 350);
     setTimeout(() => setLaunching(null), 2300); setTimeout(() => sfx.boom(), 900); setTimeout(() => sfx.cast(), 150);
-    run("start", { op: op.i, rules: r, deck: myDeck, mode: DUEL_MODE, level: levelOf(op) }, () => { setSelectedDeck(null); sfx.open(); });
+    run("start", { op: op.i, rules: r, deck: myDeck, mode: DUEL_MODE, level: level === "auto" ? undefined : level }, () => { setSelectedDeck(null); sfx.open(); });
   };
   return (
     <div className="tt">{head}{launchFx}
       {lostNote && byId[lostNote.id] && <div className="panel ttlost"><Card c={byId[lostNote.id]} owner="foe" small /><div><b>{lostNote.why}: bạn bị lấy mất 1 lá</b><p>{byId[lostNote.id].name} · {byId[lostNote.id].ro} · hạng {byId[lostNote.id].rank}{P.box[lostNote.id] ? ` (còn ${P.box[lostNote.id]} lá)` : " (đã hết lá này)"}</p><button className="chip dk" onClick={() => setLostNote(null)}>Đã hiểu</button></div></div>}
+      {P.draws > 0 && <div className="panel ttdraws"><span>🎟️ Bạn có <b>{P.draws}</b> lượt rút thẻ</span><button className="gbtn tri" disabled={busy} onClick={() => run("draw", {}, (j) => { sfx.reveal(4); setReveal(j.drawn); })}><span className="c" />🎴 Rút 1 thẻ</button></div>}
       <div className="ttrec">Hộp bài: <b>{owned.length}</b>/{deck.length} loại · {rec.w} thắng · {rec.d} hòa · {rec.l} thua</div>
       <div className="chips" style={{ justifyContent: "center" }}>{[["duel", "⚔️ Đấu bài"], ["box", "🗃️ Hộp bài"], ["odds", "🎲 Hạng thẻ"]].map(([k, l]) => <button key={k} className={`chip dk ${tab === k ? "on" : ""}`} onClick={() => setTab(k)}>{l}</button>)}</div>
       {tab === "odds" && <OddsTable deck={deck} />}
