@@ -160,6 +160,14 @@ export const MNC2_COURSE = {
   audio: NO_AUDIO, audioSetups: [],
   Host: NeuvilletteHost, Hero: NeuvilletteHero, lines: NV, char: NEUVILLETTE, hostName: "Neuvillette",
   exam: MNC2_EXAM,
+  // 復習 của sách bài tập 標準問題集 (app/mnc2/review/[n]) — hiện ở trang khóa học sau Topic "after"
+  reviews: [
+    { n: 1, after: 1, lessons: "13–15", jp: "復習 第13課～第15課", page: 13 },
+    { n: 2, after: 2, lessons: "16–18", jp: "復習 第16課～第18課", page: 29 },
+    { n: 3, after: 2, lessons: "19–21", jp: "復習 第19課～第21課", page: 45 },
+    { n: 4, after: 3, lessons: "22–24", jp: "復習 第22課～第24課", page: 61 },
+    { n: 5, after: 3, lessons: "13–24", jp: "総復習 第13課～第24課", page: 65, title: "Ôn tập tổng hợp cả sách", desc: "Bài kiểm tra tổng hợp 100 điểm cuối sách bài tập: dạng động từ, cách nói, từ vựng, đọc hiểu của cả 12 bài — đủ dạng và số câu như trang 65 của sách bài tập, có đáp án." },
+  ],
   books: [{ key: "book", ico: "📖", short: "中級II", name: "Sách みんなの日本語 中級II 本冊", url: (n) => `/book/mnc2/${n}.json`, prefix: "#", dir: "mnc2", audioNote: " (lời thoại viết mới theo tình huống của sách)" }],
   extra: [],
 };
