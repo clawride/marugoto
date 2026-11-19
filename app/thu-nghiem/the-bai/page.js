@@ -16,6 +16,7 @@ import { api } from "./api";
 import Arena from "./Arena";
 import StageMap from "./StageMap";
 import DrawCine from "./DrawCine";
+import DraftShow from "./DraftShow";
 import "./cards.css";
 import "./arena.css";
 import "./arena-fp.css";
@@ -65,7 +66,8 @@ function CardGame({ S, toast, update }) {
   const [rules, setRules] = useState({ open: true, same: false, plus: false, combo: false, elemental: false });
   const [reveal, setReveal] = useState(null);
   const [revealKind, setRevealKind] = useState("starter"); // "starter" | "draw"
-  const [cine, setCine] = useState(null); // { ids: thẻ S/SR vừa rút, i } — màn hiệu ứng hoành tráng
+  const [cine, setCine] = useState(null);
+  const [draft, setDraft] = useState(null); // { op, ids, bossRanks } — ván đầu với boss: bài do máy xáo // { ids: thẻ S/SR vừa rút, i } — màn hiệu ứng hoành tráng
   const [lostNote, setLostNote] = useState(null); // { id, why } lá vừa bị lấy
   const [traded, setTraded] = useState(null); // { got, pay } vừa đổi bài
   const showOpponents = Boolean(cfg && P?.starter && !P.match && !P.pending && !reveal && !traded && tab === "duel");
@@ -200,6 +202,15 @@ function CardGame({ S, toast, update }) {
     setTimeout(() => { setPoolOrder(ids); setDeck(ids.slice(0, 5)); setShuffling(false); setShufPick(null); }, 3700);
   };
   const toggle = (c, i) => { if (busy || shuffling) return; setDeck(i >= 0 ? myDeck.filter((x) => x !== c.id) : myDeck.length < 5 ? [...myDeck, c.id] : myDeck); i >= 0 ? sfx.click() : sfx.deal(); };
+  // ván đầu với boss: hỏi máy chủ bộ bài đã xáo; đã đấu boss này rồi thì vào trận như bình thường
+  const openFirst = async (op) => {
+    if (busy) return;
+    try {
+      const j = await api(profile, "firstDeck", { op: op.i, mode: DUEL_MODE });
+      setP(j);
+      if (j.free) start(op); else setDraft({ op, ids: j.draft, bossRanks: j.bossRanks });
+    } catch (e) { toast(e.message); }
+  };
   const levelOf = (op) => (level === "auto" ? stageLevel(op, cfg) : level);
   const start = (op) => {
     const r = { ...rules, open: mode === "open" };
@@ -260,7 +271,8 @@ function CardGame({ S, toast, update }) {
           <div className="ttrules">{RULES.filter(([k]) => k !== "open").map(([k, n, d]) => <label key={k} className={`panel ttrule ${rules[k] ? "on" : ""}`}><input type="checkbox" checked={rules[k]} onChange={(e) => setRules((r) => ({ ...r, [k]: e.target.checked }))} /><b>{n}</b><small>{d}</small></label>)}</div>
           </details>
           <h2 className="a22th"><span>2 · Bản đồ các ải</span> <small>qua ải này mới mở ải tiếp theo</small></h2>
-          <StageMap ops={OPPONENTS} beat={beat} decks={opponentDecks} levelOf={levelOf} busy={busy} canStart={myDeck.length === 5} onStart={start} />
+          <StageMap ops={OPPONENTS} beat={beat} tried={P.tried || []} decks={opponentDecks} levelOf={levelOf} busy={busy} canStart={myDeck.length === 5} onStart={start} onFirst={openFirst} />
+          {draft && <DraftShow op={draft.op} ids={draft.ids} bossRanks={draft.bossRanks} byId={byId} busy={busy} onCancel={() => { setDraft(null); sfx.click(); }} onPlay={() => { const op = draft.op; setDraft(null); start(op); }} />}
         </>
       )}
     </div>

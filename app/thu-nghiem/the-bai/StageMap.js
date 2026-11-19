@@ -12,7 +12,7 @@ import "./stagemap.css";
 export const REGION = new Proxy({}, { get: (_, en) => regionOf(String(en)) });
 const STEP = 124, PAD = 80;
 
-export default function StageMap({ ops, beat, decks, levelOf, busy, canStart, onStart }) {
+export default function StageMap({ ops, beat, tried = [], decks, levelOf, busy, canStart, onStart, onFirst }) {
   const maxBeat = Math.max(-1, ...Object.keys(beat).map(Number));
   const unlocked = (op) => op.i <= maxBeat + 1;
   const cur = ops.find((op) => unlocked(op) && !(beat[op.i] > 0)) || ops[ops.length - 1];
@@ -54,7 +54,7 @@ export default function StageMap({ ops, beat, decks, levelOf, busy, canStart, on
         </div>
       </div>
 
-      {pop != null && ops[pop] && <StagePopup op={ops[pop]} open={unlocked(ops[pop])} lv={levelOf(ops[pop])} deck={decks[pop] || []} beat={beat[pop] || 0} busy={busy} canStart={canStart} onClose={() => setPop(null)} onStart={(o) => { setPop(null); onStart(o); }} />}
+      {pop != null && ops[pop] && <StagePopup op={ops[pop]} open={unlocked(ops[pop])} lv={levelOf(ops[pop])} deck={decks[pop] || []} beat={beat[pop] || 0} busy={busy} canStart={canStart} first={!tried.includes(pop)} onClose={() => setPop(null)} onStart={(o) => { setPop(null); onStart(o); }} onFirst={(o) => { setPop(null); onFirst(o); }} />}
       <div className={`sm-panel ${open ? "" : "locked"}`} key={op.i}>
         <div className="sm-art"><img src={opponentArt(op.char.en)} alt={open ? op.char.vi : ""} onError={(e) => { e.currentTarget.src = charIcon(op.char); }} /></div>
         <small className="sm-stage">Ải {op.i + 1} · {open ? REGION[op.char.en] || "Teyvat" : "???"}</small>
@@ -63,7 +63,9 @@ export default function StageMap({ ops, beat, decks, levelOf, busy, canStart, on
           <div className="sm-meta"><span className={`ttlvtag lv${lv}`}>{LEVELS[lv][0]} · {LEVELS[lv][1]}</span> <span>Thẻ hạng {op.band[0]}–{op.band[1]}</span></div>
           <div className="ttminis">{(decks[op.i] || []).map((c) => <span key={c.id} className={`ttrk r-${c.rank}`} title={`${c.name} · hạng ${c.rank}`}>{c.rank}</span>)}</div>
           <p className="sm-note">{beat[op.i] ? `✔ Đã thắng ${beat[op.i]} lần — đấu lại để lấy thêm thẻ.` : "Thắng ải này để mở ải tiếp theo."}</p>
-          <button className="gbtn tri" disabled={busy || !canStart} onClick={() => onStart(op)}><span className="c" />⚔️ Vào ải</button>
+          {!tried.includes(op.i)
+            ? <button className="gbtn tri" disabled={busy} onClick={() => onFirst(op)}><span className="c" />🎲 Xáo bài & vào ải</button>
+            : <button className="gbtn tri" disabled={busy || !canStart} onClick={() => onStart(op)}><span className="c" />⚔️ Vào ải</button>}
           {!canStart && <p className="sm-note">Cần chọn đủ 5 thẻ ở bước 1.</p>}
         </> : <p className="sm-note">🔒 Thắng ải {op.i} để mở ải này.</p>}
       </div>
@@ -72,7 +74,7 @@ export default function StageMap({ ops, beat, decks, levelOf, busy, canStart, on
 }
 
 // Bảng to giữa màn hình khi bấm vào một ải: ảnh lớn + nút VÀO ẢI to, dễ bấm trên điện thoại
-function StagePopup({ op, open, lv, deck, beat, busy, canStart, onClose, onStart }) {
+function StagePopup({ op, open, lv, deck, beat, busy, canStart, first, onClose, onStart, onFirst }) {
   useEffect(() => {
     const k = (e) => e.key === "Escape" && onClose();
     window.addEventListener("keydown", k);
@@ -88,8 +90,13 @@ function StagePopup({ op, open, lv, deck, beat, busy, canStart, onClose, onStart
         {open ? <>
           <div className="sm-meta"><span className={`ttlvtag lv${lv}`}>{LEVELS[lv][0]} · {LEVELS[lv][1]}</span> <span>Thẻ hạng {op.band[0]}–{op.band[1]}</span>{beat ? <span>✔ Đã thắng {beat} lần</span> : null}</div>
           <div className="ttminis">{deck.map((c) => <span key={c.id} className={`ttrk r-${c.rank}`}>{c.rank}</span>)}</div>
-          <button className="sm-play" disabled={busy || !canStart} onClick={() => onStart(op)}>⚔️ VÀO ẢI</button>
-          {!canStart && <p className="sm-note">Cần chọn đủ 5 thẻ ở bước 1.</p>}
+          {first ? <>
+            <p className="sm-note big">🎲 Ván đầu với boss này: bài của bạn được xáo ngẫu nhiên và rút 5 lá theo cấp bài của boss. Từ ván thứ 2 được tự chọn bài.</p>
+            <button className="sm-play" disabled={busy} onClick={() => onFirst(op)}>🎲 XÁO BÀI & VÀO ẢI</button>
+          </> : <>
+            <button className="sm-play" disabled={busy || !canStart} onClick={() => onStart(op)}>⚔️ VÀO ẢI</button>
+            {!canStart && <p className="sm-note">Cần chọn đủ 5 thẻ ở bước 1.</p>}
+          </>}
         </> : <p className="sm-note big">🔒 Thắng ải {op.i} để mở ải này.</p>}
       </div>
     </div>

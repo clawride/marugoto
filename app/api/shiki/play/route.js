@@ -62,6 +62,27 @@ function migrate(d) {
     for (const [k, v] of Object.entries(d.beat || {})) { const id = legacyCharId(Number(k)); if (id && v > 0) d.beatC[id] = v; }
   }
   for (const x of [d.match, d.pending]) if (x && x.opId == null && x.op != null) x.opId = legacyCharId(Number(x.op));
+  d.tried ||= {};
+  for (const id of Object.keys(d.beatC)) d.tried[id] ||= 1;
+}
+const triedIdx = (d) => OPPONENTS.filter((o) => d.tried[o.char.id]).map((o) => o.i);
+
+// Ván đầu với một boss: xáo Hộp bài, rút 5 lá có hạng tương xứng với 5 lá của boss (thiếu hạng đó thì lấy hạng thấp hơn gần nhất).
+// Bộ đã xáo được lưu (d.draft) cho tới khi vào trận — không xáo lại được để lấy bộ đẹp hơn.
+function draftFor(d, op, deck, byId, cfg) {
+  const boss = stageDeck(op, deck, cfg);
+  const own = Object.keys(d.box).filter((id) => d.box[id] > 0 && byId[id]);
+  if (d.draft?.opId === op.char.id && d.draft.deck.length === 5 && d.draft.deck.every((id) => d.box[id] > 0 && byId[id])) return { deck: d.draft.deck, boss };
+  const used = new Set(), out = [];
+  const pick = (list) => { const left = list.filter((id) => !used.has(id)); if (!left.length) return null; const id = left[Math.floor(Math.random() * left.length)]; used.add(id); return id; };
+  for (const bc of [...boss].sort((a, b) => rankIdx(b.rank) - rankIdx(a.rank))) {
+    let id = null;
+    for (let ri = rankIdx(bc.rank); ri >= 0 && !id; ri--) id = pick(own.filter((x) => byId[x].rank === RANKS[ri]));
+    if (!id) id = pick([...own].sort((a, b) => rankIdx(byId[a].rank) - rankIdx(byId[b].rank))); // không có hạng thấp hơn → lá yếu nhất còn lại
+    if (id) out.push(id);
+  }
+  d.draft = { opId: op.char.id, deck: out };
+  return { deck: out, boss };
 }
 const opOf = (x) => (x?.opId != null ? opById(x.opId) : null) || OPPONENTS[x?.op];
 const beatIdx = (d) => Object.fromEntries(OPPONENTS.filter((o) => d.beatC[o.char.id] > 0).map((o) => [o.i, d.beatC[o.char.id]]));
@@ -77,7 +98,7 @@ function view(m) {
   }
   return { op: m.op, rules: m.rules, els: m.els, cells: m.cells, turn: m.turn, hands: { me: m.hands.me, foe: m.rules.open ? m.hands.foe : m.hands.foe.length } };
 }
-const pub = (d, extra = {}) => Response.json({ draws: d.draws || 0, box: d.box, starter: d.starter, deck: d.deck, beat: beatIdx(d), rec: d.rec, pending: d.pending && { ...d.pending, op: opOf(d.pending)?.i ?? d.pending.op }, match: view(d.match), ...extra }, H);
+const pub = (d, extra = {}) => Response.json({ draws: d.draws || 0, box: d.box, starter: d.starter, deck: d.deck, beat: beatIdx(d), tried: triedIdx(d), rec: d.rec, pending: d.pending && { ...d.pending, op: opOf(d.pending)?.i ?? d.pending.op }, match: view(d.match), ...extra }, H);
 
 // Áp dụng một nước đi trên trạng thái trận (id thẻ) → bước để hiển thị
 function step(m, byId, who, handIdx, cell) {
@@ -168,6 +189,16 @@ async function handleAction(req, timed) {
       return pub(d);
     }
 
+    // xem bộ bài được xáo cho ván đầu với boss (op) · đã đấu boss này rồi thì { free: true }
+    case "firstDeck": {
+      const op = OPPONENTS[Number(b.op)];
+      if (!op) return bad("Không có đối thủ này");
+      if (d.tried[op.char.id]) return pub(d, { free: true });
+      const { deck: mine, boss } = draftFor(d, op, deck, byId, cfg);
+      await save();
+      return pub(d, { draft: mine, bossRanks: boss.map((c) => c.rank) });
+    }
+
     case "start": {
       if (d.match) {
         if (local && !d.match.mode) { enableLocal(d.match, byId); await save(); }
@@ -178,7 +209,8 @@ async function handleAction(req, timed) {
       if (!op) return bad("Không có đối thủ này");
       if (op.i > maxBeat(d) + 1) return bad("Ải này chưa mở khóa");
       // Save the selected deck with the match, instead of one write per click.
-      const selected = b.deck === undefined ? d.deck : b.deck;
+      const first = !d.tried[op.char.id];
+      const selected = first ? draftFor(d, op, deck, byId, cfg).deck : b.deck === undefined ? d.deck : b.deck;
       if (!Array.isArray(selected) || selected.length !== 5) return bad("Cần đủ 5 thẻ trong bộ bài");
       const mine = selected.map(String).filter((id) => d.box[id] > 0 && byId[id]);
       if (new Set(mine).size !== 5) return bad("Cần đủ 5 thẻ trong bộ bài");
@@ -191,7 +223,7 @@ async function handleAction(req, timed) {
       const steps = [];
       if (local) enableLocal(m, byId);
       else if (m.turn === "foe") steps.push(aiStep(m, byId, op.ai));
-      d.deck = mine.slice();
+      if (first) { d.tried[op.char.id] = 1; d.draft = null; } else d.deck = mine.slice(); // ván đầu không ghi đè bộ bài tự chọn
       d.match = m; await save();
       return pub(d, { steps, first: steps.length ? "foe" : "me" });
     }
