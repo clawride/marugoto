@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useGame } from "@/components/Game";
 import { charIcon } from "@/lib/genshin";
+import { ELEM } from "@/lib/data";
 import { RANKS, RANK_VI } from "@/lib/shikihime";
 import { buildDeck, power, RANK_ODDS, OPPONENTS, oppDeck, rankIdx } from "@/lib/shikiCards";
 import { DUEL_MODE } from "@/lib/shikiDuel";
@@ -14,6 +15,7 @@ import { api } from "./api";
 import Arena from "./Arena";
 import "./cards.css";
 import "./arena.css";
+import "./arena-fp.css";
 
 const FONTS = "https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Yuji+Syuku&family=Zen+Maru+Gothic:wght@700&display=swap";
 
@@ -61,6 +63,8 @@ function CardGame({ S, toast, update }) {
   const showOpponents = Boolean(cfg && P?.starter && !P.match && !P.pending && !reveal && !traded && tab === "duel");
   const opponentDecks = useMemo(() => showOpponents ? OPPONENTS.map((op) => oppDeck(op, deck)) : [], [showOpponents, deck]);
   const [mode, setMode] = useState("open");
+  const [claiming, setClaiming] = useState(null); // id thẻ thưởng đang thu phục
+  const [launching, setLaunching] = useState(null); // đối thủ vừa chọn — màn chào trước trận
   useEffect(() => {
     try {
       const r = JSON.parse(localStorage.getItem(LS) || "null"); if (r) setRules(r);
@@ -107,14 +111,33 @@ function CardGame({ S, toast, update }) {
     </div>
   );
 
+  // Nhận thẻ thưởng: hoạt cảnh thẻ bay lên chạy song song với yêu cầu lên máy chủ (tối thiểu 1,7 giây)
+  const claim = async (id) => {
+    if (claiming || busy || actionLock.current) return;
+    actionLock.current = true;
+    setClaiming(id); setErr(""); sfx.cast(); sfx.reveal(4);
+    const minWait = new Promise((r) => setTimeout(r, 1700));
+    try {
+      const j = await api(profile, "claim", { card: id });
+      await minWait;
+      setP(j); sfx.fanfare();
+      toast(`Đã nhận thẻ ${byId[id].name} (hạng ${byId[id].rank}) vào Hộp bài`);
+    } catch (e) { setErr(e.message); toast(e.message); }
+    finally { actionLock.current = false; setClaiming(null); }
+  };
+
   // ——— nhận thưởng ———
   if (P.pending) {
     const op = OPPONENTS[P.pending.op];
     return (
       <div className="tt">
         <div className="pagehead"><h1>🏆 Thắng {op.char.vi}!</h1><p>Chọn 1 thẻ của {op.char.vi} để bỏ vào Hộp bài.</p></div>
-        <div className="ttreveal">{P.pending.cards.map((id) => (
-          <div key={id} className="ttrv"><Card c={byId[id]} owner="foe" named onClick={() => !busy && run("claim", { card: id }, () => { toast(`Đã nhận thẻ ${byId[id].name} (hạng ${byId[id].rank}) vào Hộp bài`); sfx.win?.(); })} /><small>{P.box[id] ? `Đang có ${P.box[id]} lá` : "Thẻ mới!"}</small></div>
+        <div className={`ttreveal ${claiming ? "claiming" : ""}`}>{P.pending.cards.map((id) => (
+          <div key={id} className={`ttrv ${claiming === id ? "claimed" : claiming ? "dismissed" : ""}`} style={{ "--ec": ELEM[byId[id]?.el]?.c }}>
+            {claiming === id && <span className="ttclaimfx" aria-hidden="true" />}
+            <Card c={byId[id]} owner={claiming === id ? "me" : "foe"} named onClick={() => claim(id)} />
+            <small>{claiming === id ? "✨ Đang thu phục…" : P.box[id] ? `Đang có ${P.box[id]} lá` : "Thẻ mới!"}</small>
+          </div>
         ))}</div>
       </div>
     );
@@ -122,10 +145,11 @@ function CardGame({ S, toast, update }) {
 
   // ——— trận đang đấu ———
   if (P.match && P.match.mode !== DUEL_MODE) return <div className="tt">{head}<p className="hint">Phiên bản trận đấu đã thay đổi. Tải lại trang để tiếp tục.</p><button className="gbtn tri" onClick={() => location.reload()}>Tải lại</button></div>;
-  if (P.match) return <Arena key={P.match.id} m0={P.match} byId={byId} profile={profile} leaving={busy}
+  const launchFx = launching != null && OPPONENTS[launching] && <LaunchFx op={OPPONENTS[launching]} />;
+  if (P.match) return <>{launchFx}<Arena key={P.match.id} m0={P.match} byId={byId} profile={profile} leaving={busy}
     advisor={mode === "advisor" && !P.match.rules.open ? { cost: HINT_COST, primo: S.primo || 0, pay: () => update((s) => { if ((s.primo || 0) < HINT_COST) return false; s.primo -= HINT_COST; return true; }) } : null}
     onDone={(j) => { setP(j); if (j.lost) setLostNote({ id: j.lost, why: "Thua trận" }); }}
-    onForfeit={() => run("forfeit", { matchId: P.match.id }, (j) => j.lost && setLostNote({ id: j.lost, why: "Bỏ trận" }))} />;
+    onForfeit={() => run("forfeit", { matchId: P.match.id }, (j) => j.lost && setLostNote({ id: j.lost, why: "Bỏ trận" }))} /></>;
 
   const box = P.box, beat = P.beat, rec = P.rec;
   const owned = deck.filter((c) => box[c.id] > 0).sort((a, b) => rankIdx(b.rank) - rankIdx(a.rank) || power(b) - power(a));
@@ -147,9 +171,13 @@ function CardGame({ S, toast, update }) {
   const start = (op) => {
     const r = { ...rules, open: mode === "open" };
     try { localStorage.setItem(LS, JSON.stringify(r)); localStorage.setItem(LS_MODE, mode); } catch {}
-    run("start", { op: op.i, rules: r, deck: myDeck, mode: DUEL_MODE }, () => { setSelectedDeck(null); sfx.open(); }); };
+    // Màn chào đối thủ che thời gian chờ máy chủ chia bài
+    setLaunching(op.i); sfx.whoosh(); setTimeout(() => sfx.boom(), 350);
+    setTimeout(() => setLaunching(null), 1500);
+    run("start", { op: op.i, rules: r, deck: myDeck, mode: DUEL_MODE }, () => { setSelectedDeck(null); sfx.open(); });
+  };
   return (
-    <div className="tt">{head}
+    <div className="tt">{head}{launchFx}
       {lostNote && byId[lostNote.id] && <div className="panel ttlost"><Card c={byId[lostNote.id]} owner="foe" small /><div><b>{lostNote.why}: bạn bị lấy mất 1 lá</b><p>{byId[lostNote.id].name} · {byId[lostNote.id].ro} · hạng {byId[lostNote.id].rank}{P.box[lostNote.id] ? ` (còn ${P.box[lostNote.id]} lá)` : " (đã hết lá này)"}</p><button className="chip dk" onClick={() => setLostNote(null)}>Đã hiểu</button></div></div>}
       <div className="ttrec">Hộp bài: <b>{owned.length}</b>/{deck.length} loại · {rec.w} thắng · {rec.d} hòa · {rec.l} thua</div>
       <div className="chips" style={{ justifyContent: "center" }}>{[["duel", "⚔️ Đấu bài"], ["box", "🗃️ Hộp bài"], ["odds", "🎲 Hạng thẻ"]].map(([k, l]) => <button key={k} className={`chip dk ${tab === k ? "on" : ""}`} onClick={() => setTab(k)}>{l}</button>)}</div>
@@ -194,6 +222,17 @@ function CardGame({ S, toast, update }) {
           </div>
         </>
       )}
+    </div>
+  );
+}
+
+// Màn chào trước trận: đối thủ lướt vào, chữ 対戦 đóng dấu
+function LaunchFx({ op }) {
+  return (
+    <div className="ttlaunch" aria-hidden="true">
+      <div className="band" />
+      <img src={opponentArt(op.char.en)} alt="" />
+      <div className="txt"><b lang="ja">対戦</b><small>VS {op.char.vi}</small></div>
     </div>
   );
 }

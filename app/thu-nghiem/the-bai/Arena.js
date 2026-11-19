@@ -13,6 +13,7 @@ import { Card } from "./Card";
 import { api } from "./api";
 import "./arena.css";
 import "./arena-fx.css";
+import "./arena-fp.css";
 
 const OPP = { t: "b", r: "l", b: "t", l: "r" };
 const NB = (i) => ({ t: i >= 3 ? i - 3 : -1, b: i <= 5 ? i + 3 : -1, l: i % 3 ? i - 1 : -1, r: i % 3 < 2 ? i + 1 : -1 });
@@ -129,6 +130,24 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
   const [showEnd, setShowEnd] = useState(false);
   const [zoom, setZoom] = useState(null); // ô đang phóng to để xem thẻ
   const lastFlips = useRef(false);
+  const wrap = useRef(null);
+  const [full, setFull] = useState(false); // toàn màn hình (thật hoặc giả lập trên iPhone)
+  const [fakeFull, setFakeFull] = useState(false);
+  useEffect(() => {
+    const on = () => setFull(document.fullscreenElement === wrap.current);
+    document.addEventListener("fullscreenchange", on);
+    return () => document.removeEventListener("fullscreenchange", on);
+  }, []);
+  const toggleFull = async () => {
+    sfx.click();
+    if (fakeFull) { setFakeFull(false); return; }
+    if (document.fullscreenElement) { await document.exitFullscreen?.().catch(() => {}); return; }
+    const el = wrap.current;
+    if (el?.requestFullscreen) {
+      try { await el.requestFullscreen({ navigationUI: "hide" }); screen.orientation?.lock?.("landscape").catch(() => {}); return; } catch {}
+    }
+    setFakeFull(true); // trình duyệt không hỗ trợ (iPhone) → phủ kín cửa sổ bằng CSS
+  };
   const moves = useRef([]);
   const locked = useRef(true);
   const compute = useRef(null);
@@ -374,7 +393,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
   const zoomCell = zoom != null ? cells[zoom] : null;
 
   return (
-    <div className="tt ar-wrap">
+    <div ref={wrap} className={`tt ar-wrap ${fakeFull ? "fakefull" : ""} ${full || fakeFull ? "isfull" : ""}`}>
       <div ref={scene} className={`arena ${intro ? "intro-" + intro : ""} ${drag ? "dragging" : ""} ${end ? "ended r-" + end.result : ""} ${end && showEnd ? "finale" : ""} ${cutCard ? "has-cut" : ""}`} onPointerMove={parallax}>
         <div className="ar-bg" />
         <div className="ar-moon" /><div className="ar-lantern a" /><div className="ar-lantern b" />
@@ -435,6 +454,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
           <div className="ar-score foe"><span>{op.char.vi}</span><b key={"f" + sc.foe}>{sc.foe}</b></div>
         </div>
         <button className="ar-leave" disabled={leaving || (end && !receipt)} onClick={() => { if (end) onDone(receipt); else if (confirm("Bỏ trận? Trận này tính là thua và bạn sẽ bị lấy mất 1 lá NGẪU NHIÊN trong Hộp bài.")) onForfeit(); }}>{end ? "‹ Về" : "✕ Bỏ trận"}</button>
+        <button className="ar-full" onClick={toggleFull} title={full || fakeFull ? "Thoát toàn màn hình" : "Toàn màn hình"} aria-label={full || fakeFull ? "Thoát toàn màn hình" : "Toàn màn hình"}>{full || fakeFull ? "🗗" : "⛶"}</button>
 
         {advisor && !end && (
           <button className={`ar-advisor ${thinking ? "busy" : ""}`} disabled={!canAct || thinking || !!hint || advisor.primo < advisor.cost} onClick={askAdvisor}
@@ -495,7 +515,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
 
       {drag && dragCard && typeof document !== "undefined" && createPortal(
         <div className="tt ar-ghostlayer"><div ref={ghost} className={`ar-ghost ${drag.over != null ? "aim" : ""}`} style={{ width: drag.w, transform: `translate(${drag.x - drag.w / 2}px,${drag.y - drag.w * 0.7}px) scale(1.08)` }}><Card c={dragCard} owner="me" /></div></div>,
-        document.body)}
+        wrap.current || document.body)}
     </div>
   );
 }
