@@ -146,7 +146,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
   const [lang, setLang] = useState("vi"); // ngôn ngữ lời thoại + giọng: "vi" (mặc định) hoặc "ja"
   useEffect(() => { setLang(talkLang()); }, []);
   const speakLine = (t = talk, l = lang) => { const text = t[l]; if (text) (l === "vi" ? speakVi(who, text, t.mood) : speakAs(who, text)); };
-  useEffect(() => { if (talk.n) speakLine(); }, [talk.n]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { if (talk.n && talk.speak) speakLine(); }, [talk.n]); // eslint-disable-line react-hooks/exhaustive-deps
   const [full, setFull] = useState(false); // toàn màn hình (thật hoặc giả lập trên iPhone)
   const [fakeFull, setFakeFull] = useState(false);
   useEffect(() => {
@@ -177,8 +177,9 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
   const playerName = (profile.name || profile.username || "").trim().slice(0, 20); // đối thủ gọi đích danh người chơi
   const cards = useMemo(() => Object.fromEntries(Object.entries(m0.cards).map(([id, stats]) => [id, { ...byId[id], ...stats }])), [m0, byId]);
 
-  const say = (mood) => {
-    setTalk((t) => ({ mood, ja: opponentLine(who, mood, t.ja), vi: opponentLineVi(who, mood, t.vi, playerName), n: t.n + 1 }));
+  // speak = đọc thành tiếng; chỉ đọc khi người chơi sắp thua, sắp hết giờ hoặc hết ván — còn lại chỉ hiện bóng thoại
+  const say = (mood, speak = false) => {
+    setTalk((t) => ({ mood, speak, ja: opponentLine(who, mood, t.ja), vi: opponentLineVi(who, mood, t.vi, playerName), n: t.n + 1 }));
   };
 
   useEffect(() => {
@@ -259,7 +260,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
   useEffect(() => {
     if (left == null || !canAct) return;
     if (left <= 10 && left > 0) sfx.tick(left <= 5);
-    if (left === 10 && !warned.current) { warned.current = true; say("tease"); }
+    if (left === 10 && !warned.current) { warned.current = true; say("tease", true); }
     if (left === 0 && !drag?.throwing && !locked.current) {
       const m = matchRef.current;
       const empty = m.cells.map((c, i) => (c ? -1 : i)).filter((i) => i >= 0);
@@ -279,15 +280,19 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
     if (step.flips.length) { sfx.cast(); sfx.flip(Math.min(4, step.flips.length), 0.95); }
     if (special.length) sfx.special();
     if (match.turn === "done") return;
-    if (step.who === "me" && !step.flips.length && Math.random() < 0.55) return;
-    say(reactionFor(step));
+    // Chỉ khiêu khích thành tiếng khi bạn đang thua (máy dẫn ≥2, hoặc dẫn khi ván sắp hết); bị lật thì chỉ cay trong bóng thoại
+    const sc = duelResult(match).score, lead = sc.foe - sc.me, filled = match.cells.filter(Boolean).length;
+    if (step.who === "foe" && step.flips.length) {
+      const losing = lead >= 2 || (filled >= 6 && lead > 0);
+      if (losing) say("capture", true); else if (Math.random() < 0.5) say("capture");
+    } else if (step.who === "me" && step.flips.length && Math.random() < 0.6) say("setback");
   }, [step]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Kết thúc ván
   useEffect(() => {
     if (turn !== "done") return;
     const r = duelResult(match).result;
-    say(r === "w" ? "lose" : r === "l" ? "win" : "draw");
+    say(r === "w" ? "lose" : r === "l" ? "win" : "draw", true);
     finish();
     setZoom(null);
     // Màn kết thúc hoành tráng sau khi chiêu thức/lật thẻ cuối cùng diễn xong
@@ -307,12 +312,6 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
     return () => clearTimeout(t);
   }, [talk.n]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Chần chừ lâu → bị trêu
-  useEffect(() => {
-    if (!canAct || drag) return;
-    const t = setTimeout(() => say("tease"), 11000);
-    return () => clearTimeout(t);
-  }, [canAct, drag, talk.n]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const play = (k, i) => {
     const m = matchRef.current;
@@ -421,7 +420,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
   };
   const untilt = (e) => { const s = e.currentTarget.style; s.setProperty("--ry", "0deg"); s.setProperty("--rx", "0deg"); };
   const unlocked = useRef(false);
-  const unlockOnce = () => { if (!unlocked.current) { unlocked.current = true; unlockVoice(); if (voice) speakLine(); } };
+  const unlockOnce = () => { if (!unlocked.current) { unlocked.current = true; unlockVoice(); if (voice && talk.speak) speakLine(); } };
   const parallax = (e) => {
     if (e.pointerType !== "mouse" || !scene.current) return;
     const r = scene.current.getBoundingClientRect();
