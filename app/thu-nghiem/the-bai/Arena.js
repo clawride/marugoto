@@ -174,10 +174,11 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
   const scene = useRef(null);
   matchRef.current = match;
   const storageKey = "shiki_duel_" + profile.id;
+  const playerName = (profile.name || profile.username || "").trim().slice(0, 20); // đối thủ gọi đích danh người chơi
   const cards = useMemo(() => Object.fromEntries(Object.entries(m0.cards).map(([id, stats]) => [id, { ...byId[id], ...stats }])), [m0, byId]);
 
   const say = (mood) => {
-    setTalk((t) => ({ mood, ja: opponentLine(who, mood, t.ja), vi: opponentLineVi(who, mood, t.vi), n: t.n + 1 }));
+    setTalk((t) => ({ mood, ja: opponentLine(who, mood, t.ja), vi: opponentLineVi(who, mood, t.vi, playerName), n: t.n + 1 }));
   };
 
   useEffect(() => {
@@ -213,7 +214,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
     moves.current = history;
     locked.current = true;
     const fresh = !history.length;
-    setTalk({ mood: "opening", ja: opponentLine(who, "opening"), vi: opponentLineVi(who, "opening"), n: 1 });
+    setTalk({ mood: "opening", ja: opponentLine(who, "opening"), vi: opponentLineVi(who, "opening", "", playerName), n: 1 });
     if (fresh) {
       setIntro("shuffle"); sfx.shuffle();
       timers.push(setTimeout(() => { if (active) { setIntro("deal"); for (let i = 0; i < 5; i++) sfx.deal(i); } }, 1500));
