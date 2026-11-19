@@ -109,6 +109,32 @@
 @keyframes armini{50%{box-shadow:0 0 0 2px #fff,0 0 1.8cqw #ffd36b}}
 @keyframes arminifl{0%{transform:rotateY(180deg);filter:brightness(2)}100%{transform:none}}
 
+/* ===== mục Nâng cao (thu gọn) ===== */
+.tt .ttadv{margin:10px 0 6px;border-radius:12px;border:1px solid rgba(232,196,106,.35);background:rgba(255,255,255,.03);padding:0 12px}
+.tt .ttadv>summary{cursor:pointer;padding:10px 2px;font-weight:800;list-style:none;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.tt .ttadv>summary::-webkit-details-marker{display:none}
+.tt .ttadv>summary::after{content:"▾";margin-left:auto;transition:transform .2s}
+.tt .ttadv[open]>summary::after{transform:rotate(180deg)}
+.tt .ttadv>summary small{font-weight:500;opacity:.7;font-size:12px}
+.tt .ttadv[open]{padding-bottom:10px}
+.tt .ttadvh{margin:8px 0 6px;font-size:15px}
+.tt .ttadvh small{font-weight:400;opacity:.7;font-size:12px}
+
+/* ===== bàn đấu đổi tông màu theo vùng của ải; ải càng xa trời càng tối ===== */
+.arena .ar-bg{filter:brightness(calc(1.05 - var(--stage,0) * .015))}
+.arena.reg-mondstadt .ar-bg{filter:hue-rotate(-75deg) saturate(1.15) brightness(calc(1.12 - var(--stage,0) * .015))}
+.arena.reg-liyue .ar-bg{filter:hue-rotate(140deg) saturate(1.2) sepia(.15) brightness(calc(1.08 - var(--stage,0) * .015))}
+.arena.reg-fontaine .ar-bg{filter:hue-rotate(-110deg) saturate(1.25) brightness(calc(1.05 - var(--stage,0) * .015))}
+.arena.reg-sumeru .ar-bg{filter:hue-rotate(-160deg) saturate(.95) brightness(calc(1.05 - var(--stage,0) * .015))}
+.arena.reg-mondstadt{background:radial-gradient(ellipse 80% 60% at 50% 35%,#17505e,#0c3644 55%,#061c26)}
+.arena.reg-liyue{background:radial-gradient(ellipse 80% 60% at 50% 35%,#4e3a14,#33250c 55%,#1a1206)}
+.arena.reg-fontaine{background:radial-gradient(ellipse 80% 60% at 50% 35%,#135a6e,#0b3a4a 55%,#05202a)}
+.arena.reg-sumeru{background:radial-gradient(ellipse 80% 60% at 50% 35%,#245a24,#153a14 55%,#0a1e0a)}
+.arena.reg-mondstadt .ar-petals i:not(:nth-child(3n)){background:radial-gradient(circle,#fff,#d8f3ff 55%,transparent 70%);border-radius:50%;box-shadow:0 0 6px rgba(200,240,255,.8)}
+.arena.reg-liyue .ar-petals i:not(:nth-child(3n)){background:linear-gradient(135deg,#ffe9a8,#e8a53a 60%,#b0601a)}
+.arena.reg-fontaine .ar-petals i:not(:nth-child(3n)){background:radial-gradient(circle at 35% 30%,#fff,#8fd8ff 50%,rgba(40,140,220,.4));border-radius:50% 50% 50% 0;box-shadow:0 0 8px rgba(120,210,255,.8)}
+.arena.reg-sumeru .ar-petals i:not(:nth-child(3n)){background:linear-gradient(135deg,#d6ff9a,#5cb84a 60%,#2a7a2a)}
+
 /* ===== chọn độ khó ===== */
 .tt .ttlevels{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:4px 0 12px}
 .tt .ttlevels>b{font-size:14px;margin-right:4px}

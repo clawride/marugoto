@@ -12,6 +12,7 @@ import { sfx } from "@/lib/sfx";
 import { speakAs, speakVi, stopVoice, unlockVoice, voiceOn, setVoiceOn, talkLang, setTalkLang } from "@/lib/shikiVoice";
 import { opponentLineVi } from "@/lib/shikiTauntVi";
 import { Card } from "./Card";
+import { REGION } from "./StageMap";
 import { api } from "./api";
 import "./arena.css";
 import "./arena-fx.css";
@@ -437,7 +438,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
 
   return (
     <div ref={wrap} className={`tt ar-wrap ${fakeFull ? "fakefull" : ""} ${full || fakeFull ? "isfull" : ""}`}>
-      <div ref={scene} className={`arena ${intro ? "intro-" + intro : ""} ${drag ? "dragging" : ""} ${end ? "ended r-" + end.result : ""} ${end && showEnd ? "finale" : ""} ${cutCard ? "has-cut" : ""}`} onPointerMove={parallax} onPointerDownCapture={unlockOnce}>
+      <div ref={scene} style={{ "--stage": m0.op }} className={`arena reg-${(REGION[op.char.en] || "inazuma").toLowerCase()} ${intro ? "intro-" + intro : ""} ${drag ? "dragging" : ""} ${end ? "ended r-" + end.result : ""} ${end && showEnd ? "finale" : ""} ${cutCard ? "has-cut" : ""}`} onPointerMove={parallax} onPointerDownCapture={unlockOnce}>
         <div className="ar-bg" />
         <div className="ar-moon" /><div className="ar-lantern a" /><div className="ar-lantern b" />
         <div className="ar-petals" aria-hidden="true">{PETALS.map((p, i) => <i key={i} style={{ "--x": p.x + "%", "--d": p.d + "s", "--t": p.t + "s", "--s": p.s, "--w": p.w + "cqw" }} />)}</div>

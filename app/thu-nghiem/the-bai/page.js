@@ -30,7 +30,7 @@ const RULES = [
   ["elemental", "Nguyên tố", "Ô có biểu tượng nguyên tố: thẻ cùng hệ +1 mỗi cạnh, khác hệ −1"],
 ];
 const LS = "shiki_tt_rules";
-const LS_MODE = "shiki_tt_mode";
+const LS_MODE = "shiki_tt_mode2"; // khóa mới: mọi người bắt đầu lại với mặc định Úp bài
 const HINT_COST = 100; // Nguyên Thạch mỗi lần hỏi Quân sư
 const MODES = [
   ["open", "🃏", "Ngửa bài", "Hai bên đều thấy bài trên tay nhau. Máy tính toán với bài thật của bạn."],
@@ -66,7 +66,7 @@ function CardGame({ S, toast, update }) {
   const [traded, setTraded] = useState(null); // { got, pay } vừa đổi bài
   const showOpponents = Boolean(cfg && P?.starter && !P.match && !P.pending && !reveal && !traded && tab === "duel");
   const opponentDecks = useMemo(() => showOpponents ? OPPONENTS.map((op) => oppDeck(op, deck)) : [], [showOpponents, deck]);
-  const [mode, setMode] = useState("open");
+  const [mode, setMode] = useState("hidden"); // mặc định: Úp bài
   const [level, setLevel] = useState("auto"); // "auto" = tăng dần theo đối thủ · 1–4 = cố định
   const [claiming, setClaiming] = useState(null); // id thẻ thưởng đang thu phục
   const [launching, setLaunching] = useState(null); // đối thủ vừa chọn — màn chào trước trận
@@ -214,7 +214,9 @@ function CardGame({ S, toast, update }) {
           <p className="hint">Bấm thẻ để thêm vào bộ bài (bấm lần nữa để bỏ). Bộ bài được lưu khi bắt đầu trận.</p>
           <div className={`ttpool ${shuffling ? "shuffling" : ""}`}>{pool.map((c, n) => { const i = myDeck.indexOf(c.id); return <div key={c.id} className={`ttpick ${i >= 0 ? "in" : ""}`} style={{ "--sx": ((n * 53) % 100) - 50, "--sy": ((n * 31) % 60) - 30, "--sr": ((n * 47) % 50) - 25, "--n": n }}><Card c={c} owner={i >= 0 ? "me" : null} badge={i >= 0 ? i + 1 : null} named onClick={() => toggle(c, i)} /></div>; })}</div>
           {owned.length < 5 && <p className="hint">Hộp bài cần ít nhất 5 thẻ.</p>}
-          <h2 className="a22th"><span>2 · Chế độ</span> <small>chọn 1</small></h2>
+          <details className="ttadv">
+            <summary>⚙️ Nâng cao <small>{(MODES.find(([k]) => k === mode) || MODES[1])[2]} · độ khó {level === "auto" ? "tăng dần" : LEVELS[level][0]}{Object.entries(rules).some(([k, v]) => v && k !== "open") ? " · có luật thêm" : ""}</small></summary>
+          <h3 className="ttadvh">Chế độ</h3>
           <div className="ttmodes" role="radiogroup">{MODES.map(([k, ico, n, d]) => (
             <button key={k} type="button" role="radio" aria-checked={mode === k} className={`ttmode ${mode === k ? "on" : ""}`} onClick={() => { setMode(k); sfx.click(); }}>
               <span className="ico">{ico}</span><b>{n}</b><small>{d}</small>
@@ -226,9 +228,10 @@ function CardGame({ S, toast, update }) {
               <button key={k} type="button" role="radio" aria-checked={level === k} className={`ttlv lv${k} ${level === k ? "on" : ""}`} title={d} onClick={() => { setLevel(k); sfx.click(); }}>{n}</button>
             ))}
           </div>
-          <h2 className="a22th"><span>3 · Luật thêm</span> <small>bật / tắt</small></h2>
+          <h3 className="ttadvh">Luật thêm <small>bật / tắt</small></h3>
           <div className="ttrules">{RULES.filter(([k]) => k !== "open").map(([k, n, d]) => <label key={k} className={`panel ttrule ${rules[k] ? "on" : ""}`}><input type="checkbox" checked={rules[k]} onChange={(e) => setRules((r) => ({ ...r, [k]: e.target.checked }))} /><b>{n}</b><small>{d}</small></label>)}</div>
-          <h2 className="a22th"><span>4 · Bản đồ các ải</span> <small>qua ải này mới mở ải tiếp theo</small></h2>
+          </details>
+          <h2 className="a22th"><span>2 · Bản đồ các ải</span> <small>qua ải này mới mở ải tiếp theo</small></h2>
           <StageMap ops={OPPONENTS} beat={beat} decks={opponentDecks} levelOf={levelOf} busy={busy} canStart={myDeck.length === 5} onStart={start} />
         </>
       )}

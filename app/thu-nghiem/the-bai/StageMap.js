@@ -7,7 +7,7 @@ import { LEVELS } from "@/lib/shikiDuel";
 import { sfx } from "@/lib/sfx";
 import "./stagemap.css";
 
-const REGION = {
+export const REGION = {
   Amber: "Mondstadt", Barbara: "Mondstadt", Kaeya: "Mondstadt", Lisa: "Mondstadt", Xiangling: "Liyue", Bennett: "Mondstadt",
   Fischl: "Mondstadt", Ningguang: "Liyue", Diluc: "Mondstadt", Keqing: "Liyue", Zhongli: "Liyue", Ganyu: "Liyue",
   "Raiden Shogun": "Inazuma", Neuvillette: "Fontaine", Nahida: "Sumeru",
