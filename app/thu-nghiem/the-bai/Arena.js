@@ -215,7 +215,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
     moves.current = history;
     locked.current = true;
     const fresh = !history.length;
-    setTalk({ mood: "opening", ja: opponentLine(who, "opening"), vi: opponentLineVi(who, "opening", "", playerName), n: 1 });
+    setTalk({ mood: "opening", speak: true, ja: opponentLine(who, "opening"), vi: opponentLineVi(who, "opening", "", playerName), n: 1 }); // câu chào được đọc thành tiếng
     if (fresh) {
       setIntro("shuffle"); sfx.shuffle();
       timers.push(setTimeout(() => { if (active) { setIntro("deal"); for (let i = 0; i < 5; i++) sfx.deal(i); } }, 1500));
