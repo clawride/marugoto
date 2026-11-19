@@ -1,47 +1,89 @@
-/* 🧪 Đấu lượt 3×3 (thử nghiệm) */
+/* 🧪 Đấu đội hình kiểu TS Online (thử nghiệm) */
 .labtag{font-size:11px;background:#e85d75;color:#fff;border-radius:99px;padding:1px 8px;vertical-align:middle}
 .duel .dcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:8px 0 16px}
-.duel .dcards.sm{grid-template-columns:repeat(auto-fill,minmax(110px,1fr))}
-.duel .dcard{display:flex;flex-direction:column;gap:3px;padding:6px;text-align:left;border:2px solid transparent;cursor:pointer;color:inherit}
+.duel .dcard{position:relative;display:flex;flex-direction:column;gap:3px;padding:6px;text-align:left;border:2px solid transparent;cursor:pointer;color:inherit}
 .duel .dcard.on{border-color:var(--ec,#ffd36b);box-shadow:0 0 14px var(--ec,#ffd36b)}
-.duel .dcard>img{width:100%;aspect-ratio:900/571;object-fit:cover;object-position:top;border-radius:6px;background:#222}
-.duel .dcard small{font-size:11px;opacity:.85;display:flex;align-items:center;gap:3px}
+.duel .dnum{position:absolute;top:6px;left:6px;z-index:2;background:#ffd36b;color:#222;font-weight:800;border-radius:50%;width:22px;height:22px;display:grid;place-items:center;font-size:13px}
+.duel .dpic{position:relative}
+.duel .dpic>img:first-child{width:100%;aspect-ratio:900/571;object-fit:cover;object-position:top;border-radius:6px;background:#222;opacity:.55}
+.duel .dchibi{position:absolute;left:50%;bottom:-4px;transform:translateX(-50%);height:96%;image-rendering:pixelated;filter:drop-shadow(0 2px 2px #000a)}
+.duel .dcard small{font-size:11px;opacity:.85;display:flex;align-items:center;gap:3px;flex-wrap:wrap}
 .duel .dcard .del{width:16px;height:16px}
 .duel .dcard .dst{display:block;font-size:10px;opacity:.7}
-.duel .dwlist{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 16px}
-.duel .dw{display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:8px;border:1px solid #6a6f8f;background:rgba(20,24,44,.7);color:#eee;cursor:pointer}
-.duel .dw.on{border-color:#ffd36b;box-shadow:0 0 10px #ffd36b88}
-.duel .dw img{width:28px;height:28px}
-.duel .dw small{opacity:.7}
-.duel .dhead{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:start;margin:10px 0}
-.duel .dround{text-align:center;font-weight:700;color:#ffd36b}
+.duel .dteam{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px}
+.duel .dslot{display:flex;gap:8px;align-items:center;padding:6px 10px}
+.duel .dslot select{display:block;margin-top:4px;max-width:100%}
+.duel .dmini{height:60px;image-rendering:pixelated}
+.duel .dround{text-align:center;font-weight:700;color:#ffd36b;margin:6px 0}
 .duel .dround small{display:block;font-weight:400;color:#ccd;font-size:12px}
-.duel .dbar{display:grid;gap:4px}
-.duel .dbar.r{text-align:right}
-.duel .dname{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-.duel .dbar.r .dname{justify-content:flex-end}
-.duel .dname img{width:20px;height:20px}
-.duel .dname small{opacity:.75;font-size:12px}
-.duel .hpb,.duel .mpb{position:relative;height:16px;border-radius:8px;background:rgba(255,255,255,.12);overflow:hidden}
-.duel .mpb{height:11px}
-.duel .hpb i{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,#3fbf6a,#9be36b);transition:width .4s}
-.duel .mpb i{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,#3b7be0,#6fc3ff);transition:width .4s}
-.duel .hpb span,.duel .mpb span{position:relative;font-size:11px;padding:0 6px;line-height:16px}
-.duel .mpb span{line-height:11px;font-size:9px}
-.duel .dst{font-size:11px;opacity:.7}
-.duel .board{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:420px;margin:12px auto;aspect-ratio:1}
-.duel .cell{position:relative;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:radial-gradient(circle at 50% 40%,rgba(120,140,200,.18),rgba(10,14,30,.7));display:grid;place-items:center;padding:0;cursor:default}
-.duel .cell.mv{cursor:pointer;outline:2px dashed #ffd36b;background:rgba(255,211,107,.18)}
-.duel .cell.hit{box-shadow:inset 0 0 0 3px #ff6b6b}
-.duel .token{position:relative;width:86%;aspect-ratio:1;border-radius:50%;overflow:hidden;border:3px solid var(--ec,#fff);box-shadow:0 0 14px var(--ec,#fff)}
-.duel .cell.me .token{border-style:solid}
-.duel .cell.foe .token{filter:saturate(.9);border-style:double}
-.duel .token img{width:100%;height:100%;object-fit:cover;object-position:top}
-.duel .token span{position:absolute;right:4px;bottom:2px;font-size:18px;text-shadow:0 0 4px #000}
-.duel .dmg{position:absolute;top:8%;left:50%;transform:translateX(-50%);font-style:normal;font-weight:800;font-size:22px;color:#ffe08a;text-shadow:0 0 6px #000;animation:dmgup 1s ease-out forwards;pointer-events:none}
-@keyframes dmgup{from{opacity:1;transform:translate(-50%,0)}to{opacity:0;transform:translate(-50%,-30px)}}
-.duel .dacts{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:10px 0}
-.duel .dlog{max-height:220px;overflow:auto;font-size:13px}
+
+/* sân đấu chéo */
+.duel .arena2{position:relative;width:100%;max-width:900px;margin:0 auto;aspect-ratio:16/10;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.2)}
+.duel .field{position:absolute;inset:0;background:
+  repeating-linear-gradient(32deg,rgba(255,255,255,.05) 0 2px,transparent 2px 46px),
+  repeating-linear-gradient(-32deg,rgba(255,255,255,.05) 0 2px,transparent 2px 46px),
+  radial-gradient(ellipse at 50% 50%,#7aa55a,#4f7a3c 60%,#365a2a)}
+.duel .unit{position:absolute;width:11%;transform:translate(-50%,-92%);background:none;border:0;padding:0;cursor:pointer;transition:left .32s cubic-bezier(.3,.7,.3,1),top .32s cubic-bezier(.3,.7,.3,1),filter .2s}
+.duel .unit img{display:block;width:100%;image-rendering:pixelated;filter:drop-shadow(0 6px 3px rgba(0,0,0,.45));pointer-events:none}
+.duel .unit.foe img{transform:scaleX(1)}
+.duel .unit.dead{filter:grayscale(1) brightness(.5);opacity:.45;pointer-events:none}
+.duel .unit.sel::after{content:"";position:absolute;left:50%;bottom:-4%;width:70%;height:16%;transform:translateX(-50%);border-radius:50%;border:2px solid #ffd36b;box-shadow:0 0 10px #ffd36b;z-index:-1}
+.duel .unit.tgt img{filter:drop-shadow(0 0 6px #ff5050) drop-shadow(0 0 2px #ff5050)}
+.duel .unit.tgt{cursor:crosshair}
+.duel .ubar{position:absolute;left:18%;right:18%;top:10%;height:7px;border-radius:4px;background:rgba(0,0,0,.55);overflow:hidden}
+.duel .ubar i{position:absolute;inset:0 auto 50% 0;background:linear-gradient(90deg,#46c46c,#a5e86f);transition:width .35s}
+.duel .unit.foe .ubar i{background:linear-gradient(90deg,#e04848,#ff9a6a)}
+.duel .ubar em{position:absolute;inset:55% auto 0 0;background:#4aa3ff;transition:width .35s}
+.duel .ushield{position:absolute;right:4%;top:6%;font-size:14px}
+.duel .unum{position:absolute;left:50%;top:10%;transform:translateX(-50%);font-size:clamp(14px,2.4vw,24px);font-weight:900;color:#fff2b0;-webkit-text-stroke:1px #6b2a00;text-shadow:0 2px 0 #6b2a00;animation:unum 1s ease-out forwards;pointer-events:none;white-space:nowrap}
+.duel .unum.el{color:#ffb3ff}
+.duel .unum.heal{color:#9bff9b;-webkit-text-stroke-color:#1d5a1d;text-shadow:0 2px 0 #1d5a1d}
+@keyframes unum{0%{opacity:0;transform:translate(-50%,10px) scale(.6)}15%{opacity:1;transform:translate(-50%,0) scale(1.25)}100%{opacity:0;transform:translate(-50%,-34px) scale(1)}}
+/* tư thế (không có sprite sheet thì mô phỏng bằng biến hình) */
+.duel .unit.dash img{transform:skewX(-8deg) scale(1.04);filter:drop-shadow(-14px 4px 0 rgba(255,255,255,.18)) drop-shadow(-26px 6px 0 rgba(255,255,255,.08))}
+.duel .unit.foe.dash img{transform:skewX(8deg) scale(1.04);filter:drop-shadow(14px -4px 0 rgba(255,255,255,.18)) drop-shadow(26px -6px 0 rgba(255,255,255,.08))}
+.duel .unit.slash img,.duel .unit.slash2 img{animation:slash .38s ease-out}
+.duel .unit.thrust img,.duel .unit.thrust2 img{animation:thrust .38s ease-out}
+.duel .unit.foe.thrust img,.duel .unit.foe.thrust2 img{animation:thrustF .38s ease-out}
+.duel .unit.draw img{animation:draw .3s ease-out}
+.duel .unit.cast img{animation:cast .3s ease-out;filter:drop-shadow(0 0 10px var(--ec,#fff))}
+.duel .unit.back img{transform:scaleX(-1)}
+.duel .unit.hurt img{animation:hurt .45s ease-out}
+@keyframes slash{0%{transform:rotate(0) translateY(0)}30%{transform:rotate(-14deg) translateY(-8%) scale(1.06)}60%{transform:rotate(16deg) translateY(2%) scale(1.08)}100%{transform:rotate(0)}}
+@keyframes thrust{0%{transform:translate(0,0)}40%{transform:translate(8%,4%) scale(.96)}60%{transform:translate(-22%,-14%) scale(1.08)}100%{transform:translate(0,0)}}
+@keyframes thrustF{0%{transform:translate(0,0)}40%{transform:translate(-8%,-4%) scale(.96)}60%{transform:translate(22%,14%) scale(1.08)}100%{transform:translate(0,0)}}
+@keyframes draw{0%{transform:scale(1)}50%{transform:scaleX(.92) scaleY(1.04) translateY(-3%)}100%{transform:scale(1)}}
+@keyframes cast{0%{transform:translateY(0)}50%{transform:translateY(-10%) scale(1.06)}100%{transform:translateY(0)}}
+@keyframes hurt{0%{filter:brightness(4) drop-shadow(0 0 6px #fff)}30%{transform:translateX(-6%) rotate(-5deg)}60%{transform:translateX(5%) rotate(3deg)}100%{transform:none;filter:none}}
+/* hiệu ứng */
+.duel .fxat{position:absolute;width:13%;aspect-ratio:1;transform:translate(-50%,-50%);pointer-events:none;z-index:2000}
+.duel .fxat svg{width:100%;height:100%;overflow:visible}
+.duel .fxat.arc svg{filter:drop-shadow(0 0 6px #fff);animation:arc .4s ease-out forwards}
+.duel .fxat.arc.flip svg{transform:scaleX(-1)}
+.duel .fxat.big{width:20%}
+@keyframes arc{0%{opacity:0;transform:rotate(-40deg) scale(.6)}30%{opacity:1}100%{opacity:0;transform:rotate(25deg) scale(1.15)}}
+.duel .fxat.flip svg{animation-name:arcF}
+@keyframes arcF{0%{opacity:0;transform:scaleX(-1) rotate(-40deg) scale(.6)}30%{opacity:1}100%{opacity:0;transform:scaleX(-1) rotate(25deg) scale(1.15)}}
+.duel .fxat.spark svg{animation:spark .35s ease-out forwards}
+@keyframes spark{0%{opacity:1;transform:scale(.2)}100%{opacity:0;transform:scale(1.2)}}
+.duel .fxat .ring{position:absolute;inset:0;border-radius:50%;border:6px solid var(--col);box-shadow:0 0 20px var(--col),inset 0 0 20px var(--col);animation:ring .5s ease-out forwards}
+@keyframes ring{0%{opacity:1;transform:scale(.2)}100%{opacity:0;transform:scale(1.4)}}
+.duel .fxat .leaf{position:absolute;inset:0;display:grid;place-items:center;font-size:clamp(20px,4vw,40px);color:#8dff8d;text-shadow:0 0 12px #3f3;animation:spark .7s ease-out forwards}
+.duel .shot{position:absolute;pointer-events:none;z-index:2000;transition:left .4s linear,top .4s linear}
+.duel .shot.arrow{width:6%;height:3px;margin-left:-3%;background:linear-gradient(90deg,transparent,#d7c7a0 30%,#fff);transform:rotate(var(--ang));box-shadow:0 0 6px #fff}
+.duel .shot.orb{width:3.6%;aspect-ratio:1;margin-left:-1.8%;border-radius:50%;background:radial-gradient(circle,#fff,var(--col) 60%,transparent 70%);box-shadow:0 0 18px var(--col)}
+.duel .shot:not(.fly){opacity:.9}
+.duel .shot.fly{opacity:1}
+
+.duel .dplan{margin:10px 0;padding:10px 12px}
+.duel .dcur{display:flex;gap:10px;align-items:center}
+.duel .dcur img{height:56px;image-rendering:pixelated}
+.duel .dcur small{opacity:.85}
+.duel .dacts{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.duel .dorders{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.duel .dlog{max-height:200px;overflow:auto;font-size:13px}
 .duel .dlog p{margin:2px 0;opacity:.9}
 .duel .dlog p:first-child{opacity:1;font-weight:600}
-@media (max-width:600px){.duel .dhead{grid-template-columns:1fr 1fr}.duel .dround{grid-column:1/-1;order:-1}}
+.duel .sheet{position:relative;width:100%;overflow:hidden}
+.duel .sheet img{position:absolute;left:0;top:0;max-width:none;image-rendering:pixelated;transform:translate(0,var(--y));animation:sheet .5s infinite}
+@keyframes sheet{to{transform:translate(var(--x),var(--y))}}
