@@ -12,7 +12,7 @@
 // Không lấy lá nếu Hộp bài sẽ còn dưới 5 loại thẻ (để luôn đủ bộ bài đấu tiếp).
 import { store, auth } from "@/lib/store";
 import { getShikiConfig } from "@/lib/shikiConfig";
-import { drawCards, OPPONENTS, opById, legacyCharId, oppDeck, stageDeck, makeBoard, place, aiMove, score, power, rankIdx } from "@/lib/shikiCards";
+import { boosted, rankRangesOf, isMaxed, BOOST_COST, SIDES, drawCards, OPPONENTS, opById, legacyCharId, oppDeck, stageDeck, makeBoard, place, aiMove, score, power, rankIdx } from "@/lib/shikiCards";
 import { DUEL_MODE, replayDuel, duelResult, stageLevel } from "@/lib/shikiDuel";
 import { RANKS } from "@/lib/shikihime";
 
@@ -23,9 +23,11 @@ const RULE_KEYS = ["open", "same", "plus", "combo", "elemental"];
 const keyOf = (uid) => `shiki:${uid}`;
 
 // Freeze only the ten cards used by the game. An admin edit during a duel cannot change its replay.
-function enableLocal(m, byId) {
+// Lá của người chơi dùng chỉ số đã cường hóa (d.boost).
+function enableLocal(m, byId, d, ranges) {
   const ids = [...m.hands.me, ...m.hands.foe, ...m.cells.filter(Boolean).map((c) => c.id)];
-  m.cards = Object.fromEntries(ids.map((id) => [id, { id, n: byId[id].n, el: byId[id].el }]));
+  const statsOf = (id) => (m.hands.me.includes(id) && d?.boost?.[id] && ranges ? boosted(byId[id], d.boost[id], ranges) : byId[id]);
+  m.cards = Object.fromEntries(ids.map((id) => { const c = statsOf(id); return [id, { id, n: c.n, el: c.el, rank: c.rank }]; }));
   m.mode = DUEL_MODE;
   m.ai = 2; // máy không nhìn bài úp của người chơi
   m.id = crypto.randomUUID();
@@ -48,6 +50,7 @@ function takeCard(d, byId, how) {
   d.box[id]--;
   if (d.box[id] <= 0) {
     delete d.box[id];
+    if (d.boost) delete d.boost[id];
     // lá bị lấy đang trong bộ bài → bù lá mạnh nhất còn lại để bộ bài vẫn đủ 5
     if (d.deck.includes(id)) {
       d.deck = d.deck.filter((x) => x !== id);
@@ -77,12 +80,13 @@ function draftFor(d, op, deck, byId, cfg) {
   const boss = stageDeck(op, deck, cfg);
   const own = Object.keys(d.box).filter((id) => d.box[id] > 0 && byId[id]);
   if (d.draft?.opId === op.char.id && d.draft.deck.length === 5 && d.draft.deck.every((id) => d.box[id] > 0 && byId[id])) return { deck: d.draft.deck, boss };
+  const ranges = rankRangesOf(deck), rk = (x) => (boosted(byId[x], d.boost?.[x], ranges) || byId[x]).rank; // hạng sau cường hóa
   const used = new Set(), out = [];
   const pick = (list) => { const left = list.filter((id) => !used.has(id)); if (!left.length) return null; const id = left[Math.floor(Math.random() * left.length)]; used.add(id); return id; };
   for (const bc of [...boss].sort((a, b) => rankIdx(b.rank) - rankIdx(a.rank))) {
     let id = null;
-    for (let ri = rankIdx(bc.rank); ri >= 0 && !id; ri--) id = pick(own.filter((x) => byId[x].rank === RANKS[ri]));
-    if (!id) id = pick([...own].sort((a, b) => rankIdx(byId[a].rank) - rankIdx(byId[b].rank))); // không có hạng thấp hơn → lá yếu nhất còn lại
+    for (let ri = rankIdx(bc.rank); ri >= 0 && !id; ri--) id = pick(own.filter((x) => rk(x) === RANKS[ri]));
+    if (!id) id = pick([...own].sort((a, b) => rankIdx(rk(a)) - rankIdx(rk(b)))); // không có hạng thấp hơn → lá yếu nhất còn lại
     if (id) out.push(id);
   }
   d.draft = { opId: op.char.id, deck: out };
@@ -102,7 +106,7 @@ function view(m) {
   }
   return { op: m.op, rules: m.rules, els: m.els, cells: m.cells, turn: m.turn, hands: { me: m.hands.me, foe: m.rules.open ? m.hands.foe : m.hands.foe.length } };
 }
-const pub = (d, extra = {}) => Response.json({ draws: d.draws || 0, box: d.box, starter: d.starter, deck: d.deck, beat: beatIdx(d), tried: triedIdx(d), rec: d.rec, pending: d.pending && { ...d.pending, op: opOf(d.pending)?.i ?? d.pending.op }, match: view(d.match), ...extra }, H);
+const pub = (d, extra = {}) => Response.json({ draws: d.draws || 0, box: d.box, starter: d.starter, deck: d.deck, beat: beatIdx(d), tried: triedIdx(d), boost: d.boost || {}, rec: d.rec, pending: d.pending && { ...d.pending, op: opOf(d.pending)?.i ?? d.pending.op }, match: view(d.match), ...extra }, H);
 
 // Áp dụng một nước đi trên trạng thái trận (id thẻ) → bước để hiển thị
 function step(m, byId, who, handIdx, cell) {
@@ -157,7 +161,7 @@ async function handleAction(req, timed) {
     // Upgrade a legacy match at its saved position, retaining its board, hands and rewards.
     if (local && d.match && !d.match.mode) {
       const cfg = await timed("config", getShikiConfig);
-      enableLocal(d.match, cfg.byId);
+      enableLocal(d.match, cfg.byId, d, rankRangesOf(cfg.deck));
       await save();
     }
     return pub(d);
@@ -205,7 +209,7 @@ async function handleAction(req, timed) {
 
     case "start": {
       if (d.match) {
-        if (local && !d.match.mode) { enableLocal(d.match, byId); await save(); }
+        if (local && !d.match.mode) { enableLocal(d.match, byId, d, rankRangesOf(deck)); await save(); }
         return pub(d);
       }
       if (d.pending) return bad("Hãy nhận thẻ thưởng của trận trước");
@@ -226,7 +230,7 @@ async function handleAction(req, timed) {
       // độ khó máy: người chơi chọn 1–4, không chọn thì tăng dần theo thứ tự đối thủ
       m.level = [1, 2, 3, 4].includes(Number(b.level)) ? Number(b.level) : stageLevel(op, cfg);
       const steps = [];
-      if (local) enableLocal(m, byId);
+      if (local) enableLocal(m, byId, d, rankRangesOf(deck));
       else if (m.turn === "foe") steps.push(aiStep(m, byId, op.ai));
       if (first) { d.tried[op.char.id] = 1; d.draft = null; } else d.deck = mine.slice(); // ván đầu không ghi đè bộ bài tự chọn
       d.match = m; await save();
@@ -294,6 +298,23 @@ async function handleAction(req, timed) {
     }
 
     // đổi nhanh: đổi hết các nhóm 5 lá trùng từ hạng thấp lên cao (lá vừa đổi được có thể tiếp tục đổi lên hạng trên)
+    // Cường hóa: hủy 2 bản trùng của lá này → +1 vào một cạnh ngẫu nhiên chưa đạt 10
+    case "boost": {
+      if (d.match) return bad("Đang có trận dở — đấu xong rồi hãy cường hóa");
+      const id = String(b.card), base = byId[id];
+      if (!base || !(d.box[id] > 0)) return bad("Bạn không có lá này");
+      if (d.box[id] < BOOST_COST + 1) return bad(`Cần thêm ${BOOST_COST + 1 - d.box[id]} lá trùng (luôn giữ lại 1 lá)`);
+      d.boost ||= {};
+      const ranges = rankRangesOf(deck), before = boosted(base, d.boost[id], ranges) || base;
+      if (isMaxed(before)) return bad("Lá này đã đạt điểm tối đa");
+      const sides = SIDES.filter((k) => before.n[k] < 10), side = sides[Math.floor(Math.random() * sides.length)];
+      d.box[id] -= BOOST_COST;
+      d.boost[id] = { ...(d.boost[id] || {}), [side]: ((d.boost[id] || {})[side] || 0) + 1 };
+      const after = boosted(base, d.boost[id], ranges);
+      await save();
+      return pub(d, { boosted: { id, side, from: before.rank, to: after.rank, n: after.n } });
+    }
+
     case "tradeAll": {
       if (d.match) return bad("Đang có trận dở — đấu xong rồi hãy đổi bài");
       const gots = [];

@@ -6,7 +6,7 @@ import { useGame } from "@/components/Game";
 import { charIcon, elemIcon } from "@/lib/genshin";
 import { ELEM } from "@/lib/data";
 import { RANKS, RANK_VI } from "@/lib/shikihime";
-import { buildDeck, power, RANK_ODDS, OPPONENTS, stageDeck, rankIdx } from "@/lib/shikiCards";
+import { boosted, rankRangesOf, isMaxed, BOOST_COST, buildDeck, power, RANK_ODDS, OPPONENTS, stageDeck, rankIdx } from "@/lib/shikiCards";
 import { DUEL_MODE, LEVELS, stageLevel } from "@/lib/shikiDuel";
 import { opponentArt } from "@/lib/shikiDialogue";
 import { unlockVoice } from "@/lib/shikiVoice";
@@ -17,6 +17,7 @@ import Arena from "./Arena";
 import StageMap from "./StageMap";
 import DrawCine from "./DrawCine";
 import DraftShow from "./DraftShow";
+import BoostPanel from "./BoostPanel";
 import "./cards.css";
 import "./arena.css";
 import "./arena-fp.css";
@@ -51,9 +52,12 @@ function CardGame({ S, toast, update }) {
   useEffect(() => {
     if (profile?.id) fetch("/api/shiki").then((r) => (r.ok ? r.json() : {})).catch(() => ({})).then(setCfg);
   }, [profile?.id]);
-  const deck = useMemo(() => cfg ? buildDeck(cfg) : [], [cfg]);
-  const byId = useMemo(() => Object.fromEntries(deck.map((c) => [c.id, c])), [deck]);
+  const baseDeck = useMemo(() => cfg ? buildDeck(cfg) : [], [cfg]);
+  const ranges = useMemo(() => rankRangesOf(baseDeck), [baseDeck]);
   const [P, setP] = useState(null); // dữ liệu người chơi từ máy chủ
+  const deck = useMemo(() => baseDeck.map((c) => boosted(c, P?.boost?.[c.id], ranges) || c), [baseDeck, P?.boost, ranges]);
+  const byId = useMemo(() => Object.fromEntries(deck.map((c) => [c.id, c])), [deck]);
+  const [boostId, setBoostId] = useState(null); // lá đang mở bảng cường hóa
   const [err, setErr] = useState("");
   const [busy, setBusy] = useState(false);
   const [tab, setTab] = useState("duel");
@@ -71,7 +75,7 @@ function CardGame({ S, toast, update }) {
   const [lostNote, setLostNote] = useState(null); // { id, why } lá vừa bị lấy
   const [traded, setTraded] = useState(null); // { got, pay } vừa đổi bài
   const showOpponents = Boolean(cfg && P?.starter && !P.match && !P.pending && !reveal && !traded && tab === "duel");
-  const opponentDecks = useMemo(() => showOpponents ? OPPONENTS.map((op) => stageDeck(op, deck, cfg)) : [], [showOpponents, deck, cfg]);
+  const opponentDecks = useMemo(() => showOpponents ? OPPONENTS.map((op) => stageDeck(op, baseDeck, cfg)) : [], [showOpponents, deck, cfg]);
   const [mode, setMode] = useState("hidden"); // mặc định: Úp bài
   const [level, setLevel] = useState("auto"); // "auto" = tăng dần theo đối thủ · 1–4 = cố định
   const [claiming, setClaiming] = useState(null); // id thẻ thưởng đang thu phục
@@ -231,7 +235,10 @@ function CardGame({ S, toast, update }) {
       {tab === "box" && <TradePanel deck={deck} box={box} busy={busy} onTrade={(r) => run("trade", { rank: r }, (j) => { sfx.win?.(); setTraded({ got: j.got, pay: j.traded }); })}
         onTradeAll={() => run("tradeAll", {}, (j) => { sfx.reveal(4); toast(`Đã đổi ${j.paid} lá trùng lấy ${j.gots.length} lá mới`); setRevealKind("draw"); setReveal(j.gots); showCine(j.gots); })} />}
       {tab === "box" && filterBar}
-      {tab === "box" && <div className="ttpool">{view.map((c) => <div key={c.id} className="ttboxc"><Card c={c} owner="me" named />{box[c.id] > 1 && <span className="ttcount">×{box[c.id]}</span>}</div>)}</div>}
+      {tab === "box" && <p className="hint" style={{ textAlign: "center" }}>⬆️ Bấm vào một lá để <b>cường hóa</b>: hủy {BOOST_COST} lá trùng → +1 điểm vào một cạnh ngẫu nhiên. Đủ điểm là lá thăng hạng, lá F cũng có thể lên tới SR.</p>}
+      {tab === "box" && <div className="ttpool">{view.map((c) => <div key={c.id} className={`ttboxc ${box[c.id] >= BOOST_COST + 1 && !isMaxed(c) ? "canboost" : ""}`}><Card c={c} owner="me" named onClick={() => { setBoostId(c.id); sfx.click(); }} />{box[c.id] > 1 && <span className="ttcount">×{box[c.id]}</span>}{c.boost && <span className="ttboostlv">⬆{Object.values(c.boost).reduce((a, v) => a + v, 0)}</span>}{box[c.id] >= BOOST_COST + 1 && !isMaxed(c) && <span className="ttcanup" aria-hidden="true">⬆️</span>}</div>)}</div>}
+      {boostId && byId[boostId] && box[boostId] > 0 && <BoostPanel c={byId[boostId]} count={box[boostId]} ranges={ranges} busy={busy} onClose={() => setBoostId(null)}
+        onBoost={async (id) => { const j = await run("boost", { card: id }); return j?.boosted || null; }} />}
       {tab === "duel" && (
         <>
           <h2 className="a22th"><span>1 · Bộ 5 thẻ của bạn</span> <small>{myDeck.length}/5 · bấm thẻ trong Hộp bài để thêm/bớt</small></h2>
