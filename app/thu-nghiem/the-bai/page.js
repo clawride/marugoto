@@ -3,13 +3,19 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useGame } from "@/components/Game";
-import { ELEM } from "@/lib/data";
-import { elemIcon, charIcon } from "@/lib/genshin";
+import { charIcon } from "@/lib/genshin";
 import { RANKS, RANK_VI } from "@/lib/shikihime";
-import { buildDeck, power, sideVal, showNum, RANK_ODDS, OPPONENTS, oppDeck, rankIdx } from "@/lib/shikiCards";
-import { DUEL_MODE, duelMove, replayDuel, duelResult } from "@/lib/shikiDuel";
+import { buildDeck, power, RANK_ODDS, OPPONENTS, oppDeck, rankIdx } from "@/lib/shikiCards";
+import { DUEL_MODE } from "@/lib/shikiDuel";
+import { opponentArt } from "@/lib/shikiDialogue";
 import { sfx } from "@/lib/sfx";
+import { Card } from "./Card";
+import { api } from "./api";
+import Arena from "./Arena";
 import "./cards.css";
+import "./arena.css";
+
+const FONTS = "https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Yuji+Syuku&family=Zen+Maru+Gothic:wght@700&display=swap";
 
 const RULES = [
   ["open", "Lật bài", "Thấy bài trên tay đối thủ"],
@@ -19,20 +25,20 @@ const RULES = [
   ["elemental", "Nguyên tố", "Ô có biểu tượng nguyên tố: thẻ cùng hệ +1 mỗi cạnh, khác hệ −1"],
 ];
 const LS = "shiki_tt_rules";
-
-async function api(profile, action, body = {}) {
-  const r = await fetch("/api/shiki/play", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: profile?.id, token: profile?.token, action, ...body }) });
-  const j = await r.json().catch(() => ({}));
-  if (!r.ok) throw new Error(j.error || `Lỗi ${r.status}`);
-  return j;
-}
+const LS_MODE = "shiki_tt_mode";
+const HINT_COST = 100; // Nguyên Thạch mỗi lần hỏi Quân sư
+const MODES = [
+  ["open", "🃏", "Ngửa bài", "Hai bên đều thấy bài trên tay nhau. Máy tính toán với bài thật của bạn."],
+  ["hidden", "🂠", "Úp bài", "Hai bên che bài. Máy KHÔNG được nhìn bài của bạn — chỉ đoán theo bài của chính nó."],
+  ["advisor", "🧠", "Quân sư", `Úp bài + Quân sư bày nước đi tốt nhất cho bạn. Mỗi lần hỏi tốn ${HINT_COST} Nguyên Thạch.`],
+];
 
 export default function CardGamePage() {
-  const { S, toast } = useGame();
-  return <CardGame key={S?.profile?.id || "guest"} S={S} toast={toast} />;
+  const { S, toast, update } = useGame();
+  return <><link rel="stylesheet" href={FONTS} precedence="default" /><CardGame key={S?.profile?.id || "guest"} S={S} toast={toast} update={update} /></>;
 }
 
-function CardGame({ S, toast }) {
+function CardGame({ S, toast, update }) {
   const profile = S?.profile;
   const [cfg, setCfg] = useState(null);
   useEffect(() => {
@@ -46,13 +52,21 @@ function CardGame({ S, toast }) {
   const [tab, setTab] = useState("duel");
   const [selectedDeck, setSelectedDeck] = useState(null);
   const actionLock = useRef(false);
+  const [shuffling, setShuffling] = useState(false);
+  const [poolOrder, setPoolOrder] = useState(null);
   const [rules, setRules] = useState({ open: true, same: false, plus: false, combo: false, elemental: false });
   const [reveal, setReveal] = useState(null);
   const [lostNote, setLostNote] = useState(null); // { id, why } lá vừa bị lấy
   const [traded, setTraded] = useState(null); // { got, pay } vừa đổi bài
   const showOpponents = Boolean(cfg && P?.starter && !P.match && !P.pending && !reveal && !traded && tab === "duel");
   const opponentDecks = useMemo(() => showOpponents ? OPPONENTS.map((op) => oppDeck(op, deck)) : [], [showOpponents, deck]);
-  useEffect(() => { try { const r = JSON.parse(localStorage.getItem(LS) || "null"); if (r) setRules(r); } catch {} }, []);
+  const [mode, setMode] = useState("open");
+  useEffect(() => {
+    try {
+      const r = JSON.parse(localStorage.getItem(LS) || "null"); if (r) setRules(r);
+      const md = localStorage.getItem(LS_MODE); if (MODES.some(([k]) => k === md)) setMode(md);
+    } catch {}
+  }, []);
   useEffect(() => { if (profile?.id) api(profile, "state", { mode: DUEL_MODE }).then(setP).catch((e) => setErr(e.message)); }, [profile?.id]); // eslint-disable-line react-hooks/exhaustive-deps
   if (!S) return null;
   const run = async (action, body, after) => {
@@ -108,7 +122,8 @@ function CardGame({ S, toast }) {
 
   // ——— trận đang đấu ———
   if (P.match && P.match.mode !== DUEL_MODE) return <div className="tt">{head}<p className="hint">Phiên bản trận đấu đã thay đổi. Tải lại trang để tiếp tục.</p><button className="gbtn tri" onClick={() => location.reload()}>Tải lại</button></div>;
-  if (P.match) return <Match key={P.match.id} m0={P.match} byId={byId} profile={profile} leaving={busy}
+  if (P.match) return <Arena key={P.match.id} m0={P.match} byId={byId} profile={profile} leaving={busy}
+    advisor={mode === "advisor" && !P.match.rules.open ? { cost: HINT_COST, primo: S.primo || 0, pay: () => update((s) => { if ((s.primo || 0) < HINT_COST) return false; s.primo -= HINT_COST; return true; }) } : null}
     onDone={(j) => { setP(j); if (j.lost) setLostNote({ id: j.lost, why: "Thua trận" }); }}
     onForfeit={() => run("forfeit", { matchId: P.match.id }, (j) => j.lost && setLostNote({ id: j.lost, why: "Bỏ trận" }))} />;
 
@@ -117,7 +132,22 @@ function CardGame({ S, toast }) {
   const myDeck = (selectedDeck?.uid === profile.id ? selectedDeck.ids : P.deck).filter((id) => box[id] > 0).slice(0, 5);
   const setDeck = (ids) => setSelectedDeck({ uid: profile.id, ids });
   const unlocked = (op) => op.i === 0 || (beat[op.i - 1] || 0) > 0;
-  const start = (op) => { try { localStorage.setItem(LS, JSON.stringify(rules)); } catch {} run("start", { op: op.i, rules, deck: myDeck, mode: DUEL_MODE }, () => { setSelectedDeck(null); sfx.open(); }); };
+  const pool = poolOrder ? [...owned].sort((a, b) => poolOrder.indexOf(a.id) - poolOrder.indexOf(b.id)) : owned;
+  // Xáo cả Hộp bài rồi rút ngẫu nhiên 5 lá làm bộ bài
+  const shuffleDeck = () => {
+    if (busy || shuffling || owned.length < 5) return;
+    setShuffling(true); sfx.shuffle();
+    setTimeout(() => {
+      const ids = owned.map((c) => c.id).sort(() => Math.random() - 0.5);
+      setPoolOrder(ids); setDeck(ids.slice(0, 5)); setShuffling(false);
+      for (let i = 0; i < 5; i++) sfx.deal(i);
+    }, 1000);
+  };
+  const toggle = (c, i) => { if (busy || shuffling) return; setDeck(i >= 0 ? myDeck.filter((x) => x !== c.id) : myDeck.length < 5 ? [...myDeck, c.id] : myDeck); i >= 0 ? sfx.click() : sfx.deal(); };
+  const start = (op) => {
+    const r = { ...rules, open: mode === "open" };
+    try { localStorage.setItem(LS, JSON.stringify(r)); localStorage.setItem(LS_MODE, mode); } catch {}
+    run("start", { op: op.i, rules: r, deck: myDeck, mode: DUEL_MODE }, () => { setSelectedDeck(null); sfx.open(); }); };
   return (
     <div className="tt">{head}
       {lostNote && byId[lostNote.id] && <div className="panel ttlost"><Card c={byId[lostNote.id]} owner="foe" small /><div><b>{lostNote.why}: bạn bị lấy mất 1 lá</b><p>{byId[lostNote.id].name} · {byId[lostNote.id].ro} · hạng {byId[lostNote.id].rank}{P.box[lostNote.id] ? ` (còn ${P.box[lostNote.id]} lá)` : " (đã hết lá này)"}</p><button className="chip dk" onClick={() => setLostNote(null)}>Đã hiểu</button></div></div>}
@@ -129,18 +159,30 @@ function CardGame({ S, toast }) {
       {tab === "duel" && (
         <>
           <h2 className="a22th"><span>1 · Bộ 5 thẻ của bạn</span> <small>{myDeck.length}/5 · bấm thẻ trong Hộp bài để thêm/bớt</small></h2>
-          <p className="hint">Bộ bài được lưu khi bắt đầu trận.</p>
-          <div className="ttpool">{owned.map((c) => { const i = myDeck.indexOf(c.id); return <Card key={c.id} c={c} owner={i >= 0 ? "me" : null} badge={i >= 0 ? i + 1 : null} named onClick={() => { if (!busy) { setDeck(i >= 0 ? myDeck.filter((x) => x !== c.id) : myDeck.length < 5 ? [...myDeck, c.id] : myDeck); sfx.click(); } }} />; })}</div>
+          <div className="ttdecktray">
+            {[0, 1, 2, 3, 4].map((k) => myDeck[k] && byId[myDeck[k]]
+              ? <div key={myDeck[k]} className="ttslot full"><Card c={byId[myDeck[k]]} owner="me" badge={k + 1} onClick={() => toggle(byId[myDeck[k]], k)} /></div>
+              : <div key={"e" + k} className="ttslot"><span>{k + 1}</span></div>)}
+            <button className="gbtn tri ttshufbtn" disabled={busy || shuffling || owned.length < 5} onClick={shuffleDeck}><span className="c" />🔀 Xáo bài · rút 5 lá</button>
+          </div>
+          <p className="hint">Bấm thẻ để thêm vào bộ bài (bấm lần nữa để bỏ). Bộ bài được lưu khi bắt đầu trận.</p>
+          <div className={`ttpool ${shuffling ? "shuffling" : ""}`}>{pool.map((c, n) => { const i = myDeck.indexOf(c.id); return <div key={c.id} className={`ttpick ${i >= 0 ? "in" : ""}`} style={{ "--sx": ((n * 53) % 100) - 50, "--sy": ((n * 31) % 60) - 30, "--sr": ((n * 47) % 50) - 25, "--n": n }}><Card c={c} owner={i >= 0 ? "me" : null} badge={i >= 0 ? i + 1 : null} named onClick={() => toggle(c, i)} /></div>; })}</div>
           {owned.length < 5 && <p className="hint">Hộp bài cần ít nhất 5 thẻ.</p>}
-          <h2 className="a22th"><span>2 · Luật chơi</span> <small>bật / tắt</small></h2>
-          <div className="ttrules">{RULES.map(([k, n, d]) => <label key={k} className={`panel ttrule ${rules[k] ? "on" : ""}`}><input type="checkbox" checked={rules[k]} onChange={(e) => setRules((r) => ({ ...r, [k]: e.target.checked }))} /><b>{n}</b><small>{d}</small></label>)}</div>
-          <h2 className="a22th"><span>3 · Chọn đối thủ</span> <small>thắng người trước để mở người sau</small></h2>
+          <h2 className="a22th"><span>2 · Chế độ</span> <small>chọn 1</small></h2>
+          <div className="ttmodes" role="radiogroup">{MODES.map(([k, ico, n, d]) => (
+            <button key={k} type="button" role="radio" aria-checked={mode === k} className={`ttmode ${mode === k ? "on" : ""}`} onClick={() => { setMode(k); sfx.click(); }}>
+              <span className="ico">{ico}</span><b>{n}</b><small>{d}</small>
+            </button>
+          ))}</div>
+          <h2 className="a22th"><span>3 · Luật thêm</span> <small>bật / tắt</small></h2>
+          <div className="ttrules">{RULES.filter(([k]) => k !== "open").map(([k, n, d]) => <label key={k} className={`panel ttrule ${rules[k] ? "on" : ""}`}><input type="checkbox" checked={rules[k]} onChange={(e) => setRules((r) => ({ ...r, [k]: e.target.checked }))} /><b>{n}</b><small>{d}</small></label>)}</div>
+          <h2 className="a22th"><span>4 · Chọn đối thủ</span> <small>thắng người trước để mở người sau</small></h2>
           <div className="ttops">
             {OPPONENTS.map((op) => {
               const open = unlocked(op), od = opponentDecks[op.i];
               return (
                 <div key={op.i} className={`panel ttop ${open ? "" : "locked"}`}>
-                  <img className="ttav" src={charIcon(op.char)} alt={op.char.vi} loading="lazy" decoding="async" />
+                  <img className="ttav bust" src={opponentArt(op.char.en)} onError={(e) => { e.currentTarget.src = charIcon(op.char); }} alt={op.char.vi} loading="lazy" decoding="async" />
                   <div className="ttopi">
                     <b>{op.char.vi}</b> <small>Thẻ hạng {op.band[0]}–{op.band[1]} · máy chuyên gia{beat[op.i] ? ` · đã thắng ${beat[op.i]} lần` : ""}</small>
                     <div className="ttminis">{od.map((c) => <span key={c.id} className={`ttrk r-${c.rank}`} title={`${c.name} · hạng ${c.rank}`}>{c.rank}</span>)}</div>
@@ -179,142 +221,6 @@ function OddsTable({ deck }) {
       <h3>8 hạng thẻ & tỉ lệ rút</h3>
       <div className="ttoddrow">{[...RANKS].reverse().map((r) => <div key={r} className="ttodd"><span className={`ttrk big r-${r}`}>{r}</span><b>{RANK_VI[r]}</b><small>{RANK_ODDS[r]}% · {deck.filter((c) => c.rank === r).length} thẻ</small></div>)}</div>
       <p className="hint">Hạng được xếp theo tổng 4 cạnh của thẻ (quản trị có thể gán tay). Rút một lá: chọn hạng theo tỉ lệ trên rồi chọn ngẫu nhiên một thẻ trong hạng đó.</p>
-    </div>
-  );
-}
-
-// Một lá thẻ: ảnh trọn nhân vật, 4 số to giữa 4 cạnh, nguyên tố, class, hạng
-export function Card({ c, owner, onClick, back, sel, badge, el, flip, small, named }) {
-  if (back) return <div className={`ttcard back ${small ? "sm" : ""}`}><span>式</span></div>;
-  const v = (k) => (el !== undefined ? sideVal({ card: c }, el, k) : c.n[k]);
-  const d = (k) => (el ? v(k) - c.n[k] : 0);
-  return (
-    <button type="button" className={`ttcard ${owner || ""} ${sel ? "sel" : ""} ${flip ? `flip f${flip}` : ""} ${small ? "sm" : ""}`} onClick={onClick} style={{ "--ec": ELEM[c.el]?.c }} title={`${c.name} · ${c.ro} · hạng ${c.rank}`}>
-      <div className="ttart"><img className="ttportrait" src={`/shiki-duel/${c.id}.webp`} alt={c.ro} loading={named ? "lazy" : "eager"} decoding="async" draggable={false} /></div>
-      {[["t", "nt"], ["r", "nr"], ["b", "nb"], ["l", "nl"]].map(([k, cls]) => <b key={k} className={`ttn ${cls} ${d(k) > 0 ? "up" : d(k) < 0 ? "down" : ""}`}>{showNum(v(k))}</b>)}
-      <img className="ttel" src={elemIcon(c.el)} alt="" />
-      <span className={`ttrk corner r-${c.rank}`}>{c.rank}</span>
-      {badge && <span className="ttbadge">{badge}</span>}
-      {named && <span className="ttname jpt">{c.name}</span>}
-    </button>
-  );
-}
-
-
-// Only the player's choices are persisted. Replaying them also restores a pending AI reply.
-function Match({ m0, byId, profile, leaving, onDone, onForfeit }) {
-  const op = OPPONENTS[m0.op];
-  const [match, setMatch] = useState(m0);
-  const [ready, setReady] = useState(false);
-  const [sel, setSel] = useState(null);
-  const [step, setStep] = useState(null);
-  const [error, setError] = useState("");
-  const [syncing, setSyncing] = useState(false);
-  const [receipt, setReceipt] = useState(null);
-  const [savedLocally, setSavedLocally] = useState(true);
-  const moves = useRef([]);
-  const locked = useRef(true);
-  const compute = useRef(null);
-  const submitted = useRef(false);
-  const storageKey = "shiki_duel_" + profile.id;
-  const cards = useMemo(() => Object.fromEntries(Object.entries(m0.cards).map(([id, stats]) => [id, { ...byId[id], ...stats }])), [m0, byId]);
-
-  useEffect(() => {
-    let active = true, worker;
-    try { worker = new Worker(new URL("./opponent.worker.js", import.meta.url), { type: "module" }); } catch {}
-    function accept({ match, step, error }) {
-      if (!active) return;
-      if (error) { setError(error); return; }
-      setMatch(match); setStep(step); setReady(true); locked.current = false;
-      if (step?.flips.length) sfx.click();
-    }
-    compute.current = (position, history = []) => {
-      const fallback = () => setTimeout(() => {
-        if (!active) return;
-        try { accept(replayDuel(position, history)); } catch (e) { accept({ error: e.message }); }
-      }, 0);
-      if (!worker) { fallback(); return; }
-      worker.onmessage = ({ data }) => accept(data);
-      worker.onerror = () => { worker.terminate(); worker = null; fallback(); };
-      worker.postMessage({ match: position, moves: history });
-    };
-    let history = [];
-    try {
-      const stored = JSON.parse(localStorage.getItem(storageKey));
-      if (stored?.id === m0.id && Array.isArray(stored.moves)) history = stored.moves;
-    } catch { setSavedLocally(false); }
-    moves.current = history;
-    locked.current = true;
-    if (!history.length && m0.turn === "me") accept({ match: m0, step: null });
-    else compute.current(m0, history);
-    return () => { active = false; worker?.terminate(); compute.current = null; };
-  }, [m0, storageKey]);
-
-  const finish = async () => {
-    if (submitted.current) return;
-    submitted.current = true;
-    setSyncing(true); setError("");
-    try {
-      const data = await api(profile, "finish", { matchId: m0.id, moves: moves.current });
-      setReceipt(data);
-      if (data.result === "w") sfx.win?.();
-    } catch (e) { submitted.current = false; setError(e.message); }
-    finally { setSyncing(false); }
-  };
-  useEffect(() => {
-    if (match.turn === "done") finish();
-  }, [match.turn]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const clickCell = (i) => {
-    if (locked.current || leaving || match.turn !== "me" || match.cells[i] || sel == null) return;
-    const id = match.hands.me[sel];
-    const next = duelMove(match, id, i);
-    locked.current = true;
-    moves.current = [...moves.current, { id, cell: i }];
-    try { localStorage.setItem(storageKey, JSON.stringify({ id: m0.id, moves: moves.current })); }
-    catch { setSavedLocally(false); }
-    setMatch(next.match); setStep(next.step); setSel(null); setError("");
-    if (next.match.turn === "foe") compute.current(next.match);
-  };
-
-  const { cells, turn } = match;
-  const hands = { me: match.hands.me, foe: match.rules.open ? match.hands.foe : match.hands.foe.length };
-  const fx = Object.fromEntries((step?.flips || []).map((f) => [f.i, f.by]));
-  const last = step?.cell;
-  const sc = duelResult(match).score;
-  const end = turn === "done" ? receipt || duelResult(match) : null;
-  const special = [...new Set((step?.flips || []).map((f) => ({ same: "Bằng nhau", plus: "Cộng", combo: "Liên hoàn" })[f.by]).filter(Boolean))];
-  const msg = step ? `${step.who === "me" ? "Bạn" : op.char.vi} đặt ${cards[step.id].name}${step.flips.length ? " — lật " + step.flips.length + " thẻ" : ""}` : "";
-  return (
-    <div className="tt">
-      <button className="back" disabled={leaving || (end && !receipt)} onClick={() => { if (end) onDone(receipt); else if (confirm("Bỏ trận? Trận này tính là thua và bạn sẽ bị lấy mất 1 lá NGẪU NHIÊN trong Hộp bài.")) onForfeit(); }}>‹ {end ? "Về danh sách" : "Bỏ trận"}</button>
-      <div className="ttvs"><img src={charIcon(op.char)} alt="" /><div><b>{op.char.vi}</b><small>“{op.line}”</small></div></div>
-      <div className="ttscore"><span className="me">🟦 Bạn <b>{sc.me}</b></span><span className="ttmsg">{end ? "" : !ready ? "Đang khôi phục bàn đấu…" : turn === "me" ? (sel != null ? "Chọn ô trống để đặt thẻ" : "Chọn một thẻ trên tay") : `${op.char.vi} đang đi…`}</span><span className="foe"><b>{sc.foe}</b> {op.char.vi} 🟥</span></div>
-      <div className="tttable">
-        <div className="tthand foe">{Array.isArray(hands.foe) ? hands.foe.map((id, k) => <Card key={k} c={cards[id]} owner="foe" small />) : Array.from({ length: hands.foe }, (_, k) => <Card key={k} back small />)}</div>
-        <div className="ttboard">
-          {cells.map((cell, i) => (
-            <div key={i} className={`ttcell ${!cell && turn === "me" && sel != null ? "can" : ""}`} onClick={() => clickCell(i)}>
-              {m0.els[i] && <img className={`ttcellel ${cell ? "dim" : ""}`} src={elemIcon(m0.els[i])} alt={ELEM[m0.els[i]]?.vi} />}
-              {cell && <Card key={`${i}-${cell.owner}`} c={cards[cell.id]} owner={cell.owner} el={m0.els[i]} flip={fx[i] ? "x" : null} />}
-              {last === i && <span className="ttlast" key={`l${i}-${msg}`} />}
-            </div>
-          ))}
-        </div>
-        <div className="tthand me">{hands.me.map((id, k) => <Card key={k} c={cards[id]} owner="me" sel={sel === k} onClick={() => { if (turn === "me" && ready && !locked.current && !leaving) { setSel(sel === k ? null : k); sfx.click(); } }} small />)}</div>
-      </div>
-      <p className="ttlog" role="status">{error || [msg, ...special].filter(Boolean).join(" · ")}</p>
-      {error && <button className="chip dk" onClick={() => location.reload()}>Tải lại trạng thái ván</button>}
-      {!savedLocally && <p className="hint">Trình duyệt chưa lưu được nước đi. Hãy giữ trang mở đến khi kết quả được xác nhận.</p>}
-      {end && (
-        <div className="panel result">
-          <h2>{end.result === "w" ? "🏆 Bạn thắng!" : end.result === "l" ? "💀 Bạn thua…" : "🤝 Hòa!"}</h2>
-          <div className="score">{end.score.me}<small> : {end.score.foe}</small></div>
-          {receipt && end.result === "l" && (receipt.lost ? <div className="ttlost in"><Card c={byId[receipt.lost]} owner="foe" small /><p>Bạn bị lấy mất lá hạng cao nhất: <b>{byId[receipt.lost]?.name}</b> (hạng {byId[receipt.lost]?.rank})</p></div> : <p className="hint">Hộp bài đang ở mức tối thiểu 5 loại thẻ nên không bị lấy lá nào.</p>)}
-          {!receipt && <p role="status">{syncing ? "Đang xác nhận kết quả…" : "Kết quả chưa được đồng bộ."}</p>}
-          <div className="btnrow">{!receipt ? <button className="gbtn tri" disabled={syncing} onClick={finish}>Gửi lại kết quả</button> : <button className="gbtn tri" onClick={() => onDone(receipt)}><span className="c" />{end.result === "w" ? `🎁 Chọn 1 thẻ của ${op.char.vi}` : "Về danh sách đối thủ"}</button>}</div>
-        </div>
-      )}
     </div>
   );
 }

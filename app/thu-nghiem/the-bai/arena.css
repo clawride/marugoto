@@ -1,0 +1,224 @@
+/* 🎴 Bàn đấu 2.5D — đình hoa anh đào dưới trăng */
+.tt.ar-wrap{max-width:1240px;margin:0 auto}
+.arena{
+  --bg:url(/shiki-duel/arena/pavilion.webp);
+  --bx:52%;--by:38.5%;--bw:20cqw;--tilt:50deg;   /* bàn 3×3 */
+  --fx:51%;--fy:49%;--fw:21cqw;                /* tượng đối thủ: tâm x, đáy y, rộng */
+  --hx:81%;--hw:8.2cqw;--hgap:-1.6cqw;         /* tay bài của bạn */
+  --fhx:31%;--fhy:44%;--fhw:3.4cqw;            /* tay bài đối thủ trên bàn */
+  --fall:60cqw;--px:0;--py:0;
+  position:relative;aspect-ratio:16/9;container-type:inline-size;overflow:hidden;border-radius:18px;
+  background:#120c24;box-shadow:0 20px 60px rgba(0,0,0,.6),0 0 0 1px rgba(232,196,106,.35);user-select:none;-webkit-user-select:none;touch-action:manipulation;isolation:isolate}
+.arena .ar-bg{position:absolute;inset:-2%;background:var(--bg) center/cover no-repeat;transform:translate(calc(var(--px) * -1.2%),calc(var(--py) * -1.2%));transition:transform .4s ease-out;z-index:0}
+.arena .ar-moon{position:absolute;left:43%;top:13.5%;width:13cqw;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(220,230,255,.45),rgba(170,150,255,.12) 40%,transparent 70%);mix-blend-mode:screen;z-index:1;pointer-events:none}
+.arena .ar-lantern{position:absolute;width:16cqw;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(255,200,120,.55),rgba(255,150,70,.15) 45%,transparent 70%);mix-blend-mode:screen;z-index:1;pointer-events:none}
+.arena .ar-lantern.a{left:19.8%;top:13%}.arena .ar-lantern.b{left:80.5%;top:13.5%}
+@media (prefers-reduced-motion:no-preference){
+  .arena .ar-moon{animation:armoon 6s ease-in-out infinite}
+  .arena .ar-lantern{animation:arflick 3.1s ease-in-out infinite}.arena .ar-lantern.b{animation-duration:2.6s;animation-delay:-1s}
+}
+@keyframes armoon{50%{opacity:.6;transform:translate(-50%,-50%) scale(1.12)}}
+@keyframes arflick{0%,100%{opacity:.85}20%{opacity:1}45%{opacity:.7}60%{opacity:.95}80%{opacity:.75}}
+
+/* cánh hoa rơi */
+.arena .ar-petals{position:absolute;inset:0;pointer-events:none;z-index:7;overflow:hidden}
+.arena .ar-petals i{position:absolute;left:var(--x);top:-4%;width:calc(1.3cqw * var(--s));aspect-ratio:1.4;border-radius:80% 0 80% 0;background:linear-gradient(135deg,#ffd6ec,#f39ac8 60%,#c77dff);opacity:.85;box-shadow:0 0 6px rgba(255,170,220,.6);animation:arfall var(--t) linear var(--d) infinite}
+@keyframes arfall{0%{transform:translate(0,0) rotate(0)}50%{transform:translate(var(--w),calc(var(--fall) * .5)) rotate(220deg)}100%{transform:translate(calc(var(--w) * -.5),var(--fall)) rotate(480deg)}}
+@media (prefers-reduced-motion:reduce){.arena .ar-petals{display:none}}
+
+/* đối thủ */
+.arena .ar-foe{position:absolute;left:var(--fx);bottom:calc(100% - var(--fy));width:var(--fw);z-index:2;transform:translate(calc(-50% + var(--px) * 1.2cqw),calc(var(--py) * .6cqw));transition:transform .4s ease-out;pointer-events:none}
+.arena .ar-foe img{display:block;width:100%;transform-origin:50% 100%;-webkit-mask-image:linear-gradient(#000 82%,transparent 99%);mask-image:linear-gradient(#000 82%,transparent 99%);filter:drop-shadow(0 0 1.2cqw rgba(190,160,255,.45)) drop-shadow(0 1cqw 1cqw rgba(0,0,0,.5))}
+@media (prefers-reduced-motion:no-preference){
+  .arena .ar-foe.pose-idle img,.arena .ar-foe.pose-opening img{animation:arbreathe 3.6s ease-in-out infinite}
+  .arena .ar-foe.pose-capture img{animation:arhop .55s cubic-bezier(.3,1.6,.5,1) 2}
+  .arena .ar-foe.pose-setback img{animation:arshake .5s ease-in-out 2}
+  .arena .ar-foe.pose-tease img{animation:arlean 1.6s ease-in-out}
+  .arena .ar-foe.pose-win img{animation:arhop .6s cubic-bezier(.3,1.6,.5,1) infinite}
+  .arena .ar-foe.pose-lose img{animation:arslump 1.2s ease-out forwards}
+}
+.arena .ar-foe.pose-capture img,.arena .ar-foe.pose-win img{filter:drop-shadow(0 0 2cqw rgba(255,220,120,.8)) drop-shadow(0 1cqw 1cqw rgba(0,0,0,.5))}
+.arena .ar-foe.pose-setback img{filter:drop-shadow(0 0 2cqw rgba(255,60,60,.85)) drop-shadow(0 1cqw 1cqw rgba(0,0,0,.5))}
+.arena .ar-foe.pose-lose img{filter:grayscale(.45) brightness(.8) drop-shadow(0 0 1.4cqw rgba(80,120,255,.6))}
+@keyframes arbreathe{50%{transform:scale(1.012,1.022) rotate(.4deg)}}
+@keyframes arhop{40%{transform:translateY(-7%) scale(1.03)}70%{transform:translateY(1%) scale(.99,1.01)}}
+@keyframes arshake{20%{transform:translateX(-3%) rotate(-2deg)}40%{transform:translateX(3%) rotate(2deg)}60%{transform:translateX(-2%)}80%{transform:translateX(2%)}}
+@keyframes arlean{40%,70%{transform:rotate(-4deg) translateX(-2%)}}
+@keyframes arslump{to{transform:translateY(5%) rotate(2deg) scale(.97)}}
+.arena .ar-emote{position:absolute;right:4%;top:6%;font-size:4.2cqw;line-height:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.6));animation:aremote 2.6s ease-out forwards}
+@keyframes aremote{0%{opacity:0;transform:scale(.2) translateY(30%)}15%{opacity:1;transform:scale(1.3)}25%{transform:scale(1)}80%{opacity:1}100%{opacity:0;transform:translateY(-40%)}}
+
+/* bong bóng thoại */
+.arena .ar-bubble{position:absolute;left:calc(var(--fx) + var(--fw) * .42);top:7%;max-width:27cqw;z-index:9;padding:1.1cqw 1.6cqw 1.3cqw;border-radius:1.6cqw;background:linear-gradient(180deg,rgba(255,252,244,.97),rgba(246,236,214,.97));color:#2a1d3d;border:2px solid #d8b25a;box-shadow:0 .8cqw 2.4cqw rgba(0,0,0,.45),inset 0 0 0 3px rgba(255,255,255,.6);animation:arpop .35s cubic-bezier(.3,1.6,.5,1)}
+.arena .ar-bubble::before{content:"";position:absolute;left:-1.4cqw;top:2.4cqw;border:.9cqw solid transparent;border-right:1.4cqw solid #d8b25a}
+.arena .ar-bubble::after{content:"";position:absolute;left:-.95cqw;top:2.55cqw;border:.75cqw solid transparent;border-right:1.1cqw solid #fbf4e6}
+.arena .ar-bubble small{display:block;font-size:max(10px,1cqw);font-weight:800;letter-spacing:.06em;color:#8a5a1c;text-transform:uppercase;margin-bottom:.2cqw}
+.arena .ar-bubble p{margin:0;font:700 max(13px,1.55cqw)/1.45 "Zen Maru Gothic","Noto Sans JP",sans-serif}
+.arena .ar-bubble.m-setback,.arena .ar-bubble.m-lose{border-color:#e05555;background:linear-gradient(180deg,#fff6f4,#ffe1dc)}
+.arena .ar-bubble.m-setback::before,.arena .ar-bubble.m-lose::before{border-right-color:#e05555}
+.arena .ar-bubble.m-capture,.arena .ar-bubble.m-win{border-color:#b277ff}
+.arena .ar-bubble.m-capture::before,.arena .ar-bubble.m-win::before{border-right-color:#b277ff}
+.arena .ar-caret{display:inline-block;width:.15em;height:1em;margin-left:2px;vertical-align:-.12em;background:#8a5a1c;animation:arcaret .5s steps(2) infinite}
+@keyframes arcaret{50%{opacity:0}}
+@keyframes arpop{0%{opacity:0;transform:scale(.6) translateX(-10%)}100%{opacity:1;transform:none}}
+
+/* mặt bàn nghiêng (2.5D) */
+.arena .ar-plane{position:absolute;inset:0;z-index:4;perspective:95cqw;perspective-origin:var(--bx) -15%;pointer-events:none}
+.arena .ar-board{position:absolute;left:var(--bx);top:var(--by);width:var(--bw);display:grid;grid-template-columns:repeat(3,1fr);gap:.55cqw;padding:.8cqw;border-radius:1.2cqw;
+  transform:translateX(-50%) rotateX(var(--tilt));transform-origin:50% 0;transform-style:preserve-3d;pointer-events:auto;
+  background:rgba(5,30,32,.28);border:2px solid rgba(232,196,106,.65);box-shadow:0 0 0 1px rgba(0,0,0,.4),0 0 3cqw rgba(120,220,210,.15),inset 0 0 2cqw rgba(0,0,0,.45)}
+.arena .ar-cell{position:relative;aspect-ratio:3/4;border-radius:.8cqw;background:rgba(255,240,200,.05);border:1px dashed rgba(232,196,106,.35);display:grid;place-items:center;transform-style:preserve-3d;transition:background .2s,box-shadow .2s}
+.arena .ar-cell.can{cursor:pointer;background:rgba(255,211,107,.10);border:1px solid rgba(255,211,107,.6);box-shadow:inset 0 0 1.4cqw rgba(255,211,107,.25)}
+@media (prefers-reduced-motion:no-preference){.arena .ar-cell.can{animation:arcan 1.4s ease-in-out infinite}}
+@keyframes arcan{50%{box-shadow:inset 0 0 2.2cqw rgba(255,211,107,.5)}}
+.arena .ar-cell.over{background:rgba(120,190,255,.25);border:2px solid #8fc4ff;box-shadow:0 0 2cqw rgba(120,190,255,.7),inset 0 0 2cqw rgba(120,190,255,.5)}
+.tt .arena .ar-cell .ttcard{position:absolute;inset:0;height:100%;cursor:default;border-width:2px;box-shadow:0 .5cqw .8cqw rgba(0,0,0,.55)}
+.arena .ar-preview{position:absolute;inset:0;opacity:.55;pointer-events:none;filter:drop-shadow(0 0 1cqw #8fc4ff)}
+.tt .arena .ar-preview .ttcard{position:absolute;inset:0;height:100%}
+.tt .arena .ttcellel{width:42%;opacity:.75;filter:drop-shadow(0 0 4px #000)}
+.tt .arena .ttcellel.dim{position:absolute;right:6%;bottom:16%;width:22%;z-index:3;opacity:.9}
+
+/* thẻ rơi xuống bàn, lật thẻ, tia sáng */
+@media (prefers-reduced-motion:no-preference){
+  .tt .arena .ttcard.land-me{animation:arlandme .45s cubic-bezier(.2,.9,.3,1.2) both}
+  .tt .arena .ttcard.land-foe{animation:arlandfoe .6s cubic-bezier(.2,.9,.3,1.1) both}
+  .tt .arena .ttcard.flipin{animation:arflip .7s cubic-bezier(.3,.7,.3,1.15) .32s both}
+}
+@keyframes arlandme{0%{transform:translateZ(9cqw) scale(1.15);opacity:.4}70%{transform:translateZ(-.4cqw)}100%{transform:none;opacity:1}}
+@keyframes arlandfoe{0%{transform:translate3d(-40%,-160%,14cqw) rotate(-28deg);opacity:0}60%{opacity:1}100%{transform:none}}
+@keyframes arflip{0%{transform:translateZ(0) rotateY(-180deg)}45%{transform:translateZ(7cqw) rotateY(-80deg) scale(1.1)}100%{transform:none}}
+.arena .ar-ring{position:absolute;inset:-8%;border-radius:1.2cqw;border:.35cqw solid #ffe27a;pointer-events:none;z-index:5;animation:arring .7s ease-out forwards}
+.arena .ar-ring.foe{border-color:#ff8b8b}
+@keyframes arring{0%{opacity:1;transform:scale(.8)}100%{opacity:0;transform:scale(1.35)}}
+.arena .ar-burst{position:absolute;left:50%;top:50%;width:0;height:0;z-index:6;pointer-events:none}
+.arena .ar-burst i{position:absolute;left:-.4cqw;top:-.4cqw;width:.8cqw;height:.8cqw;border-radius:50%;background:#fff;box-shadow:0 0 1cqw 0.3cqw var(--c);transform:rotate(var(--a)) translateX(0);opacity:0;animation:arspark .8s ease-out .38s}
+.arena .ar-burst.me{--c:#5aa2ff}.arena .ar-burst.foe{--c:#ff5a5a}
+@keyframes arspark{0%{opacity:1;transform:rotate(var(--a)) translateX(0) scale(1.4)}100%{opacity:0;transform:rotate(var(--a)) translateX(6cqw) scale(.3)}}
+
+/* tay bài đối thủ nằm trên bàn */
+.arena .ar-foehand{position:absolute;left:var(--fhx);top:var(--fhy);display:flex;transform:translateX(-50%) rotateX(var(--tilt));transform-origin:50% 0}
+.tt .arena .ar-foehand .ttcard{width:var(--fhw);margin-left:-.9cqw;border-width:2px;transform:rotate(calc((var(--i) - 2) * 5deg));box-shadow:0 .4cqw .6cqw rgba(0,0,0,.6)}
+
+/* tay bài của bạn: xòe quạt, nghiêng 3D theo con trỏ */
+.arena .ar-hand{position:absolute;left:var(--hx);bottom:1.5%;z-index:8;display:flex;justify-content:center;transform:translateX(-50%);perspective:60cqw}
+.arena .ar-slot{position:relative;width:var(--hw);margin-left:var(--hgap);touch-action:none;cursor:grab;transform-origin:50% 120%;
+  transform:translateY(calc(var(--o) * var(--o) * .45cqw)) rotate(calc(var(--o) * 6deg)) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .25s cubic-bezier(.3,1.4,.5,1),opacity .2s,filter .2s}
+.arena .ar-slot:first-child{margin-left:0}
+.tt .arena .ar-slot .ttcard{border-width:2px;box-shadow:0 1cqw 1.6cqw rgba(0,0,0,.6)}
+.arena .ar-slot.live:hover,.arena .ar-slot.sel{z-index:3;transform:translateY(-3.2cqw) rotate(0) scale(1.14) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg))}
+.arena .ar-slot.sel .ttcard{box-shadow:0 0 0 .3cqw #ffd36b,0 0 2.4cqw rgba(255,211,107,.8),0 1.4cqw 2cqw rgba(0,0,0,.6)}
+.arena .ar-slot.lifted{opacity:.18;filter:grayscale(1)}
+.arena .ar-slot:not(.live){cursor:default;filter:brightness(.82)}
+.arena.intro-wait .ar-slot,.arena.intro-shuffle .ar-slot{opacity:0}
+@media (prefers-reduced-motion:no-preference){
+  .arena.intro-deal .ar-slot{animation:ardeal .55s cubic-bezier(.2,.9,.3,1.1) calc(var(--i) * .1s) both}
+  .arena.intro-deal .ar-foehand .ttcard{animation:ardealfoe .5s ease-out calc(var(--i) * .1s + .05s) both}
+}
+@keyframes ardeal{0%{translate:-26cqw -24cqw;rotate:-160deg;opacity:0;scale:.5}100%{translate:0 0;rotate:0deg;opacity:1;scale:1}}
+@keyframes ardealfoe{0%{translate:20cqw 6cqw;opacity:0}100%{translate:0 0;opacity:1}}
+.arena.intro-wait .ar-foehand,.arena.intro-shuffle .ar-foehand{opacity:0}
+
+/* xáo bài */
+.arena .ar-shuffle{position:absolute;left:var(--bx);top:calc(var(--by) + 10%);width:calc(var(--hw) * 1.05);aspect-ratio:3/4;transform:translateX(-50%);z-index:8;pointer-events:none}
+.tt .arena .ar-shuffle .ttcard{position:absolute;inset:0;height:100%;border-width:2px}
+.arena .ar-shuffle .rl{animation:arrifL 1.5s ease-in-out calc(var(--i) * .03s) both}
+.arena .ar-shuffle .rr{animation:arrifR 1.5s ease-in-out calc(var(--i) * .03s) both}
+.arena .ar-shuffle.deal .ttcard{animation:arout .55s ease-in calc(var(--i) * .05s) forwards}
+@keyframes arrifL{0%{transform:translateY(calc(var(--i) * -.25cqw))}25%,45%{transform:translateX(-85%) rotate(-14deg) translateY(calc(var(--i) * -.3cqw))}70%{transform:translateX(-10%) rotate(-3deg) translateY(calc(var(--i) * -.25cqw - 2cqw))}100%{transform:translateY(calc(var(--i) * -.25cqw))}}
+@keyframes arrifR{0%{transform:translateY(calc(var(--i) * -.25cqw))}25%,45%{transform:translateX(85%) rotate(14deg) translateY(calc(var(--i) * -.3cqw))}70%{transform:translateX(10%) rotate(3deg) translateY(calc(var(--i) * -.25cqw - 2cqw))}100%{transform:translateY(calc(var(--i) * -.25cqw))}}
+@keyframes arout{to{transform:translate(18cqw,24cqw) rotate(40deg) scale(.8);opacity:0}}
+.arena .ar-shuffle.deal .ttcard:nth-child(odd){animation-name:arouttop}
+@keyframes arouttop{to{transform:translate(-20cqw,-6cqw) rotate(-30deg) scale(.5);opacity:0}}
+
+/* bảng điểm */
+.arena .ar-hud{position:absolute;left:0;right:0;top:1.4%;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:0 1.4%;pointer-events:none}
+.arena .ar-score{display:flex;align-items:center;gap:.8cqw;padding:.4cqw 1.2cqw .4cqw .4cqw;border-radius:99px;background:rgba(14,10,34,.62);backdrop-filter:blur(6px);border:1px solid rgba(232,196,106,.45);font:700 max(11px,1.25cqw) "Zen Maru Gothic","Noto Sans JP",sans-serif;color:#f5ead0}
+.arena .ar-score.foe{padding:.4cqw .4cqw .4cqw 1.2cqw}
+.arena .ar-score b{display:grid;place-items:center;width:3.6cqw;min-width:28px;aspect-ratio:1;border-radius:50%;font:900 max(15px,2.2cqw) "Cinzel",serif;color:#fff;animation:arbump .5s cubic-bezier(.3,1.8,.5,1)}
+.arena .ar-score.me b{background:radial-gradient(circle at 35% 30%,#9cc8ff,#2f6fe0 60%,#163c8a);box-shadow:0 0 1.4cqw rgba(90,160,255,.8)}
+.arena .ar-score.foe b{background:radial-gradient(circle at 35% 30%,#ffb0b0,#d63b3b 60%,#7a1414);box-shadow:0 0 1.4cqw rgba(255,90,90,.8)}
+@keyframes arbump{0%{transform:scale(1.6)}100%{transform:scale(1)}}
+.arena .ar-turn{padding:.5cqw 1.8cqw;border-radius:99px;font:700 max(11px,1.3cqw) "Zen Maru Gothic","Noto Sans JP",sans-serif;color:#2a1d0c;background:linear-gradient(180deg,#ffe9a8,#e8b84f);box-shadow:0 0 1.6cqw rgba(255,211,107,.6)}
+.arena .ar-turn.foe{background:linear-gradient(180deg,#ffd0d0,#e46a6a);color:#3a0808;box-shadow:0 0 1.6cqw rgba(255,90,90,.5)}
+.arena .ar-turn.done{display:none}
+.arena .ar-leave{position:absolute;left:1.4%;top:calc(1.4% + 5cqw);z-index:10;font:600 max(11px,1cqw) inherit;padding:.3cqw 1cqw;border-radius:99px;background:rgba(14,10,34,.55);color:#f5ead0;border:1px solid rgba(255,255,255,.25);cursor:pointer}
+.arena .ar-leave:disabled{opacity:.4;cursor:default}
+
+/* chữ lớn khi kích hoạt luật đặc biệt */
+.arena .ar-banner{position:absolute;left:0;right:0;top:34%;z-index:11;display:flex;justify-content:center;gap:4cqw;pointer-events:none;animation:arbanner 1.8s cubic-bezier(.2,.8,.3,1) .3s both}
+.arena .ar-banner span{display:grid;justify-items:center}
+.arena .ar-banner b{font:900 8cqw/1 "Yuji Syuku","Noto Serif JP",serif;color:#fff;-webkit-text-stroke:.25cqw #6a3a00;background:linear-gradient(180deg,#fff,#ffe27a 50%,#ff9e2c);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 2cqw rgba(255,180,60,.9)) drop-shadow(0 .4cqw .3cqw #000)}
+.arena .ar-banner small{font:800 max(12px,1.5cqw) "Be Vietnam Pro",sans-serif;color:#ffe9b0;text-shadow:0 0 6px #000;letter-spacing:.2em;text-transform:uppercase}
+@keyframes arbanner{0%{opacity:0;transform:translateX(-30%) skewX(-12deg)}18%{opacity:1;transform:translateX(0) scale(1.15)}30%{transform:scale(1)}80%{opacity:1}100%{opacity:0;transform:translateX(20%) scale(.95)}}
+
+/* kết quả */
+.arena .ar-result{position:absolute;inset:0;z-index:12;display:grid;place-content:center;justify-items:center;gap:.6cqw;text-align:center;background:radial-gradient(ellipse at center,rgba(10,6,28,.55),rgba(10,6,28,.88));animation:arfade .6s ease-out}
+.arena .ar-kanji{font:900 13cqw/1 "Yuji Syuku","Noto Serif JP",serif;-webkit-text-stroke:.3cqw #3a2000;background:linear-gradient(180deg,#fff,#ffe27a 45%,#d98a12);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 3cqw rgba(255,200,80,.85));animation:arstamp .7s cubic-bezier(.2,1.6,.4,1) .2s both}
+.arena.r-l .ar-kanji{background:linear-gradient(180deg,#fff,#c8c8ff 45%,#5a4aa8);-webkit-background-clip:text;background-clip:text;filter:drop-shadow(0 0 3cqw rgba(120,100,255,.7))}
+.arena.r-d .ar-kanji{background:linear-gradient(180deg,#fff,#c9f1e6 45%,#3a9a86);-webkit-background-clip:text;background-clip:text}
+.arena .ar-result h2{margin:0;color:#f5ead0;font-size:max(18px,2.4cqw)}
+.arena .ar-final{font:900 max(26px,4cqw) "Cinzel",serif;color:#fff}
+.arena .ar-final .me{color:#8fc0ff}.arena .ar-final .foe{color:#ff9a9a}
+.arena .ar-result .hint,.arena .ar-result p{color:#f5ead0;margin:0}
+@keyframes arstamp{0%{opacity:0;transform:scale(3) rotate(-8deg)}100%{opacity:1;transform:none}}
+@keyframes arfade{from{opacity:0}}
+
+/* ảnh thẻ đang kéo (gắn vào body) */
+.ar-ghostlayer{position:fixed;inset:0;z-index:9999;pointer-events:none}
+.ar-ghost{position:fixed;left:0;top:0;transform-origin:50% 30%;will-change:transform;filter:drop-shadow(0 18px 22px rgba(0,0,0,.55)) drop-shadow(0 0 14px rgba(255,211,107,.55));transition:filter .2s}
+.ar-ghost.aim{filter:drop-shadow(0 10px 12px rgba(0,0,0,.5)) drop-shadow(0 0 22px rgba(120,190,255,.95))}
+.tt .ar-ghost .ttcard{border-width:2px}
+
+/* dưới bàn */
+.ar-under{text-align:center;margin-top:10px}
+.ar-rules{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+.ar-rules span{font-size:12px;padding:2px 10px;border-radius:99px;background:rgba(255,211,107,.12);border:1px solid rgba(255,211,107,.45);color:#ffe6a0}
+
+/* điện thoại: ảnh nền dọc */
+@media (max-width:720px){
+  .tt.ar-wrap{margin:0 -12px}
+  .arena{--bg:url(/shiki-duel/arena/pavilion-phone.webp);aspect-ratio:2/3;border-radius:0;
+    --bx:51%;--by:39%;--bw:58cqw;--tilt:30deg;--fx:50%;--fy:35.5%;--fw:40cqw;--hx:58%;--hw:16.5cqw;--hgap:-3.4cqw;--fhx:17%;--fhy:31%;--fhw:7.5cqw;--fall:155cqw}
+  .arena .ar-moon{left:68%;top:8.5%;width:20cqw}
+  .arena .ar-lantern{width:26cqw}.arena .ar-lantern.a{left:7%;top:9%}.arena .ar-lantern.b{left:93%;top:9%}
+  .arena .ar-bubble{left:auto;right:2.5%;top:6.5%;max-width:46cqw;padding:2cqw 2.6cqw;border-radius:3cqw}
+  .arena .ar-bubble::before,.arena .ar-bubble::after{display:none}
+  .arena .ar-bubble p{font-size:max(12px,3.4cqw)}
+  .arena .ar-emote{font-size:8cqw}
+  .arena .ar-hud{top:.8%}
+  .arena .ar-score b{width:8cqw}
+  .arena .ar-score,.arena .ar-turn{font-size:max(11px,3cqw)}
+  .arena .ar-leave{top:calc(.8% + 10cqw);font-size:max(11px,2.8cqw)}
+  .arena .ar-board{gap:1.2cqw;padding:1.6cqw}
+  .arena .ar-petals i{width:calc(2.6cqw * var(--s))}
+  .arena .ar-banner{top:40%}.arena .ar-banner b{font-size:15cqw}
+  .arena .ar-kanji{font-size:28cqw}
+  .arena .ar-final{font-size:9cqw}
+  .arena .ar-slot.live:hover,.arena .ar-slot.sel{transform:translateY(-6cqw) rotate(0) scale(1.12)}
+}
+
+/* Quân sư */
+.arena .ar-advisor{position:absolute;left:1.4%;bottom:3%;z-index:10;display:grid;justify-items:center;gap:.2cqw;width:8cqw;min-width:62px;aspect-ratio:1;border-radius:50%;cursor:pointer;
+  background:radial-gradient(circle at 35% 30%,#fff3c4,#e2a93b 45%,#7a4a10);border:2px solid #fff1b8;color:#3a2000;place-content:center;box-shadow:0 0 2cqw rgba(255,200,80,.7),0 .6cqw 1.2cqw rgba(0,0,0,.5);transition:transform .2s}
+.arena .ar-advisor .fan{font:900 max(15px,2.1cqw)/1 "Yuji Syuku","Noto Serif JP",serif}
+.arena .ar-advisor small{font:800 max(10px,1cqw) "Be Vietnam Pro",sans-serif}
+.arena .ar-advisor:not(:disabled):hover{transform:scale(1.08) rotate(-4deg)}
+.arena .ar-advisor:disabled{filter:grayscale(.8) brightness(.7);cursor:default}
+.arena .ar-advisor.busy{animation:arspin 1s linear infinite}
+@keyframes arspin{to{transform:rotate(360deg)}}
+.arena .ar-advice{position:absolute;left:calc(1.4% + 9.5cqw);bottom:4%;z-index:10;max-width:36cqw;padding:.9cqw 1.4cqw;border-radius:1.2cqw;background:linear-gradient(180deg,rgba(40,24,6,.92),rgba(20,12,2,.92));border:1px solid #e8c46a;color:#ffe9b0;box-shadow:0 0 2cqw rgba(255,200,80,.4);animation:arpop .35s cubic-bezier(.3,1.6,.5,1)}
+.arena .ar-advice b[lang]{display:block;font:700 max(12px,1.35cqw)/1.4 "Zen Maru Gothic","Noto Sans JP",sans-serif;color:#fff3c4}
+.arena .ar-advice small{font-size:max(11px,1.05cqw)}
+.arena .ar-cell.hint{border:2px solid #ffd36b;background:rgba(255,211,107,.22);animation:arhint 1s ease-in-out infinite}
+@keyframes arhint{50%{box-shadow:0 0 2.6cqw rgba(255,211,107,.9),inset 0 0 2cqw rgba(255,211,107,.6)}}
+.arena .ar-hintmark{position:absolute;font:900 4cqw/1 "Yuji Syuku","Noto Serif JP",serif;color:#ffe27a;text-shadow:0 0 1cqw #000,0 0 2cqw rgba(255,200,80,.9);pointer-events:none}
+.arena .ar-slot.hint .ttcard{box-shadow:0 0 0 .3cqw #ffd36b,0 0 3cqw rgba(255,211,107,.95)}
+.arena .ar-slot.hint{animation:arhintcard 1.2s ease-in-out infinite}
+@keyframes arhintcard{50%{translate:0 -1.4cqw}}
+@media (max-width:720px){
+  .arena .ar-advisor{width:15cqw;bottom:auto;top:calc(.8% + 22cqw)}
+  .arena .ar-advisor .fan{font-size:4cqw}.arena .ar-advisor small{font-size:2.6cqw}
+  .arena .ar-advice{left:2%;right:2%;max-width:none;bottom:auto;top:calc(.8% + 39cqw);padding:2cqw 3cqw}
+  .arena .ar-advice b[lang]{font-size:3.3cqw}.arena .ar-advice small{font-size:3cqw}
+  .arena .ar-hintmark{font-size:9cqw}
+}

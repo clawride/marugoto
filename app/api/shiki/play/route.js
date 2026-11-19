@@ -27,6 +27,7 @@ function enableLocal(m, byId) {
   const ids = [...m.hands.me, ...m.hands.foe, ...m.cells.filter(Boolean).map((c) => c.id)];
   m.cards = Object.fromEntries(ids.map((id) => [id, { id, n: byId[id].n, el: byId[id].el }]));
   m.mode = DUEL_MODE;
+  m.ai = 2; // máy không nhìn bài úp của người chơi
   m.id = crypto.randomUUID();
 }
 class StaleState extends Error {}
