@@ -6,6 +6,7 @@ import { normalizeSite } from "@/lib/siteCfg";
 import { hashPassword } from "@/lib/password";
 import { ALL_BOARDS, boardLabel } from "@/lib/boards";
 import { dayStartVN } from "@/lib/chat";
+import { normalizeShiki } from "@/lib/shikihime";
 
 export const dynamic = "force-dynamic";
 const NOPE = () => new Response("Not found", { status: 404, headers: { "Cache-Control": "no-store" } });
@@ -111,6 +112,15 @@ export async function POST(req) {
       dropSiteCache();
       await log("set-site", null, { changed: Object.keys(next).filter((k) => JSON.stringify(next[k]) !== JSON.stringify(prev[k])) });
       return ok({ site: await getSite(true) });
+    }
+
+    // ——— Khu thử nghiệm: chỉ số thẻ Shikihime và vũ khí ———
+    case "getShiki": return ok({ shiki: normalizeShiki((await store.getSettings()).shiki) });
+    case "setShiki": {
+      const v = normalizeShiki(b.shiki);
+      await store.setSetting("shiki", v);
+      await log("set-shiki", null, { cards: Object.keys(v.cards).length, weapons: Object.keys(v.weapons).length });
+      return ok({ shiki: v });
     }
 
     case "logs": return ok({ logs: await store.adminLogs(100) });

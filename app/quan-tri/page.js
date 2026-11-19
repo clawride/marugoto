@@ -8,8 +8,9 @@ import { useAdmin, adminCall, dropSiteCache } from "@/lib/useSite";
 import { BOARD_GROUPS } from "@/lib/boards";
 import { SITE_DEFAULTS } from "@/lib/siteCfg";
 import "./admin.css";
+import Shiki from "./Shiki";
 
-const TABS = [["ov", "📊 Tổng quan"], ["us", "👥 Người dùng"], ["rk", "🏆 Xếp hạng"], ["ch", "💬 Chat"], ["st", "⚙️ Cấu hình trang"], ["ex", "📝 Đề thi"], ["lg", "📜 Nhật ký"]];
+const TABS = [["ov", "📊 Tổng quan"], ["us", "👥 Người dùng"], ["rk", "🏆 Xếp hạng"], ["ch", "💬 Chat"], ["st", "⚙️ Cấu hình trang"], ["ex", "📝 Đề thi"], ["sk", "🧪 Thử nghiệm · Thẻ & vũ khí"], ["lg", "📜 Nhật ký"]];
 const fmt = (t) => (t ? new Date(t).toLocaleString("vi-VN") : "—");
 
 export default function AdminPage() {
@@ -33,6 +34,7 @@ export default function AdminPage() {
       {tab === "ch" && <Chat call={call} say={say} />}
       {tab === "st" && <Settings call={call} say={say} />}
       {tab === "ex" && <Exams call={call} say={say} />}
+      {tab === "sk" && <Shiki call={call} say={say} />}
       {tab === "lg" && <Logs call={call} />}
     </div>
   );

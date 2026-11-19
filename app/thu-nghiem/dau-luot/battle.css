@@ -1,0 +1,47 @@
+/* 🧪 Đấu lượt 3×3 (thử nghiệm) */
+.labtag{font-size:11px;background:#e85d75;color:#fff;border-radius:99px;padding:1px 8px;vertical-align:middle}
+.duel .dcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:8px 0 16px}
+.duel .dcards.sm{grid-template-columns:repeat(auto-fill,minmax(110px,1fr))}
+.duel .dcard{display:flex;flex-direction:column;gap:3px;padding:6px;text-align:left;border:2px solid transparent;cursor:pointer;color:inherit}
+.duel .dcard.on{border-color:var(--ec,#ffd36b);box-shadow:0 0 14px var(--ec,#ffd36b)}
+.duel .dcard>img{width:100%;aspect-ratio:900/571;object-fit:cover;object-position:top;border-radius:6px;background:#222}
+.duel .dcard small{font-size:11px;opacity:.85;display:flex;align-items:center;gap:3px}
+.duel .dcard .del{width:16px;height:16px}
+.duel .dcard .dst{display:block;font-size:10px;opacity:.7}
+.duel .dwlist{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 16px}
+.duel .dw{display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:8px;border:1px solid #6a6f8f;background:rgba(20,24,44,.7);color:#eee;cursor:pointer}
+.duel .dw.on{border-color:#ffd36b;box-shadow:0 0 10px #ffd36b88}
+.duel .dw img{width:28px;height:28px}
+.duel .dw small{opacity:.7}
+.duel .dhead{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:start;margin:10px 0}
+.duel .dround{text-align:center;font-weight:700;color:#ffd36b}
+.duel .dround small{display:block;font-weight:400;color:#ccd;font-size:12px}
+.duel .dbar{display:grid;gap:4px}
+.duel .dbar.r{text-align:right}
+.duel .dname{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.duel .dbar.r .dname{justify-content:flex-end}
+.duel .dname img{width:20px;height:20px}
+.duel .dname small{opacity:.75;font-size:12px}
+.duel .hpb,.duel .mpb{position:relative;height:16px;border-radius:8px;background:rgba(255,255,255,.12);overflow:hidden}
+.duel .mpb{height:11px}
+.duel .hpb i{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,#3fbf6a,#9be36b);transition:width .4s}
+.duel .mpb i{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,#3b7be0,#6fc3ff);transition:width .4s}
+.duel .hpb span,.duel .mpb span{position:relative;font-size:11px;padding:0 6px;line-height:16px}
+.duel .mpb span{line-height:11px;font-size:9px}
+.duel .dst{font-size:11px;opacity:.7}
+.duel .board{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:420px;margin:12px auto;aspect-ratio:1}
+.duel .cell{position:relative;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:radial-gradient(circle at 50% 40%,rgba(120,140,200,.18),rgba(10,14,30,.7));display:grid;place-items:center;padding:0;cursor:default}
+.duel .cell.mv{cursor:pointer;outline:2px dashed #ffd36b;background:rgba(255,211,107,.18)}
+.duel .cell.hit{box-shadow:inset 0 0 0 3px #ff6b6b}
+.duel .token{position:relative;width:86%;aspect-ratio:1;border-radius:50%;overflow:hidden;border:3px solid var(--ec,#fff);box-shadow:0 0 14px var(--ec,#fff)}
+.duel .cell.me .token{border-style:solid}
+.duel .cell.foe .token{filter:saturate(.9);border-style:double}
+.duel .token img{width:100%;height:100%;object-fit:cover;object-position:top}
+.duel .token span{position:absolute;right:4px;bottom:2px;font-size:18px;text-shadow:0 0 4px #000}
+.duel .dmg{position:absolute;top:8%;left:50%;transform:translateX(-50%);font-style:normal;font-weight:800;font-size:22px;color:#ffe08a;text-shadow:0 0 6px #000;animation:dmgup 1s ease-out forwards;pointer-events:none}
+@keyframes dmgup{from{opacity:1;transform:translate(-50%,0)}to{opacity:0;transform:translate(-50%,-30px)}}
+.duel .dacts{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:10px 0}
+.duel .dlog{max-height:220px;overflow:auto;font-size:13px}
+.duel .dlog p{margin:2px 0;opacity:.9}
+.duel .dlog p:first-child{opacity:1;font-weight:600}
+@media (max-width:600px){.duel .dhead{grid-template-columns:1fr 1fr}.duel .dround{grid-column:1/-1;order:-1}}
