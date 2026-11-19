@@ -9,6 +9,7 @@ import { RANKS, RANK_VI } from "@/lib/shikihime";
 import { buildDeck, power, RANK_ODDS, OPPONENTS, oppDeck, rankIdx } from "@/lib/shikiCards";
 import { DUEL_MODE } from "@/lib/shikiDuel";
 import { opponentArt } from "@/lib/shikiDialogue";
+import { unlockVoice } from "@/lib/shikiVoice";
 import { sfx } from "@/lib/sfx";
 import { Card } from "./Card";
 import { api } from "./api";
@@ -16,6 +17,7 @@ import Arena from "./Arena";
 import "./cards.css";
 import "./arena.css";
 import "./arena-fp.css";
+import "./arena-polish.css";
 
 const FONTS = "https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Yuji+Syuku&family=Zen+Maru+Gothic:wght@700&display=swap";
 
@@ -56,6 +58,7 @@ function CardGame({ S, toast, update }) {
   const actionLock = useRef(false);
   const [shuffling, setShuffling] = useState(false);
   const [poolOrder, setPoolOrder] = useState(null);
+  const [shufPick, setShufPick] = useState(null); // 5 lá vừa rút trong màn xáo bài
   const [rules, setRules] = useState({ open: true, same: false, plus: false, combo: false, elemental: false });
   const [reveal, setReveal] = useState(null);
   const [lostNote, setLostNote] = useState(null); // { id, why } lá vừa bị lấy
@@ -160,18 +163,21 @@ function CardGame({ S, toast, update }) {
   // Xáo cả Hộp bài rồi rút ngẫu nhiên 5 lá làm bộ bài
   const shuffleDeck = () => {
     if (busy || shuffling || owned.length < 5) return;
-    setShuffling(true); sfx.shuffle();
-    setTimeout(() => {
-      const ids = owned.map((c) => c.id).sort(() => Math.random() - 0.5);
-      setPoolOrder(ids); setDeck(ids.slice(0, 5)); setShuffling(false);
-      for (let i = 0; i < 5; i++) sfx.deal(i);
-    }, 1000);
+    // Màn xáo bài: bài bay về giữa → xáo đan → xòe vòng tròn xoay → thu lại lóe sáng → 5 lá bung ra lật mặt
+    const ids = owned.map((c) => c.id).sort(() => Math.random() - 0.5);
+    setShuffling(true); setShufPick(null); sfx.whoosh(); sfx.shuffle();
+    setTimeout(() => sfx.shuffle(), 700);
+    setTimeout(() => { sfx.cast(); }, 1150);
+    setTimeout(() => { sfx.boom(); setShufPick(ids.slice(0, 5)); for (let i = 0; i < 5; i++) sfx.deal(i); }, 2050);
+    setTimeout(() => { sfx.reveal(4); }, 2500);
+    setTimeout(() => { setPoolOrder(ids); setDeck(ids.slice(0, 5)); setShuffling(false); setShufPick(null); }, 3700);
   };
   const toggle = (c, i) => { if (busy || shuffling) return; setDeck(i >= 0 ? myDeck.filter((x) => x !== c.id) : myDeck.length < 5 ? [...myDeck, c.id] : myDeck); i >= 0 ? sfx.click() : sfx.deal(); };
   const start = (op) => {
     const r = { ...rules, open: mode === "open" };
     try { localStorage.setItem(LS, JSON.stringify(r)); localStorage.setItem(LS_MODE, mode); } catch {}
     // Màn chào đối thủ che thời gian chờ máy chủ chia bài
+    unlockVoice(); // chạm "Đấu" mở khóa âm thanh cho giọng nhân vật (iPhone/Android)
     setLaunching(op.i); sfx.whoosh(); setTimeout(() => sfx.boom(), 350);
     setTimeout(() => setLaunching(null), 1500);
     run("start", { op: op.i, rules: r, deck: myDeck, mode: DUEL_MODE }, () => { setSelectedDeck(null); sfx.open(); });
@@ -193,6 +199,14 @@ function CardGame({ S, toast, update }) {
               : <div key={"e" + k} className="ttslot"><span>{k + 1}</span></div>)}
             <button className="gbtn tri ttshufbtn" disabled={busy || shuffling || owned.length < 5} onClick={shuffleDeck}><span className="c" />🔀 Xáo bài · rút 5 lá</button>
           </div>
+          {shuffling && (
+            <div className={`ttshow ${shufPick ? "pick" : ""}`} aria-hidden="true" onClick={(e) => e.stopPropagation()}>
+              <div className="circle" /><div className="flash" />
+              <div className="deck">{Array.from({ length: 18 }, (_, j) => <Card key={j} back className={j % 2 ? "r" : "l"} style={{ "--i": j, "--a": j * 20 + "deg", "--sx": ((j * 73) % 200) - 100, "--sy": ((j * 41) % 120) - 60 }} />)}</div>
+              {shufPick && <div className="picked">{shufPick.map((id, k) => <div key={id} className="pk" style={{ "--k": k, "--o": k - 2, "--ec": ELEM[byId[id]?.el]?.c }}><Card c={byId[id]} owner="me" named /></div>)}</div>}
+              <b className="title" lang="ja">{shufPick ? "運命の五枚" : "シャッフル"}</b>
+            </div>
+          )}
           <p className="hint">Bấm thẻ để thêm vào bộ bài (bấm lần nữa để bỏ). Bộ bài được lưu khi bắt đầu trận.</p>
           <div className={`ttpool ${shuffling ? "shuffling" : ""}`}>{pool.map((c, n) => { const i = myDeck.indexOf(c.id); return <div key={c.id} className={`ttpick ${i >= 0 ? "in" : ""}`} style={{ "--sx": ((n * 53) % 100) - 50, "--sy": ((n * 31) % 60) - 30, "--sr": ((n * 47) % 50) - 25, "--n": n }}><Card c={c} owner={i >= 0 ? "me" : null} badge={i >= 0 ? i + 1 : null} named onClick={() => toggle(c, i)} /></div>; })}</div>
           {owned.length < 5 && <p className="hint">Hộp bài cần ít nhất 5 thẻ.</p>}

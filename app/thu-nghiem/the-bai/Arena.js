@@ -5,15 +5,17 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { ELEM } from "@/lib/data";
 import { elemIcon } from "@/lib/genshin";
-import { OPPONENTS } from "@/lib/shikiCards";
+import { OPPONENTS, sideVal, showNum } from "@/lib/shikiCards";
 import { duelMove, replayDuel, duelResult, adviseMove } from "@/lib/shikiDuel";
 import { opponentArt, opponentLine, reactionFor, EMOTE } from "@/lib/shikiDialogue";
 import { sfx } from "@/lib/sfx";
+import { speakAs, stopVoice, unlockVoice, voiceOn, setVoiceOn } from "@/lib/shikiVoice";
 import { Card } from "./Card";
 import { api } from "./api";
 import "./arena.css";
 import "./arena-fx.css";
 import "./arena-fp.css";
+import "./arena-polish.css";
 
 const OPP = { t: "b", r: "l", b: "t", l: "r" };
 const NB = (i) => ({ t: i >= 3 ? i - 3 : -1, b: i <= 5 ? i + 3 : -1, l: i % 3 ? i - 1 : -1, r: i % 3 < 2 ? i + 1 : -1 });
@@ -21,6 +23,8 @@ const SPECIAL = { same: ["同数", "Bằng nhau"], plus: ["加算", "Cộng"], c
 const RULE_VI = { open: "Lật bài", same: "Bằng nhau", plus: "Cộng", combo: "Liên hoàn", elemental: "Nguyên tố" };
 const PETALS = Array.from({ length: 16 }, (_, i) => ({ x: (i * 37 + 11) % 100, d: -((i * 1.9) % 13), t: 10 + ((i * 5) % 8), s: 0.55 + ((i * 7) % 5) / 7, w: (i % 2 ? 1 : -1) * (4 + (i % 4) * 2) }));
 const FOE_THINK_MS = 1100;
+const TURN_MS = 30000; // mỗi lượt 30 giây
+const RING = 2 * Math.PI * 20;
 const CELL_VI = ["góc trên trái", "giữa hàng trên", "góc trên phải", "giữa cột trái", "chính giữa", "giữa cột phải", "góc dưới trái", "giữa hàng dưới", "góc dưới phải"];
 // Chiêu thức theo nguyên tố của thẻ (hiện khi thẻ vừa đặt lật được thẻ đối thủ)
 const SKILL = {
@@ -131,6 +135,14 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
   const [zoom, setZoom] = useState(null); // ô đang phóng to để xem thẻ
   const lastFlips = useRef(false);
   const wrap = useRef(null);
+  const [voice, setVoice] = useState(true);
+  const [deadline, setDeadline] = useState(null);
+  const [notice, setNotice] = useState("");
+  const [now, setNow] = useState(0);
+  const warned = useRef(false);
+  useEffect(() => { setVoice(voiceOn()); return () => stopVoice(); }, []);
+  // Nhân vật nói câu thoại thành tiếng
+  useEffect(() => { if (talk.n && talk.text) speakAs(who, talk.text); }, [talk.n]); // eslint-disable-line react-hooks/exhaustive-deps
   const [full, setFull] = useState(false); // toàn màn hình (thật hoặc giả lập trên iPhone)
   const [fakeFull, setFakeFull] = useState(false);
   useEffect(() => {
@@ -229,6 +241,31 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
   const stepKey = `${step?.who}-${step?.cell}-${cells.filter(Boolean).length}`;
   const canAct = turn === "me" && ready && !intro && !leaving && !end;
 
+  // Đồng hồ 30 giây cho lượt của bạn; hết giờ → máy tự đánh một nước ngẫu nhiên thay bạn
+  useEffect(() => {
+    if (!canAct) { setDeadline(null); return; }
+    const d = Date.now() + TURN_MS;
+    warned.current = false;
+    setDeadline(d); setNow(Date.now());
+    const t = setInterval(() => setNow(Date.now()), 200);
+    return () => clearInterval(t);
+  }, [canAct, match.hands.me.length]); // eslint-disable-line react-hooks/exhaustive-deps
+  const left = deadline ? Math.max(0, Math.ceil((deadline - now) / 1000)) : null;
+  useEffect(() => {
+    if (left == null || !canAct) return;
+    if (left <= 10 && left > 0) sfx.tick(left <= 5);
+    if (left === 10 && !warned.current) { warned.current = true; say("tease"); }
+    if (left === 0 && !drag?.throwing && !locked.current) {
+      const m = matchRef.current;
+      const empty = m.cells.map((c, i) => (c ? -1 : i)).filter((i) => i >= 0);
+      const k = hint?.k >= 0 ? hint.k : Math.floor(Math.random() * m.hands.me.length);
+      const cell = hint && !m.cells[hint.cell] ? hint.cell : empty[Math.floor(Math.random() * empty.length)];
+      setDrag(null); setSel(null);
+      if (cell != null) play(k, cell);
+      setNotice("⏰ Hết giờ — máy đánh thay bạn một nước.");
+    }
+  }, [left]); // eslint-disable-line react-hooks/exhaustive-deps
+
   // Phản ứng của đối thủ sau mỗi nước
   useEffect(() => {
     if (!step) return;
@@ -284,7 +321,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
     lastMove.current = Date.now();
     lastFlips.current = next.step.flips.length > 0;
     sfx.slap();
-    setMatch(next.match); setStep(next.step); setSel(null); setError(""); setHint(null);
+    setMatch(next.match); setStep(next.step); setSel(null); setError(""); setNotice(""); setHint(null);
     if (next.match.turn === "foe") compute.current(next.match);
   };
 
@@ -378,6 +415,8 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
     el.style.setProperty("--mx", `${(px + 0.5) * 100}%`); el.style.setProperty("--my", `${(py + 0.5) * 100}%`);
   };
   const untilt = (e) => { const s = e.currentTarget.style; s.setProperty("--ry", "0deg"); s.setProperty("--rx", "0deg"); };
+  const unlocked = useRef(false);
+  const unlockOnce = () => { if (!unlocked.current) { unlocked.current = true; unlockVoice(); if (voice && talk.text) speakAs(who, talk.text); } };
   const parallax = (e) => {
     if (e.pointerType !== "mouse" || !scene.current) return;
     const r = scene.current.getBoundingClientRect();
@@ -394,7 +433,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
 
   return (
     <div ref={wrap} className={`tt ar-wrap ${fakeFull ? "fakefull" : ""} ${full || fakeFull ? "isfull" : ""}`}>
-      <div ref={scene} className={`arena ${intro ? "intro-" + intro : ""} ${drag ? "dragging" : ""} ${end ? "ended r-" + end.result : ""} ${end && showEnd ? "finale" : ""} ${cutCard ? "has-cut" : ""}`} onPointerMove={parallax}>
+      <div ref={scene} className={`arena ${intro ? "intro-" + intro : ""} ${drag ? "dragging" : ""} ${end ? "ended r-" + end.result : ""} ${end && showEnd ? "finale" : ""} ${cutCard ? "has-cut" : ""}`} onPointerMove={parallax} onPointerDownCapture={unlockOnce}>
         <div className="ar-bg" />
         <div className="ar-moon" /><div className="ar-lantern a" /><div className="ar-lantern b" />
         <div className="ar-petals" aria-hidden="true">{PETALS.map((p, i) => <i key={i} style={{ "--x": p.x + "%", "--d": p.d + "s", "--t": p.t + "s", "--s": p.s, "--w": p.w + "cqw" }} />)}</div>
@@ -448,12 +487,36 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
         </div>
 
         {/* bảng điểm */}
+        {/* bàn cờ mini 2D để theo dõi nhanh: màu phe, 4 số đã tính nguyên tố, ô vừa đánh nhấp nháy */}
+        <div className="ar-mini" aria-label="Bàn cờ thu nhỏ">
+          {cells.map((cell, i) => {
+            const c = cell && cards[cell.id];
+            return (
+              <button key={i + "-" + (cell?.owner || "x")} type="button" className={`mc ${cell ? cell.owner : ""} ${last === i ? "last" : ""} ${fx[i] ? "fl" : ""}`}
+                onClick={() => { if (cell) { setZoom(i); sfx.page(); } }} aria-label={c ? `${c.name} · ${cell.owner === "me" ? "của bạn" : "của đối thủ"}` : "Ô trống"}>
+                {c ? <>
+                  <img className="pt" src={`/shiki-duel/${c.id}.webp`} alt="" draggable={false} />
+                  {["t", "r", "b", "l"].map((k) => <i key={k} className={k}>{showNum(sideVal({ card: c }, m0.els[i], k))}</i>)}
+                </> : m0.els[i] ? <img className="el" src={elemIcon(m0.els[i])} alt="" draggable={false} /> : null}
+              </button>
+            );
+          })}
+        </div>
         <div className="ar-hud">
           <div className="ar-score me"><b key={"m" + sc.me}>{sc.me}</b><span>あなた</span></div>
-          <div className={`ar-turn ${turn}`}>{turnText}</div>
+          <div className="ar-mid">
+            <div className={`ar-turn ${turn}`}>{turnText}</div>
+            {left != null && (
+              <div className={`ar-clock ${left <= 10 ? "warn" : ""} ${left <= 5 ? "crit" : ""}`} key={left <= 5 ? "c" + left : "n"} role="timer" aria-label={`Còn ${left} giây`}>
+                <svg viewBox="0 0 48 48"><circle className="bg" cx="24" cy="24" r="20" /><circle className="fg" cx="24" cy="24" r="20" style={{ strokeDasharray: RING, strokeDashoffset: RING * (1 - Math.max(0, deadline - now) / TURN_MS) }} /></svg>
+                <b>{left}</b>
+              </div>
+            )}
+          </div>
           <div className="ar-score foe"><span>{op.char.vi}</span><b key={"f" + sc.foe}>{sc.foe}</b></div>
         </div>
         <button className="ar-leave" disabled={leaving || (end && !receipt)} onClick={() => { if (end) onDone(receipt); else if (confirm("Bỏ trận? Trận này tính là thua và bạn sẽ bị lấy mất 1 lá NGẪU NHIÊN trong Hộp bài.")) onForfeit(); }}>{end ? "‹ Về" : "✕ Bỏ trận"}</button>
+        <button className="ar-voice" onClick={() => { const v = !voice; setVoice(v); setVoiceOn(v); if (v) { unlockVoice(); speakAs(who, talk.text); } sfx.click(); }} title={voice ? "Tắt giọng nhân vật" : "Bật giọng nhân vật"} aria-label={voice ? "Tắt giọng nhân vật" : "Bật giọng nhân vật"}>{voice ? "🔊" : "🔇"}</button>
         <button className="ar-full" onClick={toggleFull} title={full || fakeFull ? "Thoát toàn màn hình" : "Toàn màn hình"} aria-label={full || fakeFull ? "Thoát toàn màn hình" : "Toàn màn hình"}>{full || fakeFull ? "🗗" : "⛶"}</button>
 
         {advisor && !end && (
@@ -508,7 +571,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
 
       <div className="ar-under">
         <div className="ar-rules">{Object.entries(match.rules).filter(([, v]) => v).map(([k]) => <span key={k}>{RULE_VI[k]}</span>)}</div>
-        <p className="ttlog" role="status">{error || (step ? `${step.who === "me" ? "Bạn" : op.char.vi} đặt ${cards[step.id].name}${step.flips.length ? " — lật " + step.flips.length + " thẻ" : ""}` : "Kéo thẻ từ tay lên bàn (hoặc bấm thẻ rồi bấm ô).")}</p>
+        <p className="ttlog" role="status">{error || notice || (step ? `${step.who === "me" ? "Bạn" : op.char.vi} đặt ${cards[step.id].name}${step.flips.length ? " — lật " + step.flips.length + " thẻ" : ""}` : "Kéo thẻ từ tay lên bàn (hoặc bấm thẻ rồi bấm ô).")}</p>
         {error && <button className="chip dk" onClick={() => location.reload()}>Tải lại trạng thái ván</button>}
         {!savedLocally && <p className="hint">Trình duyệt chưa lưu được nước đi. Hãy giữ trang mở đến khi kết quả được xác nhận.</p>}
       </div>
