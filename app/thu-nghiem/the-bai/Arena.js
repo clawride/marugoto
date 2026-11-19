@@ -61,18 +61,20 @@ function FxCanvas({ kind }) {
       const el = t - t0;
       if (kind === "w" && el < 7000 && t - last > (el < 1800 ? 200 : 650)) { last = t; burst(w * (0.12 + Math.random() * 0.76), h * (0.1 + Math.random() * 0.45), el < 1800 ? 80 : 50); }
       if (kind === "d" && el < 5000 && t - last > 500) { last = t; burst(w * (0.2 + Math.random() * 0.6), h * 0.3, 30); }
-      if (kind === "l" && el < 9000) for (let i = 0; i < 3; i++) P.push({ x: Math.random() * w, y: -10, vx: (Math.random() - 0.3) * 0.8 * dpr, vy: (1 + Math.random() * 2.5) * dpr, life: 1, decay: 0.003, c: pick(), size: (1 + Math.random() * 2) * dpr, rain: true });
+      if (kind === "w" && el < 8000) for (let i = 0; i < 4; i++) P.push({ x: Math.random() * w, y: -20, vx: (Math.random() - 0.5) * 1.6 * dpr, vy: (1.5 + Math.random() * 2.5) * dpr, life: 1, decay: 0.0025, c: pick(), size: (3 + Math.random() * 4) * dpr, rib: true, a: Math.random() * 6.3, va: (Math.random() - 0.5) * 0.3 });
+      if (kind === "l" && el < 9000) for (let i = 0; i < 6; i++) P.push({ x: Math.random() * w, y: -10, vx: (Math.random() - 0.3) * 0.8 * dpr, vy: (1 + Math.random() * 2.5) * dpr, life: 1, decay: 0.003, c: pick(), size: (1 + Math.random() * 2) * dpr, rain: true });
       ctx.clearRect(0, 0, w, h);
       ctx.globalCompositeOperation = kind === "l" ? "source-over" : "lighter";
       for (let i = P.length - 1; i >= 0; i--) {
         const p = P[i];
         p.x += p.vx; p.y += p.vy;
-        if (!p.rain) { p.vy += 0.06 * dpr; p.vx *= 0.985; p.vy *= 0.985; }
+        if (!p.rain && !p.rib) { p.vy += 0.06 * dpr; p.vx *= 0.985; p.vy *= 0.985; }
         p.life -= p.decay;
         if (p.life <= 0 || p.y > h + 20) { P.splice(i, 1); continue; }
         ctx.globalAlpha = p.life * (p.tw ? 0.5 + 0.5 * Math.sin(t / 50 + i) : 1);
         ctx.fillStyle = p.c;
-        if (p.rain) ctx.fillRect(p.x, p.y, p.size * 0.7, p.size * 6);
+        if (p.rib) { p.a += p.va; p.vx += Math.sin(t / 300 + i) * 0.02; ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.a); ctx.fillRect(-p.size, -p.size * 0.35, p.size * 2, p.size * 0.7 * Math.abs(Math.cos(p.a * 2))); ctx.restore(); }
+        else if (p.rain) ctx.fillRect(p.x, p.y, p.size * 0.7, p.size * 6);
         else { ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, 7); ctx.fill(); }
       }
       if (el < 9500 || P.length) raf = requestAnimationFrame(loop);
@@ -191,7 +193,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
       if (!active) return;
       if (error) { setError(error); return; }
       // Đối thủ "suy nghĩ" một chút để người chơi kịp xem nước vừa đi
-      const wait = step?.who === "foe" && lastMove.current ? Math.max(0, FOE_THINK_MS + (lastFlips.current ? 1100 : 0) - (Date.now() - lastMove.current)) : 0;
+      const wait = step?.who === "foe" && lastMove.current ? Math.max(0, FOE_THINK_MS + (lastFlips.current ? 2600 : 0) - (Date.now() - lastMove.current)) : 0;
       timers.push(setTimeout(() => {
         if (!active) return;
         setMatch(match); setStep(step); setReady(true); locked.current = false;
@@ -278,7 +280,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
     if (!step) return;
     const el = scene.current;
     if (el && !reduceMotion()) { el.classList.remove("shake"); void el.offsetWidth; el.classList.add("shake"); }
-    if (step.flips.length) { sfx.cast(); sfx.flip(Math.min(4, step.flips.length), 0.95); }
+    if (step.flips.length) { sfx.cast(); sfx.flip(Math.min(4, step.flips.length), 2.35); }
     if (special.length) sfx.special();
     if (match.turn === "done") return;
     // Chỉ khiêu khích thành tiếng khi bạn đang thua (máy dẫn ≥2, hoặc dẫn khi ván sắp hết); bị lật thì chỉ cay trong bóng thoại
@@ -300,7 +302,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
     const t = setTimeout(() => {
       setShowEnd(true); sfx.boom();
       if (r === "w") sfx.fanfare(); else if (r === "l") sfx.doom(); else sfx.summary();
-    }, step?.flips.length ? 2100 : 900);
+    }, step?.flips.length ? 3500 : 900);
     return () => clearTimeout(t);
   }, [turn]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -569,6 +571,13 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
           <div className="ar-result">
             <div className="ar-flash" />
             <div className="ar-rays" />
+            {end.result === "w" && <div className="ar-beams" aria-hidden="true">{[0, 1, 2, 3, 4, 5, 6].map((j) => <i key={j} style={{ "--j": j }} />)}</div>}
+            {end.result === "w" && <div className="ar-crown" aria-hidden="true">👑</div>}
+            {end.result === "l" && (
+              <svg className="ar-cracks" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M52 44 L40 30 L36 12 L30 0 M40 30 L22 26 L0 30 M52 44 L70 34 L84 18 L92 0 M70 34 L100 38 M52 44 L58 62 L54 80 L60 100 M58 62 L80 70 L100 74 M52 44 L34 58 L18 64 L0 62 M34 58 L28 80 L20 100" />
+              </svg>
+            )}
             <FxCanvas kind={end.result} />
             <div className="ar-kanji" lang="ja">{[...outcome[0]].map((ch, j) => <span key={j} style={{ "--j": j }}>{ch}</span>)}</div>
             <div className="ar-rest">

@@ -256,6 +256,30 @@ async function handleAction(req, timed) {
       return pub(d, { got: id });
     }
 
+    // đổi nhanh: đổi hết các nhóm 5 lá trùng từ hạng thấp lên cao (lá vừa đổi được có thể tiếp tục đổi lên hạng trên)
+    case "tradeAll": {
+      if (d.match) return bad("Đang có trận dở — đấu xong rồi hãy đổi bài");
+      const gots = [];
+      let paid = 0;
+      for (let ri = 0; ri < RANKS.length - 1; ri++) {
+        const r = RANKS[ri], pool = deck.filter((c) => c.rank === RANKS[ri + 1]);
+        if (!pool.length) continue;
+        for (let guard = 0; guard < 500; guard++) {
+          const spares = Object.keys(d.box).filter((id) => byId[id]?.rank === r && d.box[id] > 1).sort((a, c) => power(byId[a]) - power(byId[c]));
+          const pay = [];
+          for (const id of spares) for (let k = 1; k < d.box[id] && pay.length < 5; k++) pay.push(id);
+          if (pay.length < 5) break;
+          for (const id of pay) d.box[id]--;
+          const got = pool[Math.floor(Math.random() * pool.length)].id;
+          d.box[got] = (d.box[got] || 0) + 1;
+          gots.push(got); paid += 5;
+        }
+      }
+      if (!gots.length) return bad("Chưa có hạng nào đủ 5 lá trùng để đổi");
+      await save();
+      return pub(d, { gots, paid });
+    }
+
     case "trade": {
       if (d.match) return bad("Đang có trận dở — đấu xong rồi hãy đổi bài");
       const r = String(b.rank), ri = RANKS.indexOf(r);

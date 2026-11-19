@@ -217,7 +217,8 @@ function CardGame({ S, toast, update }) {
       <div className="ttrec">Hộp bài: <b>{owned.length}</b>/{deck.length} loại · {rec.w} thắng · {rec.d} hòa · {rec.l} thua</div>
       <div className="chips" style={{ justifyContent: "center" }}>{[["duel", "⚔️ Đấu bài"], ["box", "🗃️ Hộp bài"], ["odds", "🎲 Hạng thẻ"]].map(([k, l]) => <button key={k} className={`chip dk ${tab === k ? "on" : ""}`} onClick={() => setTab(k)}>{l}</button>)}</div>
       {tab === "odds" && <OddsTable deck={deck} />}
-      {tab === "box" && <TradePanel deck={deck} box={box} busy={busy} onTrade={(r) => run("trade", { rank: r }, (j) => { sfx.win?.(); setTraded({ got: j.got, pay: j.traded }); })} />}
+      {tab === "box" && <TradePanel deck={deck} box={box} busy={busy} onTrade={(r) => run("trade", { rank: r }, (j) => { sfx.win?.(); setTraded({ got: j.got, pay: j.traded }); })}
+        onTradeAll={() => run("tradeAll", {}, (j) => { sfx.reveal(4); toast(`Đã đổi ${j.paid} lá trùng lấy ${j.gots.length} lá mới`); setRevealKind("draw"); setReveal(j.gots); showCine(j.gots); })} />}
       {tab === "box" && filterBar}
       {tab === "box" && <div className="ttpool">{view.map((c) => <div key={c.id} className="ttboxc"><Card c={c} owner="me" named />{box[c.id] > 1 && <span className="ttcount">×{box[c.id]}</span>}</div>)}</div>}
       {tab === "duel" && (
@@ -282,16 +283,19 @@ function LaunchFx({ op, me, stage }) {
 }
 
 // Đổi 5 lá trùng (bản thừa) cùng hạng → 1 lá ngẫu nhiên hạng kế trên (máy chủ xử lý)
-function TradePanel({ deck, box, busy, onTrade }) {
+function TradePanel({ deck, box, busy, onTrade, onTradeAll }) {
   const rows = RANKS.slice(0, -1).map((r, i) => ({ r, next: RANKS[i + 1], n: deck.filter((c) => c.rank === r).reduce((a, c) => a + Math.max(0, (box[c.id] || 0) - 1), 0) }));
   return (
     <div className="panel ttodds">
-      <h3>✨ Đổi bài</h3>
+      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+        <h3 style={{ margin: 0 }}>✨ Đổi bài</h3>
+        <button className="gbtn tri" disabled={busy || !rows.some((x) => x.n >= 5)} onClick={onTradeAll} style={{ marginLeft: "auto" }}><span className="c" />⚡ Đổi nhanh tất cả</button>
+      </div>
       <p className="hint">5 lá trùng cùng hạng đổi lấy 1 lá ngẫu nhiên hạng kế trên. Lá trùng = bản thứ 2 trở đi của một thẻ (luôn giữ lại 1 bản mỗi thẻ). Thẻ yếu được dùng trước.</p>
       <div className="tttrade">{rows.map(({ r, next, n }) => (
         <div key={r} className={`tttr ${n >= 5 ? "ok" : ""}`}>
           <span className={`ttrk r-${r}`}>{r}</span><small>{n} lá trùng</small>
-          <button className="chip dk" disabled={busy || n < 5} onClick={() => { if (confirm(`Đổi 5 lá trùng hạng ${r} lấy 1 lá ngẫu nhiên hạng ${next}?`)) onTrade(r); }}>Đổi 5 → 1 <span className={`ttrk r-${next}`}>{next}</span></button>
+          <button className="chip dk" disabled={busy || n < 5} onClick={() => onTrade(r)}>Đổi 5 → 1 <span className={`ttrk r-${next}`}>{next}</span></button>
         </div>
       ))}</div>
     </div>

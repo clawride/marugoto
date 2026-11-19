@@ -1,7 +1,7 @@
 /* 🎴 Hiệu ứng bàn đấu: ném thẻ, chiêu thức, phóng to thẻ, màn thắng/thua */
 
 /* ném thẻ, rung bàn, bụi */
-.arena.has-cut{--fd:.95s}
+.arena.has-cut{--fd:2.35s}
 .arena.shake .ar-plane,.arena.shake .ar-bg{animation:arshakebd .35s ease-out}
 @keyframes arshakebd{20%{translate:.5cqw -.3cqw}40%{translate:-.5cqw .3cqw}60%{translate:.3cqw .2cqw}80%{translate:-.2cqw -.1cqw}}
 .arena .ar-dust{position:absolute;left:50%;top:50%;width:0;height:0;z-index:5;pointer-events:none}
@@ -14,10 +14,10 @@
 @keyframes arcast{0%{transform:none}35%{transform:translateY(-22%) scale(1.45);filter:drop-shadow(0 0 1.4cqw var(--ec)) drop-shadow(0 0 3cqw var(--ec)) brightness(1.25)}70%{transform:translateY(-8%) scale(1.12);filter:drop-shadow(0 0 1cqw var(--ec))}100%{transform:none}}
 
 /* chiêu thức (cut-in) */
-.arena .ar-cut{position:absolute;inset:0;z-index:11;pointer-events:none;overflow:hidden;animation:arcutout 1.15s ease-in forwards}
+.arena .ar-cut{position:absolute;inset:0;z-index:11;pointer-events:none;overflow:hidden;animation:arcutout 2.6s ease-in forwards}
 .arena .ar-cut .band{position:absolute;left:-10%;right:-10%;top:30%;height:36%;transform:skewY(-6deg);background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--ec) 70%,#000) 15%,color-mix(in srgb,var(--ec) 55%,#1a0b30) 85%,transparent);box-shadow:0 0 4cqw var(--ec);animation:arband .35s cubic-bezier(.2,.9,.3,1) both}
 .arena .ar-cut .lines{position:absolute;left:-10%;right:-10%;top:30%;height:36%;transform:skewY(-6deg);background:repeating-linear-gradient(90deg,transparent 0 3cqw,rgba(255,255,255,.35) 3cqw 3.3cqw,transparent 3.3cqw 7cqw);mix-blend-mode:overlay;animation:arlines .3s linear infinite}
-.arena .ar-cut img{position:absolute;top:18%;height:64%;left:8%;filter:drop-shadow(0 0 2cqw var(--ec)) drop-shadow(0 1cqw 1cqw #000);animation:arcutimg .9s cubic-bezier(.15,.9,.3,1) both}
+.arena .ar-cut img{position:absolute;top:18%;height:64%;left:8%;filter:drop-shadow(0 0 2cqw var(--ec)) drop-shadow(0 1cqw 1cqw #000);animation:arcutimg 2.2s cubic-bezier(.15,.9,.3,1) both}
 .arena .ar-cut.foe img{left:auto;right:8%;animation-name:arcutimgr}
 .arena .ar-cut .skill{position:absolute;top:40%;left:34%;right:4%;display:grid;gap:.3cqw;animation:arskill .8s cubic-bezier(.2,1.3,.4,1) .12s both}
 .arena .ar-cut.foe .skill{left:4%;right:34%;text-align:right}
@@ -28,7 +28,7 @@
 @keyframes arcutimg{0%{transform:translateX(-60%) scale(1.3);opacity:0}25%{transform:translateX(0) scale(1.05);opacity:1}80%{transform:translateX(6%) scale(1)}100%{transform:translateX(10%)}}
 @keyframes arcutimgr{0%{transform:translateX(60%) scale(1.3);opacity:0}25%{transform:translateX(0) scale(1.05);opacity:1}80%{transform:translateX(-6%) scale(1)}100%{transform:translateX(-10%)}}
 @keyframes arskill{0%{opacity:0;transform:scale(2.2) translateX(10%)}100%{opacity:1;transform:none}}
-@keyframes arcutout{0%,78%{opacity:1}100%{opacity:0;visibility:hidden}}
+@keyframes arcutout{0%,86%{opacity:1}100%{opacity:0;visibility:hidden}}
 @media (prefers-reduced-motion:reduce){.arena .ar-cut{display:none}.arena.has-cut{--fd:0s}}
 
 /* phóng to thẻ trên bàn */
@@ -66,6 +66,30 @@
 @keyframes arcrack{0%{transform:none}30%{transform:translateX(-2%) rotate(-3deg)}100%{transform:translateY(3%) rotate(calc((var(--j) * 2 - 1) * 6deg));filter:drop-shadow(0 0 2cqw rgba(160,30,60,.7)) grayscale(.4)}}
 .arena .ar-rest{display:grid;justify-items:center;gap:.6cqw;animation:arrest .6s ease-out 1.1s both}
 @keyframes arrest{0%{opacity:0;transform:translateY(20%)}100%{opacity:1;transform:none}}
+/* thắng: cột sáng vàng phóng lên trời, vương miện rơi xuống đội lên chữ, cả cảnh "giật" phóng to một nhịp */
+.arena .ar-beams{position:absolute;inset:0;display:flex;justify-content:space-evenly;align-items:flex-end;pointer-events:none;mix-blend-mode:screen}
+.arena .ar-beams i{width:4cqw;height:120%;background:linear-gradient(0deg,rgba(255,226,122,.9),rgba(255,226,122,.35) 45%,transparent);filter:blur(.6cqw);transform-origin:50% 100%;
+  animation:arbeam 1s cubic-bezier(.2,.9,.3,1) calc(.1s + var(--j) * .08s) both,arbeamsway 3s ease-in-out calc(1.2s + var(--j) * .2s) infinite}
+.arena .ar-beams i:nth-child(even){width:2.4cqw;background:linear-gradient(0deg,rgba(255,180,220,.85),rgba(255,180,220,.3) 45%,transparent)}
+@keyframes arbeam{0%{transform:scaleY(0);opacity:0}60%{opacity:1}100%{transform:scaleY(1);opacity:.75}}
+@keyframes arbeamsway{50%{transform:scaleY(.9) skewX(4deg);opacity:.5}}
+.arena .ar-crown{position:relative;z-index:2;font-size:8cqw;line-height:1;margin-bottom:-2cqw;filter:drop-shadow(0 0 2cqw rgba(255,210,90,.95));animation:arcrown .9s cubic-bezier(.3,1.6,.5,1) .9s both,cfloat 2.4s ease-in-out 1.8s infinite}
+@keyframes arcrown{0%{opacity:0;transform:translateY(-200%) rotate(-30deg) scale(2)}100%{opacity:1;transform:none}}
+@media (prefers-reduced-motion:no-preference){
+  .arena.finale.r-w{animation:arpunch .6s cubic-bezier(.2,1.6,.4,1)}
+  .arena.finale.r-l{animation:arslowmo 1.6s ease-out}
+}
+@keyframes arpunch{0%{transform:scale(1)}30%{transform:scale(1.035)}100%{transform:scale(1)}}
+/* thua: kính màn hình vỡ toác, chớp đỏ hai lần, cảnh chìm dần như quay chậm */
+.arena .ar-cracks{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.arena .ar-cracks path{fill:none;stroke:rgba(255,255,255,.85);stroke-width:.35;stroke-linejoin:bevel;filter:drop-shadow(0 0 .6px #fff) drop-shadow(0 0 2px rgba(255,80,80,.8));
+  stroke-dasharray:400;stroke-dashoffset:400;animation:arcrack2 .5s cubic-bezier(.2,.8,.3,1) 1.05s forwards}
+@keyframes arcrack2{to{stroke-dashoffset:0}}
+.arena.r-l .ar-flash{animation:arflash2 1.2s ease-out}
+@keyframes arflash2{0%{opacity:.85}25%{opacity:0}40%{opacity:.6}100%{opacity:0}}
+@keyframes arslowmo{0%{filter:none}40%{filter:saturate(.5) contrast(1.2)}100%{filter:none}}
+.arena.finale.r-l .ar-foe img{filter:drop-shadow(0 0 2cqw rgba(255,60,60,.8)) !important}
+
 /* thắng: thẻ của bạn lần lượt nhảy ăn mừng · thua: thẻ đối thủ nhảy, cả cảnh tối lại và rung mạnh */
 @media (prefers-reduced-motion:no-preference){
   .tt .arena.finale.r-w .ar-cell .ttcard.me,.tt .arena.finale.r-l .ar-cell .ttcard.foe{animation:arparade .7s cubic-bezier(.3,1.6,.5,1) calc(var(--ci) * .09s) 3}
