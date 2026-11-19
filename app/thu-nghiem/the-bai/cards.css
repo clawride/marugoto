@@ -44,9 +44,9 @@
 .tt .ttn.up::after,.tt .ttn.down::after{content:"▲";position:absolute;left:96%;top:-12%;font-size:40%;-webkit-text-stroke:0;color:#3be37a;-webkit-text-fill-color:#3be37a}
 .tt .ttn.down::after{content:"▼";color:#ff8a3d;-webkit-text-fill-color:#ff8a3d}
 /* số đang so khi lật thẻ: bên thắng phóng to bừng sáng, bên thua rung và tối lại */
-.tt .ttcard .ttn.hit-atk{z-index:6;animation:ttatk 1s cubic-bezier(.2,1.6,.4,1) .05s both;--glow:#fff6b0}
-.tt .ttn.hit-atk::before{content:"";position:absolute;left:50%;top:50%;width:150%;aspect-ratio:1;border-radius:50%;border:1.4cqw solid #ffe27a;transform:translate(-50%,-50%) scale(.2);opacity:0;animation:ttring .75s ease-out .15s}
-.tt .ttcard .ttn.hit-def{animation:ttdef .8s ease-out .3s both}
+.tt .ttcard .ttn.hit-atk{z-index:6;animation:ttatk 1s cubic-bezier(.2,1.6,.4,1) calc(.05s + var(--fd,0s)) both;--glow:#fff6b0}
+.tt .ttn.hit-atk::before{content:"";position:absolute;left:50%;top:50%;width:150%;aspect-ratio:1;border-radius:50%;border:1.4cqw solid #ffe27a;transform:translate(-50%,-50%) scale(.2);opacity:0;animation:ttring .75s ease-out calc(.15s + var(--fd,0s)) both}
+.tt .ttcard .ttn.hit-def{animation:ttdef .8s ease-out calc(.3s + var(--fd,0s)) both}
 @keyframes ttatk{0%{transform:translate(-50%,-50%) scale(1)}35%{transform:translate(-50%,-50%) scale(2.2);filter:drop-shadow(0 0 4cqw #fff6b0) brightness(1.7)}100%{transform:translate(-50%,-50%) scale(1)}}
 @keyframes ttring{0%{opacity:1;transform:translate(-50%,-50%) scale(.3)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.9)}}
 @keyframes ttdef{0%,100%{transform:translate(-50%,-50%)}15%{transform:translate(-64%,-50%) rotate(-10deg)}30%{transform:translate(-36%,-50%) rotate(10deg)}45%{transform:translate(-56%,-50%) scale(.75);filter:grayscale(1) brightness(.5)}75%{filter:grayscale(1) brightness(.7)}}

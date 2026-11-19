@@ -12,6 +12,7 @@ import { sfx } from "@/lib/sfx";
 import { Card } from "./Card";
 import { api } from "./api";
 import "./arena.css";
+import "./arena-fx.css";
 
 const OPP = { t: "b", r: "l", b: "t", l: "r" };
 const NB = (i) => ({ t: i >= 3 ? i - 3 : -1, b: i <= 5 ? i + 3 : -1, l: i % 3 ? i - 1 : -1, r: i % 3 < 2 ? i + 1 : -1 });
@@ -20,6 +21,61 @@ const RULE_VI = { open: "Lật bài", same: "Bằng nhau", plus: "Cộng", combo
 const PETALS = Array.from({ length: 16 }, (_, i) => ({ x: (i * 37 + 11) % 100, d: -((i * 1.9) % 13), t: 10 + ((i * 5) % 8), s: 0.55 + ((i * 7) % 5) / 7, w: (i % 2 ? 1 : -1) * (4 + (i % 4) * 2) }));
 const FOE_THINK_MS = 1100;
 const CELL_VI = ["góc trên trái", "giữa hàng trên", "góc trên phải", "giữa cột trái", "chính giữa", "giữa cột phải", "góc dưới trái", "giữa hàng dưới", "góc dưới phải"];
+// Chiêu thức theo nguyên tố của thẻ (hiện khi thẻ vừa đặt lật được thẻ đối thủ)
+const SKILL = {
+  pyro: ["紅蓮・烈火斬", "Hồng Liên · Liệt Hỏa Trảm"], hydro: ["水天・渦潮穿", "Thủy Thiên · Xoáy Triều"],
+  anemo: ["疾風・神楽舞", "Tật Phong · Thần Nhạc Vũ"], electro: ["雷光・一閃", "Lôi Quang · Nhất Thiểm"],
+  dendro: ["森羅・百花繚乱", "Sâm La · Bách Hoa Liêu Loạn"], cryo: ["氷華・霜天葬", "Băng Hoa · Sương Thiên Táng"],
+  geo: ["岩崩・天星落", "Nham Băng · Thiên Tinh Lạc"],
+};
+const reduceMotion = () => typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+
+// Pháo hoa (thắng) · tro tàn rơi (thua) · bụi sáng (hòa) vẽ bằng canvas
+function FxCanvas({ kind }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const cv = ref.current;
+    if (!cv || reduceMotion()) return;
+    const ctx = cv.getContext("2d"), dpr = Math.min(2, window.devicePixelRatio || 1);
+    const r = cv.getBoundingClientRect(), w = (cv.width = r.width * dpr), h = (cv.height = r.height * dpr);
+    const colors = kind === "w" ? ["#ffe27a", "#ff9ad5", "#8ab8ff", "#ffffff", "#8af5c8", "#ffb347"] : kind === "l" ? ["#5a5470", "#3a3550", "#8a7aa8", "#aa3333"] : ["#c9f1e6", "#ffffff", "#9fe6ff"];
+    const pick = () => colors[Math.floor(Math.random() * colors.length)];
+    const P = [];
+    const burst = (x, y, n) => {
+      const c = pick();
+      for (let i = 0; i < n; i++) {
+        const a = Math.random() * Math.PI * 2, v = (1.5 + Math.random() * 6) * dpr;
+        P.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: 1, decay: 0.008 + Math.random() * 0.012, c: Math.random() < 0.7 ? c : pick(), size: (1.5 + Math.random() * 2.5) * dpr, tw: Math.random() < 0.35 });
+      }
+    };
+    const t0 = performance.now();
+    let last = 0, raf;
+    const loop = (t) => {
+      const el = t - t0;
+      if (kind === "w" && el < 7000 && t - last > (el < 1800 ? 200 : 650)) { last = t; burst(w * (0.12 + Math.random() * 0.76), h * (0.1 + Math.random() * 0.45), el < 1800 ? 80 : 50); }
+      if (kind === "d" && el < 5000 && t - last > 500) { last = t; burst(w * (0.2 + Math.random() * 0.6), h * 0.3, 30); }
+      if (kind === "l" && el < 9000) for (let i = 0; i < 3; i++) P.push({ x: Math.random() * w, y: -10, vx: (Math.random() - 0.3) * 0.8 * dpr, vy: (1 + Math.random() * 2.5) * dpr, life: 1, decay: 0.003, c: pick(), size: (1 + Math.random() * 2) * dpr, rain: true });
+      ctx.clearRect(0, 0, w, h);
+      ctx.globalCompositeOperation = kind === "l" ? "source-over" : "lighter";
+      for (let i = P.length - 1; i >= 0; i--) {
+        const p = P[i];
+        p.x += p.vx; p.y += p.vy;
+        if (!p.rain) { p.vy += 0.06 * dpr; p.vx *= 0.985; p.vy *= 0.985; }
+        p.life -= p.decay;
+        if (p.life <= 0 || p.y > h + 20) { P.splice(i, 1); continue; }
+        ctx.globalAlpha = p.life * (p.tw ? 0.5 + 0.5 * Math.sin(t / 50 + i) : 1);
+        ctx.fillStyle = p.c;
+        if (p.rain) ctx.fillRect(p.x, p.y, p.size * 0.7, p.size * 6);
+        else { ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, 7); ctx.fill(); }
+      }
+      if (el < 9500 || P.length) raf = requestAnimationFrame(loop);
+    };
+    raf = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(raf);
+  }, [kind]);
+  return <canvas ref={ref} className="ar-fx" aria-hidden="true" />;
+}
+
 const CELL_JA = ["左上", "上", "右上", "左", "中央", "右", "左下", "下", "右下"];
 
 // Cạnh nào vừa so để lật: thẻ vừa đặt "atk", thẻ bị lật "def"
@@ -70,6 +126,9 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
   const [drag, setDrag] = useState(null); // { k, over, w, x, y }
   const [hint, setHint] = useState(null); // { id, cell, k } — Quân sư gợi ý
   const [thinking, setThinking] = useState(false);
+  const [showEnd, setShowEnd] = useState(false);
+  const [zoom, setZoom] = useState(null); // ô đang phóng to để xem thẻ
+  const lastFlips = useRef(false);
   const moves = useRef([]);
   const locked = useRef(true);
   const compute = useRef(null);
@@ -94,7 +153,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
       if (!active) return;
       if (error) { setError(error); return; }
       // Đối thủ "suy nghĩ" một chút để người chơi kịp xem nước vừa đi
-      const wait = step?.who === "foe" && lastMove.current ? Math.max(0, FOE_THINK_MS - (Date.now() - lastMove.current)) : 0;
+      const wait = step?.who === "foe" && lastMove.current ? Math.max(0, FOE_THINK_MS + (lastFlips.current ? 1100 : 0) - (Date.now() - lastMove.current)) : 0;
       timers.push(setTimeout(() => {
         if (!active) return;
         setMatch(match); setStep(step); setReady(true); locked.current = false;
@@ -154,7 +213,9 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
   // Phản ứng của đối thủ sau mỗi nước
   useEffect(() => {
     if (!step) return;
-    if (step.flips.length) sfx.flip(Math.min(4, step.flips.length));
+    const el = scene.current;
+    if (el && !reduceMotion()) { el.classList.remove("shake"); void el.offsetWidth; el.classList.add("shake"); }
+    if (step.flips.length) { sfx.cast(); sfx.flip(Math.min(4, step.flips.length), 0.95); }
     if (special.length) sfx.special();
     if (match.turn === "done") return;
     if (step.who === "me" && !step.flips.length && Math.random() < 0.55) return;
@@ -166,8 +227,14 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
     if (turn !== "done") return;
     const r = duelResult(match).result;
     say(r === "w" ? "lose" : r === "l" ? "win" : "draw");
-    if (r === "w") sfx.win?.(); else if (r === "l") sfx.lose();
     finish();
+    setZoom(null);
+    // Màn kết thúc hoành tráng sau khi chiêu thức/lật thẻ cuối cùng diễn xong
+    const t = setTimeout(() => {
+      setShowEnd(true); sfx.boom();
+      if (r === "w") sfx.fanfare(); else if (r === "l") sfx.doom(); else sfx.summary();
+    }, step?.flips.length ? 2100 : 900);
+    return () => clearTimeout(t);
   }, [turn]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Tư thế nhân vật theo câu thoại, rồi trở về thở nhẹ
@@ -196,6 +263,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
     try { localStorage.setItem(storageKey, JSON.stringify({ id: m0.id, moves: moves.current })); }
     catch { setSavedLocally(false); }
     lastMove.current = Date.now();
+    lastFlips.current = next.step.flips.length > 0;
     sfx.slap();
     setMatch(next.match); setStep(next.step); setSel(null); setError(""); setHint(null);
     if (next.match.turn === "foe") compute.current(next.match);
@@ -203,7 +271,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
 
   // Kéo thả bằng Pointer Events (chuột + cảm ứng). Bấm không kéo = chọn thẻ rồi bấm ô.
   const onHandDown = (e, k) => {
-    if (!canAct || locked.current || e.button > 0) return;
+    if (!canAct || locked.current || drag || e.button > 0) return;
     e.preventDefault();
     const r = e.currentTarget.getBoundingClientRect();
     const st = { x0: e.clientX, y0: e.clientY, lx: e.clientX, w: r.width, moved: false, over: null, tilt: 0 };
@@ -215,17 +283,60 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
       }
       st.tilt = Math.max(-20, Math.min(20, st.tilt * 0.75 + (ev.clientX - st.lx) * 0.8)); st.lx = ev.clientX;
       place(ev.clientX, ev.clientY);
-      const cellEl = document.elementFromPoint(ev.clientX, ev.clientY)?.closest?.("[data-cell]");
-      const over = cellEl && !matchRef.current.cells[Number(cellEl.dataset.cell)] ? Number(cellEl.dataset.cell) : null;
+      const at = cellAt(ev.clientX, ev.clientY);
+      const over = at != null && !matchRef.current.cells[at] ? at : null;
       if (over !== st.over) { st.over = over; setDrag((d) => d && { ...d, over }); if (over != null) sfx.hover(); }
     };
     const up = () => {
       window.removeEventListener("pointermove", move); window.removeEventListener("pointerup", up); window.removeEventListener("pointercancel", up);
       if (!st.moved) { setSel((s) => (s === k ? null : k)); sfx.click(); return; }
-      setDrag(null);
-      if (st.over != null) play(k, st.over);
+      if (st.over == null) { setDrag(null); return; }
+      throwTo(k, st.over, st.tilt);
     };
     window.addEventListener("pointermove", move); window.addEventListener("pointerup", up); window.addEventListener("pointercancel", up);
+  };
+  // Ném thẻ: thẻ xoay tròn bay vào ô rồi đập xuống bàn
+  const throwTo = (k, i, tilt = 0) => {
+    const g = ghost.current, cellEl = scene.current?.querySelector(`[data-cell="${i}"]`);
+    if (!g || !cellEl || reduceMotion()) { setDrag(null); play(k, i); return; }
+    setDrag((d) => d && { ...d, over: i, throwing: true });
+    const r = cellEl.getBoundingClientRect(), w = g.offsetWidth, sc = r.width / w, dir = tilt >= 0 ? 1 : -1;
+    const tx = r.left + r.width / 2 - w / 2, ty = r.top + r.height / 2 - w * 0.4 - w * 0.267 * sc;
+    sfx.whoosh();
+    const a = g.animate([
+      { transform: getComputedStyle(g).transform },
+      { transform: `translate(${tx}px,${ty - w * 0.5}px) rotate(${dir * 400}deg) scale(${sc * 1.25})`, offset: 0.7 },
+      { transform: `translate(${tx}px,${ty}px) rotate(${dir * 720}deg) scale(${sc})` },
+    ], { duration: 400, easing: "cubic-bezier(.35,.1,.6,1)", fill: "forwards" });
+    // Tab bị ẩn thì trình duyệt dừng animation → hẹn giờ dự phòng để thẻ vẫn được đặt
+    let done = false;
+    const land = () => { if (done) return; done = true; setDrag(null); play(k, i); };
+    a.onfinish = land;
+    setTimeout(land, 700);
+  };
+  const throwFromHand = (k, i) => {
+    const slot = scene.current?.querySelectorAll(".ar-slot")[k];
+    if (!slot || drag || locked.current || !canAct) return;
+    const r = slot.getBoundingClientRect();
+    setDrag({ k, over: i, w: r.width, x: r.left + r.width / 2, y: r.top + r.width * 0.7, throwing: true });
+    requestAnimationFrame(() => requestAnimationFrame(() => throwTo(k, i, 0)));
+  };
+  // Ô dưới con trỏ, tính theo hình học: trên bàn nghiêng 3D, trình duyệt có lúc trả về chính mặt bàn thay vì ô
+  const cellAt = (x, y) => {
+    let best = null, bestD = Infinity;
+    scene.current?.querySelectorAll("[data-cell]").forEach((el) => {
+      const r = el.getBoundingClientRect();
+      const pad = r.width * 0.12;
+      if (x < r.left - pad || x > r.right + pad || y < r.top - pad || y > r.bottom + pad) return;
+      const d = Math.hypot(x - (r.left + r.width / 2), y - (r.top + r.height / 2));
+      if (d < bestD) { bestD = d; best = Number(el.dataset.cell); }
+    });
+    return best;
+  };
+  // Bấm ô: có thẻ chọn sẵn + ô trống → ném thẻ; ô có thẻ → phóng to để xem
+  const clickCell = (i) => {
+    if (cells[i]) { setZoom(i); sfx.page(); return; }
+    if (sel != null) throwFromHand(sel, i);
   };
   // Quân sư: trả Nguyên Thạch → tìm nước tốt nhất cho bạn (bài úp thì quân sư cũng không nhìn bài đối thủ)
   const askAdvisor = () => {
@@ -258,10 +369,13 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
   const turnText = end ? "" : !ready || intro ? "シャッフル中…" : turn === "me" ? (drag ? "置く場所を選んで！" : "あなたの番") : `${op.char.vi} 思考中…`;
   const outcome = end && (end.result === "w" ? ["勝利", "Bạn thắng!"] : end.result === "l" ? ["敗北", "Bạn thua…"] : ["引分", "Hòa!"]);
   const dragCard = drag && cards[hands.me[drag.k]];
+  const cutCard = step?.flips.length ? cards[step.id] : null;
+  const skill = cutCard && (SKILL[cutCard.el] || SKILL.geo);
+  const zoomCell = zoom != null ? cells[zoom] : null;
 
   return (
     <div className="tt ar-wrap">
-      <div ref={scene} className={`arena ${intro ? "intro-" + intro : ""} ${drag ? "dragging" : ""} ${end ? "ended r-" + end.result : ""}`} onPointerMove={parallax}>
+      <div ref={scene} className={`arena ${intro ? "intro-" + intro : ""} ${drag ? "dragging" : ""} ${end ? "ended r-" + end.result : ""} ${end && showEnd ? "finale" : ""} ${cutCard ? "has-cut" : ""}`} onPointerMove={parallax}>
         <div className="ar-bg" />
         <div className="ar-moon" /><div className="ar-lantern a" /><div className="ar-lantern b" />
         <div className="ar-petals" aria-hidden="true">{PETALS.map((p, i) => <i key={i} style={{ "--x": p.x + "%", "--d": p.d + "s", "--t": p.t + "s", "--s": p.s, "--w": p.w + "cqw" }} />)}</div>
@@ -280,16 +394,17 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
               ? hands.foe.map((id, k) => <Card key={id} c={cards[id]} owner="foe" small style={{ "--i": k }} />)
               : Array.from({ length: hands.foe }, (_, k) => <Card key={k} back small style={{ "--i": k }} />)}
           </div>
-          <div className="ar-board">
+          <div className="ar-board" onClick={(e) => { const i = cellAt(e.clientX, e.clientY); if (i != null) clickCell(i); }}>
             {cells.map((cell, i) => (
-              <div key={i} data-cell={i} className={`ar-cell ${!cell && canAct && (sel != null || drag) ? "can" : ""} ${drag?.over === i ? "over" : ""} ${hint?.cell === i && !cell ? "hint" : ""}`} onClick={() => sel != null && play(sel, i)}>
+              <div key={i} data-cell={i} className={`ar-cell ${!cell && canAct && (sel != null || drag) ? "can" : ""} ${drag?.over === i ? "over" : ""} ${hint?.cell === i && !cell ? "hint" : ""}`} style={{ "--ci": i, "--ec": cell ? ELEM[cards[cell.id]?.el]?.c : undefined }}>
                 {m0.els[i] && <img className={`ttcellel ${cell ? "dim" : ""}`} src={elemIcon(m0.els[i])} alt={ELEM[m0.els[i]]?.vi} draggable={false} />}
                 {cell && <Card key={`${i}-${cell.owner}`} c={cards[cell.id]} owner={cell.owner} el={m0.els[i]} hit={hits[i]}
                   className={last === i ? `land-${step.who}` : fx[i] ? "flipin" : ""} />}
                 {cell && fx[i] && <span key={`b${i}-${cell.owner}`} className={`ar-burst ${cell.owner}`}>{Array.from({ length: 10 }, (_, j) => <i key={j} style={{ "--a": j * 36 + "deg" }} />)}</span>}
                 {last === i && <span key={`r${stepKey}`} className={`ar-ring ${step.who}`} />}
+                {last === i && <span key={`d${stepKey}`} className="ar-dust">{Array.from({ length: 12 }, (_, j) => <i key={j} style={{ "--a": j * 30 + "deg", "--r": 3 + (j % 3) + "cqw" }} />)}</span>}
                 {hint?.cell === i && !cell && <span className="ar-hintmark" lang="ja">軍</span>}
-                {drag?.over === i && dragCard && <div className="ar-preview"><Card c={dragCard} owner="me" el={m0.els[i]} /></div>}
+                {drag?.over === i && dragCard && !drag.throwing && <div className="ar-preview"><Card c={dragCard} owner="me" el={m0.els[i]} /></div>}
               </div>
             ))}
           </div>
@@ -333,16 +448,40 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
             <small>Quân sư: đặt <b>{cards[hint.id]?.name}</b> vào ô <b>{CELL_VI[hint.cell]}</b>.</small>
           </div>
         )}
+        {cutCard && (
+          <div key={"cut" + stepKey} className={`ar-cut ${step.who}`} style={{ "--ec": ELEM[cutCard.el]?.c || "#ffd36b" }} aria-hidden="true">
+            <div className="band" /><div className="lines" />
+            <img src={`/shiki-duel/${cutCard.id}.webp`} alt="" draggable={false} />
+            <div className="skill"><b lang="ja">{skill[0]}</b><small>{cutCard.name} · {skill[1]}</small></div>
+          </div>
+        )}
+        {zoomCell && (
+          <div className="ar-zoom" onClick={() => setZoom(null)} role="dialog" aria-label="Xem thẻ">
+            <div className="ar-zoomcard" onClick={(e) => e.stopPropagation()}>
+              <Card c={cards[zoomCell.id]} owner={zoomCell.owner} el={m0.els[zoom]} named />
+              <div className="ar-zoominfo">
+                <b lang="ja">{cards[zoomCell.id].name}</b>
+                <small>{cards[zoomCell.id].ro} · hạng {cards[zoomCell.id].rank} · {ELEM[cards[zoomCell.id].el]?.vi} · {zoomCell.owner === "me" ? "của bạn" : "của " + op.char.vi}</small>
+                <button className="chip dk" onClick={() => setZoom(null)}>Đóng</button>
+              </div>
+            </div>
+          </div>
+        )}
         {special.length > 0 && <div key={stepKey} className="ar-banner">{special.map((b) => <span key={b}><b lang="ja">{SPECIAL[b][0]}！</b><small>{SPECIAL[b][1]}</small></span>)}</div>}
 
-        {end && (
+        {end && showEnd && (
           <div className="ar-result">
-            <div className="ar-kanji" lang="ja">{outcome[0]}</div>
+            <div className="ar-flash" />
+            <div className="ar-rays" />
+            <FxCanvas kind={end.result} />
+            <div className="ar-kanji" lang="ja">{[...outcome[0]].map((ch, j) => <span key={j} style={{ "--j": j }}>{ch}</span>)}</div>
+            <div className="ar-rest">
             <h2>{outcome[1]}</h2>
             <div className="ar-final"><span className="me">{end.score.me}</span> : <span className="foe">{end.score.foe}</span></div>
             {receipt && end.result === "l" && (receipt.lost ? <div className="ttlost in"><Card c={byId[receipt.lost]} owner="foe" small /><p>Bạn bị lấy mất lá hạng cao nhất: <b>{byId[receipt.lost]?.name}</b> (hạng {byId[receipt.lost]?.rank})</p></div> : <p className="hint">Hộp bài đang ở mức tối thiểu 5 loại thẻ nên không bị lấy lá nào.</p>)}
             {!receipt && <p role="status">{syncing ? "Đang xác nhận kết quả…" : "Kết quả chưa được đồng bộ."}</p>}
             <div className="btnrow">{!receipt ? <button className="gbtn tri" disabled={syncing} onClick={finish}>Gửi lại kết quả</button> : <button className="gbtn tri" onClick={() => onDone(receipt)}><span className="c" />{end.result === "w" ? `🎁 Chọn 1 thẻ của ${op.char.vi}` : "Về danh sách đối thủ"}</button>}</div>
+            </div>
           </div>
         )}
       </div>

@@ -82,7 +82,7 @@
 @media (prefers-reduced-motion:no-preference){
   .tt .arena .ttcard.land-me{animation:arlandme .45s cubic-bezier(.2,.9,.3,1.2) both}
   .tt .arena .ttcard.land-foe{animation:arlandfoe .6s cubic-bezier(.2,.9,.3,1.1) both}
-  .tt .arena .ttcard.flipin{animation:arflip .7s cubic-bezier(.3,.7,.3,1.15) .32s both}
+  .tt .arena .ttcard.flipin{animation:arflip .7s cubic-bezier(.3,.7,.3,1.15) calc(.32s + var(--fd,0s)) both}
 }
 @keyframes arlandme{0%{transform:translateZ(9cqw) scale(1.15);opacity:.4}70%{transform:translateZ(-.4cqw)}100%{transform:none;opacity:1}}
 @keyframes arlandfoe{0%{transform:translate3d(-40%,-160%,14cqw) rotate(-28deg);opacity:0}60%{opacity:1}100%{transform:none}}
@@ -91,7 +91,7 @@
 .arena .ar-ring.foe{border-color:#ff8b8b}
 @keyframes arring{0%{opacity:1;transform:scale(.8)}100%{opacity:0;transform:scale(1.35)}}
 .arena .ar-burst{position:absolute;left:50%;top:50%;width:0;height:0;z-index:6;pointer-events:none}
-.arena .ar-burst i{position:absolute;left:-.4cqw;top:-.4cqw;width:.8cqw;height:.8cqw;border-radius:50%;background:#fff;box-shadow:0 0 1cqw 0.3cqw var(--c);transform:rotate(var(--a)) translateX(0);opacity:0;animation:arspark .8s ease-out .38s}
+.arena .ar-burst i{position:absolute;left:-.4cqw;top:-.4cqw;width:.8cqw;height:.8cqw;border-radius:50%;background:#fff;box-shadow:0 0 1cqw 0.3cqw var(--c);transform:rotate(var(--a)) translateX(0);opacity:0;animation:arspark .8s ease-out calc(.38s + var(--fd,0s))}
 .arena .ar-burst.me{--c:#5aa2ff}.arena .ar-burst.foe{--c:#ff5a5a}
 @keyframes arspark{0%{opacity:1;transform:rotate(var(--a)) translateX(0) scale(1.4)}100%{opacity:0;transform:rotate(var(--a)) translateX(6cqw) scale(.3)}}
 
@@ -145,7 +145,7 @@
 .arena .ar-leave:disabled{opacity:.4;cursor:default}
 
 /* chữ lớn khi kích hoạt luật đặc biệt */
-.arena .ar-banner{position:absolute;left:0;right:0;top:34%;z-index:11;display:flex;justify-content:center;gap:4cqw;pointer-events:none;animation:arbanner 1.8s cubic-bezier(.2,.8,.3,1) .3s both}
+.arena .ar-banner{position:absolute;left:0;right:0;top:34%;z-index:11;display:flex;justify-content:center;gap:4cqw;pointer-events:none;animation:arbanner 1.8s cubic-bezier(.2,.8,.3,1) calc(.3s + var(--fd,0s)) both}
 .arena .ar-banner span{display:grid;justify-items:center}
 .arena .ar-banner b{font:900 8cqw/1 "Yuji Syuku","Noto Serif JP",serif;color:#fff;-webkit-text-stroke:.25cqw #6a3a00;background:linear-gradient(180deg,#fff,#ffe27a 50%,#ff9e2c);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 2cqw rgba(255,180,60,.9)) drop-shadow(0 .4cqw .3cqw #000)}
 .arena .ar-banner small{font:800 max(12px,1.5cqw) "Be Vietnam Pro",sans-serif;color:#ffe9b0;text-shadow:0 0 6px #000;letter-spacing:.2em;text-transform:uppercase}
