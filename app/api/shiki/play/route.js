@@ -33,13 +33,17 @@ function enableLocal(m, byId) {
 class StaleState extends Error {}
 // Lấy 1 lá khỏi Hộp bài theo cách chọn ("best" = hạng cao nhất, mạnh nhất · "random") → id thẻ bị lấy, hoặc null nếu được bảo vệ
 const MIN_KINDS = 5;
+// 5 lá người chơi đã mang vào trận (trận cũ chưa lưu thì suy ra: các lá trong trận không thuộc bộ của boss)
+const playedCards = (m) => m.meAll || Object.keys(m.cards || {}).filter((id) => !(m.foeAll || []).includes(id));
 function takeCard(d, byId, how) {
   const kinds = Object.keys(d.box).filter((id) => d.box[id] > 0 && byId[id]);
   // chỉ được lấy lá còn thừa (trùng) hoặc khi hộp vẫn còn ≥ MIN_KINDS loại sau khi lấy
-  const ok = kinds.filter((id) => d.box[id] > 1 || kinds.length > MIN_KINDS);
+  let ok = kinds.filter((id) => d.box[id] > 1 || kinds.length > MIN_KINDS);
+  if (Array.isArray(how)) { ok = ok.filter((id) => how.includes(id)); how = "pick"; }
   if (!ok.length) return null;
   let id;
-  if (how === "best") id = ok.sort((a, b) => rankIdx(byId[b].rank) - rankIdx(byId[a].rank) || power(byId[b]) - power(byId[a]))[0];
+  if (how === "pick") id = ok[Math.floor(Math.random() * ok.length)];
+  else if (how === "best") id = ok.sort((a, b) => rankIdx(byId[b].rank) - rankIdx(byId[a].rank) || power(byId[b]) - power(byId[a]))[0];
   else { const pool = ok.flatMap((x) => Array(d.box[x]).fill(x)); id = pool[Math.floor(Math.random() * pool.length)]; }
   d.box[id]--;
   if (d.box[id] <= 0) {
@@ -218,6 +222,7 @@ async function handleAction(req, timed) {
       const bd = makeBoard(rules);
       const m = { op: op.i, opId: op.char.id, rules, els: bd.els, cells: bd.cells, hands: { me: mine.slice(), foe: stageDeck(op, deck, cfg).map((c) => c.id) }, turn: Math.random() < 0.5 ? "me" : "foe" };
       m.foeAll = m.hands.foe.slice();
+      m.meAll = m.hands.me.slice(); // 5 lá người chơi mang vào trận (thua thì mất ngẫu nhiên 1 lá trong số này)
       // độ khó máy: người chơi chọn 1–4, không chọn thì tăng dần theo thứ tự đối thủ
       m.level = [1, 2, 3, 4].includes(Number(b.level)) ? Number(b.level) : stageLevel(op, cfg);
       const steps = [];
@@ -245,7 +250,7 @@ async function handleAction(req, timed) {
         d.beatC[op.char.id] = (d.beatC[op.char.id] || 0) + 1;
         d.pending = { op: op.i, opId: op.char.id, cards: m.foeAll };
       }
-      const lost = result === "l" ? takeCard(d, byId, "best") : null;
+      const lost = result === "l" ? takeCard(d, byId, playedCards(m)) : null;
       d.receipt = { id: m.id, result, score: tally, lost };
       d.match = null;
       await save();
@@ -268,7 +273,7 @@ async function handleAction(req, timed) {
         result = sc.me > sc.foe ? "w" : sc.me < sc.foe ? "l" : "d";
         d.rec[result]++;
         if (result === "w") { d.beatC[op.char.id] = (d.beatC[op.char.id] || 0) + 1; d.pending = { op: op.i, opId: op.char.id, cards: m.foeAll }; }
-        if (result === "l") lost = takeCard(d, byId, "best");
+        if (result === "l") lost = takeCard(d, byId, playedCards(m));
         d.last = { match: view(m), result, score: sc };
         d.match = null;
       }

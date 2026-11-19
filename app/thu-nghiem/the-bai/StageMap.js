@@ -10,7 +10,15 @@ import "./stagemap.css";
 
 // Vùng của từng nhân vật (lib/giMeta.js) — dùng cho nhãn ải và ảnh nền bàn đấu
 export const REGION = new Proxy({}, { get: (_, en) => regionOf(String(en)) });
-const STEP = 124, PAD = 80;
+const STEP = 124, PAD = 80, BAND = 620;
+// Cảnh vật dọc đường đi qua 120 ải (tranh cổ CC0 trong public/shiki-duel/arena): đồng cỏ → rừng → núi → cầu trăng → đình hoa anh đào
+const SCENES = [
+  ["/shiki-duel/arena/bg-mondstadt.webp", "🌾 Thảo nguyên cối xay gió"],
+  ["/shiki-duel/arena/bg-sumeru.webp", "🌴 Rừng mưa nhiệt đới"],
+  ["/shiki-duel/arena/bg-liyue.webp", "⛰️ Núi đá ngàn trùng"],
+  ["/shiki-duel/arena/bg-fontaine.webp", "🌉 Cầu đá dưới trăng"],
+  ["/shiki-duel/arena/pavilion.webp", "🌸 Đình hoa anh đào"],
+];
 
 export default function StageMap({ ops, beat, tried = [], decks, levelOf, busy, canStart, onStart, onFirst }) {
   const maxBeat = Math.max(-1, ...Object.keys(beat).map(Number));
@@ -33,6 +41,10 @@ export default function StageMap({ ops, beat, tried = [], decks, levelOf, busy, 
     <div className="sm-wrap">
       <div className="sm-map" ref={box}>
         <div className="sm-inner" style={{ height: H }}>
+          <div className="sm-scenes" aria-hidden="true">{Array.from({ length: Math.ceil(H / BAND) }, (_, i, arr) => {
+            const k = Math.min(SCENES.length - 1, Math.floor((i * SCENES.length) / Math.ceil(H / BAND))), firstOfScene = i === 0 || Math.floor(((i - 1) * SCENES.length) / Math.ceil(H / BAND)) !== k;
+            return <div key={i} className={"sm-scene" + (i % 2 ? " flip" : "")} style={{ top: i * BAND, height: BAND + 60, backgroundImage: "url(" + SCENES[k][0] + ")" }}>{firstOfScene && <span className="sm-region">{SCENES[k][1]}</span>}</div>;
+          })}</div>
           <svg className="sm-path" viewBox={`0 0 100 ${H}`} preserveAspectRatio="none" aria-hidden="true">
             <path d={curve(pts)} className="all" vectorEffect="non-scaling-stroke" />
             <path d={curve(pts.slice(0, cur.i + 1))} className="done" vectorEffect="non-scaling-stroke" />
