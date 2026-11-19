@@ -13,7 +13,7 @@
 import { store, auth } from "@/lib/store";
 import { getShikiConfig } from "@/lib/shikiConfig";
 import { drawCards, OPPONENTS, oppDeck, makeBoard, place, aiMove, score, power, rankIdx } from "@/lib/shikiCards";
-import { DUEL_MODE, replayDuel, duelResult } from "@/lib/shikiDuel";
+import { DUEL_MODE, replayDuel, duelResult, autoLevel } from "@/lib/shikiDuel";
 import { RANKS } from "@/lib/shikihime";
 
 export const dynamic = "force-dynamic";
@@ -160,6 +160,8 @@ async function handleAction(req, timed) {
       const bd = makeBoard(rules);
       const m = { op: op.i, rules, els: bd.els, cells: bd.cells, hands: { me: mine.slice(), foe: oppDeck(op, deck).map((c) => c.id) }, turn: Math.random() < 0.5 ? "me" : "foe" };
       m.foeAll = m.hands.foe.slice();
+      // độ khó máy: người chơi chọn 1–4, không chọn thì tăng dần theo thứ tự đối thủ
+      m.level = [1, 2, 3, 4].includes(Number(b.level)) ? Number(b.level) : autoLevel(op.i);
       const steps = [];
       if (local) enableLocal(m, byId);
       else if (m.turn === "foe") steps.push(aiStep(m, byId, op.ai));

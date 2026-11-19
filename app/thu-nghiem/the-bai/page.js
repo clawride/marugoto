@@ -7,7 +7,7 @@ import { charIcon } from "@/lib/genshin";
 import { ELEM } from "@/lib/data";
 import { RANKS, RANK_VI } from "@/lib/shikihime";
 import { buildDeck, power, RANK_ODDS, OPPONENTS, oppDeck, rankIdx } from "@/lib/shikiCards";
-import { DUEL_MODE } from "@/lib/shikiDuel";
+import { DUEL_MODE, LEVELS, autoLevel } from "@/lib/shikiDuel";
 import { opponentArt } from "@/lib/shikiDialogue";
 import { unlockVoice } from "@/lib/shikiVoice";
 import { sfx } from "@/lib/sfx";
@@ -66,12 +66,14 @@ function CardGame({ S, toast, update }) {
   const showOpponents = Boolean(cfg && P?.starter && !P.match && !P.pending && !reveal && !traded && tab === "duel");
   const opponentDecks = useMemo(() => showOpponents ? OPPONENTS.map((op) => oppDeck(op, deck)) : [], [showOpponents, deck]);
   const [mode, setMode] = useState("open");
+  const [level, setLevel] = useState("auto"); // "auto" = tăng dần theo đối thủ · 1–4 = cố định
   const [claiming, setClaiming] = useState(null); // id thẻ thưởng đang thu phục
   const [launching, setLaunching] = useState(null); // đối thủ vừa chọn — màn chào trước trận
   useEffect(() => {
     try {
       const r = JSON.parse(localStorage.getItem(LS) || "null"); if (r) setRules(r);
       const md = localStorage.getItem(LS_MODE); if (MODES.some(([k]) => k === md)) setMode(md);
+      const lv = localStorage.getItem("shiki_tt_level"); if (lv === "auto" || LEVELS[lv]) setLevel(lv === "auto" ? "auto" : Number(lv));
     } catch {}
   }, []);
   useEffect(() => { if (profile?.id) api(profile, "state", { mode: DUEL_MODE }).then(setP).catch((e) => setErr(e.message)); }, [profile?.id]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -173,14 +175,15 @@ function CardGame({ S, toast, update }) {
     setTimeout(() => { setPoolOrder(ids); setDeck(ids.slice(0, 5)); setShuffling(false); setShufPick(null); }, 3700);
   };
   const toggle = (c, i) => { if (busy || shuffling) return; setDeck(i >= 0 ? myDeck.filter((x) => x !== c.id) : myDeck.length < 5 ? [...myDeck, c.id] : myDeck); i >= 0 ? sfx.click() : sfx.deal(); };
+  const levelOf = (op) => (level === "auto" ? autoLevel(op.i) : level);
   const start = (op) => {
     const r = { ...rules, open: mode === "open" };
-    try { localStorage.setItem(LS, JSON.stringify(r)); localStorage.setItem(LS_MODE, mode); } catch {}
+    try { localStorage.setItem(LS, JSON.stringify(r)); localStorage.setItem(LS_MODE, mode); localStorage.setItem("shiki_tt_level", String(level)); } catch {}
     // Màn chào đối thủ che thời gian chờ máy chủ chia bài
     unlockVoice(); // chạm "Đấu" mở khóa âm thanh cho giọng nhân vật (iPhone/Android)
     setLaunching(op.i); sfx.whoosh(); setTimeout(() => sfx.boom(), 350);
     setTimeout(() => setLaunching(null), 1500);
-    run("start", { op: op.i, rules: r, deck: myDeck, mode: DUEL_MODE }, () => { setSelectedDeck(null); sfx.open(); });
+    run("start", { op: op.i, rules: r, deck: myDeck, mode: DUEL_MODE, level: levelOf(op) }, () => { setSelectedDeck(null); sfx.open(); });
   };
   return (
     <div className="tt">{head}{launchFx}
@@ -216,6 +219,12 @@ function CardGame({ S, toast, update }) {
               <span className="ico">{ico}</span><b>{n}</b><small>{d}</small>
             </button>
           ))}</div>
+          <div className="ttlevels" role="radiogroup" aria-label="Độ khó của máy">
+            <b>Độ khó máy:</b>
+            {[["auto", "📈 Tăng dần", "Đối thủ sau khó hơn đối thủ trước"], ...Object.entries(LEVELS).map(([k, [vi, ja]]) => [Number(k), vi, ja])].map(([k, n, d]) => (
+              <button key={k} type="button" role="radio" aria-checked={level === k} className={`ttlv lv${k} ${level === k ? "on" : ""}`} title={d} onClick={() => { setLevel(k); sfx.click(); }}>{n}</button>
+            ))}
+          </div>
           <h2 className="a22th"><span>3 · Luật thêm</span> <small>bật / tắt</small></h2>
           <div className="ttrules">{RULES.filter(([k]) => k !== "open").map(([k, n, d]) => <label key={k} className={`panel ttrule ${rules[k] ? "on" : ""}`}><input type="checkbox" checked={rules[k]} onChange={(e) => setRules((r) => ({ ...r, [k]: e.target.checked }))} /><b>{n}</b><small>{d}</small></label>)}</div>
           <h2 className="a22th"><span>4 · Chọn đối thủ</span> <small>thắng người trước để mở người sau</small></h2>
@@ -226,7 +235,7 @@ function CardGame({ S, toast, update }) {
                 <div key={op.i} className={`panel ttop ${open ? "" : "locked"}`}>
                   <img className="ttav bust" src={opponentArt(op.char.en)} onError={(e) => { e.currentTarget.src = charIcon(op.char); }} alt={op.char.vi} loading="lazy" decoding="async" />
                   <div className="ttopi">
-                    <b>{op.char.vi}</b> <small>Thẻ hạng {op.band[0]}–{op.band[1]} · máy chuyên gia{beat[op.i] ? ` · đã thắng ${beat[op.i]} lần` : ""}</small>
+                    <b>{op.char.vi}</b> <small>Thẻ hạng {op.band[0]}–{op.band[1]} · <span className={`ttlvtag lv${levelOf(op)}`}>{LEVELS[levelOf(op)][0]} · {LEVELS[levelOf(op)][1]}</span>{beat[op.i] ? ` · đã thắng ${beat[op.i]} lần` : ""}</small>
                     <div className="ttminis">{od.map((c) => <span key={c.id} className={`ttrk r-${c.rank}`} title={`${c.name} · hạng ${c.rank}`}>{c.rank}</span>)}</div>
                   </div>
                   <button className="gbtn tri" disabled={busy || !open || myDeck.length < 5} onClick={() => start(op)}><span className="c" />{open ? "Đấu" : "🔒"}</button>

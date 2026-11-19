@@ -9,7 +9,8 @@ import { OPPONENTS, sideVal, showNum } from "@/lib/shikiCards";
 import { duelMove, replayDuel, duelResult, adviseMove } from "@/lib/shikiDuel";
 import { opponentArt, opponentLine, reactionFor, EMOTE } from "@/lib/shikiDialogue";
 import { sfx } from "@/lib/sfx";
-import { speakAs, stopVoice, unlockVoice, voiceOn, setVoiceOn } from "@/lib/shikiVoice";
+import { speakAs, speakVi, stopVoice, unlockVoice, voiceOn, setVoiceOn, talkLang, setTalkLang } from "@/lib/shikiVoice";
+import { opponentLineVi } from "@/lib/shikiTauntVi";
 import { Card } from "./Card";
 import { api } from "./api";
 import "./arena.css";
@@ -97,7 +98,7 @@ function hitsOf(step) {
   return out;
 }
 
-function Bubble({ name, text, mood }) {
+function Bubble({ name, text, mood, lang }) {
   const chars = useMemo(() => [...(text || "")], [text]);
   const [n, setN] = useState(0);
   useEffect(() => {
@@ -109,7 +110,7 @@ function Bubble({ name, text, mood }) {
   return (
     <div className={`ar-bubble m-${mood}`} role="status">
       <small>{name}</small>
-      <p lang="ja">{chars.slice(0, n).join("")}{n < chars.length && <span className="ar-caret" />}</p>
+      <p lang={lang}>{chars.slice(0, n).join("")}{n < chars.length && <span className="ar-caret" />}</p>
     </div>
   );
 }
@@ -142,7 +143,10 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
   const warned = useRef(false);
   useEffect(() => { setVoice(voiceOn()); return () => stopVoice(); }, []);
   // Nhân vật nói câu thoại thành tiếng
-  useEffect(() => { if (talk.n && talk.text) speakAs(who, talk.text); }, [talk.n]); // eslint-disable-line react-hooks/exhaustive-deps
+  const [lang, setLang] = useState("vi"); // ngôn ngữ lời thoại + giọng: "vi" (mặc định) hoặc "ja"
+  useEffect(() => { setLang(talkLang()); }, []);
+  const speakLine = (t = talk, l = lang) => { const text = t[l]; if (text) (l === "vi" ? speakVi(who, text, t.mood) : speakAs(who, text)); };
+  useEffect(() => { if (talk.n) speakLine(); }, [talk.n]); // eslint-disable-line react-hooks/exhaustive-deps
   const [full, setFull] = useState(false); // toàn màn hình (thật hoặc giả lập trên iPhone)
   const [fakeFull, setFakeFull] = useState(false);
   useEffect(() => {
@@ -173,7 +177,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
   const cards = useMemo(() => Object.fromEntries(Object.entries(m0.cards).map(([id, stats]) => [id, { ...byId[id], ...stats }])), [m0, byId]);
 
   const say = (mood) => {
-    setTalk((t) => ({ mood, text: opponentLine(who, mood, t.text), n: t.n + 1 }));
+    setTalk((t) => ({ mood, ja: opponentLine(who, mood, t.ja), vi: opponentLineVi(who, mood, t.vi), n: t.n + 1 }));
   };
 
   useEffect(() => {
@@ -209,7 +213,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
     moves.current = history;
     locked.current = true;
     const fresh = !history.length;
-    setTalk({ mood: "opening", text: opponentLine(who, "opening"), n: 1 });
+    setTalk({ mood: "opening", ja: opponentLine(who, "opening"), vi: opponentLineVi(who, "opening"), n: 1 });
     if (fresh) {
       setIntro("shuffle"); sfx.shuffle();
       timers.push(setTimeout(() => { if (active) { setIntro("deal"); for (let i = 0; i < 5; i++) sfx.deal(i); } }, 1500));
@@ -375,7 +379,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
     if (!slot || drag || locked.current || !canAct) return;
     const r = slot.getBoundingClientRect();
     setDrag({ k, over: i, w: r.width, x: r.left + r.width / 2, y: r.top + r.width * 0.7, throwing: true });
-    requestAnimationFrame(() => requestAnimationFrame(() => throwTo(k, i, 0)));
+    setTimeout(() => throwTo(k, i, 0), 40);
   };
   // Ô dưới con trỏ, tính theo hình học: trên bàn nghiêng 3D, trình duyệt có lúc trả về chính mặt bàn thay vì ô
   const cellAt = (x, y) => {
@@ -416,7 +420,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
   };
   const untilt = (e) => { const s = e.currentTarget.style; s.setProperty("--ry", "0deg"); s.setProperty("--rx", "0deg"); };
   const unlocked = useRef(false);
-  const unlockOnce = () => { if (!unlocked.current) { unlocked.current = true; unlockVoice(); if (voice && talk.text) speakAs(who, talk.text); } };
+  const unlockOnce = () => { if (!unlocked.current) { unlocked.current = true; unlockVoice(); if (voice) speakLine(); } };
   const parallax = (e) => {
     if (e.pointerType !== "mouse" || !scene.current) return;
     const r = scene.current.getBoundingClientRect();
@@ -443,7 +447,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
           <img src={opponentArt(who)} alt={op.char.vi} draggable={false} />
           <span key={talk.n} className="ar-emote">{EMOTE[talk.mood]}</span>
         </div>
-        <Bubble key={talk.n} name={op.char.vi} text={talk.text} mood={talk.mood} />
+        <Bubble key={talk.n + lang} name={op.char.vi} text={talk[lang]} mood={talk.mood} lang={lang} />
 
         {/* mặt bàn nghiêng */}
         <div className="ar-plane">
@@ -503,7 +507,14 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
           })}
         </div>
         <div className="ar-hud">
-          <div className="ar-score me"><b key={"m" + sc.me}>{sc.me}</b><span>あなた</span></div>
+          {/* điểm hai bên là hai đĩa cân: bên nhiều thẻ hơn nặng hơn, cán cân nghiêng về bên đó */}
+          <div className="ar-scale" style={{ "--tilt": `${Math.max(-16, Math.min(16, (sc.foe - sc.me) * 3.2))}deg` }} role="img" aria-label={`Bạn ${sc.me} : ${sc.foe} ${op.char.vi}`}>
+            <div className="post" /><div className="pivot" />
+            <div className="beam">
+              <div className="pan me"><i className="cord" /><div className="dish"><b key={"m" + sc.me}>{sc.me}</b></div><small>Bạn</small></div>
+              <div className="pan foe"><i className="cord" /><div className="dish"><b key={"f" + sc.foe}>{sc.foe}</b></div><small>{op.char.vi}</small></div>
+            </div>
+          </div>
           <div className="ar-mid">
             <div className={`ar-turn ${turn}`}>{turnText}</div>
             {left != null && (
@@ -513,10 +524,11 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
               </div>
             )}
           </div>
-          <div className="ar-score foe"><span>{op.char.vi}</span><b key={"f" + sc.foe}>{sc.foe}</b></div>
+          <div className="ar-hudsp" />
         </div>
         <button className="ar-leave" disabled={leaving || (end && !receipt)} onClick={() => { if (end) onDone(receipt); else if (confirm("Bỏ trận? Trận này tính là thua và bạn sẽ bị lấy mất 1 lá NGẪU NHIÊN trong Hộp bài.")) onForfeit(); }}>{end ? "‹ Về" : "✕ Bỏ trận"}</button>
-        <button className="ar-voice" onClick={() => { const v = !voice; setVoice(v); setVoiceOn(v); if (v) { unlockVoice(); speakAs(who, talk.text); } sfx.click(); }} title={voice ? "Tắt giọng nhân vật" : "Bật giọng nhân vật"} aria-label={voice ? "Tắt giọng nhân vật" : "Bật giọng nhân vật"}>{voice ? "🔊" : "🔇"}</button>
+        <button className="ar-voice" onClick={() => { const v = !voice; setVoice(v); setVoiceOn(v); if (v) { unlockVoice(); speakLine(); } sfx.click(); }} title={voice ? "Tắt giọng nhân vật" : "Bật giọng nhân vật"} aria-label={voice ? "Tắt giọng nhân vật" : "Bật giọng nhân vật"}>{voice ? "🔊" : "🔇"}</button>
+        <button className="ar-lang" onClick={() => { const l = lang === "vi" ? "ja" : "vi"; setLang(l); setTalkLang(l); unlockVoice(); speakLine(talk, l); sfx.click(); }} title={lang === "vi" ? "Đổi lời thoại sang tiếng Nhật" : "Đổi lời thoại sang tiếng Việt"} aria-label="Đổi ngôn ngữ lời thoại">{lang === "vi" ? "VI" : "JA"}</button>
         <button className="ar-full" onClick={toggleFull} title={full || fakeFull ? "Thoát toàn màn hình" : "Toàn màn hình"} aria-label={full || fakeFull ? "Thoát toàn màn hình" : "Toàn màn hình"}>{full || fakeFull ? "🗗" : "⛶"}</button>
 
         {advisor && !end && (
@@ -541,7 +553,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
         {zoomCell && (
           <div className="ar-zoom" onClick={() => setZoom(null)} role="dialog" aria-label="Xem thẻ">
             <div className="ar-zoomcard" onClick={(e) => e.stopPropagation()}>
-              <Card c={cards[zoomCell.id]} owner={zoomCell.owner} el={m0.els[zoom]} named />
+              <Card c={cards[zoomCell.id]} owner={zoomCell.owner} el={m0.els[zoom]} />
               <div className="ar-zoominfo">
                 <b lang="ja">{cards[zoomCell.id].name}</b>
                 <small>{cards[zoomCell.id].ro} · hạng {cards[zoomCell.id].rank} · {ELEM[cards[zoomCell.id].el]?.vi} · {zoomCell.owner === "me" ? "của bạn" : "của " + op.char.vi}</small>
