@@ -18,6 +18,7 @@ export default function StageMap({ ops, beat, decks, levelOf, busy, canStart, on
   const unlocked = (op) => op.i === 0 || (beat[op.i - 1] || 0) > 0;
   const cur = ops.find((op) => unlocked(op) && !(beat[op.i] > 0)) || ops[ops.length - 1];
   const [sel, setSel] = useState(cur.i);
+  const [pop, setPop] = useState(null); // ải đang mở bảng to giữa màn hình
   const box = useRef(null);
   useEffect(() => {
     const el = box.current, node = el?.querySelector(".sm-node.cur");
@@ -42,7 +43,7 @@ export default function StageMap({ ops, beat, decks, levelOf, busy, canStart, on
             return (
               <button key={o.i} type="button" style={{ left: pts[i].x + "%", top: pts[i].y }}
                 className={`sm-node ${won ? "won" : ""} ${isCur ? "cur" : ""} ${isOpen ? "" : "locked"} ${sel === o.i ? "sel" : ""}`}
-                onClick={() => { setSel(o.i); sfx.click(); }} aria-label={isOpen ? `Ải ${i + 1}: ${o.char.vi}` : `Ải ${i + 1}: chưa mở`}>
+                onClick={() => { setSel(o.i); setPop(o.i); sfx.open(); }} aria-label={isOpen ? `Ải ${i + 1}: ${o.char.vi}` : `Ải ${i + 1}: chưa mở`}>
                 <span className="ring"><img src={opponentArt(o.char.en)} alt="" loading="lazy" draggable={false} onError={(e) => { e.currentTarget.src = charIcon(o.char); }} /></span>
                 <span className="num">{i + 1}</span>
                 {won && <span className="star" aria-hidden="true">★</span>}
@@ -54,6 +55,7 @@ export default function StageMap({ ops, beat, decks, levelOf, busy, canStart, on
         </div>
       </div>
 
+      {pop != null && ops[pop] && <StagePopup op={ops[pop]} open={unlocked(ops[pop])} lv={levelOf(ops[pop])} deck={decks[pop] || []} beat={beat[pop] || 0} busy={busy} canStart={canStart} onClose={() => setPop(null)} onStart={(o) => { setPop(null); onStart(o); }} />}
       <div className={`sm-panel ${open ? "" : "locked"}`} key={op.i}>
         <div className="sm-art"><img src={opponentArt(op.char.en)} alt={open ? op.char.vi : ""} onError={(e) => { e.currentTarget.src = charIcon(op.char); }} /></div>
         <small className="sm-stage">Ải {op.i + 1} · {open ? REGION[op.char.en] || "Teyvat" : "???"}</small>
@@ -65,6 +67,31 @@ export default function StageMap({ ops, beat, decks, levelOf, busy, canStart, on
           <button className="gbtn tri" disabled={busy || !canStart} onClick={() => onStart(op)}><span className="c" />⚔️ Vào ải</button>
           {!canStart && <p className="sm-note">Cần chọn đủ 5 thẻ ở bước 1.</p>}
         </> : <p className="sm-note">🔒 Thắng ải {op.i} để mở ải này.</p>}
+      </div>
+    </div>
+  );
+}
+
+// Bảng to giữa màn hình khi bấm vào một ải: ảnh lớn + nút VÀO ẢI to, dễ bấm trên điện thoại
+function StagePopup({ op, open, lv, deck, beat, busy, canStart, onClose, onStart }) {
+  useEffect(() => {
+    const k = (e) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", k);
+    return () => window.removeEventListener("keydown", k);
+  }, [onClose]);
+  return (
+    <div className="sm-pop" onClick={onClose} role="dialog" aria-modal="true" aria-label={open ? op.char.vi : "Ải chưa mở"}>
+      <div className={`sm-popcard ${open ? "" : "locked"}`} onClick={(e) => e.stopPropagation()}>
+        <button className="sm-x" onClick={onClose} aria-label="Đóng">✕</button>
+        <div className="sm-popart"><img src={opponentArt(op.char.en)} alt="" onError={(e) => { e.currentTarget.src = charIcon(op.char); }} /></div>
+        <small className="sm-stage">Ải {op.i + 1} · {open ? REGION[op.char.en] || "Teyvat" : "???"}</small>
+        <h3>{open ? op.char.vi : "??? Bí ẩn"}</h3>
+        {open ? <>
+          <div className="sm-meta"><span className={`ttlvtag lv${lv}`}>{LEVELS[lv][0]} · {LEVELS[lv][1]}</span> <span>Thẻ hạng {op.band[0]}–{op.band[1]}</span>{beat ? <span>✔ Đã thắng {beat} lần</span> : null}</div>
+          <div className="ttminis">{deck.map((c) => <span key={c.id} className={`ttrk r-${c.rank}`}>{c.rank}</span>)}</div>
+          <button className="sm-play" disabled={busy || !canStart} onClick={() => onStart(op)}>⚔️ VÀO ẢI</button>
+          {!canStart && <p className="sm-note">Cần chọn đủ 5 thẻ ở bước 1.</p>}
+        </> : <p className="sm-note big">🔒 Thắng ải {op.i} để mở ải này.</p>}
       </div>
     </div>
   );
