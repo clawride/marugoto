@@ -32,8 +32,8 @@ export default function Shiki({ call, say }) {
 
   return (
     <div className="panel admbox">
-      <h3>🧪 Khu thử nghiệm · Đấu lượt</h3>
-      <p className="hint">Thiết lập chỉ số cho bộ thẻ Shikihime và vũ khí trong túi đồ. Ô để trống dùng chỉ số mặc định (hiện mờ). Bấm “Lưu” để áp dụng cho trận đấu thử nghiệm.</p>
+      <h3>🧪 Khu thử nghiệm · Đấu thẻ Shikihime</h3>
+      <p className="hint">Thiết lập chỉ số cho bộ thẻ Shikihime và vũ khí trong túi đồ. Ô để trống dùng chỉ số mặc định (hiện mờ). Bấm “Lưu” để áp dụng. Game đấu thẻ quy chỉ số thẻ ra 4 cạnh (trên = STR/INT, phải = AGI, dưới = DEF, trái = HP). Bảng vũ khí hiện chưa dùng trong game nào.</p>
       <div className="admtabs">
         <button className={view === "cards" ? "on" : ""} onClick={() => setView("cards")}>🎴 Thẻ nhân vật ({SHIKI_CARDS.length})</button>
         <button className={view === "weapons" ? "on" : ""} onClick={() => setView("weapons")}>⚔️ Vũ khí ({WEAPONS.length})</button>
