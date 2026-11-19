@@ -12,7 +12,7 @@
 // Không lấy lá nếu Hộp bài sẽ còn dưới 5 loại thẻ (để luôn đủ bộ bài đấu tiếp).
 import { store, auth } from "@/lib/store";
 import { getShikiConfig } from "@/lib/shikiConfig";
-import { drawCards, OPPONENTS, oppDeck, stageDeck, makeBoard, place, aiMove, score, power, rankIdx } from "@/lib/shikiCards";
+import { drawCards, OPPONENTS, opById, legacyCharId, oppDeck, stageDeck, makeBoard, place, aiMove, score, power, rankIdx } from "@/lib/shikiCards";
 import { DUEL_MODE, replayDuel, duelResult, stageLevel } from "@/lib/shikiDuel";
 import { RANKS } from "@/lib/shikihime";
 
@@ -54,16 +54,30 @@ function takeCard(d, byId, how) {
   return id;
 }
 
+// Tiến độ lưu theo id nhân vật (beatC) — bản đồ có 120 ải, thứ tự ải có thể đổi mà không mất tiến độ.
+// Dữ liệu cũ lưu theo số thứ tự 15 ải (beat, match.op, pending.op) → đổi sang id nhân vật khi đọc.
+function migrate(d) {
+  if (!d.beatC) {
+    d.beatC = {};
+    for (const [k, v] of Object.entries(d.beat || {})) { const id = legacyCharId(Number(k)); if (id && v > 0) d.beatC[id] = v; }
+  }
+  for (const x of [d.match, d.pending]) if (x && x.opId == null && x.op != null) x.opId = legacyCharId(Number(x.op));
+}
+const opOf = (x) => (x?.opId != null ? opById(x.opId) : null) || OPPONENTS[x?.op];
+const beatIdx = (d) => Object.fromEntries(OPPONENTS.filter((o) => d.beatC[o.char.id] > 0).map((o) => [o.i, d.beatC[o.char.id]]));
+// mở khóa: thắng ải nào thì mở mọi ải tới ngay sau ải xa nhất đã thắng
+const maxBeat = (d) => Math.max(-1, ...OPPONENTS.filter((o) => d.beatC[o.char.id] > 0).map((o) => o.i));
+
 // trận đang đấu → dạng gửi cho trình duyệt (ẩn bài trên tay đối thủ nếu không bật luật Lật bài)
 function view(m) {
   if (!m) return null;
   if (m.mode === DUEL_MODE) {
     const { foeAll, ...local } = m;
-    return local;
+    return { ...local, op: opOf(m)?.i ?? m.op };
   }
   return { op: m.op, rules: m.rules, els: m.els, cells: m.cells, turn: m.turn, hands: { me: m.hands.me, foe: m.rules.open ? m.hands.foe : m.hands.foe.length } };
 }
-const pub = (d, extra = {}) => Response.json({ draws: d.draws || 0, box: d.box, starter: d.starter, deck: d.deck, beat: d.beat, rec: d.rec, pending: d.pending, match: view(d.match), ...extra }, H);
+const pub = (d, extra = {}) => Response.json({ draws: d.draws || 0, box: d.box, starter: d.starter, deck: d.deck, beat: beatIdx(d), rec: d.rec, pending: d.pending && { ...d.pending, op: opOf(d.pending)?.i ?? d.pending.op }, match: view(d.match), ...extra }, H);
 
 // Áp dụng một nước đi trên trạng thái trận (id thẻ) → bước để hiển thị
 function step(m, byId, who, handIdx, cell) {
@@ -108,6 +122,7 @@ async function handleAction(req, timed) {
   const k = keyOf(u.id);
   const previous = await timed("read", () => store.getKV(k));
   const d = { box: {}, deck: [], starter: null, beat: {}, rec: { w: 0, l: 0, d: 0 }, match: null, pending: null, ...structuredClone(previous) };
+  migrate(d);
   const save = async () => {
     d.rev = crypto.randomUUID();
     if (!await timed("write", () => store.replaceKV(k, d, previous))) throw new StaleState();
@@ -161,7 +176,7 @@ async function handleAction(req, timed) {
       if (d.pending) return bad("Hãy nhận thẻ thưởng của trận trước");
       const op = OPPONENTS[Number(b.op)];
       if (!op) return bad("Không có đối thủ này");
-      if (op.i > 0 && !(d.beat[op.i - 1] > 0)) return bad("Đối thủ này chưa mở khóa");
+      if (op.i > maxBeat(d) + 1) return bad("Ải này chưa mở khóa");
       // Save the selected deck with the match, instead of one write per click.
       const selected = b.deck === undefined ? d.deck : b.deck;
       if (!Array.isArray(selected) || selected.length !== 5) return bad("Cần đủ 5 thẻ trong bộ bài");
@@ -169,7 +184,7 @@ async function handleAction(req, timed) {
       if (new Set(mine).size !== 5) return bad("Cần đủ 5 thẻ trong bộ bài");
       const rules = Object.fromEntries(RULE_KEYS.map((k) => [k, b.rules?.[k] === true]));
       const bd = makeBoard(rules);
-      const m = { op: op.i, rules, els: bd.els, cells: bd.cells, hands: { me: mine.slice(), foe: stageDeck(op, deck, cfg).map((c) => c.id) }, turn: Math.random() < 0.5 ? "me" : "foe" };
+      const m = { op: op.i, opId: op.char.id, rules, els: bd.els, cells: bd.cells, hands: { me: mine.slice(), foe: stageDeck(op, deck, cfg).map((c) => c.id) }, turn: Math.random() < 0.5 ? "me" : "foe" };
       m.foeAll = m.hands.foe.slice();
       // độ khó máy: người chơi chọn 1–4, không chọn thì tăng dần theo thứ tự đối thủ
       m.level = [1, 2, 3, 4].includes(Number(b.level)) ? Number(b.level) : stageLevel(op, cfg);
@@ -194,8 +209,9 @@ async function handleAction(req, timed) {
       const { result, score: tally } = duelResult(final);
       d.rec[result]++;
       if (result === "w") {
-        d.beat[m.op] = (d.beat[m.op] || 0) + 1;
-        d.pending = { op: m.op, cards: m.foeAll };
+        const op = opOf(m);
+        d.beatC[op.char.id] = (d.beatC[op.char.id] || 0) + 1;
+        d.pending = { op: op.i, opId: op.char.id, cards: m.foeAll };
       }
       const lost = result === "l" ? takeCard(d, byId, "best") : null;
       d.receipt = { id: m.id, result, score: tally, lost };
@@ -211,7 +227,7 @@ async function handleAction(req, timed) {
       const hi = Number(b.hand), ci = Number(b.cell);
       if (!Number.isInteger(hi) || hi < 0 || hi >= m.hands.me.length) return bad("Thẻ không hợp lệ");
       if (!Number.isInteger(ci) || ci < 0 || ci > 8 || m.cells[ci]) return bad("Ô không hợp lệ");
-      const op = OPPONENTS[m.op];
+      const op = opOf(m);
       const steps = [step(m, byId, "me", hi, ci)];
       if (m.cells.some((c) => !c)) steps.push(aiStep(m, byId, op.ai));
       let result = null, lost = null;
@@ -219,7 +235,7 @@ async function handleAction(req, timed) {
         const sc = score(m.cells, m.hands);
         result = sc.me > sc.foe ? "w" : sc.me < sc.foe ? "l" : "d";
         d.rec[result]++;
-        if (result === "w") { d.beat[op.i] = (d.beat[op.i] || 0) + 1; d.pending = { op: op.i, cards: m.foeAll }; }
+        if (result === "w") { d.beatC[op.char.id] = (d.beatC[op.char.id] || 0) + 1; d.pending = { op: op.i, opId: op.char.id, cards: m.foeAll }; }
         if (result === "l") lost = takeCard(d, byId, "best");
         d.last = { match: view(m), result, score: sc };
         d.match = null;

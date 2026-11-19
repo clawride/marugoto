@@ -5,17 +5,16 @@ import { charIcon } from "@/lib/genshin";
 import { opponentArt } from "@/lib/shikiDialogue";
 import { LEVELS } from "@/lib/shikiDuel";
 import { sfx } from "@/lib/sfx";
+import { regionOf } from "@/lib/giMeta";
 import "./stagemap.css";
 
-export const REGION = {
-  Amber: "Mondstadt", Barbara: "Mondstadt", Kaeya: "Mondstadt", Lisa: "Mondstadt", Xiangling: "Liyue", Bennett: "Mondstadt",
-  Fischl: "Mondstadt", Ningguang: "Liyue", Diluc: "Mondstadt", Keqing: "Liyue", Zhongli: "Liyue", Ganyu: "Liyue",
-  "Raiden Shogun": "Inazuma", Neuvillette: "Fontaine", Nahida: "Sumeru",
-};
+// Vùng của từng nhân vật (lib/giMeta.js) — dùng cho nhãn ải và ảnh nền bàn đấu
+export const REGION = new Proxy({}, { get: (_, en) => regionOf(String(en)) });
 const STEP = 124, PAD = 80;
 
 export default function StageMap({ ops, beat, decks, levelOf, busy, canStart, onStart }) {
-  const unlocked = (op) => op.i === 0 || (beat[op.i - 1] || 0) > 0;
+  const maxBeat = Math.max(-1, ...Object.keys(beat).map(Number));
+  const unlocked = (op) => op.i <= maxBeat + 1;
   const cur = ops.find((op) => unlocked(op) && !(beat[op.i] > 0)) || ops[ops.length - 1];
   const [sel, setSel] = useState(cur.i);
   const [pop, setPop] = useState(null); // ải đang mở bảng to giữa màn hình

@@ -178,6 +178,12 @@
 @keyframes auraPulse{0%,100%{opacity:.55}50%{opacity:1}}
 @keyframes auraSpin{to{transform:rotate(360deg)}}
 @keyframes auraRise{0%{transform:translateY(8%);opacity:0}20%{opacity:.95}100%{transform:translateY(-22%);opacity:0}}
+/* bộ 36 lá Shikihime cũ: giữ dáng thẻ như trước — chỉ viền sáng mảnh, không có vầng sáng loang và tia sáng */
+.tt .ttcard:not(.gi) .ttaura::before,.tt .ttcard:not(.gi) .ttaura::after{display:none}
+.tt .ttcard.rk-A:not(.gi) .ttaura{box-shadow:0 0 1.6cqw .3cqw rgba(170,110,255,.75)}
+.tt .ttcard.rk-S:not(.gi) .ttaura{box-shadow:0 0 2cqw .4cqw rgba(255,200,90,.85)}
+.tt .ttcard.rk-SR:not(.gi) .ttaura{box-shadow:0 0 2cqw .4cqw rgba(255,150,220,.8),0 0 4cqw .6cqw rgba(140,200,255,.45)}
+.tt .ttcard.rk-S:not(.gi) .ttaura,.tt .ttcard.rk-SR:not(.gi) .ttaura{animation:auraPulse 2.4s ease-in-out infinite}
 /* thẻ nhỏ trên tay đối thủ và bàn mini: tắt tia sáng cho đỡ rối */
 .tt .arena .ar-foehand .ttaura::after,.tt .ttcard.sm .ttaura::after{display:none}
 

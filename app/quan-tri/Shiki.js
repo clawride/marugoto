@@ -187,13 +187,13 @@ function Stages({ cfg, setStage }) {
         <thead><tr><th>Ải</th><th>Độ khó</th><th>5 lá của boss</th><th /></tr></thead>
         <tbody>
           {OPPONENTS.map((op) => {
-            const st = cfg.stages?.[op.i] || {}, auto = oppDeck(op, deck);
+            const st = cfg.stages?.[op.char.id] || {}, auto = oppDeck(op, deck);
             const ids = st.deck || st.draft || [];
-            const pick = (k, id) => { const next = [0, 1, 2, 3, 4].map((j) => (j === k ? id : ids[j] || "")); const full = next.every(Boolean) && new Set(next).size === 5; setStage(op.i, full ? { deck: next, draft: undefined } : { deck: undefined, draft: next }); };
+            const pick = (k, id) => { const next = [0, 1, 2, 3, 4].map((j) => (j === k ? id : ids[j] || "")); const full = next.every(Boolean) && new Set(next).size === 5; setStage(op.char.id, full ? { deck: next, draft: undefined } : { deck: undefined, draft: next }); };
             return (
               <tr key={op.i}>
                 <td><b>{op.i + 1}. {op.char.vi}</b><br /><small>Hạng thẻ mặc định {op.band[0]}–{op.band[1]}</small></td>
-                <td><select value={st.level || ""} onChange={(e) => setStage(op.i, { level: e.target.value ? Number(e.target.value) : undefined })}>
+                <td><select value={st.level || ""} onChange={(e) => setStage(op.char.id, { level: e.target.value ? Number(e.target.value) : undefined })}>
                   <option value="">Tự động ({LEVELS[autoLevel(op.i)][0]})</option>
                   {Object.entries(LEVELS).map(([k, [vi]]) => <option key={k} value={k}>{vi}</option>)}
                 </select></td>
@@ -209,8 +209,8 @@ function Stages({ cfg, setStage }) {
                   <small>{st.deck ? "✔ Bộ bài riêng" : st.draft ? "⚠ Chưa đủ 5 lá khác nhau — đang dùng bộ mặc định" : "Bộ mặc định: " + auto.map((c) => c.rank).join(" ")}</small>
                 </td>
                 <td style={{ whiteSpace: "nowrap" }}>
-                  <button className="chip dk" title="Chép bộ mặc định để sửa" onClick={() => setStage(op.i, { deck: auto.map((c) => String(c.id)), draft: undefined })}>📋</button>{" "}
-                  <button className="chip dk" title="Về mặc định" onClick={() => setStage(op.i, { deck: undefined, draft: undefined, level: undefined })}>↺</button>
+                  <button className="chip dk" title="Chép bộ mặc định để sửa" onClick={() => setStage(op.char.id, { deck: auto.map((c) => String(c.id)), draft: undefined })}>📋</button>{" "}
+                  <button className="chip dk" title="Về mặc định" onClick={() => setStage(op.char.id, { deck: undefined, draft: undefined, level: undefined })}>↺</button>
                 </td>
               </tr>
             );

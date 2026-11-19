@@ -174,7 +174,8 @@ function CardGame({ S, toast, update }) {
   const owned = deck.filter((c) => box[c.id] > 0).sort((a, b) => rankIdx(b.rank) - rankIdx(a.rank) || power(b) - power(a));
   const myDeck = (selectedDeck?.uid === profile.id ? selectedDeck.ids : P.deck).filter((id) => box[id] > 0).slice(0, 5);
   const setDeck = (ids) => setSelectedDeck({ uid: profile.id, ids });
-  const unlocked = (op) => op.i === 0 || (beat[op.i - 1] || 0) > 0;
+  const maxBeat = Math.max(-1, ...Object.keys(beat).map(Number));
+  const unlocked = (op) => op.i <= maxBeat + 1; // eslint-disable-line no-unused-vars
   const pass = (c) => (flt.set === "all" || (flt.set === "gi") === !!c.gi) && (flt.el === "all" || c.el === flt.el);
   const view = owned.filter(pass);
   const giOwned = owned.filter((c) => c.gi).length;
