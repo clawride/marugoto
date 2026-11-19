@@ -1,7 +1,5 @@
 "use client";
-// 🧪 Đấu thẻ Shikihime (thử nghiệm) — luật kiểu thẻ bài 3×3 (lib/shikiCards.js)
-// MÁY CHỦ quyết định mọi thứ (app/api/shiki/play): rút khởi đầu, Hộp bài, chia bài đối thủ, từng nước đi + nước của máy, kết quả, thẻ thưởng.
-// Trang này chỉ gửi lệnh rồi hiển thị (kèm hiệu ứng từng bước). Cần đăng nhập (dữ liệu lưu theo tài khoản trên máy chủ).
+// Lượt đấu được tính trên thiết bị. Máy chủ chia bài và xác nhận kết quả cuối ván.
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useGame } from "@/components/Game";
@@ -9,6 +7,7 @@ import { ELEM } from "@/lib/data";
 import { elemIcon, charIcon } from "@/lib/genshin";
 import { RANKS, RANK_VI } from "@/lib/shikihime";
 import { buildDeck, power, sideVal, showNum, RANK_ODDS, OPPONENTS, oppDeck, rankIdx } from "@/lib/shikiCards";
+import { DUEL_MODE, duelMove, replayDuel, duelResult } from "@/lib/shikiDuel";
 import { sfx } from "@/lib/sfx";
 import "./cards.css";
 
@@ -20,7 +19,6 @@ const RULES = [
   ["elemental", "Nguyên tố", "Ô có biểu tượng nguyên tố: thẻ cùng hệ +1 mỗi cạnh, khác hệ −1"],
 ];
 const LS = "shiki_tt_rules";
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 async function api(profile, action, body = {}) {
   const r = await fetch("/api/shiki/play", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: profile?.id, token: profile?.token, action, ...body }) });
@@ -50,13 +48,12 @@ function CardGame({ S, toast }) {
   const actionLock = useRef(false);
   const [rules, setRules] = useState({ open: true, same: false, plus: false, combo: false, elemental: false });
   const [reveal, setReveal] = useState(null);
-  const [live, setLive] = useState(null); // { steps, first } của lệnh start
   const [lostNote, setLostNote] = useState(null); // { id, why } lá vừa bị lấy
   const [traded, setTraded] = useState(null); // { got, pay } vừa đổi bài
   const showOpponents = Boolean(cfg && P?.starter && !P.match && !P.pending && !reveal && !traded && tab === "duel");
   const opponentDecks = useMemo(() => showOpponents ? OPPONENTS.map((op) => oppDeck(op, deck)) : [], [showOpponents, deck]);
   useEffect(() => { try { const r = JSON.parse(localStorage.getItem(LS) || "null"); if (r) setRules(r); } catch {} }, []);
-  useEffect(() => { if (profile?.id) api(profile, "state").then(setP).catch((e) => setErr(e.message)); }, [profile?.id]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { if (profile?.id) api(profile, "state", { mode: DUEL_MODE }).then(setP).catch((e) => setErr(e.message)); }, [profile?.id]); // eslint-disable-line react-hooks/exhaustive-deps
   if (!S) return null;
   const run = async (action, body, after) => {
     if (actionLock.current) return;
@@ -110,14 +107,17 @@ function CardGame({ S, toast }) {
   }
 
   // ——— trận đang đấu ———
-  if (P.match) return <Match key={P.match.op + "-" + P.rec.w + P.rec.l + P.rec.d} m0={P.match} live={live} byId={byId} profile={profile} leaving={busy} onDone={(j) => { setLive(null); setP(j); if (j.lost) setLostNote({ id: j.lost, why: "Thua trận" }); }} onForfeit={() => { setLive(null); run("forfeit", {}, (j) => j.lost && setLostNote({ id: j.lost, why: "Bỏ trận" })); }} />;
+  if (P.match && P.match.mode !== DUEL_MODE) return <div className="tt">{head}<p className="hint">Phiên bản trận đấu đã thay đổi. Tải lại trang để tiếp tục.</p><button className="gbtn tri" onClick={() => location.reload()}>Tải lại</button></div>;
+  if (P.match) return <Match key={P.match.id} m0={P.match} byId={byId} profile={profile} leaving={busy}
+    onDone={(j) => { setP(j); if (j.lost) setLostNote({ id: j.lost, why: "Thua trận" }); }}
+    onForfeit={() => run("forfeit", { matchId: P.match.id }, (j) => j.lost && setLostNote({ id: j.lost, why: "Bỏ trận" }))} />;
 
   const box = P.box, beat = P.beat, rec = P.rec;
   const owned = deck.filter((c) => box[c.id] > 0).sort((a, b) => rankIdx(b.rank) - rankIdx(a.rank) || power(b) - power(a));
   const myDeck = (selectedDeck?.uid === profile.id ? selectedDeck.ids : P.deck).filter((id) => box[id] > 0).slice(0, 5);
   const setDeck = (ids) => setSelectedDeck({ uid: profile.id, ids });
   const unlocked = (op) => op.i === 0 || (beat[op.i - 1] || 0) > 0;
-  const start = (op) => { try { localStorage.setItem(LS, JSON.stringify(rules)); } catch {} run("start", { op: op.i, rules, deck: myDeck }, (j) => { setSelectedDeck(null); sfx.open(); setLive({ steps: j.steps || [], first: j.first }); }); };
+  const start = (op) => { try { localStorage.setItem(LS, JSON.stringify(rules)); } catch {} run("start", { op: op.i, rules, deck: myDeck, mode: DUEL_MODE }, () => { setSelectedDeck(null); sfx.open(); }); };
   return (
     <div className="tt">{head}
       {lostNote && byId[lostNote.id] && <div className="panel ttlost"><Card c={byId[lostNote.id]} owner="foe" small /><div><b>{lostNote.why}: bạn bị lấy mất 1 lá</b><p>{byId[lostNote.id].name} · {byId[lostNote.id].ro} · hạng {byId[lostNote.id].rank}{P.box[lostNote.id] ? ` (còn ${P.box[lostNote.id]} lá)` : " (đã hết lá này)"}</p><button className="chip dk" onClick={() => setLostNote(null)}>Đã hiểu</button></div></div>}
@@ -142,7 +142,7 @@ function CardGame({ S, toast }) {
                 <div key={op.i} className={`panel ttop ${open ? "" : "locked"}`}>
                   <img className="ttav" src={charIcon(op.char)} alt={op.char.vi} loading="lazy" decoding="async" />
                   <div className="ttopi">
-                    <b>{op.char.vi}</b> <small>Thẻ hạng {op.band[0]}–{op.band[1]} · máy {({ easy: "dễ", normal: "vừa", hard: "khó" })[op.ai]}{beat[op.i] ? ` · đã thắng ${beat[op.i]} lần` : ""}</small>
+                    <b>{op.char.vi}</b> <small>Thẻ hạng {op.band[0]}–{op.band[1]} · máy chuyên gia{beat[op.i] ? ` · đã thắng ${beat[op.i]} lần` : ""}</small>
                     <div className="ttminis">{od.map((c) => <span key={c.id} className={`ttrk r-${c.rank}`} title={`${c.name} · hạng ${c.rank}`}>{c.rank}</span>)}</div>
                   </div>
                   <button className="gbtn tri" disabled={busy || !open || myDeck.length < 5} onClick={() => start(op)}><span className="c" />{open ? "Đấu" : "🔒"}</button>
@@ -190,8 +190,7 @@ export function Card({ c, owner, onClick, back, sel, badge, el, flip, small, nam
   const d = (k) => (el ? v(k) - c.n[k] : 0);
   return (
     <button type="button" className={`ttcard ${owner || ""} ${sel ? "sel" : ""} ${flip ? `flip f${flip}` : ""} ${small ? "sm" : ""}`} onClick={onClick} style={{ "--ec": ELEM[c.el]?.c }} title={`${c.name} · ${c.ro} · hạng ${c.rank}`}>
-      {/* vùng nhân vật của ảnh thẻ (27%–82% bề ngang ảnh gốc, đủ chiều cao) — hiện trọn, không cắt */}
-      <div className="ttart"><img className="ttportrait" src={c.img} alt={c.ro} loading={named ? "lazy" : "eager"} decoding="async" /></div>
+      <div className="ttart"><img className="ttportrait" src={`/shiki-duel/${c.id}.webp`} alt={c.ro} loading={named ? "lazy" : "eager"} decoding="async" draggable={false} /></div>
       {[["t", "nt"], ["r", "nr"], ["b", "nb"], ["l", "nl"]].map(([k, cls]) => <b key={k} className={`ttn ${cls} ${d(k) > 0 ? "up" : d(k) < 0 ? "down" : ""}`}>{showNum(v(k))}</b>)}
       <img className="ttel" src={elemIcon(c.el)} alt="" />
       <span className={`ttrk corner r-${c.rank}`}>{c.rank}</span>
@@ -202,88 +201,120 @@ export function Card({ c, owner, onClick, back, sel, badge, el, flip, small, nam
 }
 
 
-// Trận đấu: hiển thị theo trạng thái máy chủ; mỗi nước đi gửi lên, nhận về các bước (của bạn rồi của máy) để chạy hiệu ứng
-function Match({ m0, live, byId, profile, leaving, onDone, onForfeit }) {
+// Only the player's choices are persisted. Replaying them also restores a pending AI reply.
+function Match({ m0, byId, profile, leaving, onDone, onForfeit }) {
   const op = OPPONENTS[m0.op];
-  const [cells, setCells] = useState(() => (live?.steps?.length ? undo(m0.cells, live.steps) : m0.cells));
-  const [hands, setHands] = useState(() => (live?.steps?.length ? { me: m0.hands.me, foe: Array.isArray(m0.hands.foe) ? [...m0.hands.foe, ...live.steps.map((s) => s.id)] : m0.hands.foe + live.steps.length } : m0.hands));
-  const [turn, setTurn] = useState(live?.steps?.length ? "foe" : m0.turn);
+  const [match, setMatch] = useState(m0);
+  const [ready, setReady] = useState(false);
   const [sel, setSel] = useState(null);
-  const [fx, setFx] = useState({});
-  const [last, setLast] = useState(null);
-  const moveLock = useRef(false);
-  const openingPlayed = useRef(false);
-  const [msg, setMsg] = useState(live?.first === "foe" ? `${op.char.vi} đi trước.` : "Bạn đi trước.");
-  const [end, setEnd] = useState(null); // { result, score, data }
-  const [busy, setBusy] = useState(false);
-  const name = (who) => (who === "me" ? "Bạn" : op.char.vi);
-  const sc = { me: 0, foe: 0 }; for (const c of cells) if (c) sc[c.owner]++; sc.me += hands.me.length; sc.foe += Array.isArray(hands.foe) ? hands.foe.length : hands.foe;
+  const [step, setStep] = useState(null);
+  const [error, setError] = useState("");
+  const [syncing, setSyncing] = useState(false);
+  const [receipt, setReceipt] = useState(null);
+  const [savedLocally, setSavedLocally] = useState(true);
+  const moves = useRef([]);
+  const locked = useRef(true);
+  const compute = useRef(null);
+  const submitted = useRef(false);
+  const storageKey = "shiki_duel_" + profile.id;
+  const cards = useMemo(() => Object.fromEntries(Object.entries(m0.cards).map(([id, stats]) => [id, { ...byId[id], ...stats }])), [m0, byId]);
 
-  // chạy lần lượt các bước nhận từ máy chủ
-  async function play(steps) {
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    for (const st of steps) {
-      if (st.who === "foe") { setTurn("foe"); if (!reduceMotion) await sleep(180); }
-      setCells((cs) => { const n = cs.slice(); n[st.cell] = { id: st.id, owner: st.who }; for (const f of st.flips) n[f.i] = { ...n[f.i], owner: st.who }; return n; });
-      setHands((h) => ({ ...h, [st.who]: st.who === "me" ? h.me.filter((id, k) => k !== h.me.indexOf(st.id)) : Array.isArray(h.foe) ? h.foe.filter((id, k) => k !== h.foe.indexOf(st.id)) : h.foe - 1 }));
-      setFx(Object.fromEntries(st.flips.map((f) => [f.i, f.by]))); setLast(st.cell);
-      const special = [...new Set(st.flips.map((f) => f.by).filter((b) => b !== "basic"))];
-      const by = { same: "Bằng nhau!", plus: "Cộng!", combo: "Liên hoàn!" };
-      setMsg(`${name(st.who)} đặt ${byId[st.id]?.name}${st.flips.length ? ` — lật ${st.flips.length} thẻ` : ""}${special.length ? ` · ${special.map((b) => by[b]).join(" ")}` : ""}`);
-      if (st.flips.length) sfx.click();
-      if (!reduceMotion && st.flips.length) await sleep(220);
+  useEffect(() => {
+    let active = true, worker;
+    try { worker = new Worker(new URL("./opponent.worker.js", import.meta.url), { type: "module" }); } catch {}
+    function accept({ match, step, error }) {
+      if (!active) return;
+      if (error) { setError(error); return; }
+      setMatch(match); setStep(step); setReady(true); locked.current = false;
+      if (step?.flips.length) sfx.click();
     }
-    setTurn("me");
-  }
-  useEffect(() => { if (live?.steps?.length && !openingPlayed.current) { openingPlayed.current = true; play(live.steps); } }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const clickCell = async (i) => {
-    if (turn !== "me" || cells[i] || sel == null || moveLock.current || leaving || end) return;
-    moveLock.current = true;
-    setBusy(true); setSel(null);
+    compute.current = (position, history = []) => {
+      const fallback = () => setTimeout(() => {
+        if (!active) return;
+        try { accept(replayDuel(position, history)); } catch (e) { accept({ error: e.message }); }
+      }, 0);
+      if (!worker) { fallback(); return; }
+      worker.onmessage = ({ data }) => accept(data);
+      worker.onerror = () => { worker.terminate(); worker = null; fallback(); };
+      worker.postMessage({ match: position, moves: history });
+    };
+    let history = [];
     try {
-      const j = await api(profile, "move", { hand: sel, cell: i, compact: true });
-      setTurn("anim");
-      await play(j.steps);
-      if (j.result) { setEnd({ result: j.result, score: j.score, data: j }); if (j.result === "w") sfx.win?.(); }
-      else if (j.match) { setCells(j.match.cells); setHands(j.match.hands); }
-    } catch (e) { setMsg(`⚠ ${e.message}`); }
-    moveLock.current = false; setBusy(false);
+      const stored = JSON.parse(localStorage.getItem(storageKey));
+      if (stored?.id === m0.id && Array.isArray(stored.moves)) history = stored.moves;
+    } catch { setSavedLocally(false); }
+    moves.current = history;
+    locked.current = true;
+    if (!history.length && m0.turn === "me") accept({ match: m0, step: null });
+    else compute.current(m0, history);
+    return () => { active = false; worker?.terminate(); compute.current = null; };
+  }, [m0, storageKey]);
+
+  const finish = async () => {
+    if (submitted.current) return;
+    submitted.current = true;
+    setSyncing(true); setError("");
+    try {
+      const data = await api(profile, "finish", { matchId: m0.id, moves: moves.current });
+      setReceipt(data);
+      if (data.result === "w") sfx.win?.();
+    } catch (e) { submitted.current = false; setError(e.message); }
+    finally { setSyncing(false); }
+  };
+  useEffect(() => {
+    if (match.turn === "done") finish();
+  }, [match.turn]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const clickCell = (i) => {
+    if (locked.current || leaving || match.turn !== "me" || match.cells[i] || sel == null) return;
+    const id = match.hands.me[sel];
+    const next = duelMove(match, id, i);
+    locked.current = true;
+    moves.current = [...moves.current, { id, cell: i }];
+    try { localStorage.setItem(storageKey, JSON.stringify({ id: m0.id, moves: moves.current })); }
+    catch { setSavedLocally(false); }
+    setMatch(next.match); setStep(next.step); setSel(null); setError("");
+    if (next.match.turn === "foe") compute.current(next.match);
   };
 
+  const { cells, turn } = match;
+  const hands = { me: match.hands.me, foe: match.rules.open ? match.hands.foe : match.hands.foe.length };
+  const fx = Object.fromEntries((step?.flips || []).map((f) => [f.i, f.by]));
+  const last = step?.cell;
+  const sc = duelResult(match).score;
+  const end = turn === "done" ? receipt || duelResult(match) : null;
+  const special = [...new Set((step?.flips || []).map((f) => ({ same: "Bằng nhau", plus: "Cộng", combo: "Liên hoàn" })[f.by]).filter(Boolean))];
+  const msg = step ? `${step.who === "me" ? "Bạn" : op.char.vi} đặt ${cards[step.id].name}${step.flips.length ? " — lật " + step.flips.length + " thẻ" : ""}` : "";
   return (
     <div className="tt">
-      <button className="back" disabled={busy || leaving} onClick={() => { if (end) onDone(end.data); else if (confirm("Bỏ trận? Trận này tính là thua và bạn sẽ bị lấy mất 1 lá NGẪU NHIÊN trong Hộp bài.")) onForfeit(); }}>‹ {end ? "Về danh sách" : "Bỏ trận"}</button>
+      <button className="back" disabled={leaving || (end && !receipt)} onClick={() => { if (end) onDone(receipt); else if (confirm("Bỏ trận? Trận này tính là thua và bạn sẽ bị lấy mất 1 lá NGẪU NHIÊN trong Hộp bài.")) onForfeit(); }}>‹ {end ? "Về danh sách" : "Bỏ trận"}</button>
       <div className="ttvs"><img src={charIcon(op.char)} alt="" /><div><b>{op.char.vi}</b><small>“{op.line}”</small></div></div>
-      <div className="ttscore"><span className="me">🟦 Bạn <b>{sc.me}</b></span><span className="ttmsg">{end ? "" : busy && turn === "me" ? "Đang gửi nước đi…" : turn === "me" ? (sel != null ? "Chọn ô trống để đặt thẻ" : "Chọn một thẻ trên tay") : `${op.char.vi} đang đi…`}</span><span className="foe"><b>{sc.foe}</b> {op.char.vi} 🟥</span></div>
+      <div className="ttscore"><span className="me">🟦 Bạn <b>{sc.me}</b></span><span className="ttmsg">{end ? "" : !ready ? "Đang khôi phục bàn đấu…" : turn === "me" ? (sel != null ? "Chọn ô trống để đặt thẻ" : "Chọn một thẻ trên tay") : `${op.char.vi} đang đi…`}</span><span className="foe"><b>{sc.foe}</b> {op.char.vi} 🟥</span></div>
       <div className="tttable">
-        <div className="tthand foe">{Array.isArray(hands.foe) ? hands.foe.map((id, k) => <Card key={k} c={byId[id]} owner="foe" small />) : Array.from({ length: hands.foe }, (_, k) => <Card key={k} back small />)}</div>
+        <div className="tthand foe">{Array.isArray(hands.foe) ? hands.foe.map((id, k) => <Card key={k} c={cards[id]} owner="foe" small />) : Array.from({ length: hands.foe }, (_, k) => <Card key={k} back small />)}</div>
         <div className="ttboard">
           {cells.map((cell, i) => (
             <div key={i} className={`ttcell ${!cell && turn === "me" && sel != null ? "can" : ""}`} onClick={() => clickCell(i)}>
               {m0.els[i] && <img className={`ttcellel ${cell ? "dim" : ""}`} src={elemIcon(m0.els[i])} alt={ELEM[m0.els[i]]?.vi} />}
-              {cell && <Card key={`${i}-${cell.owner}`} c={byId[cell.id]} owner={cell.owner} el={m0.els[i]} flip={fx[i] ? "x" : null} />}
+              {cell && <Card key={`${i}-${cell.owner}`} c={cards[cell.id]} owner={cell.owner} el={m0.els[i]} flip={fx[i] ? "x" : null} />}
               {last === i && <span className="ttlast" key={`l${i}-${msg}`} />}
             </div>
           ))}
         </div>
-        <div className="tthand me">{hands.me.map((id, k) => <Card key={k} c={byId[id]} owner="me" sel={sel === k} onClick={() => { if (turn === "me" && !end && !busy) { setSel(sel === k ? null : k); sfx.click(); } }} small />)}</div>
+        <div className="tthand me">{hands.me.map((id, k) => <Card key={k} c={cards[id]} owner="me" sel={sel === k} onClick={() => { if (turn === "me" && ready && !locked.current && !leaving) { setSel(sel === k ? null : k); sfx.click(); } }} small />)}</div>
       </div>
-      <p className="ttlog">{msg}</p>
+      <p className="ttlog" role="status">{error || [msg, ...special].filter(Boolean).join(" · ")}</p>
+      {error && <button className="chip dk" onClick={() => location.reload()}>Tải lại trạng thái ván</button>}
+      {!savedLocally && <p className="hint">Trình duyệt chưa lưu được nước đi. Hãy giữ trang mở đến khi kết quả được xác nhận.</p>}
       {end && (
         <div className="panel result">
           <h2>{end.result === "w" ? "🏆 Bạn thắng!" : end.result === "l" ? "💀 Bạn thua…" : "🤝 Hòa!"}</h2>
           <div className="score">{end.score.me}<small> : {end.score.foe}</small></div>
-          {end.result === "l" && (end.data.lost ? <div className="ttlost in"><Card c={byId[end.data.lost]} owner="foe" small /><p>Bạn bị lấy mất lá hạng cao nhất: <b>{byId[end.data.lost]?.name}</b> (hạng {byId[end.data.lost]?.rank})</p></div> : <p className="hint">Hộp bài đang ở mức tối thiểu 5 loại thẻ nên không bị lấy lá nào.</p>)}
-          <div className="btnrow"><button className="gbtn tri" onClick={() => onDone(end.data)}><span className="c" />{end.result === "w" ? `🎁 Chọn 1 thẻ của ${op.char.vi}` : "Về danh sách đối thủ"}</button></div>
+          {receipt && end.result === "l" && (receipt.lost ? <div className="ttlost in"><Card c={byId[receipt.lost]} owner="foe" small /><p>Bạn bị lấy mất lá hạng cao nhất: <b>{byId[receipt.lost]?.name}</b> (hạng {byId[receipt.lost]?.rank})</p></div> : <p className="hint">Hộp bài đang ở mức tối thiểu 5 loại thẻ nên không bị lấy lá nào.</p>)}
+          {!receipt && <p role="status">{syncing ? "Đang xác nhận kết quả…" : "Kết quả chưa được đồng bộ."}</p>}
+          <div className="btnrow">{!receipt ? <button className="gbtn tri" disabled={syncing} onClick={finish}>Gửi lại kết quả</button> : <button className="gbtn tri" onClick={() => onDone(receipt)}><span className="c" />{end.result === "w" ? `🎁 Chọn 1 thẻ của ${op.char.vi}` : "Về danh sách đối thủ"}</button>}</div>
         </div>
       )}
     </div>
   );
-}
-// trạng thái bàn trước các bước (để chạy lại hiệu ứng nước đi đầu tiên của máy)
-function undo(cells, steps) {
-  const n = cells.slice();
-  for (const st of [...steps].reverse()) { n[st.cell] = null; for (const f of st.flips) if (n[f.i]) n[f.i] = { ...n[f.i], owner: st.who === "me" ? "foe" : "me" }; }
-  return n;
 }

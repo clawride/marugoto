@@ -1,10 +1,9 @@
-// Đấu thẻ Shikihime — MÁY CHỦ quyết định mọi thứ: rút khởi đầu, Hộp bài, chia bài đối thủ, kiểm tra & áp dụng từng nước đi,
-// nước đi của máy, kết quả trận và thẻ thưởng. Trình duyệt chỉ gửi lệnh và hiển thị.
 // POST { id, token, action, ... } · dữ liệu người chơi lưu ở site_settings["shiki:<id>"] (chỉ máy chủ đọc/ghi).
 //   state                       → hồ sơ + trận đang đấu (nếu có)
 //   starter                     → rút 5 thẻ khởi đầu (mỗi tài khoản 1 lần)
 //   deck   { deck: [5 id] }     → chọn bộ bài (chỉ thẻ đang có)
 //   start  { op, rules }        → bắt đầu trận với đối thủ op (đã mở khóa)
+//   finish { matchId, moves }    → phát lại nước đi và xác nhận kết quả ván trên trình duyệt
 //   move   { hand, cell }       → đặt thẻ thứ hand trên tay vào ô cell; máy chủ đi tiếp nước của đối thủ
 //   claim  { card }             → thắng xong chọn 1 thẻ của đối thủ
 //   trade  { rank }             → đổi 5 lá TRÙNG (bản thừa, giữ lại 1 bản mỗi thẻ) cùng hạng lấy 1 lá ngẫu nhiên hạng kế trên
@@ -14,6 +13,7 @@
 import { store, auth } from "@/lib/store";
 import { getShikiConfig } from "@/lib/shikiConfig";
 import { drawCards, OPPONENTS, oppDeck, makeBoard, place, aiMove, score, power, rankIdx } from "@/lib/shikiCards";
+import { DUEL_MODE, replayDuel, duelResult } from "@/lib/shikiDuel";
 import { RANKS } from "@/lib/shikihime";
 
 export const dynamic = "force-dynamic";
@@ -22,10 +22,14 @@ const bad = (msg, status = 400) => Response.json({ error: msg }, { status, ...H 
 const RULE_KEYS = ["open", "same", "plus", "combo", "elemental"];
 const keyOf = (uid) => `shiki:${uid}`;
 
-async function load(uid) {
-  const d = (await store.getKV(keyOf(uid))) || {};
-  return { box: d.box || {}, starter: d.starter || null, deck: d.deck || [], beat: d.beat || {}, rec: d.rec || { w: 0, l: 0, d: 0 }, match: d.match || null, pending: d.pending || null };
+// Freeze only the ten cards used by the game. An admin edit during a duel cannot change its replay.
+function enableLocal(m, byId) {
+  const ids = [...m.hands.me, ...m.hands.foe, ...m.cells.filter(Boolean).map((c) => c.id)];
+  m.cards = Object.fromEntries(ids.map((id) => [id, { id, n: byId[id].n, el: byId[id].el }]));
+  m.mode = DUEL_MODE;
+  m.id = crypto.randomUUID();
 }
+class StaleState extends Error {}
 // Lấy 1 lá khỏi Hộp bài theo cách chọn ("best" = hạng cao nhất, mạnh nhất · "random") → id thẻ bị lấy, hoặc null nếu được bảo vệ
 const MIN_KINDS = 5;
 function takeCard(d, byId, how) {
@@ -52,6 +56,10 @@ function takeCard(d, byId, how) {
 // trận đang đấu → dạng gửi cho trình duyệt (ẩn bài trên tay đối thủ nếu không bật luật Lật bài)
 function view(m) {
   if (!m) return null;
+  if (m.mode === DUEL_MODE) {
+    const { foeAll, ...local } = m;
+    return local;
+  }
   return { op: m.op, rules: m.rules, els: m.els, cells: m.cells, turn: m.turn, hands: { me: m.hands.me, foe: m.rules.open ? m.hands.foe : m.hands.foe.length } };
 }
 const pub = (d, extra = {}) => Response.json({ box: d.box, starter: d.starter, deck: d.deck, beat: d.beat, rec: d.rec, pending: d.pending, match: view(d.match), ...extra }, H);
@@ -80,7 +88,12 @@ export async function POST(req) {
     try { return await operation(); }
     finally { timings.push(`${name};dur=${(performance.now() - start).toFixed(1)}`); }
   }
-  const response = await handleAction(req, timed);
+  let response;
+  try { response = await handleAction(req, timed); }
+  catch (error) {
+    if (!(error instanceof StaleState)) throw error;
+    response = bad("Trạng thái đã thay đổi. Hãy thử lại.", 409);
+  }
   timings.unshift(`shiki;dur=${(performance.now() - started).toFixed(1)}`);
   response.headers.set("Server-Timing", timings.join(", "));
   return response;
@@ -91,11 +104,25 @@ async function handleAction(req, timed) {
   const b = await req.json().catch(() => ({}));
   const u = await timed("auth", () => auth(b.id, b.token));
   if (!u) return bad("Cần đăng nhập để chơi Đấu thẻ", 401);
-  // State reads do not need card configuration. Independent reads run together.
-  const player = timed("read", () => load(u.id));
-  if (b.action === "state") return pub(await player);
-  const [d, { deck, byId }] = await Promise.all([player, timed("config", getShikiConfig)]);
-  const save = () => timed("write", () => store.setKV(keyOf(u.id), d));
+  const k = keyOf(u.id);
+  const previous = await timed("read", () => store.getKV(k));
+  const d = { box: {}, deck: [], starter: null, beat: {}, rec: { w: 0, l: 0, d: 0 }, match: null, pending: null, ...structuredClone(previous) };
+  const save = async () => {
+    d.rev = crypto.randomUUID();
+    if (!await timed("write", () => store.replaceKV(k, d, previous))) throw new StaleState();
+  };
+  const local = b.mode === DUEL_MODE;
+  if (b.action === "state") {
+    // Upgrade a legacy match at its saved position, retaining its board, hands and rewards.
+    if (local && d.match && !d.match.mode) {
+      const cfg = await timed("config", getShikiConfig);
+      enableLocal(d.match, cfg.byId);
+      await save();
+    }
+    return pub(d);
+  }
+  if (b.action === "finish" && !d.match && d.receipt && d.receipt.id === b.matchId) return pub(d, d.receipt);
+  const { deck, byId } = await timed("config", getShikiConfig);
 
   switch (b.action) {
     case "starter": {
@@ -115,7 +142,10 @@ async function handleAction(req, timed) {
     }
 
     case "start": {
-      if (d.match) return pub(d); // đang có trận dở → trả lại trận đó
+      if (d.match) {
+        if (local && !d.match.mode) { enableLocal(d.match, byId); await save(); }
+        return pub(d);
+      }
       if (d.pending) return bad("Hãy nhận thẻ thưởng của trận trước");
       const op = OPPONENTS[Number(b.op)];
       if (!op) return bad("Không có đối thủ này");
@@ -130,15 +160,39 @@ async function handleAction(req, timed) {
       const m = { op: op.i, rules, els: bd.els, cells: bd.cells, hands: { me: mine.slice(), foe: oppDeck(op, deck).map((c) => c.id) }, turn: Math.random() < 0.5 ? "me" : "foe" };
       m.foeAll = m.hands.foe.slice();
       const steps = [];
-      if (m.turn === "foe") steps.push(aiStep(m, byId, op.ai));
+      if (local) enableLocal(m, byId);
+      else if (m.turn === "foe") steps.push(aiStep(m, byId, op.ai));
       d.deck = mine.slice();
       d.match = m; await save();
       return pub(d, { steps, first: steps.length ? "foe" : "me" });
     }
 
+    case "finish": {
+      const m = d.match;
+      if (!m || m.mode !== DUEL_MODE || m.id !== b.matchId) return bad("Ván này đã thay đổi. Hãy tải lại trang.", 409);
+      const empty = m.cells.filter((c) => !c).length;
+      const count = m.turn === "me" ? Math.ceil(empty / 2) : Math.floor(empty / 2);
+      if (!Array.isArray(b.moves) || b.moves.length !== count) return bad("Lịch sử ván chưa đủ.");
+      let final;
+      try { final = replayDuel(m, b.moves).match; }
+      catch { return bad("Lịch sử nước đi không hợp lệ."); }
+      if (final.turn !== "done") return bad("Ván chưa kết thúc.");
+      const { result, score: tally } = duelResult(final);
+      d.rec[result]++;
+      if (result === "w") {
+        d.beat[m.op] = (d.beat[m.op] || 0) + 1;
+        d.pending = { op: m.op, cards: m.foeAll };
+      }
+      const lost = result === "l" ? takeCard(d, byId, "best") : null;
+      d.receipt = { id: m.id, result, score: tally, lost };
+      d.match = null;
+      await save();
+      return pub(d, d.receipt);
+    }
     case "move": {
       const m = d.match;
       if (!m) return bad("Không có trận nào đang diễn ra");
+      if (m.mode === DUEL_MODE) return bad("Hãy tải lại trang để tiếp tục ván trên thiết bị.", 409);
       if (m.turn !== "me") return bad("Chưa tới lượt bạn");
       const hi = Number(b.hand), ci = Number(b.cell);
       if (!Number.isInteger(hi) || hi < 0 || hi >= m.hands.me.length) return bad("Thẻ không hợp lệ");
@@ -192,6 +246,7 @@ async function handleAction(req, timed) {
     }
 
     case "forfeit": {
+      if ((d.match?.mode === DUEL_MODE || b.matchId) && d.match?.id !== b.matchId) return bad("Ván này đã thay đổi.", 409);
       let lost = null;
       if (d.match) { d.rec.l++; d.match = null; lost = takeCard(d, byId, "random"); await save(); }
       return pub(d, { lost });

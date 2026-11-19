@@ -18,6 +18,12 @@ const store = {
     return structuredClone(rows.get(key) ?? null);
   },
   async setKV(key, value) { counts.write++; rows.set(key, structuredClone(value)); },
+  async replaceKV(key, value, previous) {
+    const current = rows.get(key);
+    if (Boolean(previous) !== Boolean(current) || previous?.rev !== current?.rev) return false;
+    await this.setKV(key, value);
+    return true;
+  },
   async getSettings() { throw new Error("Must not read all site settings"); },
 };
 const modules = new Map();
@@ -122,3 +128,73 @@ for (const op of engine.OPPONENTS) {
   assert.ok(move.card && move.i >= 0 && move.i < 9);
 }
 console.log(`PASS: auth, configuration coalescing/retry, deck validation, match, rewards, forfeit, hidden hands. ${engine.OPPONENTS.length} AI openings: ${(performance.now() - start).toFixed(1)}ms total.`, counts);
+
+// New clients play every intermediate move offline. Replay against an independent
+// exhaustive endgame search, and settle only once even if two tabs submit together.
+const duel = modules.get(path.join(root, "lib/shikiDuel.js")).namespace;
+function perfectMargin(m) {
+  if (m.turn === "done") {
+    const s = duel.duelResult(m).score;
+    return s.foe - s.me;
+  }
+  const outcomes = [];
+  for (const id of m.hands[m.turn]) for (let i = 0; i < 9; i++) {
+    if (!m.cells[i]) outcomes.push(perfectMargin(duel.duelMove(m, id, i).match));
+  }
+  return m.turn === "me" ? Math.min(...outcomes) : Math.max(...outcomes);
+}
+
+async function checkLocalMatch(migrate) {
+  const rules = { open: !migrate, same: true, plus: true, combo: true, elemental: true };
+  let j = await request("start", { op: 0, rules, mode: migrate ? undefined : duel.DUEL_MODE });
+  if (migrate) {
+    const cell = j.data.match.cells.findIndex((c) => !c);
+    const old = await request("move", { hand: 0, cell });
+    j = await request("state", { mode: duel.DUEL_MODE });
+    assert.deepEqual(j.data.match.cells, old.data.match.cells);
+    assert.deepEqual(j.data.match.hands.me, old.data.match.hands.me);
+  }
+  const initial = j.data.match, moves = [], before = { ...counts };
+  assert.equal(initial.mode, duel.DUEL_MODE);
+  let m = duel.computerReply(initial).match;
+  let solvedEndgame = false;
+  while (m.turn !== "done") {
+    const move = { id: m.hands.me[0], cell: m.cells.findIndex((c) => !c) };
+    moves.push(move);
+    m = duel.duelMove(m, move.id, move.cell).match;
+    if (m.turn === "foe") {
+      const next = duel.computerReply(m).match;
+      if (!solvedEndgame && m.cells.filter((c) => !c).length <= 5) {
+        assert.equal(perfectMargin(next), perfectMargin(m));
+        solvedEndgame = true;
+      }
+      m = next;
+    }
+    // Simulate closing the tab and restoring exactly the same board.
+    assert.deepEqual(duel.replayDuel(initial, JSON.parse(JSON.stringify(moves))).match, m);
+  }
+  assert.ok(solvedEndgame);
+  assert.deepEqual(counts, before, "Taking turns must perform zero API/auth/storage calls");
+  const body = { matchId: initial.id, moves };
+  assert.equal((await request("move", { hand: 0, cell: 0 })).status, 409);
+  assert.equal((await request("forfeit", { matchId: "another-game" })).status, 409);
+  assert.equal((await request("finish", { ...body, moves: [] })).status, 400);
+  assert.equal((await request("finish", { ...body, moves: moves.map(() => ({ id: "unowned", cell: -1 })) })).status, 400);
+  const beforeSettling = counts.write;
+  const batch = await Promise.all([request("finish", body), request("finish", body)]);
+  const settled = batch.find((r) => r.status === 200);
+  assert.ok(settled);
+  assert.ok(batch.every((r) => [200, 409].includes(r.status)));
+  assert.equal(counts.write - beforeSettling, 1);
+  const { result, score } = duel.duelResult(m);
+  assert.equal(settled.data.result, result);
+  assert.deepEqual(settled.data.score, score);
+  assert.equal(settled.data.rec[result], j.data.rec[result] + 1);
+  const retry = await request("finish", body);
+  assert.deepEqual(retry.data, settled.data);
+  assert.equal(counts.write - beforeSettling, 1);
+  if (retry.data.pending) await request("claim", { card: retry.data.pending.cards[0] });
+}
+await checkLocalMatch(false);
+await checkLocalMatch(true);
+console.log("PASS: browser turns, deterministic restore, migration, optimal endgame, concurrent/retried settlement.");
