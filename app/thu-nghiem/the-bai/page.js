@@ -1,15 +1,14 @@
 "use client";
 // 🧪 Đấu thẻ Shikihime (thử nghiệm) — luật kiểu thẻ bài 3×3 (lib/shikiCards.js)
-// • Mỗi tài khoản rút khởi đầu 1 lần 5 thẻ (thẻ hạng cao hiếm hơn) → Hộp bài (S.shiki.box, đồng bộ theo tài khoản)
-// • Đấu lần lượt với nhân vật Genshin (bộ 5 thẻ cố định, càng về sau càng mạnh); thắng → chọn lấy 1 thẻ của đối thủ
-// • Chỉ dùng được thẻ có trong Hộp bài để đấu
+// MÁY CHỦ quyết định mọi thứ (app/api/shiki/play): rút khởi đầu, Hộp bài, chia bài đối thủ, từng nước đi + nước của máy, kết quả, thẻ thưởng.
+// Trang này chỉ gửi lệnh rồi hiển thị (kèm hiệu ứng từng bước). Cần đăng nhập (dữ liệu lưu theo tài khoản trên máy chủ).
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useGame } from "@/components/Game";
 import { ELEM } from "@/lib/data";
 import { elemIcon, charIcon } from "@/lib/genshin";
-import { CLASSES, RANKS, RANK_VI } from "@/lib/shikihime";
-import { buildDeck, power, makeBoard, place, score, aiMove, sideVal, showNum, drawCards, RANK_ODDS, OPPONENTS, oppDeck, rankIdx } from "@/lib/shikiCards";
+import { RANKS, RANK_VI } from "@/lib/shikihime";
+import { buildDeck, power, sideVal, showNum, RANK_ODDS, OPPONENTS, oppDeck, rankIdx } from "@/lib/shikiCards";
 import { sfx } from "@/lib/sfx";
 import "./cards.css";
 
@@ -21,94 +20,90 @@ const RULES = [
   ["elemental", "Nguyên tố", "Ô có biểu tượng nguyên tố: thẻ cùng hệ +1 mỗi cạnh, khác hệ −1"],
 ];
 const LS = "shiki_tt_rules";
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+async function api(profile, action, body = {}) {
+  const r = await fetch("/api/shiki/play", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: profile?.id, token: profile?.token, action, ...body }) });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.error || `Lỗi ${r.status}`);
+  return j;
+}
 
 export default function CardGamePage() {
-  const { S, update, toast } = useGame();
+  const { S, toast } = useGame();
   const [cfg, setCfg] = useState(null);
   useEffect(() => { fetch("/api/shiki").then((r) => (r.ok ? r.json() : {})).catch(() => ({})).then(setCfg); }, []);
   const deck = useMemo(() => buildDeck(cfg), [cfg]);
   const byId = useMemo(() => Object.fromEntries(deck.map((c) => [c.id, c])), [deck]);
+  const [P, setP] = useState(null); // dữ liệu người chơi từ máy chủ
+  const [err, setErr] = useState("");
+  const [busy, setBusy] = useState(false);
   const [tab, setTab] = useState("duel");
   const [rules, setRules] = useState({ open: true, same: false, plus: false, combo: false, elemental: false });
-  const [game, setGame] = useState(null);
-  const [reward, setReward] = useState(null); // { op, cards }
-  const [reveal, setReveal] = useState(null); // thẻ vừa rút
+  const [reveal, setReveal] = useState(null);
+  const [live, setLive] = useState(null); // { steps, first } của lệnh start
+  const profile = S?.profile;
   useEffect(() => { try { const r = JSON.parse(localStorage.getItem(LS) || "null"); if (r) setRules(r); } catch {} }, []);
+  useEffect(() => { if (profile?.id) api(profile, "state").then(setP).catch((e) => setErr(e.message)); }, [profile?.id]); // eslint-disable-line react-hooks/exhaustive-deps
   if (!S) return null;
-  const K = S.shiki || {};
-  const box = K.box || {};
-  const owned = deck.filter((c) => box[c.id] > 0).sort((a, b) => rankIdx(b.rank) - rankIdx(a.rank) || power(b) - power(a));
-  const myDeck = (K.deck || []).filter((id) => box[id] > 0).slice(0, 5);
-  const beat = K.beat || {};
-  const rec = K.rec || { w: 0, l: 0, d: 0 };
-  const setDeck = (ids) => update((s) => { s.shiki = s.shiki || {}; s.shiki.deck = ids; });
+  const run = async (action, body, after) => {
+    setBusy(true); setErr("");
+    try { const j = await api(profile, action, body); setP(j); after?.(j); return j; }
+    catch (e) { setErr(e.message); toast(e.message); } finally { setBusy(false); }
+  };
+
+  const head = <><Link href="/thu-nghiem" className="back">‹ Khu Thử Nghiệm</Link><div className="pagehead"><h1>🎴 Đấu thẻ Shikihime</h1><p>Đặt thẻ lên bàn 3×3: cạnh của bạn lớn hơn cạnh kề của thẻ đối thủ thì lật thẻ đó. Đầy bàn, ai giữ nhiều thẻ hơn thắng.</p></div></>;
+  if (!profile?.id) return <div className="tt">{head}<p className="hint" style={{ textAlign: "center" }}>🔒 Cần đăng nhập để chơi — Hộp bài và kết quả các trận được lưu trên máy chủ theo tài khoản.</p></div>;
+  if (!P || !cfg) return <div className="tt">{head}<p className="hint" style={{ textAlign: "center" }}>{err || "Đang tải…"}</p></div>;
 
   // ——— rút khởi đầu ———
-  const starter = () => {
-    const got = drawCards(deck, 5);
-    update((s) => { s.shiki = s.shiki || {}; s.shiki.box = {}; for (const c of got) s.shiki.box[c.id] = (s.shiki.box[c.id] || 0) + 1; s.shiki.starter = got.map((c) => c.id); s.shiki.deck = got.map((c) => c.id); s.shiki.rec = { w: 0, l: 0, d: 0 }; s.shiki.beat = {}; });
-    sfx.open(); setReveal(got);
-  };
   if (reveal) return (
     <div className="tt">
       <div className="pagehead"><h1>🎴 Bộ bài khởi đầu</h1><p>Các thẻ này đã vào Hộp bài của bạn.</p></div>
-      <div className="ttreveal">{reveal.map((c, i) => <div key={c.id} className="ttrv" style={{ animationDelay: `${i * 0.35}s` }}><Card c={c} owner="me" named /></div>)}</div>
+      <div className="ttreveal">{reveal.map((id, i) => <div key={id} className="ttrv" style={{ animationDelay: `${i * 0.35}s` }}><Card c={byId[id]} owner="me" named /></div>)}</div>
       <div className="btnrow"><button className="gbtn tri" onClick={() => setReveal(null)}><span className="c" />Bắt đầu đấu bài</button></div>
     </div>
   );
-  if (!K.starter) return (
-    <div className="tt">
-      <Link href="/thu-nghiem" className="back">‹ Khu Thử Nghiệm</Link>
-      <div className="pagehead"><h1>🎴 Đấu thẻ Shikihime</h1><p>Mỗi tài khoản được rút <b>1 lần</b> 5 thẻ khởi đầu (5 thẻ khác nhau). Thẻ càng tốt càng hiếm. Sau đó đấu với các nhân vật Genshin — thắng thì được chọn lấy 1 thẻ của họ.</p></div>
+  if (!P.starter) return (
+    <div className="tt">{head}
+      <p style={{ textAlign: "center" }}>Mỗi tài khoản được rút <b>1 lần</b> 5 thẻ khởi đầu (5 thẻ khác nhau). Thẻ càng tốt càng hiếm. Sau đó đấu với các nhân vật Genshin — thắng thì được chọn lấy 1 thẻ của họ.</p>
       <OddsTable deck={deck} />
-      {!S.profile && <p className="hint" style={{ textAlign: "center" }}>💡 Đăng nhập để Hộp bài được lưu theo tài khoản (dùng được trên mọi máy).</p>}
-      <div className="btnrow"><button className="gbtn tri" disabled={!cfg} onClick={starter}><span className="c" />🎴 Rút 5 thẻ khởi đầu</button></div>
+      <div className="btnrow"><button className="gbtn tri" disabled={busy} onClick={() => run("starter", {}, (j) => { sfx.open(); setReveal(j.drawn); })}><span className="c" />🎴 Rút 5 thẻ khởi đầu</button></div>
     </div>
   );
 
-  // ——— nhận thưởng sau khi thắng ———
-  if (reward) return (
-    <div className="tt">
-      <div className="pagehead"><h1>🏆 Thắng {reward.op.char.vi}!</h1><p>Chọn 1 thẻ của {reward.op.char.vi} để bỏ vào Hộp bài.</p></div>
-      <div className="ttreveal">{reward.cards.map((c) => (
-        <div key={c.id} className="ttrv"><Card c={c} owner="foe" named onClick={() => {
-          update((s) => { s.shiki.box = s.shiki.box || {}; s.shiki.box[c.id] = (s.shiki.box[c.id] || 0) + 1; });
-          toast(`Đã nhận thẻ ${c.name} (hạng ${c.rank}) vào Hộp bài`); sfx.win?.(); setReward(null);
-        }} /><small>{box[c.id] ? `Đang có ${box[c.id]} lá` : "Thẻ mới!"}</small></div>
-      ))}</div>
-    </div>
-  );
+  // ——— nhận thưởng ———
+  if (P.pending) {
+    const op = OPPONENTS[P.pending.op];
+    return (
+      <div className="tt">
+        <div className="pagehead"><h1>🏆 Thắng {op.char.vi}!</h1><p>Chọn 1 thẻ của {op.char.vi} để bỏ vào Hộp bài.</p></div>
+        <div className="ttreveal">{P.pending.cards.map((id) => (
+          <div key={id} className="ttrv"><Card c={byId[id]} owner="foe" named onClick={() => !busy && run("claim", { card: id }, () => { toast(`Đã nhận thẻ ${byId[id].name} (hạng ${byId[id].rank}) vào Hộp bài`); sfx.win?.(); })} /><small>{P.box[id] ? `Đang có ${P.box[id]} lá` : "Thẻ mới!"}</small></div>
+        ))}</div>
+      </div>
+    );
+  }
 
-  if (game) return <Match key={game.id} g={game} onExit={() => setGame(null)} onEnd={(res) => {
-    update((s) => { const k = s.shiki; k.rec = k.rec || { w: 0, l: 0, d: 0 }; k.rec[res]++; if (res === "w") { k.beat = k.beat || {}; k.beat[game.op.i] = (k.beat[game.op.i] || 0) + 1; } });
-  }} onReward={() => { setReward({ op: game.op, cards: game.foe }); setGame(null); }} />;
+  // ——— trận đang đấu ———
+  if (P.match) return <Match key={P.match.op + "-" + P.rec.w + P.rec.l + P.rec.d} m0={P.match} live={live} byId={byId} profile={profile} onDone={(j) => { setLive(null); setP(j); }} onForfeit={() => { setLive(null); run("forfeit"); }} />;
 
-  const start = (op) => {
-    try { localStorage.setItem(LS, JSON.stringify(rules)); } catch {}
-    sfx.open();
-    setGame({ id: Date.now(), op, me: myDeck.map((id) => byId[id]), foe: oppDeck(op, deck), rules, first: Math.random() < 0.5 ? "me" : "foe" });
-  };
+  const box = P.box, beat = P.beat, rec = P.rec;
+  const owned = deck.filter((c) => box[c.id] > 0).sort((a, b) => rankIdx(b.rank) - rankIdx(a.rank) || power(b) - power(a));
+  const myDeck = P.deck.filter((id) => box[id] > 0).slice(0, 5);
+  const setDeck = (ids) => { setP({ ...P, deck: ids }); api(profile, "deck", { deck: ids }).then(setP).catch((e) => toast(e.message)); };
   const unlocked = (op) => op.i === 0 || (beat[op.i - 1] || 0) > 0;
+  const start = (op) => { try { localStorage.setItem(LS, JSON.stringify(rules)); } catch {} run("start", { op: op.i, rules }, (j) => { sfx.open(); setLive({ steps: j.steps || [], first: j.first }); }); };
   return (
-    <div className="tt">
-      <Link href="/thu-nghiem" className="back">‹ Khu Thử Nghiệm</Link>
-      <div className="pagehead"><h1>🎴 Đấu thẻ Shikihime</h1><p>Đặt thẻ lên bàn 3×3: cạnh của bạn lớn hơn cạnh kề của thẻ đối thủ thì lật thẻ đó. Đầy bàn, ai giữ nhiều thẻ hơn thắng.</p></div>
+    <div className="tt">{head}
       <div className="ttrec">Hộp bài: <b>{owned.length}</b>/{deck.length} loại · {rec.w} thắng · {rec.d} hòa · {rec.l} thua</div>
       <div className="chips" style={{ justifyContent: "center" }}>{[["duel", "⚔️ Đấu bài"], ["box", "🗃️ Hộp bài"], ["odds", "🎲 Hạng thẻ"]].map(([k, l]) => <button key={k} className={`chip dk ${tab === k ? "on" : ""}`} onClick={() => setTab(k)}>{l}</button>)}</div>
-
       {tab === "odds" && <OddsTable deck={deck} />}
-
       {tab === "box" && <div className="ttpool">{owned.map((c) => <div key={c.id} className="ttboxc"><Card c={c} owner="me" named />{box[c.id] > 1 && <span className="ttcount">×{box[c.id]}</span>}</div>)}</div>}
-
       {tab === "duel" && (
         <>
           <h2 className="a22th"><span>1 · Bộ 5 thẻ của bạn</span> <small>{myDeck.length}/5 · bấm thẻ trong Hộp bài để thêm/bớt</small></h2>
-          <div className="ttpool">
-            {owned.map((c) => {
-              const i = myDeck.indexOf(c.id);
-              return <Card key={c.id} c={c} owner={i >= 0 ? "me" : null} badge={i >= 0 ? i + 1 : null} named onClick={() => { setDeck(i >= 0 ? myDeck.filter((x) => x !== c.id) : myDeck.length < 5 ? [...myDeck, c.id] : myDeck); sfx.click(); }} />;
-            })}
-          </div>
+          <div className="ttpool">{owned.map((c) => { const i = myDeck.indexOf(c.id); return <Card key={c.id} c={c} owner={i >= 0 ? "me" : null} badge={i >= 0 ? i + 1 : null} named onClick={() => { setDeck(i >= 0 ? myDeck.filter((x) => x !== c.id) : myDeck.length < 5 ? [...myDeck, c.id] : myDeck); sfx.click(); }} />; })}</div>
           {owned.length < 5 && <p className="hint">Hộp bài cần ít nhất 5 thẻ.</p>}
           <h2 className="a22th"><span>2 · Luật chơi</span> <small>bật / tắt</small></h2>
           <div className="ttrules">{RULES.map(([k, n, d]) => <label key={k} className={`panel ttrule ${rules[k] ? "on" : ""}`}><input type="checkbox" checked={rules[k]} onChange={(e) => setRules((r) => ({ ...r, [k]: e.target.checked }))} /><b>{n}</b><small>{d}</small></label>)}</div>
@@ -123,7 +118,7 @@ export default function CardGamePage() {
                     <b>{op.char.vi}</b> <small>Thẻ hạng {op.band[0]}–{op.band[1]} · máy {({ easy: "dễ", normal: "vừa", hard: "khó" })[op.ai]}{beat[op.i] ? ` · đã thắng ${beat[op.i]} lần` : ""}</small>
                     <div className="ttminis">{od.map((c) => <span key={c.id} className={`ttrk r-${c.rank}`} title={`${c.name} · hạng ${c.rank}`}>{c.rank}</span>)}</div>
                   </div>
-                  <button className="gbtn tri" disabled={!open || myDeck.length < 5} onClick={() => start(op)}><span className="c" />{open ? "Đấu" : "🔒"}</button>
+                  <button className="gbtn tri" disabled={busy || !open || myDeck.length < 5} onClick={() => start(op)}><span className="c" />{open ? "Đấu" : "🔒"}</button>
                 </div>
               );
             })}
@@ -162,65 +157,84 @@ export function Card({ c, owner, onClick, back, sel, badge, el, flip, small, nam
   );
 }
 
-function Match({ g, onExit, onEnd, onReward }) {
-  const [board, setBoard] = useState(() => makeBoard(g.rules));
-  const [hands, setHands] = useState({ me: g.me, foe: g.foe });
-  const [turn, setTurn] = useState(g.first);
-  const [sel, setSel] = useState(null);
-  const [flipFx, setFlipFx] = useState({});
-  const [msg, setMsg] = useState(g.first === "me" ? "Bạn đi trước." : `${g.op.char.vi} đi trước.`);
-  const [lastPlaced, setLastPlaced] = useState(null);
-  const full = board.cells.every(Boolean);
-  const sc = score(board.cells, hands);
-  const result = full ? (sc.me > sc.foe ? "w" : sc.me < sc.foe ? "l" : "d") : null;
-  useEffect(() => { if (result) { onEnd(result); if (result === "w") sfx.win?.(); } }, [result]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const doPlace = (i, card, who) => {
-    const r = place(board, i, card, who, g.rules);
-    const fx = {}; for (const f of r.flips) fx[f.i] = f.by;
-    setBoard({ ...board, cells: r.cells }); setFlipFx(fx); setLastPlaced(i);
-    setHands((h) => ({ ...h, [who]: h[who].filter((c) => c !== card) }));
-    const special = [...new Set(r.flips.map((f) => f.by).filter((b) => b !== "basic"))];
-    const by = { same: "Bằng nhau!", plus: "Cộng!", combo: "Liên hoàn!" };
-    setMsg(`${who === "me" ? "Bạn" : g.op.char.vi} đặt ${card.name}${r.flips.length ? ` — lật ${r.flips.length} thẻ` : ""}${special.length ? ` · ${special.map((b) => by[b]).join(" ")}` : ""}`);
-    if (r.flips.length) sfx.click();
-    setTurn(who === "me" ? "foe" : "me");
+// Trận đấu: hiển thị theo trạng thái máy chủ; mỗi nước đi gửi lên, nhận về các bước (của bạn rồi của máy) để chạy hiệu ứng
+function Match({ m0, live, byId, profile, onDone, onForfeit }) {
+  const op = OPPONENTS[m0.op];
+  const [cells, setCells] = useState(() => (live?.steps?.length ? undo(m0.cells, live.steps) : m0.cells));
+  const [hands, setHands] = useState(() => (live?.steps?.length ? { me: m0.hands.me, foe: Array.isArray(m0.hands.foe) ? [...m0.hands.foe, ...live.steps.map((s) => s.id)] : m0.hands.foe + live.steps.length } : m0.hands));
+  const [turn, setTurn] = useState(live?.steps?.length ? "foe" : m0.turn);
+  const [sel, setSel] = useState(null);
+  const [fx, setFx] = useState({});
+  const [last, setLast] = useState(null);
+  const [msg, setMsg] = useState(live?.first === "foe" ? `${op.char.vi} đi trước.` : "Bạn đi trước.");
+  const [end, setEnd] = useState(null); // { result, score, data }
+  const [busy, setBusy] = useState(false);
+  const name = (who) => (who === "me" ? "Bạn" : op.char.vi);
+  const sc = { me: 0, foe: 0 }; for (const c of cells) if (c) sc[c.owner]++; sc.me += hands.me.length; sc.foe += Array.isArray(hands.foe) ? hands.foe.length : hands.foe;
+
+  // chạy lần lượt các bước nhận từ máy chủ
+  async function play(steps) {
+    for (const st of steps) {
+      if (st.who === "foe") { setTurn("foe"); await sleep(700); }
+      setCells((cs) => { const n = cs.slice(); n[st.cell] = { id: st.id, owner: st.who }; for (const f of st.flips) n[f.i] = { ...n[f.i], owner: st.who }; return n; });
+      setHands((h) => ({ ...h, [st.who]: st.who === "me" ? h.me.filter((id, k) => k !== h.me.indexOf(st.id)) : Array.isArray(h.foe) ? h.foe.filter((id, k) => k !== h.foe.indexOf(st.id)) : h.foe - 1 }));
+      setFx(Object.fromEntries(st.flips.map((f) => [f.i, f.by]))); setLast(st.cell);
+      const special = [...new Set(st.flips.map((f) => f.by).filter((b) => b !== "basic"))];
+      const by = { same: "Bằng nhau!", plus: "Cộng!", combo: "Liên hoàn!" };
+      setMsg(`${name(st.who)} đặt ${byId[st.id]?.name}${st.flips.length ? ` — lật ${st.flips.length} thẻ` : ""}${special.length ? ` · ${special.map((b) => by[b]).join(" ")}` : ""}`);
+      if (st.flips.length) sfx.click();
+      await sleep(450);
+    }
+    setTurn("me");
+  }
+  useEffect(() => { if (live?.steps?.length) play(live.steps); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const clickCell = async (i) => {
+    if (turn !== "me" || cells[i] || sel == null || busy || end) return;
+    setBusy(true); setSel(null);
+    try {
+      const j = await api(profile, "move", { hand: sel, cell: i });
+      setTurn("anim");
+      await play(j.steps);
+      if (j.result) { setEnd({ result: j.result, score: j.score, data: j }); if (j.result === "w") sfx.win?.(); }
+      else if (j.match) { setCells(j.match.cells); setHands(j.match.hands); }
+    } catch (e) { setMsg(`⚠ ${e.message}`); }
+    setBusy(false);
   };
-  const clickCell = (i) => { if (turn !== "me" || board.cells[i] || sel == null || result) return; doPlace(i, hands.me[sel], "me"); setSel(null); };
-  useEffect(() => {
-    if (turn !== "foe" || result) return;
-    const t = setTimeout(() => { const m = aiMove(board, hands, g.rules, g.op.ai); if (m) doPlace(m.i, m.card, "foe"); }, 900);
-    return () => clearTimeout(t);
-  }, [turn, result]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="tt">
-      <button className="back" onClick={onExit}>‹ Bỏ trận</button>
-      <div className="ttvs"><img src={charIcon(g.op.char)} alt="" /><div><b>{g.op.char.vi}</b><small>“{g.op.line}”</small></div></div>
-      <div className="ttscore"><span className="me">🟦 Bạn <b>{sc.me}</b></span><span className="ttmsg">{result ? "" : turn === "me" ? (sel != null ? "Chọn ô trống để đặt thẻ" : "Chọn một thẻ trên tay") : `${g.op.char.vi} đang nghĩ…`}</span><span className="foe"><b>{sc.foe}</b> {g.op.char.vi} 🟥</span></div>
+      <button className="back" onClick={() => { if (end) onDone(end.data); else if (confirm("Bỏ trận? Trận này sẽ tính là thua.")) onForfeit(); }}>‹ {end ? "Về danh sách" : "Bỏ trận"}</button>
+      <div className="ttvs"><img src={charIcon(op.char)} alt="" /><div><b>{op.char.vi}</b><small>“{op.line}”</small></div></div>
+      <div className="ttscore"><span className="me">🟦 Bạn <b>{sc.me}</b></span><span className="ttmsg">{end ? "" : turn === "me" ? (sel != null ? "Chọn ô trống để đặt thẻ" : "Chọn một thẻ trên tay") : `${op.char.vi} đang đi…`}</span><span className="foe"><b>{sc.foe}</b> {op.char.vi} 🟥</span></div>
       <div className="tttable">
-        <div className="tthand foe">{hands.foe.map((c, k) => (g.rules.open ? <Card key={k} c={c} owner="foe" small /> : <Card key={k} back small />))}</div>
+        <div className="tthand foe">{Array.isArray(hands.foe) ? hands.foe.map((id, k) => <Card key={k} c={byId[id]} owner="foe" small />) : Array.from({ length: hands.foe }, (_, k) => <Card key={k} back small />)}</div>
         <div className="ttboard">
-          {board.cells.map((cell, i) => (
+          {cells.map((cell, i) => (
             <div key={i} className={`ttcell ${!cell && turn === "me" && sel != null ? "can" : ""}`} onClick={() => clickCell(i)}>
-              {board.els[i] && <img className={`ttcellel ${cell ? "dim" : ""}`} src={elemIcon(board.els[i])} alt={ELEM[board.els[i]]?.vi} />}
-              {cell && <Card key={`${i}-${cell.owner}`} c={cell.card} owner={cell.owner} el={board.els[i]} flip={flipFx[i] ? "x" : null} />}
-              {lastPlaced === i && <span className="ttlast" />}
+              {m0.els[i] && <img className={`ttcellel ${cell ? "dim" : ""}`} src={elemIcon(m0.els[i])} alt={ELEM[m0.els[i]]?.vi} />}
+              {cell && <Card key={`${i}-${cell.owner}`} c={byId[cell.id]} owner={cell.owner} el={m0.els[i]} flip={fx[i] ? "x" : null} />}
+              {last === i && <span className="ttlast" key={`l${i}-${msg}`} />}
             </div>
           ))}
         </div>
-        <div className="tthand me">{hands.me.map((c, k) => <Card key={k} c={c} owner="me" sel={sel === k} onClick={() => { if (turn === "me" && !result) { setSel(sel === k ? null : k); sfx.click(); } }} small />)}</div>
+        <div className="tthand me">{hands.me.map((id, k) => <Card key={k} c={byId[id]} owner="me" sel={sel === k} onClick={() => { if (turn === "me" && !end && !busy) { setSel(sel === k ? null : k); sfx.click(); } }} small />)}</div>
       </div>
       <p className="ttlog">{msg}</p>
-      {result && (
+      {end && (
         <div className="panel result">
-          <h2>{result === "w" ? "🏆 Bạn thắng!" : result === "l" ? "💀 Bạn thua…" : "🤝 Hòa!"}</h2>
-          <div className="score">{sc.me}<small> : {sc.foe}</small></div>
-          <div className="btnrow">
-            {result === "w" ? <button className="gbtn tri" onClick={onReward}><span className="c" />🎁 Chọn 1 thẻ của {g.op.char.vi}</button> : <button className="gbtn" onClick={onExit}><span className="c" />Về danh sách đối thủ</button>}
-          </div>
+          <h2>{end.result === "w" ? "🏆 Bạn thắng!" : end.result === "l" ? "💀 Bạn thua…" : "🤝 Hòa!"}</h2>
+          <div className="score">{end.score.me}<small> : {end.score.foe}</small></div>
+          <div className="btnrow"><button className="gbtn tri" onClick={() => onDone(end.data)}><span className="c" />{end.result === "w" ? `🎁 Chọn 1 thẻ của ${op.char.vi}` : "Về danh sách đối thủ"}</button></div>
         </div>
       )}
     </div>
   );
+}
+// trạng thái bàn trước các bước (để chạy lại hiệu ứng nước đi đầu tiên của máy)
+function undo(cells, steps) {
+  const n = cells.slice();
+  for (const st of [...steps].reverse()) { n[st.cell] = null; for (const f of st.flips) if (n[f.i]) n[f.i] = { ...n[f.i], owner: st.who === "me" ? "foe" : "me" }; }
+  return n;
 }

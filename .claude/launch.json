@@ -4,8 +4,20 @@
     {
       "name": "marugoto-dev",
       "runtimeExecutable": "npm.cmd",
-      "runtimeArgs": ["run", "dev"],
+      "runtimeArgs": [
+        "run",
+        "dev"
+      ],
       "port": 3000
+    },
+    {
+      "name": "marugoto-dev-mem",
+      "runtimeExecutable": "cmd.exe",
+      "runtimeArgs": [
+        "/c",
+        "set LB_MEMORY=1&& npm.cmd run dev -- -p 3002"
+      ],
+      "port": 3002
     }
   ]
 }
