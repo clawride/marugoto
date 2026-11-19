@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useGame } from "@/components/Game";
-import { charIcon } from "@/lib/genshin";
+import { charIcon, elemIcon } from "@/lib/genshin";
 import { ELEM } from "@/lib/data";
 import { RANKS, RANK_VI } from "@/lib/shikihime";
 import { buildDeck, power, RANK_ODDS, OPPONENTS, stageDeck, rankIdx } from "@/lib/shikiCards";
@@ -60,6 +60,7 @@ function CardGame({ S, toast, update }) {
   const actionLock = useRef(false);
   const [shuffling, setShuffling] = useState(false);
   const [poolOrder, setPoolOrder] = useState(null);
+  const [flt, setFlt] = useState({ set: "all", el: "all" }); // lọc Hộp bài: bộ thẻ + nguyên tố
   const [shufPick, setShufPick] = useState(null); // 5 lá vừa rút trong màn xáo bài
   const [rules, setRules] = useState({ open: true, same: false, plus: false, combo: false, elemental: false });
   const [reveal, setReveal] = useState(null);
@@ -174,7 +175,17 @@ function CardGame({ S, toast, update }) {
   const myDeck = (selectedDeck?.uid === profile.id ? selectedDeck.ids : P.deck).filter((id) => box[id] > 0).slice(0, 5);
   const setDeck = (ids) => setSelectedDeck({ uid: profile.id, ids });
   const unlocked = (op) => op.i === 0 || (beat[op.i - 1] || 0) > 0;
-  const pool = poolOrder ? [...owned].sort((a, b) => poolOrder.indexOf(a.id) - poolOrder.indexOf(b.id)) : owned;
+  const pass = (c) => (flt.set === "all" || (flt.set === "gi") === !!c.gi) && (flt.el === "all" || c.el === flt.el);
+  const view = owned.filter(pass);
+  const giOwned = owned.filter((c) => c.gi).length;
+  const filterBar = (
+    <div className="ttfilter">
+      {[["all", `Tất cả (${owned.length})`], ["gi", `⭐ Genshin (${giOwned})`], ["shiki", `式 Shikihime (${owned.length - giOwned})`]].map(([k, l]) => <button key={k} className={`chip dk ${flt.set === k ? "on" : ""}`} onClick={() => setFlt((x) => ({ ...x, set: k }))}>{l}</button>)}
+      <span style={{ width: 8 }} />
+      {["all", "pyro", "hydro", "anemo", "electro", "dendro", "cryo", "geo"].map((el) => <button key={el} className={`chip dk ${flt.el === el ? "on" : ""}`} onClick={() => setFlt((x) => ({ ...x, el }))} title={el === "all" ? "Mọi nguyên tố" : ELEM[el]?.vi}>{el === "all" ? "Mọi hệ" : <img src={elemIcon(el)} alt={ELEM[el]?.vi} style={{ width: 18, height: 18, verticalAlign: "middle" }} />}</button>)}
+    </div>
+  );
+  const pool = poolOrder ? [...view].sort((a, b) => poolOrder.indexOf(a.id) - poolOrder.indexOf(b.id)) : view;
   // Xáo cả Hộp bài rồi rút ngẫu nhiên 5 lá làm bộ bài
   const shuffleDeck = () => {
     if (busy || shuffling || owned.length < 5) return;
@@ -206,7 +217,8 @@ function CardGame({ S, toast, update }) {
       <div className="chips" style={{ justifyContent: "center" }}>{[["duel", "⚔️ Đấu bài"], ["box", "🗃️ Hộp bài"], ["odds", "🎲 Hạng thẻ"]].map(([k, l]) => <button key={k} className={`chip dk ${tab === k ? "on" : ""}`} onClick={() => setTab(k)}>{l}</button>)}</div>
       {tab === "odds" && <OddsTable deck={deck} />}
       {tab === "box" && <TradePanel deck={deck} box={box} busy={busy} onTrade={(r) => run("trade", { rank: r }, (j) => { sfx.win?.(); setTraded({ got: j.got, pay: j.traded }); })} />}
-      {tab === "box" && <div className="ttpool">{owned.map((c) => <div key={c.id} className="ttboxc"><Card c={c} owner="me" named />{box[c.id] > 1 && <span className="ttcount">×{box[c.id]}</span>}</div>)}</div>}
+      {tab === "box" && filterBar}
+      {tab === "box" && <div className="ttpool">{view.map((c) => <div key={c.id} className="ttboxc"><Card c={c} owner="me" named />{box[c.id] > 1 && <span className="ttcount">×{box[c.id]}</span>}</div>)}</div>}
       {tab === "duel" && (
         <>
           <h2 className="a22th"><span>1 · Bộ 5 thẻ của bạn</span> <small>{myDeck.length}/5 · bấm thẻ trong Hộp bài để thêm/bớt</small></h2>
@@ -225,6 +237,7 @@ function CardGame({ S, toast, update }) {
             </div>
           )}
           <p className="hint">Bấm thẻ để thêm vào bộ bài (bấm lần nữa để bỏ). Bộ bài được lưu khi bắt đầu trận.</p>
+          {filterBar}
           <div className={`ttpool ${shuffling ? "shuffling" : ""}`}>{pool.map((c, n) => { const i = myDeck.indexOf(c.id); return <div key={c.id} className={`ttpick ${i >= 0 ? "in" : ""}`} style={{ "--sx": ((n * 53) % 100) - 50, "--sy": ((n * 31) % 60) - 30, "--sr": ((n * 47) % 50) - 25, "--n": n }}><Card c={c} owner={i >= 0 ? "me" : null} badge={i >= 0 ? i + 1 : null} named onClick={() => toggle(c, i)} /></div>; })}</div>
           {owned.length < 5 && <p className="hint">Hộp bài cần ít nhất 5 thẻ.</p>}
           <details className="ttadv">

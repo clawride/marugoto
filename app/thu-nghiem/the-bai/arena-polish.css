@@ -147,6 +147,43 @@
 .arena.reg-fontaine .ar-petals i:not(:nth-child(3n)){background:radial-gradient(circle at 35% 30%,#fff,#8fd8ff 50%,rgba(40,140,220,.4));border-radius:50% 50% 50% 0;box-shadow:0 0 8px rgba(120,210,255,.8)}
 .arena.reg-sumeru .ar-petals i:not(:nth-child(3n)){background:linear-gradient(135deg,#d6ff9a,#5cb84a 60%,#2a7a2a)}
 
+/* ===== thẻ nhân vật Genshin: ảnh tràn khung, nền màu nguyên tố, hàng sao ===== */
+.tt .ttcard.gi{overflow:visible;background:radial-gradient(ellipse at 50% 30%,color-mix(in srgb,var(--ec,#888) 55%,#fff) 0%,color-mix(in srgb,var(--ec,#888) 70%,#1a1030) 55%,#120a24 100%)}
+.tt .ttcard.gi .ttart{inset:0;border-radius:inherit;overflow:hidden}
+.tt .ttcard.gi .ttart::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25),transparent 22%,transparent 70%,rgba(0,0,0,.45));pointer-events:none}
+.tt .ttcard.gi .ttportrait{object-fit:cover;object-position:50% 12%;transform:scale(1.04)}
+.tt .ttcard.gi.me{border-color:#5aa2ff}.tt .ttcard.gi.foe{border-color:#ff6b6b}
+.tt .ttstars{position:absolute;left:50%;bottom:2.5%;translate:-50% 0;z-index:3;font-size:8cqw;letter-spacing:-.05em;color:#ffd36b;text-shadow:0 0 2cqw rgba(0,0,0,.9),0 0 1px #000;white-space:nowrap}
+.tt .ttpool .ttcard.gi .ttstars,.tt .ttreveal .ttcard.gi .ttstars{bottom:11%}
+.tt .ttcard.gi.rk-S,.tt .ttcard.gi.rk-SR{border-color:#ffd36b}
+
+/* ===== hào quang thẻ hạng A / S / SR ===== */
+.tt .ttaura{position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:-1}
+/* A: hào quang tím nhấp nháy */
+.tt .ttcard.rk-A .ttaura{box-shadow:0 0 5cqw 1.2cqw rgba(170,110,255,.8),0 0 12cqw 2cqw rgba(120,70,220,.35)}
+/* S: vòng lửa vàng xoay + tia sáng bay lên · SR: vòng cầu vồng xoay + tia sáng nhiều màu */
+.tt .ttcard.rk-S .ttaura::before,.tt .ttcard.rk-SR .ttaura::before{content:"";position:absolute;inset:-6%;border-radius:12%;
+  background:conic-gradient(from 0deg,#ffd36b,#fff6d0,#ff9e2c,#ffd36b,#fff6d0,#ff9e2c,#ffd36b);filter:blur(2.4cqw);opacity:.9}
+.tt .ttcard.rk-SR .ttaura::before{inset:-8%;background:conic-gradient(from 0deg,#ff6fb5,#ffe17a,#6ff5c0,#6fb0ff,#c08bff,#ff6fb5);filter:blur(2.8cqw)}
+.tt .ttcard.rk-S .ttaura::after,.tt .ttcard.rk-SR .ttaura::after{content:"";position:absolute;left:-8%;right:-8%;top:-10%;bottom:-4%;
+  background:radial-gradient(circle,#fff 0 .9cqw,transparent 1.4cqw) 10% 100%/30% 34% repeat-x,radial-gradient(circle,#fff3c4 0 .7cqw,transparent 1.2cqw) 60% 100%/25% 41% repeat-x;opacity:0}
+.tt .ttcard.rk-SR .ttaura::after{background:radial-gradient(circle,#ffd0f0 0 .9cqw,transparent 1.4cqw) 10% 100%/30% 34% repeat-x,radial-gradient(circle,#c8fff0 0 .7cqw,transparent 1.2cqw) 60% 100%/25% 41% repeat-x}
+@media (prefers-reduced-motion:no-preference){
+  .tt .ttcard.rk-A .ttaura{animation:auraPulse 2.4s ease-in-out infinite}
+  .tt .ttcard.rk-S .ttaura::before{animation:auraSpin 5s linear infinite,auraPulse 2s ease-in-out infinite}
+  .tt .ttcard.rk-SR .ttaura::before{animation:auraSpin 3.2s linear infinite,auraPulse 1.6s ease-in-out infinite}
+  .tt .ttcard.rk-S .ttaura::after{animation:auraRise 2.6s linear infinite}
+  .tt .ttcard.rk-SR .ttaura::after{animation:auraRise 1.9s linear infinite}
+}
+@keyframes auraPulse{0%,100%{opacity:.55}50%{opacity:1}}
+@keyframes auraSpin{to{transform:rotate(360deg)}}
+@keyframes auraRise{0%{transform:translateY(8%);opacity:0}20%{opacity:.95}100%{transform:translateY(-22%);opacity:0}}
+/* thẻ nhỏ trên tay đối thủ và bàn mini: tắt tia sáng cho đỡ rối */
+.tt .arena .ar-foehand .ttaura::after,.tt .ttcard.sm .ttaura::after{display:none}
+
+/* ===== lọc Hộp bài ===== */
+.tt .ttfilter{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:6px 0 10px}
+
 /* ===== lượt rút thẻ do quản trị tặng ===== */
 .tt .ttdraws{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;max-width:560px;margin:8px auto;padding:10px 14px;border:1px solid #ffd36b;
   background:linear-gradient(90deg,rgba(255,211,107,.16),rgba(255,211,107,.04));box-shadow:0 0 18px rgba(255,211,107,.25)}

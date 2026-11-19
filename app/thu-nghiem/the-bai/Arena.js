@@ -11,7 +11,7 @@ import { opponentArt, opponentLine, reactionFor, EMOTE } from "@/lib/shikiDialog
 import { sfx } from "@/lib/sfx";
 import { speakAs, speakVi, stopVoice, unlockVoice, voiceOn, setVoiceOn, talkLang, setTalkLang } from "@/lib/shikiVoice";
 import { opponentLineVi } from "@/lib/shikiTauntVi";
-import { Card } from "./Card";
+import { Card, cardArt } from "./Card";
 import { REGION } from "./StageMap";
 import { api } from "./api";
 import "./arena.css";
@@ -500,7 +500,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
               <button key={i + "-" + (cell?.owner || "x")} type="button" className={`mc ${cell ? cell.owner : ""} ${last === i ? "last" : ""} ${fx[i] ? "fl" : ""}`}
                 onClick={() => { if (cell) { setZoom(i); sfx.page(); } }} aria-label={c ? `${c.name} · ${cell.owner === "me" ? "của bạn" : "của đối thủ"}` : "Ô trống"}>
                 {c ? <>
-                  <img className="pt" src={`/shiki-duel/${c.id}.webp`} alt="" draggable={false} />
+                  <img className="pt" src={cardArt(c)} alt="" draggable={false} />
                   {["t", "r", "b", "l"].map((k) => <i key={k} className={k}>{showNum(sideVal({ card: c }, m0.els[i], k))}</i>)}
                 </> : m0.els[i] ? <img className="el" src={elemIcon(m0.els[i])} alt="" draggable={false} /> : null}
               </button>
@@ -547,7 +547,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
         {cutCard && (
           <div key={"cut" + stepKey} className={`ar-cut ${step.who}`} style={{ "--ec": ELEM[cutCard.el]?.c || "#ffd36b" }} aria-hidden="true">
             <div className="band" /><div className="lines" />
-            <img src={`/shiki-duel/${cutCard.id}.webp`} alt="" draggable={false} />
+            <img src={cardArt(cutCard)} alt="" draggable={false} />
             <div className="skill"><b lang="ja">{skill[0]}</b><small>{cutCard.name} · {skill[1]}</small></div>
           </div>
         )}
