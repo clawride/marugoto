@@ -103,6 +103,19 @@ export default function HubView({ course }) {
                 </Link>
               );
             })}
+            {course.reviews?.filter((r) => r.after === T.topic).map((r) => {
+              return (
+                <Link key={`r${r.n}`} href={`${base}/review/${r.n}`} className="panel b1exam b1stest" onClick={() => sfx.open()}>
+                  <div className="seal">復</div>
+                  <div>
+                    <div className="tag">SÁCH BÀI TẬP · 標準問題集 · 復習</div>
+                    <h3>{r.title || `Ôn tập bài ${r.lessons}`} <small>{r.jp}</small></h3>
+                    <p>{r.desc || `Bài ôn tổng hợp các bài ${r.lessons}: ngữ pháp, từ vựng, cách nói, đọc hiểu — đủ dạng và số câu như trang ${r.page} của sách bài tập, có đáp án.`}</p>
+                    <div className="b1res">Mở bài ôn ›</div>
+                  </div>
+                </Link>
+              );
+            })}
             {course.sampleTests?.filter((b) => b.after === T.topic).map((b) => {
               const bt = S[store]?.stest?.[b.n];
               return (

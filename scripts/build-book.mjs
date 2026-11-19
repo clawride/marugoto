@@ -258,6 +258,13 @@ for (const f of fs.readdirSync(SRC).filter((f) => f.endsWith(".json"))) {
   }
 }
 
+// 復習 (bài ôn của sách bài tập, Minna 中級I…): data/book/extra/<khóa>-review<n>.json → public/book/<khóa>/review<n>.json (BookPart)
+for (const f of fs.readdirSync(path.join(SRC, "extra")).filter((f) => /^\w+-review\d+\.json$/.test(f))) {
+  const [, course, n] = f.match(/^(\w+)-review(\d+)\.json$/);
+  fs.mkdirSync(path.join(ROOT, "public", "book", course), { recursive: true });
+  fs.writeFileSync(path.join(ROOT, "public", "book", course, `review${n}.json`), JSON.stringify(JSON.parse(fs.readFileSync(path.join(SRC, "extra", f), "utf8"))));
+  console.log(f, "→", `public/book/${course}/review${n}.json`);
+}
 // テストの問題例 (中級1…): data/book/extra/<khóa>-stest<n>.json → public/book/<khóa>/stest<n>.json (components/course/SampleTest.js)
 for (const f of fs.readdirSync(path.join(SRC, "extra")).filter((f) => /^\w+-stest\d+\.json$/.test(f))) {
   const [, course, n] = f.match(/^(\w+)-stest(\d+)\.json$/);

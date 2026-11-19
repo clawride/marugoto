@@ -140,6 +140,14 @@ export const MNC1_COURSE = {
   audio: NO_AUDIO, audioSetups: [],
   Host: NaviaHost, Hero: NaviaHero, lines: NA, char: NAVIA, hostName: "Navia",
   exam: MNC1_EXAM,
+  // 復習 của sách bài tập 標準問題集 (app/mnc1/review/[n]) — hiện ở trang khóa học sau Topic "after"
+  reviews: [
+    { n: 1, after: 1, lessons: "1–3", jp: "復習 第1課～第3課", page: 13 },
+    { n: 2, after: 2, lessons: "4–6", jp: "復習 第4課～第6課", page: 29 },
+    { n: 3, after: 3, lessons: "7–9", jp: "復習 第7課～第9課", page: 45 },
+    { n: 4, after: 3, lessons: "10–12", jp: "復習 第10課～第12課", page: 61 },
+    { n: 5, after: 3, lessons: "1–12", jp: "総復習 第1課～第12課", page: 65, title: "Ôn tập tổng hợp cả sách", desc: "Bài kiểm tra tổng hợp 100 điểm cuối sách bài tập: từ vựng, ngữ pháp, cách nói, đọc hiểu của cả 12 bài — đủ dạng và số câu như trang 65 của sách bài tập, có đáp án." },
+  ],
   books: [{ key: "book", ico: "📖", short: "中級I", name: "Sách みんなの日本語 中級I 本冊", url: (n) => `/book/mnc1/${n}.json`, prefix: "#", dir: "mnc1", audioNote: " (lời thoại viết mới theo tình huống của sách)" }],
   extra: [],
 };

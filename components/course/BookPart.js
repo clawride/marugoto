@@ -412,7 +412,7 @@ export default function BookPart({ course, book: bk, lesson, stars, onQuiz }) {
     </aside>
     <div className="bkwrap">
       <div className="panel bkhead" id="bk-head" data-toc>
-        <div className="bkbook">{book.ico || "📖"} {book.name} · だい{B.lesson}か{B.page ? ` · sách tr.${B.page}` : ""}</div>
+        <div className="bkbook">{book.ico || "📖"} {book.name} · {B.label || `だい${B.lesson}か`}{B.page ? ` · sách tr.${B.page}` : ""}</div>
         <h2 className="jpt">{B.title.jp}</h2>
         {B.title.kana && <div className="bkkana jpt">{B.title.kana}</div>}
         <p>{B.title.ro && <i>{B.title.ro}</i>} {B.title.vi}</p>
