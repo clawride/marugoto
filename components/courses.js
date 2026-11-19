@@ -8,8 +8,9 @@ import { RaidenHost, RaidenHero, RD, RAIDEN } from "@/components/Raiden";
 import { MavuikaHost, MavuikaHero, MV, MAVUIKA } from "@/components/Mavuika";
 import { GanyuHost, GanyuHero, GY, GANYU } from "@/components/Ganyu";
 import { NeuvilletteHost, NeuvilletteHero, NV, NEUVILLETTE } from "@/components/Neuvillette";
+import { NaviaHost, NaviaHero, NA, NAVIA } from "@/components/Navia";
 import { AmberHost, AmberHero, AMB, AMBER } from "@/components/Amber";
-import { A22_EXAM, AB1_EXAM, A1_EXAM, A21_EXAM, B12_EXAM, MN2_EXAM, MN1_EXAM, MNC2_EXAM } from "@/components/examConfigs";
+import { A22_EXAM, AB1_EXAM, A1_EXAM, A21_EXAM, B12_EXAM, MN2_EXAM, MN1_EXAM, MNC2_EXAM, MNC1_EXAM } from "@/components/examConfigs";
 import { B11_AUDIO, A22_AUDIO, AB1_AUDIO, A1_AUDIO, A21_AUDIO, A21R_AUDIO, A21C_AUDIO, NO_AUDIO } from "@/lib/audioLib";
 import { A22 } from "@/lib/a22";
 import { AB1 } from "@/lib/ab1";
@@ -18,6 +19,7 @@ import { A21C } from "@/lib/a21";
 import { B12 } from "@/lib/b12";
 import { MN2 } from "@/lib/mn2";
 import { MNC2 } from "@/lib/mnc2";
+import { MNC1 } from "@/lib/mnc1";
 import { MN1 } from "@/lib/mn1";
 
 // lối vào Phiếu luyện viết Kanji của cấp (hiện ở trang tổng khóa học)
@@ -127,6 +129,18 @@ export const MN2_COURSE = {
   Host: GanyuHost, Hero: GanyuHero, lines: GY, char: GANYU, hostName: "Ganyu",
   exam: MN2_EXAM,
   books: [],
+  extra: [],
+};
+
+// Minna - Genshin Trung cấp 1 (みんなの日本語 中級I, bài 1–12): 3 Topic × 4 bài, 7 phần mỗi bài + "Học theo sách" dựng lại đủ
+// 読む・書く / 話す・聞く / 文法・練習 / 問題 của từng bài (nội dung viết mới theo sách). Không có audio → giọng máy.
+export const MNC1_COURSE = {
+  store: "mnc1", C: MNC1, base: "/mnc1", title: "Minna - Genshin Trung cấp 1", study: true,
+  unit: "Bài", unitTag: (L) => `TOPIC ${L.topic} · 第${L.lesson}課`,
+  audio: NO_AUDIO, audioSetups: [],
+  Host: NaviaHost, Hero: NaviaHero, lines: NA, char: NAVIA, hostName: "Navia",
+  exam: MNC1_EXAM,
+  books: [{ key: "book", ico: "📖", short: "中級I", name: "Sách みんなの日本語 中級I 本冊", url: (n) => `/book/mnc1/${n}.json`, prefix: "#", dir: "mnc1", audioNote: " (lời thoại viết mới theo tình huống của sách)" }],
   extra: [],
 };
 

@@ -164,12 +164,12 @@ function splitTopic(L) {
   ];
 }
 
-// Minna 中級II: mỗi bài một file data/book/mnc2/<bài>.json → gộp thành data/book/mnc2-katsudou.json
-{
-  const dir = path.join(SRC, "mnc2");
+// Minna 中級I/II: mỗi bài một file data/book/<mnc1|mnc2>/<bài>.json → gộp thành data/book/<khóa>-katsudou.json
+for (const c of ["mnc1", "mnc2"]) {
+  const dir = path.join(SRC, c);
   if (fs.existsSync(dir)) {
     const lessons = fs.readdirSync(dir).filter((f) => /^\d+\.json$/.test(f)).map((f) => JSON.parse(fs.readFileSync(path.join(dir, f), "utf8"))).sort((a, b) => a.lesson - b.lesson);
-    fs.writeFileSync(path.join(SRC, "mnc2-katsudou.json"), JSON.stringify({ lessons }));
+    if (lessons.length) fs.writeFileSync(path.join(SRC, `${c}-katsudou.json`), JSON.stringify({ lessons }));
   }
 }
 

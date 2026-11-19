@@ -33,6 +33,7 @@ const defaults = () => ({
   b12: {}, // Marugoto B1-2: { p, boss, ex }
   mn1: {}, // Minna - Genshin Sơ cấp 1: { p, boss, ex }
   mn2: {}, // Minna - Genshin Sơ cấp 2: { p, boss, ex }
+  mnc1: {}, // Minna - Genshin Trung cấp 1: { p, boss, ex }
   mnc2: {}, // Minna - Genshin Trung cấp 2: { p, boss, ex }
   vn: {}, // Truyện nhân vật: { [id]: { done: {chương: true}, chat: {chủ đề: true}, seen: {chương: [node]} } }
   kanji: {}, // Chữ Hán: { w: {chữ: điểm viết}, p: {"cấp-bài:phần" | "cấp:test": {pct, stars}} }

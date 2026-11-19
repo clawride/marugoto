@@ -8,6 +8,7 @@ import { RaidenHost, RD } from "@/components/Raiden";
 import { MavuikaHost, MV } from "@/components/Mavuika";
 import { GanyuHost, GY } from "@/components/Ganyu";
 import { NeuvilletteHost, NV } from "@/components/Neuvillette";
+import { NaviaHost, NA } from "@/components/Navia";
 import { AmberHost, AMB } from "@/components/Amber";
 import ScriptPlayer from "@/components/ScriptPlayer";
 import { Player, AudioSetup } from "@/components/Listen";
@@ -21,6 +22,7 @@ import { A21C } from "@/lib/a21";
 import { B12 } from "@/lib/b12";
 import { MN2 } from "@/lib/mn2";
 import { MNC2 } from "@/lib/mnc2";
+import { MNC1 } from "@/lib/mnc1";
 import { MN1 } from "@/lib/mn1";
 
 export const B1_EXAM = {
@@ -154,6 +156,23 @@ export const MN2_EXAM = {
   langHint: COURSE_LANG_HINT,
   renderListen: courseListen(NO_AUDIO),
   cert: { course: "Minna - Genshin 初級2", signer: "Ganyu", signerTitle: "Giám khảo · Thư ký Liên Nguyệt Các", seal: ["麒麟", "甘雨"], emblem: "cryo", tint: "#cfe8ff", emblemColor: "#1f5f9a", cornerColor: "#5aa6e0", sealColor: "#1f5f9a", filePrefix: "chung-chi-Minna2", line: "đã hoàn thành kỳ khảo hạch năng lực tiếng Nhật kiểu JLPT của khóa Minna - Genshin Sơ cấp 2 với kết quả:" },
+};
+
+// Minna - Genshin Trung cấp 1 (bài 1–12): không có audio sách → phần nghe dùng giọng máy
+export const MNC1_EXAM = {
+  store: "mnc1",
+  sections: EXAM_SECTIONS,
+  build: MNC1.buildExam,
+  pass: { total: 95, section: 19, excellent: 150, max: 180 },
+  reward: { pass: 1200, excellent: 600 },
+  certId: courseCertId("mnc1"),
+  home: "/mnc1", homeLabel: "Minna - Genshin Trung cấp 1", homeShort: "Về Minna Trung cấp 1",
+  certHref: (n) => `/mnc1/cert/${n}`, examHref: (n) => `/mnc1/exam/${n}`,
+  Host: NaviaHost, lines: NA, hostName: "Navia",
+  rows: [["言語知識", "10 câu từ vựng + 8 câu kanji + 12 câu điền từ"], ["読解", "3 bài đọc · câu hỏi đọc hiểu"], ["聴解", "6 bài nghe hội thoại (giọng máy) · mỗi bài nghe tối đa 2 lần"]],
+  langHint: COURSE_LANG_HINT,
+  renderListen: courseListen(NO_AUDIO),
+  cert: { course: "Minna - Genshin 中級I", signer: "Navia", signerTitle: "Giám khảo · Chủ tịch Spina di Rosula", seal: ["薔薇", "棘"], emblem: "geo", tint: "#ffe6a8", emblemColor: "#8a5a12", cornerColor: "#e0a83a", sealColor: "#9a5a1a", filePrefix: "chung-chi-MinnaTC1", line: "đã hoàn thành kỳ khảo hạch năng lực tiếng Nhật kiểu JLPT của khóa Minna - Genshin Trung cấp 1 với kết quả:" },
 };
 
 // Minna - Genshin Trung cấp 2 (bài 13–24): không có audio sách → phần nghe dùng giọng máy

@@ -10,7 +10,7 @@ import { sfx } from "@/lib/sfx";
 
 const ROMAN = ["", "I", "II", "III"];
 // Huy hiệu chứng chỉ bên cạnh tên: "1".."3" = B1-1, "A1"/"A2" = A2-2, "C1"/"C2" = A2/B1, "E" = A1, "D" = A2-1, "F" = B1-2; "*" = Xuất sắc
-const CERT_KIND = { A: { cls: "a22", name: "A2-2", ico: "🌱A2-2·" }, C: { cls: "ab1", name: "A2/B1", ico: "🌊A2/B1·" }, E: { cls: "a1", name: "A1", ico: "🍃A1·" }, D: { cls: "a21", name: "A2-1", ico: "⚡A2-1·" }, F: { cls: "b12", name: "B1-2", ico: "🔥B1-2·" }, H: { cls: "mn1", name: "Minna-Genshin 1", ico: "🔥Minna-GI1·" }, I: { cls: "mnc2", name: "Minna-Genshin TC2", ico: "⚖️Minna-TC2·" }, G: { cls: "mn2", name: "Minna-Genshin 2", ico: "❄️Minna-GI·" } };
+const CERT_KIND = { A: { cls: "a22", name: "A2-2", ico: "🌱A2-2·" }, C: { cls: "ab1", name: "A2/B1", ico: "🌊A2/B1·" }, E: { cls: "a1", name: "A1", ico: "🍃A1·" }, D: { cls: "a21", name: "A2-1", ico: "⚡A2-1·" }, F: { cls: "b12", name: "B1-2", ico: "🔥B1-2·" }, H: { cls: "mn1", name: "Minna-Genshin 1", ico: "🔥Minna-GI1·" }, I: { cls: "mnc2", name: "Minna-Genshin TC2", ico: "⚖️Minna-TC2·" }, J: { cls: "mnc1", name: "Minna-Genshin TC1", ico: "🌹Minna-TC1·" }, G: { cls: "mn2", name: "Minna-Genshin 2", ico: "❄️Minna-GI·" } };
 function Certs({ c }) {
   if (!c) return null;
   return <span className="certbadges">{c.split(",").filter(Boolean).map((x) => {
