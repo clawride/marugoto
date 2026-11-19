@@ -43,6 +43,7 @@ export default function CardGamePage() {
   const [reveal, setReveal] = useState(null);
   const [live, setLive] = useState(null); // { steps, first } của lệnh start
   const [lostNote, setLostNote] = useState(null); // { id, why } lá vừa bị lấy
+  const [traded, setTraded] = useState(null); // { got, pay } vừa đổi bài
   const profile = S?.profile;
   useEffect(() => { try { const r = JSON.parse(localStorage.getItem(LS) || "null"); if (r) setRules(r); } catch {} }, []);
   useEffect(() => { if (profile?.id) api(profile, "state").then(setP).catch((e) => setErr(e.message)); }, [profile?.id]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -70,6 +71,16 @@ export default function CardGamePage() {
       <p style={{ textAlign: "center" }}>Mỗi tài khoản được rút <b>1 lần</b> 5 thẻ khởi đầu (5 thẻ khác nhau). Thẻ càng tốt càng hiếm. Sau đó đấu với các nhân vật Genshin — thắng thì được chọn lấy 1 thẻ của họ.</p>
       <OddsTable deck={deck} />
       <div className="btnrow"><button className="gbtn tri" disabled={busy} onClick={() => run("starter", {}, (j) => { sfx.open(); setReveal(j.drawn); })}><span className="c" />🎴 Rút 5 thẻ khởi đầu</button></div>
+    </div>
+  );
+
+  // ——— vừa đổi bài ———
+  if (traded) return (
+    <div className="tt">
+      <div className="pagehead"><h1>✨ Đổi bài thành công</h1><p>5 lá trùng hạng {byId[traded.pay[0]]?.rank} → 1 lá hạng {byId[traded.got]?.rank}</p></div>
+      <div className="ttreveal one"><div className="ttrv"><Card c={byId[traded.got]} owner="me" named /><small>{P.box[traded.got] > 1 ? `Đang có ${P.box[traded.got]} lá` : "Thẻ mới!"}</small></div></div>
+      <div className="ttpaid">{traded.pay.map((id, k) => <span key={k} className={`ttrk r-${byId[id]?.rank}`} title={byId[id]?.name}>−1 {byId[id]?.name}</span>)}</div>
+      <div className="btnrow"><button className="gbtn tri" onClick={() => setTraded(null)}><span className="c" />Về Hộp bài</button></div>
     </div>
   );
 
@@ -101,6 +112,7 @@ export default function CardGamePage() {
       <div className="ttrec">Hộp bài: <b>{owned.length}</b>/{deck.length} loại · {rec.w} thắng · {rec.d} hòa · {rec.l} thua</div>
       <div className="chips" style={{ justifyContent: "center" }}>{[["duel", "⚔️ Đấu bài"], ["box", "🗃️ Hộp bài"], ["odds", "🎲 Hạng thẻ"]].map(([k, l]) => <button key={k} className={`chip dk ${tab === k ? "on" : ""}`} onClick={() => setTab(k)}>{l}</button>)}</div>
       {tab === "odds" && <OddsTable deck={deck} />}
+      {tab === "box" && <TradePanel deck={deck} box={box} busy={busy} onTrade={(r) => run("trade", { rank: r }, (j) => { sfx.win?.(); setTraded({ got: j.got, pay: j.traded }); })} />}
       {tab === "box" && <div className="ttpool">{owned.map((c) => <div key={c.id} className="ttboxc"><Card c={c} owner="me" named />{box[c.id] > 1 && <span className="ttcount">×{box[c.id]}</span>}</div>)}</div>}
       {tab === "duel" && (
         <>
@@ -127,6 +139,23 @@ export default function CardGamePage() {
           </div>
         </>
       )}
+    </div>
+  );
+}
+
+// Đổi 5 lá trùng (bản thừa) cùng hạng → 1 lá ngẫu nhiên hạng kế trên (máy chủ xử lý)
+function TradePanel({ deck, box, busy, onTrade }) {
+  const rows = RANKS.slice(0, -1).map((r, i) => ({ r, next: RANKS[i + 1], n: deck.filter((c) => c.rank === r).reduce((a, c) => a + Math.max(0, (box[c.id] || 0) - 1), 0) }));
+  return (
+    <div className="panel ttodds">
+      <h3>✨ Đổi bài</h3>
+      <p className="hint">5 lá trùng cùng hạng đổi lấy 1 lá ngẫu nhiên hạng kế trên. Lá trùng = bản thứ 2 trở đi của một thẻ (luôn giữ lại 1 bản mỗi thẻ). Thẻ yếu được dùng trước.</p>
+      <div className="tttrade">{rows.map(({ r, next, n }) => (
+        <div key={r} className={`tttr ${n >= 5 ? "ok" : ""}`}>
+          <span className={`ttrk r-${r}`}>{r}</span><small>{n} lá trùng</small>
+          <button className="chip dk" disabled={busy || n < 5} onClick={() => { if (confirm(`Đổi 5 lá trùng hạng ${r} lấy 1 lá ngẫu nhiên hạng ${next}?`)) onTrade(r); }}>Đổi 5 → 1 <span className={`ttrk r-${next}`}>{next}</span></button>
+        </div>
+      ))}</div>
     </div>
   );
 }

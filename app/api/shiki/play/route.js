@@ -7,12 +7,14 @@
 //   start  { op, rules }        → bắt đầu trận với đối thủ op (đã mở khóa)
 //   move   { hand, cell }       → đặt thẻ thứ hand trên tay vào ô cell; máy chủ đi tiếp nước của đối thủ
 //   claim  { card }             → thắng xong chọn 1 thẻ của đối thủ
+//   trade  { rank }             → đổi 5 lá TRÙNG (bản thừa, giữ lại 1 bản mỗi thẻ) cùng hạng lấy 1 lá ngẫu nhiên hạng kế trên
 //   forfeit                     → bỏ trận (tính thua, bị lấy 1 lá ngẫu nhiên)
 // Luật phạt: THUA trận → mất 1 lá hạng cao nhất trong Hộp bài · BỎ trận → mất 1 lá ngẫu nhiên · hòa không mất.
 // Không lấy lá nếu Hộp bài sẽ còn dưới 5 loại thẻ (để luôn đủ bộ bài đấu tiếp).
 import { store, auth } from "@/lib/store";
 import { normalizeShiki } from "@/lib/shikihime";
 import { buildDeck, drawCards, OPPONENTS, oppDeck, makeBoard, place, aiMove, score, power, rankIdx } from "@/lib/shikiCards";
+import { RANKS } from "@/lib/shikihime";
 
 export const dynamic = "force-dynamic";
 const H = { headers: { "Cache-Control": "no-store" } };
@@ -148,6 +150,25 @@ export async function POST(req) {
       d.box[id] = (d.box[id] || 0) + 1; d.pending = null;
       await save(u.id, d);
       return pub(d, { got: id });
+    }
+
+    case "trade": {
+      if (d.match) return bad("Đang có trận dở — đấu xong rồi hãy đổi bài");
+      const r = String(b.rank), ri = RANKS.indexOf(r);
+      if (ri < 0) return bad("Hạng không hợp lệ");
+      if (ri >= RANKS.length - 1) return bad("Hạng SR là cao nhất, không đổi lên được");
+      // bản thừa của các thẻ hạng r, ưu tiên dùng thẻ yếu trước
+      const spares = Object.keys(d.box).filter((id) => byId[id]?.rank === r && d.box[id] > 1).sort((a, c) => power(byId[a]) - power(byId[c]));
+      const pay = [];
+      for (const id of spares) for (let k = 1; k < d.box[id] && pay.length < 5; k++) pay.push(id);
+      if (pay.length < 5) return bad(`Cần 5 lá trùng hạng ${r} (đang có ${pay.length})`);
+      const next = RANKS[ri + 1], pool = deck.filter((c) => c.rank === next);
+      if (!pool.length) return bad("Chưa có thẻ ở hạng kế trên");
+      for (const id of pay) d.box[id]--;
+      const got = pool[Math.floor(Math.random() * pool.length)].id;
+      d.box[got] = (d.box[got] || 0) + 1;
+      await save(u.id, d);
+      return pub(d, { traded: pay, got });
     }
 
     case "forfeit": {
