@@ -70,26 +70,26 @@ export default function CardGamePage() {
         <button className="gbtn tri" disabled={hand.length !== 5} onClick={start}><span className="c" />Vào trận</button>
       </div>
       <div className="ttpool">
-        {deck.slice().sort((a, b) => power(b) - power(a)).map((c) => <Card key={c.id} c={c} owner={pick.includes(c.id) ? "me" : null} onClick={() => { toggle(c.id); sfx.click(); }} badge={pick.indexOf(c.id) + 1 || null} />)}
+        {deck.slice().sort((a, b) => power(b) - power(a)).map((c) => <Card key={c.id} c={c} owner={pick.includes(c.id) ? "me" : null} onClick={() => { toggle(c.id); sfx.click(); }} badge={pick.indexOf(c.id) + 1 || null} named />)}
       </div>
     </div>
   );
 }
 
 // Một lá thẻ: ảnh, 4 số ở góc trái trên (trên, trái, phải, dưới), biểu tượng nguyên tố
-export function Card({ c, owner, onClick, back, sel, badge, el, flip, small }) {
+export function Card({ c, owner, onClick, back, sel, badge, el, flip, small, named }) {
   if (back) return <div className={`ttcard back ${small ? "sm" : ""}`}><span>式</span></div>;
   const v = (k) => (el !== undefined ? sideVal({ card: c }, el, k) : c.n[k]);
   const d = (k) => (el ? v(k) - c.n[k] : 0);
   return (
     <button type="button" className={`ttcard ${owner || ""} ${sel ? "sel" : ""} ${flip ? `flip f${flip}` : ""} ${small ? "sm" : ""}`} onClick={onClick} style={{ "--ec": ELEM[c.el]?.c }} title={`${c.name} · ${c.ro}`}>
-      <img className="ttimg" src={c.img} alt={c.ro} loading="lazy" referrerPolicy="no-referrer" />
-      <div className="ttnums">
-        {[["t", "nt"], ["l", "nl"], ["r", "nr"], ["b", "nb"]].map(([k, cls]) => <b key={k} className={`${cls} ${d(k) > 0 ? "up" : d(k) < 0 ? "down" : ""}`}>{showNum(v(k))}</b>)}
-      </div>
+      {/* vùng nhân vật của ảnh thẻ (27%–82% bề ngang ảnh gốc, đủ chiều cao) — hiện trọn, không cắt */}
+      <div className="ttart" role="img" aria-label={c.ro} style={{ backgroundImage: `url(${c.img})` }} />
+      {[["t", "nt"], ["r", "nr"], ["b", "nb"], ["l", "nl"]].map(([k, cls]) => <b key={k} className={`ttn ${cls} ${d(k) > 0 ? "up" : d(k) < 0 ? "down" : ""}`}>{showNum(v(k))}</b>)}
       <img className="ttel" src={elemIcon(c.el)} alt="" />
-      <div className="ttname"><span className="jpt">{c.name}</span><small>{CLASSES[c.cls].ico}</small></div>
+      <span className="ttcls">{CLASSES[c.cls].ico}</span>
       {badge && <span className="ttbadge">{badge}</span>}
+      {named && <span className="ttname jpt">{c.name}</span>}
     </button>
   );
 }

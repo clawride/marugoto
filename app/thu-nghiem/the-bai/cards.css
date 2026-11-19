@@ -8,28 +8,27 @@
 .tt .ttrule small{opacity:.75;font-size:12px}
 .tt .ttpool{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:10px}
 
-/* lá thẻ */
-.tt .ttcard{position:relative;display:block;width:100%;aspect-ratio:3/4;padding:0;border-radius:9px;overflow:hidden;cursor:pointer;border:3px solid #8a8fa8;background:#1b2034;color:#fff;box-shadow:0 4px 10px rgba(0,0,0,.4);transition:transform .15s,box-shadow .15s}
-.tt .ttcard.me{border-color:#4f8dff;background:linear-gradient(160deg,#2c4f9a,#16264d)}
-.tt .ttcard.foe{border-color:#ff5a5a;background:linear-gradient(160deg,#9a2c2c,#4d1616)}
+/* lá thẻ — số to ở giữa 4 cạnh, font kiểu bài Tây */
+.tt .ttcard{position:relative;display:block;width:100%;aspect-ratio:3/4;padding:0;border-radius:8%/6%;overflow:hidden;cursor:pointer;border:3px solid #8a8fa8;background:#fdf8ec;color:#1a1a1a;box-shadow:0 4px 10px rgba(0,0,0,.45);transition:transform .15s,box-shadow .15s;container-type:inline-size}
+.tt .ttcard.me{border-color:#2f6fe0;background:linear-gradient(180deg,#dfe9ff,#fdf8ec 22%,#fdf8ec 78%,#dfe9ff)}
+.tt .ttcard.foe{border-color:#d63b3b;background:linear-gradient(180deg,#ffe0e0,#fdf8ec 22%,#fdf8ec 78%,#ffe0e0)}
 .tt .ttcard.sel{transform:translateY(-8px) scale(1.04);box-shadow:0 0 0 3px #ffd36b,0 10px 18px rgba(0,0,0,.5)}
 .tt button.ttcard:hover{transform:translateY(-3px)}
-.tt .ttimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:46% 30%;opacity:1}
-.tt .ttcard.me .ttimg,.tt .ttcard.foe .ttimg{mix-blend-mode:normal}
-.tt .ttcard::after{content:"";position:absolute;inset:0;pointer-events:none}
-.tt .ttcard.me::after{background:linear-gradient(180deg,rgba(40,90,220,.0) 55%,rgba(30,70,200,.55))}
-.tt .ttcard.foe::after{background:linear-gradient(180deg,rgba(220,40,40,.0) 55%,rgba(200,30,30,.55))}
-.tt .ttnums{position:absolute;left:4px;top:4px;width:44%;aspect-ratio:1;z-index:2;font-weight:900;font-size:clamp(11px,1.9vw,17px);line-height:1;text-shadow:0 0 3px #000,0 0 2px #000,1px 1px 0 #000}
-.tt .ttcard.sm .ttnums{font-size:clamp(10px,1.6vw,15px)}
-.tt .ttnums b{position:absolute;transform:translate(-50%,-50%)}
-.tt .ttnums .nt{left:50%;top:16%}.tt .ttnums .nb{left:50%;top:84%}.tt .ttnums .nl{left:16%;top:50%}.tt .ttnums .nr{left:84%;top:50%}
-.tt .ttnums b.up{color:#8dff8d}.tt .ttnums b.down{color:#ff9a9a}
-.tt .ttel{position:absolute;right:4px;top:4px;width:22%;z-index:2;filter:drop-shadow(0 0 2px #000)}
-.tt .ttname{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:2px 5px;font-size:11px;display:flex;justify-content:space-between;background:rgba(0,0,0,.45)}
-.tt .ttbadge{position:absolute;right:4px;bottom:22px;z-index:3;background:#ffd36b;color:#222;font-weight:800;border-radius:50%;width:20px;height:20px;display:grid;place-items:center;font-size:12px}
+/* ảnh: phóng 181.8% để vùng 27%–82% của ảnh vừa khít bề ngang lá bài; còn lề trên/dưới cho số */
+.tt .ttart{position:absolute;inset:0;background-repeat:no-repeat;background-size:181.8% auto;background-position:60% 50%}
+.tt .ttn{position:absolute;z-index:2;font-family:"Times New Roman","Georgia",Cambria,"Noto Serif",serif;font-weight:700;font-size:23cqw;line-height:1;color:#111;text-shadow:0 0 3px #fff,0 0 6px #fff,0 0 2px #fff;transform:translate(-50%,-50%)}
+.tt .ttcard.me .ttn{color:#123a8f}
+.tt .ttcard.foe .ttn{color:#a50f0f}
+.tt .ttn.nt{left:50%;top:10%}.tt .ttn.nb{left:50%;top:90%}.tt .ttn.nl{left:11%;top:50%}.tt .ttn.nr{left:89%;top:50%}
+.tt .ttn.up{color:#0d7a2a !important}.tt .ttn.down{color:#c2410c !important}
+.tt .ttel{position:absolute;right:4%;top:3%;width:15cqw;z-index:3;filter:drop-shadow(0 0 2px #fff)}
+.tt .ttcls{position:absolute;left:4%;top:3%;z-index:3;font-size:11cqw;filter:drop-shadow(0 0 2px #fff)}
+.tt .ttname{position:absolute;left:0;right:0;bottom:-1px;z-index:3;font-size:9cqw;text-align:center;background:rgba(255,255,255,.75);color:#222;padding:1px 2px;display:none}
+.tt .ttpool .ttname{display:block}
+.tt .ttpool .ttn.nb{top:84%}
+.tt .ttbadge{position:absolute;right:4%;bottom:12%;z-index:4;background:#ffd36b;color:#222;font-weight:800;border-radius:50%;width:18cqw;height:18cqw;display:grid;place-items:center;font-size:11cqw}
 .tt .ttcard.back{display:grid;place-items:center;border-color:#c9a14a;background:repeating-linear-gradient(45deg,#3a2a14 0 6px,#2a1d0c 6px 12px);cursor:default}
-.tt .ttcard.back span{font-size:28px;color:#e8c46a;font-family:var(--jp);text-shadow:0 0 8px #000}
-/* lật thẻ */
+.tt .ttcard.back span{font-size:34cqw;color:#e8c46a;font-family:var(--jp);text-shadow:0 0 8px #000}
 .tt .ttcard.flip{animation:ttflip .5s ease-out}
 @keyframes ttflip{0%{transform:rotateY(0)}50%{transform:rotateY(90deg)}100%{transform:rotateY(0)}}
 
