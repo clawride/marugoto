@@ -7,6 +7,7 @@ import { hashPassword } from "@/lib/password";
 import { ALL_BOARDS, boardLabel } from "@/lib/boards";
 import { dayStartVN } from "@/lib/chat";
 import { normalizeShiki } from "@/lib/shikihime";
+import { dropShikiConfigCache } from "@/lib/shikiConfig";
 
 export const dynamic = "force-dynamic";
 const NOPE = () => new Response("Not found", { status: 404, headers: { "Cache-Control": "no-store" } });
@@ -119,6 +120,7 @@ export async function POST(req) {
     case "setShiki": {
       const v = normalizeShiki(b.shiki);
       await store.setSetting("shiki", v);
+      dropShikiConfigCache();
       await log("set-shiki", null, { cards: Object.keys(v.cards).length, weapons: Object.keys(v.weapons).length });
       return ok({ shiki: v });
     }

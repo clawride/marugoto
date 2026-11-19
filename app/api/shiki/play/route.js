@@ -12,8 +12,8 @@
 // Luật phạt: THUA trận → mất 1 lá hạng cao nhất trong Hộp bài · BỎ trận → mất 1 lá ngẫu nhiên · hòa không mất.
 // Không lấy lá nếu Hộp bài sẽ còn dưới 5 loại thẻ (để luôn đủ bộ bài đấu tiếp).
 import { store, auth } from "@/lib/store";
-import { normalizeShiki } from "@/lib/shikihime";
-import { buildDeck, drawCards, OPPONENTS, oppDeck, makeBoard, place, aiMove, score, power, rankIdx } from "@/lib/shikiCards";
+import { getShikiConfig } from "@/lib/shikiConfig";
+import { drawCards, OPPONENTS, oppDeck, makeBoard, place, aiMove, score, power, rankIdx } from "@/lib/shikiCards";
 import { RANKS } from "@/lib/shikihime";
 
 export const dynamic = "force-dynamic";
@@ -26,7 +26,6 @@ async function load(uid) {
   const d = (await store.getKV(keyOf(uid))) || {};
   return { box: d.box || {}, starter: d.starter || null, deck: d.deck || [], beat: d.beat || {}, rec: d.rec || { w: 0, l: 0, d: 0 }, match: d.match || null, pending: d.pending || null };
 }
-const save = (uid, d) => store.setKV(keyOf(uid), d);
 // Lấy 1 lá khỏi Hộp bài theo cách chọn ("best" = hạng cao nhất, mạnh nhất · "random") → id thẻ bị lấy, hoặc null nếu được bảo vệ
 const MIN_KINDS = 5;
 function takeCard(d, byId, how) {
@@ -74,30 +73,44 @@ function aiStep(m, byId, level) {
 }
 
 export async function POST(req) {
+  const started = performance.now();
+  const timings = [];
+  async function timed(name, operation) {
+    const start = performance.now();
+    try { return await operation(); }
+    finally { timings.push(`${name};dur=${(performance.now() - start).toFixed(1)}`); }
+  }
+  const response = await handleAction(req, timed);
+  timings.unshift(`shiki;dur=${(performance.now() - started).toFixed(1)}`);
+  response.headers.set("Server-Timing", timings.join(", "));
+  return response;
+}
+
+async function handleAction(req, timed) {
   if (!store) return bad("Chưa cấu hình máy chủ", 503);
   const b = await req.json().catch(() => ({}));
-  const u = await auth(b.id, b.token);
+  const u = await timed("auth", () => auth(b.id, b.token));
   if (!u) return bad("Cần đăng nhập để chơi Đấu thẻ", 401);
-  const cfg = normalizeShiki((await store.getSettings()).shiki);
-  const deck = buildDeck(cfg), byId = Object.fromEntries(deck.map((c) => [c.id, c]));
-  const d = await load(u.id);
+  // State reads do not need card configuration. Independent reads run together.
+  const player = timed("read", () => load(u.id));
+  if (b.action === "state") return pub(await player);
+  const [d, { deck, byId }] = await Promise.all([player, timed("config", getShikiConfig)]);
+  const save = () => timed("write", () => store.setKV(keyOf(u.id), d));
 
   switch (b.action) {
-    case "state": return pub(d);
-
     case "starter": {
       if (d.starter) return bad("Tài khoản đã rút bài khởi đầu");
       const got = drawCards(deck, 5);
       for (const c of got) d.box[c.id] = (d.box[c.id] || 0) + 1;
       d.starter = got.map((c) => c.id); d.deck = d.starter.slice();
-      await save(u.id, d);
+      await save();
       return pub(d, { drawn: d.starter });
     }
 
     case "deck": {
       const ids = Array.isArray(b.deck) ? [...new Set(b.deck.map(String))].slice(0, 5) : [];
       if (ids.some((id) => !(d.box[id] > 0))) return bad("Chỉ chọn được thẻ có trong Hộp bài");
-      d.deck = ids; await save(u.id, d);
+      d.deck = ids; await save();
       return pub(d);
     }
 
@@ -107,7 +120,10 @@ export async function POST(req) {
       const op = OPPONENTS[Number(b.op)];
       if (!op) return bad("Không có đối thủ này");
       if (op.i > 0 && !(d.beat[op.i - 1] > 0)) return bad("Đối thủ này chưa mở khóa");
-      const mine = d.deck.filter((id) => d.box[id] > 0 && byId[id]);
+      // Save the selected deck with the match, instead of one write per click.
+      const selected = b.deck === undefined ? d.deck : b.deck;
+      if (!Array.isArray(selected) || selected.length !== 5) return bad("Cần đủ 5 thẻ trong bộ bài");
+      const mine = selected.map(String).filter((id) => d.box[id] > 0 && byId[id]);
       if (new Set(mine).size !== 5) return bad("Cần đủ 5 thẻ trong bộ bài");
       const rules = Object.fromEntries(RULE_KEYS.map((k) => [k, b.rules?.[k] === true]));
       const bd = makeBoard(rules);
@@ -115,7 +131,8 @@ export async function POST(req) {
       m.foeAll = m.hands.foe.slice();
       const steps = [];
       if (m.turn === "foe") steps.push(aiStep(m, byId, op.ai));
-      d.match = m; await save(u.id, d);
+      d.deck = mine.slice();
+      d.match = m; await save();
       return pub(d, { steps, first: steps.length ? "foe" : "me" });
     }
 
@@ -139,7 +156,10 @@ export async function POST(req) {
         d.last = { match: view(m), result, score: sc };
         d.match = null;
       }
-      await save(u.id, d);
+      await save();
+      if (!result && b.compact === true) {
+        return Response.json({ match: view(m), steps }, H);
+      }
       return pub(d, { steps, result, lost, final: result ? d.last.match : undefined, score: result ? d.last.score : undefined });
     }
 
@@ -148,7 +168,7 @@ export async function POST(req) {
       const id = String(b.card);
       if (!d.pending.cards.includes(id)) return bad("Thẻ này không thuộc bộ bài của đối thủ");
       d.box[id] = (d.box[id] || 0) + 1; d.pending = null;
-      await save(u.id, d);
+      await save();
       return pub(d, { got: id });
     }
 
@@ -167,13 +187,13 @@ export async function POST(req) {
       for (const id of pay) d.box[id]--;
       const got = pool[Math.floor(Math.random() * pool.length)].id;
       d.box[got] = (d.box[got] || 0) + 1;
-      await save(u.id, d);
+      await save();
       return pub(d, { traded: pay, got });
     }
 
     case "forfeit": {
       let lost = null;
-      if (d.match) { d.rec.l++; d.match = null; lost = takeCard(d, byId, "random"); await save(u.id, d); }
+      if (d.match) { d.rec.l++; d.match = null; lost = takeCard(d, byId, "random"); await save(); }
       return pub(d, { lost });
     }
     default: return bad("Thao tác không hợp lệ");

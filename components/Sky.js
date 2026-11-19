@@ -1,15 +1,17 @@
 "use client";
 import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import { useUITheme } from "@/lib/uiTheme";
 
 // Nền trời sao + đốm sáng vàng trôi nhẹ
 export default function Sky() {
   const ref = useRef(null);
+  const cardGame = usePathname() === "/thu-nghiem/the-bai";
   const ui = useUITheme(); // giao diện cơ bản: không vẽ nền trời sao
   useEffect(() => {
     if (ui === "plain" || !ref.current) return;
     const cv = ref.current, g = cv.getContext("2d");
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduce = cardGame || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let w, h, raf;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const stars = [], motes = [];
@@ -40,7 +42,7 @@ export default function Sky() {
     raf = requestAnimationFrame(draw);
     addEventListener("resize", resize);
     return () => { cancelAnimationFrame(raf); removeEventListener("resize", resize); };
-  }, [ui]);
+  }, [ui, cardGame]);
   if (ui === "plain") return null;
   return <canvas ref={ref} className="sky" aria-hidden="true" />;
 }

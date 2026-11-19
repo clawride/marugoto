@@ -2,7 +2,7 @@
 // 🧪 Đấu thẻ Shikihime (thử nghiệm) — luật kiểu thẻ bài 3×3 (lib/shikiCards.js)
 // MÁY CHỦ quyết định mọi thứ (app/api/shiki/play): rút khởi đầu, Hộp bài, chia bài đối thủ, từng nước đi + nước của máy, kết quả, thẻ thưởng.
 // Trang này chỉ gửi lệnh rồi hiển thị (kèm hiệu ứng từng bước). Cần đăng nhập (dữ liệu lưu theo tài khoản trên máy chủ).
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useGame } from "@/components/Game";
 import { ELEM } from "@/lib/data";
@@ -31,27 +31,39 @@ async function api(profile, action, body = {}) {
 
 export default function CardGamePage() {
   const { S, toast } = useGame();
+  return <CardGame key={S?.profile?.id || "guest"} S={S} toast={toast} />;
+}
+
+function CardGame({ S, toast }) {
+  const profile = S?.profile;
   const [cfg, setCfg] = useState(null);
-  useEffect(() => { fetch("/api/shiki").then((r) => (r.ok ? r.json() : {})).catch(() => ({})).then(setCfg); }, []);
-  const deck = useMemo(() => buildDeck(cfg), [cfg]);
+  useEffect(() => {
+    if (profile?.id) fetch("/api/shiki").then((r) => (r.ok ? r.json() : {})).catch(() => ({})).then(setCfg);
+  }, [profile?.id]);
+  const deck = useMemo(() => cfg ? buildDeck(cfg) : [], [cfg]);
   const byId = useMemo(() => Object.fromEntries(deck.map((c) => [c.id, c])), [deck]);
   const [P, setP] = useState(null); // dữ liệu người chơi từ máy chủ
   const [err, setErr] = useState("");
   const [busy, setBusy] = useState(false);
   const [tab, setTab] = useState("duel");
+  const [selectedDeck, setSelectedDeck] = useState(null);
+  const actionLock = useRef(false);
   const [rules, setRules] = useState({ open: true, same: false, plus: false, combo: false, elemental: false });
   const [reveal, setReveal] = useState(null);
   const [live, setLive] = useState(null); // { steps, first } của lệnh start
   const [lostNote, setLostNote] = useState(null); // { id, why } lá vừa bị lấy
   const [traded, setTraded] = useState(null); // { got, pay } vừa đổi bài
-  const profile = S?.profile;
+  const showOpponents = Boolean(cfg && P?.starter && !P.match && !P.pending && !reveal && !traded && tab === "duel");
+  const opponentDecks = useMemo(() => showOpponents ? OPPONENTS.map((op) => oppDeck(op, deck)) : [], [showOpponents, deck]);
   useEffect(() => { try { const r = JSON.parse(localStorage.getItem(LS) || "null"); if (r) setRules(r); } catch {} }, []);
   useEffect(() => { if (profile?.id) api(profile, "state").then(setP).catch((e) => setErr(e.message)); }, [profile?.id]); // eslint-disable-line react-hooks/exhaustive-deps
   if (!S) return null;
   const run = async (action, body, after) => {
+    if (actionLock.current) return;
+    actionLock.current = true;
     setBusy(true); setErr("");
     try { const j = await api(profile, action, body); setP(j); after?.(j); return j; }
-    catch (e) { setErr(e.message); toast(e.message); } finally { setBusy(false); }
+    catch (e) { setErr(e.message); toast(e.message); } finally { actionLock.current = false; setBusy(false); }
   };
 
   const head = <><Link href="/thu-nghiem" className="back">‹ Khu Thử Nghiệm</Link><div className="pagehead"><h1>🎴 Đấu thẻ Shikihime</h1><p>Đặt thẻ lên bàn 3×3: cạnh của bạn lớn hơn cạnh kề của thẻ đối thủ thì lật thẻ đó. Đầy bàn, ai giữ nhiều thẻ hơn thắng.</p><p className="ttwarn">⚖️ Thắng: chọn lấy 1 thẻ của đối thủ · Thua: mất 1 lá <b>hạng cao nhất</b> trong Hộp bài · Bỏ trận: mất 1 lá <b>ngẫu nhiên</b> · Hòa: không mất gì. (Hộp bài luôn được giữ tối thiểu 5 loại thẻ.)</p></div></>;
@@ -98,14 +110,14 @@ export default function CardGamePage() {
   }
 
   // ——— trận đang đấu ———
-  if (P.match) return <Match key={P.match.op + "-" + P.rec.w + P.rec.l + P.rec.d} m0={P.match} live={live} byId={byId} profile={profile} onDone={(j) => { setLive(null); setP(j); if (j.lost) setLostNote({ id: j.lost, why: "Thua trận" }); }} onForfeit={() => { setLive(null); run("forfeit", {}, (j) => j.lost && setLostNote({ id: j.lost, why: "Bỏ trận" })); }} />;
+  if (P.match) return <Match key={P.match.op + "-" + P.rec.w + P.rec.l + P.rec.d} m0={P.match} live={live} byId={byId} profile={profile} leaving={busy} onDone={(j) => { setLive(null); setP(j); if (j.lost) setLostNote({ id: j.lost, why: "Thua trận" }); }} onForfeit={() => { setLive(null); run("forfeit", {}, (j) => j.lost && setLostNote({ id: j.lost, why: "Bỏ trận" })); }} />;
 
   const box = P.box, beat = P.beat, rec = P.rec;
   const owned = deck.filter((c) => box[c.id] > 0).sort((a, b) => rankIdx(b.rank) - rankIdx(a.rank) || power(b) - power(a));
-  const myDeck = P.deck.filter((id) => box[id] > 0).slice(0, 5);
-  const setDeck = (ids) => { setP({ ...P, deck: ids }); api(profile, "deck", { deck: ids }).then(setP).catch((e) => toast(e.message)); };
+  const myDeck = (selectedDeck?.uid === profile.id ? selectedDeck.ids : P.deck).filter((id) => box[id] > 0).slice(0, 5);
+  const setDeck = (ids) => setSelectedDeck({ uid: profile.id, ids });
   const unlocked = (op) => op.i === 0 || (beat[op.i - 1] || 0) > 0;
-  const start = (op) => { try { localStorage.setItem(LS, JSON.stringify(rules)); } catch {} run("start", { op: op.i, rules }, (j) => { sfx.open(); setLive({ steps: j.steps || [], first: j.first }); }); };
+  const start = (op) => { try { localStorage.setItem(LS, JSON.stringify(rules)); } catch {} run("start", { op: op.i, rules, deck: myDeck }, (j) => { setSelectedDeck(null); sfx.open(); setLive({ steps: j.steps || [], first: j.first }); }); };
   return (
     <div className="tt">{head}
       {lostNote && byId[lostNote.id] && <div className="panel ttlost"><Card c={byId[lostNote.id]} owner="foe" small /><div><b>{lostNote.why}: bạn bị lấy mất 1 lá</b><p>{byId[lostNote.id].name} · {byId[lostNote.id].ro} · hạng {byId[lostNote.id].rank}{P.box[lostNote.id] ? ` (còn ${P.box[lostNote.id]} lá)` : " (đã hết lá này)"}</p><button className="chip dk" onClick={() => setLostNote(null)}>Đã hiểu</button></div></div>}
@@ -117,17 +129,18 @@ export default function CardGamePage() {
       {tab === "duel" && (
         <>
           <h2 className="a22th"><span>1 · Bộ 5 thẻ của bạn</span> <small>{myDeck.length}/5 · bấm thẻ trong Hộp bài để thêm/bớt</small></h2>
-          <div className="ttpool">{owned.map((c) => { const i = myDeck.indexOf(c.id); return <Card key={c.id} c={c} owner={i >= 0 ? "me" : null} badge={i >= 0 ? i + 1 : null} named onClick={() => { setDeck(i >= 0 ? myDeck.filter((x) => x !== c.id) : myDeck.length < 5 ? [...myDeck, c.id] : myDeck); sfx.click(); }} />; })}</div>
+          <p className="hint">Bộ bài được lưu khi bắt đầu trận.</p>
+          <div className="ttpool">{owned.map((c) => { const i = myDeck.indexOf(c.id); return <Card key={c.id} c={c} owner={i >= 0 ? "me" : null} badge={i >= 0 ? i + 1 : null} named onClick={() => { if (!busy) { setDeck(i >= 0 ? myDeck.filter((x) => x !== c.id) : myDeck.length < 5 ? [...myDeck, c.id] : myDeck); sfx.click(); } }} />; })}</div>
           {owned.length < 5 && <p className="hint">Hộp bài cần ít nhất 5 thẻ.</p>}
           <h2 className="a22th"><span>2 · Luật chơi</span> <small>bật / tắt</small></h2>
           <div className="ttrules">{RULES.map(([k, n, d]) => <label key={k} className={`panel ttrule ${rules[k] ? "on" : ""}`}><input type="checkbox" checked={rules[k]} onChange={(e) => setRules((r) => ({ ...r, [k]: e.target.checked }))} /><b>{n}</b><small>{d}</small></label>)}</div>
           <h2 className="a22th"><span>3 · Chọn đối thủ</span> <small>thắng người trước để mở người sau</small></h2>
           <div className="ttops">
             {OPPONENTS.map((op) => {
-              const open = unlocked(op), od = oppDeck(op, deck);
+              const open = unlocked(op), od = opponentDecks[op.i];
               return (
                 <div key={op.i} className={`panel ttop ${open ? "" : "locked"}`}>
-                  <img className="ttav" src={charIcon(op.char)} alt={op.char.vi} />
+                  <img className="ttav" src={charIcon(op.char)} alt={op.char.vi} loading="lazy" decoding="async" />
                   <div className="ttopi">
                     <b>{op.char.vi}</b> <small>Thẻ hạng {op.band[0]}–{op.band[1]} · máy {({ easy: "dễ", normal: "vừa", hard: "khó" })[op.ai]}{beat[op.i] ? ` · đã thắng ${beat[op.i]} lần` : ""}</small>
                     <div className="ttminis">{od.map((c) => <span key={c.id} className={`ttrk r-${c.rank}`} title={`${c.name} · hạng ${c.rank}`}>{c.rank}</span>)}</div>
@@ -178,7 +191,7 @@ export function Card({ c, owner, onClick, back, sel, badge, el, flip, small, nam
   return (
     <button type="button" className={`ttcard ${owner || ""} ${sel ? "sel" : ""} ${flip ? `flip f${flip}` : ""} ${small ? "sm" : ""}`} onClick={onClick} style={{ "--ec": ELEM[c.el]?.c }} title={`${c.name} · ${c.ro} · hạng ${c.rank}`}>
       {/* vùng nhân vật của ảnh thẻ (27%–82% bề ngang ảnh gốc, đủ chiều cao) — hiện trọn, không cắt */}
-      <div className="ttart" role="img" aria-label={c.ro} style={{ backgroundImage: `url(${c.img})` }} />
+      <div className="ttart"><img className="ttportrait" src={c.img} alt={c.ro} loading={named ? "lazy" : "eager"} decoding="async" /></div>
       {[["t", "nt"], ["r", "nr"], ["b", "nb"], ["l", "nl"]].map(([k, cls]) => <b key={k} className={`ttn ${cls} ${d(k) > 0 ? "up" : d(k) < 0 ? "down" : ""}`}>{showNum(v(k))}</b>)}
       <img className="ttel" src={elemIcon(c.el)} alt="" />
       <span className={`ttrk corner r-${c.rank}`}>{c.rank}</span>
@@ -190,7 +203,7 @@ export function Card({ c, owner, onClick, back, sel, badge, el, flip, small, nam
 
 
 // Trận đấu: hiển thị theo trạng thái máy chủ; mỗi nước đi gửi lên, nhận về các bước (của bạn rồi của máy) để chạy hiệu ứng
-function Match({ m0, live, byId, profile, onDone, onForfeit }) {
+function Match({ m0, live, byId, profile, leaving, onDone, onForfeit }) {
   const op = OPPONENTS[m0.op];
   const [cells, setCells] = useState(() => (live?.steps?.length ? undo(m0.cells, live.steps) : m0.cells));
   const [hands, setHands] = useState(() => (live?.steps?.length ? { me: m0.hands.me, foe: Array.isArray(m0.hands.foe) ? [...m0.hands.foe, ...live.steps.map((s) => s.id)] : m0.hands.foe + live.steps.length } : m0.hands));
@@ -198,6 +211,8 @@ function Match({ m0, live, byId, profile, onDone, onForfeit }) {
   const [sel, setSel] = useState(null);
   const [fx, setFx] = useState({});
   const [last, setLast] = useState(null);
+  const moveLock = useRef(false);
+  const openingPlayed = useRef(false);
   const [msg, setMsg] = useState(live?.first === "foe" ? `${op.char.vi} đi trước.` : "Bạn đi trước.");
   const [end, setEnd] = useState(null); // { result, score, data }
   const [busy, setBusy] = useState(false);
@@ -206,8 +221,9 @@ function Match({ m0, live, byId, profile, onDone, onForfeit }) {
 
   // chạy lần lượt các bước nhận từ máy chủ
   async function play(steps) {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     for (const st of steps) {
-      if (st.who === "foe") { setTurn("foe"); await sleep(700); }
+      if (st.who === "foe") { setTurn("foe"); if (!reduceMotion) await sleep(180); }
       setCells((cs) => { const n = cs.slice(); n[st.cell] = { id: st.id, owner: st.who }; for (const f of st.flips) n[f.i] = { ...n[f.i], owner: st.who }; return n; });
       setHands((h) => ({ ...h, [st.who]: st.who === "me" ? h.me.filter((id, k) => k !== h.me.indexOf(st.id)) : Array.isArray(h.foe) ? h.foe.filter((id, k) => k !== h.foe.indexOf(st.id)) : h.foe - 1 }));
       setFx(Object.fromEntries(st.flips.map((f) => [f.i, f.by]))); setLast(st.cell);
@@ -215,30 +231,31 @@ function Match({ m0, live, byId, profile, onDone, onForfeit }) {
       const by = { same: "Bằng nhau!", plus: "Cộng!", combo: "Liên hoàn!" };
       setMsg(`${name(st.who)} đặt ${byId[st.id]?.name}${st.flips.length ? ` — lật ${st.flips.length} thẻ` : ""}${special.length ? ` · ${special.map((b) => by[b]).join(" ")}` : ""}`);
       if (st.flips.length) sfx.click();
-      await sleep(450);
+      if (!reduceMotion && st.flips.length) await sleep(220);
     }
     setTurn("me");
   }
-  useEffect(() => { if (live?.steps?.length) play(live.steps); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { if (live?.steps?.length && !openingPlayed.current) { openingPlayed.current = true; play(live.steps); } }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const clickCell = async (i) => {
-    if (turn !== "me" || cells[i] || sel == null || busy || end) return;
+    if (turn !== "me" || cells[i] || sel == null || moveLock.current || leaving || end) return;
+    moveLock.current = true;
     setBusy(true); setSel(null);
     try {
-      const j = await api(profile, "move", { hand: sel, cell: i });
+      const j = await api(profile, "move", { hand: sel, cell: i, compact: true });
       setTurn("anim");
       await play(j.steps);
       if (j.result) { setEnd({ result: j.result, score: j.score, data: j }); if (j.result === "w") sfx.win?.(); }
       else if (j.match) { setCells(j.match.cells); setHands(j.match.hands); }
     } catch (e) { setMsg(`⚠ ${e.message}`); }
-    setBusy(false);
+    moveLock.current = false; setBusy(false);
   };
 
   return (
     <div className="tt">
-      <button className="back" onClick={() => { if (end) onDone(end.data); else if (confirm("Bỏ trận? Trận này tính là thua và bạn sẽ bị lấy mất 1 lá NGẪU NHIÊN trong Hộp bài.")) onForfeit(); }}>‹ {end ? "Về danh sách" : "Bỏ trận"}</button>
+      <button className="back" disabled={busy || leaving} onClick={() => { if (end) onDone(end.data); else if (confirm("Bỏ trận? Trận này tính là thua và bạn sẽ bị lấy mất 1 lá NGẪU NHIÊN trong Hộp bài.")) onForfeit(); }}>‹ {end ? "Về danh sách" : "Bỏ trận"}</button>
       <div className="ttvs"><img src={charIcon(op.char)} alt="" /><div><b>{op.char.vi}</b><small>“{op.line}”</small></div></div>
-      <div className="ttscore"><span className="me">🟦 Bạn <b>{sc.me}</b></span><span className="ttmsg">{end ? "" : turn === "me" ? (sel != null ? "Chọn ô trống để đặt thẻ" : "Chọn một thẻ trên tay") : `${op.char.vi} đang đi…`}</span><span className="foe"><b>{sc.foe}</b> {op.char.vi} 🟥</span></div>
+      <div className="ttscore"><span className="me">🟦 Bạn <b>{sc.me}</b></span><span className="ttmsg">{end ? "" : busy && turn === "me" ? "Đang gửi nước đi…" : turn === "me" ? (sel != null ? "Chọn ô trống để đặt thẻ" : "Chọn một thẻ trên tay") : `${op.char.vi} đang đi…`}</span><span className="foe"><b>{sc.foe}</b> {op.char.vi} 🟥</span></div>
       <div className="tttable">
         <div className="tthand foe">{Array.isArray(hands.foe) ? hands.foe.map((id, k) => <Card key={k} c={byId[id]} owner="foe" small />) : Array.from({ length: hands.foe }, (_, k) => <Card key={k} back small />)}</div>
         <div className="ttboard">

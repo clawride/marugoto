@@ -15,7 +15,8 @@
 .tt .ttcard.sel{transform:translateY(-8px) scale(1.04);box-shadow:0 0 0 3px #ffd36b,0 10px 18px rgba(0,0,0,.5)}
 .tt button.ttcard:hover{transform:translateY(-3px)}
 /* ảnh: phóng 181.8% để vùng 27%–82% của ảnh vừa khít bề ngang lá bài; còn lề trên/dưới cho số */
-.tt .ttart{position:absolute;inset:0;background-repeat:no-repeat;background-size:181.8% auto;background-position:60% 50%}
+.tt .ttart{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.tt .ttart .ttportrait{position:absolute;width:181.8%;max-width:none;height:auto;left:-49.08%;top:50%;transform:translateY(-50%)}
 .tt .ttn{position:absolute;z-index:2;font-family:"Times New Roman","Georgia",Cambria,"Noto Serif",serif;font-weight:700;font-size:23cqw;line-height:1;color:#111;text-shadow:0 0 3px #fff,0 0 6px #fff,0 0 2px #fff;transform:translate(-50%,-50%)}
 .tt .ttcard.me .ttn{color:#123a8f}
 .tt .ttcard.foe .ttn{color:#a50f0f}
@@ -29,7 +30,7 @@
 .tt .ttbadge{position:absolute;right:4%;bottom:12%;z-index:4;background:#ffd36b;color:#222;font-weight:800;border-radius:50%;width:18cqw;height:18cqw;display:grid;place-items:center;font-size:11cqw}
 .tt .ttcard.back{display:grid;place-items:center;border-color:#c9a14a;background:repeating-linear-gradient(45deg,#3a2a14 0 6px,#2a1d0c 6px 12px);cursor:default}
 .tt .ttcard.back span{font-size:34cqw;color:#e8c46a;font-family:var(--jp);text-shadow:0 0 8px #000}
-.tt .ttcard.flip{animation:ttflip .5s ease-out}
+.tt .ttcard.flip{animation:ttflip .22s ease-out}
 @keyframes ttflip{0%{transform:rotateY(0)}50%{transform:rotateY(90deg)}100%{transform:rotateY(0)}}
 
 /* bàn chơi */
