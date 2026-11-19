@@ -125,6 +125,13 @@ export async function POST(req) {
       return ok({ shiki: v });
     }
 
+    // ——— Đấu thẻ: danh sách tài khoản kèm lượt rút thẻ còn lại ———
+    case "shikiPlayers": {
+      const r = await store.adminUsers({ q: String(b.q || "").slice(0, 60), limit: 40, offset: Math.max(0, Number(b.offset) || 0) });
+      const data = await Promise.all(r.rows.map((u) => store.getKV("shiki:" + u.id).catch(() => null)));
+      return ok({ count: r.count, rows: r.rows.map((u, i) => ({ id: u.id, name: u.name, username: u.username, avatar: u.avatar, createdAt: u.createdAt, draws: data[i]?.draws || 0, kinds: Object.keys(data[i]?.box || {}).length, starter: !!data[i]?.starter })) });
+    }
+
     // ——— Đấu thẻ: lượt rút thẻ của người chơi (nhập tên đăng nhập hoặc id hồ sơ) ———
     case "shikiPlayer":
     case "shikiGrant": {

@@ -104,6 +104,78 @@ export default function Shiki({ call, say }) {
   );
 }
 
+// Lượt rút thẻ: liệt kê mọi tài khoản (tìm theo tên / tên đăng nhập / id), cộng hoặc trừ lượt cho từng người hoặc nhiều người đã chọn
+function Draws({ call, say }) {
+  const [q, setQ] = useState("");
+  const [rows, setRows] = useState([]);
+  const [count, setCount] = useState(0);
+  const [n, setN] = useState(5);
+  const [picked, setPicked] = useState({});
+  const [busy, setBusy] = useState(false);
+  const load = async (offset = 0, query = q) => {
+    setBusy(true);
+    try { const d = await call("shikiPlayers", { q: query, offset }); setRows((r) => (offset ? [...r, ...d.rows] : d.rows)); setCount(d.count); if (!offset) setPicked({}); }
+    catch (e) { say(e.message); } finally { setBusy(false); }
+  };
+  useEffect(() => { load(0, ""); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  const grant = async (ids, delta) => {
+    if (!ids.length || !delta) return;
+    setBusy(true);
+    let done = 0;
+    try {
+      for (const id of ids) {
+        const d = await call("shikiGrant", { who: id, n: delta });
+        setRows((r) => r.map((x) => (x.id === id ? { ...x, draws: d.player.draws } : x)));
+        done++;
+      }
+      say(`Đã ${delta > 0 ? "cộng" : "trừ"} ${Math.abs(delta)} lượt cho ${done} tài khoản`);
+    } catch (e) { say(`${e.message} (đã xong ${done}/${ids.length})`); } finally { setBusy(false); }
+  };
+  const num = Math.round(Number(n)) || 0;
+  const sel = Object.keys(picked).filter((id) => picked[id]);
+  const allOn = rows.length > 0 && rows.every((r) => picked[r.id]);
+  return (
+    <div style={{ display: "grid", gap: 10, marginTop: 8 }}>
+      <p className="hint">Mỗi lượt rút cho người chơi 1 lá ngẫu nhiên theo tỉ lệ hạng. Người chơi thấy nút “🎴 Rút 1 thẻ” ở trang Đấu thẻ. Tick nhiều tài khoản để cộng một lần.</p>
+      <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+        <input className="nameinp" placeholder="Tìm tên, tên đăng nhập hoặc id…" value={q} onChange={(e) => setQ(e.target.value)} onKeyDown={(e) => e.key === "Enter" && load(0)} style={{ flex: "1 1 220px" }} />
+        <button className="chip dk" disabled={busy} onClick={() => load(0)}>🔍 Tìm</button>
+        <span style={{ marginLeft: "auto" }}>Số lượt:</span>
+        <input type="number" className="shikinum" value={n} onChange={(e) => setN(e.target.value)} style={{ width: 70 }} />
+        <button className="chip dk on" disabled={busy || !sel.length || !num} onClick={() => grant(sel, Math.abs(num))}>➕ Cộng cho {sel.length} người đã chọn</button>
+      </div>
+      <div className="admscroll">
+        <table className="admtbl shikitbl">
+          <thead><tr>
+            <th><input type="checkbox" checked={allOn} onChange={(e) => setPicked(e.target.checked ? Object.fromEntries(rows.map((r) => [r.id, true])) : {})} aria-label="Chọn tất cả" /></th>
+            <th>Tài khoản</th><th>ID</th><th>Lượt rút</th><th>Hộp bài</th><th>Cộng / trừ</th>
+          </tr></thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr key={r.id}>
+                <td><input type="checkbox" checked={!!picked[r.id]} onChange={(e) => setPicked((p) => ({ ...p, [r.id]: e.target.checked }))} aria-label={"Chọn " + (r.name || r.id)} /></td>
+                <td><b>{r.name || "—"}</b>{r.username && <><br /><small>@{r.username}</small></>}</td>
+                <td><small style={{ fontFamily: "monospace", userSelect: "all" }}>{r.id}</small></td>
+                <td><b style={{ color: r.draws ? "#ffd36b" : undefined }}>🎟️ {r.draws}</b></td>
+                <td><small>{r.starter ? `${r.kinds} loại` : "chưa chơi"}</small></td>
+                <td style={{ whiteSpace: "nowrap" }}>
+                  <button className="chip dk" disabled={busy || !num} onClick={() => grant([r.id], Math.abs(num))}>➕ {Math.abs(num)}</button>{" "}
+                  <button className="chip dk" disabled={busy || !num || !r.draws} onClick={() => grant([r.id], -Math.abs(num))}>➖</button>
+                </td>
+              </tr>
+            ))}
+            {!rows.length && <tr><td colSpan={6}><small>{busy ? "Đang tải…" : "Không có tài khoản nào"}</small></td></tr>}
+          </tbody>
+        </table>
+      </div>
+      <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+        <small>Đang hiện {rows.length}/{count} tài khoản</small>
+        {rows.length < count && <button className="chip dk" disabled={busy} onClick={() => load(rows.length)}>Xem thêm</button>}
+      </div>
+    </div>
+  );
+}
+
 // Ải & bài của boss: độ khó từng ải (chế độ "Tăng dần" của người chơi dùng mức này) và 5 lá boss sẽ ra
 function Stages({ cfg, setStage }) {
   const deck = useMemo(() => buildDeck(cfg), [cfg]);
@@ -149,35 +221,3 @@ function Stages({ cfg, setStage }) {
   );
 }
 
-// Lượt rút thẻ: tìm người chơi theo tên đăng nhập (hoặc id) rồi cộng/trừ lượt
-function Draws({ call, say }) {
-  const [who, setWho] = useState("");
-  const [n, setN] = useState(5);
-  const [p, setP] = useState(null);
-  const [busy, setBusy] = useState(false);
-  const go = async (action, extra = {}) => {
-    setBusy(true);
-    try { const d = await call(action, { who, ...extra }); setP(d.player); if (action === "shikiGrant") say(`Đã cập nhật: còn ${d.player.draws} lượt rút`); }
-    catch (e) { say(e.message); setP(null); } finally { setBusy(false); }
-  };
-  return (
-    <div style={{ display: "grid", gap: 10, maxWidth: 520, marginTop: 8 }}>
-      <p className="hint">Mỗi lượt rút cho người chơi 1 lá ngẫu nhiên theo tỉ lệ hạng. Người chơi thấy nút “🎴 Rút 1 thẻ” ở trang Đấu thẻ.</p>
-      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-        <input className="nameinp" placeholder="Tên đăng nhập hoặc id" value={who} onChange={(e) => setWho(e.target.value)} onKeyDown={(e) => e.key === "Enter" && go("shikiPlayer")} />
-        <button className="chip dk" disabled={busy || !who.trim()} onClick={() => go("shikiPlayer")}>🔍 Xem</button>
-      </div>
-      {p && (
-        <div className="panel" style={{ padding: 12 }}>
-          <b>{p.name || p.id}</b> <small>({p.id})</small>
-          <p style={{ margin: "6px 0" }}>🎟️ Lượt rút hiện có: <b>{p.draws}</b> · Hộp bài: {p.kinds} loại · {p.starter ? "đã rút bộ khởi đầu" : "chưa rút bộ khởi đầu"} · {p.rec?.w || 0} thắng / {p.rec?.l || 0} thua</p>
-          <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-            <input type="number" className="shikinum" value={n} onChange={(e) => setN(e.target.value)} style={{ width: 80 }} />
-            <button className="chip dk on" disabled={busy || !Number(n)} onClick={() => go("shikiGrant", { n: Number(n) })}>➕ Cộng {n} lượt</button>
-            <button className="chip dk" disabled={busy || !Number(n)} onClick={() => go("shikiGrant", { n: -Math.abs(Number(n)) })}>➖ Trừ {Math.abs(Number(n))} lượt</button>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
