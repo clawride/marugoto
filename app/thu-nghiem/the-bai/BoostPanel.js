@@ -2,7 +2,7 @@
 // Cường hóa thẻ: hủy 2 bản trùng của lá này → +1 điểm vào một cạnh ngẫu nhiên (tối đa 10 mỗi cạnh).
 // Tổng 4 cạnh đủ ngưỡng hạng trên thì lá thăng hạng (F → E → … → SR).
 import { useState } from "react";
-import { BOOST_COST, MIN_KINDS, isMaxed, power, rankForPower, rankIdx } from "@/lib/shikiCards";
+import { BOOST_COST, MIN_KINDS, maxSellQuantity, isMaxed, power, rankForPower, rankIdx } from "@/lib/shikiCards";
 import { RANKS } from "@/lib/shikihime";
 import { sfx } from "@/lib/sfx";
 import { Card } from "./Card";
@@ -12,7 +12,10 @@ const SIDE_VI = { t: "trên", r: "phải", b: "dưới", l: "trái" };
 export default function BoostPanel({ c, count, kinds, ranges, busy, onBoost, onSell, onClose }) {
   const [fx, setFx] = useState(null); // { side, up: {from,to} } — hiệu ứng lần cường hóa vừa xong
   const maxed = isMaxed(c), p = power(c), canPay = count >= BOOST_COST + 1;
-  const canSell = count > 1 || kinds > MIN_KINDS;
+  const [saleInput, setSaleInput] = useState("1");
+  const maxSale = maxSellQuantity(count, kinds);
+  const quantity = count === 1 ? 1 : Number(saleInput);
+  const canSell = Number.isSafeInteger(quantity) && quantity >= 1 && quantity <= maxSale;
   const next = RANKS[rankIdx(rankForPower(p, ranges)) + 1];
   const need = next ? ranges[next][0] - p : 0;
   const go = async () => {
@@ -41,10 +44,15 @@ export default function BoostPanel({ c, count, kinds, ranges, busy, onBoost, onS
           {maxed ? "✔ Đã đạt điểm tối đa" : `⬆️ CƯỜNG HÓA (hủy ${BOOST_COST} lá)`}
         </button>
         <p className="sm-note">Đang có <b>{count}</b> lá {c.name}{!canPay && !maxed ? ` — cần ít nhất ${BOOST_COST + 1} lá (luôn giữ lại 1 lá)` : ""}. Mỗi lần: +1 điểm vào một cạnh ngẫu nhiên chưa đạt 10.</p>
-        <button type="button" className="chip dk" disabled={busy || !canSell} onClick={() => onSell(c.id, count)}>
-          Bán 1 thẻ · Nhận 1 lượt rút
+        {count > 1 && <label className="ttsaleqty">Số lượng bán
+          <input type="number" min="1" max={maxSale} step="1" value={saleInput} disabled={busy}
+            onChange={(e) => setSaleInput(e.target.value)} />
+          <small>Tối đa {maxSale}</small>
+        </label>}
+        <button type="button" className="chip dk" disabled={busy || !canSell} onClick={() => onSell(c.id, count, quantity)}>
+          {canSell ? `Bán ${quantity} thẻ · Nhận ${quantity} lượt rút` : "Bán thẻ"}
         </button>
-        {!canSell && <p className="sm-note">Hộp bài cần giữ ít nhất {MIN_KINDS} loại thẻ.</p>}
+        {maxSale === 0 && <p className="sm-note">Hộp bài cần giữ ít nhất {MIN_KINDS} loại thẻ.</p>}
       </div>
     </div>
   );

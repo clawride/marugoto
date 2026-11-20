@@ -281,3 +281,30 @@ assert.equal(redeem.status, 200);
 assert.equal(redeem.data.drawn.length, 1);
 assert.equal(redeem.data.draws, 1);
 console.log("PASS: selling cards, concurrent requests, deck repair, five-kind minimum and draw redemption.");
+
+rows.set(playerKey, {
+  genshinOnly: true, starter: sixIds.slice(0, 5), deck: sixIds.slice(0, 5),
+  box: { ...Object.fromEntries(sixIds.map((id) => [id, 1])), [saleId]: 8 },
+  draws: 2, boost: { [saleId]: { t: 1 } },
+});
+const bulkSell = (count, quantity) => request("sell", { card: saleId, count, quantity });
+const beforeInvalid = counts.write;
+for (const value of [0, -1, 1.5, 9, "2", null]) assert.equal((await bulkSell(8, value)).status, 400);
+assert.equal(counts.write, beforeInvalid);
+const bulk = await Promise.all([bulkSell(8, 5), bulkSell(8, 5)]);
+assert.deepEqual(bulk.map((r) => r.status).sort(), [200, 409]);
+const partial = bulk.find((r) => r.status === 200).data;
+assert.equal(partial.draws, 7);
+assert.equal(partial.box[saleId], 3);
+assert.deepEqual(partial.boost[saleId], { t: 1 });
+assert.equal((await sell(sixIds[5], 1)).status, 200);
+assert.equal((await bulkSell(3, 3)).status, 400);
+assert.equal((await bulkSell(3, 2)).data.draws, 10);
+rows.get(playerKey).box[sixIds[5]] = 1;
+rows.get(playerKey).box[saleId] = 4;
+const sellStack = (await bulkSell(4, 4)).data;
+assert.equal(sellStack.draws, 14);
+assert.equal(sellStack.box[saleId], undefined);
+assert.equal(sellStack.boost[saleId], undefined);
+assert.deepEqual(sellStack.deck, sixIds.slice(1));
+console.log("PASS: bulk sale quantities, replay protection, last-copy rule and full-stack deck repair.");

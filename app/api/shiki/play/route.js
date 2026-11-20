@@ -12,7 +12,7 @@
 // Không lấy lá nếu Hộp bài sẽ còn dưới 5 loại thẻ (để luôn đủ bộ bài đấu tiếp).
 import { store, auth } from "@/lib/store";
 import { getShikiConfig } from "@/lib/shikiConfig";
-import { boosted, RANK_RANGES, buildDeck, isMaxed, BOOST_COST, MIN_KINDS, SIDES, drawCards, OPPONENTS, opById, legacyCharId, oppDeck, stageDeck, makeBoard, place, aiMove, score, power, rankIdx } from "@/lib/shikiCards";
+import { boosted, RANK_RANGES, buildDeck, isMaxed, BOOST_COST, MIN_KINDS, maxSellQuantity, SIDES, drawCards, OPPONENTS, opById, legacyCharId, oppDeck, stageDeck, makeBoard, place, aiMove, score, power, rankIdx } from "@/lib/shikiCards";
 import { DUEL_MODE, replayDuel, duelResult, stageLevel } from "@/lib/shikiDuel";
 import { RANKS, isGenshinCardId } from "@/lib/shikihime";
 
@@ -46,7 +46,12 @@ function takeCard(d, byId, how) {
   if (how === "pick") id = ok[Math.floor(Math.random() * ok.length)];
   else if (how === "best") id = ok.sort((a, b) => rankIdx(byId[b].rank) - rankIdx(byId[a].rank) || power(byId[b]) - power(byId[a]))[0];
   else { const pool = ok.flatMap((x) => Array(d.box[x]).fill(x)); id = pool[Math.floor(Math.random() * pool.length)]; }
-  d.box[id]--;
+  removeCopies(d, byId, id, 1);
+  return id;
+}
+
+function removeCopies(d, byId, id, quantity) {
+  d.box[id] -= quantity;
   if (d.box[id] <= 0) {
     delete d.box[id];
     if (d.boost) delete d.boost[id];
@@ -57,7 +62,6 @@ function takeCard(d, byId, how) {
       if (fill) d.deck.push(fill);
     }
   }
-  return id;
 }
 
 // Tiến độ lưu theo id nhân vật (beatC) — bản đồ có 120 ải, thứ tự ải có thể đổi mà không mất tiến độ.
@@ -229,8 +233,12 @@ async function handleAction(req, timed) {
       const id = b.card;
       if (!isGenshinCardId(id) || !(d.box[id] > 0)) return bad("Bạn không có thẻ này.");
       if (b.count !== d.box[id]) return bad("Số lá đã thay đổi. Hãy tải lại Hộp bài.", 409);
-      if (!takeCard(d, byId, [id])) return bad(`Hộp bài cần giữ ít nhất ${MIN_KINDS} loại thẻ.`);
-      d.draws = (d.draws || 0) + 1;
+      const quantity = b.quantity === undefined ? 1 : b.quantity;
+      if (!Number.isSafeInteger(quantity) || quantity < 1 || quantity > d.box[id]) return bad("Số lượng bán không hợp lệ.");
+      const kinds = deck.filter((card) => d.box[card.id] > 0).length;
+      if (quantity > maxSellQuantity(d.box[id], kinds)) return bad(`Hộp bài cần giữ ít nhất ${MIN_KINDS} loại thẻ.`);
+      removeCopies(d, byId, id, quantity);
+      d.draws = (d.draws || 0) + quantity;
       await save();
       return pub(d);
     }

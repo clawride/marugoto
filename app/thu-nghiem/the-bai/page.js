@@ -66,6 +66,7 @@ function CardGame({ S, toast, update }) {
   const [shuffling, setShuffling] = useState(false);
   const [poolOrder, setPoolOrder] = useState(null);
   const [element, setElement] = useState("all");
+  const [showCollection, setShowCollection] = useState(false);
   const [shufPick, setShufPick] = useState(null); // 5 lá vừa rút trong màn xáo bài
   const [rules, setRules] = useState({ open: true, same: false, plus: false, combo: false, elemental: false });
   const [reveal, setReveal] = useState(null);
@@ -271,12 +272,15 @@ function CardGame({ S, toast, update }) {
   }
 
   const box = P.box, beat = P.beat, rec = P.rec;
-  const owned = deck.filter((c) => box[c.id] > 0).sort((a, b) => rankIdx(b.rank) - rankIdx(a.rank) || power(b) - power(a));
+  const catalog = [...deck].sort((a, b) => rankIdx(b.rank) - rankIdx(a.rank) || power(b) - power(a));
+  const owned = catalog.filter((c) => box[c.id] > 0);
   const myDeck = (selectedDeck?.uid === profile.id ? selectedDeck.ids : P.deck).filter((id) => box[id] > 0).slice(0, 5);
   const setDeck = (ids) => setSelectedDeck({ uid: profile.id, ids });
   const maxBeat = Math.max(-1, ...Object.keys(beat).map(Number));
   const unlocked = (op) => op.i <= maxBeat + 1; // eslint-disable-line no-unused-vars
-  const view = owned.filter((card) => element === "all" || card.el === element);
+  const matchesElement = (card) => element === "all" || card.el === element;
+  const view = owned.filter(matchesElement);
+  const boxCards = tab === "box" && showCollection ? catalog.filter(matchesElement) : view;
   const filterBar = (
     <div className="ttfilter">
       {["all", "pyro", "hydro", "anemo", "electro", "dendro", "cryo", "geo"].map((el) => <button key={el} className={`chip dk ${element === el ? "on" : ""}`} onClick={() => setElement(el)} title={el === "all" ? "Mọi nguyên tố" : ELEM[el]?.vi}>{el === "all" ? "Mọi hệ" : <img src={elemIcon(el)} alt={ELEM[el]?.vi} style={{ width: 18, height: 18, verticalAlign: "middle" }} />}</button>)}
@@ -324,14 +328,27 @@ function CardGame({ S, toast, update }) {
       {tab === "odds" && <OddsTable deck={deck} />}
       {tab === "box" && <TradePanel deck={deck} box={box} busy={busy} onTrade={(r) => run("trade", { rank: r }, (j) => { sfx.win?.(); setTraded({ got: j.got, pay: j.traded }); })}
         onTradeAll={() => run("tradeAll", {}, (j) => { sfx.reveal(4); toast(`Đã đổi ${j.paid} lá trùng lấy ${j.gots.length} lá mới`); setRevealKind("draw"); setReveal(j.gots); showCine(j.gots); })} />}
+      {tab === "box" && <div className="ttfilter" role="group" aria-label="Hiển thị Hộp bài">
+        <button type="button" className={`chip dk ${!showCollection ? "on" : ""}`} aria-pressed={!showCollection} onClick={() => setShowCollection(false)}>Đang sở hữu ({owned.length})</button>
+        <button type="button" className={`chip dk ${showCollection ? "on" : ""}`} aria-pressed={showCollection} onClick={() => setShowCollection(true)}>Sưu tầm ({owned.length}/{catalog.length})</button>
+      </div>}
       {tab === "box" && filterBar}
       {tab === "box" && <p className="hint" style={{ textAlign: "center" }}>Chọn một thẻ để cường hóa hoặc <b>bán lấy 1 lượt rút</b>. Cường hóa dùng {BOOST_COST} lá trùng để cộng 1 điểm vào một cạnh ngẫu nhiên. Đủ điểm là thẻ thăng hạng, từ F lên tới SR.</p>}
-      {tab === "box" && <div className="ttpool">{view.map((c) => <div key={c.id} className={`ttboxc ${box[c.id] >= BOOST_COST + 1 && !isMaxed(c) ? "canboost" : ""}`}><Card c={c} owner="me" named onClick={() => { setBoostId(c.id); sfx.click(); }} />{box[c.id] > 1 && <span className="ttcount">×{box[c.id]}</span>}{c.boost && <span className="ttboostlv">⬆{Object.values(c.boost).reduce((a, v) => a + v, 0)}</span>}{box[c.id] >= BOOST_COST + 1 && !isMaxed(c) && <span className="ttcanup" aria-hidden="true">⬆️</span>}</div>)}</div>}
+      {tab === "box" && <div className="ttpool">{boxCards.map((c) => {
+        const count = box[c.id] || 0;
+        const canBoost = count > BOOST_COST && !isMaxed(c);
+        return <div key={c.id} className={`ttboxc ${canBoost ? "canboost" : ""} ${count ? "" : "ttmissing"}`}>
+          <Card c={c} owner={count ? "me" : undefined} named onClick={count ? () => { setBoostId(c.id); sfx.click(); } : undefined} />
+          {(showCollection || count > 1) && <span className="ttcount">×{count}</span>}
+          {c.boost && <span className="ttboostlv">⬆{Object.values(c.boost).reduce((a, v) => a + v, 0)}</span>}
+          {canBoost && <span className="ttcanup" aria-hidden="true">⬆️</span>}
+        </div>;
+      })}</div>}
       {boostId && byId[boostId] && box[boostId] > 0 && <BoostPanel c={byId[boostId]} count={box[boostId]} kinds={owned.length} ranges={RANK_RANGES} busy={busy} onClose={() => setBoostId(null)}
-        onSell={(id, count) => run("sell", { card: id, count }, (j) => {
+        onSell={(id, count, quantity) => run("sell", { card: id, count, quantity }, (j) => {
           setBoostId(null);
           if (!j.box[id]) setSelectedDeck((saved) => saved && { ...saved, ids: saved.ids.filter((x) => x !== id) });
-          toast(`Đã bán 1 thẻ ${byId[id].name}. Bạn có ${j.draws} lượt rút.`);
+          toast(`Đã bán ${quantity} thẻ ${byId[id].name}. Bạn có ${j.draws} lượt rút.`);
         })}
         onBoost={async (id) => { const j = await run("boost", { card: id }); return j?.boosted || null; }} />}
       {tab === "duel" && (

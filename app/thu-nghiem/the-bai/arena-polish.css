@@ -263,6 +263,9 @@
 
 /* ===== cường hóa thẻ ===== */
 .tt .ttboxc .ttcard{cursor:pointer}
+.tt .ttboxc.ttmissing .ttcard{filter:grayscale(.9) brightness(.56);cursor:default}
+.tt .ttsaleqty{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+.tt .ttsaleqty input{width:5em;font:inherit;text-align:center;padding:4px}
 .tt .ttboxc.canboost .ttcard{outline:2px dashed rgba(143,255,180,.7);outline-offset:3px}
 .tt .ttcanup{position:absolute;left:6px;top:30%;font-size:16px;filter:drop-shadow(0 0 4px #3be37a);animation:smbob 1.4s ease-in-out infinite;pointer-events:none}
 .tt .ttboxc .ttboostlv{position:absolute;right:6px;bottom:18%;padding:0 6px;border-radius:8px;font:800 12px "Be Vietnam Pro",sans-serif;color:#0a2a12;background:linear-gradient(180deg,#b8ffcb,#3be37a);box-shadow:0 0 6px rgba(60,230,120,.7);pointer-events:none}
