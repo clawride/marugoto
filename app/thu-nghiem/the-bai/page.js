@@ -6,7 +6,7 @@ import { useGame } from "@/components/Game";
 import { charIcon, elemIcon } from "@/lib/genshin";
 import { ELEM } from "@/lib/data";
 import { RANKS, RANK_VI } from "@/lib/shikihime";
-import { boosted, RANK_RANGES, isMaxed, BOOST_COST, buildDeck, power, RANK_ODDS, OPPONENTS, stageDeck, rankIdx } from "@/lib/shikiCards";
+import { availableRanks, boosted, RANK_RANGES, isMaxed, BOOST_COST, buildDeck, power, RANK_ODDS, OPPONENTS, stageDeck, rankIdx } from "@/lib/shikiCards";
 import { DUEL_MODE, LEVELS, stageLevel, autoDuel } from "@/lib/shikiDuel";
 import { opponentArt } from "@/lib/shikiDialogue";
 import { unlockVoice } from "@/lib/shikiVoice";
@@ -208,7 +208,7 @@ function CardGame({ S, toast, update }) {
   if (!P.starter) return (
     <div className="tt">{head}
       <p style={{ textAlign: "center" }}>Mỗi tài khoản được rút <b>1 lần</b> 5 thẻ khởi đầu (5 thẻ khác nhau). Thẻ càng tốt càng hiếm. Sau đó đấu với các nhân vật Genshin — thắng thì được chọn lấy 1 thẻ của họ.</p>
-      <OddsTable deck={deck} />
+      <OddsTable deck={baseDeck} />
       <div className="btnrow"><button className="gbtn tri" disabled={busy} onClick={() => run("starter", {}, (j) => { sfx.open(); setRevealKind("starter"); setReveal(j.drawn); })}><span className="c" />🎴 Rút 5 thẻ khởi đầu</button></div>
     </div>
   );
@@ -325,8 +325,8 @@ function CardGame({ S, toast, update }) {
       {P.draws > 0 && <div className="panel ttdraws"><span>🎟️ Bạn có <b>{P.draws}</b> lượt rút thẻ</span><button className="gbtn tri" disabled={busy} onClick={() => run("draw", {}, (j) => { sfx.reveal(4); setRevealKind("draw"); setReveal(j.drawn); showCine(j.drawn); })}><span className="c" />🎴 Rút 1 thẻ</button>{P.draws > 1 && <button className="gbtn tri" disabled={busy} onClick={() => run("draw", { all: true }, (j) => { sfx.meteor(5); setRevealKind("draw"); setReveal(j.drawn); showCine(j.drawn); })}><span className="c" />✨ Rút tất cả ({P.draws})</button>}</div>}
       <div className="ttrec">Hộp bài: <b>{owned.length}</b>/{deck.length} loại · {rec.w} thắng · {rec.d} hòa · {rec.l} thua</div>
       <div className="chips" style={{ justifyContent: "center" }}>{[["duel", "⚔️ Đấu bài"], ["box", "🗃️ Hộp bài"], ["odds", "🎲 Hạng thẻ"]].map(([k, l]) => <button key={k} className={`chip dk ${tab === k ? "on" : ""}`} onClick={() => setTab(k)}>{l}</button>)}</div>
-      {tab === "odds" && <OddsTable deck={deck} />}
-      {tab === "box" && <TradePanel deck={deck} box={box} busy={busy} onTrade={(r) => run("trade", { rank: r }, (j) => { sfx.win?.(); setTraded({ got: j.got, pay: j.traded }); })}
+      {tab === "odds" && <OddsTable deck={baseDeck} />}
+      {tab === "box" && <TradePanel deck={baseDeck} box={box} busy={busy} onTrade={(r) => run("trade", { rank: r }, (j) => { sfx.win?.(); setTraded({ got: j.got, pay: j.traded }); })}
         onTradeAll={() => run("tradeAll", {}, (j) => { sfx.reveal(4); toast(`Đã đổi ${j.paid} lá trùng lấy ${j.gots.length} lá mới`); setRevealKind("draw"); setReveal(j.gots); showCine(j.gots); })} />}
       {tab === "box" && <div className="ttfilter" role="group" aria-label="Hiển thị Hộp bài">
         <button type="button" className={`chip dk ${!showCollection ? "on" : ""}`} aria-pressed={!showCollection} onClick={() => setShowCollection(false)}>Đang sở hữu ({owned.length})</button>
@@ -475,7 +475,8 @@ function LaunchFx({ op, me, stage }) {
 
 // Đổi 5 lá trùng (bản thừa) cùng hạng → 1 lá ngẫu nhiên hạng kế trên (máy chủ xử lý)
 function TradePanel({ deck, box, busy, onTrade, onTradeAll }) {
-  const rows = RANKS.slice(0, -1).map((r, i) => ({ r, next: RANKS[i + 1], n: deck.filter((c) => c.rank === r).reduce((a, c) => a + Math.max(0, (box[c.id] || 0) - 1), 0) }));
+  const ranks = availableRanks(deck);
+  const rows = ranks.slice(0, -1).map((r, i) => ({ r, next: ranks[i + 1], n: deck.filter((c) => c.rank === r).reduce((a, c) => a + Math.max(0, (box[c.id] || 0) - 1), 0) }));
   return (
     <div className="panel ttodds">
       <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
@@ -494,11 +495,13 @@ function TradePanel({ deck, box, busy, onTrade, onTradeAll }) {
 }
 
 function OddsTable({ deck }) {
+  const ranks = availableRanks(deck);
+  const totalWeight = ranks.reduce((sum, r) => sum + RANK_ODDS[r], 0);
   return (
     <div className="panel ttodds">
       <h3>8 hạng thẻ & tỉ lệ rút</h3>
-      <div className="ttoddrow">{[...RANKS].reverse().map((r) => <div key={r} className="ttodd"><span className={`ttrk big r-${r}`}>{r}</span><b>{RANK_VI[r]}</b><small>{RANK_ODDS[r]}% · {deck.filter((c) => c.rank === r).length} thẻ</small></div>)}</div>
-      <p className="hint">Hạng được xếp theo tổng 4 cạnh của thẻ (quản trị có thể gán tay). Rút một lá: chọn hạng theo tỉ lệ trên rồi chọn ngẫu nhiên một thẻ trong hạng đó.</p>
+      <div className="ttoddrow">{[...RANKS].reverse().map((r) => <div key={r} className="ttodd"><span className={`ttrk big r-${r}`}>{r}</span><b>{RANK_VI[r]}</b><small>{ranks.includes(r) ? Number((100 * RANK_ODDS[r] / totalWeight).toFixed(2)) : 0}% · {deck.filter((c) => c.rank === r).length} thẻ</small></div>)}</div>
+      <p className="hint">Mỗi lượt rút chọn hạng theo tỉ lệ trên, rồi chọn ngẫu nhiên một thẻ trong hạng đó.</p>
     </div>
   );
 }

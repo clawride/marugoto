@@ -123,6 +123,24 @@ assert.equal((await request("state")).data.match, null);
 
 // Exercise every opponent's AI and special-rule combinations without network IO.
 const { deck } = await cache.getShikiConfig();
+const featuredSR = ["Columbina", "Mavuika", "Nahida", "Venti", "Zhongli", "Skirk", "Neuvillette", "Nicole", "Raiden Shogun"];
+for (const name of featuredSR) {
+  const editions = deck.filter((card) => card.ro === name);
+  assert.ok(editions.length > 0 && editions.every((card) => card.rank === "SR"), name);
+}
+for (const card of deck) {
+  const points = engine.power(card);
+  if (card.id === "gv2-ronova") {
+    assert.equal(card.rank, "SR");
+    assert.equal(points, 38);
+  } else {
+    assert.ok(points < 38);
+    if (card.stars === 5 && !featuredSR.includes(card.ro)) assert.ok(["A", "S"].includes(card.rank), card.name);
+    const [min, max] = engine.RANK_RANGES[card.rank];
+    assert.ok(points >= min && points <= max, card.name);
+  }
+}
+assert.deepEqual(deck.filter((card) => engine.power(card) === 38).map((card) => card.id), ["gv2-ronova"]);
 const start = performance.now();
 for (const op of engine.OPPONENTS) {
   const rules = { same: true, plus: true, combo: true, elemental: true };

@@ -12,7 +12,7 @@
 // Không lấy lá nếu Hộp bài sẽ còn dưới 5 loại thẻ (để luôn đủ bộ bài đấu tiếp).
 import { store, auth } from "@/lib/store";
 import { getShikiConfig } from "@/lib/shikiConfig";
-import { boosted, RANK_RANGES, buildDeck, isMaxed, BOOST_COST, MIN_KINDS, maxSellQuantity, SIDES, drawCards, OPPONENTS, opById, legacyCharId, oppDeck, stageDeck, makeBoard, place, aiMove, score, power, rankIdx } from "@/lib/shikiCards";
+import { availableRanks, boosted, RANK_RANGES, buildDeck, isMaxed, BOOST_COST, MIN_KINDS, maxSellQuantity, SIDES, drawCards, OPPONENTS, opById, legacyCharId, oppDeck, stageDeck, makeBoard, place, aiMove, score, power, rankIdx } from "@/lib/shikiCards";
 import { DUEL_MODE, replayDuel, duelResult, stageLevel } from "@/lib/shikiDuel";
 import { RANKS, isGenshinCardId } from "@/lib/shikihime";
 
@@ -384,8 +384,9 @@ async function handleAction(req, timed) {
       if (d.match) return bad("Đang có trận dở — đấu xong rồi hãy đổi bài");
       const gots = [];
       let paid = 0;
-      for (let ri = 0; ri < RANKS.length - 1; ri++) {
-        const r = RANKS[ri], pool = deck.filter((c) => c.rank === RANKS[ri + 1]);
+      const ranks = availableRanks(deck);
+      for (let ri = 0; ri < ranks.length - 1; ri++) {
+        const r = ranks[ri], pool = deck.filter((c) => c.rank === ranks[ri + 1]);
         if (!pool.length) continue;
         for (let guard = 0; guard < 500; guard++) {
           const spares = Object.keys(d.box).filter((id) => byId[id]?.rank === r && d.box[id] > 1).sort((a, c) => power(byId[a]) - power(byId[c]));
@@ -405,15 +406,16 @@ async function handleAction(req, timed) {
 
     case "trade": {
       if (d.match) return bad("Đang có trận dở — đấu xong rồi hãy đổi bài");
-      const r = String(b.rank), ri = RANKS.indexOf(r);
+      const ranks = availableRanks(deck);
+      const r = String(b.rank), ri = ranks.indexOf(r);
       if (ri < 0) return bad("Hạng không hợp lệ");
-      if (ri >= RANKS.length - 1) return bad("Hạng SR là cao nhất, không đổi lên được");
+      if (ri >= ranks.length - 1) return bad("Hạng SR là cao nhất, không đổi lên được");
       // bản thừa của các thẻ hạng r, ưu tiên dùng thẻ yếu trước
       const spares = Object.keys(d.box).filter((id) => byId[id]?.rank === r && d.box[id] > 1).sort((a, c) => power(byId[a]) - power(byId[c]));
       const pay = [];
       for (const id of spares) for (let k = 1; k < d.box[id] && pay.length < 5; k++) pay.push(id);
       if (pay.length < 5) return bad(`Cần 5 lá trùng hạng ${r} (đang có ${pay.length})`);
-      const next = RANKS[ri + 1], pool = deck.filter((c) => c.rank === next);
+      const next = ranks[ri + 1], pool = deck.filter((c) => c.rank === next);
       if (!pool.length) return bad("Chưa có thẻ ở hạng kế trên");
       for (const id of pay) d.box[id]--;
       const got = pool[Math.floor(Math.random() * pool.length)].id;
