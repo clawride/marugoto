@@ -4,7 +4,7 @@ import Link from "next/link";
 import { sfx } from "@/lib/sfx";
 
 const LAB = [
-  { href: "/thu-nghiem/the-bai", ico: "🎴", name: "Đấu thẻ Shikihime", sub: "Bàn 3×3, mỗi bên 5 thẻ, so 4 cạnh để lật thẻ đối thủ · luật Bằng nhau, Cộng, Liên hoàn, Nguyên tố", tag: "Mới" },
+  { href: "/thu-nghiem/the-bai", ico: "🎴", name: "Đấu thẻ Genshin Impact", sub: "Bàn 3×3, mỗi bên 5 thẻ, so 4 cạnh để lật thẻ đối thủ · luật Bằng nhau, Cộng, Liên hoàn, Nguyên tố", tag: "Mới" },
 ];
 
 export default function LabPage() {

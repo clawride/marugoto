@@ -6,7 +6,7 @@ import { normalizeSite } from "@/lib/siteCfg";
 import { hashPassword } from "@/lib/password";
 import { ALL_BOARDS, boardLabel } from "@/lib/boards";
 import { dayStartVN } from "@/lib/chat";
-import { normalizeShiki } from "@/lib/shikihime";
+import { isGenshinCardId, normalizeShiki } from "@/lib/shikihime";
 import { dropShikiConfigCache } from "@/lib/shikiConfig";
 
 export const dynamic = "force-dynamic";
@@ -115,7 +115,7 @@ export async function POST(req) {
       return ok({ site: await getSite(true) });
     }
 
-    // ——— Khu thử nghiệm: chỉ số thẻ Shikihime và vũ khí ———
+    // ——— Khu thử nghiệm: ải đấu thẻ và chỉ số vũ khí ———
     case "getShiki": return ok({ shiki: normalizeShiki((await store.getSettings()).shiki) });
     case "setShiki": {
       const v = normalizeShiki(b.shiki);
@@ -129,7 +129,7 @@ export async function POST(req) {
     case "shikiPlayers": {
       const r = await store.adminUsers({ q: String(b.q || "").slice(0, 60), limit: 40, offset: Math.max(0, Number(b.offset) || 0) });
       const data = await Promise.all(r.rows.map((u) => store.getKV("shiki:" + u.id).catch(() => null)));
-      return ok({ count: r.count, rows: r.rows.map((u, i) => ({ id: u.id, name: u.name, username: u.username, avatar: u.avatar, createdAt: u.createdAt, draws: data[i]?.draws || 0, kinds: Object.keys(data[i]?.box || {}).length, starter: !!data[i]?.starter })) });
+      return ok({ count: r.count, rows: r.rows.map((u, i) => ({ id: u.id, name: u.name, username: u.username, avatar: u.avatar, createdAt: u.createdAt, draws: data[i]?.draws || 0, kinds: Object.keys(data[i]?.box || {}).filter(isGenshinCardId).length, starter: !!data[i]?.starter })) });
     }
 
     // ——— Đấu thẻ: lượt rút thẻ của người chơi (nhập tên đăng nhập hoặc id hồ sơ) ———
@@ -144,7 +144,7 @@ export async function POST(req) {
       for (let attempt = 0; attempt < 3; attempt++) {
         const prev = await store.getKV(key);
         const d = { box: {}, draws: 0, rec: { w: 0, l: 0, d: 0 }, ...(prev ? structuredClone(prev) : {}) };
-        const info = () => ok({ player: { id: uid, name: acc?.name || acc?.username || null, draws: d.draws || 0, kinds: Object.keys(d.box || {}).length, starter: !!d.starter, rec: d.rec } });
+        const info = () => ok({ player: { id: uid, name: acc?.name || acc?.username || null, draws: d.draws || 0, kinds: Object.keys(d.box || {}).filter(isGenshinCardId).length, starter: !!d.starter, rec: d.rec } });
         if (b.action === "shikiPlayer") return info();
         const n = Math.round(Number(b.n));
         if (!Number.isFinite(n) || n === 0 || Math.abs(n) > 1000) return bad("Số lượt phải từ -1000 đến 1000 (khác 0)");

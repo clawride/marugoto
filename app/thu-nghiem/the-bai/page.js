@@ -6,7 +6,7 @@ import { useGame } from "@/components/Game";
 import { charIcon, elemIcon } from "@/lib/genshin";
 import { ELEM } from "@/lib/data";
 import { RANKS, RANK_VI } from "@/lib/shikihime";
-import { boosted, rankRangesOf, isMaxed, BOOST_COST, buildDeck, power, RANK_ODDS, OPPONENTS, stageDeck, rankIdx } from "@/lib/shikiCards";
+import { boosted, RANK_RANGES, isMaxed, BOOST_COST, buildDeck, power, RANK_ODDS, OPPONENTS, stageDeck, rankIdx } from "@/lib/shikiCards";
 import { DUEL_MODE, LEVELS, stageLevel, autoDuel } from "@/lib/shikiDuel";
 import { opponentArt } from "@/lib/shikiDialogue";
 import { unlockVoice } from "@/lib/shikiVoice";
@@ -53,10 +53,9 @@ function CardGame({ S, toast, update }) {
   useEffect(() => {
     if (profile?.id) fetch("/api/shiki").then((r) => (r.ok ? r.json() : {})).catch(() => ({})).then(setCfg);
   }, [profile?.id]);
-  const baseDeck = useMemo(() => cfg ? buildDeck(cfg) : [], [cfg]);
-  const ranges = useMemo(() => rankRangesOf(baseDeck), [baseDeck]);
+  const baseDeck = useMemo(() => cfg ? buildDeck() : [], [cfg]);
   const [P, setP] = useState(null); // dữ liệu người chơi từ máy chủ
-  const deck = useMemo(() => baseDeck.map((c) => boosted(c, P?.boost?.[c.id], ranges) || c), [baseDeck, P?.boost, ranges]);
+  const deck = useMemo(() => baseDeck.map((c) => boosted(c, P?.boost?.[c.id], RANK_RANGES) || c), [baseDeck, P?.boost]);
   const byId = useMemo(() => Object.fromEntries(deck.map((c) => [c.id, c])), [deck]);
   const [boostId, setBoostId] = useState(null); // lá đang mở bảng cường hóa
   const [err, setErr] = useState("");
@@ -66,7 +65,7 @@ function CardGame({ S, toast, update }) {
   const actionLock = useRef(false);
   const [shuffling, setShuffling] = useState(false);
   const [poolOrder, setPoolOrder] = useState(null);
-  const [flt, setFlt] = useState({ set: "all", el: "all" }); // lọc Hộp bài: bộ thẻ + nguyên tố
+  const [element, setElement] = useState("all");
   const [shufPick, setShufPick] = useState(null); // 5 lá vừa rút trong màn xáo bài
   const [rules, setRules] = useState({ open: true, same: false, plus: false, combo: false, elemental: false });
   const [reveal, setReveal] = useState(null);
@@ -184,7 +183,7 @@ function CardGame({ S, toast, update }) {
     } catch (e) { farmFinish(latest, e.message); }
     finally { actionLock.current = false; setBusy(false); }
   }
-  const head = <><Link href="/thu-nghiem" className="back">‹ Khu Thử Nghiệm</Link><div className="pagehead"><h1>🎴 Đấu thẻ Shikihime</h1><p>Đặt thẻ lên bàn 3×3: cạnh của bạn lớn hơn cạnh kề của thẻ đối thủ thì lật thẻ đó. Đầy bàn, ai giữ nhiều thẻ hơn thắng.</p><p className="ttwarn">⚖️ Thắng: chọn lấy 1 thẻ của đối thủ · Thua: mất <b>ngẫu nhiên 1 lá</b> trong 5 lá bạn mang vào trận · Bỏ trận: mất 1 lá <b>ngẫu nhiên</b> · Hòa: không mất gì. (Hộp bài luôn được giữ tối thiểu 5 loại thẻ.)</p></div></>;
+  const head = <><Link href="/thu-nghiem" className="back">‹ Khu Thử Nghiệm</Link><div className="pagehead"><h1>🎴 Đấu thẻ Genshin Impact</h1><p>Đặt thẻ lên bàn 3×3: cạnh của bạn lớn hơn cạnh kề của thẻ đối thủ thì lật thẻ đó. Đầy bàn, ai giữ nhiều thẻ hơn thắng.</p><p className="ttwarn">⚖️ Thắng: chọn lấy 1 thẻ của đối thủ · Thua: mất <b>ngẫu nhiên 1 lá</b> trong 5 lá bạn mang vào trận · Bỏ trận: mất 1 lá <b>ngẫu nhiên</b> · Hòa: không mất gì. (Hộp bài luôn được giữ tối thiểu 5 loại thẻ.)</p></div></>;
   if (!profile?.id) return <div className="tt">{head}<p className="hint" style={{ textAlign: "center" }}>🔒 Cần đăng nhập để chơi — Hộp bài và kết quả các trận được lưu trên máy chủ theo tài khoản.</p></div>;
   if (!P || !cfg) return <div className="tt">{head}<p className="hint" style={{ textAlign: "center" }}>{err || "Đang tải…"}</p></div>;
 
@@ -277,14 +276,10 @@ function CardGame({ S, toast, update }) {
   const setDeck = (ids) => setSelectedDeck({ uid: profile.id, ids });
   const maxBeat = Math.max(-1, ...Object.keys(beat).map(Number));
   const unlocked = (op) => op.i <= maxBeat + 1; // eslint-disable-line no-unused-vars
-  const pass = (c) => (flt.set === "all" || (flt.set === "gi") === !!c.gi) && (flt.el === "all" || c.el === flt.el);
-  const view = owned.filter(pass);
-  const giOwned = owned.filter((c) => c.gi).length;
+  const view = owned.filter((card) => element === "all" || card.el === element);
   const filterBar = (
     <div className="ttfilter">
-      {[["all", `Tất cả (${owned.length})`], ["gi", `⭐ Genshin (${giOwned})`], ["shiki", `式 Shikihime (${owned.length - giOwned})`]].map(([k, l]) => <button key={k} className={`chip dk ${flt.set === k ? "on" : ""}`} onClick={() => setFlt((x) => ({ ...x, set: k }))}>{l}</button>)}
-      <span style={{ width: 8 }} />
-      {["all", "pyro", "hydro", "anemo", "electro", "dendro", "cryo", "geo"].map((el) => <button key={el} className={`chip dk ${flt.el === el ? "on" : ""}`} onClick={() => setFlt((x) => ({ ...x, el }))} title={el === "all" ? "Mọi nguyên tố" : ELEM[el]?.vi}>{el === "all" ? "Mọi hệ" : <img src={elemIcon(el)} alt={ELEM[el]?.vi} style={{ width: 18, height: 18, verticalAlign: "middle" }} />}</button>)}
+      {["all", "pyro", "hydro", "anemo", "electro", "dendro", "cryo", "geo"].map((el) => <button key={el} className={`chip dk ${element === el ? "on" : ""}`} onClick={() => setElement(el)} title={el === "all" ? "Mọi nguyên tố" : ELEM[el]?.vi}>{el === "all" ? "Mọi hệ" : <img src={elemIcon(el)} alt={ELEM[el]?.vi} style={{ width: 18, height: 18, verticalAlign: "middle" }} />}</button>)}
     </div>
   );
   const pool = poolOrder ? [...view].sort((a, b) => poolOrder.indexOf(a.id) - poolOrder.indexOf(b.id)) : view;
@@ -332,7 +327,7 @@ function CardGame({ S, toast, update }) {
       {tab === "box" && filterBar}
       {tab === "box" && <p className="hint" style={{ textAlign: "center" }}>⬆️ Bấm vào một lá để <b>cường hóa</b>: hủy {BOOST_COST} lá trùng → +1 điểm vào một cạnh ngẫu nhiên. Đủ điểm là lá thăng hạng, lá F cũng có thể lên tới SR.</p>}
       {tab === "box" && <div className="ttpool">{view.map((c) => <div key={c.id} className={`ttboxc ${box[c.id] >= BOOST_COST + 1 && !isMaxed(c) ? "canboost" : ""}`}><Card c={c} owner="me" named onClick={() => { setBoostId(c.id); sfx.click(); }} />{box[c.id] > 1 && <span className="ttcount">×{box[c.id]}</span>}{c.boost && <span className="ttboostlv">⬆{Object.values(c.boost).reduce((a, v) => a + v, 0)}</span>}{box[c.id] >= BOOST_COST + 1 && !isMaxed(c) && <span className="ttcanup" aria-hidden="true">⬆️</span>}</div>)}</div>}
-      {boostId && byId[boostId] && box[boostId] > 0 && <BoostPanel c={byId[boostId]} count={box[boostId]} ranges={ranges} busy={busy} onClose={() => setBoostId(null)}
+      {boostId && byId[boostId] && box[boostId] > 0 && <BoostPanel c={byId[boostId]} count={box[boostId]} ranges={RANK_RANGES} busy={busy} onClose={() => setBoostId(null)}
         onBoost={async (id) => { const j = await run("boost", { card: id }); return j?.boosted || null; }} />}
       {tab === "duel" && (
         <>
@@ -353,7 +348,7 @@ function CardGame({ S, toast, update }) {
           )}
           <p className="hint">Kéo ngang để xem thẻ. Bấm thẻ để thêm vào bộ bài, bấm lần nữa để bỏ. Bộ bài được lưu khi bắt đầu trận.</p>
           {filterBar}
-          <DeckPicker key={`${flt.set}-${flt.el}`} cards={pool} myDeck={myDeck} shuffling={shuffling} onToggle={toggle} />
+          <DeckPicker key={element} cards={pool} myDeck={myDeck} shuffling={shuffling} onToggle={toggle} />
           {owned.length < 5 && <p className="hint">Hộp bài cần ít nhất 5 thẻ.</p>}
           <details className="ttadv">
             <summary>⚙️ Nâng cao <small>{(MODES.find(([k]) => k === mode) || MODES[1])[2]} · độ khó {level === "auto" ? "tăng dần" : LEVELS[level][0]}{Object.entries(rules).some(([k, v]) => v && k !== "open") ? " · có luật thêm" : ""}</small></summary>

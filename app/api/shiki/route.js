@@ -1,4 +1,4 @@
-// Khu thử nghiệm: chỉ số thẻ Shikihime / vũ khí do quản trị thiết lập (công khai, chỉ đọc)
+// Khu thử nghiệm: ải đấu thẻ và vũ khí do quản trị thiết lập (công khai, chỉ đọc)
 import { getShikiConfig } from "@/lib/shikiConfig";
 
 export const dynamic = "force-dynamic";

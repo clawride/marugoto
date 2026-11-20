@@ -3,7 +3,7 @@ import { ELEM } from "@/lib/data";
 import { elemIcon } from "@/lib/genshin";
 import { sideVal, showNum } from "@/lib/shikiCards";
 
-export const cardArt = (c) => c?.img || `/shiki-duel/${c?.id}.webp`;
+export const cardArt = (c) => c?.img;
 const SIDE_CLS = [["t", "nt"], ["r", "nr"], ["b", "nb"], ["l", "nl"]];
 
 // Một lá thẻ: ảnh trọn nhân vật, 4 số ánh kim giữa 4 cạnh, nguyên tố, hạng.

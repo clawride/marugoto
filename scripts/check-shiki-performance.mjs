@@ -79,6 +79,10 @@ const initial = await request("starter");
 assert.equal(initial.status, 200);
 assert.equal(new Set(initial.data.drawn).size, 5);
 assert.equal((await request("starter")).status, 400);
+assert.ok(initial.data.drawn.every((id) => id.startsWith("g")));
+const playerKey = "shiki:test-player";
+// The first visit drafts the player's hand. Exercise manual deck validation on a repeat visit.
+rows.get(playerKey).tried[engine.OPPONENTS[0].char.id] = 1;
 assert.equal((await request("start", { op: 0, deck: Array(5).fill(initial.data.deck[0]) })).status, 400);
 assert.equal((await request("start", { op: 0, deck: [...initial.data.deck.slice(0, 4), "not-owned"] })).status, 400);
 assert.equal((await request("start", { op: 0, deck: {} })).status, 400);
@@ -146,7 +150,7 @@ function perfectMargin(m) {
 
 async function checkLocalMatch(migrate) {
   const rules = { open: !migrate, same: true, plus: true, combo: true, elemental: true };
-  let j = await request("start", { op: 0, rules, mode: migrate ? undefined : duel.DUEL_MODE });
+  let j = await request("start", { op: 0, rules, level: 4, mode: migrate ? undefined : duel.DUEL_MODE });
   if (migrate) {
     const cell = j.data.match.cells.findIndex((c) => !c);
     const old = await request("move", { hand: 0, cell });
@@ -165,7 +169,7 @@ async function checkLocalMatch(migrate) {
     if (m.turn === "foe") {
       const next = duel.computerReply(m).match;
       if (!solvedEndgame && m.cells.filter((c) => !c).length <= 5) {
-        assert.equal(perfectMargin(next), perfectMargin(m));
+        if (m.rules.open) assert.equal(perfectMargin(next), perfectMargin(m));
         solvedEndgame = true;
       }
       m = next;
@@ -198,3 +202,51 @@ async function checkLocalMatch(migrate) {
 await checkLocalMatch(false);
 await checkLocalMatch(true);
 console.log("PASS: browser turns, deterministic restore, migration, optimal endgame, concurrent/retried settlement.");
+
+const retired = "0101010101";
+const validIds = new Set(deck.map((card) => card.id));
+assert.equal(validIds.size, 120);
+assert.ok(deck.every((card) => card.gi));
+for (const op of engine.OPPONENTS) {
+  const hand = engine.stageDeck(op, deck, { stages: { [op.char.id]: { deck: Array(5).fill(retired) } } });
+  assert.equal(new Set(hand.map((card) => card.id)).size, 5);
+  assert.ok(hand.every((card) => validIds.has(card.id)));
+}
+const keep = deck[0].id;
+const legacy = {
+  box: { [retired]: 4, [keep]: 3 }, boost: { [keep]: { t: 1 }, [retired]: { b: 2 } },
+  deck: [keep, retired], starter: [retired], rec: { w: 14, l: 2, d: 7 }, draws: 3,
+  beatC: { [engine.OPPONENTS[0].char.id]: 14 }, draft: { deck: [retired] },
+  match: { hands: { me: [retired], foe: [] }, cells: Array(9).fill(null) },
+  pending: { op: 0, cards: [keep, retired, "removed2", "removed3", "removed4"] },
+};
+rows.set(playerKey, structuredClone(legacy));
+const converted = (await request("state")).data;
+assert.equal(Object.keys(converted.box).length, 5);
+assert.ok(Object.keys(converted.box).every((id) => validIds.has(id)));
+assert.equal(converted.box[keep], 3);
+assert.deepEqual(converted.boost, { [keep]: { t: 1 } });
+assert.deepEqual(converted.rec, legacy.rec);
+assert.equal(converted.draws, 3);
+assert.equal(converted.beat[0], 14);
+assert.equal(converted.deck[0], keep);
+assert.ok(converted.deck.every((id) => converted.box[id] > 0));
+assert.equal(converted.match, null);
+assert.equal(rows.get(playerKey).draft, null);
+assert.equal(new Set(converted.pending.cards).size, 5);
+assert.ok(converted.pending.cards.every((id) => validIds.has(id)));
+assert.equal(converted.pending.cards[0], keep);
+const afterUpgrade = counts.write;
+assert.deepEqual((await request("state")).data, converted);
+assert.equal(counts.write, afterUpgrade);
+assert.equal((await request("claim", { card: retired })).status, 400);
+assert.equal((await request("claim", { card: keep })).status, 200);
+assert.equal((await request("deck", { deck: [retired] })).status, 400);
+assert.ok((await request("draw", { all: true })).data.drawn.every((id) => validIds.has(id)));
+rows.set(playerKey, { box: { [retired]: 10 }, deck: Array(5).fill(retired), starter: [retired] });
+const oldOnly = (await request("state")).data;
+assert.equal(new Set(oldOnly.deck).size, 5);
+assert.ok(oldOnly.deck.every((id) => oldOnly.box[id] === 1 && validIds.has(id)));
+assert.equal((await request("starter")).status, 400);
+assert.equal((await request("start", { op: 0 })).status, 200);
+console.log("PASS: Genshin-only catalog, 120 boss decks, existing collections, pending rewards and starter recovery.");

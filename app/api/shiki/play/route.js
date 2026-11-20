@@ -12,9 +12,9 @@
 // Không lấy lá nếu Hộp bài sẽ còn dưới 5 loại thẻ (để luôn đủ bộ bài đấu tiếp).
 import { store, auth } from "@/lib/store";
 import { getShikiConfig } from "@/lib/shikiConfig";
-import { boosted, rankRangesOf, isMaxed, BOOST_COST, SIDES, drawCards, OPPONENTS, opById, legacyCharId, oppDeck, stageDeck, makeBoard, place, aiMove, score, power, rankIdx } from "@/lib/shikiCards";
+import { boosted, RANK_RANGES, buildDeck, isMaxed, BOOST_COST, SIDES, drawCards, OPPONENTS, opById, legacyCharId, oppDeck, stageDeck, makeBoard, place, aiMove, score, power, rankIdx } from "@/lib/shikiCards";
 import { DUEL_MODE, replayDuel, duelResult, stageLevel } from "@/lib/shikiDuel";
-import { RANKS } from "@/lib/shikihime";
+import { RANKS, isGenshinCardId } from "@/lib/shikihime";
 
 export const dynamic = "force-dynamic";
 const H = { headers: { "Cache-Control": "no-store" } };
@@ -72,6 +72,49 @@ function migrate(d) {
   d.tried ||= {};
   for (const id of Object.keys(d.beatC)) d.tried[id] ||= 1;
 }
+// Retire the old set once per saved profile, inside the same optimistic write as play.
+function migrateCardPool(d) {
+  if (d.genshinOnly) return false;
+  d.genshinOnly = true;
+  for (const inventory of [d.box, d.boost || {}]) {
+    for (const id of Object.keys(inventory)) if (!isGenshinCardId(id)) delete inventory[id];
+  }
+
+  const catalog = buildDeck();
+  if (d.starter) {
+    const owned = catalog.filter((card) => d.box[card.id] > 0);
+    if (owned.length < MIN_KINDS) {
+      const available = catalog.filter((card) => !d.box[card.id]);
+      for (const card of drawCards(available, MIN_KINDS - owned.length)) {
+        d.box[card.id] = 1;
+        owned.push(card);
+      }
+    }
+    d.starter = d.starter.filter(isGenshinCardId);
+    const slots = d.deck.length;
+    d.deck = d.deck.filter((id) => d.box[id] > 0);
+    for (const card of owned) {
+      if (d.deck.length >= slots) break;
+      if (!d.deck.includes(card.id)) d.deck.push(card.id);
+    }
+  }
+  if (d.draft?.deck.some((id) => !isGenshinCardId(id))) d.draft = null;
+  const hasRetiredCard = (match) => match && [
+    ...match.hands.me, ...(Array.isArray(match.hands.foe) ? match.hands.foe : []),
+    ...match.cells.filter(Boolean).map((cell) => cell.id),
+    ...(match.foeAll || []), ...(match.meAll || []), ...Object.keys(match.cards || {}),
+  ].some((id) => !isGenshinCardId(id));
+  if (hasRetiredCard(d.match)) d.match = null;
+  if (hasRetiredCard(d.last?.match)) delete d.last;
+  if (d.receipt?.lost && !isGenshinCardId(d.receipt.lost)) d.receipt.lost = null;
+  if (d.pending?.cards.some((id) => !isGenshinCardId(id))) {
+    const candidates = oppDeck(opOf(d.pending) || OPPONENTS[0], catalog);
+    const kept = new Set(d.pending.cards.filter(isGenshinCardId));
+    const replacements = candidates.filter((card) => !kept.has(card.id));
+    d.pending.cards = d.pending.cards.map((id) => isGenshinCardId(id) ? id : replacements.shift().id);
+  }
+  return true;
+}
 const triedIdx = (d) => OPPONENTS.filter((o) => d.tried[o.char.id]).map((o) => o.i);
 
 // Ván đầu với một boss: xáo Hộp bài, rút 5 lá có hạng tương xứng với 5 lá của boss (thiếu hạng đó thì lấy hạng thấp hơn gần nhất).
@@ -80,7 +123,7 @@ function draftFor(d, op, deck, byId, cfg) {
   const boss = stageDeck(op, deck, cfg);
   const own = Object.keys(d.box).filter((id) => d.box[id] > 0 && byId[id]);
   if (d.draft?.opId === op.char.id && d.draft.deck.length === 5 && d.draft.deck.every((id) => d.box[id] > 0 && byId[id])) return { deck: d.draft.deck, boss };
-  const ranges = rankRangesOf(deck), rk = (x) => (boosted(byId[x], d.boost?.[x], ranges) || byId[x]).rank; // hạng sau cường hóa
+  const ranges = RANK_RANGES, rk = (x) => (boosted(byId[x], d.boost?.[x], ranges) || byId[x]).rank; // hạng sau cường hóa
   const used = new Set(), out = [];
   const pick = (list) => { const left = list.filter((id) => !used.has(id)); if (!left.length) return null; const id = left[Math.floor(Math.random() * left.length)]; used.add(id); return id; };
   for (const bc of [...boss].sort((a, b) => rankIdx(b.rank) - rankIdx(a.rank))) {
@@ -152,6 +195,7 @@ async function handleAction(req, timed) {
   const previous = await timed("read", () => store.getKV(k));
   const d = { box: {}, deck: [], starter: null, beat: {}, rec: { w: 0, l: 0, d: 0 }, match: null, pending: null, ...structuredClone(previous) };
   migrate(d);
+  const poolChanged = migrateCardPool(d);
   const save = async () => {
     d.rev = crypto.randomUUID();
     if (!await timed("write", () => store.replaceKV(k, d, previous))) throw new StaleState();
@@ -161,7 +205,9 @@ async function handleAction(req, timed) {
     // Upgrade a legacy match at its saved position, retaining its board, hands and rewards.
     if (local && d.match && !d.match.mode) {
       const cfg = await timed("config", getShikiConfig);
-      enableLocal(d.match, cfg.byId, d, rankRangesOf(cfg.deck));
+      enableLocal(d.match, cfg.byId, d, RANK_RANGES);
+      await save();
+    } else if (previous && poolChanged) {
       await save();
     }
     return pub(d);
@@ -192,7 +238,7 @@ async function handleAction(req, timed) {
 
     case "deck": {
       const ids = Array.isArray(b.deck) ? [...new Set(b.deck.map(String))].slice(0, 5) : [];
-      if (ids.some((id) => !(d.box[id] > 0))) return bad("Chỉ chọn được thẻ có trong Hộp bài");
+      if (ids.some((id) => !isGenshinCardId(id) || !(d.box[id] > 0))) return bad("Chỉ chọn được thẻ có trong Hộp bài");
       d.deck = ids; await save();
       return pub(d);
     }
@@ -209,7 +255,7 @@ async function handleAction(req, timed) {
 
     case "start": {
       if (d.match) {
-        if (local && !d.match.mode) { enableLocal(d.match, byId, d, rankRangesOf(deck)); await save(); }
+        if (local && !d.match.mode) { enableLocal(d.match, byId, d, RANK_RANGES); await save(); }
         return pub(d);
       }
       if (d.pending) return bad("Hãy nhận thẻ thưởng của trận trước");
@@ -231,7 +277,7 @@ async function handleAction(req, timed) {
       // độ khó máy: người chơi chọn 1–4, không chọn thì tăng dần theo thứ tự đối thủ
       m.level = [1, 2, 3, 4].includes(Number(b.level)) ? Number(b.level) : stageLevel(op, cfg);
       const steps = [];
-      if (local) enableLocal(m, byId, d, rankRangesOf(deck));
+      if (local) enableLocal(m, byId, d, RANK_RANGES);
       else if (m.turn === "foe") steps.push(aiStep(m, byId, op.ai));
       if (first) { d.tried[op.char.id] = 1; d.draft = null; } else d.deck = mine.slice(); // ván đầu không ghi đè bộ bài tự chọn
       d.match = m; await save();
@@ -292,7 +338,7 @@ async function handleAction(req, timed) {
     case "claim": {
       if (!d.pending) return bad("Không có thẻ thưởng để nhận");
       const id = String(b.card);
-      if (!d.pending.cards.includes(id)) return bad("Thẻ này không thuộc bộ bài của đối thủ");
+      if (!isGenshinCardId(id) || !d.pending.cards.includes(id)) return bad("Thẻ này không thuộc bộ bài của đối thủ");
       d.box[id] = (d.box[id] || 0) + 1; d.pending = null;
       await save();
       return pub(d, { got: id });
@@ -306,7 +352,7 @@ async function handleAction(req, timed) {
       if (!base || !(d.box[id] > 0)) return bad("Bạn không có lá này");
       if (d.box[id] < BOOST_COST + 1) return bad(`Cần thêm ${BOOST_COST + 1 - d.box[id]} lá trùng (luôn giữ lại 1 lá)`);
       d.boost ||= {};
-      const ranges = rankRangesOf(deck), before = boosted(base, d.boost[id], ranges) || base;
+      const ranges = RANK_RANGES, before = boosted(base, d.boost[id], ranges) || base;
       if (isMaxed(before)) return bad("Lá này đã đạt điểm tối đa");
       const sides = SIDES.filter((k) => before.n[k] < 10), side = sides[Math.floor(Math.random() * sides.length)];
       d.box[id] -= BOOST_COST;
