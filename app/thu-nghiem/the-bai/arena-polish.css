@@ -290,3 +290,25 @@
 .tt .ttrankup i{font-style:normal}
 .tt .ttboostinfo{margin:0;font-size:13px;opacity:.9}
 .tt .ttboostcard .sm-play{font-size:19px;padding:14px;background:linear-gradient(180deg,#d8ffe3,#5fe08a 45%,#21a052);border-color:#e8fff0;box-shadow:0 0 26px rgba(60,230,120,.55),0 8px 0 #0f6a32,0 12px 20px rgba(0,0,0,.5);color:#062a14}
+
+/* Tự đánh (ải đã thắng) */
+.arena .ar-autobtn{position:absolute;left:1.4%;top:calc(1.4% + 14.5cqw);z-index:10;display:flex;align-items:center;gap:.4cqw;font:700 max(11px,1cqw) inherit;padding:.35cqw 1.1cqw;border-radius:99px;cursor:pointer;
+  background:rgba(14,10,34,.6);color:#f5ead0;border:1px solid rgba(255,255,255,.3);transition:background .2s,box-shadow .2s}
+.arena .ar-autobtn small{font:inherit}
+.arena .ar-autobtn.on{background:linear-gradient(180deg,#2c8a5a,#14583a);border-color:#9ff5c8;box-shadow:0 0 1.6cqw rgba(120,255,180,.55)}
+.arena .ar-autotag{font:800 max(10px,.95cqw) "Be Vietnam Pro",sans-serif;color:#b8ffd9;background:rgba(10,40,25,.7);border:1px solid #7ee0aa;border-radius:99px;padding:.2cqw .9cqw;white-space:nowrap;animation:arautoblink 1.4s ease-in-out infinite}
+@keyframes arautoblink{50%{opacity:.55}}
+@media (max-width:720px){
+  .arena .ar-autobtn{top:calc(.8% + 30cqw);font-size:max(11px,2.8cqw);padding:.6cqw 2cqw}
+  .arena .ar-autotag{font-size:2.5cqw}
+}
+
+/* Bảng tiến độ chuỗi tự đánh — nổi trên cả bàn đấu */
+.ttfarmbar{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);z-index:2147483000;display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;max-width:calc(100vw - 24px);padding:8px 14px;border-radius:14px;
+  background:rgba(12,10,30,.92);color:#f5ead0;border:1px solid #7ee0aa;box-shadow:0 6px 24px rgba(0,0,0,.5);font:600 14px/1.3 "Be Vietnam Pro",sans-serif}
+.ttfarmbar b{color:#b8ffd9}
+.ttfarmbar .bar{flex:1 1 120px;min-width:100px;height:6px;border-radius:99px;background:rgba(255,255,255,.15);overflow:hidden}
+.ttfarmbar .bar i{display:block;height:100%;background:linear-gradient(90deg,#7ee0aa,#ffe27a);transition:width .3s}
+.ttfarmbar .got{display:flex;flex-wrap:wrap;gap:3px;max-width:260px}
+.ttfarmbar button{font:700 13px inherit;padding:5px 12px;border-radius:99px;border:1px solid #ff9a9a;background:#5a1520;color:#fff;cursor:pointer}
+.ttfarmbar button:disabled{opacity:.5;cursor:default}

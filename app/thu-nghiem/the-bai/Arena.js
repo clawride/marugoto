@@ -118,7 +118,7 @@ function Bubble({ name, text, mood, lang }) {
   );
 }
 
-export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, advisor }) {
+export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, advisor, auto = false, canAuto = false, farm = false, onAgain, overlay }) {
   const op = OPPONENTS[m0.op];
   const who = op.char.en;
   const [match, setMatch] = useState(m0);
@@ -137,6 +137,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
   const [thinking, setThinking] = useState(false);
   const [showEnd, setShowEnd] = useState(false);
   const [zoom, setZoom] = useState(null); // ô đang phóng to để xem thẻ
+  const [autoOn, setAutoOn] = useState(auto && canAuto); // tự đánh: Quân sư đi thay bạn (chỉ ải đã thắng)
   const lastFlips = useRef(false);
   const wrap = useRef(null);
   const [voice, setVoice] = useState(true);
@@ -252,13 +253,13 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
 
   // Đồng hồ 30 giây cho lượt của bạn; hết giờ → máy tự đánh một nước ngẫu nhiên thay bạn
   useEffect(() => {
-    if (!canAct) { setDeadline(null); return; }
+    if (!canAct || autoOn) { setDeadline(null); return; }
     const d = Date.now() + TURN_MS;
     warned.current = false;
     setDeadline(d); setNow(Date.now());
     const t = setInterval(() => setNow(Date.now()), 200);
     return () => clearInterval(t);
-  }, [canAct, match.hands.me.length]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [canAct, autoOn, match.hands.me.length]); // eslint-disable-line react-hooks/exhaustive-deps
   const left = deadline ? Math.max(0, Math.ceil((deadline - now) / 1000)) : null;
   useEffect(() => {
     if (left == null || !canAct) return;
@@ -384,6 +385,27 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
     setDrag({ k, over: i, w: r.width, x: r.left + r.width / 2, y: r.top + r.width * 0.7, throwing: true });
     setTimeout(() => throwTo(k, i, 0), 40);
   };
+  // Tự đánh: tới lượt bạn thì Quân sư chọn nước rồi ném thẻ như người thật
+  const autoThrow = useRef(null);
+  autoThrow.current = () => {
+    const m = matchRef.current;
+    if (!canAct || locked.current || drag || m.turn !== "me") return;
+    try {
+      const mv = adviseMove(m), k = m.hands.me.indexOf(mv.id);
+      if (k >= 0) { setSel(null); setHint(null); throwFromHand(k, mv.cell); }
+    } catch (e) { setError(e.message); }
+  };
+  useEffect(() => {
+    if (!autoOn || !canAct) return;
+    const t = setTimeout(() => autoThrow.current?.(), 700);
+    return () => clearTimeout(t);
+  }, [autoOn, canAct, match.hands.me.length]); // eslint-disable-line react-hooks/exhaustive-deps
+  // Chuỗi tự đánh: hiện kết quả một lúc rồi tự quay về để nhận thưởng / vào trận kế
+  useEffect(() => {
+    if (!farm || !showEnd || !receipt) return;
+    const t = setTimeout(() => onDone(receipt), 1800);
+    return () => clearTimeout(t);
+  }, [farm, showEnd, receipt]); // eslint-disable-line react-hooks/exhaustive-deps
   // Ô dưới con trỏ, tính theo hình học: trên bàn nghiêng 3D, trình duyệt có lúc trả về chính mặt bàn thay vì ô
   const cellAt = (x, y) => {
     let best = null, bestD = Infinity;
@@ -520,6 +542,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
           </div>
           <div className="ar-mid">
             <div className={`ar-turn ${turn}`}>{turnText}</div>
+            {autoOn && !end && <div className="ar-autotag" role="status">🤖 Đang tự đánh</div>}
             {left != null && (
               <div className={`ar-clock ${left <= 10 ? "warn" : ""} ${left <= 5 ? "crit" : ""}`} key={left <= 5 ? "c" + left : "n"} role="timer" aria-label={`Còn ${left} giây`}>
                 <svg viewBox="0 0 48 48"><circle className="bg" cx="24" cy="24" r="20" /><circle className="fg" cx="24" cy="24" r="20" style={{ strokeDasharray: RING, strokeDashoffset: RING * (1 - Math.max(0, deadline - now) / TURN_MS) }} /></svg>
@@ -534,7 +557,12 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
         <button className="ar-lang" onClick={() => { const l = lang === "vi" ? "ja" : "vi"; setLang(l); setTalkLang(l); unlockVoice(); speakLine(talk, l); sfx.click(); }} title={lang === "vi" ? "Đổi lời thoại sang tiếng Nhật" : "Đổi lời thoại sang tiếng Việt"} aria-label="Đổi ngôn ngữ lời thoại">{lang === "vi" ? "VI" : "JA"}</button>
         <button className="ar-full" onClick={toggleFull} title={full || fakeFull ? "Thoát toàn màn hình" : "Toàn màn hình"} aria-label={full || fakeFull ? "Thoát toàn màn hình" : "Toàn màn hình"}>{full || fakeFull ? "🗗" : "⛶"}</button>
 
-        {advisor && !end && (
+        {canAuto && !end && !farm && (
+          <button className={`ar-autobtn ${autoOn ? "on" : ""}`} onClick={() => { setAutoOn((v) => !v); sfx.click(); }} title={autoOn ? "Tắt tự đánh, tự tay đánh tiếp" : "Bật tự đánh: Quân sư đánh thay bạn"} aria-pressed={autoOn}>
+            🤖 <small>{autoOn ? "Tự đánh: BẬT" : "Tự đánh"}</small>
+          </button>
+        )}
+        {advisor && !end && !autoOn && (
           <button className={`ar-advisor ${thinking ? "busy" : ""}`} disabled={!canAct || thinking || !!hint || advisor.primo < advisor.cost} onClick={askAdvisor}
             title={`Hỏi Quân sư nước đi tốt nhất · ${advisor.cost} Nguyên Thạch (đang có ${advisor.primo.toLocaleString("vi-VN")})`}>
             <span className="fan" lang="ja">軍師</span><small>{thinking ? "Đang tính…" : <>💎 {advisor.cost}</>}</small>
@@ -585,7 +613,10 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
             <div className="ar-final"><span className="me">{end.score.me}</span> : <span className="foe">{end.score.foe}</span></div>
             {receipt && end.result === "l" && (receipt.lost ? <div className="ttlost in"><Card c={byId[receipt.lost]} owner="foe" small /><p>Bạn bị mất 1 lá trong bộ bài vừa đấu: <b>{byId[receipt.lost]?.name}</b> (hạng {byId[receipt.lost]?.rank})</p></div> : <p className="hint">Hộp bài đang ở mức tối thiểu 5 loại thẻ nên không bị lấy lá nào.</p>)}
             {!receipt && <p role="status">{syncing ? "Đang xác nhận kết quả…" : "Kết quả chưa được đồng bộ."}</p>}
-            <div className="btnrow">{!receipt ? <button className="gbtn tri" disabled={syncing} onClick={finish}>Gửi lại kết quả</button> : <button className="gbtn tri" onClick={() => onDone(receipt)}><span className="c" />{end.result === "w" ? `🎁 Chọn 1 thẻ của ${op.char.vi}` : "Về danh sách đối thủ"}</button>}</div>
+            <div className="btnrow">{!receipt ? <button className="gbtn tri" disabled={syncing} onClick={finish}>Gửi lại kết quả</button> : farm ? <p className="hint" role="status">🔁 Đang chuyển sang trận kế…</p> : <>
+              <button className="gbtn tri" onClick={() => onDone(receipt)}><span className="c" />{end.result === "w" ? `🎁 Chọn 1 thẻ của ${op.char.vi}` : "Về danh sách đối thủ"}</button>
+              {onAgain && <button className="gbtn tri" onClick={() => onAgain(receipt, autoOn)}><span className="c" />🔁 Đánh lại</button>}
+            </>}</div>
             </div>
           </div>
         )}
@@ -598,6 +629,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
         {!savedLocally && <p className="hint">Trình duyệt chưa lưu được nước đi. Hãy giữ trang mở đến khi kết quả được xác nhận.</p>}
       </div>
 
+      {overlay}
       {drag && dragCard && typeof document !== "undefined" && createPortal(
         <div className="tt ar-ghostlayer"><div ref={ghost} className={`ar-ghost ${drag.over != null ? "aim" : ""}`} style={{ width: drag.w, transform: `translate(${drag.x - drag.w / 2}px,${drag.y - drag.w * 0.7}px) scale(1.08)` }}><Card c={dragCard} owner="me" /></div></div>,
         wrap.current || document.body)}

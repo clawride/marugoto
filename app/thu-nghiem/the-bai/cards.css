@@ -144,3 +144,21 @@
 .tt .ttmode small{opacity:.75;font-size:12px;line-height:1.4}
 .tt .ttmode:hover{transform:translateY(-2px)}
 .tt .ttmode.on{border-color:#ffd36b;box-shadow:0 0 0 1px #ffd36b,0 0 18px rgba(255,211,107,.35);background:linear-gradient(180deg,rgba(255,211,107,.16),rgba(255,211,107,.04))}
+
+/* Tự đánh · farm thẻ */
+.tt .sm-popcard.ttfarmset{width:min(640px,100%);justify-items:stretch;text-align:left;gap:4px}
+.tt .ttfarmset h3,.tt .ttfarmset .sm-stage{text-align:center}
+.tt .ttfarmset h4{margin:14px 0 6px;font-size:15px}
+.tt .ttfarmslots{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.tt .ttfarmslot{display:grid;justify-items:center;gap:4px;padding:6px 4px;border-radius:12px;border:2px solid transparent;background:rgba(255,255,255,.06);color:inherit;cursor:pointer;font:inherit}
+.tt .ttfarmslot>b{font-size:16px}
+.tt .ttfarmslot small{font-size:11px;line-height:1.2;text-align:center;overflow-wrap:anywhere}
+.tt .ttfarmslot .ttcard{width:100%;max-width:88px}
+.tt .ttfarmslot.on{border-color:#7ee0aa;background:rgba(126,224,170,.18);box-shadow:0 0 14px rgba(126,224,170,.5)}
+.tt .ttfarmn{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.tt .ttfarmn input{width:80px;margin-left:4px;padding:4px 6px;border-radius:8px;border:1px solid rgba(255,255,255,.3);background:rgba(0,0,0,.3);color:inherit;font:inherit}
+.tt .ttfarmset .sm-play{margin-top:14px}
+.tt .ttfarmsum{margin:10px 0;border:1px solid #7ee0aa}
+.tt .ttfarmsum h3{margin:0 0 6px}
+.tt .ttfarmcards{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px}
+.tt .ttfarmcards .ttcard{width:64px}

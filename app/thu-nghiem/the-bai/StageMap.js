@@ -20,7 +20,7 @@ const SCENES = [
   ["/shiki-duel/arena/pavilion.webp", "🌸 Đình hoa anh đào"],
 ];
 
-export default function StageMap({ ops, beat, tried = [], decks, levelOf, busy, canStart, onStart, onFirst }) {
+export default function StageMap({ ops, beat, tried = [], decks, levelOf, busy, canStart, onStart, onFirst, onAuto }) {
   const maxBeat = Math.max(-1, ...Object.keys(beat).map(Number));
   const unlocked = (op) => op.i <= maxBeat + 1;
   const cur = ops.find((op) => unlocked(op) && !(beat[op.i] > 0)) || ops[ops.length - 1];
@@ -66,7 +66,7 @@ export default function StageMap({ ops, beat, tried = [], decks, levelOf, busy, 
         </div>
       </div>
 
-      {pop != null && ops[pop] && <StagePopup op={ops[pop]} open={unlocked(ops[pop])} lv={levelOf(ops[pop])} deck={decks[pop] || []} beat={beat[pop] || 0} busy={busy} canStart={canStart} first={!tried.includes(pop)} onClose={() => setPop(null)} onStart={(o) => { setPop(null); onStart(o); }} onFirst={(o) => { setPop(null); onFirst(o); }} />}
+      {pop != null && ops[pop] && <StagePopup op={ops[pop]} open={unlocked(ops[pop])} lv={levelOf(ops[pop])} deck={decks[pop] || []} beat={beat[pop] || 0} busy={busy} canStart={canStart} first={!tried.includes(pop)} onClose={() => setPop(null)} onStart={(o) => { setPop(null); onStart(o); }} onFirst={(o) => { setPop(null); onFirst(o); }} onAuto={onAuto && ((o) => { setPop(null); onAuto(o); })} />}
       <div className={`sm-panel ${open ? "" : "locked"}`} key={op.i}>
         <div className="sm-art"><img src={opponentArt(op.char.en)} alt={open ? op.char.vi : ""} onError={(e) => { e.currentTarget.src = charIcon(op.char); }} /></div>
         <small className="sm-stage">Ải {op.i + 1} · {open ? REGION[op.char.en] || "Teyvat" : "???"}</small>
@@ -78,6 +78,8 @@ export default function StageMap({ ops, beat, tried = [], decks, levelOf, busy, 
           {!tried.includes(op.i)
             ? <button className="gbtn tri" disabled={busy} onClick={() => onFirst(op)}><span className="c" />🎲 Xáo bài & vào ải</button>
             : <button className="gbtn tri" disabled={busy || !canStart} onClick={() => onStart(op)}><span className="c" />⚔️ Vào ải</button>}
+          {beat[op.i] > 0 && tried.includes(op.i) && onAuto && <button className="gbtn tri" disabled={busy || !canStart} onClick={() => onAuto(op)}><span className="c" />🤖 Tự đánh · farm thẻ</button>}
+          {!(beat[op.i] > 0) && <p className="sm-note">🤖 Thắng ải này một lần để mở chế độ Tự đánh.</p>}
           {!canStart && <p className="sm-note">Cần chọn đủ 5 thẻ ở bước 1.</p>}
         </> : <p className="sm-note">🔒 Thắng ải {op.i} để mở ải này.</p>}
       </div>
@@ -86,7 +88,7 @@ export default function StageMap({ ops, beat, tried = [], decks, levelOf, busy, 
 }
 
 // Bảng to giữa màn hình khi bấm vào một ải: ảnh lớn + nút VÀO ẢI to, dễ bấm trên điện thoại
-function StagePopup({ op, open, lv, deck, beat, busy, canStart, first, onClose, onStart, onFirst }) {
+function StagePopup({ op, open, lv, deck, beat, busy, canStart, first, onClose, onStart, onFirst, onAuto }) {
   useEffect(() => {
     const k = (e) => e.key === "Escape" && onClose();
     window.addEventListener("keydown", k);
@@ -107,6 +109,7 @@ function StagePopup({ op, open, lv, deck, beat, busy, canStart, first, onClose, 
             <button className="sm-play" disabled={busy} onClick={() => onFirst(op)}>🎲 XÁO BÀI & VÀO ẢI</button>
           </> : <>
             <button className="sm-play" disabled={busy || !canStart} onClick={() => onStart(op)}>⚔️ VÀO ẢI</button>
+            {beat > 0 && onAuto && <button className="sm-play sm-auto" disabled={busy || !canStart} onClick={() => onAuto(op)}>🤖 TỰ ĐÁNH · FARM</button>}
             {!canStart && <p className="sm-note">Cần chọn đủ 5 thẻ ở bước 1.</p>}
           </>}
         </> : <p className="sm-note big">🔒 Thắng ải {op.i} để mở ải này.</p>}

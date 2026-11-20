@@ -2,7 +2,7 @@
 //   state                       → hồ sơ + trận đang đấu (nếu có)
 //   starter                     → rút 5 thẻ khởi đầu (mỗi tài khoản 1 lần)
 //   deck   { deck: [5 id] }     → chọn bộ bài (chỉ thẻ đang có)
-//   start  { op, rules }        → bắt đầu trận với đối thủ op (đã mở khóa)
+//   start  { op, rules, auto }  → bắt đầu trận với đối thủ op (đã mở khóa) · auto = tự đánh, chỉ cho ải đã thắng
 //   finish { matchId, moves }    → phát lại nước đi và xác nhận kết quả ván trên trình duyệt
 //   move   { hand, cell }       → đặt thẻ thứ hand trên tay vào ô cell; máy chủ đi tiếp nước của đối thủ
 //   claim  { card }             → thắng xong chọn 1 thẻ của đối thủ
@@ -216,6 +216,7 @@ async function handleAction(req, timed) {
       const op = OPPONENTS[Number(b.op)];
       if (!op) return bad("Không có đối thủ này");
       if (op.i > maxBeat(d) + 1) return bad("Ải này chưa mở khóa");
+      if (b.auto && !(d.beatC[op.char.id] > 0)) return bad("Chỉ tự đánh được ải đã thắng — ải này hãy tự tay đánh.");
       // Save the selected deck with the match, instead of one write per click.
       const first = !d.tried[op.char.id];
       const selected = first ? draftFor(d, op, deck, byId, cfg).deck : b.deck === undefined ? d.deck : b.deck;
