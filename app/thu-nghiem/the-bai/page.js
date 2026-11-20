@@ -325,9 +325,14 @@ function CardGame({ S, toast, update }) {
       {tab === "box" && <TradePanel deck={deck} box={box} busy={busy} onTrade={(r) => run("trade", { rank: r }, (j) => { sfx.win?.(); setTraded({ got: j.got, pay: j.traded }); })}
         onTradeAll={() => run("tradeAll", {}, (j) => { sfx.reveal(4); toast(`Đã đổi ${j.paid} lá trùng lấy ${j.gots.length} lá mới`); setRevealKind("draw"); setReveal(j.gots); showCine(j.gots); })} />}
       {tab === "box" && filterBar}
-      {tab === "box" && <p className="hint" style={{ textAlign: "center" }}>⬆️ Bấm vào một lá để <b>cường hóa</b>: hủy {BOOST_COST} lá trùng → +1 điểm vào một cạnh ngẫu nhiên. Đủ điểm là lá thăng hạng, lá F cũng có thể lên tới SR.</p>}
+      {tab === "box" && <p className="hint" style={{ textAlign: "center" }}>Chọn một thẻ để cường hóa hoặc <b>bán lấy 1 lượt rút</b>. Cường hóa dùng {BOOST_COST} lá trùng để cộng 1 điểm vào một cạnh ngẫu nhiên. Đủ điểm là thẻ thăng hạng, từ F lên tới SR.</p>}
       {tab === "box" && <div className="ttpool">{view.map((c) => <div key={c.id} className={`ttboxc ${box[c.id] >= BOOST_COST + 1 && !isMaxed(c) ? "canboost" : ""}`}><Card c={c} owner="me" named onClick={() => { setBoostId(c.id); sfx.click(); }} />{box[c.id] > 1 && <span className="ttcount">×{box[c.id]}</span>}{c.boost && <span className="ttboostlv">⬆{Object.values(c.boost).reduce((a, v) => a + v, 0)}</span>}{box[c.id] >= BOOST_COST + 1 && !isMaxed(c) && <span className="ttcanup" aria-hidden="true">⬆️</span>}</div>)}</div>}
-      {boostId && byId[boostId] && box[boostId] > 0 && <BoostPanel c={byId[boostId]} count={box[boostId]} ranges={RANK_RANGES} busy={busy} onClose={() => setBoostId(null)}
+      {boostId && byId[boostId] && box[boostId] > 0 && <BoostPanel c={byId[boostId]} count={box[boostId]} kinds={owned.length} ranges={RANK_RANGES} busy={busy} onClose={() => setBoostId(null)}
+        onSell={(id, count) => run("sell", { card: id, count }, (j) => {
+          setBoostId(null);
+          if (!j.box[id]) setSelectedDeck((saved) => saved && { ...saved, ids: saved.ids.filter((x) => x !== id) });
+          toast(`Đã bán 1 thẻ ${byId[id].name}. Bạn có ${j.draws} lượt rút.`);
+        })}
         onBoost={async (id) => { const j = await run("boost", { card: id }); return j?.boosted || null; }} />}
       {tab === "duel" && (
         <>

@@ -12,7 +12,7 @@
 // Không lấy lá nếu Hộp bài sẽ còn dưới 5 loại thẻ (để luôn đủ bộ bài đấu tiếp).
 import { store, auth } from "@/lib/store";
 import { getShikiConfig } from "@/lib/shikiConfig";
-import { boosted, RANK_RANGES, buildDeck, isMaxed, BOOST_COST, SIDES, drawCards, OPPONENTS, opById, legacyCharId, oppDeck, stageDeck, makeBoard, place, aiMove, score, power, rankIdx } from "@/lib/shikiCards";
+import { boosted, RANK_RANGES, buildDeck, isMaxed, BOOST_COST, MIN_KINDS, SIDES, drawCards, OPPONENTS, opById, legacyCharId, oppDeck, stageDeck, makeBoard, place, aiMove, score, power, rankIdx } from "@/lib/shikiCards";
 import { DUEL_MODE, replayDuel, duelResult, stageLevel } from "@/lib/shikiDuel";
 import { RANKS, isGenshinCardId } from "@/lib/shikihime";
 
@@ -34,7 +34,6 @@ function enableLocal(m, byId, d, ranges) {
 }
 class StaleState extends Error {}
 // Lấy 1 lá khỏi Hộp bài theo cách chọn ("best" = hạng cao nhất, mạnh nhất · "random") → id thẻ bị lấy, hoặc null nếu được bảo vệ
-const MIN_KINDS = 5;
 // 5 lá người chơi đã mang vào trận (trận cũ chưa lưu thì suy ra: các lá trong trận không thuộc bộ của boss)
 const playedCards = (m) => m.meAll || Object.keys(m.cards || {}).filter((id) => !(m.foeAll || []).includes(id));
 function takeCard(d, byId, how) {
@@ -225,7 +224,18 @@ async function handleAction(req, timed) {
       return pub(d, { drawn: d.starter });
     }
 
-    // lượt rút thẻ do quản trị tặng: mỗi lượt rút 1 lá theo tỉ lệ hạng
+    case "sell": {
+      if (d.match) return bad("Hãy đấu xong trận trước khi bán thẻ.");
+      const id = b.card;
+      if (!isGenshinCardId(id) || !(d.box[id] > 0)) return bad("Bạn không có thẻ này.");
+      if (b.count !== d.box[id]) return bad("Số lá đã thay đổi. Hãy tải lại Hộp bài.", 409);
+      if (!takeCard(d, byId, [id])) return bad(`Hộp bài cần giữ ít nhất ${MIN_KINDS} loại thẻ.`);
+      d.draws = (d.draws || 0) + 1;
+      await save();
+      return pub(d);
+    }
+
+    // Mỗi lượt rút 1 lá theo tỉ lệ hạng.
     case "draw": {
       if (!(d.draws > 0)) return bad("Bạn không còn lượt rút thẻ");
       // all = rút hết số lượt đang có (tối đa 200 lá một lần); mỗi lá rút độc lập nên có thể trùng

@@ -2,16 +2,17 @@
 // Cường hóa thẻ: hủy 2 bản trùng của lá này → +1 điểm vào một cạnh ngẫu nhiên (tối đa 10 mỗi cạnh).
 // Tổng 4 cạnh đủ ngưỡng hạng trên thì lá thăng hạng (F → E → … → SR).
 import { useState } from "react";
-import { BOOST_COST, isMaxed, power, rankForPower, rankIdx } from "@/lib/shikiCards";
+import { BOOST_COST, MIN_KINDS, isMaxed, power, rankForPower, rankIdx } from "@/lib/shikiCards";
 import { RANKS } from "@/lib/shikihime";
 import { sfx } from "@/lib/sfx";
 import { Card } from "./Card";
 
 const SIDE_VI = { t: "trên", r: "phải", b: "dưới", l: "trái" };
 
-export default function BoostPanel({ c, count, ranges, busy, onBoost, onClose }) {
+export default function BoostPanel({ c, count, kinds, ranges, busy, onBoost, onSell, onClose }) {
   const [fx, setFx] = useState(null); // { side, up: {from,to} } — hiệu ứng lần cường hóa vừa xong
   const maxed = isMaxed(c), p = power(c), canPay = count >= BOOST_COST + 1;
+  const canSell = count > 1 || kinds > MIN_KINDS;
   const next = RANKS[rankIdx(rankForPower(p, ranges)) + 1];
   const need = next ? ranges[next][0] - p : 0;
   const go = async () => {
@@ -22,10 +23,10 @@ export default function BoostPanel({ c, count, ranges, busy, onBoost, onClose })
     if (up) { sfx.meteor(rankIdx(r.to) >= 6 ? 5 : 4); setTimeout(() => sfx.fanfare(), 600); } else { sfx.primo(); sfx.reveal(2); }
   };
   return (
-    <div className="ttboost" onClick={onClose} role="dialog" aria-label={`Cường hóa ${c.name}`}>
+    <div className="ttboost" onClick={onClose} role="dialog" aria-label={`Thẻ ${c.name}`}>
       <div className="ttboostcard" onClick={(e) => e.stopPropagation()}>
         <button className="sm-x" onClick={onClose} aria-label="Đóng">✕</button>
-        <h3>⬆️ Cường hóa thẻ</h3>
+        <h3>{c.name}</h3>
         <div className={`ttboostart ${fx?.up ? "rankup" : ""}`} key={fx?.k || 0}>
           <Card c={c} owner="me" named hit={fx ? { [fx.side]: "atk" } : null} />
           {fx && <span className={`ttplus s-${fx.side}`}>+1</span>}
@@ -40,6 +41,10 @@ export default function BoostPanel({ c, count, ranges, busy, onBoost, onClose })
           {maxed ? "✔ Đã đạt điểm tối đa" : `⬆️ CƯỜNG HÓA (hủy ${BOOST_COST} lá)`}
         </button>
         <p className="sm-note">Đang có <b>{count}</b> lá {c.name}{!canPay && !maxed ? ` — cần ít nhất ${BOOST_COST + 1} lá (luôn giữ lại 1 lá)` : ""}. Mỗi lần: +1 điểm vào một cạnh ngẫu nhiên chưa đạt 10.</p>
+        <button type="button" className="chip dk" disabled={busy || !canSell} onClick={() => onSell(c.id, count)}>
+          Bán 1 thẻ · Nhận 1 lượt rút
+        </button>
+        {!canSell && <p className="sm-note">Hộp bài cần giữ ít nhất {MIN_KINDS} loại thẻ.</p>}
       </div>
     </div>
   );

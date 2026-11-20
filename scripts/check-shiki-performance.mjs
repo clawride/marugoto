@@ -250,3 +250,34 @@ assert.ok(oldOnly.deck.every((id) => oldOnly.box[id] === 1 && validIds.has(id)))
 assert.equal((await request("starter")).status, 400);
 assert.equal((await request("start", { op: 0 })).status, 200);
 console.log("PASS: Genshin-only catalog, 120 boss decks, existing collections, pending rewards and starter recovery.");
+
+assert.equal((await request("sell", { card: oldOnly.deck[0], count: 1 })).status, 400);
+const sixIds = deck.slice(0, 6).map((card) => card.id);
+const saleId = sixIds[0];
+rows.set(playerKey, {
+  genshinOnly: true, starter: sixIds.slice(0, 5), deck: sixIds.slice(0, 5),
+  box: { ...Object.fromEntries(sixIds.map((id) => [id, 1])), [saleId]: 2 },
+  boost: { [saleId]: { t: 1 } },
+});
+const sell = (card, count) => request("sell", { card, count });
+const simultaneous = await Promise.all([sell(saleId, 2), sell(saleId, 2)]);
+assert.deepEqual(simultaneous.map((r) => r.status).sort(), [200, 409]);
+const firstSale = simultaneous.find((r) => r.status === 200).data;
+assert.equal(firstSale.box[saleId], 1);
+assert.deepEqual(firstSale.boost[saleId], { t: 1 });
+assert.equal(firstSale.draws, 1);
+assert.equal((await sell(saleId, 2)).status, 409);
+const lastCopy = await sell(saleId, 1);
+assert.equal(lastCopy.status, 200);
+assert.equal(lastCopy.data.draws, 2);
+assert.equal(lastCopy.data.box[saleId], undefined);
+assert.equal(lastCopy.data.boost[saleId], undefined);
+assert.deepEqual(lastCopy.data.deck, sixIds.slice(1));
+assert.equal((await sell(saleId, 1)).status, 400);
+assert.equal((await sell(sixIds[1], 1)).status, 400);
+assert.equal((await request("state")).data.draws, 2);
+const redeem = await request("draw");
+assert.equal(redeem.status, 200);
+assert.equal(redeem.data.drawn.length, 1);
+assert.equal(redeem.data.draws, 1);
+console.log("PASS: selling cards, concurrent requests, deck repair, five-kind minimum and draw redemption.");
