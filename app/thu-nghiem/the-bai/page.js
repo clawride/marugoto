@@ -12,6 +12,7 @@ import { opponentArt } from "@/lib/shikiDialogue";
 import { unlockVoice } from "@/lib/shikiVoice";
 import { sfx } from "@/lib/sfx";
 import { Card } from "./Card";
+import DeckPicker from "./DeckPicker";
 import { api } from "./api";
 import Arena from "./Arena";
 import StageMap from "./StageMap";
@@ -350,9 +351,9 @@ function CardGame({ S, toast, update }) {
               <b className="title" lang="ja">{shufPick ? "運命の五枚" : "シャッフル"}</b>
             </div>
           )}
-          <p className="hint">Bấm thẻ để thêm vào bộ bài (bấm lần nữa để bỏ). Bộ bài được lưu khi bắt đầu trận.</p>
+          <p className="hint">Kéo ngang để xem thẻ. Bấm thẻ để thêm vào bộ bài, bấm lần nữa để bỏ. Bộ bài được lưu khi bắt đầu trận.</p>
           {filterBar}
-          <div className={`ttpool ${shuffling ? "shuffling" : ""}`}>{pool.map((c, n) => { const i = myDeck.indexOf(c.id); return <div key={c.id} className={`ttpick ${i >= 0 ? "in" : ""}`} style={{ "--sx": ((n * 53) % 100) - 50, "--sy": ((n * 31) % 60) - 30, "--sr": ((n * 47) % 50) - 25, "--n": n }}><Card c={c} owner={i >= 0 ? "me" : null} badge={i >= 0 ? i + 1 : null} named onClick={() => toggle(c, i)} /></div>; })}</div>
+          <DeckPicker key={`${flt.set}-${flt.el}`} cards={pool} myDeck={myDeck} shuffling={shuffling} onToggle={toggle} />
           {owned.length < 5 && <p className="hint">Hộp bài cần ít nhất 5 thẻ.</p>}
           <details className="ttadv">
             <summary>⚙️ Nâng cao <small>{(MODES.find(([k]) => k === mode) || MODES[1])[2]} · độ khó {level === "auto" ? "tăng dần" : LEVELS[level][0]}{Object.entries(rules).some(([k, v]) => v && k !== "open") ? " · có luật thêm" : ""}</small></summary>
