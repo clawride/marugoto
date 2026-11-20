@@ -521,7 +521,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
           {cells.map((cell, i) => {
             const c = cell && cards[cell.id];
             return (
-              <button key={i + "-" + (cell?.owner || "x")} type="button" className={`mc ${cell ? cell.owner : ""} ${last === i ? "last" : ""} ${fx[i] ? "fl" : ""}`}
+              <button key={i + "-" + (cell?.owner || "x")} type="button" data-edition={c?.edition} className={`mc ${cell ? cell.owner : ""} ${last === i ? "last" : ""} ${fx[i] ? "fl" : ""}`}
                 onClick={() => { if (cell) { setZoom(i); sfx.page(); } }} aria-label={c ? `${c.name} · ${cell.owner === "me" ? "của bạn" : "của đối thủ"}` : "Ô trống"}>
                 {c ? <>
                   <img className="pt" src={cardArt(c)} alt="" draggable={false} />

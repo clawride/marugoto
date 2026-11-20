@@ -156,6 +156,9 @@
 .tt .ttstars{position:absolute;left:50%;bottom:2.5%;translate:-50% 0;z-index:3;font-size:8cqw;letter-spacing:-.05em;color:#ffd36b;text-shadow:0 0 2cqw rgba(0,0,0,.9),0 0 1px #000;white-space:nowrap}
 .tt .ttpool .ttcard.gi .ttstars,.tt .ttreveal .ttcard.gi .ttstars{bottom:11%}
 .tt .ttcard.gi.rk-S,.tt .ttcard.gi.rk-SR{border-color:#ffd36b}
+.tt .ttcard.gi[data-edition="2"],.arena .ar-mini .mc[data-edition="2"]{border-color:#e52f45}
+.tt .ttcard.gi[data-edition="2"] .ttart{border:1px solid #95192c}
+.tt .ttcard.gi[data-edition="2"] .ttportrait{object-fit:contain;object-position:center;transform:none}
 
 /* ===== hào quang thẻ hạng A / S / SR ===== */
 .tt .ttaura{position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:-1}
@@ -264,6 +267,7 @@
 /* ===== cường hóa thẻ ===== */
 .tt .ttboxc .ttcard{cursor:pointer}
 .tt .ttboxc.ttmissing .ttcard{filter:grayscale(.9) brightness(.56);cursor:default}
+.tt .ttboxc.ttmissing .ttcard[data-edition="2"]{filter:brightness(.62)}
 .tt .ttsaleqty{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
 .tt .ttsaleqty input{width:5em;font:inherit;text-align:center;padding:4px}
 .tt .ttboxc.canboost .ttcard{outline:2px dashed rgba(143,255,180,.7);outline-offset:3px}

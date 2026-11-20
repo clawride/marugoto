@@ -205,7 +205,28 @@ console.log("PASS: browser turns, deterministic restore, migration, optimal endg
 
 const retired = "0101010101";
 const validIds = new Set(deck.map((card) => card.id));
-assert.equal(validIds.size, 120);
+const editionTwo = deck.filter((card) => card.edition === 2);
+assert.equal(editionTwo.length, 112);
+assert.equal(validIds.size, 120 + editionTwo.length);
+assert.equal(deck.length, validIds.size);
+const { isGenshinCardId, normalizeShiki } = modules.get(path.join(root, "lib/shikihime.js")).namespace;
+for (const card of editionTwo) {
+  assert.ok(isGenshinCardId(card.id));
+  assert.ok(card.name.endsWith(" · V2"));
+  const asset = await readFile(path.join(root, "public", card.img));
+  assert.equal(asset.toString("ascii", 8, 12), "WEBP");
+  assert.ok(engine.SIDES.every((side) => Number.isInteger(card.n[side]) && card.n[side] >= 1 && card.n[side] <= 10));
+  if (card.charId) {
+    const original = deck.find((c) => c.id === "g" + card.charId);
+    assert.deepEqual(card.n, original.n);
+    assert.equal(card.rank, original.rank);
+    assert.equal(card.el, original.el);
+  }
+}
+const boss = engine.OPPONENTS[0];
+const variantHand = [engine.ownCardId(boss), ...editionTwo.slice(0, 4).map((card) => card.id)];
+const configV2 = normalizeShiki({ stages: { [boss.char.id]: { deck: variantHand } } });
+assert.deepEqual(engine.stageDeck(boss, deck, configV2).map((card) => card.id), variantHand);
 assert.ok(deck.every((card) => card.gi));
 for (const op of engine.OPPONENTS) {
   const hand = engine.stageDeck(op, deck, { stages: { [op.char.id]: { deck: Array(5).fill(retired) } } });

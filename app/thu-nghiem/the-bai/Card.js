@@ -14,7 +14,7 @@ export function Card({ c, owner, onClick, back, sel, badge, el, flip, small, nam
   const d = (k) => (el ? v(k) - c.n[k] : 0);
   const Tag = onClick ? "button" : "div";
   return (
-    <Tag type={onClick ? "button" : undefined} className={`ttcard ${c.gi ? "gi" : ""} ${owner || ""} rk-${c.rank} ${sel ? "sel" : ""} ${flip ? `flip f${flip}` : ""} ${small ? "sm" : ""} ${className}`} onClick={onClick} style={{ "--ec": ELEM[c.el]?.c, ...style }} title={`${c.name} · ${c.ro} · hạng ${c.rank}`}>
+    <Tag type={onClick ? "button" : undefined} data-edition={c.edition} className={`ttcard ${c.gi ? "gi" : ""} ${owner || ""} rk-${c.rank} ${sel ? "sel" : ""} ${flip ? `flip f${flip}` : ""} ${small ? "sm" : ""} ${className}`} onClick={onClick} style={{ "--ec": ELEM[c.el]?.c, ...style }} title={`${c.name} · ${c.ro} · hạng ${c.rank}`}>
       <div className="ttart"><img className="ttportrait" src={cardArt(c)} alt={c.ro} loading={named ? "lazy" : "eager"} decoding="async" draggable={false} /></div>
       {(c.rank === "A" || c.rank === "S" || c.rank === "SR") && <span className="ttaura" aria-hidden="true" />}
       <span className="ttfoil" aria-hidden="true" />
