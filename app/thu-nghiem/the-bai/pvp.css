@@ -1,0 +1,20 @@
+.tt .pvp-lobby{margin:12px 0;padding:12px}
+.pvp-lobby h3,.pvp-lobby p{margin:0 0 8px}
+.pvp-lobby ul{list-style:none;padding:0;margin:0;display:flex;gap:6px;flex-wrap:wrap;max-height:125px;overflow:auto}
+.tt .pvp-chat{position:fixed;right:12px;bottom:12px;z-index:2700;width:min(350px,calc(100vw - 24px));padding:14px;background:#201b34;border:1px solid #ad8f59;color:#fff7e0;box-shadow:0 12px 35px #0009}
+.pvp-chat header,.pvp-chat form{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.pvp-chat input{min-width:0;flex:1;padding:8px;background:#100e20;color:inherit;border:1px solid #76678e;border-radius:6px}
+.pvp-chat form{margin:8px 0}
+.pvp-chat small{display:block;margin-top:6px}
+.pvp-messages{max-height:150px;overflow:auto;display:grid;gap:4px;margin-top:8px}
+.pvp-messages p{margin:0;padding:5px 8px;border-radius:8px;background:#47405e;overflow-wrap:anywhere;justify-self:start}
+.pvp-messages p.me{justify-self:end;background:#23485c}
+.pvp-invite strong{color:#ffde89}
+.tt.pvp-board{text-align:center;max-width:760px;margin:auto;padding:14px;background:linear-gradient(155deg,#28203d,#122831)}
+.pvp-score b{color:#ffe39a}
+.pvp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;width:min(345px,90vw);max-width:100%;margin:12px auto}
+.pvp-grid>div{aspect-ratio:3/4;display:grid;place-items:stretch;min-width:0}
+.pvp-grid>div>button{border:1px dashed #ae9768;border-radius:8px;color:#ffe39a;background:#ffffff0a;cursor:pointer}
+.pvp-grid>div>button:disabled{color:#fff7;cursor:default}
+.pvp-hand{display:flex;justify-content:center;gap:5px;margin:10px auto 16px}
+.pvp-hand>div{width:min(100px,18%);min-width:0}

@@ -19,6 +19,7 @@ import StageMap from "./StageMap";
 import DrawCine from "./DrawCine";
 import DraftShow from "./DraftShow";
 import BoostPanel from "./BoostPanel";
+import { PvpBoard, PvpLobby, usePvp } from "./Pvp";
 import "./cards.css";
 import "./arena.css";
 import "./arena-fp.css";
@@ -56,6 +57,8 @@ function CardGame({ S, toast, update }) {
   const [tab, setTab] = useState("duel");
   const [selectedDeck, setSelectedDeck] = useState(null);
   const actionLock = useRef(false);
+  const pvpDeck = (selectedDeck && selectedDeck.uid === profile?.id ? selectedDeck.ids : P?.deck || [])
+    .filter((id) => P?.box?.[id] > 0).slice(0, 5);
   const [shuffling, setShuffling] = useState(false);
   const [poolOrder, setPoolOrder] = useState(null);
   const [element, setElement] = useState("all");
@@ -83,6 +86,10 @@ function CardGame({ S, toast, update }) {
   const autoNext = useRef(false); // trận sắp vào là trận tự đánh
   const farmStep = useRef(null); // id trận đã xử lý (chống gọi trùng)
   const [again, setAgain] = useState(null); // { op, deck, auto } — Đánh lại sau khi nhận thưởng
+  const playing = Boolean(P?.match || (farm && !farm.done));
+  const pvp = usePvp(profile, Boolean(!P?.starter || busy || playing || P?.pending || reveal || traded || draft),
+    playing, pvpDeck, async () => setP(await api(profile, "state", { mode: DUEL_MODE })), toast);
+  const pvpPanel = profile?.id && <PvpLobby pvp={pvp} />;
   const setFarmBoth = (f) => { farmRef.current = typeof f === "function" ? f(farmRef.current) : f; setFarm(farmRef.current); };
   useEffect(() => {
     try {
@@ -183,6 +190,8 @@ function CardGame({ S, toast, update }) {
   if (!profile?.id) return <div className="tt">{head}<p className="hint" style={{ textAlign: "center" }}>🔒 Cần đăng nhập để chơi — Hộp bài và kết quả các trận được lưu trên máy chủ theo tài khoản.</p></div>;
   if (!P || !cfg) return <div className="tt">{head}<p className="hint" style={{ textAlign: "center" }}>{err || "Đang tải…"}</p></div>;
 
+  if (pvp.room) return <PvpBoard key={pvp.room.id} pvp={pvp} byId={byId} />;
+
   // ——— rút khởi đầu ———
   const showCine = (ids) => {
     const top = ids.filter((id) => byId[id]?.rank === "SR").concat(ids.filter((id) => byId[id]?.rank === "S"));
@@ -201,7 +210,7 @@ function CardGame({ S, toast, update }) {
     </div>
   );
   if (!P.starter) return (
-    <div className="tt">{head}
+    <div className="tt">{head}{pvpPanel}
       <p style={{ textAlign: "center" }}>Mỗi tài khoản được rút <b>1 lần</b> 5 thẻ khởi đầu (5 thẻ khác nhau). Thẻ càng tốt càng hiếm. Sau đó đấu với các nhân vật Genshin — thắng thì được chọn lấy 1 thẻ của họ.</p>
       <OddsTable deck={baseDeck} />
       <div className="btnrow"><button className="gbtn tri" disabled={busy} onClick={() => run("starter", {}, (j) => { sfx.open(); setRevealKind("starter"); setReveal(j.drawn); })}><span className="c" />🎴 Rút 5 thẻ khởi đầu</button></div>
@@ -258,7 +267,7 @@ function CardGame({ S, toast, update }) {
   if (P.match) {
     const mop = OPPONENTS[P.match.op], cleared = P.beat?.[P.match.op] > 0, farming = Boolean(farm && !farm.done && !farm.fast);
     const played = P.match.meAll || P.match.hands.me;
-    return <>{launchFx}<Arena key={P.match.id} m0={P.match} launchEndsAt={launchEndsAt.current} byId={byId} profile={profile} leaving={busy}
+    return <>{pvpPanel}{launchFx}<Arena key={P.match.id} m0={P.match} launchEndsAt={launchEndsAt.current} byId={byId} profile={profile} leaving={busy}
     auto={farming || autoNext.current} canAuto={cleared && cfg.autoEnabled} farm={farming} overlay={farmBar}
     onAgain={farming ? null : (j, wasAuto) => { setP(j); if (j.lost) setLostNote({ id: j.lost, why: "Thua trận" }); if (j.pending) setAgain({ op: mop, deck: played, auto: wasAuto }); else replay(mop, played, j, wasAuto); }}
     advisor={mode === "advisor" && !P.match.rules.open ? { cost: HINT_COST, primo: S.primo || 0, pay: () => update((s) => { if ((s.primo || 0) < HINT_COST) return false; s.primo -= HINT_COST; return true; }) } : null}
@@ -315,7 +324,7 @@ function CardGame({ S, toast, update }) {
     else start(op, myDeck, true).then((j) => { if (!j) farmFinish(null, "Không thể bắt đầu tự đánh."); });
   };
   return (
-    <div className="tt">{head}{launchFx}{farmBar}
+    <div className="tt">{head}{pvpPanel}{launchFx}{farmBar}
       {farm?.done && <FarmSummary farm={farm} byId={byId} busy={busy} onClose={() => setFarmBoth(null)} onAgain={() => { const op = farm.op; setFarmBoth(null); setFarmSetup(op); }} />}
       {cfg.autoEnabled && farmSetup && <FarmSetup limit={cfg.autoLimit} op={farmSetup} boss={stageDeck(farmSetup, baseDeck, cfg)} opt={farmOpt} setOpt={setFarmOpt} canStart={myDeck.length === 5} busy={busy} onCancel={() => setFarmSetup(null)} onGo={() => beginFarm(farmSetup)} />}
       {lostNote && byId[lostNote.id] && <div className="panel ttlost"><Card c={byId[lostNote.id]} owner="foe" small /><div><b>{lostNote.why}: bạn bị lấy mất 1 lá</b><p>{byId[lostNote.id].name} · {byId[lostNote.id].ro} · hạng {byId[lostNote.id].rank}{P.box[lostNote.id] ? ` (còn ${P.box[lostNote.id]} lá)` : " (đã hết lá này)"}</p><button className="chip dk" onClick={() => setLostNote(null)}>Đã hiểu</button></div></div>}

@@ -13,6 +13,7 @@
 import { randomInt } from "node:crypto";
 import { store, auth } from "@/lib/store";
 import { getShikiConfig } from "@/lib/shikiConfig";
+import { pvpLocked } from "@/lib/shikiPvp";
 import { availableRanks, boosted, RANK_RANGES, buildDeck, isMaxed, BOOST_COST, MIN_KINDS, maxSellQuantity, SIDES, drawCards, OPPONENTS, opById, legacyCharId, oppDeck, stageDeck, makeBoard, place, aiMove, score, power, rankIdx } from "@/lib/shikiCards";
 import { DUEL_MODE, replayDuel, duelResult, stageLevel } from "@/lib/shikiDuel";
 import { EXTRA_RULES, RANKS, isGenshinCardId } from "@/lib/shikihime";
@@ -217,6 +218,10 @@ async function handleAction(req, timed) {
     return pub(d);
   }
   if (b.action === "finish" && !d.match && d.receipt && d.receipt.id === b.matchId) return pub(d, d.receipt);
+  if (d.pvp) {
+    if (await pvpLocked(d.pvp)) return bad("Hãy kết thúc trận PvP trước khi đổi bài hoặc vào trận mới.", 409);
+    delete d.pvp;
+  }
   const { cfg, deck, byId } = await timed("config", getShikiConfig);
 
   switch (b.action) {
