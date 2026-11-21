@@ -117,7 +117,7 @@ function CardGame({ S, toast, update }) {
     unlockVoice(); // chạm "Đấu" mở khóa âm thanh cho giọng nhân vật (iPhone/Android)
     setLaunching(op.i); sfx.whoosh(); setTimeout(() => sfx.boom(), 350);
     setTimeout(() => setLaunching(null), 2300); setTimeout(() => sfx.boom(), 900); setTimeout(() => sfx.cast(), 150);
-    run("start", { op: op.i, rules: r, deck: deckIds, mode: DUEL_MODE, level: level === "auto" ? undefined : level, auto: auto || undefined }, () => { setSelectedDeck(null); sfx.open(); });
+    return run("start", { op: op.i, rules: r, deck: deckIds, mode: DUEL_MODE, level: level === "auto" ? undefined : level, auto: auto || undefined, autoBatch: auto && farmRef.current && !farmRef.current.done ? farmRef.current.batch : undefined }, () => { setSelectedDeck(null); sfx.open(); });
   };
   // Đánh lại: cùng bộ 5 lá vừa đấu; lá nào vừa bị lấy mất thì dùng bộ bài máy chủ đã bù
   function replay(op, played, j, auto) {
@@ -152,7 +152,7 @@ function CardGame({ S, toast, update }) {
     if (f.stop || f.i >= f.n || !deckIds) { farmFinish(latest, !deckIds ? "Bộ bài không còn đủ 5 lá." : null); return; }
     setFarmBoth((x) => ({ ...x, i: x.i + 1 }));
     setP(latest);
-    start(f.op, deckIds, true);
+    if (!await start(f.op, deckIds, true)) farmFinish(latest, "Không thể tiếp tục tự đánh.");
   }
   // Chạy nhanh: không diễn hoạt cảnh — Quân sư tính trong Web Worker, máy chủ vẫn phát lại và chấm từng ván
   const solve = (match) => new Promise((resolve, reject) => {
@@ -170,7 +170,7 @@ function CardGame({ S, toast, update }) {
     actionLock.current = true; setBusy(true);
     try {
       for (;;) {
-        const s = await api(profile, "start", { op: op.i, rules: r, deck: deckIds, mode: DUEL_MODE, level: level === "auto" ? undefined : level, auto: true });
+        const s = await api(profile, "start", { op: op.i, rules: r, deck: deckIds, mode: DUEL_MODE, level: level === "auto" ? undefined : level, auto: true, autoBatch: farmRef.current.batch });
         latest = s;
         const { moves } = await solve(s.match);
         const fin = await api(profile, "finish", { matchId: s.match.id, moves });
@@ -264,7 +264,7 @@ function CardGame({ S, toast, update }) {
     const mop = OPPONENTS[P.match.op], cleared = P.beat?.[P.match.op] > 0, farming = Boolean(farm && !farm.done && !farm.fast);
     const played = P.match.meAll || P.match.hands.me;
     return <>{launchFx}<Arena key={P.match.id} m0={P.match} byId={byId} profile={profile} leaving={busy}
-    auto={farming || autoNext.current} canAuto={cleared} farm={farming} overlay={farmBar}
+    auto={farming || autoNext.current} canAuto={cleared && cfg.autoEnabled} farm={farming} overlay={farmBar}
     onAgain={farming ? null : (j, wasAuto) => { setP(j); if (j.lost) setLostNote({ id: j.lost, why: "Thua trận" }); if (j.pending) setAgain({ op: mop, deck: played, auto: wasAuto }); else replay(mop, played, j, wasAuto); }}
     advisor={mode === "advisor" && !P.match.rules.open ? { cost: HINT_COST, primo: S.primo || 0, pay: () => update((s) => { if ((s.primo || 0) < HINT_COST) return false; s.primo -= HINT_COST; return true; }) } : null}
     onDone={(j) => { if (farming) { farmDone(j); return; } setP(j); if (j.lost) setLostNote({ id: j.lost, why: "Thua trận" }); }}
@@ -311,16 +311,18 @@ function CardGame({ S, toast, update }) {
   };
   const levelOf = (op) => (level === "auto" ? stageLevel(op, cfg) : level);
   const beginFarm = (op) => {
-    const o = { n: Math.max(1, Math.min(999, Math.floor(Number(farmOpt.n) || 1))), slot: Math.max(1, Math.min(5, Number(farmOpt.slot) || 1)), fast: !!farmOpt.fast };
+    if (!cfg.autoEnabled) return;
+    const o = { batch: crypto.randomUUID(), n: Math.max(1, Math.min(cfg.autoLimit, Math.floor(Number(farmOpt.n) || 1))), slot: Math.max(1, Math.min(5, Number(farmOpt.slot) || 1)), fast: !!farmOpt.fast };
     try { localStorage.setItem("shiki_tt_farm", JSON.stringify(o)); localStorage.setItem(LS, JSON.stringify({ ...rules, open: mode === "open" })); localStorage.setItem(LS_MODE, mode); } catch {}
     setFarmSetup(null); setLostNote(null); farmStep.current = null; unlockVoice();
     setFarmBoth({ op, ...o, i: 1, w: 0, l: 0, d: 0, got: [], lost: [], stop: false, done: false, err: null });
-    if (o.fast) farmFast(op, myDeck); else start(op, myDeck, true);
+    if (o.fast) farmFast(op, myDeck);
+    else start(op, myDeck, true).then((j) => { if (!j) farmFinish(null, "Không thể bắt đầu tự đánh."); });
   };
   return (
     <div className="tt">{head}{launchFx}{farmBar}
       {farm?.done && <FarmSummary farm={farm} byId={byId} busy={busy} onClose={() => setFarmBoth(null)} onAgain={() => { const op = farm.op; setFarmBoth(null); setFarmSetup(op); }} />}
-      {farmSetup && <FarmSetup op={farmSetup} boss={stageDeck(farmSetup, baseDeck, cfg)} opt={farmOpt} setOpt={setFarmOpt} canStart={myDeck.length === 5} busy={busy} onCancel={() => setFarmSetup(null)} onGo={() => beginFarm(farmSetup)} />}
+      {cfg.autoEnabled && farmSetup && <FarmSetup limit={cfg.autoLimit} op={farmSetup} boss={stageDeck(farmSetup, baseDeck, cfg)} opt={farmOpt} setOpt={setFarmOpt} canStart={myDeck.length === 5} busy={busy} onCancel={() => setFarmSetup(null)} onGo={() => beginFarm(farmSetup)} />}
       {lostNote && byId[lostNote.id] && <div className="panel ttlost"><Card c={byId[lostNote.id]} owner="foe" small /><div><b>{lostNote.why}: bạn bị lấy mất 1 lá</b><p>{byId[lostNote.id].name} · {byId[lostNote.id].ro} · hạng {byId[lostNote.id].rank}{P.box[lostNote.id] ? ` (còn ${P.box[lostNote.id]} lá)` : " (đã hết lá này)"}</p><button className="chip dk" onClick={() => setLostNote(null)}>Đã hiểu</button></div></div>}
       {P.draws > 0 && <div className="panel ttdraws"><span>🎟️ Bạn có <b>{P.draws}</b> lượt rút thẻ</span><button className="gbtn tri" disabled={busy} onClick={() => run("draw", {}, (j) => { sfx.reveal(4); setRevealKind("draw"); setReveal(j.drawn); showCine(j.drawn); })}><span className="c" />🎴 Rút 1 thẻ</button>{P.draws > 1 && <button className="gbtn tri" disabled={busy} onClick={() => run("draw", { all: true }, (j) => { sfx.meteor(5); setRevealKind("draw"); setReveal(j.drawn); showCine(j.drawn); })}><span className="c" />✨ Rút tất cả ({P.draws})</button>}</div>}
       <div className="ttrec">Hộp bài: <b>{owned.length}</b>/{deck.length} loại · {rec.w} thắng · {rec.d} hòa · {rec.l} thua</div>
@@ -390,7 +392,7 @@ function CardGame({ S, toast, update }) {
           <div className="ttrules">{RULES.filter(([k]) => k !== "open").map(([k, n, d]) => <label key={k} className={`panel ttrule ${rules[k] ? "on" : ""}`}><input type="checkbox" checked={rules[k]} onChange={(e) => setRules((r) => ({ ...r, [k]: e.target.checked }))} /><b>{n}</b><small>{d}</small></label>)}</div>
           </details>
           <h2 className="a22th"><span>2 · Bản đồ các ải</span> <small>qua ải này mới mở ải tiếp theo</small></h2>
-          <StageMap ops={OPPONENTS} beat={beat} tried={P.tried || []} firstMatchDraft={cfg.firstMatchDraft !== false} decks={opponentDecks} levelOf={levelOf} busy={busy} canStart={myDeck.length === 5 && !(farm && !farm.done)} onStart={(op) => start(op, myDeck)} onFirst={openFirst} onAuto={(op) => { setFarmSetup(op); sfx.open(); }} />
+          <StageMap ops={OPPONENTS} beat={beat} tried={P.tried || []} firstMatchDraft={cfg.firstMatchDraft !== false} decks={opponentDecks} levelOf={levelOf} busy={busy} canStart={myDeck.length === 5 && !(farm && !farm.done)} onStart={(op) => start(op, myDeck)} onFirst={openFirst} onAuto={cfg.autoEnabled ? (op) => { setFarmSetup(op); sfx.open(); } : undefined} />
           {draft && <DraftShow op={draft.op} ids={draft.ids} bossRanks={draft.bossRanks} byId={byId} busy={busy} onCancel={() => { setDraft(null); sfx.click(); }} onPlay={() => { const op = draft.op; setDraft(null); start(op, myDeck); }} />}
         </>
       )}
@@ -399,7 +401,8 @@ function CardGame({ S, toast, update }) {
 }
 
 // Bảng cài đặt tự đánh: số trận, lấy thẻ thưởng ở ô nào, xem trận hay chạy nhanh
-function FarmSetup({ op, boss, opt, setOpt, canStart, busy, onCancel, onGo }) {
+function FarmSetup({ limit, op, boss, opt, setOpt, canStart, busy, onCancel, onGo }) {
+  const count = Math.max(1, Math.min(limit, Math.floor(Number(opt.n) || 1)));
   const set = (k, v) => setOpt((o) => ({ ...o, [k]: v }));
   return (
     <div className="sm-pop" onClick={onCancel} role="dialog" aria-modal="true" aria-label={`Tự đánh ${op.char.vi}`}>
@@ -414,17 +417,17 @@ function FarmSetup({ op, boss, opt, setOpt, canStart, busy, onCancel, onGo }) {
             <b>{k + 1}</b><Card c={c} owner={opt.slot === k + 1 ? "me" : "foe"} small /><small>{c.name}</small>
           </button>
         ))}</div>
-        <h4>🔁 Số trận</h4>
+        <h4>🔁 Số trận (tối đa {limit})</h4>
         <div className="ttfarmn">
-          {[1, 5, 10, 20, 50].map((n) => <button key={n} type="button" className={`chip dk ${Number(opt.n) === n ? "on" : ""}`} onClick={() => set("n", n)}>{n === 1 ? "1 trận" : n}</button>)}
-          <label>Tự nhập <input type="number" min="1" max="999" value={opt.n} onChange={(e) => set("n", e.target.value)} /></label>
+          {[1, 5, 10, 20, 50].filter((n) => n <= limit).map((n) => <button key={n} type="button" className={`chip dk ${Number(opt.n) === n ? "on" : ""}`} onClick={() => set("n", n)}>{n === 1 ? "1 trận" : n}</button>)}
+          <label>Tự nhập <input type="number" min="1" max={limit} value={opt.n} onChange={(e) => set("n", e.target.value)} /></label>
         </div>
         <h4>🎬 Cách chạy</h4>
         <div className="ttfarmn">
           <button type="button" className={`chip dk ${opt.fast ? "on" : ""}`} onClick={() => set("fast", true)}>⚡ Chạy nhanh (bỏ hoạt cảnh)</button>
           <button type="button" className={`chip dk ${!opt.fast ? "on" : ""}`} onClick={() => set("fast", false)}>👀 Xem từng trận</button>
         </div>
-        <button className="sm-play sm-auto" disabled={busy || !canStart} onClick={onGo}>🤖 BẮT ĐẦU {Number(opt.n) > 1 ? `${Math.floor(Number(opt.n))} TRẬN` : "TỰ ĐÁNH"}</button>
+        <button className="sm-play sm-auto" disabled={busy || !canStart} onClick={onGo}>🤖 BẮT ĐẦU {count > 1 ? `${count} TRẬN` : "TỰ ĐÁNH"}</button>
         {!canStart && <p className="sm-note">Cần chọn đủ 5 thẻ ở bước 1.</p>}
       </div>
     </div>

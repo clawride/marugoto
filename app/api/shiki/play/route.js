@@ -281,7 +281,15 @@ async function handleAction(req, timed) {
       const op = OPPONENTS[Number(b.op)];
       if (!op) return bad("Không có đối thủ này");
       if (op.i > maxBeat(d) + 1) return bad("Ải này chưa mở khóa");
+      if (b.auto && !cfg.autoEnabled) return bad("Chế độ tự đánh đang tắt.");
       if (b.auto && !(d.beatC[op.char.id] > 0)) return bad("Chỉ tự đánh được ải đã thắng — ải này hãy tự tay đánh.");
+      const batch = b.auto && b.autoBatch;
+      if (batch) {
+        if (typeof batch !== "string" || !/^[a-f0-9-]{36}$/i.test(batch)) return bad("Đợt tự đánh không hợp lệ.");
+        const count = d.autoBatch?.id === batch ? d.autoBatch.count : 0;
+        if (count >= cfg.autoLimit) return bad(`Đã đủ ${cfg.autoLimit} trận cho đợt tự đánh này.`);
+        d.autoBatch = { id: batch, count: count + 1 };
+      }
       // Save the selected deck with the match, instead of one write per click.
       const first = cfg.firstMatchDraft !== false && !d.tried[op.char.id];
       const selected = first ? draftFor(d, op, deck, byId, cfg).deck : b.deck === undefined ? d.deck : b.deck;
