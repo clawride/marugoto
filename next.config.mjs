@@ -9,7 +9,10 @@ const nextConfig = {
       { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
       { key: "X-Frame-Options", value: "SAMEORIGIN" },
       { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), payment=()" },
-    ] }];
+    ] }, {
+      source: "/shiki-duel/thumb-v1/:path*",
+      headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+    }];
   },
   // Máy ít RAM: đặt LOW_MEM=1 khi build để chỉ dùng 1 worker
   ...(process.env.LOW_MEM ? { experimental: { cpus: 1 } } : {}),

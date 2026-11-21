@@ -26,7 +26,7 @@ export default function DrawCine({ card, index, total, onNext }) {
       <div className="ring" /><div className="ring k2" /><div className="ring k3" />
       <div className="sparks">{SPARKS.map((p, i) => <i key={i} style={{ "--a": p.a + "deg", "--d": p.d + "s", "--r": p.r + "vmin" }} />)}</div>
       <div className="stage">
-        <div className="cardwrap"><Card c={card} owner="me" named /></div>
+        <div className="cardwrap"><Card c={card} owner="me" named detail /></div>
         <div className="rank">{[...card.rank].map((ch, i) => <span key={i} style={{ "--i": i }}>{ch}</span>)}</div>
         <div className="title">{sr ? "✦ TỐI THƯỢNG ✦" : "★ SIÊU HIẾM ★"}<small>{RANK_VI[card.rank]} · {card.name} · {card.ro}</small></div>
       </div>

@@ -584,7 +584,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
         {zoomCell && (
           <div className="ar-zoom" onClick={() => setZoom(null)} role="dialog" aria-label="Xem thẻ">
             <div className="ar-zoomcard" onClick={(e) => e.stopPropagation()}>
-              <Card c={cards[zoomCell.id]} owner={zoomCell.owner} el={m0.els[zoom]} />
+              <Card c={cards[zoomCell.id]} owner={zoomCell.owner} el={m0.els[zoom]} detail />
               <div className="ar-zoominfo">
                 <b lang="ja">{cards[zoomCell.id].name}</b>
                 <small>{cards[zoomCell.id].ro} · hạng {cards[zoomCell.id].rank} · {ELEM[cards[zoomCell.id].el]?.vi} · {zoomCell.owner === "me" ? "của bạn" : "của " + op.char.vi}</small>
