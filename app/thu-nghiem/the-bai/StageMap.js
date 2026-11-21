@@ -20,8 +20,9 @@ const SCENES = [
   ["/shiki-duel/arena/pavilion.webp", "🌸 Đình hoa anh đào"],
 ];
 
-export default function StageMap({ ops, beat, tried = [], decks, levelOf, busy, canStart, onStart, onFirst, onAuto }) {
+export default function StageMap({ ops, beat, tried = [], firstMatchDraft = true, decks, levelOf, busy, canStart, onStart, onFirst, onAuto }) {
   const maxBeat = Math.max(-1, ...Object.keys(beat).map(Number));
+  const needsDraft = (index) => firstMatchDraft && !tried.includes(index);
   const unlocked = (op) => op.i <= maxBeat + 1;
   const cur = ops.find((op) => unlocked(op) && !(beat[op.i] > 0)) || ops[ops.length - 1];
   const [sel, setSel] = useState(cur.i);
@@ -66,7 +67,7 @@ export default function StageMap({ ops, beat, tried = [], decks, levelOf, busy, 
         </div>
       </div>
 
-      {pop != null && ops[pop] && <StagePopup op={ops[pop]} open={unlocked(ops[pop])} lv={levelOf(ops[pop])} deck={decks[pop] || []} beat={beat[pop] || 0} busy={busy} canStart={canStart} first={!tried.includes(pop)} onClose={() => setPop(null)} onStart={(o) => { setPop(null); onStart(o); }} onFirst={(o) => { setPop(null); onFirst(o); }} onAuto={onAuto && ((o) => { setPop(null); onAuto(o); })} />}
+      {pop != null && ops[pop] && <StagePopup op={ops[pop]} open={unlocked(ops[pop])} lv={levelOf(ops[pop])} deck={decks[pop] || []} beat={beat[pop] || 0} busy={busy} canStart={canStart} first={needsDraft(pop)} onClose={() => setPop(null)} onStart={(o) => { setPop(null); onStart(o); }} onFirst={(o) => { setPop(null); onFirst(o); }} onAuto={onAuto && ((o) => { setPop(null); onAuto(o); })} />}
       <div className={`sm-panel ${open ? "" : "locked"}`} key={op.i}>
         <div className="sm-art"><img src={opponentArt(op.char.en)} alt={open ? op.char.vi : ""} onError={(e) => { e.currentTarget.src = charIcon(op.char); }} /></div>
         <small className="sm-stage">Ải {op.i + 1} · {open ? REGION[op.char.en] || "Teyvat" : "???"}</small>
@@ -75,7 +76,7 @@ export default function StageMap({ ops, beat, tried = [], decks, levelOf, busy, 
           <div className="sm-meta"><span className={`ttlvtag lv${lv}`}>{LEVELS[lv][0]} · {LEVELS[lv][1]}</span> <span>Thẻ hạng {op.band[0]}–{op.band[1]}</span></div>
           <div className="ttminis">{(decks[op.i] || []).map((c) => <span key={c.id} className={`ttrk r-${c.rank}`} title={`${c.name} · hạng ${c.rank}`}>{c.rank}</span>)}</div>
           <p className="sm-note">{beat[op.i] ? `✔ Đã thắng ${beat[op.i]} lần — đấu lại để lấy thêm thẻ.` : "Thắng ải này để mở ải tiếp theo."}</p>
-          {!tried.includes(op.i)
+          {needsDraft(op.i)
             ? <button className="gbtn tri" disabled={busy} onClick={() => onFirst(op)}><span className="c" />🎲 Xáo bài & vào ải</button>
             : <button className="gbtn tri" disabled={busy || !canStart} onClick={() => onStart(op)}><span className="c" />⚔️ Vào ải</button>}
           {beat[op.i] > 0 && tried.includes(op.i) && onAuto && <button className="gbtn tri" disabled={busy || !canStart} onClick={() => onAuto(op)}><span className="c" />🤖 Tự đánh · farm thẻ</button>}

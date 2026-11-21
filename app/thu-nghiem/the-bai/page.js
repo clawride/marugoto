@@ -390,7 +390,7 @@ function CardGame({ S, toast, update }) {
           <div className="ttrules">{RULES.filter(([k]) => k !== "open").map(([k, n, d]) => <label key={k} className={`panel ttrule ${rules[k] ? "on" : ""}`}><input type="checkbox" checked={rules[k]} onChange={(e) => setRules((r) => ({ ...r, [k]: e.target.checked }))} /><b>{n}</b><small>{d}</small></label>)}</div>
           </details>
           <h2 className="a22th"><span>2 · Bản đồ các ải</span> <small>qua ải này mới mở ải tiếp theo</small></h2>
-          <StageMap ops={OPPONENTS} beat={beat} tried={P.tried || []} decks={opponentDecks} levelOf={levelOf} busy={busy} canStart={myDeck.length === 5 && !(farm && !farm.done)} onStart={(op) => start(op, myDeck)} onFirst={openFirst} onAuto={(op) => { setFarmSetup(op); sfx.open(); }} />
+          <StageMap ops={OPPONENTS} beat={beat} tried={P.tried || []} firstMatchDraft={cfg.firstMatchDraft !== false} decks={opponentDecks} levelOf={levelOf} busy={busy} canStart={myDeck.length === 5 && !(farm && !farm.done)} onStart={(op) => start(op, myDeck)} onFirst={openFirst} onAuto={(op) => { setFarmSetup(op); sfx.open(); }} />
           {draft && <DraftShow op={draft.op} ids={draft.ids} bossRanks={draft.bossRanks} byId={byId} busy={busy} onCancel={() => { setDraft(null); sfx.click(); }} onPlay={() => { const op = draft.op; setDraft(null); start(op, myDeck); }} />}
         </>
       )}

@@ -265,7 +265,8 @@ async function handleAction(req, timed) {
     case "firstDeck": {
       const op = OPPONENTS[Number(b.op)];
       if (!op) return bad("Không có đối thủ này");
-      if (d.tried[op.char.id]) return pub(d, { free: true });
+      if (op.i > maxBeat(d) + 1) return bad("Ải này chưa mở khóa");
+      if (cfg.firstMatchDraft === false || d.tried[op.char.id]) return pub(d, { free: true });
       const { deck: mine, boss } = draftFor(d, op, deck, byId, cfg);
       await save();
       return pub(d, { draft: mine, bossRanks: boss.map((c) => c.rank) });
@@ -282,7 +283,7 @@ async function handleAction(req, timed) {
       if (op.i > maxBeat(d) + 1) return bad("Ải này chưa mở khóa");
       if (b.auto && !(d.beatC[op.char.id] > 0)) return bad("Chỉ tự đánh được ải đã thắng — ải này hãy tự tay đánh.");
       // Save the selected deck with the match, instead of one write per click.
-      const first = !d.tried[op.char.id];
+      const first = cfg.firstMatchDraft !== false && !d.tried[op.char.id];
       const selected = first ? draftFor(d, op, deck, byId, cfg).deck : b.deck === undefined ? d.deck : b.deck;
       if (!Array.isArray(selected) || selected.length !== 5) return bad("Cần đủ 5 thẻ trong bộ bài");
       const mine = selected.map(String).filter((id) => d.box[id] > 0 && byId[id]);
@@ -297,7 +298,9 @@ async function handleAction(req, timed) {
       const steps = [];
       if (local) enableLocal(m, byId, d, RANK_RANGES);
       else if (m.turn === "foe") steps.push(aiStep(m, byId, op.ai));
-      if (first) { d.tried[op.char.id] = 1; d.draft = null; } else d.deck = mine.slice(); // ván đầu không ghi đè bộ bài tự chọn
+      d.tried[op.char.id] = 1;
+      if (d.draft?.opId === op.char.id || first) d.draft = null;
+      if (!first) d.deck = mine.slice();
       d.match = m; await save();
       return pub(d, { steps, first: steps.length ? "foe" : "me" });
     }

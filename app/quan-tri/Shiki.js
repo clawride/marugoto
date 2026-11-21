@@ -22,7 +22,7 @@ export default function Shiki({ call, say }) {
     setBusy(true);
     // gửi số nguyên; ô trống → bỏ (dùng mặc định)
     const clean = (o, keys) => Object.fromEntries(Object.entries(o).map(([id, x]) => [id, Object.fromEntries(Object.entries(x).filter(([k, v]) => !keys.includes(k) || toNum(v) !== undefined).map(([k, v]) => [k, keys.includes(k) ? toNum(v) : v]))]));
-    try { const d = await call("setShiki", { shiki: { weapons: clean(cfg.weapons, WEAPON_STATS), stages: cfg.stages || {} } }); setCfg(d.shiki); say("Đã lưu chỉ số"); }
+    try { const d = await call("setShiki", { shiki: { weapons: clean(cfg.weapons, WEAPON_STATS), stages: cfg.stages || {}, firstMatchDraft: cfg.firstMatchDraft !== false } }); setCfg(d.shiki); say("Đã lưu chỉ số"); }
     catch (e) { say(e.message); } finally { setBusy(false); }
   };
   const setStage = (i, patch) => setCfg((c) => {
@@ -43,7 +43,17 @@ export default function Shiki({ call, say }) {
         <button className="on" disabled={busy} onClick={save} style={{ marginLeft: "auto" }}>{busy ? "Đang lưu…" : "💾 Lưu"}</button>
       </div>
 
-      {view === "stages" && <Stages cfg={cfg} setStage={setStage} />}
+      {view === "stages" && (
+        <>
+          <label>
+            <input type="checkbox" role="switch" checked={cfg.firstMatchDraft !== false} disabled={busy}
+              onChange={(e) => setCfg((c) => ({ ...c, firstMatchDraft: e.target.checked }))} />
+            {" "}Xáo bài bắt buộc ở ván đầu với mỗi boss
+          </label>
+          <p className="hint">Bật để máy chọn 5 lá theo hạng bài boss. Tắt để người chơi tự chọn bài từ ván đầu. Bấm Lưu để áp dụng.</p>
+          <Stages cfg={cfg} setStage={setStage} />
+        </>
+      )}
       {view === "draws" && <Draws call={call} say={say} />}
 
       {view === "weapons" && (
