@@ -325,3 +325,27 @@
   .tt .arena .ar-guide{top:12%;left:50%;transform:translateX(-50%);width:min(78%,320px);padding:8px}
   .tt .arena .ar-guide-open{top:14%;font-size:11px}
 }
+.arena.intro-roll .ar-slot,.arena.intro-rolled .ar-slot,
+.arena.intro-roll .ar-foehand,.arena.intro-rolled .ar-foehand{opacity:0}
+.arena .ar-opening-roll{
+  position:absolute;z-index:14;inset:0;display:grid;place-content:center;justify-items:center;gap:8px;
+  background:radial-gradient(ellipse at center,#211b3de8,#0b0816ef);color:#fff1cf;text-align:center;
+  font-size:clamp(14px,2.2cqw,27px);pointer-events:none;
+}
+.ar-opening-dice{display:flex;justify-content:center;gap:clamp(18px,6cqw,64px)}
+.ar-opening-dice>div{display:grid;justify-items:center;align-content:start;gap:4px;min-width:70px}
+.ar-opening-dice b{
+  display:grid;place-items:center;width:clamp(56px,10cqw,114px);aspect-ratio:1;
+  border-radius:12px;background:#fff0cf;color:#241a38;box-shadow:0 4px 14px #0008;
+  font:clamp(42px,8cqw,92px)/1 "Segoe UI Symbol",serif;
+}
+.ar-opening-dice .foe b{background:#e7c6ff}
+.ar-opening-roll small{font-size:.72em}
+@media(prefers-reduced-motion:no-preference){
+  .ar-opening-roll.rolling b{animation:ar-die-tumble .35s ease-in-out 2}
+  .ar-opening-roll.rolling .foe b{animation-direction:reverse}
+}
+@keyframes ar-die-tumble{
+  0%,100%{transform:translateY(0) rotate(-18deg)}
+  50%{transform:translateY(-12px) rotate(32deg)}
+}

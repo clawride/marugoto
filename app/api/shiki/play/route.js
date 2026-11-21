@@ -10,6 +10,7 @@
 //   forfeit                     → bỏ trận (tính thua, bị lấy 1 lá ngẫu nhiên)
 // Luật phạt: THUA trận → mất 1 lá hạng cao nhất trong Hộp bài · BỎ trận → mất 1 lá ngẫu nhiên · hòa không mất.
 // Không lấy lá nếu Hộp bài sẽ còn dưới 5 loại thẻ (để luôn đủ bộ bài đấu tiếp).
+import { randomInt } from "node:crypto";
 import { store, auth } from "@/lib/store";
 import { getShikiConfig } from "@/lib/shikiConfig";
 import { availableRanks, boosted, RANK_RANGES, buildDeck, isMaxed, BOOST_COST, MIN_KINDS, maxSellQuantity, SIDES, drawCards, OPPONENTS, opById, legacyCharId, oppDeck, stageDeck, makeBoard, place, aiMove, score, power, rankIdx } from "@/lib/shikiCards";
@@ -299,7 +300,17 @@ async function handleAction(req, timed) {
       const requiredRules = cfg.stages?.[op.char.id]?.rules || [];
       const rules = Object.fromEntries(RULE_KEYS.map((key) => [key, requiredRules.includes(key) || b.rules?.[key] === true]));
       const bd = makeBoard(rules);
-      const m = { op: op.i, opId: op.char.id, rules, els: bd.els, cells: bd.cells, hands: { me: mine.slice(), foe: stageDeck(op, deck, cfg).map((c) => c.id) }, turn: Math.random() < 0.5 ? "me" : "foe" };
+      const roll = { me: randomInt(1, 7), foe: randomInt(1, 7), ties: 0 };
+      while (roll.me === roll.foe) {
+        roll.ties++;
+        roll.me = randomInt(1, 7);
+        roll.foe = randomInt(1, 7);
+      }
+      const m = {
+        op: op.i, opId: op.char.id, rules, els: bd.els, cells: bd.cells,
+        hands: { me: mine.slice(), foe: stageDeck(op, deck, cfg).map((c) => c.id) },
+        roll, turn: roll.me > roll.foe ? "me" : "foe",
+      };
       m.foeAll = m.hands.foe.slice();
       m.meAll = m.hands.me.slice(); // 5 lá người chơi mang vào trận (thua thì mất ngẫu nhiên 1 lá trong số này)
       // độ khó máy: người chơi chọn 1–4, không chọn thì tăng dần theo thứ tự đối thủ

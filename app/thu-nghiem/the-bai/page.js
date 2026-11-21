@@ -73,6 +73,7 @@ function CardGame({ S, toast, update }) {
   const [mode, setMode] = useState("hidden"); // mặc định: Úp bài
   const [level, setLevel] = useState("auto"); // "auto" = tăng dần theo đối thủ · 1–4 = cố định
   const [claiming, setClaiming] = useState(null); // id thẻ thưởng đang thu phục
+  const launchEndsAt = useRef(0);
   const [launching, setLaunching] = useState(null); // đối thủ vừa chọn — màn chào trước trận
   // ——— Tự đánh / farm thẻ (chỉ ải đã thắng) ———
   const [farmSetup, setFarmSetup] = useState(null); // đối thủ đang mở bảng cài đặt tự đánh
@@ -108,6 +109,7 @@ function CardGame({ S, toast, update }) {
     try { localStorage.setItem(LS, JSON.stringify(r)); localStorage.setItem(LS_MODE, mode); localStorage.setItem("shiki_tt_level", String(level)); } catch {}
     // Màn chào đối thủ che thời gian chờ máy chủ chia bài
     unlockVoice(); // chạm "Đấu" mở khóa âm thanh cho giọng nhân vật (iPhone/Android)
+    launchEndsAt.current = Date.now() + 2300;
     setLaunching(op.i); sfx.whoosh(); setTimeout(() => sfx.boom(), 350);
     setTimeout(() => setLaunching(null), 2300); setTimeout(() => sfx.boom(), 900); setTimeout(() => sfx.cast(), 150);
     return run("start", { op: op.i, rules: r, deck: deckIds, mode: DUEL_MODE, level: level === "auto" ? undefined : level, auto: auto || undefined, autoBatch: auto && farmRef.current && !farmRef.current.done ? farmRef.current.batch : undefined }, () => { setSelectedDeck(null); sfx.open(); });
@@ -256,7 +258,7 @@ function CardGame({ S, toast, update }) {
   if (P.match) {
     const mop = OPPONENTS[P.match.op], cleared = P.beat?.[P.match.op] > 0, farming = Boolean(farm && !farm.done && !farm.fast);
     const played = P.match.meAll || P.match.hands.me;
-    return <>{launchFx}<Arena key={P.match.id} m0={P.match} byId={byId} profile={profile} leaving={busy}
+    return <>{launchFx}<Arena key={P.match.id} m0={P.match} launchEndsAt={launchEndsAt.current} byId={byId} profile={profile} leaving={busy}
     auto={farming || autoNext.current} canAuto={cleared && cfg.autoEnabled} farm={farming} overlay={farmBar}
     onAgain={farming ? null : (j, wasAuto) => { setP(j); if (j.lost) setLostNote({ id: j.lost, why: "Thua trận" }); if (j.pending) setAgain({ op: mop, deck: played, auto: wasAuto }); else replay(mop, played, j, wasAuto); }}
     advisor={mode === "advisor" && !P.match.rules.open ? { cost: HINT_COST, primo: S.primo || 0, pay: () => update((s) => { if ((s.primo || 0) < HINT_COST) return false; s.primo -= HINT_COST; return true; }) } : null}

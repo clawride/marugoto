@@ -20,6 +20,26 @@ import "./arena-fp.css";
 import "./arena-polish.css";
 
 const OPP = { t: "b", r: "l", b: "t", l: "r" };
+const DIE_FACES = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
+
+function OpeningRoll({ roll, opponent, rolling }) {
+  return (
+    <section className={`ar-opening-roll ${rolling ? "rolling" : ""}`} role="status" aria-label="Gieo xúc xắc mở màn">
+      <strong>Gieo xúc xắc mở màn</strong>
+      <div className="ar-opening-dice">
+        {[["Bạn", "me"], [opponent, "foe"]].map(([name, side]) => (
+          <div key={side} className={side}>
+            <span>{name}</span>
+            <b aria-hidden="true">{rolling ? "⚄" : DIE_FACES[roll[side] - 1]}</b>
+            {!rolling && <small>{roll[side]} điểm</small>}
+          </div>
+        ))}
+      </div>
+      <span>{rolling ? "Đang gieo…" : roll.me > roll.foe ? "Bạn đi trước!" : opponent + " đi trước!"}</span>
+      {!rolling && roll.ties > 0 && <small>Đã gieo lại {roll.ties} lần do bằng điểm.</small>}
+    </section>
+  );
+}
 
 const GUIDE_STEPS = [
   ["Tay bài của bạn", "Các lá phía dưới là tay bài của bạn. Mỗi lá có bốn số, mỗi số ứng với một cạnh."],
@@ -153,7 +173,7 @@ function Bubble({ name, text, mood, lang }) {
   );
 }
 
-export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, advisor, auto = false, canAuto = false, farm = false, onAgain, overlay }) {
+export default function Arena({ m0, launchEndsAt = 0, byId, profile, leaving, onDone, onForfeit, advisor, auto = false, canAuto = false, farm = false, onAgain, overlay }) {
   const op = OPPONENTS[m0.op];
   const who = op.char.en;
   const [match, setMatch] = useState(m0);
@@ -175,7 +195,8 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
   const [syncing, setSyncing] = useState(false);
   const [receipt, setReceipt] = useState(null);
   const [savedLocally, setSavedLocally] = useState(true);
-  const [intro, setIntro] = useState("wait"); // wait → shuffle → deal → null
+  const [intro, setIntro] = useState("wait");
+  const launchEnd = useRef(launchEndsAt);
   const [talk, setTalk] = useState({ mood: "opening", text: "", n: 0 });
   const [pose, setPose] = useState("idle");
   const [drag, setDrag] = useState(null); // { k, over, w, x, y }
@@ -267,13 +288,25 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
     const fresh = !history.length;
     setTalk({ mood: "opening", speak: true, ja: opponentLine(who, "opening"), vi: opponentLineVi(who, "opening", "", playerName), n: 1 }); // câu chào được đọc thành tiếng
     if (fresh) {
-      setIntro("shuffle"); sfx.shuffle();
-      timers.push(setTimeout(() => { if (active) { setIntro("deal"); for (let i = 0; i < 5; i++) sfx.deal(i); } }, 1500));
-      timers.push(setTimeout(() => active && setIntro(null), 2600));
-    } else setIntro(null);
-    if (fresh && m0.turn === "me") accept({ match: m0, step: null });
-    else if (fresh) timers.push(setTimeout(() => compute.current?.(m0, history), 2600));
-    else compute.current(m0, history);
+      const later = (delay, action) => timers.push(setTimeout(() => { if (active) action(); }, delay));
+      const reduced = reduceMotion();
+      const wait = m0.roll && !reduced ? Math.max(0, launchEnd.current - Date.now()) : 0;
+      const rollMs = m0.roll && !reduced ? 700 : 0;
+      const resultMs = m0.roll ? 1450 : 0;
+      const shuffleAt = wait + rollMs + resultMs;
+      if (rollMs) later(wait, () => { setIntro("roll"); sfx.deal(); });
+      if (m0.roll) later(wait + rollMs, () => { setIntro("rolled"); sfx.slap(); });
+      later(shuffleAt, () => { setIntro("shuffle"); sfx.shuffle(); });
+      later(shuffleAt + 1500, () => { setIntro("deal"); for (let i = 0; i < 5; i++) sfx.deal(i); });
+      later(shuffleAt + 2600, () => {
+        setIntro(null);
+        if (m0.turn === "me") accept({ match: m0, step: null });
+        else compute.current?.(m0, history);
+      });
+    } else {
+      setIntro(null);
+      compute.current(m0, history);
+    }
     return () => { active = false; timers.forEach(clearTimeout); worker?.terminate(); compute.current = null; };
   }, [m0, storageKey, who]);
 
@@ -557,6 +590,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
         </div>
 
         {/* xáo bài lúc mở ván */}
+        {m0.roll && (intro === "roll" || intro === "rolled") && <OpeningRoll roll={m0.roll} opponent={op.char.vi} rolling={intro === "roll"} />}
         {(intro === "shuffle" || intro === "deal") && (
           <div className={`ar-shuffle ${intro}`} aria-hidden="true">
             {Array.from({ length: 10 }, (_, j) => <Card key={j} back small className={j % 2 ? "rr" : "rl"} style={{ "--i": j }} />)}
