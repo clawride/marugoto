@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useGame } from "@/components/Game";
 import { charIcon, elemIcon } from "@/lib/genshin";
 import { ELEM } from "@/lib/data";
-import { RANKS, RANK_VI } from "@/lib/shikihime";
+import { EXTRA_RULES, RANKS, RANK_VI } from "@/lib/shikihime";
 import { availableRanks, boosted, RANK_RANGES, isMaxed, BOOST_COST, buildDeck, power, RANK_ODDS, OPPONENTS, stageDeck, rankIdx } from "@/lib/shikiCards";
 import { DUEL_MODE, LEVELS, stageLevel, autoDuel } from "@/lib/shikiDuel";
 import { opponentArt } from "@/lib/shikiDialogue";
@@ -26,13 +26,6 @@ import "./arena-polish.css";
 
 const FONTS = "https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Yuji+Syuku&family=Zen+Maru+Gothic:wght@700&display=swap";
 
-const RULES = [
-  ["open", "Lật bài", "Thấy bài trên tay đối thủ"],
-  ["same", "Bằng nhau", "Đặt thẻ có ≥2 cạnh BẰNG cạnh thẻ kề → lật các thẻ đối thủ đó"],
-  ["plus", "Cộng", "≥2 cặp cạnh kề có TỔNG bằng nhau → lật các thẻ đối thủ đó"],
-  ["combo", "Liên hoàn", "Thẻ vừa bị lật bởi Bằng nhau/Cộng tiếp tục lật thẻ bên cạnh"],
-  ["elemental", "Nguyên tố", "Ô có biểu tượng nguyên tố: thẻ cùng hệ +1 mỗi cạnh, khác hệ −1"],
-];
 const LS = "shiki_tt_rules";
 const LS_MODE = "shiki_tt_mode2"; // khóa mới: mọi người bắt đầu lại với mặc định Úp bài
 const HINT_COST = 100; // Nguyên Thạch mỗi lần hỏi Quân sư
@@ -389,10 +382,10 @@ function CardGame({ S, toast, update }) {
             ))}
           </div>
           <h3 className="ttadvh">Luật thêm <small>bật / tắt</small></h3>
-          <div className="ttrules">{RULES.filter(([k]) => k !== "open").map(([k, n, d]) => <label key={k} className={`panel ttrule ${rules[k] ? "on" : ""}`}><input type="checkbox" checked={rules[k]} onChange={(e) => setRules((r) => ({ ...r, [k]: e.target.checked }))} /><b>{n}</b><small>{d}</small></label>)}</div>
+          <div className="ttrules">{EXTRA_RULES.map(([k, n, d]) => <label key={k} className={`panel ttrule ${rules[k] ? "on" : ""}`}><input type="checkbox" checked={rules[k]} onChange={(e) => setRules((r) => ({ ...r, [k]: e.target.checked }))} /><b>{n}</b><small>{d}</small></label>)}</div>
           </details>
           <h2 className="a22th"><span>2 · Bản đồ các ải</span> <small>qua ải này mới mở ải tiếp theo</small></h2>
-          <StageMap ops={OPPONENTS} beat={beat} tried={P.tried || []} firstMatchDraft={cfg.firstMatchDraft !== false} decks={opponentDecks} levelOf={levelOf} busy={busy} canStart={myDeck.length === 5 && !(farm && !farm.done)} onStart={(op) => start(op, myDeck)} onFirst={openFirst} onAuto={cfg.autoEnabled ? (op) => { setFarmSetup(op); sfx.open(); } : undefined} />
+          <StageMap ops={OPPONENTS} stages={cfg.stages} profileId={profile.id} beat={beat} tried={P.tried || []} firstMatchDraft={cfg.firstMatchDraft !== false} decks={opponentDecks} levelOf={levelOf} busy={busy} canStart={myDeck.length === 5 && !(farm && !farm.done)} onStart={(op) => start(op, myDeck)} onFirst={openFirst} onAuto={cfg.autoEnabled ? (op) => { setFarmSetup(op); sfx.open(); } : undefined} />
           {draft && <DraftShow op={draft.op} ids={draft.ids} bossRanks={draft.bossRanks} byId={byId} busy={busy} onCancel={() => { setDraft(null); sfx.click(); }} onPlay={() => { const op = draft.op; setDraft(null); start(op, myDeck); }} />}
         </>
       )}

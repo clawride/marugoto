@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
-import { STAT_VI, CLASSES, RANKS, WEAPON_STATS, defaultWeapon, weaponClass } from "@/lib/shikihime";
+import { EXTRA_RULES, STAT_VI, CLASSES, RANKS, WEAPON_STATS, defaultWeapon, weaponClass } from "@/lib/shikihime";
 import { buildDeck, OPPONENTS, oppDeck } from "@/lib/shikiCards";
 import { LEVELS, autoLevel } from "@/lib/shikiDuel";
 import { WEAPONS, WTYPE_VI, weaponIcon } from "@/lib/genshin";
@@ -25,6 +25,11 @@ export default function Shiki({ call, say }) {
     try { const d = await call("setShiki", { shiki: { weapons: clean(cfg.weapons, WEAPON_STATS), stages: cfg.stages || {}, firstMatchDraft: cfg.firstMatchDraft !== false, autoEnabled: cfg.autoEnabled !== false, autoLimit: cfg.autoLimit || 999 } }); setCfg(d.shiki); say("Đã lưu chỉ số"); }
     catch (e) { say(e.message); } finally { setBusy(false); }
   };
+  const applyStageRules = (ops, rules) => setCfg((c) => {
+    const stages = { ...c.stages };
+    for (const op of ops) stages[op.char.id] = { ...stages[op.char.id], rules };
+    return { ...c, stages };
+  });
   const setStage = (i, patch) => setCfg((c) => {
     const st = { ...(c.stages || {}) }, x = { ...(st[i] || {}), ...patch };
     Object.keys(x).forEach((k) => x[k] === undefined && delete x[k]);
@@ -63,7 +68,7 @@ export default function Shiki({ call, say }) {
                 onChange={(e) => setCfg((c) => ({ ...c, autoLimit: e.target.value }))} />
             </label>
           </div>
-          <Stages cfg={cfg} setStage={setStage} />
+          <Stages cfg={cfg} setStage={setStage} applyStageRules={applyStageRules} />
         </>
       )}
       {view === "draws" && <Draws call={call} say={say} />}
@@ -168,12 +173,57 @@ function Draws({ call, say }) {
 }
 
 // Ải & bài của boss: độ khó từng ải (chế độ "Tăng dần" của người chơi dùng mức này) và 5 lá boss sẽ ra
-function Stages({ cfg, setStage }) {
+function StageRulesEditor({ stages, onApply }) {
+  const [index, setIndex] = useState(0);
+  const [scope, setScope] = useState("one");
+  const [draft, setDraft] = useState(null);
+  const [message, setMessage] = useState("");
+  const rules = draft ?? stages?.[OPPONENTS[index].char.id]?.rules ?? [];
+  const targets = scope === "all" ? OPPONENTS : OPPONENTS.slice(index, index + (scope === "ten" ? 10 : 1));
+  return (
+    <fieldset>
+      <legend>Luật bắt buộc theo ải</legend>
+      <div className="admtabs">
+        <label>Ải bắt đầu{" "}
+          <select value={index} disabled={scope === "all"} onChange={(e) => { setIndex(Number(e.target.value)); setDraft(null); setMessage(""); }}>
+            {OPPONENTS.map((op, i) => <option key={op.char.id} value={i}>{i + 1}. {op.char.vi}</option>)}
+          </select>
+        </label>
+        <label>Phạm vi{" "}
+          <select value={scope} onChange={(e) => { setScope(e.target.value); setMessage(""); }}>
+            <option value="one">Một ải</option>
+            <option value="ten">10 ải liên tiếp</option>
+            <option value="all">Tất cả các ải</option>
+          </select>
+        </label>
+      </div>
+      <div className="admtabs">
+        {EXTRA_RULES.map(([key, label, description]) => (
+          <label key={key} title={description}>
+            <input type="checkbox" checked={rules.includes(key)} onChange={(e) => {
+              setDraft(e.target.checked ? [...rules, key] : rules.filter((rule) => rule !== key));
+              setMessage("");
+            }} />{" "}{label}
+          </label>
+        ))}
+      </div>
+      <p className="hint">Áp dụng sẽ thay danh sách luật bắt buộc của các ải đã chọn. Bỏ chọn hết để xóa luật. Liên hoàn cần Bằng nhau hoặc Cộng để kích hoạt.</p>
+      <button type="button" className="chip dk" onClick={() => {
+        onApply(targets, rules);
+        setMessage("Đã áp dụng cho " + targets.length + " ải. Bấm Lưu để đưa vào trận mới.");
+      }}>Áp dụng cho {targets.length} ải</button>
+      {message && <p className="hint" role="status">{message}</p>}
+    </fieldset>
+  );
+}
+
+function Stages({ cfg, setStage, applyStageRules }) {
   const deck = buildDeck();
   const options = useMemo(() => [...deck].sort((a, b) => RANKS.indexOf(b.rank) - RANKS.indexOf(a.rank) || a.ro.localeCompare(b.ro)), [deck]);
   return (
     <div className="admscroll">
       <p className="hint">Độ khó: bỏ trống = tự tăng dần (4 ải Dễ, 4 Thường, 4 Khó, 3 Địa ngục). Bài của boss: chọn đủ 5 lá khác nhau rồi bấm “💾 Lưu”; chọn thiếu thì boss dùng bộ mặc định. Trận đang đấu dở không bị ảnh hưởng.</p>
+      <StageRulesEditor stages={cfg.stages} onApply={applyStageRules} />
       <table className="admtbl shikitbl">
         <thead><tr><th>Ải</th><th>Độ khó</th><th>5 lá của boss</th><th /></tr></thead>
         <tbody>
@@ -183,7 +233,7 @@ function Stages({ cfg, setStage }) {
             const pick = (k, id) => { const next = [0, 1, 2, 3, 4].map((j) => (j === k ? id : ids[j] || "")); const full = next.every(Boolean) && new Set(next).size === 5; setStage(op.char.id, full ? { deck: next, draft: undefined } : { deck: undefined, draft: next }); };
             return (
               <tr key={op.i}>
-                <td><b>{op.i + 1}. {op.char.vi}</b><br /><small>Hạng thẻ mặc định {op.band[0]}–{op.band[1]}</small></td>
+                <td><b>{op.i + 1}. {op.char.vi}</b><br /><small>Hạng thẻ mặc định {op.band[0]}–{op.band[1]}</small>{st.rules?.length > 0 && <><br /><small>🔒 {EXTRA_RULES.filter(([key]) => st.rules.includes(key)).map(([, label]) => label).join(", ")}</small></>}</td>
                 <td><select value={st.level || ""} onChange={(e) => setStage(op.char.id, { level: e.target.value ? Number(e.target.value) : undefined })}>
                   <option value="">Tự động ({LEVELS[autoLevel(op.i)][0]})</option>
                   {Object.entries(LEVELS).map(([k, [vi]]) => <option key={k} value={k}>{vi}</option>)}

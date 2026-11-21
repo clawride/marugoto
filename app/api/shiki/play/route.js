@@ -14,12 +14,12 @@ import { store, auth } from "@/lib/store";
 import { getShikiConfig } from "@/lib/shikiConfig";
 import { availableRanks, boosted, RANK_RANGES, buildDeck, isMaxed, BOOST_COST, MIN_KINDS, maxSellQuantity, SIDES, drawCards, OPPONENTS, opById, legacyCharId, oppDeck, stageDeck, makeBoard, place, aiMove, score, power, rankIdx } from "@/lib/shikiCards";
 import { DUEL_MODE, replayDuel, duelResult, stageLevel } from "@/lib/shikiDuel";
-import { RANKS, isGenshinCardId } from "@/lib/shikihime";
+import { EXTRA_RULES, RANKS, isGenshinCardId } from "@/lib/shikihime";
 
 export const dynamic = "force-dynamic";
 const H = { headers: { "Cache-Control": "no-store" } };
 const bad = (msg, status = 400) => Response.json({ error: msg }, { status, ...H });
-const RULE_KEYS = ["open", "same", "plus", "combo", "elemental"];
+const RULE_KEYS = ["open", ...EXTRA_RULES.map(([key]) => key)];
 const keyOf = (uid) => `shiki:${uid}`;
 
 // Freeze only the ten cards used by the game. An admin edit during a duel cannot change its replay.
@@ -296,7 +296,8 @@ async function handleAction(req, timed) {
       if (!Array.isArray(selected) || selected.length !== 5) return bad("Cần đủ 5 thẻ trong bộ bài");
       const mine = selected.map(String).filter((id) => d.box[id] > 0 && byId[id]);
       if (new Set(mine).size !== 5) return bad("Cần đủ 5 thẻ trong bộ bài");
-      const rules = Object.fromEntries(RULE_KEYS.map((k) => [k, b.rules?.[k] === true]));
+      const requiredRules = cfg.stages?.[op.char.id]?.rules || [];
+      const rules = Object.fromEntries(RULE_KEYS.map((key) => [key, requiredRules.includes(key) || b.rules?.[key] === true]));
       const bd = makeBoard(rules);
       const m = { op: op.i, opId: op.char.id, rules, els: bd.els, cells: bd.cells, hands: { me: mine.slice(), foe: stageDeck(op, deck, cfg).map((c) => c.id) }, turn: Math.random() < 0.5 ? "me" : "foe" };
       m.foeAll = m.hands.foe.slice();
