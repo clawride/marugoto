@@ -313,3 +313,15 @@
 .ttfarmbar .got{display:flex;flex-wrap:wrap;gap:3px;max-width:260px}
 .ttfarmbar button{font:700 13px inherit;padding:5px 12px;border-radius:99px;border:1px solid #ff9a9a;background:#5a1520;color:#fff;cursor:pointer}
 .ttfarmbar button:disabled{opacity:.5;cursor:default}
+.tt .arena .ar-guide{position:absolute;z-index:12;left:1.5%;top:15%;width:min(29%,320px);padding:12px;border:1px solid #b89757;border-radius:12px;background:#211d33;color:#fff6df;text-align:left;font-size:clamp(12px,1.35cqw,15px);box-shadow:0 6px 18px #0008}
+.ar-guide p{margin:.35em 0 .65em;line-height:1.4}
+.ar-guide-actions,.ar-guide-demo{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.ar-guide-demo{margin-bottom:8px}
+.ar-guide-demo b{padding:3px 6px;border-radius:4px;background:#214a67}
+.ar-guide-demo b.opponent{background:#672e43}
+.tt .arena .ar-guide-open{position:absolute;z-index:10;left:1.5%;top:15%}
+.ar-guide-step-0 .ar-hand,.ar-guide-step-1 .ar-board,.ar-guide-step-2 .ar-scale{filter:drop-shadow(0 0 8px #ffe28a) drop-shadow(0 0 3px #ffe28a)}
+@media(max-width:720px){
+  .tt .arena .ar-guide{top:12%;left:50%;transform:translateX(-50%);width:min(78%,320px);padding:8px}
+  .tt .arena .ar-guide-open{top:14%;font-size:11px}
+}

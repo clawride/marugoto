@@ -28,21 +28,16 @@ export default function StageMap({ ops, stages, profileId, beat, tried = [], fir
   const cur = ops.find((op) => unlocked(op) && !(beat[op.i] > 0)) || ops[ops.length - 1];
   const [sel, setSel] = useState(cur.i);
   const [pop, setPop] = useState(null); // ải đang mở bảng to giữa màn hình
-  const [guide, setGuide] = useState(false);
+  const [guideQueued, setGuideQueued] = useState(false);
   const guideKey = "shiki-guide-v1:" + profileId;
-  const needsGuide = (index) => {
-    if (index !== 0) return false;
-    try { return !localStorage.getItem(guideKey); } catch { return false; }
+  const queueGuide = () => {
+    try { localStorage.removeItem(guideKey); } catch {}
+    setGuideQueued(true);
   };
   const openStage = (index) => {
     setSel(index);
     setPop(index);
-    if (needsGuide(index)) setGuide(true);
     sfx.open();
-  };
-  const closeGuide = () => {
-    try { localStorage.setItem(guideKey, "1"); } catch {}
-    setGuide(false);
   };
   const rulesFor = (op) => stages?.[op.char.id]?.rules;
   const box = useRef(null);
@@ -85,8 +80,7 @@ export default function StageMap({ ops, stages, profileId, beat, tried = [], fir
         </div>
       </div>
 
-      {pop != null && ops[pop] && <StagePopup requiredRules={rulesFor(ops[pop])} onGuide={pop === 0 ? () => setGuide(true) : undefined} op={ops[pop]} open={unlocked(ops[pop])} lv={levelOf(ops[pop])} deck={decks[pop] || []} beat={beat[pop] || 0} busy={busy} canStart={canStart} first={needsDraft(pop)} onClose={() => setPop(null)} onStart={(o) => { setPop(null); onStart(o); }} onFirst={(o) => { setPop(null); onFirst(o); }} onAuto={onAuto && ((o) => { setPop(null); onAuto(o); })} />}
-      {guide && <StageGuide onClose={closeGuide} />}
+      {pop != null && ops[pop] && <StagePopup requiredRules={rulesFor(ops[pop])} guideQueued={guideQueued} onGuide={pop === 0 ? queueGuide : undefined} op={ops[pop]} open={unlocked(ops[pop])} lv={levelOf(ops[pop])} deck={decks[pop] || []} beat={beat[pop] || 0} busy={busy} canStart={canStart} first={needsDraft(pop)} onClose={() => setPop(null)} onStart={(o) => { setPop(null); onStart(o); }} onFirst={(o) => { setPop(null); onFirst(o); }} onAuto={onAuto && ((o) => { setPop(null); onAuto(o); })} />}
       <div className={`sm-panel ${open ? "" : "locked"}`} key={op.i}>
         <div className="sm-art"><img src={opponentArt(op.char.en)} alt={open ? op.char.vi : ""} onError={(e) => { e.currentTarget.src = charIcon(op.char); }} /></div>
         <small className="sm-stage">Ải {op.i + 1} · {open ? REGION[op.char.en] || "Teyvat" : "???"}</small>
@@ -96,10 +90,10 @@ export default function StageMap({ ops, stages, profileId, beat, tried = [], fir
           <div className="ttminis">{(decks[op.i] || []).map((c) => <span key={c.id} className={`ttrk r-${c.rank}`} title={`${c.name} · hạng ${c.rank}`}>{c.rank}</span>)}</div>
           <p className="sm-note">{beat[op.i] ? `✔ Đã thắng ${beat[op.i]} lần — đấu lại để lấy thêm thẻ.` : "Thắng ải này để mở ải tiếp theo."}</p>
           <RequiredRules rules={rulesFor(op)} />
-          {op.i === 0 && <button type="button" className="chip dk" onClick={() => setGuide(true)}>📖 Xem hướng dẫn</button>}
+          {op.i === 0 && <button type="button" className="chip dk" onClick={queueGuide}>{guideQueued ? "✓ Hướng dẫn sẽ mở khi vào trận" : "📖 Xem hướng dẫn trong trận"}</button>}
           {needsDraft(op.i)
-            ? <button className="gbtn tri" disabled={busy} onClick={() => needsGuide(op.i) ? openStage(op.i) : onFirst(op)}><span className="c" />🎲 Xáo bài & vào ải</button>
-            : <button className="gbtn tri" disabled={busy || !canStart} onClick={() => needsGuide(op.i) ? openStage(op.i) : onStart(op)}><span className="c" />⚔️ Vào ải</button>}
+            ? <button className="gbtn tri" disabled={busy} onClick={() => onFirst(op)}><span className="c" />🎲 Xáo bài & vào ải</button>
+            : <button className="gbtn tri" disabled={busy || !canStart} onClick={() => onStart(op)}><span className="c" />⚔️ Vào ải</button>}
           {beat[op.i] > 0 && tried.includes(op.i) && onAuto && <button className="gbtn tri" disabled={busy || !canStart} onClick={() => onAuto(op)}><span className="c" />🤖 Tự đánh · farm thẻ</button>}
           {!(beat[op.i] > 0) && <p className="sm-note">🤖 Thắng ải này một lần để mở chế độ Tự đánh.</p>}
           {!canStart && <p className="sm-note">Cần chọn đủ 5 thẻ ở bước 1.</p>}
@@ -122,42 +116,10 @@ function RequiredRules({ rules }) {
   );
 }
 
-const GUIDE = [
-  ["Đặt thẻ lên bàn", "Mỗi bên có 5 lá và lần lượt đặt một lá vào ô trống trên bàn 3×3. Kéo thẻ vào ô, hoặc bấm thẻ rồi bấm ô."],
-  ["So hai cạnh chạm nhau", "Đặt lá của bạn bên trái lá đối thủ. Cạnh phải của bạn là 7, cạnh trái của đối thủ là 4. Vì 7 lớn hơn 4, lá đối thủ đổi sang phe bạn."],
-  ["Giữ nhiều thẻ hơn để thắng", "Khi hết ô trống, bên có nhiều thẻ hơn thắng. Thế trận có thể đổi ở lượt cuối. Xem mục Luật bắt buộc trong bảng ải để biết luật riêng của boss."],
-];
-
-function StageGuide({ onClose }) {
-  const [step, setStep] = useState(0);
-  const dialog = useRef(null);
-  useEffect(() => {
-    const el = dialog.current;
-    el.showModal();
-    return () => el.close();
-  }, []);
-  return (
-    <dialog ref={dialog} className="sm-guide sm-popcard" aria-labelledby="sm-guide-title"
-      onCancel={(event) => { event.preventDefault(); onClose(); }}>
-      <small className="sm-stage">Hướng dẫn · {step + 1}/{GUIDE.length}</small>
-      <h3 id="sm-guide-title">{GUIDE[step][0]}</h3>
-      {step === 1 && <div className="sm-guide-example" aria-hidden="true"><b>Bạn · 7</b><span>›</span><b>4 · Đối thủ</b></div>}
-      <p>{GUIDE[step][1]}</p>
-      <div className="sm-guide-actions">
-        <button type="button" className="chip dk" onClick={onClose}>Bỏ qua</button>
-        {step > 0 && <button type="button" className="chip dk" onClick={() => setStep(step - 1)}>Quay lại</button>}
-        <button type="button" className="chip dk on" onClick={() => step + 1 === GUIDE.length ? onClose() : setStep(step + 1)}>
-          {step + 1 === GUIDE.length ? "Xong" : "Tiếp theo"}
-        </button>
-      </div>
-    </dialog>
-  );
-}
-
 // Bảng to giữa màn hình khi bấm vào một ải: ảnh lớn + nút VÀO ẢI to, dễ bấm trên điện thoại
-function StagePopup({ requiredRules, onGuide, op, open, lv, deck, beat, busy, canStart, first, onClose, onStart, onFirst, onAuto }) {
+function StagePopup({ requiredRules, guideQueued, onGuide, op, open, lv, deck, beat, busy, canStart, first, onClose, onStart, onFirst, onAuto }) {
   useEffect(() => {
-    const k = (e) => e.key === "Escape" && !document.querySelector(".sm-guide[open]") && onClose();
+    const k = (e) => e.key === "Escape" && onClose();
     window.addEventListener("keydown", k);
     return () => window.removeEventListener("keydown", k);
   }, [onClose]);
@@ -172,7 +134,7 @@ function StagePopup({ requiredRules, onGuide, op, open, lv, deck, beat, busy, ca
           <div className="sm-meta"><span className={`ttlvtag lv${lv}`}>{LEVELS[lv][0]} · {LEVELS[lv][1]}</span> <span>Thẻ hạng {op.band[0]}–{op.band[1]}</span>{beat ? <span>✔ Đã thắng {beat} lần</span> : null}</div>
           <div className="ttminis">{deck.map((c) => <span key={c.id} className={`ttrk r-${c.rank}`}>{c.rank}</span>)}</div>
           <RequiredRules rules={requiredRules} />
-          {onGuide && <button type="button" className="chip dk" onClick={onGuide}>📖 Xem hướng dẫn</button>}
+          {onGuide && <button type="button" className="chip dk" onClick={onGuide}>{guideQueued ? "✓ Hướng dẫn sẽ mở khi vào trận" : "📖 Xem hướng dẫn trong trận"}</button>}
           {first ? <>
             <p className="sm-note big">🎲 Ván đầu với boss này: bài của bạn được xáo ngẫu nhiên và rút 5 lá theo cấp bài của boss. Từ ván thứ 2 được tự chọn bài.</p>
             <button className="sm-play" disabled={busy} onClick={() => onFirst(op)}>🎲 XÁO BÀI & VÀO ẢI</button>

@@ -20,6 +20,41 @@ import "./arena-fp.css";
 import "./arena-polish.css";
 
 const OPP = { t: "b", r: "l", b: "t", l: "r" };
+
+const GUIDE_STEPS = [
+  ["Tay bài của bạn", "Các lá phía dưới là tay bài của bạn. Mỗi lá có bốn số, mỗi số ứng với một cạnh."],
+  ["Đặt thẻ và lật bài", "Kéo thẻ vào ô trống, hoặc chạm thẻ rồi chạm ô. Khi hai lá chạm nhau, cạnh có số lớn hơn có thể lật lá đối thủ."],
+  ["Xem điểm hai bên", "Cán cân phía trên hiện điểm hai phe. Khi bàn kín, bên giữ nhiều thẻ hơn thắng. Bạn có 30 giây để chọn nước đi khi tới lượt."],
+];
+
+function ArenaGuide({ step, onStep, onClose }) {
+  const [flipped, setFlipped] = useState(false);
+  const [title, description] = GUIDE_STEPS[step];
+  return (
+    <section className="ar-guide" aria-label="Hướng dẫn trong trận">
+      <div aria-live="polite">
+        <strong>{step + 1}/{GUIDE_STEPS.length} · {title}</strong>
+        <p>{description}</p>
+      </div>
+      {step === 1 && (
+        <div className="ar-guide-demo">
+          <b>Bạn · 7</b><span aria-hidden="true">›</span>
+          <b className={flipped ? "" : "opponent"}>{flipped ? "Bạn" : "Đối thủ"} · 4</b>
+          <button type="button" className="chip dk" onClick={() => setFlipped(!flipped)}>
+            {flipped ? "Làm lại ví dụ" : "Thử lật thẻ"}
+          </button>
+        </div>
+      )}
+      <div className="ar-guide-actions">
+        <button type="button" className="chip dk" onClick={onClose}>Bỏ qua</button>
+        {step > 0 && <button type="button" className="chip dk" onClick={() => onStep(step - 1)}>Quay lại</button>}
+        <button type="button" className="chip dk on" onClick={() => step + 1 === GUIDE_STEPS.length ? onClose() : onStep(step + 1)}>
+          {step + 1 === GUIDE_STEPS.length ? "Tiếp tục trận" : "Tiếp theo"}
+        </button>
+      </div>
+    </section>
+  );
+}
 const NB = (i) => ({ t: i >= 3 ? i - 3 : -1, b: i <= 5 ? i + 3 : -1, l: i % 3 ? i - 1 : -1, r: i % 3 < 2 ? i + 1 : -1 });
 const SPECIAL = { same: ["同数", "Bằng nhau"], plus: ["加算", "Cộng"], combo: ["連鎖", "Liên hoàn"] };
 const RULE_VI = { open: "Lật bài", same: "Bằng nhau", plus: "Cộng", combo: "Liên hoàn", elemental: "Nguyên tố" };
@@ -123,6 +158,17 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
   const who = op.char.en;
   const [match, setMatch] = useState(m0);
   const [ready, setReady] = useState(false);
+  const guideKey = "shiki-guide-v1:" + profile.id;
+  const [guideStep, setGuideStep] = useState(null);
+  const guideRemaining = useRef(null);
+  useEffect(() => {
+    if (m0.op !== 0 || farm || auto) return;
+    try { if (!localStorage.getItem(guideKey)) setGuideStep(0); } catch { setGuideStep(0); }
+  }, [m0.op, farm, auto, guideKey]);
+  const closeGuide = () => {
+    try { localStorage.setItem(guideKey, "1"); } catch {}
+    setGuideStep(null);
+  };
   const [sel, setSel] = useState(null);
   const [step, setStep] = useState(null);
   const [error, setError] = useState("");
@@ -249,12 +295,13 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
   const sc = duelResult(match).score;
   const special = [...new Set((step?.flips || []).map((f) => f.by).filter((b) => SPECIAL[b]))];
   const stepKey = `${step?.who}-${step?.cell}-${cells.filter(Boolean).length}`;
-  const canAct = turn === "me" && ready && !intro && !leaving && !end;
+  const canAct = turn === "me" && ready && !intro && !leaving && !end && guideStep === null;
 
   // Đồng hồ 30 giây cho lượt của bạn; hết giờ → máy tự đánh một nước ngẫu nhiên thay bạn
   useEffect(() => {
     if (!canAct || autoOn) { setDeadline(null); return; }
-    const d = Date.now() + TURN_MS;
+    const d = Date.now() + (guideRemaining.current ?? TURN_MS);
+    guideRemaining.current = null;
     warned.current = false;
     setDeadline(d); setNow(Date.now());
     const t = setInterval(() => setNow(Date.now()), 200);
@@ -453,7 +500,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
     scene.current.style.setProperty("--py", ((e.clientY - r.top) / r.height - 0.5).toFixed(3));
   };
 
-  const turnText = end ? "" : !ready || intro ? "シャッフル中…" : turn === "me" ? (drag ? "置く場所を選んで！" : "あなたの番") : `${op.char.vi} 思考中…`;
+  const turnText = end ? "" : guideStep !== null && !intro ? "Hướng dẫn" : !ready || intro ? "シャッフル中…" : turn === "me" ? (drag ? "置く場所を選んで！" : "あなたの番") : `${op.char.vi} 思考中…`;
   const outcome = end && (end.result === "w" ? ["勝利", "Bạn thắng!"] : end.result === "l" ? ["敗北", "Bạn thua…"] : ["引分", "Hòa!"]);
   const dragCard = drag && cards[hands.me[drag.k]];
   const cutCard = step?.flips.length ? cards[step.id] : null;
@@ -462,7 +509,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
 
   return (
     <div ref={wrap} className={`tt ar-wrap ${fakeFull ? "fakefull" : ""} ${full || fakeFull ? "isfull" : ""}`}>
-      <div ref={scene} style={{ "--stage": Math.round((m0.op / Math.max(1, OPPONENTS.length - 1)) * 25) }} className={`arena reg-${bgOf(op.char.en)} ${intro ? "intro-" + intro : ""} ${drag ? "dragging" : ""} ${end ? "ended r-" + end.result : ""} ${end && showEnd ? "finale" : ""} ${cutCard ? "has-cut" : ""}`} onPointerMove={parallax} onPointerDownCapture={unlockOnce}>
+      <div ref={scene} style={{ "--stage": Math.round((m0.op / Math.max(1, OPPONENTS.length - 1)) * 25) }} className={`arena ${guideStep !== null && !intro ? "ar-guide-step-" + guideStep : ""} reg-${bgOf(op.char.en)} ${intro ? "intro-" + intro : ""} ${drag ? "dragging" : ""} ${end ? "ended r-" + end.result : ""} ${end && showEnd ? "finale" : ""} ${cutCard ? "has-cut" : ""}`} onPointerMove={parallax} onPointerDownCapture={unlockOnce}>
         <div className="ar-bg" /><div className="ar-table" aria-hidden="true" />
         <div className="ar-moon" /><div className="ar-lantern a" /><div className="ar-lantern b" />
         <div className="ar-petals" aria-hidden="true">{PETALS.map((p, i) => <i key={i} style={{ "--x": p.x + "%", "--d": p.d + "s", "--t": p.t + "s", "--s": p.s, "--w": p.w + "cqw" }} />)}</div>
@@ -531,6 +578,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
             );
           })}
         </div>
+        {guideStep !== null && ready && !intro && !end && <ArenaGuide step={guideStep} onStep={setGuideStep} onClose={closeGuide} />}
         <div className="ar-hud">
           {/* điểm hai bên là hai đĩa cân: bên nhiều thẻ hơn nặng hơn, cán cân nghiêng về bên đó */}
           <div className="ar-scale" style={{ "--tilt": `${Math.max(-16, Math.min(16, (sc.foe - sc.me) * 3.2))}deg` }} role="img" aria-label={`Bạn ${sc.me} : ${sc.foe} ${op.char.vi}`}>
@@ -557,7 +605,13 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
         <button className="ar-lang" onClick={() => { const l = lang === "vi" ? "ja" : "vi"; setLang(l); setTalkLang(l); unlockVoice(); speakLine(talk, l); sfx.click(); }} title={lang === "vi" ? "Đổi lời thoại sang tiếng Nhật" : "Đổi lời thoại sang tiếng Việt"} aria-label="Đổi ngôn ngữ lời thoại">{lang === "vi" ? "VI" : "JA"}</button>
         <button className="ar-full" onClick={toggleFull} title={full || fakeFull ? "Thoát toàn màn hình" : "Toàn màn hình"} aria-label={full || fakeFull ? "Thoát toàn màn hình" : "Toàn màn hình"}>{full || fakeFull ? "🗗" : "⛶"}</button>
 
-        {canAuto && !end && !farm && (
+        {m0.op === 0 && ready && !intro && !end && !autoOn && !farm && !drag && guideStep === null && (
+          <button type="button" className="ar-guide-open chip dk" onClick={() => {
+            if (deadline) guideRemaining.current = Math.max(0, deadline - Date.now());
+            setGuideStep(0);
+          }}>📖 Hướng dẫn</button>
+        )}
+        {canAuto && !end && !farm && guideStep === null && (
           <button className={`ar-autobtn ${autoOn ? "on" : ""}`} onClick={() => { setAutoOn((v) => !v); sfx.click(); }} title={autoOn ? "Tắt tự đánh, tự tay đánh tiếp" : "Bật tự đánh: Quân sư đánh thay bạn"} aria-pressed={autoOn}>
             🤖 <small>{autoOn ? "Tự đánh: BẬT" : "Tự đánh"}</small>
           </button>
