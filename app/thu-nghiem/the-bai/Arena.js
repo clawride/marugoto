@@ -398,13 +398,25 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
       const over = at != null && !matchRef.current.cells[at] ? at : null;
       if (over !== st.over) { st.over = over; setDrag((d) => d && { ...d, over }); if (over != null) sfx.hover(); }
     };
-    const up = () => {
-      window.removeEventListener("pointermove", move); window.removeEventListener("pointerup", up); window.removeEventListener("pointercancel", up);
-      if (!st.moved) { setSel((s) => (s === k ? null : k)); sfx.click(); return; }
-      if (st.over == null) { setDrag(null); return; }
-      throwTo(k, st.over, st.tilt);
+    const cleanup = () => {
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", up);
+      window.removeEventListener("pointercancel", cancel);
     };
-    window.addEventListener("pointermove", move); window.addEventListener("pointerup", up); window.addEventListener("pointercancel", up);
+    const cancel = () => {
+      cleanup();
+      setDrag(null);
+      setSel(null);
+    };
+    const up = (ev) => {
+      cleanup();
+      if (!st.moved) { setSel((s) => (s === k ? null : k)); sfx.click(); return; }
+      // Bàn di chuyển khi phóng to, nên kiểm tra ô một lần nữa tại điểm thả.
+      const target = cellAt(ev.clientX, ev.clientY);
+      if (target == null || matchRef.current.cells[target]) { setDrag(null); return; }
+      throwTo(k, target, st.tilt);
+    };
+    window.addEventListener("pointermove", move); window.addEventListener("pointerup", up); window.addEventListener("pointercancel", cancel);
   };
   // Ném thẻ: thẻ xoay tròn bay vào ô rồi đập xuống bàn
   const throwTo = (k, i, tilt = 0) => {
@@ -412,7 +424,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
     if (!g || !cellEl || reduceMotion()) { setDrag(null); play(k, i); return; }
     setDrag((d) => d && { ...d, over: i, throwing: true });
     const r = cellEl.getBoundingClientRect(), w = g.offsetWidth, sc = r.width / w, dir = tilt >= 0 ? 1 : -1;
-    const tx = r.left + r.width / 2 - w / 2, ty = r.top + r.height / 2 - w * 0.4 - w * 0.267 * sc;
+    const tx = r.left + r.width / 2 - w / 2, ty = r.top + (r.height - g.offsetHeight) / 2;
     sfx.whoosh();
     const a = g.animate([
       { transform: getComputedStyle(g).transform },
@@ -509,7 +521,7 @@ export default function Arena({ m0, byId, profile, leaving, onDone, onForfeit, a
 
   return (
     <div ref={wrap} className={`tt ar-wrap ${fakeFull ? "fakefull" : ""} ${full || fakeFull ? "isfull" : ""}`}>
-      <div ref={scene} style={{ "--stage": Math.round((m0.op / Math.max(1, OPPONENTS.length - 1)) * 25) }} className={`arena ${guideStep !== null && !intro ? "ar-guide-step-" + guideStep : ""} reg-${bgOf(op.char.en)} ${intro ? "intro-" + intro : ""} ${drag ? "dragging" : ""} ${end ? "ended r-" + end.result : ""} ${end && showEnd ? "finale" : ""} ${cutCard ? "has-cut" : ""}`} onPointerMove={parallax} onPointerDownCapture={unlockOnce}>
+      <div ref={scene} style={{ "--stage": Math.round((m0.op / Math.max(1, OPPONENTS.length - 1)) * 25) }} className={`arena ${guideStep !== null && !intro ? "ar-guide-step-" + guideStep : ""} reg-${bgOf(op.char.en)} ${intro ? "intro-" + intro : ""} ${drag ? "dragging" : ""} ${canAct && !autoOn && (sel !== null || drag) ? "aiming" : ""} ${end ? "ended r-" + end.result : ""} ${end && showEnd ? "finale" : ""} ${cutCard ? "has-cut" : ""}`} onPointerMove={parallax} onPointerDownCapture={unlockOnce}>
         <div className="ar-bg" /><div className="ar-table" aria-hidden="true" />
         <div className="ar-moon" /><div className="ar-lantern a" /><div className="ar-lantern b" />
         <div className="ar-petals" aria-hidden="true">{PETALS.map((p, i) => <i key={i} style={{ "--x": p.x + "%", "--d": p.d + "s", "--t": p.t + "s", "--s": p.s, "--w": p.w + "cqw" }} />)}</div>
