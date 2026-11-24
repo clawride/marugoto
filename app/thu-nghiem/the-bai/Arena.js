@@ -42,7 +42,7 @@ function OpeningRoll({ roll, opponent, rolling }) {
 }
 
 const GUIDE_STEPS = [
-  ["Tay bài của bạn", "Các lá phía dưới là tay bài của bạn. Mỗi lá có bốn số, mỗi số ứng với một cạnh."],
+  ["Tay bài của bạn", "Chạm mép một lá trong chồng bài bên phải. Lá đó sẽ hiện đầy đủ bên trái với điểm ở cả bốn cạnh."],
   ["Đặt thẻ và lật bài", "Kéo thẻ vào ô trống, hoặc chạm thẻ rồi chạm ô. Khi hai lá chạm nhau, cạnh có số lớn hơn có thể lật lá đối thủ."],
   ["Xem điểm hai bên", "Cán cân phía trên hiện điểm hai phe. Khi bàn kín, bên giữ nhiều thẻ hơn thắng. Bạn có 30 giây để chọn nước đi khi tới lượt."],
 ];
@@ -497,7 +497,8 @@ export default function Arena({ m0, pvp, launchEndsAt = 0, byId, profile, leavin
     setTimeout(land, 700);
   };
   const throwFromHand = (k, i) => {
-    const slot = scene.current?.querySelectorAll(".ar-slot")[k];
+    const slot = (sel === k && scene.current?.querySelector(".ar-hand-detail .ttcard"))
+      || scene.current?.querySelectorAll(".ar-slot")[k];
     if (!slot || drag || (!isPvp && locked.current) || !canAct) return;
     if (isPvp) { play(k, i); return; }
     const r = slot.getBoundingClientRect();
@@ -556,13 +557,6 @@ export default function Arena({ m0, pvp, launchEndsAt = 0, byId, profile, leavin
       setThinking(false);
     }, 450);
   };
-  const tilt = (e) => {
-    const el = e.currentTarget, r = el.getBoundingClientRect();
-    const px = (e.clientX - r.left) / r.width - 0.5, py = (e.clientY - r.top) / r.height - 0.5;
-    el.style.setProperty("--ry", `${px * 22}deg`); el.style.setProperty("--rx", `${-py * 18}deg`);
-    el.style.setProperty("--mx", `${(px + 0.5) * 100}%`); el.style.setProperty("--my", `${(py + 0.5) * 100}%`);
-  };
-  const untilt = (e) => { const s = e.currentTarget.style; s.setProperty("--ry", "0deg"); s.setProperty("--rx", "0deg"); };
   const unlocked = useRef(false);
   const unlockOnce = () => { if (!unlocked.current) { unlocked.current = true; unlockVoice(); if (voice && talk.speak) speakLine(); } };
   const parallax = (e) => {
@@ -575,6 +569,8 @@ export default function Arena({ m0, pvp, launchEndsAt = 0, byId, profile, leavin
   const turnText = end ? "" : isPvp ? intro ? "Gieo xúc xắc" : turn === "me" ? "Lượt của bạn" : "Lượt của đối thủ" : guideStep !== null && !intro ? "Hướng dẫn" : !ready || intro ? "シャッフル中…" : turn === "me" ? (drag ? "置く場所を選んで！" : "あなたの番") : `${op.char.vi} 思考中…`;
   const outcome = end && (end.result === "w" ? ["勝利", "Bạn thắng!"] : end.result === "l" ? ["敗北", "Bạn thua…"] : ["引分", "Hòa!"]);
   const dragCard = drag && cards[hands.me[drag.k]];
+  const detailIndex = drag?.k ?? sel;
+  const detailCard = detailIndex != null && cards[hands.me[detailIndex]];
   const cutCard = !isPvp && step?.flips.length ? cards[step.id] : null;
   const skill = cutCard && (SKILL[cutCard.el] || SKILL.geo);
   const zoomCell = zoom != null ? cells[zoom] : null;
@@ -625,13 +621,26 @@ export default function Arena({ m0, pvp, launchEndsAt = 0, byId, profile, leavin
           </div>
         )}
 
-        {/* tay bài của bạn — xòe quạt */}
-        <div className={`ar-hand n${hands.me.length}`}>
+        {detailCard && !end && (
+          <div className="ar-hand-detail" onPointerDown={(e) => onHandDown(e, detailIndex)}>
+            <Card c={detailCard} owner="me" detail />
+            <small>{detailCard.name}</small>
+          </div>
+        )}
+        <div className={`ar-hand n${hands.me.length}`} aria-label="Tay bài của bạn">
           {hands.me.map((id, k) => (
             <div key={id} className={`ar-slot ${sel === k ? "sel" : ""} ${drag?.k === k ? "lifted" : ""} ${canAct ? "live" : ""} ${hint?.id === id ? "hint" : ""}`}
-              style={{ "--o": k - (hands.me.length - 1) / 2, "--i": k }}
-              onPointerDown={(e) => onHandDown(e, k)} onPointerMove={tilt} onPointerLeave={untilt}>
+              style={{ "--i": k }} role="button" tabIndex={canAct ? 0 : -1} aria-disabled={!canAct}
+              aria-pressed={sel === k} aria-label={cards[id].name}
+              onKeyDown={(e) => {
+                if (canAct && (e.key === "Enter" || e.key === " ")) {
+                  e.preventDefault();
+                  setSel((value) => value === k ? null : k);
+                }
+              }}
+              onPointerDown={(e) => onHandDown(e, k)}>
               <Card c={cards[id]} owner="me" />
+              <small className="ar-slot-edge" aria-hidden="true">{cards[id].name}</small>
             </div>
           ))}
         </div>
