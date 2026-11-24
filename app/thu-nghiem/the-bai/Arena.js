@@ -302,6 +302,16 @@ export default function Arena({ m0, pvp, launchEndsAt = 0, byId, profile, leavin
   useEffect(() => { if (talk.n && talk.speak) speakLine(); }, [talk.n]); // eslint-disable-line react-hooks/exhaustive-deps
   const [full, setFull] = useState(false); // toàn màn hình (thật hoặc giả lập trên iPhone)
   const [fakeFull, setFakeFull] = useState(false);
+  const [frontView, setFrontView] = useState(false);
+  useEffect(() => {
+    try { setFrontView(localStorage.getItem("shiki-board-view") === "front"); } catch {}
+  }, []);
+  const toggleBoardView = () => {
+    const next = !frontView;
+    setFrontView(next);
+    try { localStorage.setItem("shiki-board-view", next ? "front" : "tilted"); } catch {}
+    sfx.click();
+  };
   useEffect(() => {
     const on = () => setFull(document.fullscreenElement === wrap.current);
     document.addEventListener("fullscreenchange", on);
@@ -647,7 +657,7 @@ export default function Arena({ m0, pvp, launchEndsAt = 0, byId, profile, leavin
 
   return (
     <div ref={wrap} className={`tt ar-wrap ${fakeFull ? "fakefull" : ""} ${full || fakeFull ? "isfull" : ""}`}>
-      <div ref={scene} style={{ "--stage": isPvp ? 8 : Math.round((m0.op / Math.max(1, OPPONENTS.length - 1)) * 25) }} className={`arena ${isPvp ? "ar-pvp" : ""} ${guideStep !== null && !intro ? "ar-guide-step-" + guideStep : ""} reg-${isPvp ? "inazuma" : bgOf(op.char.en)} ${intro ? "intro-" + intro : ""} ${drag ? "dragging" : ""} ${canAct && !autoOn && (sel !== null || drag) ? "aiming" : ""} ${end ? "ended r-" + end.result : ""} ${end && showEnd ? "finale" : ""} ${cutCard ? "has-cut" : ""}`} onPointerMove={parallax} onPointerDownCapture={unlockOnce}>
+      <div ref={scene} style={{ "--stage": isPvp ? 8 : Math.round((m0.op / Math.max(1, OPPONENTS.length - 1)) * 25) }} className={`arena ${frontView ? "ar-front" : ""} ${isPvp ? "ar-pvp" : ""} ${guideStep !== null && !intro ? "ar-guide-step-" + guideStep : ""} reg-${isPvp ? "inazuma" : bgOf(op.char.en)} ${intro ? "intro-" + intro : ""} ${drag ? "dragging" : ""} ${canAct && !autoOn && (sel !== null || drag) ? "aiming" : ""} ${end ? "ended r-" + end.result : ""} ${end && showEnd ? "finale" : ""} ${cutCard ? "has-cut" : ""}`} onPointerMove={parallax} onPointerDownCapture={unlockOnce}>
         <div className="ar-bg" /><div className="ar-table" aria-hidden="true" />
         <div className="ar-moon" /><div className="ar-lantern a" /><div className="ar-lantern b" />
         <div className="ar-petals" aria-hidden="true">{PETALS.map((p, i) => <i key={i} style={{ "--x": p.x + "%", "--d": p.d + "s", "--t": p.t + "s", "--s": p.s, "--w": p.w + "cqw" }} />)}</div>
@@ -759,6 +769,11 @@ export default function Arena({ m0, pvp, launchEndsAt = 0, byId, profile, leavin
         {!isPvp && <button className="ar-voice" onClick={() => { const v = !voice; setVoice(v); setVoiceOn(v); if (v) { unlockVoice(); speakLine(); } sfx.click(); }} title={voice ? "Tắt giọng nhân vật" : "Bật giọng nhân vật"} aria-label={voice ? "Tắt giọng nhân vật" : "Bật giọng nhân vật"}>{voice ? "🔊" : "🔇"}</button>}
         {!isPvp && <button className="ar-lang" onClick={() => { const l = lang === "vi" ? "ja" : "vi"; setLang(l); setTalkLang(l); unlockVoice(); speakLine(talk, l); sfx.click(); }} title={lang === "vi" ? "Đổi lời thoại sang tiếng Nhật" : "Đổi lời thoại sang tiếng Việt"} aria-label="Đổi ngôn ngữ lời thoại">{lang === "vi" ? "VI" : "JA"}</button>}
         <button className="ar-full" onClick={toggleFull} title={full || fakeFull ? "Thoát toàn màn hình" : "Toàn màn hình"} aria-label={full || fakeFull ? "Thoát toàn màn hình" : "Toàn màn hình"}>{full || fakeFull ? "🗗" : "⛶"}</button>
+        <button type="button" className="ar-angle" onClick={toggleBoardView} disabled={Boolean(drag)}
+          title={frontView ? "Chuyển sang bàn nghiêng" : "Chuyển sang bàn chính diện"}
+          aria-label="Góc nhìn chính diện" aria-pressed={frontView}>
+          <span aria-hidden="true">▦</span>
+        </button>
 
         {!isPvp && m0.op === 0 && ready && !intro && !end && !autoOn && !farm && !drag && guideStep === null && (
           <button type="button" className="ar-guide-open chip dk" onClick={() => {

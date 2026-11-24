@@ -60,6 +60,13 @@
 .arena .ar-full{position:absolute;right:1.4%;top:calc(1.4% + 5cqw);z-index:10;width:max(30px,3.2cqw);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;font-size:max(15px,1.7cqw);line-height:1;
   background:rgba(14,10,34,.6);color:#f5ead0;border:1px solid rgba(232,196,106,.5);cursor:pointer;transition:transform .2s}
 .arena .ar-full:hover{transform:scale(1.1)}
+.arena .ar-angle{
+  position:absolute;right:1.4%;top:1.4%;z-index:10;width:max(30px,3.2cqw);aspect-ratio:1;
+  border-radius:50%;display:grid;place-items:center;font-size:max(16px,1.8cqw);line-height:1;
+  background:#0e0a2299;color:#f5ead0;border:1px solid #e8c48080;cursor:pointer
+}
+.arena .ar-angle[aria-pressed="true"]{background:#ffe09a;color:#251d26}
+.arena .ar-angle:disabled{cursor:default}
 .ar-wrap.isfull{position:fixed;inset:0;z-index:2000;max-width:none;margin:0;display:grid;place-items:center;background:#05030c;overflow:hidden}
 .ar-wrap.isfull .arena{width:min(100vw,calc(100dvh * 16 / 9));border-radius:0;box-shadow:none}
 .ar-wrap.isfull .ar-under{display:none}
@@ -83,10 +90,11 @@
     display:block;position:absolute;z-index:11;right:13%;top:5%;font-size:11px;min-height:32px
   }
   .tt .arena .ar-mini{--mc:5.5cqw;left:auto;right:1.5%;top:27%;bottom:auto}
-  .tt .arena.aiming .ar-mini{display:none}
+  .tt .arena:is(.aiming,.ar-front) .ar-mini{display:none}
   .tt .arena .ar-pvp-avatar{left:2%;top:28%;bottom:auto}
   .arena .ar-advice{top:calc(.8% + 39cqw);left:2%;right:2%}
   .arena .ar-full{top:calc(.8% + 10cqw);width:9cqw;font-size:4.5cqw}
+  .arena .ar-angle{top:.8%;width:max(30px,9cqw);font-size:max(15px,4.5cqw)}
   .ar-wrap.isfull .arena{width:min(100vw,calc(100dvh * 3 / 5))}
 }
 
@@ -143,8 +151,8 @@
 .arena{--bb:82%;--bw:23.5cqw}
 .arena .ar-board{top:auto;bottom:calc(100% - var(--bb));transform-origin:50% 100%}
 /* Khi chọn thẻ, giữ nguyên các ô thả và xoay bàn về chính diện. */
-.arena.aiming .ar-plane{z-index:9}
-.arena.aiming .ar-board{
+.arena:is(.aiming,.ar-front) .ar-plane{z-index:9}
+.arena:is(.aiming,.ar-front) .ar-board{
   left:50%;bottom:7%;width:33cqw;
   transform:translateX(-50%) rotateX(0deg);
   background:#152831;
@@ -156,5 +164,5 @@
 }
 @media(max-width:720px){
   .arena{--bw:73cqw;--bb:80%}
-  .arena.aiming .ar-board{width:85cqw;bottom:calc(4% + 25cqw)}
+  .arena:is(.aiming,.ar-front) .ar-board{width:85cqw;bottom:calc(4% + 25cqw)}
 }
