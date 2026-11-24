@@ -100,8 +100,15 @@
 .arena.aiming .ar-board{
   left:50%;bottom:7%;width:33cqw;
   transform:translateX(-50%) rotateX(0deg);
-  background:#152831;border-color:#ffe197;
-  box-shadow:0 8px 36px #000c,0 0 18px #f5cb7466;
+  background:linear-gradient(180deg,rgba(21,40,49,.94) 0 60%,rgba(21,40,49,.42) 85%,rgba(21,40,49,.16) 100%);
+  border-color:#ffe197;
+  box-shadow:0 8px 28px #0005,0 0 18px #f5cb7466;
+}
+/* Hàng sát tay bài để lộ phần ảnh bị chồng, còn ô và viền vẫn nhận thao tác như cũ. */
+.tt .arena.aiming .ar-board .ar-cell:nth-child(n+7) > .ttcard{opacity:.75}
+.tt .arena.aiming .ar-board .ar-cell:nth-child(n+7) > .ttcard .ttaura{display:none}
+.tt .arena.aiming .ar-board .ar-cell:nth-child(n+7) > .ttcard .ttn{
+  filter:drop-shadow(0 1px 2px #000) drop-shadow(0 0 2px #000);
 }
 @media (prefers-reduced-motion:no-preference){
   .arena .ar-board{transition:left .22s ease,bottom .22s ease,width .22s ease,transform .22s ease,background-color .22s ease}
