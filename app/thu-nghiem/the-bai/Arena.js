@@ -66,7 +66,7 @@ function OpeningRoll({ roll, opponent, rolling }) {
   );
 }
 
-function HandDetail({ card, scene, position, setPosition }) {
+function HandDetail({ card, scene, position, setPosition, mobileOpen }) {
   const panel = useRef(null);
   const grab = useRef(null);
   const moveTo = (left, top) => {
@@ -79,7 +79,7 @@ function HandDetail({ card, scene, position, setPosition }) {
     });
   };
   return (
-    <div ref={panel} className="ar-hand-detail" style={position ? {
+    <div ref={panel} className={`ar-hand-detail ${mobileOpen ? "mobile-open" : ""}`} style={position ? {
       left: position.x * 100 + "%", top: position.y * 100 + "%", bottom: "auto",
       transform: `translate(${-position.x * 100}%,${-position.y * 100}%)`,
     } : undefined}>
@@ -262,6 +262,8 @@ export default function Arena({ m0, pvp, launchEndsAt = 0, byId, profile, leavin
     setGuideStep(null);
   };
   const [sel, setSel] = useState(null);
+  const [mobileDetail, setMobileDetail] = useState(false);
+  useEffect(() => { setMobileDetail(false); }, [sel]);
   const [botStep, setStep] = useState(null);
   const step = isPvp ? room.step : botStep;
   const [error, setError] = useState("");
@@ -565,8 +567,8 @@ export default function Arena({ m0, pvp, launchEndsAt = 0, byId, profile, leavin
     setTimeout(land, 700);
   };
   const throwFromHand = (k, i) => {
-    const slot = (sel === k && scene.current?.querySelector(".ar-hand-detail .ttcard"))
-      || scene.current?.querySelectorAll(".ar-slot")[k];
+    const preview = sel === k && scene.current?.querySelector(".ar-hand-detail .ttcard");
+    const slot = preview?.offsetWidth ? preview : scene.current?.querySelectorAll(".ar-slot")[k];
     if (!slot || drag || (!isPvp && locked.current) || !canAct) return;
     if (isPvp) { play(k, i); return; }
     const r = slot.getBoundingClientRect();
@@ -690,8 +692,10 @@ export default function Arena({ m0, pvp, launchEndsAt = 0, byId, profile, leavin
         )}
 
         {detailCard && !end && (
-          <HandDetail card={detailCard} scene={scene} position={detailPosition} setPosition={setDetailPosition} />
+          <HandDetail card={detailCard} scene={scene} position={detailPosition} setPosition={setDetailPosition} mobileOpen={mobileDetail} />
         )}
+        {sel != null && !end && <button type="button" className="ar-mobile-detail chip dk" aria-expanded={mobileDetail}
+          onClick={() => setMobileDetail((open) => !open)}>{mobileDetail ? "Đóng xem bài" : "Xem lá đã chọn"}</button>}
         <div className={`ar-hand n${hands.me.length}`} aria-label="Tay bài của bạn">
           {hands.me.map((id, k) => (
             <div key={id} className={`ar-slot ${sel === k ? "sel" : ""} ${drag?.k === k ? "lifted" : ""} ${canAct ? "live" : ""} ${hint?.id === id ? "hint" : ""}`}
