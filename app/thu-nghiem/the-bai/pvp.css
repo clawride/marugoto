@@ -11,10 +11,14 @@
 .pvp-messages p.me{justify-self:end;background:#23485c}
 .pvp-invite strong{color:#ffde89}
 .tt.pvp-board{text-align:center;max-width:760px;margin:auto;padding:14px;background:linear-gradient(155deg,#28203d,#122831)}
-.pvp-score b{color:#ffe39a}
-.pvp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;width:min(345px,90vw);max-width:100%;margin:12px auto}
-.pvp-grid>div{aspect-ratio:3/4;display:grid;place-items:stretch;min-width:0}
-.pvp-grid>div>button{border:1px dashed #ae9768;border-radius:8px;color:#ffe39a;background:#ffffff0a;cursor:pointer}
-.pvp-grid>div>button:disabled{color:#fff7;cursor:default}
 .pvp-hand{display:flex;justify-content:center;gap:5px;margin:10px auto 16px}
 .pvp-hand>div{width:min(100px,18%);min-width:0}
+.arena .ar-pvp-avatar{
+  position:absolute;left:2%;bottom:4%;z-index:7;width:clamp(44px,8cqw,100px);aspect-ratio:1;
+  object-fit:cover;object-position:center 15%;border:2px solid #edcf88;border-radius:50%;
+  background:#25203d;box-shadow:0 4px 14px #000b;pointer-events:none
+}
+.ar-pvp-result{width:min(480px,88cqw);color:#fff1cf}
+.ar-pvp-result p{margin:4px 0}
+.ar-pvp-result .pvp-hand{margin:7px auto}
+.ar-pvp-result .pvp-hand>div{width:min(16cqw,72px)}

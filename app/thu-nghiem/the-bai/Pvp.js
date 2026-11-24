@@ -2,9 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Card } from "./Card";
+import Arena from "./Arena";
 import "./pvp.css";
 
 const EMPTY = { people: [], room: null, messages: [], incoming: null, outgoing: null };
+const SB_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const SB_KEY = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
 export function usePvp(profile, busy, playing, deck, onRefresh, toast) {
   const [data, setData] = useState(EMPTY);
@@ -15,6 +18,7 @@ export function usePvp(profile, busy, playing, deck, onRefresh, toast) {
   const state = useRef(null);
   const pvpPending = useRef(false);
   const latest = useRef(0);
+  const wake = useRef(null);
   const offset = useRef(0);
   const id = profile?.id;
   const token = profile?.token;
@@ -30,8 +34,8 @@ export function usePvp(profile, busy, playing, deck, onRefresh, toast) {
     });
     const payload = await response.json();
     if (!response.ok) throw new Error(payload.error || "Lỗi kết nối PvP.");
-    if (!signal?.aborted && payload.now >= latest.current) {
-      latest.current = payload.now;
+    if (!signal?.aborted && payload.version >= latest.current) {
+      latest.current = payload.version;
       offset.current = payload.now - Date.now();
       setClock(payload.now);
       setData(payload);
@@ -44,14 +48,46 @@ export function usePvp(profile, busy, playing, deck, onRefresh, toast) {
     try { setDismissedRoom(localStorage.getItem("shiki-pvp-dismissed:" + id)); } catch {}
     const controller = new AbortController();
     let timer;
+    let running = false;
+    let queued = false;
     async function poll() {
+      if (controller.signal.aborted) return;
+      if (running) { queued = true; return; }
+      clearTimeout(timer);
+      running = true;
       try { await request("poll", {}, controller.signal); }
       catch { /* Lần lấy trạng thái tiếp theo sẽ thử lại. */ }
-      if (!controller.signal.aborted) timer = setTimeout(poll, document.hidden ? 4500 : 850);
+      running = false;
+      if (controller.signal.aborted) return;
+      const wait = queued ? 0 : document.hidden ? 4500 : state.current.inRoom ? 450 : 850;
+      queued = false;
+      timer = setTimeout(poll, wait);
     }
+    wake.current = poll;
+    document.addEventListener("visibilitychange", poll);
     poll();
-    return () => { controller.abort(); clearTimeout(timer); };
+    return () => {
+      controller.abort(); clearTimeout(timer);
+      wake.current = null;
+      document.removeEventListener("visibilitychange", poll);
+    };
   }, [id, token]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const liveRoomId = ["playing", "pick", "settling"].includes(data.room?.status) ? data.room.id : null;
+  state.current.inRoom = Boolean(liveRoomId);
+  useEffect(() => {
+    if (!liveRoomId || !SB_URL || !SB_KEY) return;
+    let alive = true;
+    let client, channel;
+    import("@supabase/supabase-js").then(({ createClient }) => {
+      if (!alive) return;
+      client = createClient(SB_URL, SB_KEY, { auth: { persistSession: false, autoRefreshToken: false } });
+      channel = client.channel("shiki-pvp:" + liveRoomId)
+        .on("broadcast", { event: "changed" }, () => wake.current?.())
+        .subscribe((status) => { if (alive && status === "SUBSCRIBED") wake.current?.(); });
+    }).catch(() => {});
+    return () => { alive = false; if (channel) client.removeChannel(channel); };
+  }, [liveRoomId]);
 
   useEffect(() => {
     if (data.incoming) setPeer(null);
@@ -167,56 +203,46 @@ export function PvpLobby({ pvp }) {
   );
 }
 
-export function PvpBoard({ pvp, byId }) {
+export function PvpBoard({ pvp, byId, profile }) {
   const { room, clock, act, closeRoom, sending } = pvp;
-  const [selection, setSelection] = useState(null);
-  const shape = (card) => ({ ...byId[card.cardId], ...card });
-  const end = room.status === "done" || room.status === "cancelled";
-  const left = room.deadline ? Math.max(0, Math.ceil((room.deadline - clock) / 1000)) : null;
-  const selected = room.hand?.some((c) => c.id === selection) ? selection : null;
-  return (
-    <main className="tt pvp-board panel">
+  if (!room.board) {
+    return <div className="tt pvp-board panel">
       <h1>Đấu với {room.opponent}</h1>
-      {room.status === "preparing" && <p role="status">Đang chuẩn bị bàn và kiểm tra bộ bài…</p>}
-      {room.error && <p role="alert">{room.error}</p>}
-      {room.board && (
-        <>
-          <p className="pvp-score">Bạn <b>{room.scores.me}</b> — <b>{room.scores.foe}</b> {room.opponent}</p>
-          <p className="hint">Xúc xắc {room.roll.me} – {room.roll.foe} · {room.roll.me > room.roll.foe ? "Bạn" : room.opponent} đi trước</p>
-          {room.status === "playing" && <p role="status">{room.turn === "me" ? "Lượt của bạn" : "Lượt của đối thủ"} · {left}s</p>}
-          <div className="pvp-grid" aria-label="Bàn đấu 3×3">
-            {room.board.map((cell, i) => <div key={i}>
-              {cell ? <Card c={shape(cell.card)} owner={cell.owner} /> :
-                <button type="button" disabled={sending || room.status !== "playing" || room.turn !== "me" || !selected}
-                  onClick={async () => { if (await act("move", { room: room.id, card: selected, cell: i })) setSelection(null); }}
-                  aria-label={"Đặt thẻ vào ô " + (i + 1)}>{i + 1}</button>}
-            </div>)}
-          </div>
-          {room.status === "playing" && <>
-            <p>Chọn một lá rồi bấm ô trống. Đối thủ còn {room.foeCount} lá.</p>
-            <div className="pvp-hand">
-              {room.hand.map((card) => <div key={card.id}><Card c={shape(card)} owner="me" sel={selected === card.id}
-                onClick={() => { if (!sending && room.turn === "me") setSelection(selected === card.id ? null : card.id); }} /></div>)}
-            </div>
-            <button type="button" className="chip dk" disabled={sending} onClick={() => {
-              if (confirm("Bỏ trận sẽ tính là thua. Đối thủ có thể lấy một lá trong bộ bài bạn mang vào trận.")) act("leave", { room: room.id });
-            }}>Bỏ trận</button>
-          </>}
-          {room.status !== "playing" && (
-            <p><b>{room.winner === "me" ? "Bạn thắng!" : room.winner === "foe" ? "Bạn thua." : "Hòa!"}</b></p>
-          )}
-          {room.status === "pick" && (room.winner === "me" ? <>
-            <p>Chọn một lá từ bộ bài vừa đấu của đối thủ · {left}s</p>
-            <div className="pvp-hand">
-              {room.choices.map((id) => byId[id] && <div key={id}><Card c={byId[id]} owner="foe" named
-                onClick={() => act("claim", { room: room.id, card: id })} /></div>)}
-            </div>
-          </> : <p>Đối thủ đang chọn lá nhận thưởng · {left}s</p>)}
-          {room.status === "settling" && <p role="status">Đang chuyển thẻ…</p>}
-          {room.status === "done" && room.prize && <p>{room.winner === "me" ? "Bạn nhận" : "Bạn mất"} lá <b>{byId[room.prize]?.name || room.prize}</b>.</p>}
-        </>
-      )}
-      {end && <button type="button" className="chip dk on" onClick={closeRoom}>Về bản đồ</button>}
-    </main>
+      <p role={room.error ? "alert" : "status"}>{room.error || "Đang chuẩn bị bàn và kiểm tra bộ bài…"}</p>
+      {room.status === "cancelled" && <button type="button" className="chip dk on" onClick={closeRoom}>Về bản đồ</button>}
+    </div>;
+  }
+
+  const revealed = [...room.hand, ...room.board.flatMap((cell) => cell ? [cell.card] : [])];
+  const match = {
+    id: room.id,
+    roll: room.roll,
+    cards: Object.fromEntries(revealed.map((card) => [card.id, card])),
+    cells: room.board.map((cell) => cell && { id: cell.card.id, owner: cell.owner }),
+    hands: { me: room.hand.map((card) => card.id), foe: Array(room.foeCount) },
+    turn: room.status === "playing" ? room.turn : "done",
+    els: Array(9).fill(null),
+    rules: {},
+  };
+  const left = Math.max(0, Math.ceil((room.deadline - clock) / 1000));
+  const resultContent = (
+    <div className="ar-pvp-result">
+      {room.status === "pick" && (room.winner === "me" ? <>
+        <p>Chọn một lá thưởng · {left}s</p>
+        <div className="pvp-hand">
+          {room.choices.map((id) => byId[id] && <div key={id}>
+            <Card c={byId[id]} owner="foe" named onClick={() => {
+              if (!sending && left > 0) act("claim", { room: room.id, card: id });
+            }} />
+          </div>)}
+        </div>
+      </> : <p>Đối thủ đang chọn lá thưởng · {left}s</p>)}
+      {room.status === "settling" && <p role="status">Đang chuyển thẻ…</p>}
+      {room.status === "done" && <>
+        {room.prize && <p>{room.winner === "me" ? "Bạn nhận" : "Bạn mất"} lá <b>{byId[room.prize]?.name || room.prize}</b>.</p>}
+        <button type="button" className="chip dk on" onClick={closeRoom}>Về bản đồ</button>
+      </>}
+    </div>
   );
+  return <Arena m0={match} pvp={{ ...pvp, resultContent }} byId={byId} profile={profile} leaving={sending} />;
 }

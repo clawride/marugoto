@@ -190,7 +190,7 @@ function CardGame({ S, toast, update }) {
   if (!profile?.id) return <div className="tt">{head}<p className="hint" style={{ textAlign: "center" }}>🔒 Cần đăng nhập để chơi — Hộp bài và kết quả các trận được lưu trên máy chủ theo tài khoản.</p></div>;
   if (!P || !cfg) return <div className="tt">{head}<p className="hint" style={{ textAlign: "center" }}>{err || "Đang tải…"}</p></div>;
 
-  if (pvp.room) return <PvpBoard key={pvp.room.id} pvp={pvp} byId={byId} />;
+  if (pvp.room) return <PvpBoard key={pvp.room.id} pvp={pvp} byId={byId} profile={profile} />;
 
   // ——— rút khởi đầu ———
   const showCine = (ids) => {

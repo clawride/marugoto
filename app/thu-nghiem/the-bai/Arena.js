@@ -4,7 +4,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { ELEM } from "@/lib/data";
-import { elemIcon } from "@/lib/genshin";
+import { CHARS, elemIcon } from "@/lib/genshin";
 import { OPPONENTS, sideVal, showNum } from "@/lib/shikiCards";
 import { duelMove, replayDuel, duelResult, adviseMove } from "@/lib/shikiDuel";
 import { opponentArt, opponentLine, reactionFor, EMOTE } from "@/lib/shikiDialogue";
@@ -173,29 +173,42 @@ function Bubble({ name, text, mood, lang }) {
   );
 }
 
-export default function Arena({ m0, launchEndsAt = 0, byId, profile, leaving, onDone, onForfeit, advisor, auto = false, canAuto = false, farm = false, onAgain, overlay }) {
-  const op = OPPONENTS[m0.op];
+export default function Arena({ m0, pvp, launchEndsAt = 0, byId, profile, leaving, onDone, onForfeit, advisor, auto = false, canAuto = false, farm = false, onAgain, overlay }) {
+  const isPvp = Boolean(pvp);
+  const room = pvp?.room;
+  const foeAvatar = isPvp ? CHARS.find((char) => char.id === room.avatars?.foe) || CHARS[0] : null;
+  const myAvatar = isPvp ? CHARS.find((char) => char.id === room.avatars?.me) || CHARS[1] : null;
+  const op = isPvp ? { char: { en: foeAvatar.en, vi: room.opponent } } : OPPONENTS[m0.op];
   const who = op.char.en;
-  const [match, setMatch] = useState(m0);
+  const [botMatch, setMatch] = useState(m0);
+  const match = isPvp ? m0 : botMatch;
   const [ready, setReady] = useState(false);
   const guideKey = "shiki-guide-v1:" + profile.id;
   const [guideStep, setGuideStep] = useState(null);
   const guideRemaining = useRef(null);
   useEffect(() => {
-    if (m0.op !== 0 || farm || auto) return;
+    if (isPvp || m0.op !== 0 || farm || auto) return;
     try { if (!localStorage.getItem(guideKey)) setGuideStep(0); } catch { setGuideStep(0); }
-  }, [m0.op, farm, auto, guideKey]);
+  }, [isPvp, m0.op, farm, auto, guideKey]);
   const closeGuide = () => {
     try { localStorage.setItem(guideKey, "1"); } catch {}
     setGuideStep(null);
   };
   const [sel, setSel] = useState(null);
-  const [step, setStep] = useState(null);
+  const [botStep, setStep] = useState(null);
+  const step = isPvp ? room.step : botStep;
   const [error, setError] = useState("");
   const [syncing, setSyncing] = useState(false);
   const [receipt, setReceipt] = useState(null);
   const [savedLocally, setSavedLocally] = useState(true);
-  const [intro, setIntro] = useState("wait");
+  const [intro, setIntro] = useState(() => !isPvp ? "wait" : m0.cells.some(Boolean) || !m0.roll ? null : "roll");
+  useEffect(() => {
+    if (!isPvp || m0.cells.some(Boolean) || !m0.roll) return;
+    const duration = reduceMotion() ? 0 : 400;
+    const reveal = setTimeout(() => setIntro("rolled"), duration);
+    const ready = setTimeout(() => setIntro(null), duration + 850);
+    return () => { clearTimeout(reveal); clearTimeout(ready); };
+  }, [isPvp, m0.id]); // eslint-disable-line react-hooks/exhaustive-deps
   const launchEnd = useRef(launchEndsAt);
   const [talk, setTalk] = useState({ mood: "opening", text: "", n: 0 });
   const [pose, setPose] = useState("idle");
@@ -246,7 +259,7 @@ export default function Arena({ m0, launchEndsAt = 0, byId, profile, leaving, on
   matchRef.current = match;
   const storageKey = "shiki_duel_" + profile.id;
   const playerName = (profile.name || profile.username || "").trim().slice(0, 20); // đối thủ gọi đích danh người chơi
-  const cards = useMemo(() => Object.fromEntries(Object.entries(m0.cards).map(([id, stats]) => [id, { ...byId[id], ...stats }])), [m0, byId]);
+  const cards = useMemo(() => Object.fromEntries(Object.entries(m0.cards).map(([id, stats]) => [id, { ...byId[stats.cardId || id], ...stats }])), [m0, byId]);
 
   // speak = đọc thành tiếng; chỉ đọc khi người chơi sắp thua, sắp hết giờ hoặc hết ván — còn lại chỉ hiện bóng thoại
   const say = (mood, speak = false) => {
@@ -254,6 +267,7 @@ export default function Arena({ m0, launchEndsAt = 0, byId, profile, leaving, on
   };
 
   useEffect(() => {
+    if (isPvp) return;
     let active = true, worker;
     const timers = [];
     try { worker = new Worker(new URL("./opponent.worker.js", import.meta.url), { type: "module" }); } catch {}
@@ -308,7 +322,7 @@ export default function Arena({ m0, launchEndsAt = 0, byId, profile, leaving, on
       compute.current(m0, history);
     }
     return () => { active = false; timers.forEach(clearTimeout); worker?.terminate(); compute.current = null; };
-  }, [m0, storageKey, who]);
+  }, [isPvp, m0, storageKey, who]);
 
   const finish = async () => {
     if (submitted.current) return;
@@ -320,29 +334,32 @@ export default function Arena({ m0, launchEndsAt = 0, byId, profile, leaving, on
   };
 
   const { cells, turn } = match;
-  const end = turn === "done" ? receipt || duelResult(match) : null;
+  const end = isPvp
+    ? room.status === "playing" ? null : { result: room.winner === "me" ? "w" : room.winner === "foe" ? "l" : "d", score: room.scores }
+    : turn === "done" ? receipt || duelResult(match) : null;
   const hands = { me: match.hands.me, foe: match.rules.open ? match.hands.foe : match.hands.foe.length };
   const fx = Object.fromEntries((step?.flips || []).map((f) => [f.i, f.by]));
   const hits = useMemo(() => hitsOf(step), [step]);
   const last = step?.cell;
-  const sc = duelResult(match).score;
+  const sc = isPvp ? room.scores : duelResult(match).score;
   const special = [...new Set((step?.flips || []).map((f) => f.by).filter((b) => SPECIAL[b]))];
   const stepKey = `${step?.who}-${step?.cell}-${cells.filter(Boolean).length}`;
-  const canAct = turn === "me" && ready && !intro && !leaving && !end && guideStep === null;
+  const canAct = turn === "me" && (isPvp || ready) && !intro && !leaving && !end && guideStep === null && (!isPvp || room.deadline > pvp.clock);
 
   // Đồng hồ 30 giây cho lượt của bạn; hết giờ → máy tự đánh một nước ngẫu nhiên thay bạn
   useEffect(() => {
-    if (!canAct || autoOn) { setDeadline(null); return; }
+    if (isPvp || !canAct || autoOn) { setDeadline(null); return; }
     const d = Date.now() + (guideRemaining.current ?? TURN_MS);
     guideRemaining.current = null;
     warned.current = false;
     setDeadline(d); setNow(Date.now());
     const t = setInterval(() => setNow(Date.now()), 200);
     return () => clearInterval(t);
-  }, [canAct, autoOn, match.hands.me.length]); // eslint-disable-line react-hooks/exhaustive-deps
-  const left = deadline ? Math.max(0, Math.ceil((deadline - now) / 1000)) : null;
+  }, [isPvp, canAct, autoOn, match.hands.me.length]); // eslint-disable-line react-hooks/exhaustive-deps
+  const remaining = isPvp ? room.status === "playing" ? room.deadline - pvp.clock : null : deadline ? deadline - now : null;
+  const left = remaining == null ? null : Math.max(0, Math.ceil(remaining / 1000));
   useEffect(() => {
-    if (left == null || !canAct) return;
+    if (isPvp || left == null || !canAct) return;
     if (left <= 10 && left > 0) sfx.tick(left <= 5);
     if (left === 10 && !warned.current) { warned.current = true; say("tease", true); }
     if (left === 0 && !drag?.throwing && !locked.current) {
@@ -361,31 +378,34 @@ export default function Arena({ m0, launchEndsAt = 0, byId, profile, leaving, on
     if (!step) return;
     const el = scene.current;
     if (el && !reduceMotion()) { el.classList.remove("shake"); void el.offsetWidth; el.classList.add("shake"); }
-    if (step.flips.length) { sfx.cast(); sfx.flip(Math.min(4, step.flips.length), 2.35); }
+    if (isPvp) sfx.slap();
+    if (step.flips.length) { if (!isPvp) sfx.cast(); sfx.flip(Math.min(4, step.flips.length), isPvp ? 0.12 : 2.35); }
     if (special.length) sfx.special();
-    if (match.turn === "done") return;
+    if (isPvp || match.turn === "done") return;
     // Chỉ khiêu khích thành tiếng khi bạn đang thua (máy dẫn ≥2, hoặc dẫn khi ván sắp hết); bị lật thì chỉ cay trong bóng thoại
     const sc = duelResult(match).score, lead = sc.foe - sc.me, filled = match.cells.filter(Boolean).length;
     if (step.who === "foe" && step.flips.length) {
       const losing = lead >= 2 || (filled >= 6 && lead > 0);
       if (losing) say("capture", true); else if (Math.random() < 0.5) say("capture");
     } else if (step.who === "me" && step.flips.length && Math.random() < 0.6) say("setback");
-  }, [step]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isPvp ? step?.cell : step]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Kết thúc ván
   useEffect(() => {
-    if (turn !== "done") return;
-    const r = duelResult(match).result;
-    say(r === "w" ? "lose" : r === "l" ? "win" : "draw", true);
-    finish();
+    if (!end) return;
+    const r = end.result;
+    if (!isPvp) {
+      say(r === "w" ? "lose" : r === "l" ? "win" : "draw", true);
+      finish();
+    }
     setZoom(null);
     // Màn kết thúc hoành tráng sau khi chiêu thức/lật thẻ cuối cùng diễn xong
     const t = setTimeout(() => {
       setShowEnd(true); sfx.boom();
       if (r === "w") sfx.fanfare(); else if (r === "l") sfx.doom(); else sfx.summary();
-    }, step?.flips.length ? 3500 : 900);
+    }, isPvp ? 350 : step?.flips.length ? 3500 : 900);
     return () => clearTimeout(t);
-  }, [turn]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [end?.result]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Tư thế nhân vật theo câu thoại, rồi trở về thở nhẹ
   useEffect(() => {
@@ -399,8 +419,13 @@ export default function Arena({ m0, launchEndsAt = 0, byId, profile, leaving, on
 
   const play = (k, i) => {
     const m = matchRef.current;
-    if (locked.current || leaving || m.turn !== "me" || m.cells[i] || k == null || k >= m.hands.me.length) return;
+    if ((!isPvp && locked.current) || leaving || m.turn !== "me" || m.cells[i] || k == null || k >= m.hands.me.length) return;
     const id = m.hands.me[k];
+    if (isPvp) {
+      setSel(null);
+      pvp.act("move", { room: room.id, card: id, cell: i });
+      return;
+    }
     const next = duelMove(m, id, i);
     locked.current = true;
     moves.current = [...moves.current, { id, cell: i }];
@@ -415,7 +440,7 @@ export default function Arena({ m0, launchEndsAt = 0, byId, profile, leaving, on
 
   // Kéo thả bằng Pointer Events (chuột + cảm ứng). Bấm không kéo = chọn thẻ rồi bấm ô.
   const onHandDown = (e, k) => {
-    if (!canAct || locked.current || drag || e.button > 0) return;
+    if (!canAct || (!isPvp && locked.current) || drag || e.button > 0) return;
     e.preventDefault();
     const r = e.currentTarget.getBoundingClientRect();
     const st = { x0: e.clientX, y0: e.clientY, lx: e.clientX, w: r.width, moved: false, over: null, tilt: 0 };
@@ -453,6 +478,7 @@ export default function Arena({ m0, launchEndsAt = 0, byId, profile, leaving, on
   };
   // Ném thẻ: thẻ xoay tròn bay vào ô rồi đập xuống bàn
   const throwTo = (k, i, tilt = 0) => {
+    if (isPvp) { setDrag(null); play(k, i); return; }
     const g = ghost.current, cellEl = scene.current?.querySelector(`[data-cell="${i}"]`);
     if (!g || !cellEl || reduceMotion()) { setDrag(null); play(k, i); return; }
     setDrag((d) => d && { ...d, over: i, throwing: true });
@@ -472,7 +498,8 @@ export default function Arena({ m0, launchEndsAt = 0, byId, profile, leaving, on
   };
   const throwFromHand = (k, i) => {
     const slot = scene.current?.querySelectorAll(".ar-slot")[k];
-    if (!slot || drag || locked.current || !canAct) return;
+    if (!slot || drag || (!isPvp && locked.current) || !canAct) return;
+    if (isPvp) { play(k, i); return; }
     const r = slot.getBoundingClientRect();
     setDrag({ k, over: i, w: r.width, x: r.left + r.width / 2, y: r.top + r.width * 0.7, throwing: true });
     setTimeout(() => throwTo(k, i, 0), 40);
@@ -545,16 +572,16 @@ export default function Arena({ m0, launchEndsAt = 0, byId, profile, leaving, on
     scene.current.style.setProperty("--py", ((e.clientY - r.top) / r.height - 0.5).toFixed(3));
   };
 
-  const turnText = end ? "" : guideStep !== null && !intro ? "Hướng dẫn" : !ready || intro ? "シャッフル中…" : turn === "me" ? (drag ? "置く場所を選んで！" : "あなたの番") : `${op.char.vi} 思考中…`;
+  const turnText = end ? "" : isPvp ? intro ? "Gieo xúc xắc" : turn === "me" ? "Lượt của bạn" : "Lượt của đối thủ" : guideStep !== null && !intro ? "Hướng dẫn" : !ready || intro ? "シャッフル中…" : turn === "me" ? (drag ? "置く場所を選んで！" : "あなたの番") : `${op.char.vi} 思考中…`;
   const outcome = end && (end.result === "w" ? ["勝利", "Bạn thắng!"] : end.result === "l" ? ["敗北", "Bạn thua…"] : ["引分", "Hòa!"]);
   const dragCard = drag && cards[hands.me[drag.k]];
-  const cutCard = step?.flips.length ? cards[step.id] : null;
+  const cutCard = !isPvp && step?.flips.length ? cards[step.id] : null;
   const skill = cutCard && (SKILL[cutCard.el] || SKILL.geo);
   const zoomCell = zoom != null ? cells[zoom] : null;
 
   return (
     <div ref={wrap} className={`tt ar-wrap ${fakeFull ? "fakefull" : ""} ${full || fakeFull ? "isfull" : ""}`}>
-      <div ref={scene} style={{ "--stage": Math.round((m0.op / Math.max(1, OPPONENTS.length - 1)) * 25) }} className={`arena ${guideStep !== null && !intro ? "ar-guide-step-" + guideStep : ""} reg-${bgOf(op.char.en)} ${intro ? "intro-" + intro : ""} ${drag ? "dragging" : ""} ${canAct && !autoOn && (sel !== null || drag) ? "aiming" : ""} ${end ? "ended r-" + end.result : ""} ${end && showEnd ? "finale" : ""} ${cutCard ? "has-cut" : ""}`} onPointerMove={parallax} onPointerDownCapture={unlockOnce}>
+      <div ref={scene} style={{ "--stage": isPvp ? 8 : Math.round((m0.op / Math.max(1, OPPONENTS.length - 1)) * 25) }} className={`arena ${isPvp ? "ar-pvp" : ""} ${guideStep !== null && !intro ? "ar-guide-step-" + guideStep : ""} reg-${isPvp ? "inazuma" : bgOf(op.char.en)} ${intro ? "intro-" + intro : ""} ${drag ? "dragging" : ""} ${canAct && !autoOn && (sel !== null || drag) ? "aiming" : ""} ${end ? "ended r-" + end.result : ""} ${end && showEnd ? "finale" : ""} ${cutCard ? "has-cut" : ""}`} onPointerMove={parallax} onPointerDownCapture={unlockOnce}>
         <div className="ar-bg" /><div className="ar-table" aria-hidden="true" />
         <div className="ar-moon" /><div className="ar-lantern a" /><div className="ar-lantern b" />
         <div className="ar-petals" aria-hidden="true">{PETALS.map((p, i) => <i key={i} style={{ "--x": p.x + "%", "--d": p.d + "s", "--t": p.t + "s", "--s": p.s, "--w": p.w + "cqw" }} />)}</div>
@@ -562,9 +589,10 @@ export default function Arena({ m0, launchEndsAt = 0, byId, profile, leaving, on
         {/* đối thủ ngồi bên kia bàn */}
         <div className={`ar-foe pose-${pose}`}>
           <img src={opponentArt(who)} alt={op.char.vi} draggable={false} />
-          <span key={talk.n} className="ar-emote">{EMOTE[talk.mood]}</span>
+          {!isPvp && <span key={talk.n} className="ar-emote">{EMOTE[talk.mood]}</span>}
         </div>
-        <Bubble key={talk.n + lang} name={op.char.vi} text={talk[lang]} mood={talk.mood} lang={lang} />
+        {!isPvp && <Bubble key={talk.n + lang} name={op.char.vi} text={talk[lang]} mood={talk.mood} lang={lang} />}
+        {myAvatar && <img className="ar-pvp-avatar" src={opponentArt(myAvatar.en)} alt={"Avatar của bạn · " + myAvatar.vi} draggable={false} />}
 
         {/* mặt bàn nghiêng */}
         <div className="ar-plane">
@@ -639,19 +667,22 @@ export default function Arena({ m0, launchEndsAt = 0, byId, profile, leaving, on
             {autoOn && !end && <div className="ar-autotag" role="status">🤖 Đang tự đánh</div>}
             {left != null && (
               <div className={`ar-clock ${left <= 10 ? "warn" : ""} ${left <= 5 ? "crit" : ""}`} key={left <= 5 ? "c" + left : "n"} role="timer" aria-label={`Còn ${left} giây`}>
-                <svg viewBox="0 0 48 48"><circle className="bg" cx="24" cy="24" r="20" /><circle className="fg" cx="24" cy="24" r="20" style={{ strokeDasharray: RING, strokeDashoffset: RING * (1 - Math.max(0, deadline - now) / TURN_MS) }} /></svg>
+                <svg viewBox="0 0 48 48"><circle className="bg" cx="24" cy="24" r="20" /><circle className="fg" cx="24" cy="24" r="20" style={{ strokeDasharray: RING, strokeDashoffset: RING * (1 - Math.min(1, Math.max(0, remaining) / (isPvp ? 60000 : TURN_MS))) }} /></svg>
                 <b>{left}</b>
               </div>
             )}
           </div>
           <div className="ar-hudsp" />
         </div>
-        <button className="ar-leave" disabled={leaving || (end && !receipt)} onClick={() => { if (end) onDone(receipt); else if (confirm("Bỏ trận? Trận này tính là thua và bạn sẽ bị lấy mất 1 lá NGẪU NHIÊN trong Hộp bài.")) onForfeit(); }}>{end ? "‹ Về" : "✕ Bỏ trận"}</button>
-        <button className="ar-voice" onClick={() => { const v = !voice; setVoice(v); setVoiceOn(v); if (v) { unlockVoice(); speakLine(); } sfx.click(); }} title={voice ? "Tắt giọng nhân vật" : "Bật giọng nhân vật"} aria-label={voice ? "Tắt giọng nhân vật" : "Bật giọng nhân vật"}>{voice ? "🔊" : "🔇"}</button>
-        <button className="ar-lang" onClick={() => { const l = lang === "vi" ? "ja" : "vi"; setLang(l); setTalkLang(l); unlockVoice(); speakLine(talk, l); sfx.click(); }} title={lang === "vi" ? "Đổi lời thoại sang tiếng Nhật" : "Đổi lời thoại sang tiếng Việt"} aria-label="Đổi ngôn ngữ lời thoại">{lang === "vi" ? "VI" : "JA"}</button>
+        {!isPvp && <button className="ar-leave" disabled={leaving || (end && !receipt)} onClick={() => { if (end) onDone(receipt); else if (confirm("Bỏ trận? Trận này tính là thua và bạn sẽ bị lấy mất 1 lá NGẪU NHIÊN trong Hộp bài.")) onForfeit(); }}>{end ? "‹ Về" : "✕ Bỏ trận"}</button>}
+        {isPvp && !end && <button className="ar-leave" disabled={leaving} onClick={() => {
+          if (confirm("Bỏ trận sẽ tính là thua. Đối thủ được chọn một lá đủ điều kiện.")) pvp.act("leave", { room: room.id });
+        }}>✕ Bỏ trận</button>}
+        {!isPvp && <button className="ar-voice" onClick={() => { const v = !voice; setVoice(v); setVoiceOn(v); if (v) { unlockVoice(); speakLine(); } sfx.click(); }} title={voice ? "Tắt giọng nhân vật" : "Bật giọng nhân vật"} aria-label={voice ? "Tắt giọng nhân vật" : "Bật giọng nhân vật"}>{voice ? "🔊" : "🔇"}</button>}
+        {!isPvp && <button className="ar-lang" onClick={() => { const l = lang === "vi" ? "ja" : "vi"; setLang(l); setTalkLang(l); unlockVoice(); speakLine(talk, l); sfx.click(); }} title={lang === "vi" ? "Đổi lời thoại sang tiếng Nhật" : "Đổi lời thoại sang tiếng Việt"} aria-label="Đổi ngôn ngữ lời thoại">{lang === "vi" ? "VI" : "JA"}</button>}
         <button className="ar-full" onClick={toggleFull} title={full || fakeFull ? "Thoát toàn màn hình" : "Toàn màn hình"} aria-label={full || fakeFull ? "Thoát toàn màn hình" : "Toàn màn hình"}>{full || fakeFull ? "🗗" : "⛶"}</button>
 
-        {m0.op === 0 && ready && !intro && !end && !autoOn && !farm && !drag && guideStep === null && (
+        {!isPvp && m0.op === 0 && ready && !intro && !end && !autoOn && !farm && !drag && guideStep === null && (
           <button type="button" className="ar-guide-open chip dk" onClick={() => {
             if (deadline) guideRemaining.current = Math.max(0, deadline - Date.now());
             setGuideStep(0);
@@ -711,18 +742,21 @@ export default function Arena({ m0, launchEndsAt = 0, byId, profile, leaving, on
             <div className="ar-rest">
             <h2>{outcome[1]}</h2>
             <div className="ar-final"><span className="me">{end.score.me}</span> : <span className="foe">{end.score.foe}</span></div>
+            {isPvp ? pvp.resultContent : <>
             {receipt && end.result === "l" && (receipt.lost ? <div className="ttlost in"><Card c={byId[receipt.lost]} owner="foe" small /><p>Bạn bị mất 1 lá trong bộ bài vừa đấu: <b>{byId[receipt.lost]?.name}</b> (hạng {byId[receipt.lost]?.rank})</p></div> : <p className="hint">Hộp bài đang ở mức tối thiểu 5 loại thẻ nên không bị lấy lá nào.</p>)}
             {!receipt && <p role="status">{syncing ? "Đang xác nhận kết quả…" : "Kết quả chưa được đồng bộ."}</p>}
             <div className="btnrow">{!receipt ? <button className="gbtn tri" disabled={syncing} onClick={finish}>Gửi lại kết quả</button> : farm ? <p className="hint" role="status">🔁 Đang chuyển sang trận kế…</p> : <>
               <button className="gbtn tri" onClick={() => onDone(receipt)}><span className="c" />{end.result === "w" ? `🎁 Chọn 1 thẻ của ${op.char.vi}` : "Về danh sách đối thủ"}</button>
               {onAgain && <button className="gbtn tri" onClick={() => onAgain(receipt, autoOn)}><span className="c" />🔁 Đánh lại</button>}
             </>}</div>
+            </>}
             </div>
           </div>
         )}
       </div>
 
       <div className="ar-under">
+        {isPvp && <p className="hint">Xúc xắc {room.roll.me} – {room.roll.foe} · {room.roll.me > room.roll.foe ? "Bạn" : room.opponent} đi trước</p>}
         <div className="ar-rules">{Object.entries(match.rules).filter(([, v]) => v).map(([k]) => <span key={k}>{RULE_VI[k]}</span>)}</div>
         <p className="ttlog" role="status">{error || notice || (step ? `${step.who === "me" ? "Bạn" : op.char.vi} đặt ${cards[step.id].name}${step.flips.length ? " — lật " + step.flips.length + " thẻ" : ""}` : "Kéo thẻ từ tay lên bàn (hoặc bấm thẻ rồi bấm ô).")}</p>
         {error && <button className="chip dk" onClick={() => location.reload()}>Tải lại trạng thái ván</button>}

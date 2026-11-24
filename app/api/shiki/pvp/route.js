@@ -1,4 +1,5 @@
 import { auth, store } from "@/lib/store";
+import { after } from "next/server";
 import { getSite } from "@/lib/admin";
 import { lobbyAction, PvpError, validatePvpDeck } from "@/lib/shikiPvp";
 
@@ -17,7 +18,13 @@ export async function POST(req) {
   try {
     if (body.action === "invite" || body.action === "accept") await validatePvpDeck(user.id, body.deck);
     const chatEnabled = body.action !== "chat" || (await getSite()).chatEnabled;
-    return reply(await lobbyAction(user, body, chatEnabled));
+    const payload = await lobbyAction(user, body, chatEnabled);
+    if (payload.room && store.signalPvp && ["accept", "move", "leave", "claim"].includes(body.action)) {
+      const id = payload.room.id;
+      // Chỉ phát tín hiệu tải lại. Trạng thái bàn và bài úp vẫn đi qua API xác thực.
+      after(() => store.signalPvp(id).catch(() => {}));
+    }
+    return reply(payload);
   } catch (error) {
     if (error instanceof PvpError) return reply({ error: error.message }, error.status);
     console.error("[shiki-pvp]", error);
