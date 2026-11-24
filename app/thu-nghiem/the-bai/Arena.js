@@ -20,7 +20,32 @@ import "./arena-fp.css";
 import "./arena-polish.css";
 
 const OPP = { t: "b", r: "l", b: "t", l: "r" };
-const DIE_FACES = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
+const ROLL_MS = 920;
+const DIE_FACES = [
+  { face: "front", pips: [5], x: 0, y: 0 },
+  { face: "right", pips: [1, 9], x: 0, y: -90 },
+  { face: "top", pips: [1, 5, 9], x: -90, y: 0 },
+  { face: "bottom", pips: [1, 3, 7, 9], x: 90, y: 0 },
+  { face: "left", pips: [1, 3, 5, 7, 9], x: 0, y: 90 },
+  { face: "back", pips: [1, 3, 4, 6, 7, 9], x: 0, y: 180 },
+];
+
+function OpeningDie({ value }) {
+  const { x, y } = DIE_FACES[value - 1];
+  return (
+    <div className="ar-die-space" aria-hidden="true" style={{ "--die-x": x + "deg", "--die-y": y + "deg", "--roll-ms": ROLL_MS + "ms" }}>
+      <div className="ar-die-drop">
+        <div className="ar-die-cube">
+          {DIE_FACES.map(({ face, pips }) => (
+            <span key={face} className={"ar-die-face " + face}>
+              {pips.map((pip) => <i key={pip} style={{ gridArea: `${Math.ceil(pip / 3)} / ${(pip - 1) % 3 + 1}` }} />)}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function OpeningRoll({ roll, opponent, rolling }) {
   return (
@@ -30,7 +55,7 @@ function OpeningRoll({ roll, opponent, rolling }) {
         {[["Bạn", "me"], [opponent, "foe"]].map(([name, side]) => (
           <div key={side} className={side}>
             <span>{name}</span>
-            <b aria-hidden="true">{rolling ? "⚄" : DIE_FACES[roll[side] - 1]}</b>
+            <OpeningDie value={roll[side]} />
             {!rolling && <small>{roll[side]} điểm</small>}
           </div>
         ))}
@@ -38,6 +63,48 @@ function OpeningRoll({ roll, opponent, rolling }) {
       <span>{rolling ? "Đang gieo…" : roll.me > roll.foe ? "Bạn đi trước!" : opponent + " đi trước!"}</span>
       {!rolling && roll.ties > 0 && <small>Đã gieo lại {roll.ties} lần do bằng điểm.</small>}
     </section>
+  );
+}
+
+function HandDetail({ card, scene, position, setPosition }) {
+  const panel = useRef(null);
+  const grab = useRef(null);
+  const moveTo = (left, top) => {
+    const area = scene.current.getBoundingClientRect();
+    const box = panel.current.getBoundingClientRect();
+    const ratio = (offset, space) => space > 0 ? Math.max(0, Math.min(1, offset / space)) : 0;
+    setPosition({
+      x: ratio(left - area.left, area.width - box.width),
+      y: ratio(top - area.top, area.height - box.height),
+    });
+  };
+  return (
+    <div ref={panel} className="ar-hand-detail" style={position ? {
+      left: position.x * 100 + "%", top: position.y * 100 + "%", bottom: "auto",
+      transform: `translate(${-position.x * 100}%,${-position.y * 100}%)`,
+    } : undefined}>
+      <button type="button" className="ar-hand-detail-handle" aria-label="Di chuyển khung xem bài"
+        onPointerDown={(event) => {
+          if (event.button !== 0 || grab.current) return;
+          const rect = panel.current.getBoundingClientRect();
+          grab.current = { id: event.pointerId, x: event.clientX - rect.left, y: event.clientY - rect.top };
+          event.currentTarget.setPointerCapture(event.pointerId);
+        }}
+        onPointerMove={(event) => {
+          const start = grab.current;
+          if (start?.id === event.pointerId) moveTo(event.clientX - start.x, event.clientY - start.y);
+        }}
+        onLostPointerCapture={() => { grab.current = null; }}
+        onKeyDown={(event) => {
+          const delta = { ArrowLeft: [-16, 0], ArrowRight: [16, 0], ArrowUp: [0, -16], ArrowDown: [0, 16] }[event.key];
+          if (!delta) return;
+          event.preventDefault();
+          const rect = panel.current.getBoundingClientRect();
+          moveTo(rect.left + delta[0], rect.top + delta[1]);
+        }}>⠿ Kéo để di chuyển</button>
+      <Card c={card} owner="me" detail />
+      <small>{card.name}</small>
+    </div>
   );
 }
 
@@ -204,7 +271,7 @@ export default function Arena({ m0, pvp, launchEndsAt = 0, byId, profile, leavin
   const [intro, setIntro] = useState(() => !isPvp ? "wait" : m0.cells.some(Boolean) || !m0.roll ? null : "roll");
   useEffect(() => {
     if (!isPvp || m0.cells.some(Boolean) || !m0.roll) return;
-    const duration = reduceMotion() ? 0 : 400;
+    const duration = reduceMotion() ? 0 : ROLL_MS;
     const reveal = setTimeout(() => setIntro("rolled"), duration);
     const ready = setTimeout(() => setIntro(null), duration + 850);
     return () => { clearTimeout(reveal); clearTimeout(ready); };
@@ -256,6 +323,7 @@ export default function Arena({ m0, pvp, launchEndsAt = 0, byId, profile, leavin
   const matchRef = useRef(match);
   const ghost = useRef(null);
   const scene = useRef(null);
+  const [detailPosition, setDetailPosition] = useState(null);
   matchRef.current = match;
   const storageKey = "shiki_duel_" + profile.id;
   const playerName = (profile.name || profile.username || "").trim().slice(0, 20); // đối thủ gọi đích danh người chơi
@@ -305,7 +373,7 @@ export default function Arena({ m0, pvp, launchEndsAt = 0, byId, profile, leavin
       const later = (delay, action) => timers.push(setTimeout(() => { if (active) action(); }, delay));
       const reduced = reduceMotion();
       const wait = m0.roll && !reduced ? Math.max(0, launchEnd.current - Date.now()) : 0;
-      const rollMs = m0.roll && !reduced ? 700 : 0;
+      const rollMs = m0.roll && !reduced ? ROLL_MS : 0;
       const resultMs = m0.roll ? 1450 : 0;
       const shuffleAt = wait + rollMs + resultMs;
       if (rollMs) later(wait, () => { setIntro("roll"); sfx.deal(); });
@@ -622,10 +690,7 @@ export default function Arena({ m0, pvp, launchEndsAt = 0, byId, profile, leavin
         )}
 
         {detailCard && !end && (
-          <div className="ar-hand-detail" onPointerDown={(e) => onHandDown(e, detailIndex)}>
-            <Card c={detailCard} owner="me" detail />
-            <small>{detailCard.name}</small>
-          </div>
+          <HandDetail card={detailCard} scene={scene} position={detailPosition} setPosition={setDetailPosition} />
         )}
         <div className={`ar-hand n${hands.me.length}`} aria-label="Tay bài của bạn">
           {hands.me.map((id, k) => (

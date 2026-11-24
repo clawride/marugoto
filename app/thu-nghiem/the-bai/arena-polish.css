@@ -334,18 +334,54 @@
 }
 .ar-opening-dice{display:flex;justify-content:center;gap:clamp(18px,6cqw,64px)}
 .ar-opening-dice>div{display:grid;justify-items:center;align-content:start;gap:4px;min-width:70px}
-.ar-opening-dice b{
-  display:grid;place-items:center;width:clamp(56px,10cqw,114px);aspect-ratio:1;
-  border-radius:12px;background:#fff0cf;color:#241a38;box-shadow:0 4px 14px #0008;
-  font:clamp(42px,8cqw,92px)/1 "Segoe UI Symbol",serif;
+.ar-die-space{
+  --die-size:clamp(48px,9cqw,108px);--die-half:calc(var(--die-size) / 2);
+  --die-light:#ffefce;--die-shade:#c89854;--die-in:calc(var(--die-size) * -.8);
+  position:relative;width:var(--die-size);height:var(--die-size);margin:8px;
+  perspective:calc(var(--die-size) * 6)
 }
-.ar-opening-dice .foe b{background:#e7c6ff}
+.ar-opening-dice .foe .ar-die-space{
+  --die-light:#ebd7ff;--die-shade:#a97bc9;--die-in:calc(var(--die-size) * .8)
+}
+.ar-die-space::after{
+  content:"";position:absolute;left:0;right:0;bottom:-12%;height:18%;z-index:-1;
+  border-radius:50%;background:#0009;filter:blur(6px)
+}
+.ar-die-drop,.ar-die-cube{position:relative;width:100%;height:100%;transform-style:preserve-3d}
+.ar-die-cube{transform:rotateX(var(--die-x)) rotateY(var(--die-y))}
+.ar-die-face{
+  position:absolute;inset:0;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);
+  place-items:center;padding:13%;border-radius:13%;border:1px solid #fff8;
+  background:linear-gradient(145deg,var(--die-light) 32%,var(--die-shade));
+  box-shadow:inset 0 0 8px #fff6,inset 0 -2px 3px #311b4844;backface-visibility:hidden
+}
+.ar-die-face i{width:63%;aspect-ratio:1;border-radius:50%;background:#342246;box-shadow:inset 0 1px 2px #0007}
+.ar-die-face.front{transform:translateZ(var(--die-half))}
+.ar-die-face.back{transform:rotateY(180deg) translateZ(var(--die-half))}
+.ar-die-face.right{transform:rotateY(90deg) translateZ(var(--die-half))}
+.ar-die-face.left{transform:rotateY(-90deg) translateZ(var(--die-half))}
+.ar-die-face.top{transform:rotateX(90deg) translateZ(var(--die-half))}
+.ar-die-face.bottom{transform:rotateX(-90deg) translateZ(var(--die-half))}
 .ar-opening-roll small{font-size:.72em}
 @media(prefers-reduced-motion:no-preference){
-  .ar-opening-roll.rolling b{animation:ar-die-tumble .35s ease-in-out 2}
-  .ar-opening-roll.rolling .foe b{animation-direction:reverse}
+  .ar-opening-roll.rolling .ar-die-drop{animation:ar-die-drop var(--roll-ms) both}
+  .ar-opening-roll.rolling .ar-die-cube{animation:ar-die-spin var(--roll-ms) cubic-bezier(.18,.45,.38,1) both}
+  .ar-opening-roll.rolling .ar-die-space::after{animation:ar-die-shadow var(--roll-ms) both}
 }
-@keyframes ar-die-tumble{
-  0%,100%{transform:translateY(0) rotate(-18deg)}
-  50%{transform:translateY(-12px) rotate(32deg)}
+@keyframes ar-die-drop{
+  0%{transform:translate(var(--die-in),calc(var(--die-size) * -1.05));animation-timing-function:ease-in}
+  48%{transform:translate(calc(var(--die-in) * -.18),0);animation-timing-function:ease-out}
+  64%{transform:translate(calc(var(--die-in) * -.09),calc(var(--die-size) * -.24));animation-timing-function:ease-in}
+  79%{transform:translate(0,0);animation-timing-function:ease-out}
+  89%{transform:translateY(calc(var(--die-size) * -.07));animation-timing-function:ease-in}
+  100%{transform:translate(0,0)}
+}
+@keyframes ar-die-spin{
+  from{transform:rotateX(calc(var(--die-x) - 740deg)) rotateY(calc(var(--die-y) - 570deg)) rotateZ(-130deg)}
+  to{transform:rotateX(var(--die-x)) rotateY(var(--die-y)) rotateZ(0deg)}
+}
+@keyframes ar-die-shadow{
+  0%{opacity:.25;transform:scale(.65)}
+  48%,79%,100%{opacity:1;transform:scale(1)}
+  64%,89%{opacity:.6;transform:scale(.8)}
 }
