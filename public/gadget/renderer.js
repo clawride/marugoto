@@ -267,7 +267,10 @@
     $("#btnAcc").textContent = u ? "Đăng xuất" : "Đăng nhập";
   }
   function countUp(el, to) {
-    const from = parseInt(el.textContent.replace(/\D/g, "")) || 0; if (from === to) { el.textContent = to.toLocaleString("vi-VN"); return; }
+    const from = parseInt(el.textContent.replace(/\D/g, "")) || 0;
+    // trang đang ẩn (tab nền / gadget bị che) thì requestAnimationFrame tạm dừng → đặt số luôn, không đếm
+    if (from === to || document.hidden || cfg.fx === "off") { el.textContent = to.toLocaleString("vi-VN"); return; }
+    setTimeout(() => { el.textContent = to.toLocaleString("vi-VN"); }, 1100); // chốt số cuối dù khung hình bị dừng giữa chừng
     const t0 = performance.now(), d = 900;
     const step = (t) => { const k = Math.min(1, (t - t0) / d), e = 1 - Math.pow(1 - k, 3); el.textContent = Math.round(from + (to - from) * e).toLocaleString("vi-VN"); if (k < 1) requestAnimationFrame(step); };
     requestAnimationFrame(step);
