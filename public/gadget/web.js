@@ -108,7 +108,7 @@
   addEventListener("appinstalled", () => { installEvt = null; emit("cfg", {}); });
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("/gadget/sw.js", { scope: "/gadget" }).catch(() => {});
 
-  let kanjiP = null; const strokeP = {};
+  let kanjiP = null, siteP = null; const strokeP = {};
   window.gadget = {
     platform: "web",
     getCfg: async () => { await loadBg(); setTimeout(place, 0); setTimeout(place, 600); return { ...cfg, user: user() }; },
@@ -123,6 +123,7 @@
       inp.click();
     }),
     clearBg: async () => { await idbSet("bg", null); if (bgUrl) URL.revokeObjectURL(bgUrl); bgUrl = ""; cfg.bg = ""; save(); return ""; },
+    site: () => (siteP ||= fetch("/api/site", { cache: "no-store" }).then((r) => r.json())),
     words: () => fetch("/gadget/words.json").then((r) => r.json()).catch(() => []),
     kanji: () => (kanjiP ||= fetch("/gadget/kanji.json").then((r) => r.json()).catch(() => ({}))),
     strokes: async (k) => { // nét KanjiVG: file theo cấp có sẵn trên trang (/kanji/strokes-a1.json…)

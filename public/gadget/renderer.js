@@ -860,6 +860,41 @@
   $("#qzExit").addEventListener("click", () => stopQuiz());
   $("#btnLook").addEventListener("click", (e) => (document.body.classList.contains("look") ? closeLook() : openLook(e)));
   $("#lkExit").addEventListener("click", () => closeLook());
+  $("#actLook").addEventListener("click", (e) => (document.body.classList.contains("look") ? closeLook() : openLook(e)));
+  $("#actQuiz").addEventListener("click", (e) => (document.body.classList.contains("quiz") ? stopQuiz() : (closeLookIfOpen(), startQuiz(e))));
+  const closeLookIfOpen = () => { if (document.body.classList.contains("look")) document.body.classList.remove("look"); };
+  new MutationObserver(() => { $("#actLook").classList.toggle("on", document.body.classList.contains("look")); $("#actQuiz").classList.toggle("on", document.body.classList.contains("quiz")); }).observe(document.body, { attributes: true, attributeFilter: ["class"] });
+
+  // ——— thông báo tên miền + ủng hộ (bản web; quản trị bật/tắt và đổi mã QR ở trang quản trị) ———
+  let DM = null;
+  const VN = 7 * 3600e3, two = (n) => String(n).padStart(2, "0");
+  function nextExpiry(mmdd, now) { const [m, d] = mmdd.split("-").map(Number), y = new Date(now + VN).getUTCFullYear(); let t = Date.UTC(y, m - 1, d) - VN; if (t <= now) t = Date.UTC(y + 1, m - 1, d) - VN; return t; }
+  function tickDomain() {
+    if (!DM) return;
+    const now = Date.now(), end = nextExpiry(DM.expire || "09-01", now), left = Math.max(0, end - now);
+    const days = Math.floor(left / 864e5), h = Math.floor((left % 864e5) / 36e5), mi = Math.floor((left % 36e5) / 6e4), s = Math.floor((left % 6e4) / 1e3);
+    const ed = new Date(end + VN), lvl = days <= 30 ? "danger" : days <= 90 ? "warn" : "";
+    $(".dm").className = "dm " + lvl;
+    $("#dmTitle").textContent = `Tên miền tiengnhat.online hết hạn ${two(ed.getUTCDate())}/${two(ed.getUTCMonth() + 1)}/${ed.getUTCFullYear()}`;
+    $("#dmSub").textContent = lvl === "danger" ? "⏰ Sắp hết hạn — cần gia hạn gấp!" : lvl === "warn" ? "⚠️ Sắp đến hạn gia hạn" : "Gia hạn mỗi năm vào ngày này";
+    $("#dmCount").innerHTML = [[days, "ngày"], [h, "giờ"], [mi, "phút"], [s, "giây"]].map(([v, l]) => `<div><b>${l === "ngày" ? v : two(v)}</b><small>${l}</small></div>`).join("");
+  }
+  async function loadDomain() {
+    if (!G.site) return;
+    const s = await G.site().catch(() => null), d = s?.donate;
+    if (!d?.on) { $("#sDomain").hidden = true; return; }
+    DM = d; $("#sDomain").hidden = false;
+    $("#dmMsg").innerHTML = `Phí duy trì tên miền <b>${esc(d.cost ?? 35)}$ mỗi năm</b>. Trang học miễn phí cho mọi người — mong một trong số các bạn ủng hộ <b>1$ hoặc dưới 1$</b> để duy trì tên miền. Cảm ơn bạn! 💖${d.note ? `<br><small>${esc(d.note)}</small>` : ""}`;
+    tickDomain();
+  }
+  setInterval(tickDomain, 1000);
+  $("#dmBtn").addEventListener("click", (e) => {
+    const q = $("#dmQr");
+    if (!q.hidden) { q.hidden = true; $("#dmBtn").textContent = "💖 Đồng ý ủng hộ"; return; }
+    q.innerHTML = DM?.qrSrc ? `<img src="${esc(DM.qrSrc)}" alt="Mã QR ủng hộ"><p>Quét bằng ứng dụng ngân hàng / ví điện tử. Cảm ơn tấm lòng của bạn!</p>` : `<p>Quản trị chưa cài mã QR — bạn quay lại sau nhé. Cảm ơn bạn!</p>`;
+    q.hidden = false; $("#dmBtn").textContent = "Ẩn mã QR";
+    FX.confetti(e.clientX, e.clientY, 50); FX.ring(e.clientX, e.clientY, { vr: 6, max: 34, h: 330 });
+  });
   $("#btnMode").addEventListener("click", () => setMode(cfg.mode === "compact" ? "full" : "compact"));
   $("#btnCorner").addEventListener("click", (e) => { $("#cornerPick").classList.toggle("open"); FX.burst(e.clientX, e.clientY, 12, { speed: 3 }); });
   document.querySelectorAll(".cp-grid button").forEach((b) => b.addEventListener("click", async (e) => {
@@ -950,6 +985,7 @@
     cfg = await G.getCfg();
     applyCfg();
     loadWords(await G.words());
+    loadDomain();
     filterWords();
     await nextWord(true);
     // mở màn: thẻ bừng sáng

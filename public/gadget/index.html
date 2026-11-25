@@ -39,6 +39,11 @@
     </div>
   </header>
 
+  <div class="actbar webblock">
+    <button type="button" id="actLook">🔍 <span>Tra cứu từ vựng</span></button>
+    <button type="button" id="actQuiz">🎯 <span>Kiểm tra nhanh</span></button>
+  </div>
+
   <div class="cornerpick" id="cornerPick">
     <b>Đưa thẻ vào góc</b>
     <div class="cp-grid" data-act="snap"><button data-c="tl">↖</button><button data-c="tr">↗</button><button data-c="bl">↙</button><button data-c="br">↘</button></div>
@@ -117,6 +122,16 @@
     </div>
     <ol class="top" id="topList"></ol>
     <div class="hint" id="topHint"></div>
+  </section>
+
+  <section id="sDomain" class="sec webblock" hidden>
+    <div class="dm">
+      <div class="dm-h"><span class="dm-ico">🌐</span><div><b id="dmTitle">Tên miền tiengnhat.online</b><small id="dmSub"></small></div></div>
+      <div class="dm-count" id="dmCount"></div>
+      <p class="dm-msg" id="dmMsg"></p>
+      <button type="button" class="btn" id="dmBtn">💖 Đồng ý ủng hộ</button>
+      <div class="dm-qr" id="dmQr" hidden></div>
+    </div>
   </section>
 
   <div class="panel" id="menu">
