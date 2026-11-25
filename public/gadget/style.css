@@ -470,3 +470,6 @@ body.lite *, body.lite *::before, body.lite *::after { animation-duration: .001m
 body.lite .bar i::after, body.lite .w-timer i { display: none !important; }
 body.lite .mark, body.lite .av, body.lite .w-pic, body.lite .qz-listen, body.lite .tabs button.on, body.lite .btn, body.lite .chips label.on, body.lite .bar i, body.lite .w-jp, body.lite .qz-main { box-shadow: none !important; text-shadow: none !important; }
 body.lite .orb-ring, body.lite .orb-core img { animation: none !important; filter: none !important; }
+
+/* điện thoại: bỏ hẳn phần đo CPU, GPU, RAM, mạng, top 5… (chỉ có ở máy tính) */
+body.phone #sSys, body.phone #sTop, body.phone .sysk { display: none !important; }

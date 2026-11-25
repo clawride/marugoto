@@ -179,7 +179,8 @@
     install: async () => { if (!installEvt) return false; installEvt.prompt(); const r = await installEvt.userChoice.catch(() => null); installEvt = null; return r?.outcome === "accepted"; },
     on: (ch, f) => { hs[ch] = f; },
   };
-  setTimeout(poll, 300); setInterval(poll, 2000);
+  // điện thoại: bỏ hẳn phần đo CPU/GPU/mạng… (không đo ngầm, đỡ tốn pin) — chỉ máy tính mới đo
+  setTimeout(() => { if (!phone()) poll(); }, 300); setInterval(() => { if (!phone()) poll(); }, 2000);
 
   // quản trị tắt Gadget (trang quản trị → gadgetEnabled) → che trang bằng thông báo
   fetch("/api/site", { cache: "no-store" }).then((r) => r.json()).then((s) => {

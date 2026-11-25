@@ -936,7 +936,8 @@
     $("#instHint").innerHTML = standalone ? "✓ Đang chạy như ứng dụng." : inst ? "Có biểu tượng riêng, mở trong cửa sổ riêng như phần mềm."
       : /iPhone|iPad|iPod/.test(navigator.userAgent) ? "Trên iPhone/iPad: mở bằng <b>Safari</b> → nút <b>Chia sẻ</b> → <b>Thêm vào MH chính</b>."
       : "Chrome / Edge: bấm biểu tượng cài đặt (⊕) ở cuối thanh địa chỉ, hoặc menu <b>⋮</b> → <b>Cài đặt ứng dụng</b>. Android: menu ⋮ → <b>Thêm vào màn hình chính</b>.";
-    $("#showChips").innerHTML = SHOW.map(([k, n]) => `<label class="${cfg.show[k] ? "on" : ""}"><input type="checkbox" data-k="${k}" ${cfg.show[k] ? "checked" : ""}>${n}</label>`).join("");
+    const SYSK = ["cpu", "gpu", "vram", "ram", "disk", "net", "topCpu", "topGpu", "topNet"]; // điện thoại: không có phần đo máy → ẩn các chip này
+    $("#showChips").innerHTML = SHOW.map(([k, n]) => `<label class="${cfg.show[k] ? "on" : ""}${SYSK.includes(k) ? " sysk" : ""}"><input type="checkbox" data-k="${k}" ${cfg.show[k] ? "checked" : ""}>${n}</label>`).join("");
     document.querySelectorAll("#showChips input").forEach((i) => i.addEventListener("change", (e) => {
       const r = e.target.parentElement.getBoundingClientRect(); FX.burst(r.left + r.width / 2, r.top + r.height / 2, 14, { speed: 3 });
       setCfg({ show: { [i.dataset.k]: i.checked } });
