@@ -954,6 +954,28 @@
   $("#autostart").addEventListener("change", (e) => setCfg({ autostart: e.target.checked }));
   $("#netAdmin").addEventListener("change", (e) => setCfg({ netAdmin: e.target.checked }).then(() => e.target.checked && toast("Xác nhận quyền Admin ở hộp thoại Windows…")));
   $("#bridge").addEventListener("change", (e) => setCfg({ bridge: e.target.checked }));
+  // ——— dải mời cài ứng dụng (bản web) ———
+  const INST_KEY = "tng_inst_hide";
+  function updateInstBar() {
+    if (G.platform !== "web") return;
+    const standalone = matchMedia("(display-mode: standalone), (display-mode: window-controls-overlay)").matches || navigator.standalone;
+    let hidden = false; try { hidden = Date.now() - (+localStorage.getItem(INST_KEY) || 0) < 7 * 864e5; } catch {}
+    const ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    const can = !!G.canInstall?.();
+    $("#instBar").hidden = standalone || hidden || (!can && !ios && !document.body.classList.contains("phone") && !matchMedia("(pointer: coarse)").matches && !/Chrome|Edg/.test(navigator.userAgent));
+    $("#instBarGo").hidden = !can;
+    $("#instBarHint").innerHTML = can ? "Mở nhanh như một ứng dụng, dùng được cả khi mất mạng"
+      : ios ? "Trong <b>Safari</b>: bấm <b>Chia sẻ</b> ⬆️ → <b>Thêm vào MH chính</b>"
+      : /Android/.test(navigator.userAgent) ? "Menu <b>⋮</b> của trình duyệt → <b>Thêm vào màn hình chính</b> / <b>Cài đặt ứng dụng</b>"
+      : "Bấm biểu tượng cài đặt ⊕ ở cuối thanh địa chỉ, hoặc menu <b>⋮</b> → <b>Cài đặt ứng dụng</b>";
+  }
+  $("#instBarGo").addEventListener("click", async (e) => { const ok = await G.install?.(); if (ok) { FX.confetti(e.clientX, e.clientY, 80); toast("Đã cài — mở từ màn hình chính / menu Start"); } updateInstBar(); });
+  $("#instBarX").addEventListener("click", () => { try { localStorage.setItem(INST_KEY, String(Date.now())); } catch {} $("#instBar").hidden = true; });
+  G.on("cfg", () => updateInstBar());
+  setTimeout(updateInstBar, 400);
+  // lối tắt của ứng dụng đã cài (nhấn giữ biểu tượng): /gadget?tab=look | quiz
+  setTimeout(() => { const t = new URLSearchParams(location.search).get("tab"); if (t === "look") openLook(); else if (t === "quiz") startQuiz(); }, 1500);
+
   $("#btnInstall").addEventListener("click", async (e) => {
     const ok = await G.install?.();
     if (ok) { const [x, y] = center(e.target); FX.confetti(x, y, 80); toast("Đã cài — mở từ menu Start hoặc màn hình chính"); }

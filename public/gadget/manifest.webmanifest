@@ -6,13 +6,63 @@
   "start_url": "/gadget",
   "scope": "/gadget",
   "display": "standalone",
-  "display_override": ["window-controls-overlay", "standalone"],
+  "display_override": [
+    "window-controls-overlay",
+    "standalone"
+  ],
   "background_color": "#0b0718",
   "theme_color": "#120b26",
   "lang": "vi",
   "icons": [
-    { "src": "/gadget/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "/gadget/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "/gadget/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
-  ]
+    {
+      "src": "/gadget/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/gadget/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/gadget/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Tra cứu từ vựng",
+      "short_name": "Tra cứu",
+      "description": "Tra từ, chữ Hán, phân tích câu",
+      "url": "/gadget?tab=look",
+      "icons": [
+        {
+          "src": "/gadget/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Kiểm tra nhanh",
+      "short_name": "Kiểm tra",
+      "description": "10 câu kiểm tra từ vựng",
+      "url": "/gadget?tab=quiz",
+      "icons": [
+        {
+          "src": "/gadget/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "categories": [
+    "education"
+  ],
+  "orientation": "any"
 }

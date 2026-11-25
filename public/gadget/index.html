@@ -12,7 +12,7 @@
 <meta name="description" content="Gadget tiengnhat.online: hạng, số người học, từ vựng tiếng Nhật theo trình độ kèm ảnh, thông số máy">
 <link rel="manifest" href="/gadget/manifest.webmanifest">
 <link rel="icon" href="/gadget/icon-192.png">
-<link rel="apple-touch-icon" href="/gadget/icon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/gadget/icon-180.png">
 <title>TiengNhat Gadget</title>
 <link rel="stylesheet" href="/gadget/style.css">
 </head>
@@ -38,6 +38,13 @@
       <button class="ib" id="btnHide" title="Ẩn vào khay hệ thống">–</button>
     </div>
   </header>
+
+  <div class="instbar webblock" id="instBar" hidden>
+    <span class="ib-ico">📲</span>
+    <div class="ib-txt"><b>Cài TiengNhat Gadget lên máy</b><small id="instBarHint">Mở nhanh như một ứng dụng, dùng được cả khi mất mạng</small></div>
+    <button type="button" class="btn" id="instBarGo">Cài ngay</button>
+    <button type="button" class="ib sm" id="instBarX" title="Ẩn">✕</button>
+  </div>
 
   <div class="actbar webblock">
     <button type="button" id="actLook">🔍 <span>Tra cứu từ vựng</span></button>

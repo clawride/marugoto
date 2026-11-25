@@ -440,3 +440,12 @@ body.quiz #sDomain, body.look #sDomain { display: none !important; }
 .dm-qr { margin-top: 8px; animation: picin .6s cubic-bezier(.2,1.6,.4,1) both; }
 .dm-qr img { width: 100%; max-width: 240px; border-radius: 12px; background: #fff; box-shadow: 0 6px 18px rgba(0,0,0,.35); }
 .dm-qr p { font-size: 10.5px; color: var(--mut); margin: 6px 0 0; }
+
+/* dải mời cài ứng dụng (PWA) */
+.instbar.webblock:not([hidden]) { display: grid !important; }
+.instbar { grid-template-columns: auto 1fr auto auto; gap: 8px; align-items: center; margin-top: 6px; padding: 8px 9px; border-radius: 14px;
+  background: linear-gradient(135deg, hsla(var(--hue), 90%, 60%, .28), hsla(calc(var(--hue) + 60), 90%, 55%, .18)); border: 1px solid hsla(var(--hue), 100%, 75%, .45); animation: secIn .6s cubic-bezier(.2,1.4,.4,1) both; }
+.ib-ico { font-size: 22px; animation: elFloat 2.4s ease-in-out infinite; }
+.ib-txt > b { display: block; font-size: 12.5px; } .ib-txt small { display: block; font-size: 10.5px; color: #e6e0f5; line-height: 1.35; }
+.instbar .btn { flex: none; padding: 7px 12px; font-size: 12px; white-space: nowrap; }
+.instbar .btn[hidden] { display: none; }
