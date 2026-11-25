@@ -75,8 +75,8 @@
       setTimeout(() => FX.setHue(old), 900);
     }
   }
-  // xoay vòng 7 nguyên tố mỗi 3 giây khi đang thu thành quả cầu
-  setInterval(() => { if (document.body.classList.contains("orb") && (cfg.orbEl || "cycle") === "cycle" && !document.hidden) setOrbEl(true); }, 3000);
+  // xoay vòng 7 nguyên tố mỗi 60 giây khi đang thu thành quả cầu
+  setInterval(() => { if (document.body.classList.contains("orb") && (cfg.orbEl || "cycle") === "cycle" && !document.hidden) setOrbEl(true); }, 60000);
   const cornerXY = (c, el = card) => { const r = el.getBoundingClientRect(); return [c?.[1] === "l" ? r.left : r.right, c?.[0] === "t" ? r.top : r.bottom]; };
   async function setMode(mode, corner) {
     if (!G.setMode) return;
@@ -401,7 +401,7 @@
   }));
   document.addEventListener("mousedown", (e) => { if (!e.target.closest("#cornerPick, #btnCorner")) $("#cornerPick").classList.remove("open"); });
   $("#modeSel").addEventListener("change", (e) => setMode(e.target.value));
-  $("#orbElSel").addEventListener("change", async (e) => { await setCfg({ orbEl: e.target.value }); curEl = ""; setOrbEl(true); toast(e.target.value === "cycle" ? "🔄 Xoay vòng 7 nguyên tố mỗi 3 giây" : e.target.value === "random" ? "🎲 Nguyên tố ngẫu nhiên mỗi lần thu" : `✨ Quả cầu ${e.target.selectedOptions[0].text}`); });
+  $("#orbElSel").addEventListener("change", async (e) => { await setCfg({ orbEl: e.target.value }); curEl = ""; setOrbEl(true); toast(e.target.value === "cycle" ? "🔄 Xoay vòng 7 nguyên tố mỗi 60 giây" : e.target.value === "random" ? "🎲 Nguyên tố ngẫu nhiên mỗi lần thu" : `✨ Quả cầu ${e.target.selectedOptions[0].text}`); });
   function hueOf(hex) { const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255), mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn; if (!d) return 0; const h = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; return (h * 60 + 360) % 360; }
   $("#zoomSel").addEventListener("change", async (e) => {
     const v = e.target.value; cfg = { ...cfg, ...(await G.setZoom(v === "auto" ? "auto" : +v)) }; applyMode();
