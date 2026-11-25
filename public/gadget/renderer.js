@@ -210,21 +210,35 @@
   $("#wNext").addEventListener("click", () => nextWord());
   $("#wSay").addEventListener("click", () => say());
   // lọc theo trình độ / bài đã chọn (cfg.level: a1 | a21 | a22 | ab1 | b11 | b12 | all; cfg.lesson: số bài | all)
-  let allWords = [];
-  const LV = { a1: "A1", a21: "A2-1", a22: "A2-2", ab1: "A2/B1", b11: "B1-1", b12: "B1-2" };
+  // bộ từ của Sổ Tay: L = [[id, tên, biểu tượng, tên đầy đủ, số từ]], T = [[bộ, số Topic, tiêu đề, nghĩa]], W = [[jp, kana, vi, romaji, topic, ảnh, emoji]]
+  let allWords = [], LEVELS = [], TOPICS = [];
+  const LV = {};
+  function loadWords(d) {
+    if (Array.isArray(d)) { allWords = d; return; } // dữ liệu kiểu cũ
+    LEVELS = d.L || []; TOPICS = d.T || [];
+    for (const [id, name] of LEVELS) LV[id] = name;
+    allWords = (d.W || []).map(([jp, kana, vi, ro, t, ii, em]) => {
+      const T = TOPICS[t] || [];
+      return { jp, kana, vi, ro, em, img: ii >= 0 ? d.I[ii] : "", lv: T[0], t, l: T[1], src: T[0] === "gi" ? `Genshin · ${T[2]}` : `${LV[T[0]] || T[0]} · Topic ${T[1]}` };
+    });
+    $("#level").innerHTML = `<option value="all">Tất cả (${allWords.length.toLocaleString("vi-VN")} từ)</option>` + LEVELS.map(([id, name, ico, , n]) => `<option value="${id}">${ico} ${name} · ${n.toLocaleString("vi-VN")} từ</option>`).join("");
+  }
+  const topicName = (i) => { const T = TOPICS[i]; if (!T) return ""; return T[0] === "gi" ? T[2] : `Topic ${T[1]}${T[3] ? " · " + T[3] : T[2] ? " · " + T[2] : ""}`; };
   function filterWords() {
     const lv = cfg.level || "all", ls = cfg.lesson || "all";
     const inLv = allWords.filter((w) => lv === "all" || w.lv === lv);
-    const lessons = [...new Set(inLv.map((w) => w.l))].sort((a, b) => a - b);
+    const tids = [...new Set(inLv.map((w) => w.t))];
     const sel = $("#lesson");
-    sel.innerHTML = `<option value="all">Tất cả bài</option>` + (lv === "all" ? "" : lessons.map((l) => `<option value="${l}">Bài ${l}</option>`).join(""));
+    $("#level").value = lv === "all" || LV[lv] ? lv : "all";
+    sel.innerHTML = `<option value="all">${lv === "gi" ? "Tất cả nhân vật" : "Tất cả Topic"}</option>` + (lv === "all" ? "" : tids.map((t) => `<option value="${t}">${topicName(t)}</option>`).join(""));
     sel.disabled = lv === "all";
-    const lsOk = lv !== "all" && ls !== "all" && lessons.includes(+ls);
+    const lsOk = lv !== "all" && ls !== "all" && tids.includes(+ls);
     sel.value = lsOk ? String(ls) : "all";
-    words = lsOk ? inLv.filter((w) => w.l === +ls) : inLv;
+    words = lsOk ? inLv.filter((w) => w.t === +ls) : inLv;
     if (!words.length) words = allWords;
     wordIdx = -1;
-    $("#lvCount").textContent = `${words.length} từ · ${lv === "all" ? "mọi trình độ" : LV[lv] + (lsOk ? ` · bài ${ls}` : "")}`;
+    $("#lvCount").textContent = `${words.length.toLocaleString("vi-VN")} từ · ${lv === "all" ? "mọi bộ" : LV[lv] + (lsOk ? ` · ${topicName(+ls)}` : "")}`;
+    if (document.body.classList.contains("quiz")) updateQuizScope();
   }
   function pick() {
     if (!words.length) return null;
@@ -241,9 +255,9 @@
       im.src = src;
     });
   }
-  let switching = false;
+  let switching = false, pendingNext = false;
   async function nextWord(first) {
-    if (switching) return; const w = pick(); if (!w) return;
+    if (switching) { pendingNext = true; return; } const w = pick(); if (!w) return; // đang đổi dở → đổi tiếp ngay sau đó (vd. vừa chọn bộ/Topic khác)
     switching = true;
     const okImg = await loadImg(w.img);
     if (!first && cfg.fx !== "off") {
@@ -259,13 +273,14 @@
     $("#wSrc").textContent = w.src || "";
     const img = $("#wImg"), pic = $(".w-pic");
     if (okImg) { img.src = w.img; img.hidden = false; $("#wEm").textContent = ""; pic.classList.remove("noimg"); }
-    else { img.hidden = true; img.removeAttribute("src"); $("#wEm").textContent = w.em || "🌸"; pic.classList.add("noimg"); }
+    else { img.hidden = true; img.removeAttribute("src"); const em = $("#wEm"); em.textContent = w.em || [...w.jp.replace(/[〜~（）()]/g, "")].slice(0, 2).join("") || "🌸"; em.classList.toggle("glyph", !w.em); pic.classList.add("noimg"); }
     wordEl.classList.remove("out"); void wordEl.offsetWidth; wordEl.classList.add("in");
     if (!first && cfg.fx !== "off") {
       const holo = $(".holo"); holo.classList.remove("sweep"); void holo.offsetWidth; holo.classList.add("sweep");
       const [x, y] = center(pic); setTimeout(() => { FX.ring(x, y, { vr: 5, max: 34 }); FX.burst(x, y, 34, { speed: 5 }); }, 160);
     }
     switching = false; wordT0 = Date.now();
+    if (pendingNext) { pendingNext = false; nextWord(); }
   }
   function say() {
     const w = words[wordIdx]; if (!w || !window.speechSynthesis) return;
@@ -279,7 +294,7 @@
   setInterval(() => {
     const ms = (+cfg.wordEvery || 0) * 1000, bar = $("#wBar");
     if (!ms || !cfg.show?.word) { bar.style.width = "0"; return; }
-    if (hoverWord || switching) { wordT0 += 100; return; }
+    if (hoverWord || switching || document.body.classList.contains("quiz")) { wordT0 += 100; return; }
     const p = (Date.now() - wordT0) / ms; bar.style.width = Math.min(100, p * 100) + "%";
     if (p >= 1) nextWord();
   }, 100);
@@ -402,6 +417,128 @@
     $("#netAdm")?.addEventListener("click", () => setCfg({ netAdmin: true }).then(() => toast("Xác nhận quyền Admin ở hộp thoại Windows…")));
   }
 
+  // ——— KIỂM TRA NHANH: 10 câu từ bộ/Topic đang chọn; ẩn từ vựng + thông số máy trong lúc làm ———
+  // Dạng câu: nhìn chữ Nhật → chọn nghĩa · nhìn nghĩa → chọn chữ Nhật · nghe → chọn nghĩa. Phím 1–4 để chọn (máy tính).
+  const QN = 10, QTIME = 12000;
+  let qz = null;
+  const shuffleArr = (a) => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  let actx = null;
+  function tone(ok) { // tiếng "ting" khi đúng, "bụp" khi sai
+    if (cfg.fx === "off") return;
+    try {
+      actx ||= new (window.AudioContext || window.webkitAudioContext)();
+      const t = actx.currentTime, notes = ok ? [880, 1320] : [220, 160];
+      notes.forEach((f, i) => { const o = actx.createOscillator(), g = actx.createGain(); o.type = ok ? "triangle" : "sawtooth"; o.frequency.value = f; g.gain.setValueAtTime(0.0001, t + i * 0.09); g.gain.exponentialRampToValueAtTime(ok ? 0.12 : 0.06, t + i * 0.09 + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + i * 0.09 + 0.25); o.connect(g).connect(actx.destination); o.start(t + i * 0.09); o.stop(t + i * 0.09 + 0.3); });
+    } catch {}
+  }
+  function updateQuizScope() { $("#qzScope").textContent = `Bộ câu hỏi: ${$("#lvCount").textContent}`; }
+  function startQuiz(e) {
+    if (words.length < 4) { toast("Cần ít nhất 4 từ để kiểm tra"); return; }
+    if (document.body.classList.contains("orb")) setMode(cfg.lastMode || "full");
+    closePanels();
+    const pool = shuffleArr(words.slice()).slice(0, QN);
+    qz = { list: pool, i: 0, score: 0, streak: 0, best: 0, miss: [], t0: 0, timer: 0 };
+    document.body.classList.add("quiz"); $("#sQuiz").classList.remove("done");
+    updateQuizScope();
+    if (e) { FX.ring(e.clientX, e.clientY, { vr: 7, max: 40 }); FX.burst(e.clientX, e.clientY, 40, { speed: 6 }); }
+    askQuiz();
+  }
+  function stopQuiz() {
+    clearInterval(qz?.timer); qz = null;
+    document.body.classList.remove("quiz"); $("#sQuiz").classList.remove("done");
+    const [x, y] = center(card); FX.burst(x, y, 30, { speed: 5 });
+    restartWordTimer();
+  }
+  function distractors(w, field) {
+    // nghĩa/chữ gây nhiễu: cùng Topic trước, rồi cùng bộ, rồi bất kỳ — không trùng đáp án
+    const out = new Set(), bad = new Set([w[field]]);
+    for (const pool of [words.filter((x) => x.t === w.t), words, allWords]) {
+      for (const x of shuffleArr(pool.slice(0, 4000))) { if (out.size >= 3) break; if (x[field] && !bad.has(x[field]) && !out.has(x[field])) out.add(x[field]); }
+      if (out.size >= 3) break;
+    }
+    return [...out];
+  }
+  function askQuiz() {
+    clearInterval(qz.timer);
+    const w = qz.list[qz.i];
+    const kinds = ["jp2vi", "jp2vi", "vi2jp", "listen"];
+    const kind = kinds[Math.floor(Math.random() * kinds.length)];
+    const field = kind === "vi2jp" ? "jp" : "vi";
+    const opts = shuffleArr([w[field], ...distractors(w, field)]);
+    qz.cur = { w, kind, field, answer: w[field], locked: false };
+    $("#qzProg").textContent = `${qz.i + 1}/${QN}`;
+    const q = $("#qzQ"); q.className = "qz-q";
+    const pic = w.img ? `<div class="qz-pic"><img src="${esc(w.img)}" referrerpolicy="no-referrer" alt=""></div>` : "";
+    if (!pic || kind === "vi2jp") q.classList.add("nopic");
+    if (kind === "jp2vi") q.innerHTML = `${pic}<div><div class="qz-ask">Từ này nghĩa là gì?</div><div class="qz-main jp">${esc(w.jp)}</div>${w.kana ? `<div class="qz-sub jp">${esc(w.kana)}</div>` : ""}</div>`;
+    else if (kind === "vi2jp") q.innerHTML = `<div><div class="qz-ask">Tiếng Nhật của từ này là?</div><div class="qz-main vi">${esc(w.vi)}</div></div>`;
+    else q.innerHTML = `${pic}<div><div class="qz-ask">Nghe và chọn nghĩa đúng</div><button class="qz-listen" id="qzSay" title="Nghe lại">🔊</button></div>`;
+    if (pic && kind === "vi2jp") q.classList.add("nopic");
+    $("#qzOpts").innerHTML = opts.map((o, i) => `<button style="--i:${i}" data-k="${i + 1}" class="${field === "jp" ? "jp" : ""}">${esc(o)}</button>`).join("") + "";
+    $("#qzOpts").querySelectorAll("button").forEach((b, i) => b.addEventListener("click", (e) => answer(opts[i], b, e)));
+    let fb = $("#qzFb"); if (!fb) { fb = document.createElement("div"); fb.id = "qzFb"; fb.className = "qz-fb"; $("#qzBody").appendChild(fb); }
+    fb.innerHTML = "";
+    if (kind === "listen") { const sayW = () => speak(w); $("#qzSay").addEventListener("click", sayW); setTimeout(sayW, 250); }
+    // đồng hồ
+    qz.t0 = Date.now(); const bar = $("#qzTime");
+    qz.timer = setInterval(() => {
+      const p = 1 - (Date.now() - qz.t0) / QTIME; bar.style.transform = `scaleX(${Math.max(0, p)})`;
+      if (p <= 0) answer(null, null);
+    }, 50);
+  }
+  function speak(w) {
+    if (!window.speechSynthesis) return;
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(w.kana || w.jp); u.lang = "ja-JP"; u.rate = 0.9;
+    const v = speechSynthesis.getVoices().filter((x) => /^ja/i.test(x.lang)); if (v.length) u.voice = v.find((x) => /Nanami|Natural|Online/i.test(x.name)) || v[0];
+    speechSynthesis.speak(u);
+  }
+  function answer(choice, btn, e) {
+    if (!qz || qz.cur.locked) return;
+    qz.cur.locked = true; clearInterval(qz.timer);
+    const { w, answer: ans } = qz.cur, ok = choice === ans, q = $("#qzQ");
+    $("#qzOpts").querySelectorAll("button").forEach((b) => { b.disabled = true; if (b.textContent === ans) b.classList.add("ok"); });
+    const fb = $("#qzFb");
+    if (ok) {
+      qz.score++; qz.streak++; qz.best = Math.max(qz.best, qz.streak);
+      q.classList.add("okq"); tone(true); navigator.vibrate?.(15);
+      const [x, y] = btn ? center(btn) : center(q);
+      FX.ring(x, y, { vr: 6, max: 34, h: 150 }); FX.burst(x, y, 26 + Math.min(40, qz.streak * 6), { speed: 5 + Math.min(4, qz.streak) });
+      if (qz.streak >= 3) { FX.confetti(x, y, 20 + qz.streak * 5); }
+      fb.innerHTML = qz.streak >= 3 ? `🔥 Chuỗi ${qz.streak} câu đúng!` : ["Chính xác!", "Tuyệt!", "Giỏi lắm!", "Đúng rồi!"][Math.floor(Math.random() * 4)];
+      for (const id of ["#qzScore", "#qzStreak"]) { const el = $(id); el.classList.remove("pop"); void el.offsetWidth; el.classList.add("pop"); }
+    } else {
+      qz.streak = 0; qz.miss.push(w);
+      q.classList.add("badq"); tone(false); navigator.vibrate?.([30, 40, 30]);
+      if (btn) btn.classList.add("bad");
+      fb.innerHTML = `${choice == null ? "⏰ Hết giờ · " : ""}Đáp án: <b>${esc(w.jp)}</b>${w.kana ? ` (${esc(w.kana)})` : ""} — ${esc(w.vi)}`;
+    }
+    $("#qzScore").textContent = `⭐ ${qz.score}`; $("#qzStreak").textContent = `🔥 ${qz.streak}`;
+    setTimeout(() => { if (!qz) return; qz.i++; qz.i >= QN ? finishQuiz() : askQuiz(); }, ok ? 900 : 2200);
+  }
+  function finishQuiz() {
+    const { score, best, miss } = qz, stars = score >= 9 ? 3 : score >= 7 ? 2 : score >= 5 ? 1 : 0;
+    const key = `${cfg.level || "all"}:${cfg.lesson || "all"}`, prev = (cfg.quizBest || {})[key] || 0;
+    if (score > prev) setCfg({ quizBest: { ...(cfg.quizBest || {}), [key]: score } });
+    $("#qzRes").innerHTML = `<div class="qz-big">${score}/${QN}</div>
+      <div class="qz-stars">${[0, 1, 2].map((i) => `<span style="animation-delay:${i * 0.15}s">${i < stars ? "⭐" : "☆"}</span>`).join("")}</div>
+      <p>Chuỗi dài nhất ${best} câu${score > prev ? " · 🏆 Kỷ lục mới!" : prev ? ` · kỷ lục ${prev}/${QN}` : ""}</p>
+      ${miss.length ? `<div class="qz-miss">${miss.map((w) => `<div><b>${esc(w.jp)}</b>${w.kana ? ` · ${esc(w.kana)}` : ""} — ${esc(w.vi)}</div>`).join("")}</div>` : ""}
+      <div class="row2"><button class="btn" id="qzAgain">↻ Làm lượt mới</button><button class="btn ghost" id="qzBack">Xong</button></div>`;
+    $("#sQuiz").classList.add("done");
+    $("#qzAgain").addEventListener("click", (e) => startQuiz(e));
+    $("#qzBack").addEventListener("click", () => stopQuiz());
+    const [x, y] = center(card);
+    if (stars) { FX.confetti(x, y - 60, 40 + stars * 40); FX.ring(x, y, { vr: 9, max: 50, w: 6 }); FX.burst(x, y, 60 + stars * 30, { speed: 9, big: true }); }
+    toast(stars === 3 ? "🏆 Xuất sắc!" : stars ? "👏 Làm tốt lắm!" : "💪 Luyện thêm nhé!");
+    clearInterval(qz.timer);
+  }
+  document.addEventListener("keydown", (e) => {
+    if (!qz || qz.cur?.locked || e.target.closest?.("input, select, textarea")) return;
+    const n = +e.key; if (n >= 1 && n <= 4) $("#qzOpts").querySelectorAll("button")[n - 1]?.click();
+    if (e.key === "Escape") stopQuiz();
+  });
+
   // ——— BẢNG TÙY CHỈNH ———
   function openPanel(id, ev) {
     const p = $("#" + id), r = card.getBoundingClientRect();
@@ -419,6 +556,8 @@
   }
   $("#btnMenu").addEventListener("click", (e) => ($("#menu").classList.contains("open") ? closePanels(e) : openPanel("menu", e)));
   $("#btnHide").addEventListener("click", () => G.hide());
+  $("#btnQuiz").addEventListener("click", (e) => (document.body.classList.contains("quiz") ? stopQuiz() : startQuiz(e)));
+  $("#qzExit").addEventListener("click", () => stopQuiz());
   $("#btnMode").addEventListener("click", () => setMode(cfg.mode === "compact" ? "full" : "compact"));
   $("#btnCorner").addEventListener("click", (e) => { $("#cornerPick").classList.toggle("open"); FX.burst(e.clientX, e.clientY, 12, { speed: 3 }); });
   document.querySelectorAll(".cp-grid button").forEach((b) => b.addEventListener("click", async (e) => {
@@ -508,7 +647,7 @@
   (async () => {
     cfg = await G.getCfg();
     applyCfg();
-    allWords = await G.words();
+    loadWords(await G.words());
     filterWords();
     await nextWord(true);
     // mở màn: thẻ bừng sáng

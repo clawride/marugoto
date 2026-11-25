@@ -30,6 +30,7 @@
   <header class="hd">
     <div class="logo"><span class="mark">日</span><span><b>tiengnhat</b>.online</span></div>
     <div class="hd-btns">
+      <button class="ib" id="btnQuiz" title="Kiểm tra nhanh từ vựng">🎯</button>
       <button class="ib desk" id="btnMode" title="Rút gọn / đầy đủ">▭</button>
       <button class="ib desk" id="btnCorner" title="Đưa vào góc / thu gọn vào góc">◲</button>
       <button class="ib" id="btnMenu" title="Tùy chỉnh">⋯</button>
@@ -76,6 +77,23 @@
     </div>
   </section>
 
+  <section id="sQuiz" class="sec">
+    <div class="qz-head">
+      <b>🎯 Kiểm tra nhanh</b>
+      <span class="qz-pill" id="qzProg">1/10</span>
+      <span class="qz-pill" id="qzStreak">🔥 0</span>
+      <span class="qz-pill gold" id="qzScore">⭐ 0</span>
+      <button class="ib sm" id="qzExit" title="Thoát kiểm tra">✕</button>
+    </div>
+    <div class="qz-scope" id="qzScope"></div>
+    <div class="qz-timer"><i id="qzTime"></i></div>
+    <div class="qz-body" id="qzBody">
+      <div class="qz-q" id="qzQ"></div>
+      <div class="qz-opts" id="qzOpts"></div>
+    </div>
+    <div class="qz-res" id="qzRes"></div>
+  </section>
+
   <section id="sSys" class="sec">
     <div id="sysRows"></div>
   </section>
@@ -107,9 +125,9 @@
       <h4>👁 Hiển thị</h4>
       <div class="chips" id="showChips"></div>
 
-      <h4>📚 Từ vựng theo lộ trình</h4>
-      <label class="sel">Trình độ <select id="level"><option value="all">Tất cả trình độ</option><option value="a1">A1 · 入門</option><option value="a21">A2-1 · 初級1</option><option value="a22">A2-2 · 初級2</option><option value="ab1">A2/B1 · 初中級</option><option value="b11">B1-1 · 中級1</option><option value="b12">B1-2 · 中級2</option></select></label>
-      <label class="sel">Bài <select id="lesson"><option value="all">Tất cả bài</option></select></label>
+      <h4>📚 Từ vựng (Sổ Tay tiengnhat.online)</h4>
+      <label class="sel">Trình độ <select id="level"><option value="all">Tất cả</option></select></label>
+      <label class="sel">Topic <select id="lesson"><option value="all">Tất cả Topic</option></select></label>
       <p class="hint" id="lvCount"></p>
 
       <h4>✨ Hiệu ứng</h4>

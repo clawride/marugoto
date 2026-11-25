@@ -276,3 +276,61 @@ body.phone .w-hint { display: block; }
 @supports (padding: env(safe-area-inset-top)) { body.phone { padding-top: env(safe-area-inset-top); } }
 html:has(body.web), body.web { overflow-x: hidden; max-width: 100vw; }   /* vầng sáng quanh thẻ không làm trang rộng ra trên điện thoại */
 body.phone .web-foot { display: none; }
+
+/* từ không có ảnh: chữ Hán lớn thay ảnh */
+.w-em.glyph { font: 800 34px "Yu Gothic UI", "Meiryo", sans-serif; color: #fff; text-shadow: 0 0 14px hsla(var(--hue), 100%, 75%, .9); letter-spacing: -1px; }
+#level, #lesson { max-width: 190px; }
+
+/* ——— KIỂM TRA NHANH: thay chỗ từ vựng + thông số máy ——— */
+#sQuiz { display: none; }
+body.quiz #sQuiz { display: block; }
+body.quiz #sWord, body.quiz #sSys, body.quiz #sTop, body.quiz .rk-top { display: none !important; }
+body.quiz #btnQuiz { background: linear-gradient(135deg, var(--c1), var(--c2)); box-shadow: 0 0 14px var(--c1); }
+.qz-head { display: flex; align-items: center; gap: 6px; }
+.qz-head b { flex: 1; font-size: 13px; }
+.qz-pill { padding: 2px 8px; border-radius: 99px; font-size: 11.5px; font-weight: 700; background: rgba(255,255,255,.08); border: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+.qz-pill.gold { color: #ffe08a; }
+.qz-pill.pop { animation: pop .45s cubic-bezier(.2,1.8,.4,1); }
+@keyframes pop { 40% { transform: scale(1.35); filter: brightness(1.6); } }
+.qz-scope { font-size: 10.5px; color: var(--mut); margin: 4px 2px 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.qz-timer { height: 4px; border-radius: 99px; background: rgba(255,255,255,.08); overflow: hidden; margin-bottom: 8px; }
+.qz-timer i { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, #ff4d6d, #ffb347, var(--c1)); box-shadow: 0 0 8px var(--c1); transform-origin: left; }
+.qz-q { position: relative; display: grid; grid-template-columns: 76px 1fr; gap: 10px; align-items: center; padding: 10px; border-radius: 16px; min-height: 96px;
+  background: linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.03)); border: 1px solid var(--line); overflow: hidden; }
+.qz-q.nopic { grid-template-columns: 1fr; text-align: center; }
+.qz-pic { width: 76px; height: 76px; border-radius: 12px; background: #fff; display: grid; place-items: center; overflow: hidden; box-shadow: 0 0 0 3px hsla(var(--hue), 100%, 75%, .35); }
+.qz-pic img { max-width: 92%; max-height: 92%; object-fit: contain; }
+.qz-ask { font-size: 10.5px; color: var(--mut); letter-spacing: .3px; margin-bottom: 2px; }
+.qz-main { font-size: 24px; font-weight: 800; line-height: 1.2; text-shadow: 0 0 16px hsla(var(--hue), 100%, 70%, .5); word-break: break-word; }
+.qz-main.vi { font-size: 17px; }
+.qz-sub { font-size: 12px; color: hsl(var(--hue) 100% 86%); margin-top: 2px; }
+.qz-listen { width: 54px; height: 54px; border-radius: 50%; border: 0; font-size: 24px; margin: 4px auto; display: grid; place-items: center; color: #fff;
+  background: radial-gradient(circle at 35% 30%, var(--c1), var(--c2)); box-shadow: 0 0 18px var(--c1); animation: pulse 1.1s infinite alternate; }
+.qz-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 8px; }
+.qz-opts button { position: relative; min-height: 46px; padding: 7px 8px 7px 26px; border-radius: 12px; border: 1px solid var(--line); text-align: left; font-size: 12.5px; line-height: 1.25;
+  background: rgba(255,255,255,.06); transition: transform .15s, background .2s, border-color .2s, box-shadow .2s; animation: secIn .45s cubic-bezier(.2,1.4,.4,1) both; animation-delay: calc(var(--i) * 55ms); overflow: hidden; }
+.qz-opts button.jp { font: 700 15px "Yu Gothic UI", "Meiryo", sans-serif; }
+.qz-opts button::before { content: attr(data-k); position: absolute; left: 8px; top: 50%; transform: translateY(-50%); font-size: 10px; font-weight: 800; color: var(--c1); }
+.qz-opts button:hover:not(:disabled) { background: rgba(255,255,255,.13); border-color: hsla(var(--hue), 100%, 75%, .6); transform: translateY(-1px); }
+.qz-opts button.ok { background: linear-gradient(135deg, rgba(60,220,140,.45), rgba(40,170,120,.3)); border-color: #5dffb0; box-shadow: 0 0 18px rgba(93,255,176,.55); animation: okPop .5s cubic-bezier(.2,1.8,.4,1); }
+.qz-opts button.bad { background: linear-gradient(135deg, rgba(255,77,109,.45), rgba(200,40,80,.3)); border-color: #ff6b8a; animation: shake .4s; }
+.qz-opts button:disabled { cursor: default; }
+.qz-opts button:disabled:not(.ok):not(.bad) { opacity: .45; }
+@keyframes okPop { 40% { transform: scale(1.07); } }
+@keyframes shake { 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
+.qz-q.okq { box-shadow: 0 0 0 2px #5dffb0, 0 0 24px rgba(93,255,176,.45); }
+.qz-q.badq { box-shadow: 0 0 0 2px #ff6b8a, 0 0 24px rgba(255,107,138,.45); animation: shake .4s; }
+.qz-fb { margin-top: 6px; font-size: 11.5px; min-height: 16px; color: var(--mut); text-align: center; }
+.qz-fb b { color: #fff; }
+.qz-res { display: none; text-align: center; padding: 12px 6px 4px; }
+#sQuiz.done .qz-res { display: block; animation: secIn .6s cubic-bezier(.2,1.4,.4,1) both; }
+#sQuiz.done .qz-body, #sQuiz.done .qz-timer { display: none; }
+.qz-big { font-size: 40px; font-weight: 900; background: linear-gradient(90deg, #fff, var(--c1), var(--c2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.qz-stars { font-size: 26px; letter-spacing: 4px; margin: 2px 0 6px; }
+.qz-stars span { display: inline-block; animation: picin .7s cubic-bezier(.2,1.9,.35,1) both; }
+.qz-res p { color: var(--mut); font-size: 12px; margin: 4px 0 10px; }
+.qz-miss { text-align: left; max-height: 140px; overflow-y: auto; margin: 6px 0 10px; font-size: 12px; }
+.qz-miss div { padding: 4px 8px; border-radius: 8px; background: rgba(255,255,255,.05); margin-bottom: 4px; }
+.qz-miss b { font-family: "Yu Gothic UI", "Meiryo", sans-serif; }
+body.phone .qz-opts button { min-height: 52px; font-size: 13.5px; }
+.qz-miss::-webkit-scrollbar { width: 6px; } .qz-miss::-webkit-scrollbar-thumb { background: rgba(255,255,255,.22); border-radius: 9px; } .qz-miss::-webkit-scrollbar-track { background: transparent; }
