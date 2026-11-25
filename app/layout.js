@@ -29,6 +29,7 @@ import { ProfileGate } from "@/components/Profile";
 import PlainGate from "@/components/PlainGate";
 import ChatBox from "@/components/ChatBox";
 import DonateFooter from "@/components/DonateFooter";
+import PwaRegister from "@/components/PwaRegister";
 import { SITE_URL } from "@/lib/site";
 
 export const metadata = {
@@ -36,6 +37,8 @@ export const metadata = {
   title: { default: "Sổ Tay Từ Vựng Teyvat · Marugoto A1–B1", template: "%s · Sổ Tay Teyvat" },
   openGraph: { title: "Sổ Tay Từ Vựng Teyvat · Marugoto A1–B1", description: "Học tiếng Nhật Marugoto A1 → B1: từ vựng, nghe, kanji, ngữ pháp, thi chứng chỉ", url: SITE_URL, siteName: "Sổ Tay Từ Vựng Teyvat", locale: "vi_VN", type: "website" },
   description: "Học tiếng Nhật Marugoto A1 → B1-1: bảng chữ cái, từ vựng, nghe, kanji, ngữ pháp, thi chứng chỉ — phong cách Genshin Impact",
+  // PWA: thêm vào màn hình chính iPhone mở toàn màn hình như ứng dụng (manifest ở app/manifest.js)
+  appleWebApp: { capable: true, title: "Tiếng Nhật", statusBarStyle: "black-translucent" },
 };
 
 const OFFLINE = process.env.NEXT_PUBLIC_OFFLINE === "1";
@@ -70,6 +73,7 @@ export default function RootLayout({ children }) {
           <SiteGate />
           <main className="wrap"><PlainGate>{children}</PlainGate></main>
           {!OFFLINE && <DonateFooter />}
+          {!OFFLINE && <PwaRegister />}
           <ProfileGate />
           <ChatBox />
         </GameProvider>

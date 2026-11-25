@@ -6,7 +6,7 @@
 (function () {
   const KEY = "tng_gadget_cfg";
   const DEF = {
-    bg: "", bgAlpha: 0.72, imgAlpha: 0.55, blur: 10, hue: 330, fx: "max", wordEvery: 15, level: "all", lesson: "all",
+    bg: "", bgAlpha: 0.72, imgAlpha: 0.55, blur: 10, hue: 330, fx: null, wordEvery: 15, level: "all", lesson: "all",
     show: { rank: true, word: true, cpu: true, gpu: true, vram: true, ram: true, disk: true, net: true, topCpu: true, topGpu: true, topNet: true },
     user: null, noSite: false, pos: null, margin: 0, version: "web",
   };
@@ -65,7 +65,9 @@
   // ——— thông số máy ———
   const BRIDGE = "http://127.0.0.1:47219/sys";
   let bridgeOk = false, bridgeFails = 0, fps = 60;
-  (function measureFps() { let n = 0, t0 = performance.now(); const f = (t) => { n++; if (t - t0 >= 1000) { fps = n * 1000 / (t - t0); n = 0; t0 = t; } requestAnimationFrame(f); }; requestAnimationFrame(f); })();
+  // đo FPS: chạy 1 giây mỗi 10 giây (vòng requestAnimationFrame liên tục làm điện thoại nóng, giật)
+  function measureFps() { let n = 0; const t0 = performance.now(); const f = () => { n++; const dt = performance.now() - t0; if (dt < 1000 && n < 90) requestAnimationFrame(f); else fps = n * 1000 / Math.max(1, dt); }; requestAnimationFrame(f); } // tối đa 1 giây / 90 khung
+  measureFps(); setInterval(() => { if (!document.hidden) measureFps(); }, 10000);
   let gpuName = "";
   try { const gl = document.createElement("canvas").getContext("webgl"); const ext = gl && gl.getExtension("WEBGL_debug_renderer_info"); gpuName = ext ? gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) : ""; gpuName = gpuName.replace(/^ANGLE \((.*)\)$/, "$1").replace(/,\s*(Direct3D|D3D).*$/i, "").replace(/^[^,]+,\s*/, ""); } catch {}
   let battery = null; navigator.getBattery?.().then((b) => (battery = b)).catch(() => {});
@@ -106,7 +108,20 @@
   let installEvt = null;
   addEventListener("beforeinstallprompt", (e) => { e.preventDefault(); installEvt = e; emit("cfg", {}); });
   addEventListener("appinstalled", () => { installEvt = null; emit("cfg", {}); });
-  if ("serviceWorker" in navigator) navigator.serviceWorker.register("/gadget/sw.js", { scope: "/gadget" }).catch(() => {});
+  // service worker: tự cập nhật khi có bản mới (sw.js mang mã băm nội dung → đổi theo mỗi lần build web app)
+  // kiểm tra khi mở, khi quay lại tab, mỗi 30 phút; SW mới tự kích hoạt → tab đang ẩn thì tải lại, đang xem thì báo
+  if ("serviceWorker" in navigator) {
+    let reg = null, had = !!navigator.serviceWorker.controller, fresh = false;
+    navigator.serviceWorker.register("/gadget/sw.js", { scope: "/gadget", updateViaCache: "none" }).then((r) => { reg = r; r.update().catch(() => {}); }).catch(() => {});
+    const check = () => reg?.update().catch(() => {});
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (!had) { had = true; return; }
+      if (document.hidden) location.reload();
+      else { fresh = true; emit("toast", "✨ Đã có phiên bản mới — đang tải lại…"); setTimeout(() => location.reload(), 1800); }
+    });
+    document.addEventListener("visibilitychange", () => { if (!document.hidden) check(); else if (fresh) location.reload(); });
+    setInterval(check, 30 * 60 * 1000);
+  }
 
   let kanjiP = null, siteP = null; const strokeP = {};
   window.gadget = {

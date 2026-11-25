@@ -12,6 +12,7 @@ import { ProfileDialog } from "@/components/Profile";
 import { BackupItems } from "@/components/Backup";
 import { GROUPS, programsIn, TEYVAT, progressLabel } from "@/lib/programs";
 import { useAdmin, useSite } from "@/lib/useSite";
+import { usePwaInstall } from "@/components/PwaRegister";
 
 const OFFLINE = process.env.NEXT_PUBLIC_OFFLINE === "1"; // bản offline: không có tài khoản / phòng chat
 
@@ -19,6 +20,7 @@ export default function Header() {
   const { S, toggleSound } = useGame();
   const isAdmin = useAdmin(S); // chỉ tài khoản quản trị (máy chủ xác nhận) mới thấy nút ⚙️
   const site = useSite(); // quản trị bật/tắt nút Gadget
+  const pwa = usePwaInstall(); // trình duyệt cho phép cài trang làm ứng dụng → hiện nút 📲
   const [profOpen, setProfOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const path = usePathname();
@@ -89,6 +91,7 @@ export default function Header() {
           <span aria-hidden="true">{open ? "✕" : "☰"}</span><span className="lbl">Menu</span>
         </button>
         {isAdmin === true && <Link href="/quan-tri" className={`navbtn ${path.startsWith("/quan-tri") ? "on" : ""}`} onClick={() => sfx.page()} title="Trang quản trị" aria-label="Trang quản trị"><span aria-hidden="true">⚙️</span><span className="lbl">Quản trị</span></Link>}
+        {!OFFLINE && pwa.can && <button type="button" className="navbtn" onClick={() => { sfx.click(); pwa.install(); }} title="Cài tiengnhat.online làm ứng dụng trên máy (mở nhanh, có biểu tượng riêng)"><span aria-hidden="true">📲</span><span className="lbl">Cài app</span></button>}
         {!OFFLINE && site.gadgetEnabled && <a href="/gadget" className="navbtn gadgetbtn" onClick={() => sfx.page()} title="TiengNhat Gadget: hạng, từ vựng, kiểm tra nhanh, tra cứu chữ Hán — cài được như ứng dụng"><span aria-hidden="true">🖥</span><span className="lbl">Gadget</span></a>}
         <Link href="/rank" className={`navbtn rankbtn ${path === "/rank" ? "on" : ""}`} onClick={() => sfx.page()} title="Bảng xếp hạng"><span aria-hidden="true">🏆</span><span className="lbl">Xếp hạng</span></Link>
         {!OFFLINE && <button type="button" className="navbtn profchip" onClick={() => { setProfOpen(true); sfx.open?.(); }} title="Hồ sơ của bạn" aria-label="Hồ sơ của bạn">{S?.profile ? <Avatar avatar={S.profile.avatar} name={S.profile.name} size={24} /> : <span aria-hidden="true">👤</span>}<span className="lbl">{S?.profile?.name || "Hồ sơ"}</span></button>}

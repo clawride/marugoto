@@ -14,6 +14,11 @@ const nextConfig = {
       headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
     }, {
       // web app TiengNhat Gadget (public/gadget, tạo bởi tiengnhat-gadget/tools/build-web.mjs): service worker phủ cả /gadget
+      // service worker toàn trang: không lưu đệm để trình duyệt luôn thấy bản build mới
+      source: "/sw.js",
+      headers: [{ key: "Service-Worker-Allowed", value: "/" }, { key: "Cache-Control", value: "no-cache, no-store, must-revalidate" }],
+    }, {
+      // web app TiengNhat Gadget (public/gadget, tạo bởi tiengnhat-gadget/tools/build-web.mjs): service worker phủ cả /gadget
       source: "/gadget/sw.js",
       headers: [{ key: "Service-Worker-Allowed", value: "/gadget" }, { key: "Cache-Control", value: "no-cache" }],
     }];

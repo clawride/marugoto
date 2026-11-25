@@ -38,6 +38,7 @@
       <button class="ib" id="btnHide" title="Ẩn vào khay hệ thống">–</button>
     </div>
   </header>
+  <div class="cbody" id="cbody">
 
   <div class="instbar webblock" id="instBar" hidden>
     <span class="ib-ico">📲</span>
@@ -131,7 +132,7 @@
     <div class="hint" id="topHint"></div>
   </section>
 
-  <section id="sDomain" class="sec webblock" hidden>
+  <section id="sDomain" class="sec" hidden>
     <div class="dm">
       <div class="dm-h"><span class="dm-ico">🌐</span><div><b id="dmTitle">Tên miền tiengnhat.online</b><small id="dmSub"></small></div></div>
       <div class="dm-count" id="dmCount"></div>
@@ -140,6 +141,8 @@
       <div class="dm-qr" id="dmQr" hidden></div>
     </div>
   </section>
+
+  </div><!-- /cbody -->
 
   <div class="panel" id="menu">
     <div class="p-h"><b>Tùy chỉnh gadget</b><button class="ib sm" data-close>✕</button></div>
@@ -172,7 +175,9 @@
       <p class="hint" id="lvCount"></p>
 
       <h4>✨ Hiệu ứng</h4>
+      <label class="tg"><input type="checkbox" id="lite"> ⚡ Chế độ nhẹ — tắt hiệu ứng nặng, chống giật (mặc định trên điện thoại)</label>
       <label class="sel">Hiệu ứng <select id="fxSel"><option value="max">Rực rỡ</option><option value="low">Nhẹ nhàng</option><option value="off">Tắt</option></select></label>
+      <label class="tg"><input type="checkbox" id="petals"> 🌸 Cánh hoa rơi lả tả (ở mức Rực rỡ)</label>
       <label class="sel">Đổi từ mỗi <select id="wordEvery"><option value="8">8 giây</option><option value="15">15 giây</option><option value="30">30 giây</option><option value="60">1 phút</option><option value="0">Không tự đổi</option></select></label>
 
       <h4>⚙️ Hệ thống</h4>

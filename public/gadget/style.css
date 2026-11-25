@@ -449,3 +449,24 @@ body.quiz #sDomain, body.look #sDomain { display: none !important; }
 .ib-txt > b { display: block; font-size: 12.5px; } .ib-txt small { display: block; font-size: 10.5px; color: #e6e0f5; line-height: 1.35; }
 .instbar .btn { flex: none; padding: 7px 12px; font-size: 12px; white-space: nowrap; }
 .instbar .btn[hidden] { display: none; }
+
+/* khối tên miền: cả bản web lẫn máy tính; ẩn ở chế độ rút gọn / quả cầu */
+#sDomain[hidden] { display: none !important; }
+body.compact #sDomain, body.orb #sDomain { display: none !important; }
+body:not(.web) .dm-qr img { max-width: 170px; } /* bản máy tính: giữ gadget vừa chiều cao màn hình khi mở mã QR */
+
+/* thân thẻ cuộn được (bản máy tính: tối đa vừa màn hình, main.js gửi --cardmax) */
+.cbody { max-height: var(--cardmax, none); overflow-y: auto; overflow-x: hidden; margin-right: -6px; padding-right: 6px; overscroll-behavior: contain; }
+.cbody::-webkit-scrollbar { width: 5px; } .cbody::-webkit-scrollbar-thumb { background: rgba(255,255,255,.22); border-radius: 9px; } .cbody::-webkit-scrollbar-track { background: transparent; }
+body.web .cbody { max-height: none; overflow: visible; margin-right: 0; padding-right: 0; }
+
+/* ——— CHẾ ĐỘ NHẸ (điện thoại / máy yếu): bỏ mọi thứ tốn GPU — kính mờ, vầng sáng, viền xoay, bóng, chuyển động ——— */
+body.lite .aura, body.lite .holo, body.lite #fx { display: none !important; }
+body.lite .tint { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+body.lite .ring { animation: none !important; background: linear-gradient(135deg, var(--c1), var(--c2)) !important; opacity: .55 !important; }
+body.lite .frame { box-shadow: 0 6px 18px rgba(0,0,0,.3) !important; }
+body.lite .card { transform: none !important; transition: none !important; will-change: auto !important; }
+body.lite *, body.lite *::before, body.lite *::after { animation-duration: .001ms !important; animation-delay: 0s !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+body.lite .bar i::after, body.lite .w-timer i { display: none !important; }
+body.lite .mark, body.lite .av, body.lite .w-pic, body.lite .qz-listen, body.lite .tabs button.on, body.lite .btn, body.lite .chips label.on, body.lite .bar i, body.lite .w-jp, body.lite .qz-main { box-shadow: none !important; text-shadow: none !important; }
+body.lite .orb-ring, body.lite .orb-core img { animation: none !important; filter: none !important; }

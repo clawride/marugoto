@@ -28,7 +28,14 @@
     $(".bgimg").style.backgroundImage = !cfg.bg ? "none" : /^(blob|data):/.test(cfg.bg) ? `url("${cfg.bg}")` : /^https?:/.test(cfg.bg) ? `url("${cfg.bg}?v=${cfg._bgv || 0}")` : `url("file:///${cfg.bg.replace(/\\/g, "/")}?v=${cfg._bgv || 0}")`;
     document.body.classList.toggle("web", G.platform === "web");
     applyMode();
-    FX.level = cfg.fx; FX.setHue(cfg.hue); FX.ambient(cfg.fx === "max");
+    // cánh hoa rơi: mặc định tắt trên điện thoại (màn hẹp / cảm ứng), bật trên máy tính; đổi ở ⋯ → Hiệu ứng
+    const phoneLike = G.platform === "web" && (innerWidth < 560 || matchMedia("(pointer: coarse) and (hover: none)").matches);
+    // điện thoại: mặc định Chế độ nhẹ (tắt kính mờ, vầng sáng, viền xoay, chuyển động) + hiệu ứng Tắt — đổi ở ⋯ → Hiệu ứng
+    if (!cfg.fx) cfg.fx = phoneLike ? "off" : "max";
+    const lite = cfg.lite ?? phoneLike;
+    document.body.classList.toggle("lite", lite);
+    const petals = cfg.petals ?? !phoneLike;
+    FX.level = cfg.fx; FX.setHue(cfg.hue); FX.ambient(cfg.fx === "max" && petals);
     document.body.classList.toggle("fx-off", cfg.fx === "off");
     $("#sRank").classList.toggle("hidden", !cfg.show.rank);
     $("#sWord").classList.toggle("hidden", !cfg.show.word);
@@ -123,6 +130,7 @@
   card.addEventListener("pointerdown", (e) => {
     if (e.button !== 0 || e.target.closest("button, input, select, label, a, .panel, .word, .rank, .tabs, form, .cornerpick")) return;
     if (e.pointerType !== "mouse" && !e.target.closest(".hd")) return; // điện thoại: giữ thanh tiêu đề để kéo
+    const cb = $("#cbody"); if (e.target === cb && e.offsetX >= cb.clientWidth) return; // bấm thanh cuộn
     downAt = { x: e.screenX, y: e.screenY, id: e.pointerId };
   });
   let orbDown = false;
@@ -164,7 +172,7 @@
     setTimeout(() => { const [x, y] = cornerXY(c); FX.ring(x, y, { vr: 7, max: 40, w: 5 }); FX.burst(x, y, 60, { speed: 7 }); }, 60);
     toast(`🧲 Đã hít vào góc ${{ tl: "↖ trên trái", tr: "↗ trên phải", bl: "↙ dưới trái", br: "↘ dưới phải" }[c]}`);
   });
-  G.on("layout", (d) => { const m = cfg.mode; cfg = { ...cfg, mode: d.mode, corner: d.corner, anchor: d.anchor, zoomNow: d.zoom }; if (m !== d.mode) applyMode(); else applyMode(); });
+  G.on("layout", (d) => { if (d.maxCard) document.documentElement.style.setProperty("--cardmax", d.maxCard + "px"); const m = cfg.mode; cfg = { ...cfg, mode: d.mode, corner: d.corner, anchor: d.anchor, zoomNow: d.zoom }; if (m !== d.mode) applyMode(); else applyMode(); });
   function dragLoop() {
     // nghiêng 3D theo vận tốc (có giảm chấn), vầng sáng mạnh dần theo tốc độ, vệt hạt phía sau
     tilt.x += (Math.max(-18, Math.min(18, -vel.vy * 1.6)) - tilt.x) * 0.18;
@@ -888,10 +896,12 @@
     tickDomain();
   }
   setInterval(tickDomain, 1000);
+  setInterval(loadDomain, 30 * 60 * 1000); // quản trị đổi mã QR / tắt mục ủng hộ → cập nhật
   $("#dmBtn").addEventListener("click", (e) => {
     const q = $("#dmQr");
     if (!q.hidden) { q.hidden = true; $("#dmBtn").textContent = "💖 Đồng ý ủng hộ"; return; }
-    q.innerHTML = DM?.qrSrc ? `<img src="${esc(DM.qrSrc)}" alt="Mã QR ủng hộ"><p>Quét bằng ứng dụng ngân hàng / ví điện tử. Cảm ơn tấm lòng của bạn!</p>` : `<p>Quản trị chưa cài mã QR — bạn quay lại sau nhé. Cảm ơn bạn!</p>`;
+    const qsrc = DM?.qrData || (G.platform === "web" ? DM?.qrSrc : "");
+    q.innerHTML = qsrc ? `<img src="${esc(qsrc)}" alt="Mã QR ủng hộ"><p>Quét bằng ứng dụng ngân hàng / ví điện tử. Cảm ơn tấm lòng của bạn!</p>` : `<p>Quản trị chưa cài mã QR — bạn quay lại sau nhé. Cảm ơn bạn!</p>`;
     q.hidden = false; $("#dmBtn").textContent = "Ẩn mã QR";
     FX.confetti(e.clientX, e.clientY, 50); FX.ring(e.clientX, e.clientY, { vr: 6, max: 34, h: 330 });
   });
@@ -916,6 +926,8 @@
   function fillMenu() {
     for (const k of ["bgAlpha", "imgAlpha", "blur", "hue"]) { $("#" + k).value = cfg[k]; $("#" + k + "V").textContent = k === "blur" ? cfg[k] : k === "hue" ? "" : Math.round(cfg[k] * 100) + "%"; }
     $("#fxSel").value = cfg.fx; $("#wordEvery").value = String(cfg.wordEvery); $("#level").value = cfg.level || "all";
+    $("#lite").checked = document.body.classList.contains("lite");
+    $("#petals").checked = cfg.petals ?? !(G.platform === "web" && (innerWidth < 560 || matchMedia("(pointer: coarse) and (hover: none)").matches));
     if (allWords.length) filterWords();
     $("#onTop").checked = !!cfg.onTop; $("#autostart").checked = !!cfg.autostart; $("#netAdmin").checked = !!cfg.netAdmin; $("#bridge").checked = cfg.bridge !== false;
     // cài làm ứng dụng: có lời mời cài của trình duyệt → nút; đã cài / trình duyệt không hỗ trợ → hướng dẫn
@@ -941,6 +953,8 @@
     });
     $("#" + k).addEventListener("change", (e) => G.setCfg({ [k]: +e.target.value }));
   }
+  $("#lite").addEventListener("change", (e) => setCfg({ lite: e.target.checked, ...(e.target.checked ? { fx: "off" } : {}) }).then(() => toast(e.target.checked ? "⚡ Đã bật chế độ nhẹ" : "✨ Đã tắt chế độ nhẹ — chọn mức hiệu ứng bên dưới")));
+  $("#petals").addEventListener("change", (e) => setCfg({ petals: e.target.checked }).then(() => { if (e.target.checked) { const [x, y] = center(card); FX.burst(x, y, 30, { speed: 5 }); } toast(e.target.checked ? "🌸 Đã bật cánh hoa rơi" : "Đã tắt cánh hoa rơi"); }));
   $("#fxSel").addEventListener("change", (e) => setCfg({ fx: e.target.value }).then(() => { const [x, y] = center(card); FX.burst(x, y, 60, { speed: 8 }); FX.ring(x, y); }));
   $("#wordEvery").addEventListener("change", (e) => setCfg({ wordEvery: +e.target.value }));
   const lvChange = async (patch, el) => {
