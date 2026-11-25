@@ -73,7 +73,13 @@
     const cn = navigator.connection;
     rows.push({ k: navigator.onLine ? "Mạng" : "Mất mạng", show: "net", val: cn?.downlink ? `${cn.downlink} Mbps` : navigator.onLine ? "Online" : "Offline", p: cn?.downlink ? Math.min(100, cn.downlink) : navigator.onLine ? 100 : 0, sub: cn ? `${(cn.effectiveType || "").toUpperCase()}${cn.rtt ? ` · ping ~${cn.rtt} ms` : ""}` : "", warn: 101 });
     if (battery) rows.push({ k: "Pin", show: "cpu", val: `${Math.round(battery.level * 100)}%${battery.charging ? " ⚡" : ""}`, p: battery.level * 100, sub: battery.charging ? "Đang sạc" : "Đang dùng pin", warn: 101 });
-    return { rows, note: `Muốn xem CPU, GPU, VRAM, ổ HDD/SSD, Wi-Fi: chạy <b>TiengNhat Gadget</b> bản máy tính rồi để trang này mở.`, topNote: "Top 5 phần mềm ngốn CPU / GPU / mạng chỉ có khi TiengNhat Gadget bản máy tính đang chạy." };
+    // trình duyệt chặn trang gọi vào máy (quyền "Truy cập mạng cục bộ") → chỉ cách mở
+    let perm = "";
+    try { perm = (await navigator.permissions.query({ name: "local-network-access" })).state; } catch {}
+    const note = perm === "denied"
+      ? `Trình duyệt đang <b>chặn quyền truy cập mạng cục bộ</b> nên chưa đọc được TiengNhat Gadget trên máy. Bấm biểu tượng ⓘ/ổ khóa cạnh địa chỉ trang → <b>Truy cập mạng cục bộ: Cho phép</b> → tải lại trang.`
+      : `Muốn xem CPU, GPU, VRAM, ổ HDD/SSD, Wi-Fi: chạy <b>TiengNhat Gadget</b> bản máy tính rồi để trang này mở (trình duyệt sẽ hỏi quyền truy cập mạng cục bộ → chọn Cho phép).`;
+    return { rows, note, topNote: "Top 5 phần mềm ngốn CPU / GPU / mạng chỉ có khi TiengNhat Gadget bản máy tính đang chạy." };
   }
   async function poll() {
     let d = null;
