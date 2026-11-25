@@ -35,22 +35,29 @@
   // ——— kéo thả trong trang ———
   const card = () => document.getElementById("card");
   let mouse = { x: 0, y: 0 }, drag = null;
-  document.addEventListener("mousemove", (e) => {
+  document.addEventListener("pointermove", (e) => {
     mouse = { x: e.clientX, y: e.clientY };
     if (!drag) return;
-    const c = card(), W = innerWidth, H = innerHeight, r = c.getBoundingClientRect();
-    const nx = Math.min(Math.max(-r.width + 80, e.clientX - drag.ox), W - 80), ny = Math.min(Math.max(0, e.clientY - drag.oy), H - 60);
+    const c = card(), W = vw(), H = innerHeight, r = c.getBoundingClientRect();
+    const nx = phone() ? Math.min(Math.max(4, e.clientX - drag.ox), Math.max(4, W - r.width - 4)) : Math.min(Math.max(-r.width + 80, e.clientX - drag.ox), W - 80), ny = Math.min(Math.max(0, e.clientY - drag.oy), Math.max(0, document.documentElement.scrollHeight - 60));
     const now = performance.now(), dt = Math.max(1, now - drag.t);
     emit("drag:vel", { vx: (nx - drag.lx) / dt * 16, vy: (ny - drag.ly) / dt * 16 });
     drag.lx = nx; drag.ly = ny; drag.t = now;
     c.style.left = nx + "px"; c.style.top = ny + "px";
   }, true);
+  // điện thoại / màn hẹp: thẻ rộng theo màn hình, nằm giữa
+  const vw = () => document.documentElement.clientWidth || innerWidth; // chiều rộng hiển thị thật (innerWidth có thể lớn hơn trên điện thoại)
+  const phone = () => vw() < 560 || matchMedia("(pointer: coarse) and (hover: none)").matches;
+  const pointerDown = (e) => { mouse = { x: e.clientX, y: e.clientY }; };
+  document.addEventListener("pointerdown", pointerDown, true);
   function place() {
     const c = card(); if (!c) return;
+    document.body.classList.toggle("phone", phone());
     const w = c.offsetWidth, h = c.offsetHeight;
     let x = cfg.pos?.x, y = cfg.pos?.y;
-    if (x == null) { x = (innerWidth - w) / 2; y = Math.max(16, (innerHeight - h) / 2); }
-    x = Math.min(Math.max(-w + 80, x), innerWidth - 80); y = Math.min(Math.max(0, y), innerHeight - 60);
+    if (phone()) { x = Math.max(4, (vw() - w) / 2); y = y == null ? 10 : y; }
+    if (x == null) { x = (vw() - w) / 2; y = Math.max(16, (innerHeight - h) / 2); }
+    if (!phone()) { x = Math.min(Math.max(-w + 80, x), vw() - 80); y = Math.min(Math.max(0, y), innerHeight - 60); } else y = Math.max(0, Math.min(y, innerHeight - 80));
     c.style.left = x + "px"; c.style.top = y + "px";
   }
   addEventListener("resize", place);
@@ -65,7 +72,7 @@
   async function browserSys() {
     const rows = [];
     const fmtB = (b) => { const u = ["B", "KB", "MB", "GB", "TB"]; let i = 0; while (b >= 1024 && i < 4) { b /= 1024; i++; } return b.toFixed(i >= 3 ? 1 : 0) + " " + u[i]; };
-    rows.push({ k: "CPU", show: "cpu", val: `${navigator.hardwareConcurrency || "?"} luồng`, p: 0, sub: "Trình duyệt không cho đọc % CPU" });
+    rows.push({ k: "CPU", show: "cpu", val: `${navigator.hardwareConcurrency || "?"} luồng`, p: 0, sub: phone() ? "Số nhân xử lý của máy" : "Trình duyệt không cho đọc % CPU" });
     if (gpuName) rows.push({ k: "GPU", show: "gpu", val: `${Math.round(fps)} FPS`, p: Math.min(100, fps / 60 * 100), sub: gpuName, warn: 101 });
     const pm = performance.memory;
     if (pm) rows.push({ k: "RAM tab", show: "ram", val: `${fmtB(pm.usedJSHeapSize)} / ${fmtB(pm.jsHeapSizeLimit)}`, p: pm.usedJSHeapSize / pm.jsHeapSizeLimit * 100, sub: navigator.deviceMemory ? `Máy có khoảng ${navigator.deviceMemory}+ GB RAM` : "" });
@@ -76,14 +83,14 @@
     // trình duyệt chặn trang gọi vào máy (quyền "Truy cập mạng cục bộ") → chỉ cách mở
     let perm = "";
     try { perm = (await navigator.permissions.query({ name: "local-network-access" })).state; } catch {}
-    const note = perm === "denied"
+    const note = phone() ? "" : perm === "denied"
       ? `Trình duyệt đang <b>chặn quyền truy cập mạng cục bộ</b> nên chưa đọc được TiengNhat Gadget trên máy. Bấm biểu tượng ⓘ/ổ khóa cạnh địa chỉ trang → <b>Truy cập mạng cục bộ: Cho phép</b> → tải lại trang.`
       : `Muốn xem CPU, GPU, VRAM, ổ HDD/SSD, Wi-Fi: chạy <b>TiengNhat Gadget</b> bản máy tính rồi để trang này mở (trình duyệt sẽ hỏi quyền truy cập mạng cục bộ → chọn Cho phép).`;
     return { rows, note, topNote: "Top 5 phần mềm ngốn CPU / GPU / mạng chỉ có khi TiengNhat Gadget bản máy tính đang chạy." };
   }
   async function poll() {
     let d = null;
-    if (bridgeFails < 3 || Date.now() % 15 < 2) { // không có gadget máy tính → thử lại thưa hơn
+    if (!phone() && (bridgeFails < 3 || Date.now() % 15 < 2)) { // không có gadget máy tính → thử lại thưa hơn
       try {
         const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), 900);
         const r = await fetch(BRIDGE, { signal: ctl.signal, cache: "no-store", targetAddressSpace: "local" });
@@ -136,7 +143,7 @@
     logout: async () => { cfg.user = null; cfg.noSite = true; save(); return true; },
     openSite: (p) => { window.open(typeof p === "string" && p.startsWith("/") ? p : "/", "_blank", "noopener"); },
     dragStart: () => { const c = card(), r = c.getBoundingClientRect(); drag = { ox: mouse.x - r.left, oy: mouse.y - r.top, lx: r.left, ly: r.top, t: performance.now() }; },
-    dragEnd: () => { if (!drag) return; drag = null; const r = card().getBoundingClientRect(); cfg.pos = { x: r.left, y: r.top }; save(); },
+    dragEnd: () => { if (!drag) return; drag = null; const c = card(); cfg.pos = { x: parseFloat(c.style.left) || 0, y: parseFloat(c.style.top) || 0 }; save(); },
     ignoreMouse() {}, resize() {}, hide() {}, quit: () => { location.href = "/"; },
     canInstall: () => !!installEvt,
     install: async () => { if (!installEvt) return false; installEvt.prompt(); const r = await installEvt.userChoice.catch(() => null); installEvt = null; return r?.outcome === "accepted"; },

@@ -258,3 +258,21 @@ body.orb .card { display: none; }
 .orb-badge:empty { display: none; }
 #orb.pulse .orb-core { animation: orbPulse 1.2s ease-in-out infinite alternate; }
 @keyframes orbPulse { to { box-shadow: inset 0 0 0 4px hsla(calc(var(--hue) + 250), 45%, 14%, .92), 0 0 26px 6px var(--c1); } }
+
+/* ——— điện thoại / màn hẹp (bản web) ——— */
+body.web .hd { touch-action: none; }                 /* giữ thanh tiêu đề để kéo bằng ngón tay */
+body.web .word { touch-action: pan-y; }               /* vuốt ngang trên thẻ từ = đổi từ */
+@media (hover: none) { .w-btns { opacity: 1 !important; } .ib { width: 34px; height: 34px; } .ib.sm { width: 32px; height: 32px; } }
+body.phone .card { width: calc(100vw - 8px); max-width: 420px; }
+body.phone #sTop, body.phone .rk-top span:nth-child(n+4) { display: none; }
+body.phone .web-foot { position: static; padding: 10px 0 18px; }
+body.phone .w-jp { font-size: 24px; }
+body.phone .tabs button { padding: 8px 0; }
+body.phone .panel { position: fixed; inset: 0; border-radius: 0; z-index: 60; }
+body.phone .p-body { padding-bottom: calc(18px + env(safe-area-inset-bottom)); }
+body.phone .sl { grid-template-columns: 1fr 1.3fr 38px; }
+body.phone .w-hint { display: block; }
+.w-hint { display: none; position: absolute; left: 12px; bottom: 7px; font-size: 10px; color: var(--mut); opacity: .75; }
+@supports (padding: env(safe-area-inset-top)) { body.phone { padding-top: env(safe-area-inset-top); } }
+html:has(body.web), body.web { overflow-x: hidden; max-width: 100vw; }   /* vầng sáng quanh thẻ không làm trang rộng ra trên điện thoại */
+body.phone .web-foot { display: none; }

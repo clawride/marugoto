@@ -120,21 +120,23 @@
 
   // ——— KÉO THẢ + hiệu ứng ———
   let dragging = false, downAt = null, vel = { vx: 0, vy: 0 }, tilt = { x: 0, y: 0 }, glow = 0, dragRaf = 0;
-  card.addEventListener("mousedown", (e) => {
+  card.addEventListener("pointerdown", (e) => {
     if (e.button !== 0 || e.target.closest("button, input, select, label, a, .panel, .word, .rank, .tabs, form, .cornerpick")) return;
-    downAt = { x: e.screenX, y: e.screenY };
+    if (e.pointerType !== "mouse" && !e.target.closest(".hd")) return; // điện thoại: giữ thanh tiêu đề để kéo
+    downAt = { x: e.screenX, y: e.screenY, id: e.pointerId };
   });
   let orbDown = false;
-  $("#orb").addEventListener("mousedown", (e) => { if (e.button !== 0) return; downAt = { x: e.screenX, y: e.screenY }; orbDown = true; });
+  $("#orb").addEventListener("pointerdown", (e) => { if (e.button !== 0) return; downAt = { x: e.screenX, y: e.screenY, id: e.pointerId }; orbDown = true; });
   const dragEl = () => (document.body.classList.contains("orb") ? $("#orb") : card);
-  document.addEventListener("mousemove", (e) => {
-    if (!downAt || dragging) return;
-    if (Math.hypot(e.screenX - downAt.x, e.screenY - downAt.y) < 4) return;
+  document.addEventListener("pointermove", (e) => {
+    if (!downAt || dragging || e.pointerId !== downAt.id) return;
+    if (Math.hypot(e.screenX - downAt.x, e.screenY - downAt.y) < (e.pointerType === "mouse" ? 4 : 8)) return;
+    if (e.pointerType !== "mouse") navigator.vibrate?.(12);
     dragging = true; card.classList.add("dragging"); G.dragStart();
     const [x, y] = center(card); FX.ring(x, y, { vr: 4, max: 30 }); FX.burst(x, y, 24, { speed: 4 });
     dragLoop();
   });
-  document.addEventListener("mouseup", () => {
+  const endDrag = () => {
     downAt = null;
     if (orbDown && !dragging) { orbDown = false; setMode(cfg.lastMode && cfg.lastMode !== "orb" ? cfg.lastMode : "full"); return; } // bấm quả cầu → mở lại
     orbDown = false;
@@ -152,7 +154,9 @@
     for (const [cx, cy] of [[r.left, r.top], [r.right, r.top], [r.left, r.bottom], [r.right, r.bottom]]) FX.burst(cx, cy, 16, { speed: 5 });
     card.classList.remove("drop", "boom"); void card.offsetWidth; card.classList.add("drop", "boom");
     setTimeout(() => card.classList.remove("drop", "boom"), 800);
-  });
+  };
+  document.addEventListener("pointerup", endDrag);
+  document.addEventListener("pointercancel", endDrag);
   G.on("drag:vel", (v) => { vel = v; card.classList.toggle("magnet", !!v.corner); });
   G.on("snapped", (c) => {
     if (document.body.classList.contains("orb")) return;
@@ -173,6 +177,8 @@
   }
   // bấm vào thẻ: tia lấp lánh nhỏ
   card.addEventListener("click", (e) => { if (!dragging && cfg.fx !== "off") FX.burst(e.clientX, e.clientY, 10, { speed: 3 }); });
+  // điện thoại: rung nhẹ + tia sáng khi chạm nút
+  card.addEventListener("pointerdown", (e) => { if (e.pointerType === "touch" && e.target.closest("button")) navigator.vibrate?.(8); });
   card.addEventListener("mouseenter", () => { card.style.setProperty("--glow", 0.25); });
   card.addEventListener("mouseleave", () => { if (!dragging) card.style.setProperty("--glow", 0); });
 
@@ -180,7 +186,27 @@
   const wordEl = $("#word");
   wordEl.addEventListener("mouseenter", () => (hoverWord = true));
   wordEl.addEventListener("mouseleave", () => (hoverWord = false));
-  wordEl.addEventListener("click", (e) => { if (!e.target.closest("button")) nextWord(); });
+  let sw = null, swallow = false;
+  wordEl.addEventListener("pointerdown", (e) => {
+    if (e.target.closest("button")) return;
+    sw = { x: e.clientX, y: e.clientY, t: Date.now(), id: e.pointerId };
+    clearTimeout(sw.hold);
+    sw.hold = setTimeout(() => { if (!sw) return; swallow = true; navigator.vibrate?.(20); say(); const [x, y] = center($(".w-pic")); FX.ring(x, y, { vr: 4, max: 30 }); sw = null; }, 550); // chạm giữ → đọc
+  });
+  wordEl.addEventListener("pointermove", (e) => { if (sw && Math.hypot(e.clientX - sw.x, e.clientY - sw.y) > 10) clearTimeout(sw.hold); });
+  const swEnd = (e) => {
+    if (!sw || e.pointerId !== sw.id) return;
+    clearTimeout(sw.hold);
+    const dx = e.clientX - sw.x, dy = e.clientY - sw.y; sw = null;
+    if (Math.abs(dx) > 45 && Math.abs(dy) < Math.abs(dx) * 0.7) { // vuốt ngang → từ khác, hạt bay theo hướng vuốt
+      swallow = true; navigator.vibrate?.(10);
+      const r = wordEl.getBoundingClientRect(); FX.burst(dx < 0 ? r.left + 10 : r.right - 10, r.top + r.height / 2, 30, { speed: 6 });
+      nextWord();
+    }
+  };
+  wordEl.addEventListener("pointerup", swEnd);
+  wordEl.addEventListener("pointercancel", () => { if (sw) clearTimeout(sw.hold); sw = null; });
+  wordEl.addEventListener("click", (e) => { if (swallow) { swallow = false; return; } if (!e.target.closest("button")) nextWord(); });
   $("#wNext").addEventListener("click", () => nextWord());
   $("#wSay").addEventListener("click", () => say());
   // lọc theo trình độ / bài đã chọn (cfg.level: a1 | a21 | a22 | ab1 | b11 | b12 | all; cfg.lesson: số bài | all)
@@ -402,7 +428,7 @@
     cfg = { ...cfg, ...(await G.snap(c)) }; applyMode();
     setTimeout(() => { const [x, y] = cornerXY(c); FX.ring(x, y, { vr: 8, max: 44, w: 5 }); FX.burst(x, y, 70, { speed: 8 }); }, 80);
   }));
-  document.addEventListener("mousedown", (e) => { if (!e.target.closest("#cornerPick, #btnCorner")) $("#cornerPick").classList.remove("open"); });
+  document.addEventListener("pointerdown", (e) => { if (!e.target.closest("#cornerPick, #btnCorner")) $("#cornerPick").classList.remove("open"); });
   $("#modeSel").addEventListener("change", (e) => setMode(e.target.value));
   $("#orbElSel").addEventListener("change", async (e) => { await setCfg({ orbEl: e.target.value }); curEl = ""; setOrbEl(true); toast(e.target.value === "cycle" ? "🔄 Xoay vòng 7 nguyên tố mỗi 60 giây" : e.target.value === "random" ? "🎲 Nguyên tố ngẫu nhiên mỗi lần thu" : `✨ Quả cầu ${e.target.selectedOptions[0].text}`); });
   function hueOf(hex) { const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255), mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn; if (!d) return 0; const h = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; return (h * 60 + 360) % 360; }
