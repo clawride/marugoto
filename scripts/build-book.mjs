@@ -206,7 +206,7 @@ for (const f of fs.readdirSync(SRC).filter((f) => f.endsWith(".json"))) {
     for (const g of A.grammar || []) if (g.use) { g.vi = `${g.vi || ""} (${g.use})`.trim(); delete g.use; }
     for (const sc of A.scripts || []) {
       if (sc.track && !sc.audio) { sc.audio = sc.track; delete sc.track; }
-      if (!sc.audio && typeof sc.title === "string") { const m = sc.title.match(/^(\d+_\d+)(?!\s*[–-]\s*\d)\s*/); if (m) { sc.audio = m[1]; sc.title = sc.title.slice(m[0].length) || sc.title; } } // "4_08 ① 地獄谷温泉" → audio 4_08
+      if (!sc.audio && typeof sc.title === "string") { const m = sc.title.match(/^(\d+_\d+)(?![\d_])(?!\s*[–-]\s*\d)\s*/); if (m) { sc.audio = m[1]; sc.title = sc.title.slice(m[0].length) || sc.title; } } // "4_08 ① 地獄谷温泉" → audio 4_08
       if (Array.isArray(sc.audio)) sc.audio = sc.audio[0]; // ["8_08"] → "8_08"
     }
     for (const t of A.text || []) if (t.label && !t.sp) { t.sp = t.label; delete t.label; }

@@ -7,7 +7,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Player, AudioSetup } from "@/components/Listen";
 import { speakLines } from "@/lib/tts";
-import { scriptLines, notesLines, trackLines, tracksScripts } from "@/lib/listenSources";
+import { scriptLines, notesLines, trackLines, tracksScripts, scriptTracks } from "@/lib/listenSources";
 import { shuffle } from "@/lib/data";
 import { sfx } from "@/lib/sfx";
 import Rom from "@/components/Rom";
@@ -35,6 +35,7 @@ export function Pic({ img, em, alt, big }) {
 }
 const ByTrack = createContext(null); // lời thoại theo số track trong cả bài (để track không kèm lời thoại vẫn đọc được)
 const Prefix = createContext("sa"); // tên file audio của sách: sa060.mp3 (Katsudou) · sc054.mp3 (Rikai)
+const RANGE_TITLE = /^\d+_\d+\s*[–-]\s*(\d+_)?\d+$/; // tên lời thoại chỉ là dải track ("4_36–4_40")
 const CIRCLED = "⓪①②③④⑤⑥⑦⑧⑨⑩";
 const say = (jp) => speakLines([{ t: jp }], { rate: 0.85 });
 const trackKey = (t, p = "sa") => `${p}${/^\d+_\d+$/.test(t) ? t.split("_").map(Number).join("_") : t}.mp3`; // "1_05" → "#1_5.mp3" (B1-1)
@@ -213,13 +214,15 @@ const Line = ({ jp, kana, ro: r, vi, show, slot, sp, emo }) => (
 function Script({ sc, lib, show }) {
   const [open, setOpen] = useState(false);
   const prefix = useContext(Prefix);
+  const { tracks, split } = scriptTracks(sc); // lời thoại gộp nhiều track chia đều được → nút phát từng track nằm ở hoạt động
+  const trk = tracks.length > 1 ? `${tracks[0]}–${tracks.at(-1)}` : tracks[0];
   return (
     <div className="bkscript">
       <div className="bkscripth">
-        <b>{sc.title && !/^\d+$/.test(sc.title) ? sc.title : sc.no != null ? `Bài nghe ${sc.no}` : "Bài nghe"}{sc.audio ? ` · track ${sc.audio}` : ""}</b>
+        <b>{sc.title && !/^\d+$/.test(sc.title) && sc.title !== trk && !RANGE_TITLE.test(sc.title) ? sc.title : sc.no != null ? `Bài nghe ${sc.no}` : "Bài nghe"}{trk ? ` · track ${trk}` : ""}</b>
         <button className="chip sm" onClick={() => setOpen(!open)}>{open ? "Ẩn lời thoại" : "📜 Xem lời thoại"}</button>
       </div>
-      {sc.audio && <Player file={trackKey(sc.audio, prefix)} lib={lib} autoPlay={false} tts={scriptLines(sc)} />}
+      {tracks.length > 0 && !split && <Player file={trackKey(tracks[0], prefix)} lib={lib} autoPlay={false} tts={scriptLines(sc)} />}
       {open && sc.note && <p className="bktask">💡 {sc.note}</p>}
       {open && <div className="bkdlg">{sc.lines.map((l, i) => (
         <div key={i} className="bkturn"><span className="bksp jpt">{l.sp}</span><Line {...l} show={show} /></div>
@@ -234,6 +237,9 @@ function Act({ A, lib, show, id }) {
   const prefix = useContext(Prefix);
   const byTrack = useContext(ByTrack);
   const tracks = tracksOf(A.audio);
+  // track đã có nút phát trong một lời thoại (Script) thì thôi; còn lại (lời thoại gộp chia đều, track nói đuổi, nghe lần 2…) → nút phát riêng ở đây
+  const own = new Set((A.scripts || []).flatMap((sc) => { const s = scriptTracks(sc); return s.split ? [] : s.tracks; }));
+  const free = tracks.filter((t) => !own.has(t));
   if (Array.isArray(A.words)) A = { ...A, words: { items: A.words } }; // Rikai: words là mảng từ
   // dạng bài tập bấm được: theo kind, hoặc đoán từ câu hỏi (bài đọc có câu ○/×, chọn ngày…)
   const it0 = A.items?.[0];
@@ -266,8 +272,8 @@ function Act({ A, lib, show, id }) {
         </div>
       ))}
       {A.fields?.length > 0 && <div className="bkfields">{A.fields.map((f, i) => <span key={i}><b className="jpt">{f.jp}</b>{show.ro && f.ro && <i> {f.ro}</i>}{show.vi && f.vi && <small> · {f.vi}</small>}：<u>　　　　</u></span>)}</div>}
-      {tracks.length > 0 && !A.scripts?.length && (
-        <div className="bktracks">{tracks.map((t, i) => <Player key={t} file={trackKey(t, prefix)} lib={lib} autoPlay={false} tts={trackLines(A, t, i, tracks.length, byTrack)} />)}</div>
+      {free.length > 0 && (
+        <div className="bktracks">{free.map((t, i) => <Player key={t} file={trackKey(t, prefix)} lib={lib} autoPlay={false} tts={trackLines(A, t, i, free.length, byTrack)} />)}</div>
       )}
       {A.words && (
         <div className="bkwords">
