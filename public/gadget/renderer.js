@@ -891,7 +891,10 @@
   async function loadDomain() {
     if (!G.site) return;
     const s = await G.site().catch(() => null), d = s?.donate;
+    if (G.platform === "web" && s?.gadgetDownload && !(innerWidth < 560 || matchMedia("(pointer: coarse) and (hover: none)").matches)) { $("#dlWin").href = s.gadgetDownload; $("#dlRow").hidden = false; }
     if (!d?.on) { $("#sDomain").hidden = true; return; }
+    // web trên máy tính: nút tải bản Windows (link do quản trị đặt, mặc định GitHub Releases)
+    if (G.platform === "web" && s?.gadgetDownload && !(innerWidth < 560 || matchMedia("(pointer: coarse) and (hover: none)").matches)) { $("#dlWin").href = s.gadgetDownload; $("#dlRow").hidden = false; }
     DM = d; $("#sDomain").hidden = false;
     $("#dmMsg").innerHTML = `Phí duy trì tên miền <b>${esc(d.cost ?? 35)}$ mỗi năm</b>. Trang học miễn phí cho mọi người — mong một trong số các bạn ủng hộ <b>1$ hoặc dưới 1$</b> để duy trì tên miền. Cảm ơn bạn! 💖${d.note ? `<br><small>${esc(d.note)}</small>` : ""}`;
     tickDomain();

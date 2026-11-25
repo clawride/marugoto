@@ -207,6 +207,7 @@ function Settings({ call, say }) {
       <label className="admsw"><input type="checkbox" checked={f.chatEnabled} onChange={(e) => set("chatEnabled", e.target.checked)} /> Phòng chat đang mở</label>
       <label className="admsw"><input type="checkbox" checked={f.signupEnabled} onChange={(e) => set("signupEnabled", e.target.checked)} /> Cho phép đăng ký tài khoản mới</label>
       <label className="admsw"><input type="checkbox" checked={f.gadgetEnabled} onChange={(e) => set("gadgetEnabled", e.target.checked)} /> 🖥 Hiện nút Gadget trên thanh đầu trang và mở web app /gadget</label>
+      <div className="admrow"><span>💻 Link tải bản máy tính</span><input type="url" value={f.gadgetDownload} onChange={(e) => set("gadgetDownload", e.target.value)} style={{ flex: 1, minWidth: 260 }} /><span className="hint">Để trống rồi lưu = dùng lại link mặc định (GitHub Releases · gadget-latest)</span></div>
       <DonateSettings d={f.donate} set={(v) => set("donate", v)} say={say} />
       <p><button className="gbtn tri" onClick={save}><span className="c" />Lưu cấu hình</button> <button className="chip" onClick={() => setF(structuredClone(SITE_DEFAULTS))}>Đặt về mặc định (chưa lưu)</button></p>
     </div>
