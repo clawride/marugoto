@@ -35,7 +35,8 @@
     const lite = cfg.lite ?? phoneLike;
     document.body.classList.toggle("lite", lite);
     const petals = cfg.petals ?? !phoneLike;
-    FX.level = cfg.fx; FX.setHue(cfg.hue); FX.ambient(cfg.fx === "max" && petals);
+    // chế độ nhẹ: tắt hẳn bộ hạt (kể cả khi cài đặt cũ đã lưu mức "Rực rỡ")
+    FX.level = lite ? "off" : cfg.fx; FX.setHue(cfg.hue); FX.ambient(!lite && cfg.fx === "max" && petals);
     document.body.classList.toggle("fx-off", cfg.fx === "off");
     $("#sRank").classList.toggle("hidden", !cfg.show.rank);
     $("#sWord").classList.toggle("hidden", !cfg.show.word);
