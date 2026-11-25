@@ -64,6 +64,8 @@ function Overview({ call, say }) {
         <label className="admsw"><input type="checkbox" checked={site.maintenance.on} onChange={(e) => toggle({ maintenance: { ...site.maintenance, on: e.target.checked } })} /> 🛠 Chế độ bảo trì (người dùng thường thấy màn hình bảo trì)</label>
         <label className="admsw"><input type="checkbox" checked={site.chatEnabled} onChange={(e) => toggle({ chatEnabled: e.target.checked })} /> 💬 Phòng chat đang mở</label>
         <label className="admsw"><input type="checkbox" checked={site.signupEnabled} onChange={(e) => toggle({ signupEnabled: e.target.checked })} /> 🆕 Cho phép đăng ký tài khoản mới</label>
+        <label className="admsw"><input type="checkbox" checked={site.gadgetEnabled} onChange={(e) => toggle({ gadgetEnabled: e.target.checked })} /> 🖥 Nút Gadget + web app /gadget</label>
+        <label className="admsw"><input type="checkbox" checked={site.donate?.on} onChange={(e) => toggle({ donate: { ...site.donate, on: e.target.checked } })} /> 💖 Mục đếm ngược tên miền + ủng hộ (chân trang)</label>
         <p className="hint">Lưu trữ: <b>{d.storage}</b> · môi trường: {d.env}. Chỉnh banner, hệ số thưởng, đề ẩn ở các tab bên cạnh.</p>
       </div>
     </>
@@ -204,8 +206,57 @@ function Settings({ call, say }) {
       <h3>Công tắc</h3>
       <label className="admsw"><input type="checkbox" checked={f.chatEnabled} onChange={(e) => set("chatEnabled", e.target.checked)} /> Phòng chat đang mở</label>
       <label className="admsw"><input type="checkbox" checked={f.signupEnabled} onChange={(e) => set("signupEnabled", e.target.checked)} /> Cho phép đăng ký tài khoản mới</label>
+      <label className="admsw"><input type="checkbox" checked={f.gadgetEnabled} onChange={(e) => set("gadgetEnabled", e.target.checked)} /> 🖥 Hiện nút Gadget trên thanh đầu trang và mở web app /gadget</label>
+      <DonateSettings d={f.donate} set={(v) => set("donate", v)} say={say} />
       <p><button className="gbtn tri" onClick={save}><span className="c" />Lưu cấu hình</button> <button className="chip" onClick={() => setF(structuredClone(SITE_DEFAULTS))}>Đặt về mặc định (chưa lưu)</button></p>
     </div>
+  );
+}
+
+// 💖 Mục chân trang: đếm ngược hạn tên miền + ủng hộ, bấm "Đồng ý ủng hộ" hiện mã QR
+function DonateSettings({ d, set, say }) {
+  const up = (k, v) => set({ ...d, [k]: v });
+  const [mm, dd] = (d.expire || "09-01").split("-");
+  // ảnh QR: thu nhỏ (cạnh dài ≤ 480px) rồi lưu dạng PNG ngay trong cấu hình trang
+  const pick = (e) => {
+    const file = e.target.files?.[0]; e.target.value = "";
+    if (!file) return;
+    if (!file.type.startsWith("image/")) { say("Hãy chọn một tệp ảnh"); return; }
+    const img = new Image(), url = URL.createObjectURL(file);
+    img.onload = () => {
+      const k = Math.min(1, 480 / Math.max(img.width, img.height)), c = document.createElement("canvas");
+      c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+      const g = c.getContext("2d"); g.fillStyle = "#fff"; g.fillRect(0, 0, c.width, c.height); g.imageSmoothingEnabled = k < 1; g.drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url);
+      let out = c.toDataURL("image/png"); if (out.length > 560000) out = c.toDataURL("image/jpeg", 0.9);
+      up("qr", out); say("Đã nạp ảnh QR — bấm Lưu cấu hình để áp dụng");
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); say("Không đọc được ảnh"); };
+    img.src = url;
+  };
+  return (
+    <>
+      <h3>💖 Đếm ngược hạn tên miền &amp; ủng hộ (chân trang)</h3>
+      <label className="admsw"><input type="checkbox" checked={d.on} onChange={(e) => up("on", e.target.checked)} /> Hiện mục này ở cuối mọi trang</label>
+      <div className="admrow">
+        <span>Hết hạn hằng năm ngày</span>
+        <input type="number" min="1" max="31" value={+dd} onChange={(e) => up("expire", `${mm}-${String(Math.min(31, Math.max(1, +e.target.value || 1))).padStart(2, "0")}`)} style={{ width: 70 }} />
+        <span>tháng</span>
+        <input type="number" min="1" max="12" value={+mm} onChange={(e) => up("expire", `${String(Math.min(12, Math.max(1, +e.target.value || 1))).padStart(2, "0")}-${dd}`)} style={{ width: 70 }} />
+        <span className="hint">Qua ngày này thì tự đếm sang năm sau.</span>
+      </div>
+      <div className="admrow"><span>Phí tên miền ($/năm)</span><input type="number" min="0" max="9999" step="1" value={d.cost} onChange={(e) => up("cost", e.target.value)} style={{ width: 90 }} /></div>
+      <textarea rows={2} maxLength={300} value={d.note} onChange={(e) => up("note", e.target.value)} placeholder="Lời nhắn thêm (tùy chọn) — ví dụ: 'Ghi nội dung chuyển khoản: tiengnhat'" />
+      <div className="admrow" style={{ alignItems: "flex-start" }}>
+        {d.qr ? <img src={d.qr} alt="Mã QR" style={{ width: 140, height: 140, objectFit: "contain", background: "#fff", borderRadius: 10, padding: 6 }} /> : <span className="hint">Chưa có mã QR — người dùng bấm "Đồng ý ủng hộ" sẽ thấy lời nhắn chờ.</span>}
+        <div>
+          <label className="chip" style={{ cursor: "pointer" }}>📤 Tải ảnh QR lên<input type="file" accept="image/*" onChange={pick} style={{ display: "none" }} /></label>{" "}
+          {d.qr && <button className="chip" onClick={() => up("qr", "")}>🗑 Xóa mã QR</button>}
+          <p className="hint">Hoặc dán đường dẫn ảnh https:</p>
+          <input type="url" placeholder="https://…/qr.png" value={d.qr?.startsWith("https://") ? d.qr : ""} onChange={(e) => up("qr", e.target.value.trim())} style={{ width: 260 }} />
+        </div>
+      </div>
+    </>
   );
 }
 

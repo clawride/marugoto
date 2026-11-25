@@ -1,0 +1,42 @@
+/* Chân trang: đếm ngược hạn tên miền + ủng hộ (components/DonateFooter.js). Dùng biến màu của giao diện game / cơ bản. */
+.donatebar { margin: 34px auto 26px; padding: 0 14px; max-width: 980px; }
+.dn-in { position: relative; overflow: hidden; border-radius: 18px; padding: 18px 18px 16px; text-align: center;
+  background: linear-gradient(135deg, rgba(236,229,216,.07), rgba(236,229,216,.02)); border: 1px solid rgba(211,188,142,.35); box-shadow: 0 10px 30px rgba(0,0,0,.25); }
+.dn-in::before { content: ""; position: absolute; inset: -40%; background: conic-gradient(from 0deg, transparent, rgba(243,211,138,.12), transparent 30%); animation: dnspin 9s linear infinite; pointer-events: none; }
+@keyframes dnspin { to { transform: rotate(360deg); } }
+.dn-in > * { position: relative; }
+.dn-head { display: flex; align-items: center; justify-content: center; gap: 12px; text-align: left; }
+.dn-ico { font-size: 30px; filter: drop-shadow(0 0 8px rgba(243,211,138,.5)); }
+.dn-head b { display: block; font-size: 17px; color: var(--gold2); }
+.dn-head small { display: block; font-size: 12.5px; color: var(--mute); }
+.dn-count { display: flex; justify-content: center; gap: 10px; margin: 14px 0 10px; }
+.dn-count div { min-width: 68px; padding: 8px 6px; border-radius: 12px; background: rgba(0,0,0,.18); border: 1px solid rgba(211,188,142,.3); }
+.dn-count b { display: block; font-size: 26px; font-variant-numeric: tabular-nums; color: var(--gold2); line-height: 1.1; }
+.dn-count small { font-size: 11px; color: var(--mute); text-transform: uppercase; letter-spacing: 1px; }
+.dn-msg { max-width: 640px; margin: 0 auto 12px; font-size: 14px; line-height: 1.6; color: var(--cream); }
+.dn-msg b { color: var(--gold2); }
+.dn-note { color: var(--mute); font-size: 13px; }
+.dn-btn { border: 0; border-radius: 99px; padding: 11px 26px; font-size: 15px; font-weight: 700; color: #fff; cursor: pointer;
+  background: linear-gradient(135deg, #ff5f9e, #ff9a5c); box-shadow: 0 6px 20px rgba(255,95,158,.4); transition: transform .15s, filter .15s; animation: dnpulse 2.2s ease-in-out infinite; }
+.dn-btn:hover { transform: translateY(-2px) scale(1.03); filter: brightness(1.08); }
+@keyframes dnpulse { 50% { box-shadow: 0 6px 30px rgba(255,95,158,.7); } }
+.dn-qr { animation: dnpop .5s cubic-bezier(.2,1.6,.4,1); }
+@keyframes dnpop { from { opacity: 0; transform: scale(.85); } }
+.dn-qr img { width: 220px; height: auto; max-width: 70vw; border-radius: 14px; background: #fff; padding: 8px; box-shadow: 0 8px 26px rgba(0,0,0,.35); }
+.dn-qr .hint { font-size: 12.5px; margin: 8px auto; max-width: 420px; }
+.dn-close { background: none; border: 1px solid rgba(211,188,142,.4); color: var(--gold2); border-radius: 99px; padding: 5px 16px; cursor: pointer; }
+/* sắp hết hạn */
+.donatebar.warn .dn-in { border-color: rgba(255,179,71,.6); }
+.donatebar.warn .dn-count b { color: #ffb347; }
+.donatebar.danger .dn-in { border-color: rgba(255,90,110,.75); animation: dndanger 1.6s ease-in-out infinite; }
+.donatebar.danger .dn-count b { color: #ff6b81; }
+@keyframes dndanger { 50% { box-shadow: 0 0 0 2px rgba(255,90,110,.35), 0 10px 34px rgba(255,90,110,.35); } }
+/* giao diện cơ bản (sáng) */
+[data-ui="plain"] .dn-in { background: var(--pl-card); border-color: var(--pl-line); box-shadow: 0 4px 18px rgba(31,41,55,.08); }
+[data-ui="plain"] .dn-in::before { background: conic-gradient(from 0deg, transparent, rgba(47,111,209,.06), transparent 30%); }
+[data-ui="plain"] .dn-count div { background: var(--pl-soft); border-color: var(--pl-line); }
+[data-ui="plain"] .dn-msg { color: var(--pl-text); }
+/* nút Gadget trên thanh đầu trang */
+.navbtn.gadgetbtn { text-decoration: none; }
+@media (max-width: 520px) { .dn-count div { min-width: 56px; } .dn-count b { font-size: 21px; } .dn-head b { font-size: 15px; } }
+@media (prefers-reduced-motion: reduce) { .dn-in::before, .dn-btn, .donatebar.danger .dn-in { animation: none; } }

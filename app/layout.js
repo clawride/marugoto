@@ -19,6 +19,7 @@ import "./motion.css";
 import "./rank-fun.css";
 import "./chat.css";
 import "./learning.css";
+import "./donate.css";
 import { GameProvider } from "@/components/Game";
 import Header from "@/components/Header";
 import SiteGate from "@/components/SiteGate";
@@ -27,6 +28,7 @@ import { SvgDefs } from "@/components/Icons";
 import { ProfileGate } from "@/components/Profile";
 import PlainGate from "@/components/PlainGate";
 import ChatBox from "@/components/ChatBox";
+import DonateFooter from "@/components/DonateFooter";
 import { SITE_URL } from "@/lib/site";
 
 export const metadata = {
@@ -67,6 +69,7 @@ export default function RootLayout({ children }) {
           <Header />
           <SiteGate />
           <main className="wrap"><PlainGate>{children}</PlainGate></main>
+          {!OFFLINE && <DonateFooter />}
           <ProfileGate />
           <ChatBox />
         </GameProvider>

@@ -164,4 +164,13 @@
     on: (ch, f) => { hs[ch] = f; },
   };
   setTimeout(poll, 300); setInterval(poll, 2000);
+
+  // quản trị tắt Gadget (trang quản trị → gadgetEnabled) → che trang bằng thông báo
+  fetch("/api/site", { cache: "no-store" }).then((r) => r.json()).then((s) => {
+    if (s?.gadgetEnabled !== false) return;
+    const d = document.createElement("div");
+    d.style.cssText = "position:fixed;inset:0;z-index:999;display:grid;place-items:center;background:rgba(8,5,20,.92);color:#f6f3ff;font:15px 'Segoe UI',sans-serif;text-align:center;padding:20px";
+    d.innerHTML = `<div><div style="font-size:44px">🛠</div><p style="margin:10px 0 16px">TiengNhat Gadget đang tạm tắt.<br>Bạn quay lại sau nhé!</p><a href="/" style="color:#fff;background:linear-gradient(135deg,#ff5f9e,#a259ff);padding:9px 20px;border-radius:99px;text-decoration:none;font-weight:700">Về tiengnhat.online</a></div>`;
+    document.body.appendChild(d);
+  }).catch(() => {});
 })();
