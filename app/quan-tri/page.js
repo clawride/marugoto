@@ -251,7 +251,9 @@ function DonateSettings({ d, set, say }) {
         {d.qr ? <img src={d.qr} alt="Mã QR" style={{ width: 140, height: 140, objectFit: "contain", background: "#fff", borderRadius: 10, padding: 6 }} /> : <span className="hint">Chưa có mã QR — người dùng bấm "Đồng ý ủng hộ" sẽ thấy lời nhắn chờ.</span>}
         <div>
           <label className="chip" style={{ cursor: "pointer" }}>📤 Tải ảnh QR lên<input type="file" accept="image/*" onChange={pick} style={{ display: "none" }} /></label>{" "}
-          {d.qr && <button className="chip" onClick={() => up("qr", "")}>🗑 Xóa mã QR</button>}
+          {d.qr && <button className="chip" onClick={() => up("qr", "")}>🗑 Xóa mã QR</button>}{" "}
+          {d.qr !== SITE_DEFAULTS.donate.qr && <button className="chip" onClick={() => up("qr", SITE_DEFAULTS.donate.qr)}>↺ Dùng mã mặc định (MoMo)</button>}
+          {d.qr === SITE_DEFAULTS.donate.qr && <p className="hint">Đang dùng mã QR mặc định (public/donate/qr.png).</p>}
           <p className="hint">Hoặc dán đường dẫn ảnh https:</p>
           <input type="url" placeholder="https://…/qr.png" value={d.qr?.startsWith("https://") ? d.qr : ""} onChange={(e) => up("qr", e.target.value.trim())} style={{ width: 260 }} />
         </div>

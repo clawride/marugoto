@@ -52,8 +52,8 @@ export default function DonateFooter() {
           <button type="button" className="dn-btn" onClick={() => setOpen(true)}>💖 Đồng ý ủng hộ</button>
         ) : (
           <div className="dn-qr">
-            {D.qrv && !qrBad
-              ? <img src={`/api/site/qr?v=${D.qrv}`} alt="Mã QR ủng hộ duy trì tên miền" width={220} height={220} onError={() => setQrBad(true)} />
+            {D.qrSrc && !qrBad
+              ? <img src={D.qrSrc} alt="Mã QR ủng hộ duy trì tên miền" width={220} height={220} onError={() => setQrBad(true)} />
               : <p className="hint">Quản trị chưa cài mã QR — bạn quay lại sau nhé. Cảm ơn tấm lòng của bạn!</p>}
             <p className="hint">Quét mã bằng ứng dụng ngân hàng / ví điện tử. Mọi khoản ủng hộ đều dùng để gia hạn tên miền.</p>
             <button type="button" className="dn-close" onClick={() => setOpen(false)}>Đóng</button>

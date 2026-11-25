@@ -3,7 +3,7 @@ import { getSite } from "@/lib/admin";
 
 export const dynamic = "force-dynamic";
 
-export async function GET() {
+export async function GET(req) {
   const qr = (await getSite())?.donate?.qr || "";
   if (!qr) return new Response("Chưa có mã QR", { status: 404 });
   if (qr.startsWith("https://")) return Response.redirect(qr, 302);
