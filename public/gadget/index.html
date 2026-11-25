@@ -137,6 +137,12 @@
   <div class="panel" id="menu">
     <div class="p-h"><b>Tùy chỉnh gadget</b><button class="ib sm" data-close>✕</button></div>
     <div class="p-body">
+      <div class="webblock instbox">
+        <h4>📲 Cài làm ứng dụng</h4>
+        <div class="row2"><button class="btn" id="btnInstall">⬇ Cài làm ứng dụng</button></div>
+        <p class="hint" id="instHint"></p>
+      </div>
+
       <h4>🖼 Ảnh nền</h4>
       <div class="row2"><button class="btn" id="bgPick">Chọn ảnh…</button><button class="btn ghost" id="bgClear">Bỏ ảnh</button></div>
       <label class="sl">Độ trong suốt nền <input type="range" id="bgAlpha" min="0" max="1" step="0.01"><em id="bgAlphaV"></em></label>
@@ -168,7 +174,6 @@
       <label class="tg desk"><input type="checkbox" id="netAdmin"> Đo mạng theo từng phần mềm (cần quyền Admin)</label>
       <label class="tg desk"><input type="checkbox" id="bridge"> Cho web app tiengnhat.online/gadget đọc thông số máy</label>
       <p class="hint webonly">Thông số CPU/GPU/ổ đĩa/top 5 lấy từ TiengNhat Gadget bản máy tính khi nó đang chạy (trình duyệt có thể hỏi quyền truy cập mạng cục bộ).</p>
-      <div class="row2 webonly"><button class="btn" id="btnInstall">⬇ Cài làm ứng dụng</button></div>
 
       <h4>👤 Tài khoản tiengnhat.online</h4>
       <div class="row2"><button class="btn" id="btnAcc">Đăng nhập</button><button class="btn ghost" id="btnSite">Mở trang web</button></div>

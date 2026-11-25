@@ -918,7 +918,12 @@
     $("#fxSel").value = cfg.fx; $("#wordEvery").value = String(cfg.wordEvery); $("#level").value = cfg.level || "all";
     if (allWords.length) filterWords();
     $("#onTop").checked = !!cfg.onTop; $("#autostart").checked = !!cfg.autostart; $("#netAdmin").checked = !!cfg.netAdmin; $("#bridge").checked = cfg.bridge !== false;
-    $("#btnInstall").parentElement.style.display = G.canInstall?.() ? "" : "none";
+    // cài làm ứng dụng: có lời mời cài của trình duyệt → nút; đã cài / trình duyệt không hỗ trợ → hướng dẫn
+    const inst = G.canInstall?.(), standalone = matchMedia("(display-mode: standalone), (display-mode: window-controls-overlay)").matches || navigator.standalone;
+    $("#btnInstall").parentElement.style.display = inst ? "" : "none";
+    $("#instHint").innerHTML = standalone ? "✓ Đang chạy như ứng dụng." : inst ? "Có biểu tượng riêng, mở trong cửa sổ riêng như phần mềm."
+      : /iPhone|iPad|iPod/.test(navigator.userAgent) ? "Trên iPhone/iPad: mở bằng <b>Safari</b> → nút <b>Chia sẻ</b> → <b>Thêm vào MH chính</b>."
+      : "Chrome / Edge: bấm biểu tượng cài đặt (⊕) ở cuối thanh địa chỉ, hoặc menu <b>⋮</b> → <b>Cài đặt ứng dụng</b>. Android: menu ⋮ → <b>Thêm vào màn hình chính</b>.";
     $("#showChips").innerHTML = SHOW.map(([k, n]) => `<label class="${cfg.show[k] ? "on" : ""}"><input type="checkbox" data-k="${k}" ${cfg.show[k] ? "checked" : ""}>${n}</label>`).join("");
     document.querySelectorAll("#showChips input").forEach((i) => i.addEventListener("change", (e) => {
       const r = e.target.parentElement.getBoundingClientRect(); FX.burst(r.left + r.width / 2, r.top + r.height / 2, 14, { speed: 3 });
