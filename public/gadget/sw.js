@@ -1,7 +1,7 @@
 // Service worker của web app /gadget: lưu sẵn giao diện + bộ từ vựng để mở nhanh và xem từ khi mất mạng.
 // API (/api/*) và ảnh ngoài luôn lấy từ mạng.
-const CACHE = "tng-gadget-b5ad0887df";
-const SHELL = ["/gadget", "/gadget/style.css", "/gadget/fx.js", "/gadget/renderer.js", "/gadget/web.js", "/gadget/words.json", "/gadget/icon-192.png", "/gadget/icon-512.png", "/gadget/manifest.webmanifest"];
+const CACHE = "tng-gadget-8a6bd19ca6";
+const SHELL = ["/gadget", "/gadget/style.css", "/gadget/fx.js", "/gadget/stroke.js", "/gadget/renderer.js", "/gadget/web.js", "/gadget/words.json", "/gadget/kanji.json", "/gadget/icon-192.png", "/gadget/icon-512.png", "/gadget/manifest.webmanifest"];
 
 self.addEventListener("install", (e) => { e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting())); });
 self.addEventListener("activate", (e) => {

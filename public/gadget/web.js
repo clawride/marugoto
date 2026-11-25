@@ -108,6 +108,7 @@
   addEventListener("appinstalled", () => { installEvt = null; emit("cfg", {}); });
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("/gadget/sw.js", { scope: "/gadget" }).catch(() => {});
 
+  let kanjiP = null; const strokeP = {};
   window.gadget = {
     platform: "web",
     getCfg: async () => { await loadBg(); setTimeout(place, 0); setTimeout(place, 600); return { ...cfg, user: user() }; },
@@ -123,6 +124,19 @@
     }),
     clearBg: async () => { await idbSet("bg", null); if (bgUrl) URL.revokeObjectURL(bgUrl); bgUrl = ""; cfg.bg = ""; save(); return ""; },
     words: () => fetch("/gadget/words.json").then((r) => r.json()).catch(() => []),
+    kanji: () => (kanjiP ||= fetch("/gadget/kanji.json").then((r) => r.json()).catch(() => ({}))),
+    strokes: async (k) => { // nét KanjiVG: file theo cấp có sẵn trên trang (/kanji/strokes-a1.json…)
+      const K = await window.gadget.kanji(), f = K?.[k]?.f; if (!f) return null;
+      strokeP[f] ||= fetch(`/kanji/strokes-${f}.json`).then((r) => r.json()).catch(() => ({}));
+      return (await strokeP[f])[k] || null;
+    },
+    analyze: async (text) => {
+      try {
+        const r = await fetch("/api/analyze", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text: String(text || "").slice(0, 600) }) });
+        const j = await r.json().catch(() => ({}));
+        return j.sentences ? { ok: true, sentences: j.sentences } : { ok: false, error: j.error || `Lỗi ${r.status}` };
+      } catch { return { ok: false, error: navigator.onLine ? "Không kết nối được trang" : "Đang mất mạng" }; }
+    },
     rank: async () => {
       const u = user();
       try {

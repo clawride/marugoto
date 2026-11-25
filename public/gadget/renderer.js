@@ -234,7 +234,9 @@
     sel.disabled = lv === "all";
     const lsOk = lv !== "all" && ls !== "all" && tids.includes(+ls);
     sel.value = lsOk ? String(ls) : "all";
-    words = lsOk ? inLv.filter((w) => w.t === +ls) : inLv;
+    // "Tất cả Topic": bỏ từ trùng giữa các Topic (số từ khớp Sổ Tay của trang)
+    if (lsOk) words = inLv.filter((w) => w.t === +ls);
+    else { const seen = new Set(); words = inLv.filter((w) => !seen.has(w.lv + w.jp) && seen.add(w.lv + w.jp)); }
     if (!words.length) words = allWords;
     wordIdx = -1;
     $("#lvCount").textContent = `${words.length.toLocaleString("vi-VN")} từ · ${lv === "all" ? "mọi bộ" : LV[lv] + (lsOk ? ` · ${topicName(+ls)}` : "")}`;
@@ -539,6 +541,304 @@
     if (e.key === "Escape") stopQuiz();
   });
 
+  // ——— TRA CỨU 🔍 ———
+  // 📖 Từ & chữ Hán: tìm trong toàn bộ Sổ Tay (chữ / kana / romaji / tiếng Việt) + thẻ chữ Hán (On/Kun, nghĩa, số nét, JLPT…), chạy ngay trên máy
+  // 🧩 Phân tích câu: gửi lên /api/analyze của trang → phiên Latinh, dịch, tách từ, ngữ pháp
+  let KJ = null, lkTab = "dict";
+  const HAN = /[㐀-鿿々]/g, JPCH = /[぀-ヿ㐀-鿿々ー]/;
+  async function openLook(e) {
+    if (document.body.classList.contains("quiz")) stopQuiz();
+    if (document.body.classList.contains("orb")) await setMode(cfg.lastMode || "full");
+    closePanels();
+    document.body.classList.add("look");
+    if (e) { FX.ring(e.clientX, e.clientY, { vr: 7, max: 40 }); FX.burst(e.clientX, e.clientY, 36, { speed: 6 }); }
+    renderHist();
+    if (!KJ) G.kanji?.().then((k) => (KJ = k || {})).catch(() => (KJ = {}));
+    setTimeout(() => $("#lkIn").focus(), 120);
+  }
+  function closeLook() { document.body.classList.remove("look"); const [x, y] = center(card); FX.burst(x, y, 24, { speed: 4 }); restartWordTimer(); }
+  document.querySelectorAll(".lk-tabs button").forEach((b) => b.addEventListener("click", (e) => {
+    lkTab = b.dataset.t; document.querySelectorAll(".lk-tabs button").forEach((x) => x.classList.toggle("on", x === b));
+    $("#lkIn").placeholder = lkTab === "dict" ? "Gõ từ: 勉強 · べんきょう · benkyou · học tập" : "Dán câu tiếng Nhật (tối đa 600 ký tự) — ví dụ: 日本語を勉強しています。";
+    $("#lkIn").rows = lkTab === "dict" ? 1 : 3; $("#lkGo").textContent = lkTab === "dict" ? "Tra" : "Phân tích";
+    FX.burst(e.clientX, e.clientY, 12, { speed: 3 }); $("#lkOut").innerHTML = ""; $("#lkIn").focus();
+  }));
+  $("#lkIn").addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); $("#lkForm").requestSubmit(); } });
+  $("#lkIn").addEventListener("input", () => { if (lkTab === "dict") { clearTimeout(lkT); lkT = setTimeout(() => doLook(true), 280); } });
+  let lkT = 0;
+  $("#lkForm").addEventListener("submit", (e) => { e.preventDefault(); doLook(false); });
+  function renderHist() {
+    const h = cfg.lookHist || [];
+    $("#lkHist").innerHTML = h.map((x) => `<button type="button">${esc(x.length > 14 ? x.slice(0, 14) + "…" : x)}</button>`).join("");
+    $("#lkHist").querySelectorAll("button").forEach((b, i) => b.addEventListener("click", () => { $("#lkIn").value = h[i]; if (!JPCH.test(h[i]) || h[i].length <= 12) switchTab("dict"); doLook(false); }));
+  }
+  function switchTab(t) { document.querySelector(`.lk-tabs button[data-t="${t}"]`)?.click(); }
+  function remember(q) { const h = [q, ...(cfg.lookHist || []).filter((x) => x !== q)].slice(0, 8); cfg.lookHist = h; G.setCfg({ lookHist: h }); renderHist(); }
+  const norm = (s) => String(s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/đ/g, "d").replace(/[\s\-'’.]/g, "");
+  const kata2hira = (s) => s.replace(/[ァ-ヶ]/g, (c) => String.fromCharCode(c.charCodeAt(0) - 0x60));
+  function searchWords(q) {
+    const qj = kata2hira(q.trim()), qn = norm(q), jp = JPCH.test(q);
+    const seen = new Map(), hits = [];
+    for (const w of allWords) {
+      let sc = 0;
+      if (jp) {
+        const a = w.jp, k = kata2hira(w.kana || ""), j2 = kata2hira(a);
+        if (a === q || j2 === qj || k === qj) sc = 100; else if (a.startsWith(q) || k.startsWith(qj)) sc = 70; else if (a.includes(q) || k.includes(qj)) sc = 40;
+      } else if (qn.length >= 2) {
+        const r = norm(w.ro), v = norm(w.vi);
+        if (r === qn) sc = 95; else if (r.startsWith(qn)) sc = 65;
+        else if (v === qn || v.split(/[,;()/]/).some((p) => p === qn)) sc = 90; else if (v.includes(qn)) sc = 35;
+      }
+      if (!sc) continue;
+      const prev = seen.get(w.jp);
+      if (prev) { prev.more = (prev.more || 0) + (prev.w.vi === w.vi && prev.w.lv === w.lv ? 0 : 1); if (sc > prev.sc) prev.sc = sc; continue; }
+      const h = { sc, w, more: 0 }; seen.set(w.jp, h); hits.push(h);
+    }
+    return hits.sort((a, b) => b.sc + (b.w.img ? 2 : 0) - Math.min(20, b.w.jp.length) - (a.sc + (a.w.img ? 2 : 0) - Math.min(20, a.w.jp.length))).slice(0, 40).map((h) => ({ ...h.w, more: h.more }));
+  }
+  function kanjiCard(k, i) {
+    const x = KJ?.[k];
+    if (!x) {
+      const ex = allWords.filter((w) => w.jp.includes(k)).slice(0, 6);
+      return `<div class="lk-k" style="--i:${i}"><div class="lk-kc">${esc(k)}</div><div><b class="vi">Chưa có thẻ chữ này</b><div class="meta">Chữ ngoài 1.303 chữ Hán của lộ trình A1–B1-2</div></div>${ex.length ? `<div class="kw">${ex.map((w) => `<span><b>${esc(w.jp)}</b> ${esc(w.vi)}</span>`).join("")}</div>` : ""}</div>`;
+    }
+    return `<div class="lk-k" style="--i:${i}"><div class="lk-kc">${esc(k)}</div><div>
+      <b class="vi">${esc(x.vi)}</b>
+      ${x.on.length ? `<div class="rd"><i>On</i>${esc(x.on.join("・"))}</div>` : ""}${x.kun.length ? `<div class="rd"><i>Kun</i>${esc(x.kun.join("・"))}</div>` : ""}
+      <div class="meta">${x.sc ? `${x.sc} nét · ` : ""}${x.jlpt ? `JLPT N${x.jlpt} · ` : ""}học ở ${esc(x.lv)}${x.rad && x.rad !== k ? ` · bộ ${esc(x.rad)}` : ""}</div></div>
+      ${x.ex ? `<div class="ex">💡 ${esc(x.ex)}</div>` : ""}${x.mn ? `<div class="ex">🧠 ${esc(x.mn)}</div>` : ""}
+      ${x.w.length ? `<div class="kw">${x.w.map(([w, r, v]) => `<span><b>${esc(w)}</b>${r && r !== w ? ` ${esc(r)}` : ""} · ${esc(v)}</span>`).join("")}</div>` : ""}
+      ${x.f ? `<button type="button" class="wbtn" data-write="${esc(k)}">✍️ Cách viết · thứ tự nét · luyện viết</button>` : ""}</div>`;
+  }
+  function wordRow(w, i) {
+    return `<div class="lk-w" style="--i:${i}" data-say="${esc(w.kana || w.jp)}"><span class="j">${esc(w.jp)}${w.kana ? `<small>${esc(w.kana)}</small>` : ""}</span><span class="s">${esc(w.src)}${w.more ? ` +${w.more}` : ""}</span>${w.ro ? `<span class="r">${esc(w.ro)}</span>` : ""}<span class="v">${esc(w.vi)}</span></div>`;
+  }
+  const sayText = (t) => { if (!window.speechSynthesis || !t) return; speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t); u.lang = "ja-JP"; u.rate = 0.9; const v = speechSynthesis.getVoices().filter((x) => /^ja/i.test(x.lang)); if (v.length) u.voice = v.find((x) => /Nanami|Natural|Online/i.test(x.name)) || v[0]; speechSynthesis.speak(u); };
+  function bindSay(root) { root.querySelectorAll("[data-say]").forEach((el) => el.addEventListener("click", (e) => { sayText(el.dataset.say); FX.burst(e.clientX, e.clientY, 10, { speed: 3 }); })); }
+  async function doLook(live) {
+    const q = $("#lkIn").value.trim(), out = $("#lkOut");
+    if (!q) { out.innerHTML = ""; return; }
+    // câu dài (có dấu câu / nhiều chữ) ở thẻ Từ → gợi ý chuyển sang Phân tích câu
+    if (lkTab === "dict") {
+      if (!KJ) KJ = (await G.kanji?.().catch(() => ({}))) || {};
+      const ks = [...new Set(q.match(HAN) || [])].slice(0, 8);
+      const ws = searchWords(q);
+      const longJp = JPCH.test(q) && (/[。、！？!?]/.test(q) || q.length > 12);
+      out.innerHTML = (longJp ? `<div class="lk-empty">Đây giống một câu — <a id="lkToSent" style="color:hsl(var(--hue) 100% 82%);cursor:pointer;text-decoration:underline">bấm để phân tích câu</a></div>` : "")
+        + (ks.length ? `<div class="lk-h">CHỮ HÁN (${ks.length})</div>` + ks.map(kanjiCard).join("") : "")
+        + `<div class="lk-h">TỪ VỰNG TRONG SỔ TAY (${ws.length >= 40 ? "40+" : ws.length})</div>`
+        + (ws.length ? ws.map(wordRow).join("") : `<div class="lk-empty">Không thấy từ nào khớp. Thử gõ kana, romaji (benkyou) hoặc nghĩa tiếng Việt.</div>`);
+      $("#lkToSent")?.addEventListener("click", () => { switchTab("sent"); $("#lkIn").value = q; doLook(false); });
+      out.querySelectorAll("[data-write]").forEach((b) => b.addEventListener("click", (e) => openWriter(b.dataset.write, e)));
+      bindSay(out);
+      if (!live) { remember(q); const [x, y] = center($("#lkGo")); FX.ring(x, y, { vr: 5, max: 28 }); }
+      return;
+    }
+    // Phân tích câu
+    if (!JPCH.test(q)) { out.innerHTML = `<div class="lk-empty">Hãy dán một câu có chữ tiếng Nhật.</div>`; return; }
+    if (!G.analyze) { out.innerHTML = `<div class="lk-empty">Bản này chưa hỗ trợ phân tích câu.</div>`; return; }
+    remember(q);
+    out.innerHTML = `<div class="lk-load"><i></i><i></i><i></i><br>Đang phân tích trên tiengnhat.online…</div>`;
+    $("#lkGo").disabled = true;
+    const r = await G.analyze(q);
+    $("#lkGo").disabled = false;
+    if (!r?.ok) { out.innerHTML = `<div class="lk-empty">⚠ ${esc(r?.error || "Không phân tích được")}<br>Dưới đây là <b>phân tích sơ bộ ngay trên máy</b> (theo từ điển Sổ Tay, chưa có bản dịch cả câu).</div>` + localAnalyze(q); bindSay(out); return; }
+    out.innerHTML = r.sentences.map((s) => `<div class="lk-sent">
+      <div class="jp" data-say="${esc(s.jp)}" title="Bấm để nghe">${esc(s.jp)} 🔊</div>
+      ${s.ro ? `<div class="ro">${esc(s.ro)}</div>` : ""}${s.vi ? `<div class="vi">🇻🇳 ${esc(s.vi)}</div>` : ""}
+      ${s.words?.length ? `<div class="lk-h">TÁCH TỪ</div><div class="lk-seg">${s.words.map((w, i) => `<div style="--i:${i}" data-say="${esc(w.r || w.w)}" title="${esc([w.base && w.base !== w.w ? "Thể gốc: " + w.base : "", w.pos].filter(Boolean).join(" · "))}"><small>${esc(w.r && w.r !== w.w ? w.r : "")}</small><b>${esc(w.w)}</b><small>${esc(w.ro || "")}</small>${w.pos ? `<small class="pos">${esc(w.pos)}</small>` : ""}${w.vi ? `<small>${esc(w.vi)}</small>` : ""}</div>`).join("")}</div>` : ""}
+      ${s.grammar?.length ? `<div class="lk-h">NGỮ PHÁP</div><div class="lk-gram">${s.grammar.map((g) => `<div><b>${esc(g.p)}</b> — ${esc(g.vi)}</div>`).join("")}</div>` : ""}
+    </div>`).join("");
+    bindSay(out);
+    const [x, y] = center(out); FX.ring(x, y - 80, { vr: 6, max: 34 }); FX.burst(x, y - 80, 40, { speed: 6 });
+  }
+
+  // ——— ✍️ CÁCH VIẾT & LUYỆN VIẾT CHỮ HÁN (nét KanjiVG, chấm nét như trang) ———
+  const SVGNS = "http://www.w3.org/2000/svg";
+  let wr = null; // { k, paths, tpl, tab, anim, mode, k_, done, scores, user, free, ghost }
+  const grid = `<line x1="54.5" y1="2" x2="54.5" y2="107"/><line x1="2" y1="54.5" x2="107" y2="54.5"/><rect x="1" y="1" width="107" height="107" rx="6"/>`;
+  async function openWriter(k, ev) {
+    const paths = await G.strokes?.(k).catch(() => null);
+    if (!paths?.length) { toast("Chưa có dữ liệu nét viết cho chữ này"); return; }
+    wr = { k, paths, tpl: paths.map((d) => Stroke.samplePath(d)), tab: "order", mode: "guided", ghost: true, kk: 0, done: [], scores: [], user: [], free: [] };
+    $("#lkOut").hidden = true; $("#lkForm").hidden = true; $("#lkHist").hidden = true; document.querySelector(".lk-tabs").hidden = true;
+    const box = $("#lkWriter"); box.hidden = false;
+    const x = KJ?.[k];
+    box.innerHTML = `<div class="wr-head"><div class="wr-k">${esc(k)}</div><div><b>${esc(x?.vi || "")}</b><div class="meta">${paths.length} nét${x?.on?.length ? ` · On ${esc(x.on.join("・"))}` : ""}${x?.kun?.length ? ` · Kun ${esc(x.kun.join("・"))}` : ""}</div></div><button class="ib sm" id="wrBack" title="Quay lại">↩</button></div>
+      <div class="tabs wr-tabs"><button data-t="order" class="on">🎬 Thứ tự nét</button><button data-t="practice">✍️ Luyện viết</button></div>
+      <div id="wrBody"></div>
+      <p class="wr-lic">Nét chữ: KanjiVG © Ulrich Apel · CC BY-SA 3.0</p>`;
+    $("#wrBack").addEventListener("click", closeWriter);
+    box.querySelectorAll(".wr-tabs button").forEach((b) => b.addEventListener("click", (e) => { wr.tab = b.dataset.t; box.querySelectorAll(".wr-tabs button").forEach((y) => y.classList.toggle("on", y === b)); FX.burst(e.clientX, e.clientY, 12, { speed: 3 }); renderWriter(); }));
+    if (ev) { FX.ring(ev.clientX, ev.clientY, { vr: 6, max: 34 }); FX.burst(ev.clientX, ev.clientY, 30, { speed: 5 }); }
+    renderWriter();
+  }
+  function closeWriter() {
+    cancelAnim(); wr = null;
+    $("#lkWriter").hidden = true; $("#lkWriter").innerHTML = "";
+    $("#lkOut").hidden = false; $("#lkForm").hidden = false; $("#lkHist").hidden = false; document.querySelector(".lk-tabs").hidden = false;
+  }
+  function cancelAnim() { if (wr?.anim) { wr.anim.forEach((a) => a.cancel?.()); wr.anim = null; } clearTimeout(wr?.animT); }
+  function svgEl(tag, attrs) { const e = document.createElementNS(SVGNS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); return e; }
+  function renderWriter() {
+    cancelAnim();
+    const body = $("#wrBody");
+    if (wr.tab === "order") {
+      body.innerHTML = `<div class="wr-stage"><svg viewBox="0 0 109 109" class="wr-svg" id="wrSvg"><g class="wr-grid">${grid}</g><g class="wr-ghost">${wr.paths.map((d) => `<path d="${d}"/>`).join("")}</g><g class="wr-ink" id="wrInk"></g><g class="wr-num" id="wrNum"></g></svg></div>
+        <div class="row2 wr-ctl"><button class="btn" id="wrPlay">▶ Xem viết</button><button class="btn ghost" id="wrPrev">◀ Nét</button><button class="btn ghost" id="wrNext">Nét ▶</button></div>
+        <p class="hint" id="wrStep">Bấm ▶ để xem cách viết, hoặc xem từng nét.</p>
+        <div class="lk-h">TỪNG NÉT (${wr.paths.length})</div>
+        <div class="wr-steps">${wr.paths.map((_, i) => `<div style="--i:${i}"><svg viewBox="0 0 109 109"><g class="wr-grid">${grid}</g>${wr.paths.map((d, j) => j <= i ? `<path d="${d}" class="${j === i ? "cur" : "old"}"/>` : "").join("")}${(() => { const p = wr.tpl[i][0]; return `<circle cx="${p[0]}" cy="${p[1]}" r="4.5" class="st"/>`; })()}</svg><small>${i + 1}</small></div>`).join("")}</div>`;
+      $("#wrPlay").addEventListener("click", () => playOrder());
+      $("#wrPrev").addEventListener("click", () => showStep(Math.max(0, (wr.step ?? wr.paths.length) - 1)));
+      $("#wrNext").addEventListener("click", () => showStep(Math.min(wr.paths.length, (wr.step ?? 0) + 1)));
+      body.querySelectorAll(".wr-steps > div").forEach((d, i) => d.addEventListener("click", () => showStep(i + 1)));
+      setTimeout(playOrder, 250);
+      return;
+    }
+    // luyện viết
+    body.innerHTML = `<div class="chips wr-mode"><label class="${wr.mode === "guided" ? "on" : ""}"><input type="radio" name="wrm" value="guided">Theo từng nét (chấm ngay)</label><label class="${wr.mode === "free" ? "on" : ""}"><input type="radio" name="wrm" value="free">Viết tự do</label><label class="${wr.ghost ? "on" : ""}"><input type="checkbox" id="wrGhost" ${wr.ghost ? "checked" : ""}>Hiện chữ mờ</label></div>
+      <div class="wr-stage pad"><svg viewBox="0 0 109 109" class="wr-svg" id="wrPadSvg"><g class="wr-grid">${grid}</g><g class="wr-ghost ${wr.ghost ? "" : "off"}">${wr.paths.map((d) => `<path d="${d}"/>`).join("")}</g><g class="wr-okink" id="wrOk"></g><g class="wr-hint" id="wrHintG"></g></svg><canvas id="wrCv"></canvas></div>
+      <div class="wr-dots" id="wrDots">${wr.paths.map((_, i) => `<i class="${i < wr.kk && wr.mode === "guided" ? "ok" : ""}"></i>`).join("")}</div>
+      <p class="wr-msg" id="wrMsg">${wr.mode === "guided" ? `Viết nét 1 / ${wr.paths.length} vào ô — giữ chuột (hoặc ngón tay) rồi kéo.` : "Viết cả chữ rồi bấm Chấm điểm."}</p>
+      <div class="row2"><button class="btn ghost" id="wrClear">🧽 Xóa</button><button class="btn ghost" id="wrHint">💡 Gợi ý nét</button>${wr.mode === "free" ? `<button class="btn" id="wrGrade">✅ Chấm điểm</button>` : ""}</div>`;
+    body.querySelectorAll('input[name="wrm"]').forEach((r) => r.addEventListener("change", () => { wr.mode = r.value; resetPractice(); renderWriter(); }));
+    $("#wrGhost").addEventListener("change", (e) => { wr.ghost = e.target.checked; renderWriter(); });
+    $("#wrClear").addEventListener("click", () => { resetPractice(); renderWriter(); });
+    $("#wrHint").addEventListener("click", () => hintStroke(wr.mode === "guided" ? wr.kk : Math.min(wr.free.length, wr.paths.length - 1)));
+    $("#wrGrade")?.addEventListener("click", gradeFree);
+    if (wr.mode === "guided") wr.done.forEach((i) => $("#wrOk").appendChild(svgEl("path", { d: wr.paths[i] })));
+    setupPad();
+  }
+  function resetPractice() { wr.kk = 0; wr.done = []; wr.scores = []; wr.free = []; }
+  // hoạt hình thứ tự nét: từng nét vẽ dần (stroke-dashoffset), số thứ tự hiện ở điểm bắt đầu
+  function playOrder() {
+    if (!wr) return; cancelAnim();
+    const ink = $("#wrInk"), num = $("#wrNum"); if (!ink) return;
+    ink.innerHTML = ""; num.innerHTML = ""; wr.anim = []; wr.step = 0;
+    let t = 0;
+    wr.paths.forEach((d, i) => {
+      const p = svgEl("path", { d }); ink.appendChild(p);
+      const L = p.getTotalLength(), dur = Math.max(260, L * 9);
+      p.style.strokeDasharray = L; p.style.strokeDashoffset = L;
+      const a = p.animate([{ strokeDashoffset: L }, { strokeDashoffset: 0 }], { duration: dur, delay: t, fill: "forwards", easing: "ease-in-out" });
+      wr.anim.push(a);
+      const s = wr.tpl[i][0], n = svgEl("text", { x: s[0] - 3, y: s[1] - 3 }); n.textContent = i + 1; n.style.opacity = 0; num.appendChild(n);
+      wr.anim.push(n.animate([{ opacity: 0, transform: "scale(.4)" }, { opacity: 1, transform: "scale(1)" }], { duration: 250, delay: t, fill: "forwards" }));
+      t += dur + 120;
+    });
+    $("#wrStep").textContent = `Đang viết ${wr.paths.length} nét…`;
+    wr.animT = setTimeout(() => { if (!wr) return; $("#wrStep") && ($("#wrStep").textContent = `Xong ${wr.paths.length} nét. Chuyển sang "Luyện viết" để tập.`); const r = $("#wrSvg")?.getBoundingClientRect(); if (r) { FX.ring(r.left + r.width / 2, r.top + r.height / 2, { vr: 5, max: 30 }); FX.burst(r.left + r.width / 2, r.top + r.height / 2, 26, { speed: 4 }); } wr.step = wr.paths.length; }, t);
+  }
+  function showStep(n) {
+    if (!wr) return; cancelAnim(); wr.step = n;
+    const ink = $("#wrInk"), num = $("#wrNum"); ink.innerHTML = ""; num.innerHTML = "";
+    wr.paths.slice(0, n).forEach((d, i) => {
+      const p = svgEl("path", { d, class: i === n - 1 ? "cur" : "" }); ink.appendChild(p);
+      if (i === n - 1) { const L = p.getTotalLength(); p.style.strokeDasharray = L; p.animate([{ strokeDashoffset: L }, { strokeDashoffset: 0 }], { duration: Math.max(260, L * 9), fill: "forwards" }); }
+      const s = wr.tpl[i][0], t = svgEl("text", { x: s[0] - 3, y: s[1] - 3 }); t.textContent = i + 1; num.appendChild(t);
+    });
+    $("#wrStep").textContent = n ? `Nét ${n} / ${wr.paths.length}` : "Chưa có nét nào";
+  }
+  function hintStroke(i) {
+    const g = $("#wrHintG"); if (!g || i == null || i >= wr.paths.length) return;
+    g.innerHTML = ""; const p = svgEl("path", { d: wr.paths[i] }); g.appendChild(p);
+    const L = p.getTotalLength(); p.style.strokeDasharray = L;
+    p.animate([{ strokeDashoffset: L, opacity: 1 }, { strokeDashoffset: 0, opacity: 1, offset: .7 }, { strokeDashoffset: 0, opacity: 0 }], { duration: 1500, fill: "forwards" });
+    const s = wr.tpl[i][0], t = svgEl("text", { x: s[0] - 3, y: s[1] - 3, class: "hn" }); t.textContent = i + 1; g.appendChild(t);
+    t.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 1500, fill: "forwards" });
+  }
+  function setupPad() {
+    const cv = $("#wrCv"), stage = cv.parentElement, dpr = devicePixelRatio || 1;
+    const size = stage.clientWidth; cv.width = size * dpr; cv.height = size * dpr; cv.style.width = cv.style.height = size + "px";
+    const ctx = cv.getContext("2d"); ctx.scale(dpr, dpr); ctx.lineCap = ctx.lineJoin = "round";
+    const sc = 109 / size; let cur = null;
+    const drawAll = () => { ctx.clearRect(0, 0, size, size); ctx.strokeStyle = "#fff"; ctx.lineWidth = size / 109 * 4.2; ctx.shadowColor = `hsl(${cfg.hue} 100% 70%)`; ctx.shadowBlur = 8; for (const st of (wr.mode === "free" ? wr.free : []).concat(cur ? [cur] : [])) { ctx.beginPath(); st.forEach(([x, y], i) => (i ? ctx.lineTo(x / sc, y / sc) : ctx.moveTo(x / sc, y / sc))); ctx.stroke(); } };
+    drawAll();
+    const pos = (e) => { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left) * sc, (e.clientY - r.top) * sc]; };
+    cv.addEventListener("pointerdown", (e) => { e.preventDefault(); try { cv.setPointerCapture(e.pointerId); } catch {} cur = [pos(e)]; drawAll(); });
+    cv.addEventListener("pointermove", (e) => { if (!cur) return; cur.push(pos(e)); drawAll(); if (Math.random() < 0.25 && cfg.fx !== "off") FX.burst(e.clientX, e.clientY, 1, { speed: 1.2 }); });
+    const up = (e) => {
+      if (!cur) return; const st = cur; cur = null;
+      if (st.length < 2) { drawAll(); return; }
+      if (wr.mode === "free") { wr.free.push(st); drawAll(); $("#wrMsg").textContent = `Đã viết ${wr.free.length} / ${wr.paths.length} nét. Viết xong bấm Chấm điểm.`; return; }
+      // theo từng nét: chấm ngay
+      const user = Stroke.resample(st), r = Stroke.checkStroke(user, wr.tpl, wr.kk, wr.done);
+      const msg = $("#wrMsg"); drawAll();
+      if (r.ok) {
+        wr.done.push(wr.kk); wr.scores.push(r.score || 70);
+        const p = svgEl("path", { d: wr.paths[wr.kk], class: r.level }); $("#wrOk").appendChild(p);
+        const L = p.getTotalLength(); p.style.strokeDasharray = L; p.animate([{ strokeDashoffset: L }, { strokeDashoffset: 0 }], { duration: 260, fill: "forwards" });
+        $("#wrDots").children[wr.kk]?.classList.add(r.level === "good" ? "ok" : "meh");
+        tone(true); navigator.vibrate?.(10);
+        const end = st.at(-1), cr = cv.getBoundingClientRect(); FX.burst(cr.left + end[0] / sc, cr.top + end[1] / sc, r.level === "good" ? 18 : 8, { speed: 3 });
+        wr.kk++;
+        msg.className = "wr-msg " + r.level;
+        if (wr.kk >= wr.paths.length) return finishGuided();
+        msg.textContent = `${r.msg} Tiếp: nét ${wr.kk + 1} / ${wr.paths.length}.`;
+      } else {
+        tone(false); navigator.vibrate?.([25, 30, 25]);
+        msg.className = "wr-msg bad"; msg.textContent = r.msg;
+        stage.classList.remove("shake"); void stage.offsetWidth; stage.classList.add("shake");
+        hintStroke(r.matchIndex != null ? wr.kk : wr.kk);
+      }
+    };
+    cv.addEventListener("pointerup", up); cv.addEventListener("pointercancel", up);
+  }
+  function stars(score) { return score >= 85 ? 3 : score >= 65 ? 2 : score >= 40 ? 1 : 0; }
+  function celebrate(st) { const r = $("#wrCv").getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2; if (st) { FX.confetti(x, y, 30 + st * 30); FX.ring(x, y, { vr: 8, max: 44, w: 5 }); FX.burst(x, y, 40 + st * 20, { speed: 7 }); } }
+  function finishGuided() {
+    const sc = Math.round(wr.scores.reduce((a, b) => a + b, 0) / wr.scores.length), st = stars(sc);
+    $("#wrMsg").className = "wr-msg good";
+    $("#wrMsg").innerHTML = `🎉 Viết xong <b>${esc(wr.k)}</b>! Điểm ${sc}/100 · ${"⭐".repeat(st)}${"☆".repeat(3 - st)} — bấm Xóa để viết lại, hoặc thử "Viết tự do".`;
+    celebrate(st);
+  }
+  function gradeFree() {
+    if (!wr.free.length) { $("#wrMsg").textContent = "Hãy viết chữ trước đã."; return; }
+    const res = Stroke.checkWhole(wr.free.map((s) => Stroke.resample(s)), wr.tpl), st = stars(res.score);
+    const bad = res.strokes.map((s, i) => ({ ...s, i })).filter((s) => s.level !== "good").slice(0, 4);
+    $("#wrMsg").className = "wr-msg " + (st >= 2 ? "good" : st ? "ok" : "bad");
+    $("#wrMsg").innerHTML = `<b>${res.score}/100</b> ${"⭐".repeat(st)}${"☆".repeat(3 - st)} · hình dạng ${res.shape} · cân đối ${res.balance}<br>${[...res.notes, ...bad.map((s) => s.msg)].map(esc).join("<br>") || "Chữ rất đẹp!"}`;
+    celebrate(st);
+  }
+  // ——— PHÂN TÍCH SƠ BỘ trên máy (khi máy chủ phân tích bận): tách từ dài nhất theo từ điển Sổ Tay + trợ từ/đuôi câu thông dụng ———
+  const PARTS = [
+    ["しています", "shite imasu", "đang làm (する → している)"], ["していました", "shite imashita", "đã đang làm"], ["しました", "shimashita", "đã làm (する)"], ["します", "shimasu", "làm (する, lịch sự)"], ["して", "shite", "làm rồi… (thể て của する)"],
+    ["ています", "te imasu", "đang / trạng thái (V-ている)"], ["ていません", "te imasen", "chưa / không đang (V-ていない)"], ["てください", "te kudasai", "hãy làm ~ (yêu cầu lịch sự)"],
+    ["ませんでした", "masen deshita", "đã không (quá khứ phủ định lịch sự)"], ["ました", "mashita", "đã ~ (quá khứ lịch sự)"], ["ません", "masen", "không ~ (phủ định lịch sự)"],
+    ["ましょう", "mashou", "cùng ~ nào (rủ rê)"], ["たいです", "tai desu", "muốn ~"], ["たい", "tai", "muốn ~"], ["でした", "deshita", "đã là (quá khứ của です)"],
+    ["ではありません", "dewa arimasen", "không phải là"], ["じゃありません", "ja arimasen", "không phải là"], ["です", "desu", "là (lịch sự)"], ["ます", "masu", "đuôi động từ lịch sự"],
+    ["から", "kara", "từ ~ / vì ~"], ["まで", "made", "đến ~"], ["より", "yori", "hơn ~ / từ ~"], ["けど", "kedo", "nhưng"], ["が", "ga", "trợ từ chủ ngữ / nhưng"],
+    ["は", "wa", "trợ từ chủ đề"], ["を", "o", "trợ từ tân ngữ"], ["に", "ni", "chỉ nơi chốn / thời điểm / đối tượng"], ["へ", "e", "chỉ hướng"], ["で", "de", "nơi diễn ra / phương tiện"],
+    ["と", "to", "và / cùng với / trích dẫn"], ["も", "mo", "cũng"], ["の", "no", "của / bổ nghĩa danh từ"], ["か", "ka", "câu hỏi"], ["ね", "ne", "nhỉ (tìm đồng tình)"], ["よ", "yo", "đấy (nhấn mạnh)"], ["や", "ya", "và (liệt kê chưa hết)"],
+  ];
+  function localAnalyze(text) {
+    const dict = new Map(); for (const w of allWords) { if (!dict.has(w.jp)) dict.set(w.jp, w); if (w.kana && !dict.has(w.kana)) dict.set(w.kana, w); }
+    const out = []; let i = 0; const s = text.replace(/\s+/g, "");
+    while (i < s.length) {
+      // từ điển: khớp dài nhất · ngữ pháp: đuôi/trợ từ dài nhất — từ chỉ có kana không được "ăn" mất đuôi ngữ pháp (vd. してい ≠ 師弟, ます ≠ 増す)
+      let dw = null, dl = 0, pp = null, pl = 0;
+      for (let L = Math.min(12, s.length - i); L >= 1; L--) {
+        const sub = s.slice(i, i + L);
+        if (!dw && dict.has(sub)) { dw = dict.get(sub); dl = L; }
+        if (!pp) { const p = PARTS.find((x) => x[0] === sub); if (p) { pp = p; pl = L; } }
+      }
+      const kanaOnly = dw && !/[㐀-鿿゠-ヿ々]/.test(s.slice(i, i + dl));
+      let hit = null;
+      if (dw && (!pp || dl > pl && (!kanaOnly || dl >= pl + 2))) hit = { w: s.slice(i, i + dl), r: dw.kana || "", ro: dw.ro, vi: dw.vi, pos: "" };
+      else if (pp) hit = { w: pp[0], r: "", ro: pp[1], vi: pp[2], pos: "ngữ pháp" };
+      if (!hit) { const ch = s[i]; hit = { w: ch, r: "", ro: /[぀-ヿ]/.test(ch) ? "" : "", vi: /[。、！？]/.test(ch) ? "" : "?", pos: "" }; }
+      const last = out[out.length - 1];
+      if (hit.vi === "?" && last?.vi === "?") last.w += hit.w; else out.push(hit);
+      i += hit.w.length;
+    }
+    const gram = out.filter((x) => x.pos === "ngữ pháp");
+    const ro = out.map((x) => x.ro || "").filter(Boolean).join(" ");
+    return `<div class="lk-sent"><div class="jp" data-say="${esc(text)}">${esc(text)} 🔊</div>${ro ? `<div class="ro">${esc(ro)}</div>` : ""}
+      <div class="lk-h">TÁCH TỪ (SƠ BỘ)</div><div class="lk-seg">${out.filter((x) => x.vi !== "").map((x, i) => `<div style="--i:${i}" data-say="${esc(x.r || x.w)}"><small>${esc(x.r)}</small><b>${esc(x.w)}</b><small>${esc(x.ro || "")}</small>${x.pos ? `<small class="pos">${x.pos}</small>` : ""}<small>${esc(x.vi === "?" ? "(chưa có trong Sổ Tay)" : x.vi)}</small></div>`).join("")}</div>
+      ${gram.length ? `<div class="lk-h">NGỮ PHÁP NHẬN RA</div><div class="lk-gram">${[...new Map(gram.map((g) => [g.w, g])).values()].map((g) => `<div><b>${esc(g.w)}</b> — ${esc(g.vi)}</div>`).join("")}</div>` : ""}</div>`;
+  }
+
   // ——— BẢNG TÙY CHỈNH ———
   function openPanel(id, ev) {
     const p = $("#" + id), r = card.getBoundingClientRect();
@@ -558,6 +858,8 @@
   $("#btnHide").addEventListener("click", () => G.hide());
   $("#btnQuiz").addEventListener("click", (e) => (document.body.classList.contains("quiz") ? stopQuiz() : startQuiz(e)));
   $("#qzExit").addEventListener("click", () => stopQuiz());
+  $("#btnLook").addEventListener("click", (e) => (document.body.classList.contains("look") ? closeLook() : openLook(e)));
+  $("#lkExit").addEventListener("click", () => closeLook());
   $("#btnMode").addEventListener("click", () => setMode(cfg.mode === "compact" ? "full" : "compact"));
   $("#btnCorner").addEventListener("click", (e) => { $("#cornerPick").classList.toggle("open"); FX.burst(e.clientX, e.clientY, 12, { speed: 3 }); });
   document.querySelectorAll(".cp-grid button").forEach((b) => b.addEventListener("click", async (e) => {

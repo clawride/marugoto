@@ -30,6 +30,7 @@
   <header class="hd">
     <div class="logo"><span class="mark">日</span><span><b>tiengnhat</b>.online</span></div>
     <div class="hd-btns">
+      <button class="ib" id="btnLook" title="Tra cứu từ vựng, chữ Hán, phân tích câu">🔍</button>
       <button class="ib" id="btnQuiz" title="Kiểm tra nhanh từ vựng">🎯</button>
       <button class="ib desk" id="btnMode" title="Rút gọn / đầy đủ">▭</button>
       <button class="ib desk" id="btnCorner" title="Đưa vào góc / thu gọn vào góc">◲</button>
@@ -75,6 +76,18 @@
       <div class="w-hint">← vuốt đổi từ · giữ để nghe →</div>
       <div class="w-timer"><i id="wBar"></i></div>
     </div>
+  </section>
+
+  <section id="sLook" class="sec">
+    <div class="qz-head"><b>🔍 Tra cứu</b><button class="ib sm" id="lkExit" title="Đóng tra cứu">✕</button></div>
+    <div class="lk-tabs tabs"><button data-t="dict" class="on">📖 Từ &amp; chữ Hán</button><button data-t="sent">🧩 Phân tích câu</button></div>
+    <form class="lk-form" id="lkForm" autocomplete="off">
+      <textarea id="lkIn" rows="1" placeholder="Gõ từ: 勉強 · べんきょう · benkyou · học tập"></textarea>
+      <button class="btn" id="lkGo" type="submit">Tra</button>
+    </form>
+    <div class="lk-hist" id="lkHist"></div>
+    <div class="lk-out" id="lkOut"></div>
+    <div class="lk-writer" id="lkWriter" hidden></div>
   </section>
 
   <section id="sQuiz" class="sec">
@@ -170,6 +183,7 @@
 </div>
 <script src="/gadget/web.js"></script>
 <script src="/gadget/fx.js"></script>
+<script src="/gadget/stroke.js"></script>
 <script src="/gadget/renderer.js"></script>
 <div class="web-foot">Kéo thẻ để di chuyển · <a href="/">tiengnhat.online</a></div>
 </body>
