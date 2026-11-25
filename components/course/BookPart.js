@@ -7,7 +7,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Player, AudioSetup } from "@/components/Listen";
 import { speakLines } from "@/lib/tts";
-import { scriptLines, wordLines, notesLines } from "@/lib/listenSources";
+import { scriptLines, notesLines, trackLines, tracksScripts } from "@/lib/listenSources";
 import { shuffle } from "@/lib/data";
 import { sfx } from "@/lib/sfx";
 import Rom from "@/components/Rom";
@@ -33,6 +33,7 @@ export function Pic({ img, em, alt, big }) {
   if (img && !bad) return <img className={`bkimg ${big ? "big" : ""}`} src={img} alt={alt || ""} title={alt || ""} loading="lazy" referrerPolicy="no-referrer" onError={() => setBad(true)} />;
   return em ? <span className="bkem" title={alt}>{em}</span> : null;
 }
+const ByTrack = createContext(null); // lời thoại theo số track trong cả bài (để track không kèm lời thoại vẫn đọc được)
 const Prefix = createContext("sa"); // tên file audio của sách: sa060.mp3 (Katsudou) · sc054.mp3 (Rikai)
 const CIRCLED = "⓪①②③④⑤⑥⑦⑧⑨⑩";
 const say = (jp) => speakLines([{ t: jp }], { rate: 0.85 });
@@ -231,6 +232,7 @@ function Act({ A, lib, show, id }) {
   const [ico, jpName, viName] = KIND[A.kind] || KIND.other;
   const [ans, setAns] = useState(false);
   const prefix = useContext(Prefix);
+  const byTrack = useContext(ByTrack);
   const tracks = tracksOf(A.audio);
   if (Array.isArray(A.words)) A = { ...A, words: { items: A.words } }; // Rikai: words là mảng từ
   // dạng bài tập bấm được: theo kind, hoặc đoán từ câu hỏi (bài đọc có câu ○/×, chọn ngày…)
@@ -265,7 +267,7 @@ function Act({ A, lib, show, id }) {
       ))}
       {A.fields?.length > 0 && <div className="bkfields">{A.fields.map((f, i) => <span key={i}><b className="jpt">{f.jp}</b>{show.ro && f.ro && <i> {f.ro}</i>}{show.vi && f.vi && <small> · {f.vi}</small>}：<u>　　　　</u></span>)}</div>}
       {tracks.length > 0 && !A.scripts?.length && (
-        <div className="bktracks">{tracks.map((t) => <Player key={t} file={trackKey(t, prefix)} lib={lib} autoPlay={false} tts={wordLines(A)} />)}</div>
+        <div className="bktracks">{tracks.map((t, i) => <Player key={t} file={trackKey(t, prefix)} lib={lib} autoPlay={false} tts={trackLines(A, t, i, tracks.length, byTrack)} />)}</div>
       )}
       {A.words && (
         <div className="bkwords">
@@ -334,6 +336,7 @@ export default function BookPart({ course, book: bk, lesson, stars, onQuiz }) {
   const [kana, setKana] = useOpt("bk_kana", true);
   const show = { ro, vi, kana };
   const lib = book.lib || course.audio; // A2-1: mỗi sách một thư mục audio riêng
+  const byTrack = useMemo(() => tracksScripts(B), [B]);
   const hasKana = useMemo(() => JSON.stringify(B || {}).includes('"kana":'), [B]);
   // Mục lục bên trái: chỉ mở sẵn phần đầu, các phần chưa tới thì đóng để trang không quá dài
   const [openS, setOpenS] = useState(() => new Set([0]));
@@ -369,7 +372,7 @@ export default function BookPart({ course, book: bk, lesson, stars, onQuiz }) {
   if (B === undefined) return <p className="hint">Đang tải bài học…</p>;
   if (!B) return <p className="panel hint">Bài này chưa có phần học theo sách {book.short}.</p>;
   return (
-    <Prefix.Provider value={(typeof book.prefix === "function" ? book.prefix(lesson) : book.prefix) || "sa"}>
+    <ByTrack.Provider value={byTrack}><Prefix.Provider value={(typeof book.prefix === "function" ? book.prefix(lesson) : book.prefix) || "sa"}>
     <div className="bklayout">
     <aside className={`bktoc ${tocOpen ? "open" : ""}`} aria-label="Mục lục bài học">
       <button type="button" className="bktocbtn" aria-expanded={tocOpen} onClick={() => setTocOpen((v) => !v)}>📑 Mục lục <span aria-hidden="true">{tocOpen ? "▴" : "▾"}</span></button>
@@ -467,6 +470,6 @@ export default function BookPart({ course, book: bk, lesson, stars, onQuiz }) {
       )}
     </div>
     </div>
-    </Prefix.Provider>
+    </Prefix.Provider></ByTrack.Provider>
   );
 }

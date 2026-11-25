@@ -126,13 +126,14 @@ export function Player({ file, tts, autoPlay = true, onPlayed, lib = A21_AUDIO, 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => () => { stopSpeak(); audio.current?.pause(); }, []);
-  const disabled = (mode === "tts" && !ttsAvailable() && !pre) || (!playing && plays >= maxPlays);
+  const empty = mode === "tts" && !tts?.length; // chưa có audio sách và cũng không có lời thoại để giọng máy đọc
+  const disabled = empty || (mode === "tts" && !ttsAvailable() && !pre) || (!playing && plays >= maxPlays);
   return (
     <div className={`player ${playing ? "on" : ""}`} onPointerEnter={() => pre && warmClip(tts)} onFocus={() => pre && warmClip(tts)}>
       <button className="playbtn" onClick={play} disabled={disabled} aria-label="Phát">{playing ? "❚❚" : "▶"}</button>
       <div className="pl-info">
-        <b>{playing ? (prep ? "Đang chuẩn bị giọng đọc…" : "Đang phát…") : plays ? "Nghe lại" : "Bấm để nghe"}</b>
-        <span>{mode === "file" ? `Audio sách · ${file}` : pre ? `Giọng đọc tạo sẵn · VOICEVOX:${pre.voices.join("・")}` : !ttsAvailable() ? "Trình duyệt không hỗ trợ giọng đọc" : hasNaturalVoice() ? `Giọng Natural · ${[...new Set(naturalVoices().map((v) => v.name.replace(/^Microsoft\s+/, "").replace(/\s*Online.*$|\s*\(.*$|\s*-.*$/, "")))].slice(0, 4).join("・")}` : "Giọng đọc máy · mở bằng Microsoft Edge để nghe giọng Natural mượt hơn"}{maxPlays < 99 ? ` · còn ${Math.max(0, maxPlays - plays)} lượt nghe` : ""}</span>
+        <b>{empty ? "Chưa có lời thoại cho track này" : playing ? (prep ? "Đang chuẩn bị giọng đọc…" : "Đang phát…") : plays ? "Nghe lại" : "Bấm để nghe"}</b>
+        <span>{empty ? `Chọn thư mục audio sách ở đầu trang để nghe ${file || "audio gốc"}` : mode === "file" ? `Audio sách · ${file}` : pre ? `Giọng đọc tạo sẵn · VOICEVOX:${pre.voices.join("・")}` : !ttsAvailable() ? "Trình duyệt không hỗ trợ giọng đọc" : hasNaturalVoice() ? `Giọng Natural · ${[...new Set(naturalVoices().map((v) => v.name.replace(/^Microsoft\s+/, "").replace(/\s*Online.*$|\s*\(.*$|\s*-.*$/, "")))].slice(0, 4).join("・")}` : "Giọng đọc máy · mở bằng Microsoft Edge để nghe giọng Natural mượt hơn"}{maxPlays < 99 ? ` · còn ${Math.max(0, maxPlays - plays)} lượt nghe` : ""}</span>
       </div>
       <div className="wave">{Array.from({ length: 14 }, (_, i) => <i key={i} style={{ animationDelay: `${i * 0.07}s` }} />)}</div>
     </div>
