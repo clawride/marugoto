@@ -184,3 +184,77 @@ body.web .card { position: absolute; }
 
 .toast { position: absolute; left: 50%; bottom: -10px; transform: translate(-50%, 100%); padding: 7px 12px; border-radius: 10px; background: rgba(20,12,36,.92); border: 1px solid var(--line); font-size: 12px; white-space: nowrap; opacity: 0; transition: all .35s cubic-bezier(.2,1.5,.4,1); pointer-events: none; z-index: 30; }
 .toast.show { opacity: 1; transform: translate(-50%, 0); bottom: 10px; }
+
+/* ——— chế độ RÚT GỌN: hạng + từ vựng nhỏ + dải CPU/GPU/RAM/mạng ——— */
+.compact .rk-top, .compact #sTop, .compact .w-ro, .compact .w-src, .compact .srow .sub { display: none !important; }
+.compact .card { padding: 10px 12px 12px; }
+.compact .sec { margin-top: 8px; }
+.compact .rank { padding: 6px 8px; }
+.compact .av { width: 30px; height: 30px; font-size: 14px; }
+.compact .rk-num b { font-size: 16px; }
+.compact .word { grid-template-columns: 64px 1fr; padding: 9px; gap: 10px; }
+.compact .w-pic { width: 64px; height: 64px; border-radius: 11px; }
+.compact .w-em { font-size: 32px; }
+.compact .w-jp { font-size: 20px; }
+.mini { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.mini > div { padding: 6px 7px 7px; border-radius: 10px; background: rgba(255,255,255,.06); border: 1px solid var(--line); min-width: 0; }
+.mini b { display: block; font-size: 10px; letter-spacing: .5px; color: var(--mut); }
+.mini span { display: block; font-size: 12.5px; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mini .bar { height: 4px; margin-top: 4px; }
+
+/* ——— bảng chọn góc ——— */
+.cornerpick { position: absolute; top: 46px; right: 12px; z-index: 25; width: 196px; padding: 10px; border-radius: 14px; font-size: 11.5px;
+  background: rgba(16,10,32,.96); border: 1px solid var(--line); box-shadow: 0 12px 30px rgba(0,0,0,.45), 0 0 20px hsla(var(--hue), 100%, 60%, .25);
+  transform-origin: top right; transform: scale(.6) translateY(-8px); opacity: 0; pointer-events: none; transition: all .35s cubic-bezier(.2,1.6,.4,1); }
+.cornerpick.open { transform: none; opacity: 1; pointer-events: auto; }
+.cornerpick b { display: block; color: hsl(var(--hue) 100% 85%); margin: 2px 0 6px; }
+.cp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 8px; }
+.cp-grid button { padding: 8px 0; border-radius: 10px; border: 1px solid var(--line); background: rgba(255,255,255,.06); font-size: 16px; transition: all .2s; }
+.cp-grid button:hover { background: linear-gradient(135deg, var(--c1), var(--c2)); transform: scale(1.06); box-shadow: 0 0 14px var(--c1); }
+.cp-grid button.on { border-color: var(--c1); box-shadow: inset 0 0 0 1px var(--c1); }
+
+/* ——— kéo gần góc: viền sáng báo sắp hít ——— */
+.card.magnet .ring { padding: 3.5px; filter: brightness(1.6) drop-shadow(0 0 10px var(--c1)); }
+.card.magnet .aura { opacity: 1; }
+
+/* ——— co vào góc / bung ra từ góc ——— */
+.card.shrink { animation: shrink .45s cubic-bezier(.6,0,.9,.4) forwards; }
+@keyframes shrink { to { transform: scale(.08) rotate(-12deg); opacity: 0; filter: blur(6px) brightness(2.2); } }
+.card.grow { animation: grow .7s cubic-bezier(.2,1.6,.35,1); }
+@keyframes grow { from { transform: scale(.1) rotate(10deg); opacity: 0; filter: blur(8px) brightness(2.5); } to { transform: none; opacity: 1; filter: none; } }
+.fx-off .card.shrink, .fx-off .card.grow { animation-duration: .01s; }
+
+/* ——— QUẢ CẦU ở góc ——— */
+#orb { display: none; position: fixed; left: 50%; top: 50%; width: 64px; height: 64px; margin: -32px 0 0 -32px; cursor: pointer; z-index: 40; }
+body.orb #orb { display: block; animation: orbIn .7s cubic-bezier(.2,1.8,.35,1); }
+body.orb .card { display: none; }
+@keyframes orbIn { from { transform: scale(0) rotate(-90deg); filter: brightness(3); } to { transform: none; } }
+.orb-ring { position: absolute; inset: -5px; border-radius: 50%; background: conic-gradient(from var(--ang), var(--c1), var(--c2), var(--c3), var(--c1)); animation: spin 4s linear infinite;
+  -webkit-mask: radial-gradient(circle, transparent 31px, #000 32px); mask: radial-gradient(circle, transparent 31px, #000 32px); filter: drop-shadow(0 0 8px var(--c1)); }
+.orb-core { position: absolute; inset: 0; border-radius: 50%; display: grid; place-items: center; overflow: hidden;
+  background: radial-gradient(circle at 32% 26%, rgba(255,255,255,.55) 0 12%, transparent 36%), conic-gradient(var(--c1) calc(var(--cpu, 0) * 1%), hsla(calc(var(--hue) + 250), 45%, 18%, .95) 0);
+  box-shadow: inset 0 0 0 4px hsla(calc(var(--hue) + 250), 45%, 14%, .92), 0 6px 18px rgba(0,0,0,.45); transition: transform .25s cubic-bezier(.2,1.8,.4,1); }
+/* nguyên tố: --el = màu nguyên tố (lib/data.js ELEM của trang), biểu tượng giống trang (gi.yatta.moe UI_Buff_Element_*) */
+#orb { --el: #4fd1b0; }
+#orb .orb-ring { background: conic-gradient(from var(--ang), var(--el), #fff, var(--el), color-mix(in srgb, var(--el) 40%, #000), var(--el)); filter: drop-shadow(0 0 9px var(--el)); }
+#orb .orb-core { background: radial-gradient(circle at 32% 26%, rgba(255,255,255,.5) 0 12%, transparent 36%), conic-gradient(var(--el) calc(var(--cpu, 0) * 1%), color-mix(in srgb, var(--el) 22%, #0b0a18) 0); }
+.orb-core img, .orb-core span { position: absolute; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; }
+.orb-core span { font: 800 22px "Yu Gothic UI", sans-serif; color: #fff; background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--el) 70%, #fff), color-mix(in srgb, var(--el) 70%, #000)); text-shadow: 0 0 10px #fff8; }
+.orb-core img { object-fit: contain; padding: 4px; background: radial-gradient(circle, color-mix(in srgb, var(--el) 35%, #0b0a18) 55%, color-mix(in srgb, var(--el) 60%, #000)); filter: drop-shadow(0 0 6px var(--el)); animation: elFloat 3s ease-in-out infinite; }
+.orb-core img[hidden] { display: none; }
+.orb-core img:not([hidden]) + span { display: none; }
+@keyframes elFloat { 50% { transform: scale(1.08) rotate(6deg); } }
+/* đổi nguyên tố: biểu tượng xoay vào, lõi chớp sáng */
+#orb.swap .orb-core img, #orb.swap .orb-core span { animation: elSwap .7s cubic-bezier(.2,1.7,.35,1); }
+@keyframes elSwap { 0% { transform: scale(.2) rotate(-200deg); opacity: 0; filter: brightness(3) blur(3px); } 100% { transform: none; opacity: 1; filter: none; } }
+#orb.swap .orb-core { animation: elFlash .7s ease-out; }
+@keyframes elFlash { 0% { box-shadow: inset 0 0 0 4px #fff, 0 0 30px 10px var(--el); } 100% { box-shadow: inset 0 0 0 4px color-mix(in srgb, var(--el) 22%, #0b0a18), 0 6px 18px rgba(0,0,0,.45); } }
+.fx-off #orb.swap * { animation: none !important; }
+#orb .orb-badge { background: linear-gradient(135deg, var(--el), color-mix(in srgb, var(--el) 55%, #000)); box-shadow: 0 0 10px var(--el); }
+#orb:hover .orb-core { transform: scale(1.12); }
+#orb:hover .orb-ring { animation-duration: 1s; }
+.orb-badge { position: absolute; right: -8px; bottom: -6px; min-width: 22px; padding: 1px 5px; border-radius: 99px; font-size: 10.5px; font-weight: 800; text-align: center; color: #fff;
+  background: linear-gradient(135deg, var(--c1), var(--c2)); box-shadow: 0 0 10px var(--c1); }
+.orb-badge:empty { display: none; }
+#orb.pulse .orb-core { animation: orbPulse 1.2s ease-in-out infinite alternate; }
+@keyframes orbPulse { to { box-shadow: inset 0 0 0 4px hsla(calc(var(--hue) + 250), 45%, 14%, .92), 0 0 26px 6px var(--c1); } }

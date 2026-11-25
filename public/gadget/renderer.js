@@ -27,6 +27,7 @@
     // ảnh nền: đường dẫn trên máy (bản desktop) hoặc blob:/data:/https: (bản web)
     $(".bgimg").style.backgroundImage = !cfg.bg ? "none" : /^(blob|data):/.test(cfg.bg) ? `url("${cfg.bg}")` : /^https?:/.test(cfg.bg) ? `url("${cfg.bg}?v=${cfg._bgv || 0}")` : `url("file:///${cfg.bg.replace(/\\/g, "/")}?v=${cfg._bgv || 0}")`;
     document.body.classList.toggle("web", G.platform === "web");
+    applyMode();
     FX.level = cfg.fx; FX.setHue(cfg.hue); FX.ambient(cfg.fx === "max");
     document.body.classList.toggle("fx-off", cfg.fx === "off");
     $("#sRank").classList.toggle("hidden", !cfg.show.rank);
@@ -42,24 +43,90 @@
     renderSys(); renderUser();
     restartWordTimer();
   }
+  // ——— CHẾ ĐỘ HIỂN THỊ (bản máy tính): đầy đủ / rút gọn / thu thành quả cầu ở góc ———
+  function applyMode() {
+    const m = G.platform === "web" ? "full" : cfg.mode || "full";
+    document.body.classList.toggle("compact", m === "compact");
+    document.body.classList.toggle("orb", m === "orb");
+    const bm = $("#btnMode"); if (bm) { bm.textContent = m === "compact" ? "▣" : "▭"; bm.title = m === "compact" ? "Mở đầy đủ" : "Rút gọn"; }
+    if ($("#modeSel")) $("#modeSel").value = m;
+    if ($("#zoomSel")) $("#zoomSel").value = String(cfg.zoom ?? "auto");
+    if ($("#orbElSel")) $("#orbElSel").value = cfg.orbEl || "cycle";
+    if (m === "orb" && !curEl) setOrbEl();
+    if ($("#zoomInfo")) $("#zoomInfo").textContent = cfg.zoomNow ? `Đang hiển thị ${Math.round(cfg.zoomNow * 100)}%${(cfg.zoom ?? "auto") === "auto" ? " · tự tính theo độ phân giải màn hình" : ""}` : "";
+    document.querySelectorAll(".cp-grid button").forEach((b) => b.classList.toggle("on", b.dataset.c === cfg.corner));
+  }
+  // quả cầu mang 1 trong 7 nguyên tố (cfg.orbEl, "random" = đổi mỗi lần thu)
+  const ELEMS = { anemo: ["#4fd1b0", "Wind", "風"], pyro: ["#ff8a5c", "Fire", "火"], electro: ["#c79cff", "Electric", "雷"], hydro: ["#4fa8ff", "Water", "水"], dendro: ["#8fd14f", "Grass", "草"], cryo: ["#9fe6ff", "Ice", "氷"], geo: ["#f0b93c", "Rock", "岩"] };
+  let curEl = "";
+  function setOrbEl(reroll) {
+    const K = Object.keys(ELEMS), mode = cfg.orbEl || "cycle";
+    const pick = ELEMS[mode] ? mode : mode === "cycle" ? (reroll || !curEl ? K[(K.indexOf(curEl) + 1) % K.length] : curEl) : (reroll || !curEl ? K.filter((k) => k !== curEl)[Math.floor(Math.random() * 6)] : curEl);
+    if (pick === curEl && !reroll) return;
+    curEl = pick; const [c, asset, glyph] = ELEMS[pick];
+    $("#orb").style.setProperty("--el", c);
+    $("#orbGlyph").textContent = glyph;
+    const img = $("#orbImg"); img.hidden = false; img.onerror = () => (img.hidden = true);
+    img.src = `https://gi.yatta.moe/assets/UI/UI_Buff_Element_${asset}.png`;
+    const o = $("#orb"); o.classList.remove("swap"); void o.offsetWidth; o.classList.add("swap");
+    if (document.body.classList.contains("orb") && cfg.fx !== "off") {
+      const old = cfg.hue, [x, y] = center(o); FX.setHue(Math.round(hueOf(c)));
+      FX.ring(x, y, { vr: 2.4, max: 22, w: 3 }); FX.burst(x, y, 18, { speed: 2.6 });
+      setTimeout(() => FX.setHue(old), 900);
+    }
+  }
+  // xoay vòng 7 nguyên tố mỗi 3 giây khi đang thu thành quả cầu
+  setInterval(() => { if (document.body.classList.contains("orb") && (cfg.orbEl || "cycle") === "cycle" && !document.hidden) setOrbEl(true); }, 3000);
+  const cornerXY = (c, el = card) => { const r = el.getBoundingClientRect(); return [c?.[1] === "l" ? r.left : r.right, c?.[0] === "t" ? r.top : r.bottom]; };
+  async function setMode(mode, corner) {
+    if (!G.setMode) return;
+    const was = cfg.mode || "full";
+    $("#cornerPick").classList.remove("open"); closePanels();
+    if (mode === "orb" && was !== "orb") {
+      setOrbEl(true);
+      // co vào góc: hạt bị hút về góc, thẻ xoay nhỏ lại
+      const [x, y] = cornerXY(corner || cfg.corner);
+      const r = card.getBoundingClientRect();
+      FX.shatter(r, 70); FX.ring(x, y, { vr: 5, max: 30 });
+      card.classList.add("shrink");
+      await new Promise((res) => setTimeout(res, 430));
+      card.classList.remove("shrink");
+    }
+    cfg = { ...cfg, ...(await G.setMode(mode, corner)) };
+    applyMode();
+    if (was === "orb" && mode !== "orb") {
+      // bung ra từ góc
+      card.style.transformOrigin = `${cfg.corner?.[1] === "l" ? "0" : "100%"} ${cfg.corner?.[0] === "t" ? "0" : "100%"}`;
+      card.classList.remove("grow"); void card.offsetWidth; card.classList.add("grow");
+      setTimeout(() => { card.classList.remove("grow"); card.style.transformOrigin = ""; const [x, y] = cornerXY(cfg.corner); FX.ring(x, y, { vr: 10, max: 50, w: 6 }); FX.burst(x, y, 90, { speed: 9, big: true }); }, 380);
+    } else if (mode === "orb") {
+      const oldHue = cfg.hue; FX.setHue(Math.round(hueOf(ELEMS[curEl][0]))); // hạt mang màu nguyên tố
+      setTimeout(() => { const [x, y] = center($("#orb")); FX.ring(x, y, { vr: 3, max: 24 }); FX.burst(x, y, 26, { speed: 3 }); setTimeout(() => FX.setHue(oldHue), 1500); }, 120);
+    } else {
+      const [x, y] = center(card); FX.ring(x, y, { vr: 8, max: 40 }); FX.burst(x, y, 50, { speed: 7 });
+    }
+  }
   async function setCfg(patch) { cfg = { ...cfg, ...(await G.setCfg(patch)) }; applyCfg(); }
 
   // ——— kích thước cửa sổ bám theo thẻ ———
-  new ResizeObserver(() => G.resize(card.offsetHeight)).observe(card);
+  new ResizeObserver(() => { if (!document.body.classList.contains("orb") && card.offsetHeight) G.resize(card.offsetHeight); }).observe(card);
 
   // ——— chuột xuyên qua phần viền trong suốt ———
   let ignoring = true;
   document.addEventListener("mousemove", (e) => {
-    const inCard = !!e.target.closest?.("#card");
+    const inCard = !!e.target.closest?.("#card, #orb");
     if (inCard === ignoring) { ignoring = !inCard; G.ignoreMouse(ignoring); }
   });
 
   // ——— KÉO THẢ + hiệu ứng ———
   let dragging = false, downAt = null, vel = { vx: 0, vy: 0 }, tilt = { x: 0, y: 0 }, glow = 0, dragRaf = 0;
   card.addEventListener("mousedown", (e) => {
-    if (e.button !== 0 || e.target.closest("button, input, select, label, a, .panel, .word, .rank, .tabs, form")) return;
+    if (e.button !== 0 || e.target.closest("button, input, select, label, a, .panel, .word, .rank, .tabs, form, .cornerpick")) return;
     downAt = { x: e.screenX, y: e.screenY };
   });
+  let orbDown = false;
+  $("#orb").addEventListener("mousedown", (e) => { if (e.button !== 0) return; downAt = { x: e.screenX, y: e.screenY }; orbDown = true; });
+  const dragEl = () => (document.body.classList.contains("orb") ? $("#orb") : card);
   document.addEventListener("mousemove", (e) => {
     if (!downAt || dragging) return;
     if (Math.hypot(e.screenX - downAt.x, e.screenY - downAt.y) < 4) return;
@@ -69,12 +136,16 @@
   });
   document.addEventListener("mouseup", () => {
     downAt = null;
+    if (orbDown && !dragging) { orbDown = false; setMode(cfg.lastMode && cfg.lastMode !== "orb" ? cfg.lastMode : "full"); return; } // bấm quả cầu → mở lại
+    orbDown = false;
     if (!dragging) return;
+    card.classList.remove("magnet");
     dragging = false; G.dragEnd();
     cancelAnimationFrame(dragRaf);
     card.classList.remove("dragging");
     card.style.setProperty("--rx", "0deg"); card.style.setProperty("--ry", "0deg"); card.style.setProperty("--glow", 0);
     // thả: sóng xung kích + bùng nổ hạt + nảy
+    if (document.body.classList.contains("orb")) { const [ox, oy] = center($("#orb")); FX.ring(ox, oy, { vr: 4, max: 28 }); FX.burst(ox, oy, 30, { speed: 4 }); return; }
     const [x, y] = center(card), r = card.getBoundingClientRect();
     FX.ring(x, y, { vr: 9, max: 46, w: 6 }); setTimeout(() => FX.ring(x, y, { vr: 6, max: 40, h: cfg.hue + 120 }), 90); setTimeout(() => FX.ring(x, y, { vr: 4, max: 36, h: cfg.hue + 200 }), 180);
     FX.burst(x, y, 90, { speed: 9, big: true });
@@ -82,14 +153,21 @@
     card.classList.remove("drop", "boom"); void card.offsetWidth; card.classList.add("drop", "boom");
     setTimeout(() => card.classList.remove("drop", "boom"), 800);
   });
-  G.on("drag:vel", (v) => { vel = v; });
+  G.on("drag:vel", (v) => { vel = v; card.classList.toggle("magnet", !!v.corner); });
+  G.on("snapped", (c) => {
+    if (document.body.classList.contains("orb")) return;
+    cfg.corner = cfg.anchor = c; applyMode();
+    setTimeout(() => { const [x, y] = cornerXY(c); FX.ring(x, y, { vr: 7, max: 40, w: 5 }); FX.burst(x, y, 60, { speed: 7 }); }, 60);
+    toast(`🧲 Đã hít vào góc ${{ tl: "↖ trên trái", tr: "↗ trên phải", bl: "↙ dưới trái", br: "↘ dưới phải" }[c]}`);
+  });
+  G.on("layout", (d) => { const m = cfg.mode; cfg = { ...cfg, mode: d.mode, corner: d.corner, anchor: d.anchor, zoomNow: d.zoom }; if (m !== d.mode) applyMode(); else applyMode(); });
   function dragLoop() {
     // nghiêng 3D theo vận tốc (có giảm chấn), vầng sáng mạnh dần theo tốc độ, vệt hạt phía sau
     tilt.x += (Math.max(-18, Math.min(18, -vel.vy * 1.6)) - tilt.x) * 0.18;
     tilt.y += (Math.max(-18, Math.min(18, vel.vx * 1.6)) - tilt.y) * 0.18;
     const sp = Math.hypot(vel.vx, vel.vy); glow += (Math.min(1, 0.45 + sp / 14) - glow) * 0.15;
     card.style.setProperty("--rx", tilt.x.toFixed(2) + "deg"); card.style.setProperty("--ry", tilt.y.toFixed(2) + "deg"); card.style.setProperty("--glow", glow.toFixed(3));
-    FX.trail(card.getBoundingClientRect(), vel.vx, vel.vy);
+    FX.trail(dragEl().getBoundingClientRect(), vel.vx, vel.vy);
     vel.vx *= 0.9; vel.vy *= 0.9;
     if (dragging) dragRaf = requestAnimationFrame(dragLoop);
   }
@@ -203,7 +281,7 @@
       const rk = $("#rkRank"); countUp(rk, r.me.rank);
       $("#rkSub").textContent = `${(r.me.score || 0).toLocaleString("vi-VN")} điểm Mạo Hiểm · cập nhật ${new Date(r.at).toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" })}`;
       if (lastRank && r.me.rank < lastRank) { const [x, y] = center(rk); FX.confetti(x, y, 90); FX.ring(x, y, { vr: 6 }); toast(`🎉 Lên hạng ${r.me.rank}!`); }
-      lastRank = r.me.rank;
+      lastRank = r.me.rank; $("#orbBadge").textContent = "#" + r.me.rank;
     } else {
       $("#rkRank").textContent = "—";
       $("#rkSub").textContent = cfg.user ? "Chưa có điểm trên bảng Tổng" : "Bấm để đăng nhập và xem hạng";
@@ -231,9 +309,23 @@
       const os = o.querySelector(".sub"), ns = n.querySelector(".sub"); if (os && ns) os.innerHTML = ns.innerHTML; else if (!!os !== !!ns) { box.innerHTML = html; return; }
     }
   }
+  function updateOrb() {
+    if (!sys?.cpu) return;
+    const core = $(".orb-core"); core.style.setProperty("--cpu", Math.round(sys.cpu.pct || 0));
+    const hot = (sys.cpu.pct || 0) >= 90 || pct(sys.gpu?.vramUsed, sys.gpu?.vramTotal) >= 92 || pct(sys.ram?.used, sys.ram?.total) >= 90;
+    $("#orb").classList.toggle("pulse", hot);
+    $("#orb").title = `CPU ${(sys.cpu.pct || 0).toFixed(0)}% · GPU ${(+sys.gpu?.pct || 0).toFixed(0)}% · RAM ${pct(sys.ram?.used, sys.ram?.total).toFixed(0)}%${lastRank ? ` · hạng ${lastRank}` : ""}\nBấm để mở lại · kéo sang góc khác`;
+  }
   function renderSys() {
     if (!sys || !cfg.show) { if (!sys) $("#sysRows").innerHTML = `<div class="hint">Đang đọc thông số máy…</div>`; return; }
     const s = cfg.show; let h = "";
+    updateOrb();
+    if (cfg.mode === "compact" && G.platform !== "web" && !sys.rows) {
+      const chip = (k, v, p) => `<div><b>${k}</b><span>${v}</span><div class="bar ${p >= 90 ? "warn" : ""}"><i style="width:${(p || 0).toFixed(1)}%"></i></div></div>`;
+      const tot = (sys.net?.rx || 0) + (sys.net?.tx || 0);
+      h = `<div class="mini">${chip("CPU", sys.cpu.pct.toFixed(0) + "%", sys.cpu.pct)}${chip("GPU", (+sys.gpu?.pct || 0).toFixed(0) + "%", +sys.gpu?.pct || 0)}${chip("RAM", pct(sys.ram?.used, sys.ram?.total).toFixed(0) + "%", pct(sys.ram?.used, sys.ram?.total))}${chip(sys.wifi ? "WI-FI" : "MẠNG", "↓" + fmtRate(sys.net?.rx || 0), Math.min(100, tot / (12.5 * 1048576) * 100))}</div>`;
+      $("#sysRows").innerHTML = h; return;
+    }
     // bản web không có gadget desktop: các dòng trình duyệt đo được (sys.rows), không có top 5
     if (sys.rows) {
       for (const r of sys.rows) if (s[r.show || "cpu"] !== false) h += row(esc(r.k), esc(r.val), r.p ?? 0, esc(r.sub || ""), r.warn ?? 90);
@@ -298,6 +390,23 @@
   }
   $("#btnMenu").addEventListener("click", (e) => ($("#menu").classList.contains("open") ? closePanels(e) : openPanel("menu", e)));
   $("#btnHide").addEventListener("click", () => G.hide());
+  $("#btnMode").addEventListener("click", () => setMode(cfg.mode === "compact" ? "full" : "compact"));
+  $("#btnCorner").addEventListener("click", (e) => { $("#cornerPick").classList.toggle("open"); FX.burst(e.clientX, e.clientY, 12, { speed: 3 }); });
+  document.querySelectorAll(".cp-grid button").forEach((b) => b.addEventListener("click", async (e) => {
+    const c = b.dataset.c, act = b.parentElement.dataset.act;
+    if (act === "orb") return setMode("orb", c);
+    $("#cornerPick").classList.remove("open");
+    cfg = { ...cfg, ...(await G.snap(c)) }; applyMode();
+    setTimeout(() => { const [x, y] = cornerXY(c); FX.ring(x, y, { vr: 8, max: 44, w: 5 }); FX.burst(x, y, 70, { speed: 8 }); }, 80);
+  }));
+  document.addEventListener("mousedown", (e) => { if (!e.target.closest("#cornerPick, #btnCorner")) $("#cornerPick").classList.remove("open"); });
+  $("#modeSel").addEventListener("change", (e) => setMode(e.target.value));
+  $("#orbElSel").addEventListener("change", async (e) => { await setCfg({ orbEl: e.target.value }); curEl = ""; setOrbEl(true); toast(e.target.value === "cycle" ? "🔄 Xoay vòng 7 nguyên tố mỗi 3 giây" : e.target.value === "random" ? "🎲 Nguyên tố ngẫu nhiên mỗi lần thu" : `✨ Quả cầu ${e.target.selectedOptions[0].text}`); });
+  function hueOf(hex) { const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255), mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn; if (!d) return 0; const h = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; return (h * 60 + 360) % 360; }
+  $("#zoomSel").addEventListener("change", async (e) => {
+    const v = e.target.value; cfg = { ...cfg, ...(await G.setZoom(v === "auto" ? "auto" : +v)) }; applyMode();
+    const [x, y] = center(card); FX.ring(x, y, { vr: 8, max: 40 }); toast(`📐 Kích cỡ ${Math.round(cfg.zoomNow * 100)}%`);
+  });
   document.querySelectorAll("[data-close]").forEach((b) => b.addEventListener("click", closePanels));
   function fillMenu() {
     for (const k of ["bgAlpha", "imgAlpha", "blur", "hue"]) { $("#" + k).value = cfg[k]; $("#" + k + "V").textContent = k === "blur" ? cfg[k] : k === "hue" ? "" : Math.round(cfg[k] * 100) + "%"; }
