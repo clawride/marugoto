@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self' http://127.0.0.1:47219; worker-src 'self'; manifest-src 'self'; font-src 'self' data:">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#120b26">
+<meta name="description" content="Gadget tiengnhat.online: hạng, số người học, từ vựng tiếng Nhật theo trình độ kèm ảnh, thông số máy">
+<link rel="manifest" href="/gadget/manifest.webmanifest">
+<link rel="icon" href="/gadget/icon-192.png">
+<link rel="apple-touch-icon" href="/gadget/icon-192.png">
+<title>TiengNhat Gadget</title>
+<link rel="stylesheet" href="/gadget/style.css">
+</head>
+<body class="web">
+<canvas id="fx"></canvas>
+<div id="card" class="card">
+  <div class="aura"></div>
+  <div class="frame">
+    <div class="bgimg"></div>
+    <div class="tint"></div>
+    <div class="holo"></div>
+  </div>
+  <div class="ring"></div>
+
+  <header class="hd">
+    <div class="logo"><span class="mark">日</span><span><b>tiengnhat</b>.online</span></div>
+    <div class="hd-btns">
+      <button class="ib" id="btnMenu" title="Tùy chỉnh">⋯</button>
+      <button class="ib" id="btnHide" title="Ẩn vào khay hệ thống">–</button>
+    </div>
+  </header>
+
+  <section id="sRank" class="sec">
+    <div class="rank">
+      <div class="av" id="rkAv">?</div>
+      <div class="rk-main">
+        <div class="rk-name" id="rkName">Chưa đăng nhập</div>
+        <div class="rk-sub" id="rkSub">Bấm để đăng nhập và xem hạng</div>
+      </div>
+      <div class="rk-num"><small>Hạng</small><b id="rkRank">—</b></div>
+      <div class="rk-num"><small>Người</small><b id="rkCount">—</b></div>
+    </div>
+    <div class="rk-top" id="rkTop"></div>
+  </section>
+
+  <section id="sWord" class="sec">
+    <div class="word" id="word">
+      <div class="w-pic"><img id="wImg" alt="" referrerpolicy="no-referrer"><span id="wEm" class="w-em"></span></div>
+      <div class="w-txt">
+        <div class="w-jp jp" id="wJp"></div>
+        <div class="w-kana jp" id="wKana"></div>
+        <div class="w-ro" id="wRo"></div>
+        <div class="w-vi" id="wVi"></div>
+      </div>
+      <div class="w-btns">
+        <button class="ib sm" id="wSay" title="Nghe">🔊</button>
+        <button class="ib sm" id="wNext" title="Từ khác">⟳</button>
+      </div>
+      <div class="w-src" id="wSrc"></div>
+      <div class="w-timer"><i id="wBar"></i></div>
+    </div>
+  </section>
+
+  <section id="sSys" class="sec">
+    <div id="sysRows"></div>
+  </section>
+
+  <section id="sTop" class="sec">
+    <div class="tabs" id="topTabs">
+      <button data-t="cpu" class="on">CPU</button><button data-t="gpu">GPU</button><button data-t="net">Mạng</button>
+    </div>
+    <ol class="top" id="topList"></ol>
+    <div class="hint" id="topHint"></div>
+  </section>
+
+  <div class="panel" id="menu">
+    <div class="p-h"><b>Tùy chỉnh gadget</b><button class="ib sm" data-close>✕</button></div>
+    <div class="p-body">
+      <h4>🖼 Ảnh nền</h4>
+      <div class="row2"><button class="btn" id="bgPick">Chọn ảnh…</button><button class="btn ghost" id="bgClear">Bỏ ảnh</button></div>
+      <label class="sl">Độ trong suốt nền <input type="range" id="bgAlpha" min="0" max="1" step="0.01"><em id="bgAlphaV"></em></label>
+      <label class="sl">Độ đậm ảnh nền <input type="range" id="imgAlpha" min="0" max="1" step="0.01"><em id="imgAlphaV"></em></label>
+      <label class="sl">Làm mờ kính <input type="range" id="blur" min="0" max="24" step="1"><em id="blurV"></em></label>
+      <label class="sl">Màu chủ đạo <input type="range" id="hue" min="0" max="360" step="1" class="hue"><em id="hueV"></em></label>
+
+      <h4>👁 Hiển thị</h4>
+      <div class="chips" id="showChips"></div>
+
+      <h4>📚 Từ vựng theo lộ trình</h4>
+      <label class="sel">Trình độ <select id="level"><option value="all">Tất cả trình độ</option><option value="a1">A1 · 入門</option><option value="a21">A2-1 · 初級1</option><option value="a22">A2-2 · 初級2</option><option value="ab1">A2/B1 · 初中級</option><option value="b11">B1-1 · 中級1</option><option value="b12">B1-2 · 中級2</option></select></label>
+      <label class="sel">Bài <select id="lesson"><option value="all">Tất cả bài</option></select></label>
+      <p class="hint" id="lvCount"></p>
+
+      <h4>✨ Hiệu ứng</h4>
+      <label class="sel">Hiệu ứng <select id="fxSel"><option value="max">Rực rỡ</option><option value="low">Nhẹ nhàng</option><option value="off">Tắt</option></select></label>
+      <label class="sel">Đổi từ mỗi <select id="wordEvery"><option value="8">8 giây</option><option value="15">15 giây</option><option value="30">30 giây</option><option value="60">1 phút</option><option value="0">Không tự đổi</option></select></label>
+
+      <h4>⚙️ Hệ thống</h4>
+      <label class="tg desk"><input type="checkbox" id="onTop"> Luôn nằm trên cùng</label>
+      <label class="tg desk"><input type="checkbox" id="autostart"> Khởi động cùng Windows</label>
+      <label class="tg desk"><input type="checkbox" id="netAdmin"> Đo mạng theo từng phần mềm (cần quyền Admin)</label>
+      <label class="tg desk"><input type="checkbox" id="bridge"> Cho web app tiengnhat.online/gadget đọc thông số máy</label>
+      <p class="hint webonly">Thông số CPU/GPU/ổ đĩa/top 5 lấy từ TiengNhat Gadget bản máy tính khi nó đang chạy (trình duyệt có thể hỏi quyền truy cập mạng cục bộ).</p>
+      <div class="row2 webonly"><button class="btn" id="btnInstall">⬇ Cài làm ứng dụng</button></div>
+
+      <h4>👤 Tài khoản tiengnhat.online</h4>
+      <div class="row2"><button class="btn" id="btnAcc">Đăng nhập</button><button class="btn ghost" id="btnSite">Mở trang web</button></div>
+
+      <div class="row2 end"><button class="btn ghost" id="btnQuit">Thoát gadget</button></div>
+      <p class="ver" id="ver"></p>
+    </div>
+  </div>
+
+  <div class="panel" id="login">
+    <div class="p-h"><b>Đăng nhập tiengnhat.online</b><button class="ib sm" data-close>✕</button></div>
+    <form class="p-body" id="loginForm" autocomplete="off">
+      <p class="hint">Dùng tài khoản của trang để xem hạng của bạn. Gadget không lưu mật khẩu.</p>
+      <input id="lgUser" placeholder="Tên đăng nhập" maxlength="60">
+      <input id="lgPass" type="password" placeholder="Mật khẩu" maxlength="200">
+      <p class="err" id="lgErr"></p>
+      <div class="row2"><button class="btn" type="submit" id="lgBtn">Đăng nhập</button></div>
+    </form>
+  </div>
+
+  <div class="toast" id="toast"></div>
+</div>
+<script src="/gadget/web.js"></script>
+<script src="/gadget/fx.js"></script>
+<script src="/gadget/renderer.js"></script>
+<div class="web-foot">Kéo thẻ để di chuyển · <a href="/">tiengnhat.online</a></div>
+</body>
+</html>
