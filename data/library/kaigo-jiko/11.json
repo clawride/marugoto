@@ -1,0 +1,211 @@
+{
+  "n": 11,
+  "scene": "Khi một cụ từ chối bữa ăn hoặc gia đình muốn biếu quà riêng, nhân viên mới cần biết cách hỏi ý kiến trưởng ca. Hai người luyện phân biệt ý muốn của cụ và quy định của cơ sở.",
+  "goals": ["Thuật lại ý của cụ qua lời nói trực tiếp.","Xin ý kiến đồng nghiệp khi gặp tình huống khó."],
+  "people": [],
+  "know": [
+    "Các câu hỏi trong chương còn đề cập đến báo cáo muộn và lời nói gây tổn thương. Một lời xin tư vấn dễ hiểu có ba ý: sự việc, phần khiến mình băn khoăn và câu hỏi cụ thể."
+  ],
+  "terms": [
+    {"w":"拒否","r":"きょひ","ro":"kyohi","vi":"từ chối","pos":"danh từ"},
+    {"w":"贈り物","r":"おくりもの","ro":"okurimono","vi":"quà biếu","pos":"danh từ"},
+    {"w":"規則","r":"きそく","ro":"kisoku","vi":"quy định","pos":"danh từ"},
+    {"w":"意思","r":"いし","ro":"ishi","vi":"ý muốn","pos":"danh từ"},
+    {"w":"暴言","r":"ぼうげん","ro":"bougen","vi":"lời xúc phạm","pos":"danh từ"},
+    {"w":"相談相手","r":"そうだんあいて","ro":"soudan'aite","vi":"người để hỏi ý kiến","pos":"danh từ"}
+  ],
+  "grammar": [
+    {
+      "no": 1,
+      "p": "〜と言われました",
+      "ro": "… to iwaremashita",
+      "vi": "Tôi được nói rằng…",
+      "form": "Lời được nghe + と + 言われました",
+      "use": "Dẫn lời khi hỏi ý kiến người phụ trách.",
+      "ex": [
+        {
+          "jp": "後で食べたいと言われました。",
+          "ro": "atode tabetai to iwaremashita.",
+          "vi": "Cụ nói với tôi rằng cụ muốn ăn sau.",
+          "words": [
+            {"w":"後で","r":"あとで","ro":"atode","vi":"lát nữa","pos":"trạng từ"},
+            {"w":"食べたい","r":"たべたい","ro":"tabetai","vi":"muốn ăn","pos":"động từ"},
+            {"w":"と","ro":"to","vi":"đánh dấu lời trích dẫn","pos":"trợ từ"},
+            {"w":"言われました","r":"いわれました","ro":"iwaremashita","vi":"được nói cho biết","pos":"động từ"},
+            {"w":"。"}
+          ]
+        },
+        {
+          "jp": "今はいらないと言われました。",
+          "ro": "ima wa iranai to iwaremashita.",
+          "vi": "Cụ nói với tôi rằng bây giờ cụ chưa cần.",
+          "words": [
+            {"w":"今","r":"いま","ro":"ima","vi":"bây giờ","pos":"danh từ"},
+            {"w":"は","ro":"wa","vi":"nêu chủ đề","pos":"trợ từ"},
+            {"w":"いらない","ro":"iranai","vi":"không cần","pos":"động từ"},
+            {"w":"と","ro":"to","vi":"đánh dấu lời trích dẫn","pos":"trợ từ"},
+            {"w":"言われました","r":"いわれました","ro":"iwaremashita","vi":"được nói cho biết","pos":"động từ"},
+            {"w":"。"}
+          ]
+        }
+      ]
+    },
+    {
+      "no": 2,
+      "p": "〜たらいいですか",
+      "ro": "… tara ii desu ka",
+      "vi": "Tôi nên… thế nào?",
+      "form": "Từ để hỏi + động từ thể たら + いいですか",
+      "use": "Hỏi về bước tiếp theo khi chưa rõ cách làm.",
+      "ex": [
+        {
+          "jp": "どう伝えたらいいですか。",
+          "ro": "dou tsutaetara ii desu ka?",
+          "vi": "Tôi nên nói lại như thế nào?",
+          "words": [
+            {"w":"どう","ro":"dou","vi":"như thế nào","pos":"từ để hỏi"},
+            {"w":"伝えたら","r":"つたえたら","ro":"tsutaetara","vi":"nếu nói lại","pos":"động từ"},
+            {"w":"いい","ro":"ii","vi":"tốt, được","pos":"tính từ"},
+            {"w":"です","ro":"desu","vi":"là (dạng lịch sự)","pos":"cụm diễn đạt"},
+            {"w":"か","ro":"ka","vi":"đánh dấu câu hỏi","pos":"trợ từ"},
+            {"w":"。"}
+          ]
+        },
+        {
+          "jp": "誰に相談したらいいですか。",
+          "ro": "dare ni soudanshitara ii desu ka?",
+          "vi": "Tôi nên hỏi ý kiến ai?",
+          "words": [
+            {"w":"誰","r":"だれ","ro":"dare","vi":"ai","pos":"từ để hỏi"},
+            {"w":"に","ro":"ni","vi":"ở, vào, cho (chỉ vị trí, thời điểm hoặc đối tượng)","pos":"trợ từ"},
+            {"w":"相談したら","r":"そうだんしたら","ro":"soudanshitara","vi":"nếu hỏi ý kiến","pos":"động từ"},
+            {"w":"いい","ro":"ii","vi":"tốt, được","pos":"tính từ"},
+            {"w":"です","ro":"desu","vi":"là (dạng lịch sự)","pos":"cụm diễn đạt"},
+            {"w":"か","ro":"ka","vi":"đánh dấu câu hỏi","pos":"trợ từ"},
+            {"w":"。"}
+          ]
+        }
+      ]
+    },
+    {
+      "no": 3,
+      "p": "〜てみます",
+      "ro": "… te mimasu",
+      "vi": "Tôi sẽ thử…",
+      "form": "Động từ thể て + みます",
+      "use": "Đề xuất một cách làm để tìm hiểu thêm.",
+      "ex": [
+        {
+          "jp": "希望を聞いてみます。",
+          "ro": "kibou o kiitemimasu.",
+          "vi": "Tôi sẽ thử hỏi xem cụ mong muốn gì.",
+          "words": [
+            {"w":"希望","r":"きぼう","ro":"kibou","vi":"nguyện vọng","pos":"danh từ"},
+            {"w":"を","ro":"o","vi":"đánh dấu đối tượng của hành động","pos":"trợ từ"},
+            {"w":"聞いてみます","r":"きいてみます","ro":"kiitemimasu","vi":"thử hỏi","pos":"động từ"},
+            {"w":"。"}
+          ]
+        },
+        {
+          "jp": "主任に相談してみます。",
+          "ro": "shunin ni soudanshitemimasu.",
+          "vi": "Tôi sẽ thử trao đổi với trưởng bộ phận.",
+          "words": [
+            {"w":"主任","r":"しゅにん","ro":"shunin","vi":"trưởng bộ phận","pos":"danh từ"},
+            {"w":"に","ro":"ni","vi":"ở, vào, cho (chỉ vị trí, thời điểm hoặc đối tượng)","pos":"trợ từ"},
+            {"w":"相談してみます","r":"そうだんしてみます","ro":"soudanshitemimasu","vi":"thử trao đổi","pos":"động từ"},
+            {"w":"。"}
+          ]
+        }
+      ]
+    }
+  ],
+  "dialog": {
+    "title": "Trao đổi sau bữa trưa",
+    "lines": [
+      {
+        "jp": "後で食べたいと言われました。",
+        "ro": "atode tabetai to iwaremashita.",
+        "vi": "Cụ nói với tôi rằng cụ muốn ăn sau.",
+        "words": [
+          {"w":"後で","r":"あとで","ro":"atode","vi":"lát nữa","pos":"trạng từ"},
+          {"w":"食べたい","r":"たべたい","ro":"tabetai","vi":"muốn ăn","pos":"động từ"},
+          {"w":"と","ro":"to","vi":"đánh dấu lời trích dẫn","pos":"trợ từ"},
+          {"w":"言われました","r":"いわれました","ro":"iwaremashita","vi":"được nói cho biết","pos":"động từ"},
+          {"w":"。"}
+        ],
+        "sp": "Nhân viên"
+      },
+      {
+        "jp": "ご本人の希望を聞きましたか。",
+        "ro": "gohonnin no kibou o kikimashita ka?",
+        "vi": "Bạn đã hỏi mong muốn của cụ chưa?",
+        "words": [
+          {"w":"ご本人","r":"ごほんにん","ro":"gohonnin","vi":"chính người được chăm sóc","pos":"danh từ"},
+          {"w":"の","ro":"no","vi":"của, nối hai danh từ","pos":"trợ từ"},
+          {"w":"希望","r":"きぼう","ro":"kibou","vi":"nguyện vọng","pos":"danh từ"},
+          {"w":"を","ro":"o","vi":"đánh dấu đối tượng của hành động","pos":"trợ từ"},
+          {"w":"聞きました","r":"ききました","ro":"kikimashita","vi":"đã hỏi","pos":"động từ"},
+          {"w":"か","ro":"ka","vi":"đánh dấu câu hỏi","pos":"trợ từ"},
+          {"w":"。"}
+        ],
+        "sp": "Trưởng ca"
+      },
+      {
+        "jp": "まだです、これから聞いてみます。",
+        "ro": "mada desu korekara kiitemimasu.",
+        "vi": "Chưa ạ. Bây giờ tôi sẽ thử hỏi.",
+        "words": [
+          {"w":"まだ","ro":"mada","vi":"chưa","pos":"trạng từ"},
+          {"w":"です","ro":"desu","vi":"là (dạng lịch sự)","pos":"cụm diễn đạt"},
+          {"w":"、"},
+          {"w":"これから","ro":"korekara","vi":"từ bây giờ","pos":"trạng từ"},
+          {"w":"聞いてみます","r":"きいてみます","ro":"kiitemimasu","vi":"thử hỏi","pos":"động từ"},
+          {"w":"。"}
+        ],
+        "sp": "Nhân viên"
+      },
+      {
+        "jp": "後で教えてください。",
+        "ro": "atode oshietekudasai.",
+        "vi": "Lát nữa báo lại cho tôi nhé.",
+        "words": [
+          {"w":"後で","r":"あとで","ro":"atode","vi":"lát nữa","pos":"trạng từ"},
+          {"w":"教えてください","r":"おしえてください","ro":"oshietekudasai","vi":"xin hãy cho biết","pos":"động từ"},
+          {"w":"。"}
+        ],
+        "sp": "Trưởng ca"
+      }
+    ]
+  },
+  "phrases": [],
+  "vocab": [
+    {"w":"拒否","r":"きょひ","ro":"kyohi","vi":"từ chối","pos":"danh từ"},
+    {"w":"贈り物","r":"おくりもの","ro":"okurimono","vi":"quà biếu","pos":"danh từ"},
+    {"w":"規則","r":"きそく","ro":"kisoku","vi":"quy định","pos":"danh từ"},
+    {"w":"意思","r":"いし","ro":"ishi","vi":"ý muốn","pos":"danh từ"},
+    {"w":"暴言","r":"ぼうげん","ro":"bougen","vi":"lời xúc phạm","pos":"danh từ"},
+    {"w":"相談相手","r":"そうだんあいて","ro":"soudan'aite","vi":"người để hỏi ý kiến","pos":"danh từ"},
+    {"w":"後で","r":"あとで","ro":"atode","vi":"lát nữa","pos":"trạng từ"},
+    {"w":"食べたい","r":"たべたい","ro":"tabetai","vi":"muốn ăn","pos":"động từ"},
+    {"w":"言われました","r":"いわれました","ro":"iwaremashita","vi":"được nói cho biết","pos":"động từ"},
+    {"w":"今","r":"いま","ro":"ima","vi":"bây giờ","pos":"danh từ"},
+    {"w":"いらない","ro":"iranai","vi":"không cần","pos":"động từ"},
+    {"w":"伝えたら","r":"つたえたら","ro":"tsutaetara","vi":"nếu nói lại","pos":"động từ"},
+    {"w":"いい","ro":"ii","vi":"tốt, được","pos":"tính từ"},
+    {"w":"相談したら","r":"そうだんしたら","ro":"soudanshitara","vi":"nếu hỏi ý kiến","pos":"động từ"},
+    {"w":"希望","r":"きぼう","ro":"kibou","vi":"nguyện vọng","pos":"danh từ"},
+    {"w":"聞いてみます","r":"きいてみます","ro":"kiitemimasu","vi":"thử hỏi","pos":"động từ"},
+    {"w":"主任","r":"しゅにん","ro":"shunin","vi":"trưởng bộ phận","pos":"danh từ"},
+    {"w":"相談してみます","r":"そうだんしてみます","ro":"soudanshitemimasu","vi":"thử trao đổi","pos":"động từ"},
+    {"w":"ご本人","r":"ごほんにん","ro":"gohonnin","vi":"chính người được chăm sóc","pos":"danh từ"},
+    {"w":"聞きました","r":"ききました","ro":"kikimashita","vi":"đã hỏi","pos":"động từ"},
+    {"w":"まだ","ro":"mada","vi":"chưa","pos":"trạng từ"},
+    {"w":"これから","ro":"korekara","vi":"từ bây giờ","pos":"trạng từ"},
+    {"w":"教えてください","r":"おしえてください","ro":"oshietekudasai","vi":"xin hãy cho biết","pos":"động từ"},
+    {"w":"食欲","r":"しょくよく","ro":"shokuyoku","vi":"cảm giác ngon miệng"},
+    {"w":"受け取り","r":"うけとり","ro":"uketori","vi":"việc nhận đồ"}
+  ],
+  "discuss": ["Gia đình muốn tặng quà riêng. Hãy thuật lại lời mời và hỏi trưởng ca về quy định của cơ sở."],
+  "tips": ["Khi dẫn lời, thêm と sau lời cụ nói để phân biệt với ý kiến của người báo cáo."]
+}

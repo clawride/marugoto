@@ -1,0 +1,226 @@
+{
+  "n": 3,
+  "scene": "Bạn vào phòng và thấy cụ ngồi dưới sàn. Bạn biết nơi phát hiện và tư thế của cụ, nhưng chưa biết sự việc xảy ra thế nào.",
+  "goals": ["Nêu địa điểm phát hiện và lời cụ nói.","Cho biết đã liên lạc với ai."],
+  "people": [],
+  "know": [
+    "Chương này đề cập đến ngã, gãy xương, tróc da, dùng nhầm thuốc và bỏng. Khi luyện tiếng Nhật, tách lời người được chăm sóc nói, điều chính bạn nhìn thấy và phần nguyên nhân còn phải xác minh."
+  ],
+  "terms": [
+    {"w":"骨折","r":"こっせつ","ro":"kossetsu","vi":"gãy xương","pos":"danh từ"},
+    {"w":"熱傷","r":"ねっしょう","ro":"nesshou","vi":"bỏng","pos":"danh từ"},
+    {"w":"誤薬","r":"ごやく","ro":"goyaku","vi":"dùng nhầm thuốc","pos":"danh từ"},
+    {"w":"表皮剥離","r":"ひょうひはくり","ro":"hyouhihakuri","vi":"tróc da","pos":"danh từ"},
+    {"w":"発見","r":"はっけん","ro":"hakken","vi":"phát hiện","pos":"danh từ"},
+    {"w":"発生場所","r":"はっせいばしょ","ro":"hasseibasho","vi":"nơi xảy ra sự việc","pos":"danh từ"}
+  ],
+  "grammar": [
+    {
+      "no": 1,
+      "p": "〜で見つけました",
+      "ro": "… de mitsukemashita",
+      "vi": "Đã tìm thấy ở…",
+      "form": "Địa điểm + で + đối tượng + を見つけました",
+      "use": "で đánh dấu nơi người báo cáo phát hiện sự việc.",
+      "ex": [
+        {
+          "jp": "居室で田中さんを見つけました。",
+          "ro": "kyoshitsu de tanakasan o mitsukemashita.",
+          "vi": "Tôi đã tìm thấy cụ Tanaka trong phòng riêng.",
+          "words": [
+            {"w":"居室","r":"きょしつ","ro":"kyoshitsu","vi":"phòng riêng","pos":"danh từ"},
+            {"w":"で","ro":"de","vi":"ở, bằng","pos":"trợ từ"},
+            {"w":"田中さん","r":"たなかさん","ro":"tanakasan","vi":"cụ Tanaka","pos":"danh từ"},
+            {"w":"を","ro":"o","vi":"đánh dấu đối tượng của hành động","pos":"trợ từ"},
+            {"w":"見つけました","r":"みつけました","ro":"mitsukemashita","vi":"đã tìm thấy","pos":"động từ"},
+            {"w":"。"}
+          ]
+        },
+        {
+          "jp": "床で眼鏡を見つけました。",
+          "ro": "yuka de megane o mitsukemashita.",
+          "vi": "Tôi tìm thấy kính trên sàn.",
+          "words": [
+            {"w":"床","r":"ゆか","ro":"yuka","vi":"sàn nhà","pos":"danh từ"},
+            {"w":"で","ro":"de","vi":"ở, bằng","pos":"trợ từ"},
+            {"w":"眼鏡","r":"めがね","ro":"megane","vi":"kính mắt","pos":"danh từ"},
+            {"w":"を","ro":"o","vi":"đánh dấu đối tượng của hành động","pos":"trợ từ"},
+            {"w":"見つけました","r":"みつけました","ro":"mitsukemashita","vi":"đã tìm thấy","pos":"động từ"},
+            {"w":"。"}
+          ]
+        }
+      ]
+    },
+    {
+      "no": 2,
+      "p": "〜と話しています",
+      "ro": "… to hanashite imasu",
+      "vi": "Cụ nói rằng…",
+      "form": "Lời nói + と + 話しています",
+      "use": "Đánh dấu lời do chính người được chăm sóc nói.",
+      "ex": [
+        {
+          "jp": "足が痛いと話しています。",
+          "ro": "ashi ga itai to hanashiteimasu.",
+          "vi": "Cụ nói rằng chân bị đau.",
+          "words": [
+            {"w":"足","r":"あし","ro":"ashi","vi":"chân","pos":"danh từ"},
+            {"w":"が","ro":"ga","vi":"đánh dấu chủ ngữ","pos":"trợ từ"},
+            {"w":"痛い","r":"いたい","ro":"itai","vi":"đau","pos":"tính từ"},
+            {"w":"と","ro":"to","vi":"đánh dấu lời trích dẫn","pos":"trợ từ"},
+            {"w":"話しています","r":"はなしています","ro":"hanashiteimasu","vi":"đang nói","pos":"động từ"},
+            {"w":"。"}
+          ]
+        },
+        {
+          "jp": "手が痛いと話しています。",
+          "ro": "te ga itai to hanashiteimasu.",
+          "vi": "Cụ nói rằng tay bị đau.",
+          "words": [
+            {"w":"手","r":"て","ro":"te","vi":"tay","pos":"danh từ"},
+            {"w":"が","ro":"ga","vi":"đánh dấu chủ ngữ","pos":"trợ từ"},
+            {"w":"痛い","r":"いたい","ro":"itai","vi":"đau","pos":"tính từ"},
+            {"w":"と","ro":"to","vi":"đánh dấu lời trích dẫn","pos":"trợ từ"},
+            {"w":"話しています","r":"はなしています","ro":"hanashiteimasu","vi":"đang nói","pos":"động từ"},
+            {"w":"。"}
+          ]
+        }
+      ]
+    },
+    {
+      "no": 3,
+      "p": "〜に連絡しました",
+      "ro": "… ni renraku shimashita",
+      "vi": "Đã liên lạc với…",
+      "form": "Người nhận + に + 連絡しました",
+      "use": "Xác nhận người đã nhận thông tin.",
+      "ex": [
+        {
+          "jp": "看護師に連絡しました。",
+          "ro": "kangoshi ni renrakushimashita.",
+          "vi": "Tôi đã liên lạc với điều dưỡng.",
+          "words": [
+            {"w":"看護師","r":"かんごし","ro":"kangoshi","vi":"điều dưỡng","pos":"danh từ"},
+            {"w":"に","ro":"ni","vi":"ở, vào, cho (chỉ vị trí, thời điểm hoặc đối tượng)","pos":"trợ từ"},
+            {"w":"連絡しました","r":"れんらくしました","ro":"renrakushimashita","vi":"đã liên lạc","pos":"động từ"},
+            {"w":"。"}
+          ]
+        },
+        {
+          "jp": "主任に連絡しました。",
+          "ro": "shunin ni renrakushimashita.",
+          "vi": "Tôi đã liên lạc với trưởng bộ phận.",
+          "words": [
+            {"w":"主任","r":"しゅにん","ro":"shunin","vi":"trưởng bộ phận","pos":"danh từ"},
+            {"w":"に","ro":"ni","vi":"ở, vào, cho (chỉ vị trí, thời điểm hoặc đối tượng)","pos":"trợ từ"},
+            {"w":"連絡しました","r":"れんらくしました","ro":"renrakushimashita","vi":"đã liên lạc","pos":"động từ"},
+            {"w":"。"}
+          ]
+        }
+      ]
+    }
+  ],
+  "dialog": {
+    "title": "Báo cho trưởng ca tại phòng cụ Tanaka",
+    "lines": [
+      {
+        "jp": "居室で田中さんを見つけました。",
+        "ro": "kyoshitsu de tanakasan o mitsukemashita.",
+        "vi": "Tôi đã tìm thấy cụ Tanaka trong phòng riêng.",
+        "words": [
+          {"w":"居室","r":"きょしつ","ro":"kyoshitsu","vi":"phòng riêng","pos":"danh từ"},
+          {"w":"で","ro":"de","vi":"ở, bằng","pos":"trợ từ"},
+          {"w":"田中さん","r":"たなかさん","ro":"tanakasan","vi":"cụ Tanaka","pos":"danh từ"},
+          {"w":"を","ro":"o","vi":"đánh dấu đối tượng của hành động","pos":"trợ từ"},
+          {"w":"見つけました","r":"みつけました","ro":"mitsukemashita","vi":"đã tìm thấy","pos":"động từ"},
+          {"w":"。"}
+        ],
+        "sp": "Nhân viên"
+      },
+      {
+        "jp": "ご本人は何と話していますか。",
+        "ro": "gohonnin wa nan to hanashiteimasu ka?",
+        "vi": "Cụ đang nói gì?",
+        "words": [
+          {"w":"ご本人","r":"ごほんにん","ro":"gohonnin","vi":"chính người được chăm sóc","pos":"danh từ"},
+          {"w":"は","ro":"wa","vi":"nêu chủ đề","pos":"trợ từ"},
+          {"w":"何","r":"なん","ro":"nan","vi":"gì","pos":"từ để hỏi"},
+          {"w":"と","ro":"to","vi":"đánh dấu lời trích dẫn","pos":"trợ từ"},
+          {"w":"話しています","r":"はなしています","ro":"hanashiteimasu","vi":"đang nói","pos":"động từ"},
+          {"w":"か","ro":"ka","vi":"đánh dấu câu hỏi","pos":"trợ từ"},
+          {"w":"。"}
+        ],
+        "sp": "Trưởng ca"
+      },
+      {
+        "jp": "足が痛いと話しています。",
+        "ro": "ashi ga itai to hanashiteimasu.",
+        "vi": "Cụ nói rằng chân bị đau.",
+        "words": [
+          {"w":"足","r":"あし","ro":"ashi","vi":"chân","pos":"danh từ"},
+          {"w":"が","ro":"ga","vi":"đánh dấu chủ ngữ","pos":"trợ từ"},
+          {"w":"痛い","r":"いたい","ro":"itai","vi":"đau","pos":"tính từ"},
+          {"w":"と","ro":"to","vi":"đánh dấu lời trích dẫn","pos":"trợ từ"},
+          {"w":"話しています","r":"はなしています","ro":"hanashiteimasu","vi":"đang nói","pos":"động từ"},
+          {"w":"。"}
+        ],
+        "sp": "Nhân viên"
+      },
+      {
+        "jp": "看護師に連絡しましたか。",
+        "ro": "kangoshi ni renrakushimashita ka?",
+        "vi": "Bạn đã liên lạc với điều dưỡng chưa?",
+        "words": [
+          {"w":"看護師","r":"かんごし","ro":"kangoshi","vi":"điều dưỡng","pos":"danh từ"},
+          {"w":"に","ro":"ni","vi":"ở, vào, cho (chỉ vị trí, thời điểm hoặc đối tượng)","pos":"trợ từ"},
+          {"w":"連絡しました","r":"れんらくしました","ro":"renrakushimashita","vi":"đã liên lạc","pos":"động từ"},
+          {"w":"か","ro":"ka","vi":"đánh dấu câu hỏi","pos":"trợ từ"},
+          {"w":"。"}
+        ],
+        "sp": "Trưởng ca"
+      },
+      {
+        "jp": "看護師に連絡しました。",
+        "ro": "kangoshi ni renrakushimashita.",
+        "vi": "Tôi đã liên lạc với điều dưỡng.",
+        "words": [
+          {"w":"看護師","r":"かんごし","ro":"kangoshi","vi":"điều dưỡng","pos":"danh từ"},
+          {"w":"に","ro":"ni","vi":"ở, vào, cho (chỉ vị trí, thời điểm hoặc đối tượng)","pos":"trợ từ"},
+          {"w":"連絡しました","r":"れんらくしました","ro":"renrakushimashita","vi":"đã liên lạc","pos":"động từ"},
+          {"w":"。"}
+        ],
+        "sp": "Nhân viên"
+      }
+    ]
+  },
+  "phrases": [],
+  "vocab": [
+    {"w":"骨折","r":"こっせつ","ro":"kossetsu","vi":"gãy xương","pos":"danh từ"},
+    {"w":"熱傷","r":"ねっしょう","ro":"nesshou","vi":"bỏng","pos":"danh từ"},
+    {"w":"誤薬","r":"ごやく","ro":"goyaku","vi":"dùng nhầm thuốc","pos":"danh từ"},
+    {"w":"表皮剥離","r":"ひょうひはくり","ro":"hyouhihakuri","vi":"tróc da","pos":"danh từ"},
+    {"w":"発見","r":"はっけん","ro":"hakken","vi":"phát hiện","pos":"danh từ"},
+    {"w":"発生場所","r":"はっせいばしょ","ro":"hasseibasho","vi":"nơi xảy ra sự việc","pos":"danh từ"},
+    {"w":"居室","r":"きょしつ","ro":"kyoshitsu","vi":"phòng riêng","pos":"danh từ"},
+    {"w":"見つけました","r":"みつけました","ro":"mitsukemashita","vi":"đã tìm thấy","pos":"động từ"},
+    {"w":"床","r":"ゆか","ro":"yuka","vi":"sàn nhà","pos":"danh từ"},
+    {"w":"眼鏡","r":"めがね","ro":"megane","vi":"kính mắt","pos":"danh từ"},
+    {"w":"足","r":"あし","ro":"ashi","vi":"chân","pos":"danh từ"},
+    {"w":"痛い","r":"いたい","ro":"itai","vi":"đau","pos":"tính từ"},
+    {"w":"話しています","r":"はなしています","ro":"hanashiteimasu","vi":"đang nói","pos":"động từ"},
+    {"w":"手","r":"て","ro":"te","vi":"tay","pos":"danh từ"},
+    {"w":"看護師","r":"かんごし","ro":"kangoshi","vi":"điều dưỡng","pos":"danh từ"},
+    {"w":"連絡しました","r":"れんらくしました","ro":"renrakushimashita","vi":"đã liên lạc","pos":"động từ"},
+    {"w":"主任","r":"しゅにん","ro":"shunin","vi":"trưởng bộ phận","pos":"danh từ"},
+    {"w":"ご本人","r":"ごほんにん","ro":"gohonnin","vi":"chính người được chăm sóc","pos":"danh từ"},
+    {"w":"外傷","r":"がいしょう","ro":"gaishou","vi":"chấn thương ngoài"},
+    {"w":"出血","r":"しゅっけつ","ro":"shukketsu","vi":"chảy máu"},
+    {"w":"腫れ","r":"はれ","ro":"hare","vi":"chỗ sưng"},
+    {"w":"打撲","r":"だぼく","ro":"daboku","vi":"vết bầm dập"},
+    {"w":"発赤","r":"ほっせき","ro":"hosseki","vi":"vùng da đỏ"},
+    {"w":"目撃者","r":"もくげきしゃ","ro":"mokugekisha","vi":"người chứng kiến"},
+    {"w":"事故報告書","r":"じこほうこくしょ","ro":"jikohoukokusho","vi":"phiếu báo cáo tai nạn"}
+  ],
+  "discuss": ["Bạn thấy kính dưới sàn, còn cụ nói tay đau. Hãy viết hai câu thể hiện rõ nguồn của từng thông tin."],
+  "tips": ["Dùng 発見時刻 khi bạn biết lúc phát hiện. 発生時刻 là lúc sự việc thực sự xảy ra."]
+}

@@ -1,0 +1,222 @@
+{
+  "n": 6,
+  "scene": "Ca chiều bàn giao cho ca đêm về một cụ có thay đổi so với buổi sáng. Người nhận cần nghe rõ đang nói về ai, có thay đổi gì và ca sau cần tiếp tục việc nào.",
+  "goals": ["Mở lời bằng tên người được bàn giao.","Nhắc lại việc đã nhận để hai ca hiểu giống nhau."],
+  "people": [],
+  "know": [
+    "Dàn ý bàn giao trong chương gồm đối tượng, sự thật và hành động tiếp theo. Có thể luyện bằng những tình huống về thân nhiệt, bữa ăn, đi lại, tâm trạng hoặc một yêu cầu của gia đình."
+  ],
+  "terms": [
+    {"w":"申し送り","r":"もうしおくり","ro":"moushiokuri","vi":"bàn giao ca","pos":"danh từ"},
+    {"w":"日勤","r":"にっきん","ro":"nikkin","vi":"ca ngày","pos":"danh từ"},
+    {"w":"夜勤","r":"やきん","ro":"yakin","vi":"ca đêm","pos":"danh từ"},
+    {"w":"検温","r":"けんおん","ro":"ken'on","vi":"đo thân nhiệt","pos":"danh từ"},
+    {"w":"食事量","r":"しょくじりょう","ro":"shokujiryou","vi":"lượng thức ăn","pos":"danh từ"},
+    {"w":"見守り","r":"みまもり","ro":"mimamori","vi":"trông chừng và quan sát","pos":"danh từ"}
+  ],
+  "grammar": [
+    {
+      "no": 1,
+      "p": "〜さんですが",
+      "ro": "… san desu ga",
+      "vi": "Về trường hợp của…",
+      "form": "Tên + さんですが",
+      "use": "Mở chủ đề trước khi nêu diễn biến.",
+      "ex": [
+        {
+          "jp": "田中さんですが、午後に発熱がありました。",
+          "ro": "tanakasan desuga gogo ni hatsunetsu ga arimashita.",
+          "vi": "Về cụ Tanaka, chiều nay cụ bị sốt.",
+          "words": [
+            {"w":"田中さん","r":"たなかさん","ro":"tanakasan","vi":"cụ Tanaka","pos":"danh từ"},
+            {"w":"ですが","ro":"desuga","vi":"về… (mở chủ đề)","pos":"cụm diễn đạt"},
+            {"w":"、"},
+            {"w":"午後","r":"ごご","ro":"gogo","vi":"buổi chiều","pos":"danh từ"},
+            {"w":"に","ro":"ni","vi":"ở, vào, cho (chỉ vị trí, thời điểm hoặc đối tượng)","pos":"trợ từ"},
+            {"w":"発熱","r":"はつねつ","ro":"hatsunetsu","vi":"sốt","pos":"danh từ"},
+            {"w":"が","ro":"ga","vi":"đánh dấu chủ ngữ","pos":"trợ từ"},
+            {"w":"ありました","ro":"arimashita","vi":"đã có","pos":"động từ"},
+            {"w":"。"}
+          ]
+        },
+        {
+          "jp": "鈴木さんですが、昼食は半分でした。",
+          "ro": "suzukisan desuga chuushoku wa hanbun deshita.",
+          "vi": "Về cụ Suzuki, cụ ăn được nửa suất trưa.",
+          "words": [
+            {"w":"鈴木さん","r":"すずきさん","ro":"suzukisan","vi":"cụ Suzuki","pos":"danh từ"},
+            {"w":"ですが","ro":"desuga","vi":"về… (mở chủ đề)","pos":"cụm diễn đạt"},
+            {"w":"、"},
+            {"w":"昼食","r":"ちゅうしょく","ro":"chuushoku","vi":"bữa trưa","pos":"danh từ"},
+            {"w":"は","ro":"wa","vi":"nêu chủ đề","pos":"trợ từ"},
+            {"w":"半分","r":"はんぶん","ro":"hanbun","vi":"một nửa","pos":"danh từ"},
+            {"w":"でした","ro":"deshita","vi":"đã là (quá khứ)","pos":"cụm diễn đạt"},
+            {"w":"。"}
+          ]
+        }
+      ]
+    },
+    {
+      "no": 2,
+      "p": "〜もお願いします",
+      "ro": "… mo onegai shimasu",
+      "vi": "Nhờ tiếp tục cả…",
+      "form": "Mốc thời gian + も + việc + をお願いします",
+      "use": "Nhấn mạnh sự tiếp nối giữa các ca.",
+      "ex": [
+        {
+          "jp": "夜間も検温をお願いします。",
+          "ro": "yakan mo ken'on o onegaishimasu.",
+          "vi": "Ban đêm cũng nhờ anh chị đo thân nhiệt.",
+          "words": [
+            {"w":"夜間","r":"やかん","ro":"yakan","vi":"ban đêm","pos":"danh từ"},
+            {"w":"も","ro":"mo","vi":"cũng","pos":"trợ từ"},
+            {"w":"検温","r":"けんおん","ro":"ken'on","vi":"đo thân nhiệt","pos":"danh từ"},
+            {"w":"を","ro":"o","vi":"đánh dấu đối tượng của hành động","pos":"trợ từ"},
+            {"w":"お願いします","r":"おねがいします","ro":"onegaishimasu","vi":"xin nhờ","pos":"cụm diễn đạt"},
+            {"w":"。"}
+          ]
+        },
+        {
+          "jp": "次の勤務でも記録をお願いします。",
+          "ro": "tsuginokinmu demo kiroku o onegaishimasu.",
+          "vi": "Nhờ ca sau cũng ghi chép lại.",
+          "words": [
+            {"w":"次の勤務","r":"つぎのきんむ","ro":"tsuginokinmu","vi":"ca làm việc tiếp theo","pos":"danh từ"},
+            {"w":"でも","ro":"demo","vi":"ở … cũng","pos":"trợ từ"},
+            {"w":"記録","r":"きろく","ro":"kiroku","vi":"ghi chép","pos":"danh từ"},
+            {"w":"を","ro":"o","vi":"đánh dấu đối tượng của hành động","pos":"trợ từ"},
+            {"w":"お願いします","r":"おねがいします","ro":"onegaishimasu","vi":"xin nhờ","pos":"cụm diễn đạt"},
+            {"w":"。"}
+          ]
+        }
+      ]
+    },
+    {
+      "no": 3,
+      "p": "〜ですね",
+      "ro": "… desu ne",
+      "vi": "Là… đúng chứ?",
+      "form": "Nội dung cần xác nhận + ですね",
+      "use": "Nhắc lại chính xác tên hoặc việc đã tiếp nhận.",
+      "ex": [
+        {
+          "jp": "夜間の検温ですね。",
+          "ro": "yakan no ken'on desune.",
+          "vi": "Việc cần làm là đo thân nhiệt trong đêm, đúng chứ?",
+          "words": [
+            {"w":"夜間","r":"やかん","ro":"yakan","vi":"ban đêm","pos":"danh từ"},
+            {"w":"の","ro":"no","vi":"của, nối hai danh từ","pos":"trợ từ"},
+            {"w":"検温","r":"けんおん","ro":"ken'on","vi":"đo thân nhiệt","pos":"danh từ"},
+            {"w":"ですね","ro":"desune","vi":"… đúng chứ?","pos":"cụm diễn đạt"},
+            {"w":"。"}
+          ]
+        },
+        {
+          "jp": "田中さんの記録ですね。",
+          "ro": "tanakasan no kiroku desune.",
+          "vi": "Đó là ghi chép của cụ Tanaka, đúng chứ?",
+          "words": [
+            {"w":"田中さん","r":"たなかさん","ro":"tanakasan","vi":"cụ Tanaka","pos":"danh từ"},
+            {"w":"の","ro":"no","vi":"của, nối hai danh từ","pos":"trợ từ"},
+            {"w":"記録","r":"きろく","ro":"kiroku","vi":"ghi chép","pos":"danh từ"},
+            {"w":"ですね","ro":"desune","vi":"… đúng chứ?","pos":"cụm diễn đạt"},
+            {"w":"。"}
+          ]
+        }
+      ]
+    }
+  ],
+  "dialog": {
+    "title": "Hai ca trao đổi tại quầy trực",
+    "lines": [
+      {
+        "jp": "田中さんですが、午後に発熱がありました。",
+        "ro": "tanakasan desuga gogo ni hatsunetsu ga arimashita.",
+        "vi": "Về cụ Tanaka, chiều nay cụ bị sốt.",
+        "words": [
+          {"w":"田中さん","r":"たなかさん","ro":"tanakasan","vi":"cụ Tanaka","pos":"danh từ"},
+          {"w":"ですが","ro":"desuga","vi":"về… (mở chủ đề)","pos":"cụm diễn đạt"},
+          {"w":"、"},
+          {"w":"午後","r":"ごご","ro":"gogo","vi":"buổi chiều","pos":"danh từ"},
+          {"w":"に","ro":"ni","vi":"ở, vào, cho (chỉ vị trí, thời điểm hoặc đối tượng)","pos":"trợ từ"},
+          {"w":"発熱","r":"はつねつ","ro":"hatsunetsu","vi":"sốt","pos":"danh từ"},
+          {"w":"が","ro":"ga","vi":"đánh dấu chủ ngữ","pos":"trợ từ"},
+          {"w":"ありました","ro":"arimashita","vi":"đã có","pos":"động từ"},
+          {"w":"。"}
+        ],
+        "sp": "Ca chiều"
+      },
+      {
+        "jp": "夜間はどうしますか。",
+        "ro": "yakan wa doushimasu ka?",
+        "vi": "Ban đêm chúng tôi cần làm gì?",
+        "words": [
+          {"w":"夜間","r":"やかん","ro":"yakan","vi":"ban đêm","pos":"danh từ"},
+          {"w":"は","ro":"wa","vi":"nêu chủ đề","pos":"trợ từ"},
+          {"w":"どうします","ro":"doushimasu","vi":"sẽ làm thế nào","pos":"động từ"},
+          {"w":"か","ro":"ka","vi":"đánh dấu câu hỏi","pos":"trợ từ"},
+          {"w":"。"}
+        ],
+        "sp": "Ca đêm"
+      },
+      {
+        "jp": "夜間も検温をお願いします。",
+        "ro": "yakan mo ken'on o onegaishimasu.",
+        "vi": "Ban đêm cũng nhờ anh chị đo thân nhiệt.",
+        "words": [
+          {"w":"夜間","r":"やかん","ro":"yakan","vi":"ban đêm","pos":"danh từ"},
+          {"w":"も","ro":"mo","vi":"cũng","pos":"trợ từ"},
+          {"w":"検温","r":"けんおん","ro":"ken'on","vi":"đo thân nhiệt","pos":"danh từ"},
+          {"w":"を","ro":"o","vi":"đánh dấu đối tượng của hành động","pos":"trợ từ"},
+          {"w":"お願いします","r":"おねがいします","ro":"onegaishimasu","vi":"xin nhờ","pos":"cụm diễn đạt"},
+          {"w":"。"}
+        ],
+        "sp": "Ca chiều"
+      },
+      {
+        "jp": "夜間の検温ですね。",
+        "ro": "yakan no ken'on desune.",
+        "vi": "Việc cần làm là đo thân nhiệt trong đêm, đúng chứ?",
+        "words": [
+          {"w":"夜間","r":"やかん","ro":"yakan","vi":"ban đêm","pos":"danh từ"},
+          {"w":"の","ro":"no","vi":"của, nối hai danh từ","pos":"trợ từ"},
+          {"w":"検温","r":"けんおん","ro":"ken'on","vi":"đo thân nhiệt","pos":"danh từ"},
+          {"w":"ですね","ro":"desune","vi":"… đúng chứ?","pos":"cụm diễn đạt"},
+          {"w":"。"}
+        ],
+        "sp": "Ca đêm"
+      }
+    ]
+  },
+  "phrases": [],
+  "vocab": [
+    {"w":"申し送り","r":"もうしおくり","ro":"moushiokuri","vi":"bàn giao ca","pos":"danh từ"},
+    {"w":"日勤","r":"にっきん","ro":"nikkin","vi":"ca ngày","pos":"danh từ"},
+    {"w":"夜勤","r":"やきん","ro":"yakin","vi":"ca đêm","pos":"danh từ"},
+    {"w":"検温","r":"けんおん","ro":"ken'on","vi":"đo thân nhiệt","pos":"danh từ"},
+    {"w":"食事量","r":"しょくじりょう","ro":"shokujiryou","vi":"lượng thức ăn","pos":"danh từ"},
+    {"w":"見守り","r":"みまもり","ro":"mimamori","vi":"trông chừng và quan sát","pos":"danh từ"},
+    {"w":"午後","r":"ごご","ro":"gogo","vi":"buổi chiều","pos":"danh từ"},
+    {"w":"発熱","r":"はつねつ","ro":"hatsunetsu","vi":"sốt","pos":"danh từ"},
+    {"w":"ありました","ro":"arimashita","vi":"đã có","pos":"động từ"},
+    {"w":"昼食","r":"ちゅうしょく","ro":"chuushoku","vi":"bữa trưa","pos":"danh từ"},
+    {"w":"半分","r":"はんぶん","ro":"hanbun","vi":"một nửa","pos":"danh từ"},
+    {"w":"夜間","r":"やかん","ro":"yakan","vi":"ban đêm","pos":"danh từ"},
+    {"w":"次の勤務","r":"つぎのきんむ","ro":"tsuginokinmu","vi":"ca làm việc tiếp theo","pos":"danh từ"},
+    {"w":"記録","r":"きろく","ro":"kiroku","vi":"ghi chép","pos":"danh từ"},
+    {"w":"どうします","ro":"doushimasu","vi":"sẽ làm thế nào","pos":"động từ"},
+    {"w":"早番","r":"はやばん","ro":"hayaban","vi":"ca sớm"},
+    {"w":"遅番","r":"おそばん","ro":"osoban","vi":"ca muộn"},
+    {"w":"体温","r":"たいおん","ro":"taion","vi":"thân nhiệt"},
+    {"w":"水分量","r":"すいぶんりょう","ro":"suibunryou","vi":"lượng nước"},
+    {"w":"歩行","r":"ほこう","ro":"hokou","vi":"đi bộ"},
+    {"w":"排泄","r":"はいせつ","ro":"haisetsu","vi":"bài tiết"},
+    {"w":"継続","r":"けいぞく","ro":"keizoku","vi":"tiếp tục"},
+    {"w":"変化","r":"へんか","ro":"henka","vi":"thay đổi"},
+    {"w":"引き継ぎ","r":"ひきつぎ","ro":"hikitsugi","vi":"chuyển giao"},
+    {"w":"注意点","r":"ちゅういてん","ro":"chuuiten","vi":"điểm cần lưu ý"}
+  ],
+  "discuss": ["Trong 30 giây, hãy bàn giao về cụ Suzuki. Nhờ người đóng vai ca sau nhắc lại tên cụ và việc cần theo dõi."],
+  "tips": ["Đổi vai sau mỗi lượt bàn giao. Người nhận nhắc lại tên cụ và việc cần làm."]
+}

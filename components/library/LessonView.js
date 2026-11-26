@@ -63,7 +63,7 @@ export default function LessonView({ bookId, n }) {
     <>
       <Link href={`/thu-vien/${bookId}`} className="back" onClick={() => sfx.page()}>‹ {B.title}</Link>
       <div className="pagehead lbhead" style={{ marginTop: 10 }}>
-        <p style={{ letterSpacing: 2, margin: "0 0 6px" }}>{lessonName(B, n)} · BÀI {n} · sách tr. {meta.page}–{next ? next.page - 1 : meta.page + 10}</p>
+        <p style={{ letterSpacing: 2, margin: "0 0 6px" }}>{lessonName(B, n)} · BÀI {n} · sách tr. {meta.page}–{meta.endPage ?? (next ? next.page - 1 : meta.page + 10)}</p>
         <h1 className="jpt">{meta.jp}</h1>
         <p className="lbro" style={{ margin: "6px 0 0" }}>{meta.ro}</p>
         <p>{meta.vi}</p>
