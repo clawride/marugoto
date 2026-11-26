@@ -1,5 +1,7 @@
 "use client";
 // 📚 Một cuốn sách trong Thư viện: thông tin sách · danh sách bài · trang tra cứu thêm
+import KaigoText from "@/components/library/KaigoText";
+import practiceReadings from "@/data/readings/kaigo-romaji-practice.json";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useGame } from "@/components/Game";
@@ -11,13 +13,15 @@ export default function BookPage() {
   const B = bookById(book);
   const { S } = useGame();
   if (!B) return <p style={{ marginTop: 40 }}>Không tìm thấy sách. <Link href="/thu-vien">Về Thư viện</Link></p>;
+  const readings = book === "kaigo-jiko" ? practiceReadings : null;
   const done = S?.lib?.[B.id] || {};
   return (
     <>
       <Link href={`/thu-vien/${B.cat || "it"}`} className="back" onClick={() => sfx.page()}>‹ {catById(B.cat || "it")?.name || "Thư viện sách"}</Link>
       <div className="pagehead" style={{ marginTop: 10 }}>
-        <p style={{ letterSpacing: 2, margin: "0 0 6px" }}>{B.level} · {B.sub}</p>
+        <p style={{ letterSpacing: 2, margin: "0 0 6px" }}>{B.level} · <KaigoText text={B.sub} readings={readings} /></p>
         <h1 className="jpt">{B.title}</h1>
+        {readings && <p className="lbromaji" lang="ja-Latn">{B.titleRo}</p>}
         <p>{B.vi}</p>
         <p className="hint" style={{ marginTop: 4 }}>{B.authors} · {B.publisher}</p>
         <div className="orn"><span /></div>
@@ -43,7 +47,7 @@ export default function BookPage() {
         <div className="lbextras">
           {B.extras.map((x) => (
             <Link key={x.id} href={`/thu-vien/${B.id}/${x.id}`} className="panel lbextra" onClick={() => sfx.page()}>
-              <span aria-hidden="true">{x.ico}</span><b>{x.vi}</b><small className="jpt">{x.jp}</small>
+              <span aria-hidden="true">{x.ico}</span><b>{x.vi}</b><small className="jpt"><KaigoText text={x.jp} readings={readings} /></small>
             </Link>
           ))}
         </div>
@@ -54,9 +58,10 @@ export default function BookPage() {
         <div className="lblessons">
           {B.lessons.map((l) => (
             <Link key={l.n} href={`/thu-vien/${B.id}/${l.n}`} className={`panel lbles ${done[l.n] ? "done" : ""}`} onClick={() => sfx.page()}>
-              <span className="lblesn">{lessonName(B, l.n)}</span>
+              <span className="lblesn"><KaigoText text={lessonName(B, l.n)} readings={readings} /></span>
               <div>
                 <b className="jpt">{l.jp}</b>
+                {readings && <span className="lbromaji" lang="ja-Latn">{l.ro}</span>}
                 <small>{l.vi}</small>
               </div>
               <em>{done[l.n] ? "✓ Đã học" : `tr. ${l.page}`}</em>

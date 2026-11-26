@@ -1,4 +1,6 @@
 "use client";
+import KaigoText from "./KaigoText";
+import practiceReadings from "@/data/readings/kaigo-romaji-practice.json";
 import Rom from "@/components/Rom";
 // 📚 Một bài trong Thư viện sách: tình huống · các mẫu câu chính (giải thích + ví dụ) · hội thoại luyện đọc · cách nói tương tự · từ vựng · mẹo
 // Dữ liệu: public/library/<sách>/<bài>.json (scripts/build-library.mjs)
@@ -55,15 +57,16 @@ export default function LessonView({ bookId, n, children }) {
   const L = useLibJson(lessonUrl(bookId, n));
   const { S, update } = useGame();
   if (!B || !meta) return <p style={{ marginTop: 40 }}>Không tìm thấy bài. <Link href="/thu-vien">Về Thư viện</Link></p>;
+  const annotate = text => bookId === "kaigo-jiko" ? <KaigoText text={text} readings={practiceReadings} /> : text;
   const done = !!S?.lib?.[bookId]?.[n];
   const prev = B.lessons.find((l) => l.n === n - 1), next = B.lessons.find((l) => l.n === n + 1);
   const toggleDone = () => { update((s) => { s.lib ||= {}; s.lib[bookId] ||= {}; if (done) delete s.lib[bookId][n]; else s.lib[bookId][n] = Date.now(); }); sfx.click(); };
 
   return (
     <>
-      <Link href={`/thu-vien/${bookId}`} className="back" onClick={() => sfx.page()}>‹ {B.title}</Link>
+      <Link href={`/thu-vien/${bookId}`} className="back" onClick={() => sfx.page()}>‹ {annotate(B.title)}</Link>
       <div className="pagehead lbhead" style={{ marginTop: 10 }}>
-        <p style={{ letterSpacing: 2, margin: "0 0 6px" }}>{lessonName(B, n)} · BÀI {n} · sách tr. {meta.page}–{meta.endPage ?? (next ? next.page - 1 : meta.page + 10)}</p>
+        <p style={{ letterSpacing: 2, margin: "0 0 6px" }}>{annotate(lessonName(B, n))} · BÀI {n} · sách tr. {meta.page}–{meta.endPage ?? (next ? next.page - 1 : meta.page + 10)}</p>
         <h1 className="jpt">{meta.jp}</h1>
         <p className="lbro" style={{ margin: "6px 0 0" }}>{meta.ro}</p>
         <p>{meta.vi}</p>
@@ -85,15 +88,15 @@ export default function LessonView({ bookId, n, children }) {
       {L && <>
         <section className="panel lbsec" id="tinh-huong">
           <h2>{B.sceneHead || "🎬 Tình huống trong sách"}</h2>
-          <p>{L.scene}</p>
+          <p>{annotate(L.scene)}</p>
           {!!L.people?.length && <div className="lbpeople">{L.people.map((p, i) => <span key={i} className="lbperson"><b className="jpt">{p.name}</b> {p.ro && <i>{p.ro}</i>} — {p.role}</span>)}</div>}
-          {!!L.goals?.length && <><h3>🎯 Sau bài này bạn có thể</h3><ul>{L.goals.map((g, i) => <li key={i}>{g}</li>)}</ul></>}
+          {!!L.goals?.length && <><h3>🎯 Sau bài này bạn có thể</h3><ul>{L.goals.map((g, i) => <li key={i}>{annotate(g)}</li>)}</ul></>}
         </section>
 
         {!!L.know?.length && (
           <section className="panel lbsec" id="kien-thuc">
             <h2>📖 Kiến thức nền <small>chủ đề của bài đọc trong sách, giải thích ngắn</small></h2>
-            {L.know.map((p, i) => <p key={i}>{p}</p>)}
+            {L.know.map((p, i) => <p key={i}>{annotate(p)}</p>)}
           </section>
         )}
 
@@ -104,7 +107,7 @@ export default function LessonView({ bookId, n, children }) {
               {L.terms.map((t, i) => (
                 <div key={i} className="lbterm">
                   <button className="lbcell jpt" onClick={() => say(t.r || t.w)} title="Bấm để nghe"><b>{t.w}</b></button>
-                  {t.r && t.r !== t.w && <span className="jpt lbwr"> {t.r}</span>} <i className="lbro">{t.ro}</i>{t.en && <em> · {t.en}</em>}
+                  {t.r && t.r !== t.w && <span className="jpt lbwr"> {t.r}</span>} <i className={bookId === "kaigo-jiko" ? "lbromaji" : "lbro"}>{t.ro}</i>{t.en && <em> · {t.en}</em>}
                   <p>{t.vi}</p>
                 </div>
               ))}
@@ -126,9 +129,9 @@ export default function LessonView({ bookId, n, children }) {
                 <button className="lbspk" onClick={() => say(g.p.replace(/〇〇|○○/g, "まるまる"))} aria-label="Nghe mẫu câu">🔊</button>
               </div>
               <dl className="lbgdl">
-                <dt>Cấu tạo</dt><dd className="jpt">{g.form}</dd>
-                <dt>Cách dùng</dt><dd>{g.use}</dd>
-                {!!g.notes?.length && <><dt>Lưu ý</dt><dd><ul>{g.notes.map((x, i) => <li key={i}>{x}</li>)}</ul></dd></>}
+                <dt>Cấu tạo</dt><dd className="jpt">{annotate(g.form)}</dd>
+                <dt>Cách dùng</dt><dd>{annotate(g.use)}</dd>
+                {!!g.notes?.length && <><dt>Lưu ý</dt><dd><ul>{g.notes.map((x, i) => <li key={i}>{annotate(x)}</li>)}</ul></dd></>}
               </dl>
               <div className="lbexs">
                 <h4>Ví dụ</h4>
@@ -160,7 +163,7 @@ export default function LessonView({ bookId, n, children }) {
         {!!L.discuss?.length && (
           <section className="panel lbsec" id="thao-luan">
             <h2>🤔 Câu hỏi thảo luận <small>tự trả lời bằng tiếng Nhật</small></h2>
-            <ol>{L.discuss.map((q, i) => <li key={i}>{typeof q === "string" ? q : <><span className="jpt">{q.jp}</span><Rom text={q.jp} /><small className="lbvi">{q.vi}</small></>}</li>)}</ol>
+            <ol>{L.discuss.map((q, i) => <li key={i}>{typeof q === "string" ? annotate(q) : <><span className="jpt">{q.jp}</span><Rom text={q.jp} /><small className="lbvi">{q.vi}</small></>}</li>)}</ol>
           </section>
         )}
 
@@ -172,7 +175,7 @@ export default function LessonView({ bookId, n, children }) {
         {!!L.tips?.length && (
           <section className="panel lbsec" id="meo">
             <h2>{B.tipsHead || "💡 Mẹo công sở Nhật"}</h2>
-            <ul>{L.tips.map((t, i) => <li key={i}>{t}</li>)}</ul>
+            <ul>{L.tips.map((t, i) => <li key={i}>{annotate(t)}</li>)}</ul>
           </section>
         )}
 

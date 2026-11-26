@@ -1,5 +1,7 @@
 "use client";
 // 📚 Trang tra cứu thêm của một cuốn sách (kính ngữ, từ viết tắt, nhân vật…) và bảng tra cứu toàn bộ từ vựng
+import KaigoText from "./KaigoText";
+import practiceReadings from "@/data/readings/kaigo-romaji-practice.json";
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import GenshinVocabTable from "@/components/GenshinVocab";
@@ -8,7 +10,7 @@ import { useLibJson, meaning } from "@/components/library/LessonView";
 import { bookById } from "@/lib/library";
 import { sfx } from "@/lib/sfx";
 
-export function Block({ b }) {
+export function Block({ b, readings }) {
   if (b.t === "text") return (
     <section className="panel lbsec">
       {b.h && <h2>{b.h}</h2>}
@@ -26,8 +28,8 @@ export function Block({ b }) {
             <tbody>{b.rows.map((r, i) => (
               <tr key={i}>{r.map((c, j) => (
                 <td key={j}>{jp.has(j) && c && c !== "—"
-                  ? <button className="lbcell jpt" onClick={() => say(c.split(/[・／/、]/)[0])} title="Bấm để nghe">{c}</button>
-                  : c}</td>
+                  ? <button className="lbcell jpt" onClick={() => say(c.split(/[・／/、]/)[0])} title="Bấm để nghe"><KaigoText text={c} readings={readings} /></button>
+                  : <KaigoText text={c} readings={readings} />}</td>
               ))}</tr>
             ))}</tbody>
           </table>
@@ -60,14 +62,15 @@ export function Block({ b }) {
 
 export default function ExtraView({ bookId, id, children }) {
   const B = bookById(bookId);
+  const readings = bookId === "kaigo-jiko" ? practiceReadings : null;
   const meta = B?.extras.find((x) => x.id === id);
   const X = useLibJson(`/library/${bookId}/${id === "tu-vung" ? "vocab" : id}.json`);
   if (!B || !meta) return <p style={{ marginTop: 40 }}>Không tìm thấy trang. <Link href="/thu-vien">Về Thư viện</Link></p>;
   return (
     <>
-      <Link href={`/thu-vien/${bookId}`} className="back" onClick={() => sfx.page()}>‹ {B.title}</Link>
+      <Link href={`/thu-vien/${bookId}`} className="back" onClick={() => sfx.page()}>‹ <KaigoText text={B.title} readings={readings} /></Link>
       <div className="pagehead" style={{ marginTop: 10 }}>
-        <p style={{ letterSpacing: 2, margin: "0 0 6px" }} className="jpt">{meta.jp}</p>
+        <p style={{ letterSpacing: 2, margin: "0 0 6px" }} className="jpt"><KaigoText text={meta.jp} readings={readings} /></p>
         <h1>{meta.ico} {meta.vi}</h1>
         {!!X?.intro && <p>{X.intro}</p>}
         <div className="orn"><span /></div>
@@ -78,7 +81,7 @@ export default function ExtraView({ bookId, id, children }) {
         <div className="lbbar"><ViewBar /></div>
         {X === undefined && <p className="hint" style={{ textAlign: "center" }}>Đang tải…</p>}
         {X === null && <p className="panel lbsec" style={{ textAlign: "center" }}>Không tải được trang này. Hãy kiểm tra mạng rồi tải lại trang.</p>}
-        {X?.blocks?.map((b, i) => <Block key={i} b={b} />)}
+        {X?.blocks?.map((b, i) => <Block key={i} b={b} readings={readings} />)}
       </>}
     </>
   );

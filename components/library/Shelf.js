@@ -18,6 +18,7 @@ export function BookCard({ b }) {
       <div className="lbbtxt">
         <div className="lbblv">{b.level} · {b.lessons.length} bài</div>
         <h3 className="jpt">{b.title}</h3>
+        {b.id === "kaigo-jiko" && <span className="lbromaji" lang="ja-Latn">{b.titleRo}</span>}
         <p className="lbbvi">{b.vi}</p>
         <p>{b.desc}</p>
         <small>{b.authors}</small>

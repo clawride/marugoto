@@ -1,3 +1,6 @@
+import readingsRo from "@/data/readings/kaigo-romaji-source.json";
+import { readingBlocks } from "@/lib/kaigoText";
+import KaigoText from "./KaigoText";
 import Link from "next/link";
 import readings from "@/data/readings/kaigo-jiko.json";
 import notes from "@/data/readings/kaigo-jiko-notes.json";
@@ -9,44 +12,13 @@ export const readingIds = Object.keys(readings);
 export const endMatter = { "loi-mo-dau": "Bìa, mục lục và lời mở đầu", "loi-ket": "Lời kết và thông tin tác giả" };
 
 function TextBlocks({ text }) {
-  // Some rows in the printed tables wrap halfway through a cell or continue on the next page.
-  const blocks = [];
-  let paragraph = [], table = [];
-  function flushText() {
-    if (paragraph.length) blocks.push(<p key={blocks.length}>{paragraph.join(" ")}</p>);
-    paragraph = [];
-  }
-  function flushTable() {
-    if (table.length) {
-      const rows = table.filter(row => !/^\|[\s|:-]+$/.test(row));
-      blocks.push(<div key={blocks.length} className="gvscroll"><table className="vnvocab lbtable"><tbody>
-        {rows.map((row, i) => <tr key={i}>{row.replace(/^\||\|$/g, "").split("|").map((cell, j) => <td key={j}>{cell.trim()}</td>)}</tr>)}
-      </tbody></table></div>);
-    }
-    table = [];
-  }
-  for (const raw of text.split("\n")) {
-    const line = raw.trim();
-    if (line.startsWith("|")) {
-      flushText();
-      table.push(line);
-    } else if (line && table.length && !table.at(-1).endsWith("|")) {
-      table[table.length - 1] += " " + line;
-    } else {
-      flushTable();
-      if (!line) { flushText(); continue; }
-      if (/^(?:CHƯƠNG |PHỤ LỤC |MỤC \d|THẺ \d|MẪU \d|Case \d|Tình huống \d|\d+\.\d+\.)/.test(line)) {
-        flushText();
-        blocks.push(<h4 key={blocks.length}>{line}</h4>);
-        continue;
-      }
-      if (/^(?:\*|>|[-•]|\d+[.)]|Q\d+:|A:|Nhóm \d)/.test(line)) flushText();
-      paragraph.push(line);
-    }
-  }
-  flushText();
-  flushTable();
-  return blocks;
+  return readingBlocks(text).map((block, i) => {
+    if (block.type === "table") return <div key={i} className="gvscroll"><table className="vnvocab lbtable"><tbody>
+      {block.rows.map((row, j) => <tr key={j}>{row.map((cell,k) => <td key={k}><KaigoText text={cell} readings={readingsRo} /></td>)}</tr>)}
+    </tbody></table></div>;
+    const Tag = block.type;
+    return <Tag key={i}><KaigoText text={block.text} readings={readingsRo} /></Tag>;
+  });
 }
 
 export function SourceReading({ id }) {
