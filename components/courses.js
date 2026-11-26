@@ -11,7 +11,7 @@ import { NeuvilletteHost, NeuvilletteHero, NV, NEUVILLETTE } from "@/components/
 import { NaviaHost, NaviaHero, NA, NAVIA } from "@/components/Navia";
 import { AmberHost, AmberHero, AMB, AMBER } from "@/components/Amber";
 import { A22_EXAM, AB1_EXAM, A1_EXAM, A21_EXAM, B12_EXAM, MN2_EXAM, MN1_EXAM, MNC2_EXAM, MNC1_EXAM } from "@/components/examConfigs";
-import { B11_AUDIO, A22_AUDIO, AB1_AUDIO, A1_AUDIO, A21_AUDIO, A21R_AUDIO, A21C_AUDIO, NO_AUDIO } from "@/lib/audioLib";
+import { B11_AUDIO, B12_AUDIO, A22_AUDIO, AB1_AUDIO, A1_AUDIO, A21_AUDIO, A21R_AUDIO, A21C_AUDIO, NO_AUDIO } from "@/lib/audioLib";
 import { A22 } from "@/lib/a22";
 import { AB1 } from "@/lib/ab1";
 import { A1C } from "@/lib/a1";
@@ -101,10 +101,10 @@ export const A21_COURSE = {
 
 export const B12_COURSE = {
   store: "b12", C: B12, base: "/b12", title: "Marugoto B1-2", kanjiAll: true, /* kanjiAll: phần Kanji kiểm tra toàn bộ từ vựng có chữ Hán của bài */ unit: "Bài", unitTag: (L) => `TOPIC ${L.topic} · ${L.topicTitle} · ${L.lesson % 2 ? "準備・PART 1–2" : "PART 3–5"}`,
-  audio: NO_AUDIO, audioSetups: [],
+  audio: B12_AUDIO, folder: "Marugoto 中級2 audio",
   Host: MavuikaHost, Hero: MavuikaHero, lines: MV, char: MAVUIKA, hostName: "Mavuika",
   exam: B12_EXAM,
-  // Học theo sách 中級2: mỗi Topic của sách tách làm 2 bài (A: 準備・PART1–2 · B: PART3–5) — public/book/b12/<bài>.json · chưa có audio sách → giọng máy
+  // Học theo sách 中級2: mỗi Topic của sách tách làm 2 bài (A: 準備・PART1–2 · B: PART3–5) — public/book/b12/<bài>.json
   books: [{ key: "book", ico: "📖", short: "中級2", name: "Sách まるごと 中級2 B1-2", url: (n) => `/book/b12/${n}.json`, prefix: "#", dir: "b12", kiroku: "/b12/kiroku", kirokuPages: "264–281" }],
   topicHref: (t) => `/b12/${t * 2 - 1}`,
   // テストの問題例 của sách (app/b12/test/[n]) sau Topic 3, 6, 9

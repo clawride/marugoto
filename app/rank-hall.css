@@ -1,0 +1,35 @@
+.hall-hero,.hall-champion{position:relative;isolation:isolate;text-align:center;color:#fff1d5}
+.hall-hero{overflow:hidden;display:grid;justify-items:center;align-content:center;min-height:220px;padding:28px 20px;border:1px solid #ba9c64;border-radius:18px 18px 5px 5px;background:linear-gradient(90deg,#10182fea,#1522428a 50%,#10182fc7),url('/shiki-duel/arena/bg-liyue.webp') center 48%/cover}
+.hall-hero::before,.hall-champion::before{content:"";position:absolute;inset:7px;border:1px solid #e4cc973f;pointer-events:none;z-index:-1}
+.hall-hero::after{content:"";pointer-events:none;position:absolute;inset:0;z-index:-1;background:linear-gradient(115deg,transparent 35%,#ffe7ae25 49%,transparent 62%);transform:translateX(-100%);animation:hall-glint 1.6s ease-out .25s 1 backwards}
+@keyframes hall-glint{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+.hall-seal{display:grid;place-items:center;width:60px;height:60px;color:#f6d994;filter:drop-shadow(0 0 12px #ffdb9290)}
+.hall-seal svg{width:100%;height:100%}
+.hall-hero h1{font-family:"Noto Serif",Georgia,serif;font-size:clamp(28px,5vw,52px);line-height:1.2;letter-spacing:.01em;margin:7px 0;color:#fff2d2;text-shadow:0 2px 10px #0e162a}
+.hall-ornament{display:flex;align-items:center;gap:10px;color:#f8d798}
+.hall-ornament::before,.hall-ornament::after{content:"";width:72px;height:1px;background:linear-gradient(90deg,transparent,#eac680)}
+.hall-ornament::after{transform:scaleX(-1)}
+.rk .rk-bar{margin:14px 0}
+.hall-podium{display:flex;justify-content:center;align-items:flex-end;gap:clamp(5px,1.5vw,18px);margin:24px 0 18px}
+.hall-champion{--medal:#f1ce85;order:2;flex:1 1 0;min-width:0;max-width:350px;padding:16px 9px 23px;background:radial-gradient(ellipse at 50% 0,#665331,#28293b 68%,#151e32);border:1px solid var(--medal);border-radius:48% 48% 9px 9px / 16px 16px 9px 9px;box-shadow:0 10px 24px #10172036;animation:hall-rise .55s ease-out backwards}
+.hall-champion.place-1{padding-block:28px 32px;box-shadow:0 3px 24px #c0944233}
+.hall-champion.place-2{--medal:#c0dcf2;order:1;background:radial-gradient(ellipse at 50% 0,#415b76,#1c2c47 72%);animation-delay:.08s}
+.hall-champion.place-3{--medal:#e6b298;order:3;background:radial-gradient(ellipse at 50% 0,#71503e,#302939 72%);animation-delay:.16s}
+@keyframes hall-rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.hall-medal{font:700 20px Georgia,serif;letter-spacing:.09em;color:var(--medal)}
+.hall-portrait{position:relative;display:grid;place-items:center;width:78px;height:78px;margin:8px auto 12px;border:2px solid var(--medal);border-radius:50%;box-shadow:0 0 0 3px #192036,0 0 0 4px var(--medal)}
+.hall-portrait>*{max-width:100%;max-height:100%;border-radius:50%}
+.hall-champion h2{font-family:"Noto Serif",Georgia,serif;font-size:clamp(15px,2vw,23px);color:#fff5df;line-height:1.35;overflow-wrap:anywhere;margin:4px 0}
+.hall-score{display:inline-flex;align-items:baseline;justify-content:center;gap:5px;flex-wrap:wrap;font-variant-numeric:tabular-nums}
+.hall-champion .hall-score{color:var(--medal)}
+.hall-champion .certbadges{display:flex;flex-wrap:wrap;justify-content:center;margin-top:5px}
+.hall-row{display:grid;grid-template-columns:minmax(38px,auto) 34px minmax(0,1fr) auto;align-items:center;gap:10px;padding:12px 6px;border-top:1px solid var(--rk-line)}
+.hall-row.mine{background:var(--pl-accent-2,#ecca8220)}
+.hall-person{display:grid;gap:3px;overflow-wrap:anywhere}
+.hall-position{font-family:Georgia,serif;font-variant-numeric:tabular-nums;color:var(--rk-acc)}
+.hall-champion em,.hall-person em{font:600 11px system-ui;padding:2px 5px;margin-inline-start:4px;border:1px solid currentColor;border-radius:4px}
+.hall-message{text-align:center;padding:38px 16px;color:var(--rk-ink)}
+.hall-message i{display:block;font-size:32px;color:var(--rk-acc)}
+@media(max-width:530px){.hall-hero{min-height:175px}.hall-champion{padding-inline:5px}.hall-champion::before{inset:3px}.hall-portrait{width:50px;height:50px}.hall-portrait>*{width:100%!important;height:100%!important}.hall-score{gap:3px}.hall-row{gap:6px}.hall-champion .certbadges{gap:1px}.hall-champion .certbadges i{max-width:100%;white-space:normal}}
+html[data-ui="plain"] .hall-hero{background:linear-gradient(125deg,#202d49,#384f64)}
+@media(prefers-reduced-motion:reduce){.hall-champion,.hall-hero::after{animation:none}}

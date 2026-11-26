@@ -28,7 +28,6 @@ export default function Header() {
   const n = (v) => (v ?? 0).toLocaleString("vi-VN");
   const isOn = (href) => (href === "/" ? path === "/" : path === href || path?.startsWith(href + "/"));
 
-  // Thanh nút trên cùng cuộn ngang được khi bị khuất: lăn chuột, kéo chuột hoặc vuốt cảm ứng
   const rail = useRef(null);
   useEffect(() => {
     const el = rail.current;
@@ -37,22 +36,7 @@ export default function Header() {
     const resize = new ResizeObserver(measure);
     resize.observe(el);
     measure();
-    const wheel = (e) => {
-      if (e.ctrlKey || el.scrollWidth <= el.clientWidth || Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
-      const next = Math.max(0, Math.min(el.scrollWidth - el.clientWidth, el.scrollLeft + e.deltaY));
-      if (next !== el.scrollLeft) { el.scrollLeft = next; e.preventDefault(); }
-    };
-    let sx = 0, sl = 0, dragging = false, moved = false;
-    const down = (e) => { if (e.pointerType !== "mouse" || e.button !== 0 || el.scrollWidth <= el.clientWidth) return; dragging = true; moved = false; sx = e.clientX; sl = el.scrollLeft; };
-    const move = (e) => { if (!dragging) return; const dx = e.clientX - sx; if (Math.abs(dx) > 5) moved = true; if (moved) { el.scrollLeft = sl - dx; el.classList.add("dragging"); } };
-    const up = () => { dragging = false; el.classList.remove("dragging"); };
-    const click = (e) => { if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; } }; // kéo xong không bấm nhầm nút
-    el.addEventListener("wheel", wheel, { passive: false });
-    el.addEventListener("pointerdown", down);
-    window.addEventListener("pointermove", move);
-    window.addEventListener("pointerup", up);
-    el.addEventListener("click", click, true);
-    return () => { resize.disconnect(); el.removeEventListener("wheel", wheel); el.removeEventListener("pointerdown", down); window.removeEventListener("pointermove", move); window.removeEventListener("pointerup", up); el.removeEventListener("click", click, true); };
+    return () => resize.disconnect();
   }, []);
 
   useEffect(() => { setOpen(false); }, [path]);
@@ -90,21 +74,23 @@ export default function Header() {
         <button ref={btn} className={`navbtn menubtn ${open ? "on" : ""}`} aria-label={open ? "Đóng menu" : "Mở menu"} aria-expanded={open} aria-controls="mainmenu" onClick={() => { setOpen((v) => !v); sfx.click(); }}>
           <span aria-hidden="true">{open ? "✕" : "☰"}</span><span className="lbl">Menu</span>
         </button>
-        {isAdmin === true && <Link href="/quan-tri" className={`navbtn ${path.startsWith("/quan-tri") ? "on" : ""}`} onClick={() => sfx.page()} title="Trang quản trị" aria-label="Trang quản trị"><span aria-hidden="true">⚙️</span><span className="lbl">Quản trị</span></Link>}
-        {!OFFLINE && pwa.can && <button type="button" className="navbtn" onClick={() => { sfx.click(); pwa.install(); }} title="Cài tiengnhat.online làm ứng dụng trên máy (mở nhanh, có biểu tượng riêng)"><span aria-hidden="true">📲</span><span className="lbl">Cài app</span></button>}
-        {!OFFLINE && site.gadgetEnabled && site.gadgetDownload && <a href={site.gadgetDownload} className="navbtn dlbtn" rel="noopener" onClick={() => sfx.click()} title="Tải TiengNhat Gadget bản máy tính (Windows 10/11, ~150 MB) — giải nén rồi mở TiengNhatGadget.exe"><span aria-hidden="true">💻</span><span className="lbl">Tải cho Windows</span></a>}
-        {!OFFLINE && site.gadgetEnabled && <a href="/gadget" className="navbtn gadgetbtn" onClick={() => sfx.page()} title="TiengNhat Gadget: hạng, từ vựng, kiểm tra nhanh, tra cứu chữ Hán — cài được như ứng dụng"><span aria-hidden="true">🖥</span><span className="lbl">Gadget</span></a>}
         <Link href="/rank" className={`navbtn rankbtn ${path === "/rank" ? "on" : ""}`} onClick={() => sfx.page()} title="Bảng xếp hạng"><span aria-hidden="true">🏆</span><span className="lbl">Xếp hạng</span></Link>
-        {!OFFLINE && <button type="button" className="navbtn profchip" onClick={() => { setProfOpen(true); sfx.open?.(); }} title="Hồ sơ của bạn" aria-label="Hồ sơ của bạn">{S?.profile ? <Avatar avatar={S.profile.avatar} name={S.profile.name} size={24} /> : <span aria-hidden="true">👤</span>}<span className="lbl">{S?.profile?.name || "Hồ sơ"}</span></button>}
-        <button className="navbtn uibtn" onClick={() => { setUITheme(ui === "plain" ? "game" : "plain"); sfx.click(); }}
-          title={ui === "plain" ? "Chuyển sang giao diện Teyvat (game)" : "Chuyển sang giao diện học tập cơ bản (không ảnh anime)"} aria-label="Đổi giao diện">
-          <span aria-hidden="true">{ui === "plain" ? "🎮" : "📘"}</span><span className="lbl">{ui === "plain" ? "Giao diện game" : "Giao diện cơ bản"}</span>
-        </button>
-        <button className="navbtn" onClick={toggleSound} title={S?.sound === false ? "Bật âm thanh" : "Tắt âm thanh"} aria-label={S?.sound === false ? "Bật âm thanh" : "Tắt âm thanh"}>{S?.sound === false ? "🔇" : "🔊"}</button>
+        {!OFFLINE && <button type="button" className="navbtn profchip" onClick={() => { setProfOpen(true); sfx.open?.(); }} title={S?.profile?.username ? "Hồ sơ của bạn" : "Đang dùng với tư cách khách"}>{S?.profile?.username ? <Avatar avatar={S.profile.avatar} name={S.profile.name} size={24} /> : <span aria-hidden="true">👤</span>}<span className="lbl">{S?.profile?.username ? (S.profile.name || S.profile.username) : "Đăng nhập"}</span></button>}
       </div>
       {open && (
         <nav id="mainmenu" ref={panel} className="mainmenu" aria-label="Điều hướng">
           <div className="mnwrap">
+            <div className="menu-actions" aria-label="Tiện ích">
+              {isAdmin === true && <Link href="/quan-tri" className={`navbtn ${path.startsWith("/quan-tri") ? "on" : ""}`} onClick={() => sfx.page()} title="Trang quản trị" aria-label="Trang quản trị"><span aria-hidden="true">⚙️</span><span className="lbl">Quản trị</span></Link>}
+              {!OFFLINE && pwa.can && <button type="button" className="navbtn" onClick={() => { sfx.click(); pwa.install(); }} title="Cài tiengnhat.online làm ứng dụng trên máy (mở nhanh, có biểu tượng riêng)"><span aria-hidden="true">📲</span><span className="lbl">Cài app</span></button>}
+              {!OFFLINE && site.gadgetEnabled && site.gadgetDownload && <a href={site.gadgetDownload} className="navbtn dlbtn" rel="noopener" onClick={() => sfx.click()} title="Tải TiengNhat Gadget bản máy tính (Windows 10/11, ~150 MB) — giải nén rồi mở TiengNhatGadget.exe"><span aria-hidden="true">💻</span><span className="lbl">Tải cho Windows</span></a>}
+              {!OFFLINE && site.gadgetEnabled && <a href="/gadget" className="navbtn gadgetbtn" onClick={() => sfx.page()} title="TiengNhat Gadget: hạng, từ vựng, kiểm tra nhanh, tra cứu chữ Hán — cài được như ứng dụng"><span aria-hidden="true">🖥</span><span className="lbl">Gadget</span></a>}
+              <button className="navbtn uibtn" onClick={() => { setUITheme(ui === "plain" ? "game" : "plain"); sfx.click(); }}
+                title={ui === "plain" ? "Chuyển sang giao diện Teyvat (game)" : "Chuyển sang giao diện học tập cơ bản (không ảnh anime)"} aria-label="Đổi giao diện">
+                <span aria-hidden="true">{ui === "plain" ? "🎮" : "📘"}</span><span className="lbl">{ui === "plain" ? "Giao diện game" : "Giao diện cơ bản"}</span>
+              </button>
+              <button className="navbtn" onClick={toggleSound} title={S?.sound === false ? "Bật âm thanh" : "Tắt âm thanh"} aria-label={S?.sound === false ? "Bật âm thanh" : "Tắt âm thanh"}>{S?.sound === false ? "🔇" : "🔊"}</button>
+            </div>
             <Link href="/#sotay" className={`mnitem wide ${path === "/" ? "on" : ""}`} onClick={() => { sfx.page(); setOpen(false); }}>
               <span className="mnico" aria-hidden="true">📒</span>
               <span className="mntxt"><b>Sổ Tay Từ Vựng</b><small>Trang chủ · từ vựng mọi sách theo Topic</small></span>
@@ -124,7 +110,7 @@ export default function Header() {
       )}
           {profOpen && (S?.profile?.username
             ? <ProfileDialog mode="edit" onClose={() => setProfOpen(false)} />
-            : <ProfileDialog mode="gate" onClose={() => setProfOpen(false)} onSkip={() => setProfOpen(false)} />)}
+            : <ProfileDialog mode="gate" initialTab="login" onClose={() => setProfOpen(false)} onSkip={() => setProfOpen(false)} />)}
     </header>
   );
 }

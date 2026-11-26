@@ -1,4 +1,6 @@
 "use client";
+import { AudioSetup } from "@/components/Listen";
+import { B11_AUDIO } from "@/lib/audioLib";
 import Link from "next/link";
 import { useGame } from "@/components/Game";
 import { ZhongliHero } from "@/components/Zhongli";
@@ -12,6 +14,7 @@ export default function B1Hub() {
   return (
     <>
       <ZhongliHero />
+      <AudioSetup lib={B11_AUDIO} folder="Marugoto 中級1 audio" />
       <div className="kjtools">
         <Link href="/kanji/phieu?lv=b1" className="panel kjtool" onClick={() => sfx.page()}>
           <b>📝 Phiếu luyện viết Kanji B1-1</b>

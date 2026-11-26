@@ -1,6 +1,7 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { A21_AUDIO, canPickDir } from "@/lib/audioLib";
+import { bookSnapshot, serverBookSnapshot, subscribeBook, playBook, stopBook, toggleBook } from "@/lib/bookPlayback";
 import { speakLines, stopSpeak, ttsAvailable, hasNaturalVoice, naturalVoices } from "@/lib/tts";
 import { onVoiceStatus } from "@/lib/voicevox";
 import { findClip, warmClip } from "@/lib/listenClip";
@@ -55,18 +56,33 @@ export function AudioSetup({ lib = A21_AUDIO, folder = "New A2-1 Katsudou audio"
   const [n, setN] = useState(0);
   const [saved, setSaved] = useState(false);
   const inp = useRef(null);
+  const single = useRef(null);
+  const [selected, setSelected] = useState("");
+  const [message, setMessage] = useState("");
+  const [tracks, setTracks] = useState(() => lib.tracks?.() || []);
+  const key = tracks.some((track) => track.key === selected) ? selected : tracks[0]?.key;
+  const loadFiles = (event) => {
+    const files = event.target.files;
+    if (files?.length) {
+      setN(setFileList(files));
+      setSelected("");
+      setMessage(lib.audioCount() ? "" : "Thư mục này chưa có tệp MP3.");
+    }
+    event.target.value = "";
+  };
   useEffect(() => {
-    setN(audioCount());
-    const off = onAudioChange(setN);
+    const refresh = (value) => { setN(value); setTracks(lib.tracks?.() || []); setSelected(""); };
+    refresh(audioCount());
+    const off = onAudioChange(refresh);
     restoreFolder(false).then(setN).catch(() => {});
     hasSavedFolder().then(setSaved);
     return off;
-  }, []);
+  }, [lib]);
   const choose = async () => {
     try {
-      if (canPickDir()) { setN(await pickFolder()); setSaved(true); }
+      if (canPickDir()) { const value = await pickFolder(); setN(value); setSaved(true); setMessage(value ? "" : "Thư mục này chưa có tệp MP3."); }
       else inp.current?.click();
-    } catch {}
+    } catch (err) { if (err.name !== "AbortError") inp.current?.click(); }
   };
   return (
     <div className={`panel audiosetup ${n ? "ok" : ""}`}>
@@ -76,10 +92,15 @@ export function AudioSetup({ lib = A21_AUDIO, folder = "New A2-1 Katsudou audio"
           : <><b>Chưa kết nối audio sách</b><span>Chọn thư mục <i>{folder}</i> trên máy để nghe audio gốc. Không có audio thì trang dùng giọng đọc tiếng Nhật của trình duyệt với lời thoại viết lại.</span></>}
       </div>
       <div className="as-btns">
-        {!n && saved && canPickDir() && <button className="gbtn sm" onClick={async () => setN(await restoreFolder(true))}><span className="c" />Kết nối lại</button>}
+        {lib.bookTitle && <button type="button" className="gbtn sm" onClick={() => single.current?.click()}>Chọn tệp MP3</button>}
+        {!n && saved && canPickDir() && <button className="gbtn sm" onClick={() => restoreFolder(true).then(setN).catch(() => setMessage("Hãy chọn lại thư mục để cấp quyền đọc."))}><span className="c" />Kết nối lại</button>}
         <button className="gbtn sm tri" onClick={choose}><span className="c" />{n ? "Đổi thư mục" : "Chọn thư mục audio"}</button>
       </div>
-      <input ref={inp} type="file" multiple accept="audio/mpeg" style={{ display: "none" }} {...{ webkitdirectory: "", directory: "" }} onChange={(e) => setN(setFileList(e.target.files))} />
+      <input ref={inp} type="file" multiple accept="audio/mpeg" style={{ display: "none" }} {...{ webkitdirectory: "", directory: "" }} onChange={loadFiles} />
+      {lib.bookTitle && <input ref={single} type="file" multiple accept=".mp3,audio/mpeg" hidden onChange={loadFiles} />}
+      {message && <small role="status">{message}</small>}
+      {tracks.length > 0 && <div className="book-picker"><label>Audio {lib.bookTitle}<select value={key} onChange={(e) => setSelected(e.target.value)}>{tracks.map((track) => <option key={track.key} value={track.key}>{track.label}</option>)}</select></label>
+        <button type="button" className="gbtn sm" onClick={() => { stopSpeak(); playBook(lib, key); }}>▶ Phát</button></div>}
     </div>
   );
 }
@@ -100,14 +121,22 @@ export function Player({ file, tts, autoPlay = true, onPlayed, lib = A21_AUDIO, 
   const [pre, setPre] = useState(null); // audio tạo sẵn của kịch bản này (nếu có)
   useEffect(() => { let alive = true; if (tts?.length) findClip(tts).then((c) => alive && setPre(c)).catch(() => {}); return () => { alive = false; }; }, [tts]);
   useEffect(() => { if (pre && autoPlay) warmClip(tts); }, [pre]); // eslint-disable-line react-hooks/exhaustive-deps
-  const [playing, setPlaying] = useState(false);
+  const [localPlaying, setPlaying] = useState(false);
+  const state = useSyncExternalStore(subscribeBook, bookSnapshot, serverBookSnapshot);
+  const shared = mode === "file" && !!lib.bookTitle && maxPlays === 99;
+  const active = shared && state.lib === lib && state.track?.key === lib.trackOf(file)?.key;
+  const playing = shared ? active && state.status === "playing" : localPlaying;
   const [plays, setPlays] = useState(0);
   const audio = useRef(null);
   const play = async () => {
+    if (active && state.status !== "loading") return toggleBook();
     if (plays >= maxPlays) return;
     stopSpeak();
     if (audio.current) { audio.current.pause(); }
-    setPlaying(true); setPlays((p) => p + 1); onPlayed?.();
+    setPlays((p) => p + 1); onPlayed?.();
+    if (shared) return playBook(lib, file);
+    stopBook();
+    setPlaying(true);
     try {
       if (mode === "file") {
         const u = await lib.audioUrl(file);
@@ -130,7 +159,7 @@ export function Player({ file, tts, autoPlay = true, onPlayed, lib = A21_AUDIO, 
   const disabled = empty || (mode === "tts" && !ttsAvailable() && !pre) || (!playing && plays >= maxPlays);
   return (
     <div className={`player ${playing ? "on" : ""}`} onPointerEnter={() => pre && warmClip(tts)} onFocus={() => pre && warmClip(tts)}>
-      <button className="playbtn" onClick={play} disabled={disabled} aria-label="Phát">{playing ? "❚❚" : "▶"}</button>
+      <button className="playbtn" onClick={play} disabled={disabled} aria-label={active && playing ? "Tạm dừng" : "Phát"}>{playing ? "❚❚" : "▶"}</button>
       <div className="pl-info">
         <b>{empty ? "Chưa có lời thoại cho track này" : playing ? (prep ? "Đang chuẩn bị giọng đọc…" : "Đang phát…") : plays ? "Nghe lại" : "Bấm để nghe"}</b>
         <span>{empty ? `Chọn thư mục audio sách ở đầu trang để nghe ${file || "audio gốc"}` : mode === "file" ? `Audio sách · ${file}` : pre ? `Giọng đọc tạo sẵn · VOICEVOX:${pre.voices.join("・")}` : !ttsAvailable() ? "Trình duyệt không hỗ trợ giọng đọc" : hasNaturalVoice() ? `Giọng Natural · ${[...new Set(naturalVoices().map((v) => v.name.replace(/^Microsoft\s+/, "").replace(/\s*Online.*$|\s*\(.*$|\s*-.*$/, "")))].slice(0, 4).join("・")}` : "Giọng đọc máy · mở bằng Microsoft Edge để nghe giọng Natural mượt hơn"}{maxPlays < 99 ? ` · còn ${Math.max(0, maxPlays - plays)} lượt nghe` : ""}</span>

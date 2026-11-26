@@ -1,5 +1,4 @@
 "use client";
-// Bảng xếp hạng: một nút "Bộ lọc" gom mọi bảng · bục top 3 có pháo giấy · các hạng còn lại chạy đua trên đường đua
 import { useEffect, useMemo, useState } from "react";
 import Portal from "@/components/Portal";
 import { useGame } from "@/components/Game";
@@ -19,24 +18,11 @@ function Certs({ c }) {
   })}</span>;
 }
 
-// Câu nói bựa của từng hạng — bấm vào avatar trên bục để đổi câu
-const QUOTES = [
-  ["Đại ca đây rồi 😎", "Ngai vàng êm lắm, ngồi mãi không muốn dậy 👑", "Đừng ai đụng vào ngôi vua nhé!", "Ngủ đi, mai tôi vẫn #1 😴"],
-  ["Chỉ cách ngôi vua một hơi thở 😤", "Lần sau tôi sẽ vượt mặt, hứa đấy!", "Bạc cũng là kim loại quý mà 🥈"],
-  ["Có huy chương là vui rồi 🥉", "Tối nay ăn mừng trà sữa 🧋", "Đồng đội cũng ngầu chứ bộ!"],
-];
-// Dòng trạng thái của các hạng còn lại (chọn theo hạng + id, cố định để không nhảy lung tung)
-const STATUS = [
-  [10, ["Đang bám đuổi top 3 🏃", "Hơi thở đã dồn dập 💨", "Sắp chạm bục rồi!"]],
-  [20, ["Chạy bộ buổi sáng 🚶", "Vừa chạy vừa ăn bánh mì 🥖", "Đang tìm lối tắt…"]],
-  [Infinity, ["Chạy chậm mà chắc 🐢", "Vừa học vừa ngủ gật 😴", "Dừng lại uống trà một chút 🍵", "Cố lên, chưa muộn đâu! 💪"]],
-];
-const statusOf = (rank, id) => { const g = STATUS.find(([n]) => rank <= n)[1]; let h = 0; for (const ch of String(id)) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return g[h % g.length]; };
-
 // Số nhảy từ 0 lên giá trị thật
 function useCountUp(target, ms = 900) {
   const [v, setV] = useState(0);
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { setV(target); return; }
     let raf, t0;
     const step = (t) => { t0 ??= t; const p = Math.min(1, (t - t0) / ms); setV(Math.round(target * (1 - Math.pow(1 - p, 3)))); if (p < 1) raf = requestAnimationFrame(step); };
     raf = requestAnimationFrame(step);
@@ -53,80 +39,31 @@ function Score({ board, score }) {
   return exam ? <><b>{d.total}/180</b><small>{n}%</small></> : <><b>{n}%</b><small>{d.total} câu</small></>;
 }
 
-// Pháo giấy rơi một lần (vị trí cố định theo chỉ số → không nhấp nháy giữa các lần vẽ)
-const CONFETTI = Array.from({ length: 34 }, (_, i) => ({ x: (i * 37) % 100, d: 0.2 + ((i * 53) % 100) / 70, r: (i * 97) % 360, c: ["#f7c948", "#ff7aa8", "#5bc0ff", "#7be07b", "#b794f4", "#ff9a4d"][i % 6], w: 6 + (i % 4) * 2 }));
-function Confetti() {
-  return <div className="rk-confetti" aria-hidden="true">{CONFETTI.map((p, i) => <i key={i} style={{ left: `${p.x}%`, background: p.c, width: p.w, height: p.w * 1.6, animationDelay: `${(1.5 + p.d).toFixed(2)}s`, "--r": `${p.r}deg`, "--sx": `${(i % 2 ? 1 : -1) * (10 + (i % 5) * 8)}px` }} />)}</div>;
-}
-
 function Podium({ rows, board, me }) {
-  const [q, setQ] = useState([0, 0, 0]);
-  const [boing, setBoing] = useState(-1);
-  const order = [1, 0, 2].filter((i) => rows[i]); // 2 – 1 – 3
-  const poke = (i) => { setQ((a) => a.map((v, k) => (k === i ? (v + 1) % QUOTES[i].length : v))); setBoing(i); sfx.click(); setTimeout(() => setBoing(-1), 600); };
-  return (
-    <div className="rk-podium" data-n={rows.length}>
-      <Confetti />
-      {order.map((i) => {
-        const r = rows[i];
-        return (
-          <div key={r.id} className={`rk-pl p${i + 1} ${r.id === me ? "me" : ""}`} style={{ "--i": i }}>
-            <div className="rk-say" key={q[i]}>{QUOTES[i][q[i]]}</div>
-            <button type="button" className={`rk-av ${boing === i ? "boing" : ""}`} onClick={() => poke(i)} aria-label={`${r.name} — bấm để nghe lời nhắn`}>
-              {i === 0 && <span className="rk-crown" aria-hidden="true">👑</span>}
-              {i === 0 && <><span className="rk-sp s1" aria-hidden="true">✨</span><span className="rk-sp s2" aria-hidden="true">✨</span><span className="rk-sp s3" aria-hidden="true">⭐</span></>}
-              <Avatar avatar={r.avatar} name={r.name} size={i === 0 ? 84 : 68} />
-            </button>
-            <div className="rk-nm" title={r.name}>{r.name}{r.id === me && <em>Bạn</em>}</div>
-            <Certs c={r.certs} />
-            <div className="rk-pil"><span className="rk-rank">{i + 1}</span><div className="rk-sc"><Score board={board} score={r.score} /></div></div>
-          </div>
-        );
-      })}
-    </div>
-  );
+  return <div className="hall-podium" aria-label="Ba hạng dẫn đầu">
+    {rows.map((r, i) => <article key={r.id} className={`hall-champion place-${i + 1}`} aria-label={`Hạng ${i + 1}, ${r.name}`}>
+      <div className="hall-medal" aria-hidden="true">{ROMAN[i + 1]}</div>
+      <div className="hall-portrait"><Avatar avatar={r.avatar} name={r.name} size={72} /></div>
+      <h2>{r.name}{r.id === me && <em>Bạn</em>}</h2>
+      <span className="hall-score"><Score board={board} score={r.score} /></span>
+      <Certs c={r.certs} />
+    </article>)}
+  </div>;
 }
 
-function Runner({ r, top, board, me, i, go }) {
-  const pct = top > 0 ? Math.max(0.04, Math.min(1, r.score / top)) : 0.04;
-  return (
-    <div className={`rk-row ${r.id === me ? "me" : ""}`} style={{ "--n": Math.min(i, 18) }}>
-      <span className="rk-pos">{r.rank}</span>
-      <div className="rk-body">
-        <div className="rk-line">
-          <span className="rk-name" title={r.name}>{r.name}{r.id === me && <em>Bạn</em>}</span>
-          <Certs c={r.certs} />
-          <span className="rk-score"><Score board={board} score={r.score} /></span>
-        </div>
-        <div className="rk-lane" style={{ "--p": go ? pct : 0, "--d": `${0.5 + Math.min(i, 18) * 0.045}s` }}>
-          <span className="rk-track" />
-          <span className="rk-run">
-            <Avatar avatar={r.avatar} name={r.name} size={26} /><i className="rk-dust" aria-hidden="true">💨</i>
-          </span>
-          <span className="rk-flag" aria-hidden="true">🏁</span>
-        </div>
-        <div className="rk-status">{r.id === me ? "Bạn ở đây 👇" : statusOf(r.rank, r.id)}</div>
-      </div>
-    </div>
-  );
+function Runner({ r, board, me }) {
+  return <div className={`hall-row ${r.id === me ? "mine" : ""}`}>
+    <span className="hall-position">#{r.rank}</span><Avatar avatar={r.avatar} name={r.name} size={34} />
+    <div className="hall-person"><b>{r.name}{r.id === me && <em>Bạn</em>}</b><Certs c={r.certs} /></div>
+    <span className="hall-score"><Score board={board} score={r.score} /></span>
+  </div>;
 }
 
 function Loading() {
-  return (
-    <div className="rk-loading" role="status">
-      <div className="rk-road"><span className="a">🐢</span><span className="b">🐇</span><span className="c">🦊</span><span className="fin">🏁</span></div>
-      <p>Đang gọi các cao thủ ra sân…</p>
-    </div>
-  );
+  return <div className="hall-message" role="status"><i aria-hidden="true">✦</i> Đang tải bảng xếp hạng…</div>;
 }
 function Empty() {
-  return (
-    <div className="rk-empty">
-      <div className="rk-weed" aria-hidden="true">🌾</div>
-      <div className="rk-cricket" aria-hidden="true">🦗</div>
-      <p><b>Chưa có ai ở đây…</b><br />Hãy là người đầu tiên đặt chân lên bục vinh quang!</p>
-    </div>
-  );
+  return <div className="hall-message"><i aria-hidden="true">◇</i> Chưa có người học ghi điểm ở bảng này.</div>;
 }
 
 // Một nút gom mọi bộ lọc: ô tìm kiếm + các nhóm bảng (mở/thu gọn)
@@ -166,7 +103,6 @@ export default function RankPage() {
   const [data, setData] = useState(null);
   const [edit, setEdit] = useState(false);
   const [filter, setFilter] = useState(false);
-  const [go, setGo] = useState(false);
 
   const me = S?.profile?.id;
   // /rank?board=jl:N3 → mở thẳng bảng đó (từ trang kết quả thi thử)
@@ -177,13 +113,12 @@ export default function RankPage() {
   }, []);
   useEffect(() => {
     let alive = true;
-    setData(null); setGo(false);
-    fetch(`/api/rank?board=${encodeURIComponent(board)}${me ? `&me=${me}` : ""}`).then((r) => r.json()).then((j) => { if (alive) { setData(j); setTimeout(() => alive && setGo(true), 80); } }).catch(() => alive && setData({ error: true }));
+    setData(null);
+    fetch(`/api/rank?board=${encodeURIComponent(board)}${me ? `&me=${me}` : ""}`).then((r) => r.json()).then((j) => { if (alive) setData(j); }).catch(() => alive && setData({ error: true }));
     return () => { alive = false; };
   }, [board, me, S?.syncSig]);
 
   const rows = data?.rows || [];
-  const top = rows[0]?.score || 0;
   const podium = rows.slice(0, 3), rest = rows.slice(3);
   const inTop = useMemo(() => rows.some((r) => r.id === me), [rows, me]);
   const mine = data?.me;
@@ -192,16 +127,15 @@ export default function RankPage() {
 
   return (
     <div className="rk">
-      <div className="pagehead">
-        <div className="rk-cup" aria-hidden="true">🏆</div>
-        <h1>Bảng Xếp Hạng</h1>
-        <p>Ai chạy nhanh nhất, ai còn đang ngủ gật? Xem ngay!</p>
-        <div className="orn"><span /></div>
+      <div className="hall-hero">
+        <div className="hall-seal" aria-hidden="true"><svg viewBox="0 0 64 64"><use href="#emb" /></svg></div>
+        <h1>Bảng xếp hạng Teyvat</h1>
+        <div className="hall-ornament" aria-hidden="true">✦</div>
       </div>
 
       <div className="rk-bar">
         <button type="button" className="rk-filterbtn" onClick={() => { setFilter(true); sfx.open?.(); }} aria-haspopup="dialog">
-          <span className="rk-fi" aria-hidden="true">🎛️</span>
+          <span className="rk-fi" aria-hidden="true">☷</span>
           <span className="rk-ft"><small>{gLabel}</small><b>{boardLabel(board)}</b></span>
           <span className="rk-fc" aria-hidden="true">▾</span>
         </button>
@@ -223,18 +157,18 @@ export default function RankPage() {
         {data && !data.error && rows.length === 0 && data.configured !== false && <Empty />}
         {rows.length > 0 && (
           <>
-            {mine?.rank === 1 && <div className="rk-king">👑 Bạn đang giữ ngôi vua! Đừng để ai giật mất nhé!</div>}
+            {mine?.rank === 1 && <div className="rk-king">✦ Bạn đang dẫn đầu bảng xếp hạng này.</div>}
             <Podium key={board} rows={podium} board={board} me={me} />
             {rest.length > 0 && (
               <div className="panel rk-list">
-                <div className="rk-listhead"><span>🏃 Đường đua</span><small>Càng gần cờ đích càng giỏi</small></div>
-                {rest.map((r, i) => <Runner key={r.id} r={r} top={top} board={board} me={me} i={i} go={go} />)}
+                <div className="rk-listhead"><span>Xếp hạng tiếp theo</span><small>Thành tích</small></div>
+                {rest.map((r) => <Runner key={r.id} r={r} board={board} me={me} />)}
               </div>
             )}
             {mine && !inTop && (
               <div className="panel rk-list rk-outside">
                 <div className="rk-gap">⋯ còn {Math.max(0, mine.rank - 1 - rows.length)} người nữa ⋯</div>
-                <Runner r={mine} top={top} board={board} me={me} i={0} go={go} />
+                <Runner r={mine} board={board} me={me} />
               </div>
             )}
           </>

@@ -20,6 +20,8 @@ import "./rank-fun.css";
 import "./chat.css";
 import "./learning.css";
 import "./donate.css";
+import "./navigation-audio.css";
+import "./rank-hall.css";
 import { GameProvider } from "@/components/Game";
 import Header from "@/components/Header";
 import SiteGate from "@/components/SiteGate";
@@ -27,6 +29,7 @@ import Sky from "@/components/Sky";
 import { SvgDefs } from "@/components/Icons";
 import { ProfileGate } from "@/components/Profile";
 import PlainGate from "@/components/PlainGate";
+import BookAudioBar from "@/components/BookAudioBar";
 import ChatBox from "@/components/ChatBox";
 import DonateFooter from "@/components/DonateFooter";
 import PwaRegister from "@/components/PwaRegister";
@@ -76,6 +79,7 @@ export default function RootLayout({ children }) {
           {!OFFLINE && <PwaRegister />}
           <ProfileGate />
           <ChatBox />
+          <BookAudioBar />
         </GameProvider>
       </body>
     </html>

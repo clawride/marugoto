@@ -1,5 +1,6 @@
 "use client";
 // Trang tổng của khóa học: các Topic → bài, boss Topic, thẻ kỳ thi sau Topic cuối của mỗi kỳ
+import { AudioSetup } from "@/components/Listen";
 import Link from "next/link";
 import { useGame } from "@/components/Game";
 import { PARTS, EXAM_SECTIONS, bossIconUrl } from "@/lib/course";
@@ -18,6 +19,7 @@ export default function HubView({ course }) {
   return (
     <div className={`th-${store}`}>
       <Hero />
+      {course.audio?.bookTitle && <AudioSetup lib={course.audio} folder={course.folder} />}
       {C.intro && <Link href={`${base}/0`} className="panel course-intro" onClick={() => sfx.page()}>
         <span aria-hidden="true">🌱</span><div><b>Bắt đầu từ đây · Bài mở đầu</b><p>{C.intro.titleVi}</p><small>{C.intro.vocab.length} từ và câu giao tiếp · có luyện tập, nghe và kiểm tra</small></div><span aria-hidden="true">›</span>
       </Link>}

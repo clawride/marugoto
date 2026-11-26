@@ -12,7 +12,7 @@ import { NaviaHost, NA } from "@/components/Navia";
 import { AmberHost, AMB } from "@/components/Amber";
 import ScriptPlayer from "@/components/ScriptPlayer";
 import { Player, AudioSetup } from "@/components/Listen";
-import { A22_AUDIO, AB1_AUDIO, A1_AUDIO, A21_AUDIO, A21R_AUDIO, A21C_AUDIO, NO_AUDIO } from "@/lib/audioLib";
+import { B12_AUDIO, A22_AUDIO, AB1_AUDIO, A1_AUDIO, A21_AUDIO, A21R_AUDIO, A21C_AUDIO, NO_AUDIO } from "@/lib/audioLib";
 import { SECTIONS, buildExam, PASS_TOTAL, PASS_SECTION, EXCELLENT, MAX, REWARD_PASS, REWARD_EXCELLENT, certId } from "@/lib/b1";
 import { EXAM_SECTIONS } from "@/lib/course";
 import { A22 } from "@/lib/a22";
@@ -137,7 +137,7 @@ export const B12_EXAM = {
   Host: MavuikaHost, lines: MV, hostName: "Mavuika",
   rows: [["言語知識", "10 câu từ vựng + 8 câu kanji + 12 câu điền từ"], ["読解", "3 bài đọc · câu hỏi đọc hiểu"], ["聴解", "6 bài nghe hội thoại (giọng máy) · mỗi bài nghe tối đa 2 lần"]],
   langHint: COURSE_LANG_HINT,
-  renderListen: courseListen(NO_AUDIO),
+  renderListen: courseListen(B12_AUDIO),
   cert: { course: "Marugoto 中級2 (B1-2)", signer: "Mavuika", signerTitle: "Giám khảo · Hỏa Thần Natlan", seal: ["烈火", "炎神"], emblem: "pyro", tint: "#ffc09a", emblemColor: "#a8321a", cornerColor: "#e0602a", sealColor: "#b3261e", filePrefix: "chung-chi-B1-2", line: "đã hoàn thành kỳ khảo hạch năng lực tiếng Nhật kiểu JLPT của khóa Marugoto B1-2 với kết quả:" },
 };
 

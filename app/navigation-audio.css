@@ -1,0 +1,30 @@
+header.top .in{width:100%;max-width:1440px;box-sizing:border-box;flex-wrap:wrap;overflow:visible}
+header.top .brand{flex:1 1 max-content;overflow:visible}
+header.top .brand b,header.top .brand small{overflow:visible;text-overflow:clip}
+header.top .profchip .lbl,header.top .menu-actions .lbl{display:inline}
+header.top .in>.profchip{max-width:100%;min-width:0;white-space:normal;text-align:start}
+header.top .profchip .lbl{overflow-wrap:anywhere}
+.mainmenu{max-height:calc(100dvh - var(--header-height))}
+.menu-actions{grid-column:1/-1;display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+@media(max-width:640px){
+  header.top .brand{flex:1 1 28px;min-width:28px}
+  header.top .in{gap:5px;padding-inline:8px}
+  header.top .in>.profchip{max-width:47%}
+}
+@media(max-width:360px){header.top .in>.curr{display:none}}
+.audiosetup:has(.book-picker){flex-wrap:wrap}
+.book-picker{flex:1 0 100%;min-width:0;display:flex;align-items:flex-end;gap:10px}
+.book-picker label{flex:1;min-width:0;display:grid;gap:4px;font-size:.85rem}
+.book-picker select{width:100%;min-width:0;padding:8px;border:1px solid var(--learn-line);border-radius:6px;font:inherit;background:var(--learn-surface);color:var(--learn-text)}
+.book-dock{position:fixed;inset:auto 0 0;z-index:62;padding:8px max(12px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom));background:#131e34;color:#fff1cd;border-top:1px solid #b4985b;box-shadow:0 -5px 20px #0004}
+.book-dock-inner{max-width:1040px;margin:auto;display:flex;align-items:center;gap:12px;justify-content:space-between}
+.book-now{display:grid;min-width:0}
+.book-now small{color:#d3c7a7;font-size:12px}
+.book-now strong{font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.book-controls{display:flex;gap:6px;flex:none}
+.book-controls button{border:1px solid #847750;padding:6px 12px;border-radius:7px;background:#25344d;color:#fff1cf;min-height:42px;cursor:pointer;font:inherit}
+.book-controls button:disabled{opacity:.5;cursor:default}
+body:has(.book-dock){padding-bottom:calc(70px + env(safe-area-inset-bottom))}
+body:has(.book-dock) .cb-fab{bottom:calc(82px + env(safe-area-inset-bottom))}
+body:has(.book-dock) .cb-panel{bottom:calc(148px + env(safe-area-inset-bottom));max-height:calc(100dvh - 166px)}
+@media(max-width:560px){.book-controls button{padding:4px;min-width:40px}.book-controls button span{display:none}.book-dock-inner{gap:6px}}
