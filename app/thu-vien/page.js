@@ -45,8 +45,7 @@ export default function LibraryHome() {
       )}
 
       <p className="hint lbnote">
-        Sổ tay do trang tự biên soạn để hỗ trợ người đang học bằng sách giấy: mẫu câu chính của từng bài kèm giải thích và ví dụ mới.
-        Trang không đăng lại nội dung, bài tập hay bản dịch của sách — hãy dùng sách gốc để học đầy đủ.
+        Các sổ tay tiếng Nhật chuyên ngành có mẫu câu, giải thích và ví dụ luyện tập. Riêng cẩm nang của Tài Kaigo có bản đọc theo trang và PDF nguyên bản.
       </p>
     </>
   );

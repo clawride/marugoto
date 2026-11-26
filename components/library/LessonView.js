@@ -49,7 +49,7 @@ function Dialog({ d }) {
   );
 }
 
-export default function LessonView({ bookId, n }) {
+export default function LessonView({ bookId, n, children }) {
   const B = bookById(bookId);
   const meta = B?.lessons.find((l) => l.n === n);
   const L = useLibJson(lessonUrl(bookId, n));
@@ -70,6 +70,8 @@ export default function LessonView({ bookId, n }) {
         <div className="orn"><span /></div>
       </div>
 
+      {children}
+      {children && <h2 id="luyen-tap" className="a22th">Luyện tiếng Nhật theo chương</h2>}
       <div className="lbbar">
         <ViewBar />
         <nav className="lbjump" aria-label="Mục trong bài">

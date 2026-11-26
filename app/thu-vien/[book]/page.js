@@ -23,6 +23,21 @@ export default function BookPage() {
         <div className="orn"><span /></div>
       </div>
 
+      {B.source && (
+        <section className="panel lbsec lbsourceintro">
+          <a href={B.source.pdf} aria-label="Xem bìa trong PDF gốc"><img src={B.source.cover} alt={B.vi} width="120" height="170" /></a>
+          <div>
+            <h2>Đọc sách của {B.authors}</h2>
+            <p>{B.source.pages} trang · {B.lessons.length} chương · {B.extras.length} phụ lục</p>
+            <nav aria-label="Đọc sách" className="lbsourceactions">
+              <Link className="chip" href={`/thu-vien/${B.id}/loi-mo-dau`}>Bìa, mục lục và lời mở đầu</Link>
+              <a className="chip" href={B.source.pdf}>Mở PDF nguyên bản</a>
+              <Link className="chip" href={`/thu-vien/${B.id}/loi-ket`}>Lời kết và thông tin tác giả</Link>
+            </nav>
+            <p className="hint">Khi dùng trong ca trực, hãy theo quy trình chuyên môn của cơ sở. Các trang có điểm cần đính chính kèm chú thích và nguồn đối chiếu.</p>
+          </div>
+        </section>
+      )}
       <section className="homesec">
         <h2 className="a22th"><span>Tra cứu nhanh</span> <small>Dùng chung cho cả sách</small></h2>
         <div className="lbextras">

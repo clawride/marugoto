@@ -58,7 +58,7 @@ export function Block({ b }) {
   return null;
 }
 
-export default function ExtraView({ bookId, id }) {
+export default function ExtraView({ bookId, id, children }) {
   const B = bookById(bookId);
   const meta = B?.extras.find((x) => x.id === id);
   const X = useLibJson(`/library/${bookId}/${id === "tu-vung" ? "vocab" : id}.json`);
@@ -72,6 +72,8 @@ export default function ExtraView({ bookId, id }) {
         {!!X?.intro && <p>{X.intro}</p>}
         <div className="orn"><span /></div>
       </div>
+      {children}
+      {children && <h2 id="luyen-tap" className="a22th">{id === "tu-vung" ? "Tra từ theo bài học" : "Thực hành tiếng Nhật theo phụ lục"}</h2>}
       {id === "tu-vung" ? <VocabIndex B={B} list={X} /> : <>
         <div className="lbbar"><ViewBar /></div>
         {X === undefined && <p className="hint" style={{ textAlign: "center" }}>Đang tải…</p>}
